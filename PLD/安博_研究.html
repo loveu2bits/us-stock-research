@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>安博（PLD.N）公司研究</title>
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏（美联储风格） ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 12.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 170px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.overview__date { padding: 16px 0 4px; border-top: 2px solid var(--policy-red); text-align: right; }
+.overview__date span, .overview__date strong { display: block; }
+.overview__date span { margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.overview__date strong { font-size: 15px; font-variant-numeric: tabular-nums; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item strong.down { color: var(--teal); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 正文文档 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.doc-h1 { margin: 34px 0 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line-strong); font-family: var(--font-display); font-size: 30px; font-weight: 650; }
+.doc-h1:first-child { margin-top: 0; }
+.doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+.doc-h3 { margin: 22px 0 10px; color: var(--federal-blue); font-size: 15px; font-weight: 750; }
+.doc p, .doc li { color: var(--ink-soft); font-size: 15px; }
+.doc p { margin: 0 0 14px; }
+.doc ul, .doc ol { margin: 0 0 16px; padding-left: 24px; }
+.doc li { margin-bottom: 6px; }
+.doc strong { color: var(--ink); }
+.doc code { padding: 1px 6px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper-cool); font-size: 13px; }
+.doc-hr { margin: 30px 0; border: 0; border-top: 1px solid var(--line); }
+.doc-quote { margin: 18px 0; padding: 16px 20px; border-left: 3px solid var(--amber); background: #faf6ec; color: var(--ink-soft); font-size: 14px; }
+.tbl-wrap { margin: 16px 0 24px; overflow-x: auto; }
+.doc table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.doc th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+.doc td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+.doc tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+.star { color: var(--amber); }
+.xref { color: var(--federal-blue); font-weight: 600; }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .overview__date { text-align: left; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">PLD</span>
+    <span class="site-mark__text">安博 公司研究<span>Prologis · PLD.N</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">研究报告</button>
+    <button data-tab="onepager">一页通（Gangtise）</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>安博<span class="en">Prologis · PLD.N · 美股研究</span></h1>
+        <p class="sub">全球最大仓库房东：空置率降至 7.2%、17% 租约市价差锁定增长——第二身份是靠土地+电力管线切入数据中心的"AI 卖铲人"。</p>
+      </div>
+      <div class="overview__date">
+        <span>研究日期</span>
+        <strong>2026-07-30</strong>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">17%</strong><span>租约市价差·锁定增长</span></div>
+<div class="summary-rail__item"><strong>95.5%</strong><span>组合出租率</span></div>
+<div class="summary-rail__item"><strong class="up">82%</strong><span>通电土地出售利润率</span></div>
+
+    </div>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+<blockquote class="doc-quote"><strong>研究日期</strong>：2026-07-30 ｜ <strong>数据来源</strong>：Gangtise 一页通（2026-07-30） <strong>状态</strong>：初稿 v1 ｜ <strong>下次更新</strong>：Q3 财报（2026 年 10 月） <strong>关联研究</strong>：<span class="xref">Equinix研究报告</span>（地产里的两种 AI 受益路径对照）</blockquote>
+<hr class="doc-hr">
+<h3 class="doc-h2">〇、一句话结论</h3>
+<p><strong>安博是"全球最大仓库房东"（13 亿平方英尺物流地产），正处于基本面拐点：空置率降至 7.2%、创纪录签租、组合内还有 17% 的租约市价差没兑现——核心物流业务提供了罕见的业绩可见度。更有意思的是第二身份：靠 14,000 亩土地储备 + 5.8GW 电力管线切入数据中心，地产股里的"AI 卖铲人"。</strong></p>
+<hr class="doc-hr">
+<h3 class="doc-h2">一、靠什么赚钱？</h3>
+<p><strong>一句话：左手收租（6,500 家客户，最大客户亚马逊仅占 6.3%），右手"开发-增值-变现"（开发利润率约 29-34%，卖给自己的基金再收管理费）。</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>板块</th><th>模式</th><th>特点</th></tr></thead><tbody><tr><td>房地产业务</td><td>持有物流物业收租</td><td>H1 收入 $47 亿，出租率 95.5%</td></tr><tr><td>战略资本</td><td>管理 $680 亿第三方资本</td><td>轻资产、高毛利管理费（2026 指引 $6.6-6.8 亿，+13%）</td></tr><tr><td>数据中心（新）</td><td>土地+电力管线开发</td><td>通电土地出售利润率高达 <strong>82%</strong></td></tr></tbody></table></div>
+<p><strong>REIT 研究入门</strong>：看 REIT 不看净利润（被折旧和资产处置收益扭曲），看 <strong>Core FFO</strong>（2026 指引上调至 $6.22-6.30/股）和<strong>同店 NOI</strong>（现金口径 +8.5%）。</p>
+<hr class="doc-hr">
+<h3 class="doc-h2">二、核心逻辑：为什么是现在？</h3>
+<ol><li><strong>供需拐点确认</strong>：2024 年物流新供应仅为疫情前 35-40%，而 2026 年美国净吸纳量预计 2.2 亿 sqft &gt; 竣工 1.95 亿——需求 &gt; 供给，空置率持续下行</li><li><strong>17% 租约市价差 = 隐藏的收入</strong>：现有租约租金比市场价低 17%，未来 2-3 年续租自然兑现近 $8 亿增量 NOI——<strong>即使市场租金不涨了，内部增长也已锁定</strong></li><li><strong>数据中心从期权变成业绩</strong>：年初至今开发启动 $21 亿（超全年指引），电力管线 5.8GW；每 $1 万亿数据中心资本开支衍生 3,000-4,000 万 sqft 物流需求</li></ol>
+<hr class="doc-hr">
+<h3 class="doc-h2">三、护城河与裂缝</h3>
+<p><strong>护城河</strong>：核心消费区的稀缺土地（位置不可复制）+ 战略资本平台（"地产+资管"网络效应）。数据中心新租需求占比已从 &lt;5% 升至 10%。</p>
+<p><strong>裂缝</strong>：</p>
+<ul><li>宏观敏感：物流需求跟着全球贸易走，关税/衰退会让客户推迟扩张</li><li>利率敏感：资本密集型，虽当前债务成本仅 3.2%、杠杆 4.7x 健康，但高利率环境持续会压制估值和资本部署</li><li>数据中心资本开支巨大，"边建边卖"模式依赖资产出售通道畅通</li></ul>
+<hr class="doc-hr">
+<h3 class="doc-h2">四、核心分歧：结构性复苏 vs 补库脉冲</h3>
+<div class="tbl-wrap"><table><thead><tr><th></th><th>乐观方</th><th>谨慎方</th></tr></thead><tbody><tr><td>需求性质</td><td>电商渗透 + 供应链重构 + 数据中心衍生需求 = 结构性</td><td>部分是压抑需求释放 + 关税前预防性囤货，宏观一转就回落</td></tr><tr><td>复苏质量</td><td>大型空间已售罄，管理层称"下一增长阶段"</td><td>中小空间改善不均，南加州复苏滞后</td></tr></tbody></table></div>
+<p><strong>我的判断框架</strong>：分歧可以搁置——<strong>17% 的租约市价差意味着即使谨慎方对了（市场租金停滞），安博靠续租也能增长</strong>。这是它比一般周期股确定性高的原因。</p>
+<blockquote class="doc-quote">📚 *方法点评：研究 REIT 的三个专属概念——① FFO/AFFO 替代净利润；② 租约市价差（mark-to-market）= 锁定增长；③ 资本化率（cap rate）与利率的关系。地产股本质是"带增长的债券"，利率下行周期里逻辑最顺。*</blockquote>
+<hr class="doc-hr">
+<h3 class="doc-h2">五、反证条件</h3>
+<ol><li><span class="warn">⚠️</span> 美国净吸纳量明显低于竣工量（供需再次失衡）</li><li><span class="warn">⚠️</span> 租约市价差收窄至 10% 以下（定价权流失）</li><li><span class="warn">⚠️</span> 数据中心资产出售不畅或利润率大幅低于 80% 标杆</li><li><span class="warn">⚠️</span> 利率重新大幅上行（融资成本 + 估值双杀）</li><li><span class="warn">⚠️</span> 出租率跌破 94%</li></ol>
+<hr class="doc-hr">
+<h3 class="doc-h2">六、跟踪计划</h3>
+<div class="tbl-wrap"><table><thead><tr><th>跟踪变量</th><th>时间</th><th>说明</th></tr></thead><tbody><tr><td>数据中心稳定资产打包出售</td><td>未来 6-9 个月</td><td>变现模式验证的关键交易</td></tr><tr><td>Q3 财报：租金变化率/出租率</td><td>2026-10</td><td>全年净有效租金 +40% 目标进度</td></tr><tr><td>净吸纳量 vs 竣工量</td><td>每季度</td><td>供需格局</td></tr><tr><td>战略资本新基金募集</td><td>持续</td><td>轻资产扩张</td></tr><tr><td>美债利率走势</td><td>持续</td><td>REIT 估值分母</td></tr></tbody></table></div>
+  </article>
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>安博是全球最大的物流房地产投资信托基金，专注于高壁垒、高增长市场的物流设施所有权、开发与管理。公司业务遍及美洲、欧洲及亚洲的20个国家，拥有并管理约13亿平方英尺的物流资产组合，服务超过6,500家客户。其业务模式涵盖两大板块：一是直接持有并运营物流物业的<strong>房地产业务</strong>，二是通过管理第三方资本（战略资本）获取管理费及超额收益分成的<strong>轻资产业务</strong>。公司凭借其稀缺的土地储备、庞大的客户网络及强大的开发能力，构筑了深厚的竞争壁垒。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul><li><strong>业绩超预期并上调全年指引</strong>：2026年第二季度，公司核心运营现金流（Core FFO）达到<strong>每股1.60美元</strong>（不含promote），超出市场预期。管理层因此将2026全年核心FFO指引上调至<strong>每股6.22至6.30美元</strong>，较此前中点上调约<strong>100个基点</strong>。 </li><li><strong>租赁需求创历史新高</strong>：第二季度签署了创纪录的<strong>6700万平方英尺</strong>租约，为过去七个季度中的第四个纪录。美国市场净吸纳量达到<strong>6600万平方英尺</strong>，为2022年以来最高水平，主要由电子商务、先进制造业及供应链重构驱动。 </li><li><strong>数据中心业务加速扩张</strong>：年初至今，数据中心开发启动额已达<strong>21亿美元</strong>，已超过全年指引。公司电力管线扩大至约<strong>5.8吉瓦</strong>，其中约<strong>85%</strong> 有望在2030年前支持项目启动。第二季度启动了一个<strong>260兆瓦</strong>的定制化园区，并完成了一笔<strong>100兆瓦</strong>通电土地的出售，利润率高达<strong>82%</strong>。 </li><li><strong>资本循环与战略合作深化</strong>：第二季度完成了<strong>18亿美元</strong>的资产收购，主要位于南加州和南佛罗里达等优质沿海市场，收购价格较重置成本有约<strong>20%</strong> 的折价。同时，完成了与La Caisse的<strong>12亿美元</strong>欧洲合资企业交易，进一步拓展了战略资本平台。 </li><li><strong>市场基本面持续改善</strong>：美国市场空置率降至<strong>7.2%</strong>，大型空间（50万平方英尺以上）供给极为紧张。欧洲市场复苏领先，空置率稳定在<strong>5.2%</strong>。全球投资组合的净有效租约市价差维持在<strong>17%</strong>，隐含近<strong>8亿美元</strong>的未来净运营收入增长潜力。 </li></ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol><li><strong>物流基本面拐点确认与租金加速增长的预期差</strong>：市场普遍认为物流地产处于复苏初期，但安博第二季度的数据表明，复苏力度可能超出预期。美国市场净吸纳量创多年新高，空置率持续下行，且大型空间已基本售罄。管理层判断市场已进入“下一增长阶段”，并预计2026全年美国净吸纳量将达<strong>2.2亿平方英尺</strong>，超过<strong>1.95亿平方英尺</strong>的竣工量，推动出租率上升。这一供需格局的改善，叠加公司组合内<strong>17%</strong> 的租约市价差，意味着未来几个季度租金增长和同店净运营收入增速有望持续超出市场当前预期，构成业绩上调的核心驱动力。 </li></ol>
+<ol><li><strong>数据中心业务从“期权”到“业绩兑现”的价值重估</strong>：安博的数据中心业务正快速从概念阶段进入大规模执行和变现阶段。年初至今<strong>21亿美元</strong>的开发启动额已超过全年指引，且项目均为与超大规模客户签订的长期租约，收益确定性高。公司不仅有能力进行开发，还通过出售通电土地（利润率<strong>82%</strong>）证明了其灵活的变现能力。管理层预计未来<strong>6至9个月</strong>内将再次打包出售稳定资产，这将使市场更清晰地看到该业务的利润贡献和资本循环模式，从而可能触发对公司整体估值体系的重塑，由单纯的物流REIT向“物流+数字基础设施”平台转型。 </li></ol>
+<ol><li><strong>战略资本平台的扩张与费用收入增长</strong>：公司近期连续推出多只新基金，包括与GIC和La Caisse的合资企业，显示出其在全球资本市场的强大募资能力。该平台管理的<strong>680亿美元</strong>第三方资本不仅为公司提供了轻资产的增长途径，还贡献了稳定的管理费收入。2026年战略资本收入（不含promote）指引为<strong>6.6亿至6.8亿美元</strong>，同比增长约<strong>13%</strong>。随着新基金的设立和现有基金的增值，这部分高确定性、高毛利的收入流将持续增长，为公司的整体盈利增长提供稳定支撑。 </li></ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol><li><strong>全球供应链重构与电子商务渗透的结构性红利</strong>：安博的长期增长根植于全球供应链的持续重构和电子商务渗透率的提升。公司研究指出，每<strong>1万亿美元</strong>的数据中心资本支出预计将衍生出<strong>3000万至4000万平方英尺</strong>的增量物流需求，这为需求增长提供了新的结构性支撑。同时，电子商务在拉美、欧洲等市场仍处于追赶阶段，其渗透率提升将持续创造对现代物流设施的需求。安博在全球关键消费市场拥有稀缺的土地储备（<strong>14,000英亩</strong>，可开发<strong>2.4亿平方英尺</strong>），使其成为这一结构性趋势的核心受益者。 </li></ol>
+<ol><li><strong>“开发-增值-变现”模式的复利效应</strong>：安博的核心竞争力在于其强大的开发能力和独特的资本循环模式。公司利用其土地储备和开发专长，以低于市场的成本开发高质量物流设施，待物业成熟后，通过出售给旗下战略资本基金或第三方实现价值变现和资本回收。这一模式不仅贡献了高利润率的开发收益（历史利润率约<strong>29%</strong>），还为公司提供了持续的管理费收入。当前<strong>420亿美元</strong>的开发机会储备，叠加数据中心的巨大潜力，意味着这一价值创造飞轮将在未来多年持续运转，驱动公司盈利和净资产价值实现复利增长。  </li></ol>
+<ol><li><strong>能源与数据领域的平台化延伸</strong>：安博正将其在物流地产领域的核心能力——土地获取、政府关系、客户网络和开发管理——成功延伸至能源和数据中心领域。公司已控制<strong>5.8吉瓦</strong>的电力管线，并拥有<strong>1.3吉瓦</strong>的屋顶太阳能潜力（目前仅开发了<strong>8%</strong>）。这些业务不仅本身能提供两位数的投资回报率，更重要的是，它们与核心物流业务形成协同效应，增强了客户粘性，并提升了公司土地储备的价值。随着数字经济和电气化趋势的加速，这些相邻业务有望成长为新的价值支柱，拓宽公司的长期增长边界。  </li></ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul><li><strong>宏观经济与地缘政治不确定性</strong>：物流需求与全球贸易和经济活动高度相关。尽管当前需求强劲，但持续的地缘政治冲突、关税政策变化或经济衰退均可能导致客户推迟或取消扩张计划，从而影响公司的出租率、租金增长和开发项目的租赁进度。公司管理层也承认，宏观环境的影响仍是难以预测的变量。 </li><li><strong>数据中心业务执行与资本化风险</strong>：数据中心业务虽然前景广阔，但其资本投入巨大（单项目可达数亿至数十亿美元），且面临电力获取、社区审批、供应链瓶颈等执行挑战。尽管公司已证明其开发和变现能力，但如何长期、大规模地为该业务提供高效资本支持，并在不显著增加资产负债表风险的前提下实现价值最大化，仍是需要持续观察的关键点。若市场环境变化导致资产出售不畅，可能对公司的现金流和回报率产生影响。 </li><li><strong>利率与融资成本风险</strong>：作为资本密集型行业，安博的收购和开发活动高度依赖外部融资。尽管公司目前杠杆率健康（债务/EBITDA为<strong>4.7倍</strong>），且债务加权平均利率仅为<strong>3.2%</strong>，但如果通胀反复导致利率长期维持高位或进一步上升，将增加公司的新增融资成本和再融资压力，从而侵蚀利润并限制其资本部署能力。 </li></ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul><li><strong>2026年4月</strong>：公司公布2026年第一季度业绩，核心FFO超出预期，并宣布与新加坡主权财富基金GIC成立<strong>16亿美元</strong>的美国合资企业，以及与La Caisse成立<strong>12亿美元</strong>的泛欧合资企业。  </li><li><strong>2026年6月</strong>：公司在Nareit投资者大会上表示，物流市场已进入基本面拐点，全球市场租金实现两年来首次正增长。同时披露数据中心电力管线已达<strong>5.6吉瓦</strong>，并强调其土地储备和开发能力在数据中心领域的独特优势。 </li><li><strong>2026年7月</strong>：公司公布2026年第二季度业绩，再次超出预期并上调全年业绩指引。季度内租赁活动创纪录，数据中心开发启动额超全年目标，并完成了一笔高利润率的通电土地出售，标志着其数据中心变现模式的成功落地。 </li></ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul><li><strong>2026年8月-10月</strong>：公司预计将在未来<strong>6至9个月</strong>内再次打包出售一批稳定的数据中心资产。此次交易的估值和利润率将成为市场验证其数据中心业务变现能力和价值创造的关键催化剂。 </li><li><strong>2026年9月-10月</strong>：公司可能在秋季的投资者日或行业会议上，进一步量化数据中心业务的长期财务贡献，并可能公布新的战略资本基金募集进展，为市场提供更清晰的增长路径图。 </li><li><strong>2026年10月</strong>：公司预计将公布2026年第三季度财报。届时，市场将密切关注物流业务的租金增长趋势、出租率变化以及数据中心业务的新签租约和开发进展，以验证当前强劲的增长势头能否持续。 </li></ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<h4 class="doc-h3">业务边际变化</h4>
+<p>公司近年最显著的边际变化是<strong>数据中心业务的快速崛起</strong>。依托其庞大的工业用地储备和强大的电力采购能力，安博成功将部分物流用地转化为高价值的数据中心开发项目。该业务已从概念验证阶段进入大规模执行和变现阶段，成为公司新的增长极。同时，在核心物流业务方面，公司正从上一轮周期的租金快速增长阶段，过渡到依靠<strong>租约市价差</strong>（lease mark-to-market）逐步兑现租金增长的阶段。</p>
+<h4 class="doc-h3">盈利模式</h4>
+<p>公司的盈利模式是<strong>双轮驱动</strong>：一是通过持有并运营全球核心市场的物流物业，获取稳定的<strong>租金收入</strong>；二是通过<strong>开发并出售/贡献</strong>物业给其管理的战略资本基金，获取高利润率的一次性开发收益，并通过对这些基金的管理获取持续的<strong>管理费收入</strong>和超额收益分成。其核心护城河在于以低成本获取稀缺土地、进行高质量开发，并通过资本循环实现价值变现。</p>
+<h4 class="doc-h3">业务拆分</h4>
+<p>公司业务分为两大板块：<strong>房地产业务</strong>和<strong>战略资本业务</strong>。房地产业务是收入和利润的绝对主体，主要来自美国市场的租金收入。战略资本业务则以轻资产模式运营，收入规模较小但毛利率极高，是公司价值创造和资本循环的关键一环。公司当前处于<strong>业绩兑现期</strong>，即通过租赁活动将过去积累的租金价差逐步转化为实际收入和利润。</p>
+<h4 class="doc-h3">细分业务拆分</h4>
+<div class="tbl-wrap"><table><thead><tr><th>项目 (百万美元)</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026 H1</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2023-12-31</td><td>2024-12-31</td><td>2025-12-31</td><td>2026-06-30</td></tr><tr><td><strong>房地产业务</strong></td><td></td><td></td><td></td><td></td></tr><tr><td>收入</td><td>8,023</td><td>8,202</td><td>8,790</td><td>4,723</td></tr><tr><td>收入占比</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>营业成本</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>毛利润</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td><strong>战略资本业务</strong></td><td></td><td></td><td></td><td></td></tr><tr><td>收入</td><td>-</td><td>672</td><td>592</td><td>-</td></tr><tr><td>收入占比</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>营业成本</td><td>-</td><td>(292)</td><td>(271)</td><td>-</td></tr><tr><td>毛利润</td><td>-</td><td>380</td><td>321</td><td>-</td></tr></tbody></table></div>
+<p>*注：公司未披露分板块的营业成本及毛利润，仅披露分板块的净运营收入（NOI）。战略资本业务数据来自年报MD&amp;A。*</p>
+<h4 class="doc-h3">房地产业务（Real Estate Segment）</h4>
+<p>该板块是公司的核心业务，2026年上半年贡献总收入<strong>47.23亿美元</strong>。其收入主要来自客户租金，并通过运营租赁回收大部分物业运营成本。该板块的增长主要由租金上涨、高出租率维持和开发项目完工推动。截至2026年第二季度末，公司合并报表范围内的出租率为<strong>95.5%</strong>，净有效租金变动超过<strong>36%</strong>，显示出强大的定价能力。该板块的净运营收入（NOI）在2026年第一季度为<strong>16.07亿美元</strong>，同比增长约<strong>7%</strong>。</p>
+<h4 class="doc-h3">战略资本业务（Strategic Capital Segment）</h4>
+<p>该板块代表公司对非并表合资基金的管理业务。收入主要来自为这些基金提供资产和物业管理服务而收取的<strong>经常性费用</strong>，以及提供租赁、收购、开发等服务收取的<strong>交易性费用</strong>。此外，在基金回报超过一定门槛后，公司还能获得<strong>超额收益分成</strong>。2025年，该板块收入为<strong>5.92亿美元</strong>，其中经常性费用为<strong>5.21亿美元</strong>。该板块的净运营收入（NOI）在2026年第一季度为<strong>0.79亿美元</strong>，与去年同期基本持平。2026年第二季度，公司确认了<strong>8300万美元</strong>的promote收入，主要来自墨西哥的Fevra投资组合。</p>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托稀缺土地储备和选址壁垒构筑的结构性护城河</strong></p>
+<ul><li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。安博在全球关键消费市场的核心物流节点拥有大量战略性土地储备，这些土地因其优越的地理位置（靠近港口、高速公路和终端消费者）和极高的监管与社区准入壁垒而难以复制。这种“先发优势”构成了公司最核心的长期竞争力。 </li><li><strong>数据验证</strong>：公司拥有<strong>14,000英亩</strong>的土地储备，可支持开发<strong>2.4亿平方英尺</strong>的物流空间，对应约<strong>420亿美元</strong>的总投资机会。其投资组合的租约市价差高达<strong>17%</strong>，隐含近<strong>8亿美元</strong>的额外年化净运营收入，这直接反映了其资产在市场上的稀缺性和高价值。公司全球投资组合的出租率高达<strong>95.5%</strong>，且在大型空间（50万平方英尺以上）市场已接近售罄，证明了其资产对客户的强大吸引力。  </li><li><strong>动态演变</strong>：<strong>护城河变宽</strong>。随着全球城市化进程和对物流效率要求的提升，位于核心消费区附近的工业用地将愈发稀缺。安博不仅持有大量现有土地，还通过其强大的政府关系和开发团队，持续获取新的土地和电力资源（如<strong>5.8吉瓦</strong>的数据中心电力管线），进一步巩固其资源壁垒。  </li></ul>
+<p><strong>竞争要素 2：轻资产的战略资本平台带来的资本优势和网络效应</strong></p>
+<ul><li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。公司管理的战略资本平台规模庞大，与全球顶级机构投资者建立了长期合作关系。该平台不仅为公司提供了稳定、低成本的第三方资本，支持其开发和收购活动，还通过管理费收入增强了盈利的稳定性和可预测性。这种“地产+资管”的模式形成了强大的网络效应，竞争对手难以在短期内复制。 </li><li><strong>数据验证</strong>：公司管理着<strong>680亿美元</strong>的第三方资本，2025年战略资本业务收入为<strong>5.92亿美元</strong>，其中高毛利的经常性费用收入为<strong>5.21亿美元</strong>。2026年上半年，公司连续成立多只新基金，吸引了数十亿美元的新资本。该平台使公司能够以更资本高效的方式抓住增长机会，同时分散风险。  </li><li><strong>动态演变</strong>：<strong>护城河变宽</strong>。公司正将战略资本平台的能力从传统物流延伸至数据中心等新领域，为不同风险偏好的投资者提供定制化产品。随着平台规模和产品线的扩张，其对资本的吸引力和费用收入贡献将持续增强。  </li></ul>
+<p><strong>现阶段核心驱动力总结</strong>：</p>
+<p>安博的Alpha来源于其将稀缺的土地资源、强大的开发能力和独特的资本循环模式相结合，创造出持续高于行业平均水平的价值增长。其Beta则体现在对全球贸易、电子商务和供应链现代化等宏观趋势的暴露。当前阶段，公司正从核心物流业务的租金兑现和新兴数据中心业务的规模化中获取双重增长动力。</p>
+<p><strong>竞争格局传导逻辑图</strong>：</p>
+<h3 class="doc-h2">产销链</h3>
+<ul><li><strong>客户情况</strong>：公司客户基础极为分散，截至2025年底，拥有超过6,500家客户，涵盖制造业、零售业、运输业等多个领域。前25大客户仅占净有效租金的约<strong>23.7%</strong>，单一最大客户亚马逊占比为<strong>6.3%</strong>，不存在对单一客户的重大依赖。近年来，来自数据中心供应商的新需求显著增长，占新租赁的比例从一年前的不足<strong>5%</strong> 升至<strong>10%</strong>，成为新的结构性需求驱动力。  </li><li><strong>供应商情况</strong>：公司的主要供应商为建筑承包商、建材供应商和电力公司。凭借其巨大的开发体量和采购规模，公司拥有较强的议价能力，能够以较低成本获取建材和电力资源。特别是在数据中心领域，公司通过提前预订长周期设备，形成了对供应链的独特控制力。 </li><li><strong>成本转嫁能力</strong>：公司赚取的是<strong>稀缺性溢价</strong>和<strong>服务增值</strong>。其物业大多位于供应受限的核心市场，客户可选择的空间有限，因此公司具备较强的成本转嫁能力。运营成本大部分可通过租赁合同中的条款回收。当上游建材或融资成本上升时，最终会传导至市场租金水平，而公司作为市场领导者，是这一趋势的主要受益者。 </li></ul>
+<h3 class="doc-h2">财务数据</h3>
+<div class="tbl-wrap"><table><thead><tr><th>项目 (百万美元)</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026 H1</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2023-12-31</td><td>2024-12-31</td><td>2025-12-31</td><td>2026-06-30</td></tr><tr><td><strong>营业总收入</strong></td><td>8,023</td><td>8,202</td><td>8,790</td><td>4,723</td></tr><tr><td>收入同比</td><td>34.31%</td><td>2.22%</td><td>7.18%</td><td>9.24%</td></tr><tr><td><strong>营业利润</strong></td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td><strong>归母净利润</strong></td><td>3,053</td><td>3,726</td><td>3,322</td><td>2,041</td></tr><tr><td>归母净利润同比</td><td>-9.09%</td><td>22.02%</td><td>-10.83%</td><td>75.79%</td></tr><tr><td><strong>基本每股收益 (美元)</strong></td><td>3.30</td><td>4.02</td><td>3.58</td><td>2.18</td></tr><tr><td><strong>经营活动现金流净额</strong></td><td>5,373</td><td>4,912</td><td>5,008</td><td>-</td></tr><tr><td><strong>投资活动现金流净额</strong></td><td>-6,419</td><td>-3,099</td><td>-3,630</td><td>-</td></tr><tr><td><strong>筹资活动现金流净额</strong></td><td>1,320</td><td>-1,000</td><td>-1,564</td><td>-</td></tr></tbody></table></div>
+<p>*注：2026 H1归母净利润同比大增，主要因2026年第一季度确认了大额资产处置收益。*</p>
+<h4 class="doc-h3">财务分析</h4>
+<ul><li><strong>成长能力</strong>：公司收入增长稳健，2025年同比增长<strong>7.18%</strong>，2026年上半年增速提升至<strong>9.24%</strong>，显示出加速增长态势。归母净利润受资产处置收益等非经常性项目影响波动较大，但核心运营现金流（Core FFO）增长更为平稳，2026年全年指引中点上调至<strong>6.26美元/股</strong>，同比增长约<strong>5.7%</strong>。  </li><li><strong>盈利能力</strong>：作为REIT，公司的核心盈利指标是运营现金流。其同店净运营收入（SSNOI）增长强劲，2026年第二季度现金口径增长<strong>8.5%</strong>，净有效口径增长<strong>6.4%</strong>，表明其核心租赁业务的盈利能力在持续增强。开发业务利润率（Estimated weighted average margin）在2026年第一季度高达<strong>34.0%</strong>，显示出卓越的价值创造能力。  </li><li><strong>偿债能力与资本结构</strong>：公司资产负债表稳健。截至2026年第一季度末，债务加权平均利率为<strong>3.2%</strong>，平均期限为<strong>8.4年</strong>，债务结构健康。公司拥有<strong>67亿美元</strong>的总流动性，短期偿债压力小。其信用评级为A/A2，融资成本优势显著。  </li></ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p>安博所处的<strong>全球物流房地产</strong>行业，正经历由供需关系改善驱动的周期性复苏。在供给端，由于过去几年的利率上升和经济不确定性，新项目开工量大幅下降，2024年全球物流供应仅为疫情前的<strong>35%-40%</strong>，导致当前市场空置率持续下行。在需求端，电子商务、供应链韧性和现代化升级等结构性因素持续驱动需求增长。公司管理层预计，2026年美国市场净吸纳量将达到<strong>2.2亿平方英尺</strong>，超过<strong>1.95亿平方英尺</strong>的竣工量，供需格局有利。</p>
+<p><strong>竞争格局</strong>方面，物流地产行业高度分散，但安博凭借其全球规模和专注于高壁垒市场的策略，建立了显著的领先优势。其最大的竞争优势在于难以复制的土地储备和强大的客户关系网络。与主要竞争对手相比，安博的独特之处在于其<strong>战略资本平台</strong>和<strong>数据中心业务</strong>带来的额外增长维度，使其不再是一个纯粹的物流地产商。</p>
+<p><strong>可比公司</strong>：</p>
+<p>由于所给资料中未提供具体可比公司名单及对标分析，无法输出此部分内容。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<ul><li><strong>背景</strong>：公司组合内存在<strong>17%</strong> 的租约市价差，这是过去几年市场租金大幅上涨后积累的潜在收入。市场密切关注这些价差能否以及在多大程度上转化为实际收入和利润。 </li><li><strong>问题列表</strong>：</li><li>当前<strong>17%</strong> 的租约市价差在未来2-3年内将如何逐步兑现为同店净运营收入增长？</li><li>在市场租金增长放缓的背景下，续租租金的变化趋势如何？第二季度<strong>36%</strong> 的净有效租金变化率能否持续？</li><li>管理层预计全年净有效租金变化接近<strong>40%</strong>，这一目标的实现路径和主要风险是什么？</li></ul>
+<ul><li><strong>背景</strong>：数据中心业务已成为公司的重要增长极，但其资本投入巨大，回报周期和变现路径尚不完全清晰。 </li><li><strong>问题列表</strong>：</li><li>公司<strong>5.8吉瓦</strong>的电力管线中，预计有多少能最终转化为开发项目？转化率和时间表如何？</li><li>数据中心项目的长期回报率（IRR）与物流开发项目相比如何？公司如何平衡两者之间的资本配置？</li><li>公司计划通过出售稳定资产来变现数据中心价值，这一模式的可持续性和潜在市场规模有多大？</li></ul>
+<ul><li><strong>背景</strong>：公司近期成立了多只新基金，战略资本平台持续扩张，市场关注其能否持续吸引第三方资本，以支持其轻资产增长模式。 </li><li><strong>问题列表</strong>：</li><li>公司未来几年计划推出哪些新的基金产品？目标规模和策略是什么？</li><li>在当前利率环境下，机构投资者对物流和数据中心资产的配置意愿如何？</li><li>战略资本业务的收入增长前景如何？管理费率和超额收益分成的趋势是怎样的？</li></ul>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧：当前物流市场的强劲需求是结构性复苏的开始，还是周期性补库的短暂脉冲？</strong></p>
+<ul><li><strong>乐观方观点</strong>：认为需求具有结构性支撑。电子商务渗透率仍在提升，尤其是在拉美和欧洲等安博重点布局的市场。此外，供应链重构（如制造业回流、近岸外包）和数据中心建设带来的衍生需求是全新的、长期的增长驱动力。安博创纪录的租赁提案管道和大型空间的售罄状态，表明需求基础扎实且广泛，并非单一行业或客户的短期行为。公司管理层也判断市场已进入“下一增长阶段”。 </li></ul>
+<ul><li><strong>谨慎方观点</strong>：认为当前需求部分源于过去两年因不确定性而被压抑的释放，以及企业为应对关税等风险而进行的预防性囤货。一旦宏观经济出现衰退或贸易政策明朗化，需求可能快速回落。此外，尽管空置率在下降，但除大型空间外，中小型空间的出租率改善并不均衡，且租金增长才刚刚转正，市场定价能力尚未完全恢复。南加州等部分重要市场的复苏滞后，也表明整体复苏的基础尚不牢固。 </li></ul>
+<ul><li><strong>综合分析</strong>：安博的资产组合质量及其在关键市场的领导地位，使其在本轮复苏中处于优势地位。其需求来源的多样性（电商、制造业、数据中心供应商等）降低了单一行业波动的风险。更重要的是，<strong>17%</strong> 的租约市价差为公司提供了强大的盈利缓冲，即使市场租金增长不如预期，公司仍能通过续租实现显著的内部增长。因此，即使需求复苏的力度存在不确定性，公司未来几个季度业绩的可见性和确定性依然较高。 </li></ul>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价</th><th>财务指标</th><th>FY2025</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>瑞银 (2026-04-20)</td><td>买入</td><td>161.00美元</td><td>核心FFO (美元/股)</td><td>5.81</td><td>6.18</td><td>6.57</td><td>7.04</td></tr><tr><td></td><td></td><td></td><td>调整后FFO (美元/股)</td><td>4.67</td><td>5.16</td><td>5.57</td><td>6.06</td></tr><tr><td></td><td></td><td></td><td>每股分红 (美元)</td><td>4.04</td><td>4.25</td><td>4.46</td><td>4.69</td></tr></tbody></table></div>
+<p>瑞银给予安博“买入”评级，并将其目标价从<strong>148美元</strong>上调至<strong>161美元</strong>。该目标价基于其远期核心FFO的<strong>23.9倍</strong>估值，较当前估值水平有所溢价，反映了分析师对工业地产基本面改善和公司数据中心业务机会的乐观预期。瑞银预计公司2026年核心FFO（不含promote）同比增长<strong>6.3%</strong>。</p>
+<p><strong>管理层最新指引</strong>：公司于2026年第二季度财报中上调了全年业绩指引。预计2026全年核心FFO（不含promote）为<strong>每股6.22至6.30美元</strong>，较此前指引中点上调<strong>100个基点</strong>。同时，管理层将平均出租率指引上调至<strong>95.25%至95.75%</strong>，并将净有效同店增长指引上调至<strong>5.25%至5.75%</strong>。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>Gangtise Open API（公司一页通 · stock-one-pager）· 公司财报及公开披露 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/PLD · 生成于 2026-07-30</div></footer>
+
+<script>
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

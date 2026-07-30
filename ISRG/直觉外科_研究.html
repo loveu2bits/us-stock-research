@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>直觉外科（ISRG.O）公司研究</title>
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏（美联储风格） ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 170px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.overview__date { padding: 16px 0 4px; border-top: 2px solid var(--policy-red); text-align: right; }
+.overview__date span, .overview__date strong { display: block; }
+.overview__date span { margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.overview__date strong { font-size: 15px; font-variant-numeric: tabular-nums; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item strong.down { color: var(--teal); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 正文文档 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.doc-h1 { margin: 34px 0 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line-strong); font-family: var(--font-display); font-size: 30px; font-weight: 650; }
+.doc-h1:first-child { margin-top: 0; }
+.doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+.doc-h3 { margin: 22px 0 10px; color: var(--federal-blue); font-size: 15px; font-weight: 750; }
+.doc p, .doc li { color: var(--ink-soft); font-size: 15px; }
+.doc p { margin: 0 0 14px; }
+.doc ul, .doc ol { margin: 0 0 16px; padding-left: 24px; }
+.doc li { margin-bottom: 6px; }
+.doc strong { color: var(--ink); }
+.doc code { padding: 1px 6px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper-cool); font-size: 13px; }
+.doc-hr { margin: 30px 0; border: 0; border-top: 1px solid var(--line); }
+.doc-quote { margin: 18px 0; padding: 16px 20px; border-left: 3px solid var(--amber); background: #faf6ec; color: var(--ink-soft); font-size: 14px; }
+.tbl-wrap { margin: 16px 0 24px; overflow-x: auto; }
+.doc table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.doc th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+.doc td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+.doc tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+.star { color: var(--amber); }
+.xref { color: var(--federal-blue); font-weight: 600; }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .overview__date { text-align: left; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">ISRG</span>
+    <span class="site-mark__text">直觉外科 公司研究<span>Intuitive Surgical · ISRG.O</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">研究报告</button>
+    <button data-tab="onepager">一页通（Gangtise）</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>直觉外科<span class="en">Intuitive Surgical · ISRG.O · 美股研究</span></h1>
+        <p class="sub">"剃须刀+刀片"的终极形态：85% 经常性收入、5 万受训医生、2000 万例手术数据——美国手术量 12% 是扰动还是见顶？</p>
+      </div>
+      <div class="overview__date">
+        <span>研究日期</span>
+        <strong>2026-07-30</strong>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong>85%</strong><span>经常性收入占比</span></div>
+<div class="summary-rail__item"><strong class="down">12%</strong><span>美国手术量增速·近年最低</span></div>
+<div class="summary-rail__item"><strong class="up">+20.7%</strong><span>H1 收入增速</span></div>
+
+    </div>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+<blockquote class="doc-quote"><strong>研究日期</strong>：2026-07-30 ｜ <strong>数据来源</strong>：Gangtise 一页通（2026-07-30） <strong>状态</strong>：初稿 v1 ｜ <strong>下次更新</strong>：Q3 财报（2026 年 10 月，EUP 量化影响披露） <strong>关联研究</strong>：<span class="xref">礼来研究报告</span>（医疗里的两种垄断对照：专利药 vs 器械生态）</blockquote>
+<hr class="doc-hr">
+<h3 class="doc-h2">〇、一句话结论</h3>
+<p><strong>直觉外科是"剃须刀+刀片"模式的终极形态：11,700 台达芬奇装机只是刀架，85% 收入来自耗材和服务（经常性收入），5 万名受训医生 + 2000 万例手术数据构成生态锁定。Q2 财报"超预期却大跌"——美国手术量增速降到 12% 引发见顶担忧。研究核心：这是 ACA 政策的一次性扰动，还是核心市场渗透率的结构性减速？</strong></p>
+<hr class="doc-hr">
+<h3 class="doc-h2">一、靠什么赚钱？</h3>
+<p><strong>一句话：卖/租手术机器人建立装机（系统占 24%），然后靠每台手术消耗的器械耗材（60%）和服务合同（16%）持续收钱——手术量就是印钞转速。</strong></p>
+<p>飞轮：装机 → 医生培训/习惯养成 → 手术量增长 → 耗材+服务收入（单台手术耗材 ~$1,830）→ 数据积累 → AI/新产品 → 更深锁定</p>
+<p><strong>亮点与隐忧并存</strong>：</p>
+<ul><li>收入增速连续提速：FY23 +14% → FY25 +21% → H1 +21%</li><li>但美国手术量增速：Q1 14% → Q2 <strong>12%</strong>（2021 年以来最低）</li><li>GLP-1 正在吃掉减重手术（高个位数下滑）——<strong>礼来的成功，是直觉外科的成本</strong>（医疗内部的跨界冲击，有趣的对冲关系）</li></ul>
+<hr class="doc-hr">
+<h3 class="doc-h2">二、护城河多深？</h3>
+<ol><li><strong>转换成本（最深）</strong>：医生培训、医院流程、2000 万例手术数据——换系统等于重学外科</li><li><strong>经常性收入 85%</strong>：比大多数 SaaS 公司还"订阅制"</li><li><strong>产品矩阵分层</strong>：高端达芬奇 5（Q2 新装机占 53%）+ 翻新 XiR 打价格敏感市场（ASC 日间手术中心）+ Ion 肺活检（+36%）+ SP 单孔（+61%）</li></ol>
+<p><strong>裂缝</strong>：</p>
+<ul><li>强生 OTTAVA 已获 FDA 批准、美敦力 Hugo 扩张、中国本土价格战——垄断格局首次出现实质挑战者</li><li><strong>主动降价</strong>：2027 年对部分耗材实施延长使用计划（EUP），市场担心重演 2019 年耗材收入 -7%</li><li>关税影响毛利率 ~100bp</li></ul>
+<hr class="doc-hr">
+<h3 class="doc-h2">三、财务速览</h3>
+<div class="tbl-wrap"><table><thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td>收入（亿$）</td><td>71.2</td><td>83.5</td><td>100.7</td><td>56.6（+20.7%）</td></tr><tr><td>毛利率</td><td>66.4%</td><td>67.5%</td><td>66.0%</td><td>66.9%</td></tr><tr><td>营业利润率</td><td>24.8%</td><td>28.1%</td><td>29.3%</td><td>32.3%</td></tr><tr><td>归母净利（亿$）</td><td>18.0</td><td>23.2</td><td>28.6</td><td>16.4</td></tr><tr><td>自由现金流（亿$）</td><td>7.5</td><td>13.0</td><td>24.9</td><td>17.6（+71%）</td></tr></tbody></table></div>
+<p><strong>读法</strong>：收入破百亿、利润率逐年抬升、FCF 爆发——这是一张比礼来"慢"但同样高质量的报表。矛盾在于：<strong>报表越好，市场对手术量放缓越敏感</strong>（高估值对增长中枢的边际变化定价）。</p>
+<hr class="doc-hr">
+<h3 class="doc-h2">四、核心分歧：12% 是扰动还是见顶？</h3>
+<div class="tbl-wrap"><table><thead><tr><th></th><th>乐观方</th><th>谨慎方</th></tr></thead><tbody><tr><td>美国放缓</td><td>ACA 补贴到期的一次性冲击，手术只会推迟不会消失</td><td>核心术式渗透率已高，"大数定律"下减速是必然</td></tr><tr><td>证据</td><td>国际 +20%、急诊手术 +26%、dV5 升级周期早期</td><td>增速已连续多季下滑，EUP 主动降价恰说明定价权承压</td></tr><tr><td>估值</td><td>回调后 ~32x 远期 PE 是机会</td><td>竞争者（强生）入场 + 降价周期刚开始</td></tr></tbody></table></div>
+<p><strong>我的观察点</strong>：Q3（10 月）管理层承诺<strong>量化 EUP 对 2027 年收入的影响</strong>——这是重新定价其长期盈利模型的关键事件；同时看美国手术量能否回到 13%+。</p>
+<blockquote class="doc-quote">📚 *方法点评："财报超预期但股价大跌"是最好的教学案例——市场交易的从来不是"过去超没超预期"，而是<strong>指引和边际变化</strong>。ISRG 收入利润都 beat，但"指引未上调 + 美国手术量减速"两个边际信号就够砸盘。读财报先问：边际上变好了还是变坏了？*</blockquote>
+<hr class="doc-hr">
+<h3 class="doc-h2">五、反证条件</h3>
+<ol><li><span class="warn">⚠️</span> 美国手术量增速连续两季低于 12%（ACA 解释失效，确认结构性减速）</li><li><span class="warn">⚠️</span> EUP 量化影响大于 2019 年的 -7% 且手术量弹性不足</li><li><span class="warn">⚠️</span> 强生 OTTAVA 商业化超预期，公司被迫全面降价</li><li><span class="warn">⚠️</span> 全年手术量指引跌破 13.5% 下限</li><li><span class="warn">⚠️</span> 装机量增速明显放缓（飞轮的入口收窄）</li></ol>
+<hr class="doc-hr">
+<h3 class="doc-h2">六、跟踪计划</h3>
+<div class="tbl-wrap"><table><thead><tr><th>跟踪变量</th><th>时间</th><th>说明</th></tr></thead><tbody><tr><td>Q3 财报：EUP 量化影响</td><td>2026-10</td><td>长期盈利模型重定价的关键</td></tr><tr><td>美国手术量增速</td><td>每季度</td><td>13% 是分界线</td></tr><tr><td>达芬奇 5 装机与利用率</td><td>每季度</td><td>升级周期</td></tr><tr><td>强生 OTTAVA 商业化进展</td><td>持续</td><td>垄断格局变量</td></tr><tr><td>GI 柔性机器人审批</td><td>H2-2027</td><td>新市场期权</td></tr><tr><td>日本报销新政效果</td><td>H2</td><td>国际市场增量</td></tr></tbody></table></div>
+  </article>
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>直觉外科是全球软组织手术机器人领域的绝对领导者，其核心产品达芬奇手术系统自1999年商业化以来，已构建起涵盖多孔、单孔及腔内诊断的完整产品矩阵。公司通过“设备装机—手术量增长—耗材与服务收入”的飞轮模式，实现了超过80%的经常性收入占比，形成了极高的客户粘性和持续的收入流。截至2026年6月30日，全球达芬奇系统安装基数已超11,710台，累计完成超2,000万例手术，市场地位稳固。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul><li><strong>美国手术量增速放缓引发市场担忧</strong>：2026年Q2，美国达芬奇手术量同比增长<strong>12%</strong>，较Q1的14%进一步放缓，创下自2021年以来的最低增速。管理层将此归因于<strong>ACA增强保费补贴到期</strong>导致部分可择期手术（如良性疝修补、胆囊切除）被推迟，以及<strong>GLP-1药物对减重手术的持续冲击</strong>（美国减重手术量高个位数下滑）。  </li><li><strong>全年手术量指引未上调，但指向中值</strong>：尽管上半年全球手术量增长接近15%，公司仍维持2026全年达芬奇手术量增长<strong>13.5%-15.5%</strong>的指引，并明确表示预计将<strong>接近中值（14.5%）</strong>。这暗示下半年增速将因高基数和ACA影响而放缓，低于市场此前对指引上调的普遍预期。  </li><li><strong>推出全方位降本战略，颠覆传统盈利模式</strong>：公司宣布将从2027年上半年开始，对部分高频EndoWrist器械实施<strong>延长使用计划</strong>，以降低单台手术耗材成本。此举旨在应对日益激烈的市场竞争和成本敏感型市场的需求，但市场担忧这将直接冲击其利润率最高的耗材收入。  </li><li><strong>新一代柔性GI机器人提交510(k)申请</strong>：公司近期向FDA提交了一款用于<strong>胃肠道的基础性、非商业化柔性机器人内窥镜系统</strong>的510(k)申请，标志着其正将机器人辅助技术拓展至核心软组织手术之外的全新疾病领域。  </li><li><strong>欧洲分销渠道完成直营化转型</strong>：公司于2026年3月完成了对意大利、西班牙、葡萄牙等地分销业务的收购，转为直销模式，旨在加强对欧洲这一关键增长市场的控制力与客户响应速度。  </li></ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol><li><strong>美国手术量放缓是“周期性”还是“结构性”的预期差博弈</strong></li></ol>
+<p>市场当前的核心焦虑在于，美国手术量增速的放缓是否意味着核心市场正触及渗透率天花板。管理层将其定性为受ACA补贴到期影响的<strong>“温和且非持久性”</strong>冲击，并指出被推迟的手术最终会回归。若未来1-2个季度，随着患者适应新的保险环境或被推迟的刚性需求释放，美国手术量增速能稳定甚至回升至13%以上，将有力证伪市场的“增长见顶”叙事，触发估值修复。投资者需密切关注月度/季度手术量高频数据以验证此逻辑。</p>
+<ol><li><strong>延长使用计划（EUP）的量化冲击与“以价换量”效果</strong></li></ol>
+<p>公司计划在2026年Q3财报中量化EUP对2027年收入的影响。市场参考2019年经验，担忧这将导致耗材单台手术收入出现约<strong>7%</strong>的下滑。然而，若公司能清晰展示降价后带来的手术量弹性（尤其是在日间手术中心ASC和国际市场），证明“以价换量”能有效对冲价格压力并扩大总可及市场，则这一战略将被重新定义为积极的长期增长驱动力，而非单纯的利润侵蚀。Q3电话会将是关键节点。</p>
+<ol><li><strong>达芬奇5升级周期与产品组合策略支撑业绩韧性</strong></li></ol>
+<p>尽管手术量承压，但达芬奇5的升级换代仍在加速，Q2占新增装机量的<strong>53%</strong>。其更高的售价和更强的耗材拉动力（如力反馈器械、SP吻合器）正驱动收入增长持续快于手术量增长。同时，公司通过推出低成本的翻新版XiR系统，成功打入ASC和对价格敏感的国际市场，Q2在ASC装机<strong>27台</strong>（其中20台为XiR）。这种“高低搭配”的产品组合策略，有望在宏观压力下维持系统装机增长，为未来的耗材和服务收入奠定基础。</p>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol><li><strong>全球渗透率仍处极低水平，国际市场提供广阔成长空间</strong></li></ol>
+<p>尽管在美国核心术式中的渗透率已较高，但在全球范围内，机器人辅助手术的渗透率仍不足<strong>5%</strong>。特别是在美国以外市场，2026年Q2手术量增长达<strong>20%</strong>，显著高于美国。公司在日本（新增报销政策）、印度（近期获批达芬奇5）等亚洲市场及欧洲市场仍有大量未饱和的增量空间。管理层将可及市场从2024年的700万例扩展至2026年的<strong>900万例</strong>，长期目标指向<strong>2,000万例</strong>的微创手术市场，成长天花板极高。</p>
+<ol><li><strong>以数据和AI为核心的生态系统正在构筑下一代竞争壁垒</strong></li></ol>
+<p>直觉外科正将其超过<strong>1,700台</strong>达芬奇5系统及每年数百万例手术产生的海量数据（包括独特的力反馈和运动学数据）转化为结构性竞争优势。公司已发布清晰的五层AI能力框架，从数据、洞察、术中指导到增强操控和受监督的自主能力。My Intuitive+平台的订阅服务和Case Insights等数字化产品，不仅增强了客户粘性，更有望在未来开辟出高利润的软件和服务收入流，使公司的商业模式从单纯的“剃刀+刀片”向“硬件+耗材+数据服务”的生态平台演进。</p>
+<ol><li><strong>平台化扩张战略打开远超软组织手术的长期天花板</strong></li></ol>
+<p>公司正系统性地将其技术平台拓展至新的临床领域。<strong>Ion腔内系统</strong>在肺癌活检领域已展现出巨大潜力，Q2手术量增长<strong>36%</strong>，累计手术量超40万例，并正整合ROSE和EBUS技术以扩展至治疗领域。<strong>SP单孔平台</strong>手术量增长<strong>61%</strong>，在NSM（乳头保留乳房切除术）等新术式上创造了增量市场。此外，近期提交申请的<strong>GI柔性机器人</strong>和已获FDA批准的<strong>心脏手术</strong>适应症，预示着公司正从软组织手术龙头向多学科、多平台的微创诊疗平台型公司转型。</p>
+<h3 class="doc-h2">风险提示</h3>
+<ul><li><strong>美国核心市场增长放缓风险</strong>：美国市场贡献了公司约三分之二的收入，其手术量增速已连续多个季度放缓。若ACA补贴到期的影响比预期更持久，或“大数定律”下核心术式渗透率提升速度慢于预期，将导致公司整体增长中枢下移，对当前估值构成持续压力。  </li><li><strong>竞争格局加剧风险</strong>：强生OTTAVA系统已获FDA批准进入美国软组织手术市场，美敦力Hugo系统也在持续扩大适应症，同时中国市场面临微创、精锋等本土企业的激烈价格战。新进入者可能侵蚀直觉外科的市场份额，并对其系统定价和耗材利润率造成冲击。  </li><li><strong>延长使用计划（EUP）的执行风险</strong>：计划于2027年实施的EUP旨在通过降价刺激手术量，但若手术量弹性不及预期，或降价幅度过大，将直接导致公司利润率最高、现金流最稳定的耗材业务收入出现结构性下滑，从而影响整体盈利能力。  </li></ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul><li><strong>2026年4月22日</strong>：公司公布2026年Q1业绩，收入与利润均超预期，并上调全年手术量增长指引至13.5%-15.5%，同时宣布完成对南欧分销业务的收购。  </li><li><strong>2026年5月21日</strong>：公司宣布推出超过100项针对达芬奇5平台的更新与增强功能，涵盖远程呈现、模拟培训和手术团队工作流程等领域，并提交了多项创新技术的510(k)申请。  </li><li><strong>2026年7月16日</strong>：公司公布2026年Q2业绩，营收与利润再次超预期，但因美国手术量增速放缓且全年指引未上调，引发股价盘后大幅下跌。  </li></ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul><li><strong>2026年10月（预计）</strong>：2026年Q3财报发布。管理层承诺将在本次电话会上量化延长使用计划（EUP）对2027年收入的预期影响，这将是决定市场能否重新定价公司长期盈利模型的关键事件。 </li><li><strong>2026年下半年</strong>：达芬奇5系统在印度市场的商业化启动。印度是增长迅速的新兴市场，达芬奇5的获批和上市有望成为国际市场新的增长点。 </li><li><strong>2026年下半年至2027年初</strong>：GI柔性机器人510(k)申请的审批进展。若获得FDA批准，将为公司打开一个全新的、规模庞大的胃肠道诊疗市场，提供长期估值提升的催化剂。 </li><li><strong>2026年下半年</strong>：日本市场对新报销政策（6月1日生效）的反应。新增的7项手术报销和对高利用率医院的激励措施，有望逐步释放日本市场被压抑的资本和手术需求。 </li></ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<ul><li><strong>业务边际变化</strong>：公司正经历从单一高端设备销售向“产品分层+服务驱动+数字化赋能”的商业模式转型。在设备端，通过高端的达芬奇5和低成本的翻新XiR系统覆盖不同层级的客户；在耗材端，通过延长使用计划主动管理价格与销量的平衡；在服务端，My Intuitive+等数字化订阅服务正成为新的价值增长点。此外，公司正通过SP、Ion和GI机器人等新平台，将业务从软组织手术拓展至单孔、腔内诊断及治疗等新领域。 </li></ul>
+<ul><li><strong>盈利模式</strong>：公司采用经典的“剃须刀+刀片”模式，但已进化为“生态系统”模式。主要利润来源于<strong>耗材和服务</strong>，2026年Q2经常性收入（耗材+服务+经营租赁）占总收入的<strong>85%</strong>。公司通过销售或租赁系统建立装机基础，然后通过持续的耗材销售、服务合同以及日益增长的数字化订阅服务实现长期、高粘性的现金流入。其盈利的核心在于手术量的持续增长和耗材的持续消耗。  </li></ul>
+<ul><li><strong>业务拆分</strong>：公司业务主要分为三大板块：器械及配件（Instruments &amp; Accessories）、系统（Systems）和服务（Services）。耗材是最大的收入和利润来源，系统收入受产品组合和租赁比例影响波动较大，服务收入则随装机量稳定增长。公司当前处于<strong>业绩兑现期与战略转型期</strong>的重叠阶段，核心业务仍在强劲增长，但已开始主动调整策略以应对未来的市场和竞争变化。  </li></ul>
+<p><strong>细分业务拆分</strong></p>
+<p>*单位：亿美元*</p>
+<div class="tbl-wrap"><table><thead><tr><th>业务板块</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td><strong>器械及配件</strong></td><td></td><td></td><td></td><td></td></tr><tr><td>收入</td><td>42.77</td><td>50.79</td><td>60.19</td><td>34.21</td></tr><tr><td>同比</td><td>-</td><td>18.8%</td><td>18.5%</td><td>20.4%</td></tr><tr><td>占总收入比例</td><td>60.0%</td><td>60.8%</td><td>59.8%</td><td>60.4%</td></tr><tr><td><strong>系统</strong></td><td></td><td></td><td></td><td></td></tr><tr><td>收入</td><td>16.80</td><td>19.66</td><td>24.74</td><td>13.36</td></tr><tr><td>同比</td><td>-</td><td>17.0%</td><td>25.8%</td><td>21.7%</td></tr><tr><td>占总收入比例</td><td>23.6%</td><td>23.5%</td><td>24.6%</td><td>23.6%</td></tr><tr><td><strong>服务</strong></td><td></td><td></td><td></td><td></td></tr><tr><td>收入</td><td>11.68</td><td>13.07</td><td>15.72</td><td>9.06</td></tr><tr><td>同比</td><td>-</td><td>11.9%</td><td>20.3%</td><td>20.1%</td></tr><tr><td>占总收入比例</td><td>16.4%</td><td>15.6%</td><td>15.6%</td><td>16.0%</td></tr><tr><td><strong>总收入</strong></td><td><strong>71.24</strong></td><td><strong>83.52</strong></td><td><strong>100.65</strong></td><td><strong>56.63</strong></td></tr></tbody></table></div>
+<p>*注：历史财年数据来源于公司年报，最新一期数据来源于2026年中报。*</p>
+<ul><li><strong>器械及配件（2026年H1）</strong>：收入34.21亿美元，同比增长20.4%。增长由全球达芬奇手术量增长<strong>15%</strong>和Ion手术量增长<strong>36%</strong>驱动。单台达芬奇手术耗材收入约为<strong>1,830美元</strong>，同比提升，主要受SP和达芬奇5手术占比提升推动，但部分被客户订购模式和胆囊切除术占比增加所抵消。该业务是公司利润的核心来源，其增长直接与手术量挂钩。  </li><li><strong>系统（2026年H1）</strong>：收入13.36亿美元，同比增长21.7%。增长主要由达芬奇系统装机量增加驱动，Q2新增装机<strong>468台</strong>，其中达芬奇5占<strong>246台</strong>。系统平均售价（ASP）约为<strong>160万美元</strong>，高于去年同期的150万美元，得益于达芬奇5和双操控台系统的高价值组合。但管理层预计，更高的以旧换新比例和XiR系统销售将给ASP带来下行压力。经营租赁模式占比提升至<strong>54%</strong>，虽会延迟收入确认，但能降低客户门槛并带来长期稳定的收入流。  </li><li><strong>服务（2026年H1）</strong>：收入9.06亿美元，同比增长20.1%。增长主要受达芬奇和Ion系统安装基数分别扩大<strong>12%</strong>和<strong>21%</strong>所推动。达芬奇5系统更高的服务合同价格也对收入增长有所贡献。服务收入具有高度可预见性和稳定性，是公司重要的经常性收入来源。  </li></ul>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托极高转换成本与生态系统锁定构筑的客户粘性</strong></p>
+<ul><li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。直觉外科通过数十年的经营，构建了一个涵盖硬件、软件、培训、服务和数据的深度整合生态系统。全球已有超过<strong>50,000名</strong>外科医生接受过达芬奇系统培训，医院在采购系统后，还需投入大量资源进行流程改造和团队建设。更换其他品牌的机器人系统意味着巨大的财务成本、时间成本和人员再培训成本，这种高转换成本构成了强大的竞争壁垒。  </li><li><strong>数据验证</strong>：公司的经常性收入占比高达<strong>85%</strong>，表明一旦系统装机，后续的耗材和服务收入流非常稳定。此外，在美国<strong>18家</strong>最大的整合交付网络（IDN）中，已有达芬奇5系统入驻，许多已标准化为直觉外科平台，显示出极高的客户忠诚度。 </li><li><strong>动态演变</strong>：<strong>护城河变宽（巩固）</strong>。随着达芬奇5系统带来的力反馈、更强大的计算平台和My Intuitive+数字生态系统，客户对直觉外科平台的依赖度进一步加深。特别是AI和数据服务的发展，将使客户被锁定在一个不断进化的、能提供持续临床价值的生态系统中，转换成本只会越来越高。  </li></ul>
+<p><strong>竞争要素 2：依托先发规模与持续创新形成的成本与技术优势</strong></p>
+<ul><li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。直觉外科拥有超过<strong>5,600项</strong>已授权专利和<strong>2,500项</strong>在申请专利，覆盖了机械臂、视觉系统、器械等核心技术。同时，其全球累计超过<strong>2,000万例</strong>手术所积累的真实世界数据，是任何竞争对手在短期内都无法复制的宝贵资产，这些数据正被用于训练AI模型，以开发下一代智能手术辅助功能。  </li><li><strong>数据验证</strong>：公司每年投入超过<strong>13亿美元</strong>用于研发（FY2025），占收入的<strong>13%</strong>，这一投入规模远超潜在竞争对手。其非GAAP毛利率高达<strong>70%</strong>（2026年Q2），显示出强大的定价能力和规模效应带来的成本优势，使其在应对价格战时拥有充足的缓冲空间。 </li><li><strong>动态演变</strong>：<strong>维持</strong>。尽管公司在技术和数据上拥有显著优势，但来自强生、美敦力等巨头的竞争正在加剧，尤其是在中国市场，本土企业凭借高性价比产品正在快速获取份额。公司通过推出XiR翻新系统和延长使用计划等策略主动应对，旨在通过成本优势和技术下沉来巩固市场地位，但这也可能对利润率造成一定压力。 </li></ul>
+<p><strong>现阶段核心驱动力总结</strong>：</p>
+<p>直觉外科的Alpha属性在于其作为行业先驱所建立的<strong>生态系统型护城河</strong>，这使其能够在竞争加剧的环境中保持定价权和客户粘性。其Beta属性则与全球微创手术的渗透率提升、新兴市场的医疗基础设施建设和人口老龄化等宏观趋势紧密相关。当前，公司的增长正从单纯的“市场扩张”驱动，转向“市场扩张+技术创新+模式升级”的复合驱动阶段。</p>
+<p><strong>竞争格局传导逻辑图</strong>：</p>
+<h3 class="doc-h2">产销链</h3>
+<ul><li><strong>客户情况</strong>：公司客户主要为全球范围内的医院和日间手术中心（ASC）。客户集中度低，无单一客户占比超过10%。在美国，约<strong>70%</strong>的系统通过租赁方式获取，这降低了医院的资本门槛，但也使公司的收入暴露于医院运营和手术量波动的风险之下。近期，部分美国客户因ACA参保趋势不确定性而表达谨慎态度，但尚未对资本销售管道产生实质性影响。  </li><li><strong>供应商情况</strong>：公司生产依赖大量定制和标准组件，部分关键零部件由<strong>单一或独家供应商</strong>提供。其大部分耗材在墨西哥墨西卡利生产，内窥镜主要在德国制造。这使得其供应链暴露于全球贸易摩擦和关税风险之下。2026年Q2，关税和相关贸易措施对总成本的影响为<strong>2,080万美元</strong>，但公司也获得了<strong>3,590万美元</strong>的IEEPA关税退款。管理层预计2026全年关税对毛利率的负面影响约为<strong>100个基点</strong>。  </li><li><strong>经销商情况</strong>：公司在美国、欧洲（部分）、中国（通过合资企业）、日本等主要市场采用直销模式。在其他市场则通过分销商销售。2026年3月，公司完成了对意大利、西班牙和葡萄牙分销业务的收购，转为直销，旨在加强对关键欧洲市场的控制。Q2分销商市场表现强劲，装机<strong>71台</strong>系统，其中<strong>42台</strong>为X或XiR系统，显示出在成本敏感型市场的渗透策略初见成效。  </li><li><strong>议价能力与成本传导</strong>：直觉外科凭借其强大的品牌和生态系统，对下游客户拥有较强的议价能力，能够将部分成本压力（如关税）通过价格调整转嫁。然而，随着竞争加剧和客户对成本日益敏感，公司也开始主动通过推出XiR系统和延长使用计划等方式，与客户分享成本节约，以换取更大的市场份额和手术量。公司赚取的是<strong>“技术溢价+生态锁定”</strong>的钱，而非简单的加工费。 </li></ul>
+<h3 class="doc-h2">财务数据</h3>
+<p><strong>关键财务数据</strong></p>
+<p>*单位：亿美元，除每股收益外*</p>
+<div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2023-12-31</td><td>2024-12-31</td><td>2025-12-31</td><td>2026-06-30</td></tr><tr><td><strong>营业总收入</strong></td><td>71.24</td><td>83.52</td><td>100.65</td><td>56.63</td></tr><tr><td>收入同比</td><td>14.49%</td><td>17.24%</td><td>20.51%</td><td>20.66%</td></tr><tr><td><strong>营业成本</strong></td><td>23.95</td><td>27.18</td><td>34.22</td><td>18.72</td></tr><tr><td><strong>毛利润</strong></td><td>47.29</td><td>56.34</td><td>66.42</td><td>37.91</td></tr><tr><td>毛利率</td><td>66.4%</td><td>67.5%</td><td>66.0%</td><td>66.9%</td></tr><tr><td><strong>营业利润</strong></td><td>17.67</td><td>23.49</td><td>29.45</td><td>18.27</td></tr><tr><td>营业利润率</td><td>24.8%</td><td>28.1%</td><td>29.3%</td><td>32.3%</td></tr><tr><td><strong>归母净利润</strong></td><td>17.98</td><td>23.23</td><td>28.56</td><td>16.40</td></tr><tr><td>归母净利率</td><td>25.2%</td><td>27.8%</td><td>28.4%</td><td>29.0%</td></tr><tr><td><strong>稀释每股收益（美元）</strong></td><td>5.03</td><td>6.42</td><td>7.87</td><td>4.57</td></tr><tr><td><strong>自由现金流</strong></td><td>7.50</td><td>13.04</td><td>24.90</td><td>17.57</td></tr></tbody></table></div>
+<p>*注：自由现金流由经营活动现金流净额减去资本性支出计算得出。FY2026 H1数据为截至2026年6月30日的6个月数据。*</p>
+<ul><li><strong>成长能力</strong>：公司收入增速连续三年提升，显示出强劲的增长势头。2026年上半年收入同比增长<strong>20.66%</strong>，维持高位。尽管美国市场手术量增速放缓，但创新产品（达芬奇5、SP、Ion）和国际市场的强劲表现，驱动收入增长持续快于手术量增长。 </li><li><strong>盈利能力</strong>：毛利率在FY2025因关税影响下滑后，于2026年上半年企稳回升。营业利润率持续显著提升，2026年上半年达到<strong>32.3%</strong>，主要得益于收入规模扩大带来的经营杠杆效应，销售和管理费用率从FY2023的27.6%下降至2026年上半年的21.7%。这表明公司在快速增长的同时，实现了良好的费用控制。 </li><li><strong>现金流与资本配置</strong>：公司是典型的现金牛企业，自由现金流增长强劲。2026年上半年自由现金流达到<strong>17.57亿美元</strong>，同比增长<strong>71%</strong>。公司持续通过大规模股票回购（2026年上半年回购了<strong>15.07亿美元</strong>）回馈股东，同时保有<strong>86.25亿美元</strong>的现金及投资，资产负债表极为健康，为研发投入和战略性并购提供了充足弹药。 </li></ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p>直觉外科所处的<strong>软组织手术机器人</strong>行业，是医疗器械领域中增长最快、壁垒最高的细分市场之一。该市场预计未来5-7年仍将保持<strong>14%-17%</strong>的年复合增长率。增长驱动力包括：微创手术的临床优势得到广泛认可、应用术式从泌尿科和妇科向普外科、胸外科等领域的持续拓展、以及新兴市场医疗基础设施的完善。</p>
+<p><strong>竞争格局</strong>：市场正从直觉外科“一家独大”向“一超多强”的格局演变。</p>
+<ul><li><strong>直觉外科</strong>：凭借超过20年的先发优势、全面的产品矩阵、深厚的临床数据积累和强大的生态系统，依然占据全球约<strong>60%-70%</strong>的市场份额，处于绝对领导地位。 </li><li><strong>主要挑战者</strong>：</li><li><strong>强生 (Johnson &amp; Johnson)</strong>：其OTTAVA系统采用独特的手术台集成式设计，已获FDA批准进入美国市场，主打空间效率和普外科主流术式，被视为最具潜力的挑战者。  </li><li><strong>美敦力 (Medtronic)</strong>：Hugo RAS系统已在国际市场销售，并于2025年12月获得FDA批准用于泌尿外科手术，正凭借其模块化设计和Touch Surgery生态系统积极拓展。 </li><li><strong>CMR Surgical</strong>：其Versius系统以小型化、模块化和低成本为特点，已在美国以外市场完成超45,000例手术，并于2024年获得FDA批准用于胆囊切除术，正逐步进入美国市场。 </li><li><strong>中国本土企业</strong>：以微创机器人、精锋医疗等为代表，凭借高性价比和本地化服务，在中国市场对直觉外科构成了严峻挑战，并开始积极布局海外市场。 </li></ul>
+<p><strong>可比公司分析</strong>：直觉外科的估值显著高于传统医疗器械巨头，这反映了其作为行业领导者的稀缺性、更高的增长速度和更强的盈利能力。</p>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>2026E 收入增速</th><th>2026E 市盈率</th><th>2026E 毛利率</th></tr></thead><tbody><tr><td>直觉外科 (Intuitive Surgical)</td><td>ISRG</td><td>~17%</td><td>~37x</td><td>~68%</td></tr><tr><td>史赛克 (Stryker)</td><td>SYK</td><td>~8%</td><td>~19x</td><td>~64%</td></tr><tr><td>美敦力 (Medtronic)</td><td>MDT</td><td>~4%</td><td>~13x</td><td>~66%</td></tr><tr><td>波士顿科学 (Boston Scientific)</td><td>BSX</td><td>~8%</td><td>~12x</td><td>~69%</td></tr></tbody></table></div>
+<p>*注：预测数据为多家机构一致预期范围的中值。*</p>
+<p>直觉外科的估值溢价，本质上是对其<strong>稀缺的成长性、强大的盈利能力和深厚的护城河</strong>的定价。尽管面临竞争，但其在软组织手术机器人领域的领导地位在中期内难以被撼动。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<ul><li><strong>议题一：美国手术量增速放缓的性质与持续性</strong></li><li><strong>背景</strong>：美国市场是公司最大的收入和利润来源。2026年Q2，美国达芬奇手术量增速降至12%，为近年来低点，引发市场对核心市场增长见顶的担忧。  </li><li><strong>问题列表</strong>：</li><li>ACA补贴到期对可择期手术的影响是一次性的还是会在未来几个季度持续？</li><li>被推迟的手术需求何时能够回归？回归的强度如何？</li><li>除ACA影响外，“大数定律”下核心术式渗透率提升的自然放缓程度如何？</li><li>公司如何通过拓展急诊手术、良性妇科等新领域来对冲成熟术式的增长放缓？</li></ul>
+<ul><li><strong>议题二：延长使用计划（EUP）对盈利模型的长期影响</strong></li><li><strong>背景</strong>：公司计划在2027年实施的EUP，旨在通过降低耗材单次使用成本来刺激手术量，但市场普遍担忧这会对其高利润的耗材业务造成永久性伤害。  </li><li><strong>问题列表</strong>：</li><li>2027年EUP对单台手术耗材收入的具体量化影响是多少？是否会重演2019年约7%的下滑幅度？</li><li>“以价换量”的策略能否成功？需要多高的手术量弹性才能完全对冲价格下降的影响？</li><li>该计划是否主要针对竞争激烈或成本敏感的市场和术式，从而保护高端市场的定价权？</li><li>这是否标志着公司盈利模式从“高毛利、高定价”向“高周转、广覆盖”的永久性转变？</li></ul>
+<ul><li><strong>议题三：日益激烈的竞争格局对公司市场份额和定价权的威胁</strong></li><li><strong>背景</strong>：强生OTTAVA获批、美敦力Hugo系统扩大适应症，以及中国本土企业的崛起，正逐步打破直觉外科的垄断地位。 </li><li><strong>问题列表</strong>：</li><li>新进入者（尤其是强生）在美国市场的商业化进展如何？是否已开始对直觉外科的系统定价或耗材份额产生实质性影响？</li><li>在中国市场，面对本土企业的价格战和政策倾斜，直觉外科的市场份额和盈利能力将如何演变？</li><li>公司除了推出XiR和EUP等防御性策略外，还有哪些主动进攻的策略来维护其市场领导地位？</li></ul>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p>当前市场对直觉外科的核心分歧在于：<strong>美国市场手术量增速放缓，究竟是暂时的周期性波动，还是标志着公司核心增长引擎进入结构性减速阶段？</strong></p>
+<ul><li><strong>乐观方观点：短期扰动，长期无忧</strong></li><li><strong>逻辑</strong>：认为Q2的放缓主要由ACA补贴到期这一<strong>一次性政策因素</strong>驱动，导致部分可择期手术被暂时推迟，而非需求消失。随着患者适应新环境，被压抑的医疗需求将逐步释放。 </li><li><strong>依据</strong>：管理层明确表示潜在疾病负担并未改变，且国际市场（+20%）和新兴术式（如急诊手术+26%）增长依然强劲。达芬奇5的升级周期仍在早期，其更高的利用率和耗材拉动力将支撑未来增长。当前的估值回调（远期市盈率约32倍）已充分反映了短期悲观预期，提供了难得的买入机会。 </li></ul>
+<ul><li><strong>谨慎方观点：渗透率瓶颈与竞争压力显现</strong></li><li><strong>逻辑</strong>：认为美国市场在经过多年高速增长后，在核心术式（如泌尿科、子宫切除）中的渗透率已较高，自然增速放缓是必然趋势。ACA补贴到期只是压垮骆驼的最后一根稻草。 </li><li><strong>依据</strong>：美国手术量增速已连续多个季度下滑，且公司提及“大数定律”的影响。同时，来自强生、美敦力等巨头的竞争即将进入实质性阶段，而公司推出的EUP策略正是为了应对日益激烈的价格战和成本压力，这恰恰说明其原有的高定价、高毛利模式正面临挑战。未来收入和利润增速可能持续放缓，当前估值仍有下行风险。 </li></ul>
+<p>从中立视角看，直觉外科的长期增长逻辑（全球低渗透率、新产品平台、AI生态）依然稳固，但短期确实面临美国市场周期性和结构性双重因素叠加的逆风。EUP策略是公司主动适应市场变化、旨在扩大长期可及市场的积极举措，但其对短期财务指标的冲击程度和“以价换量”的实际效果，是决定公司能否平稳度过转型期的关键。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>券商盈利预测与估值</strong></p>
+<p>*单位：美元，除特别注明外*</p>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价</th><th>财务指标</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>美国银行 (2026-07-22)</td><td>买入</td><td>470.00</td><td>营业收入(百万美元)</td><td>10,065</td><td>11,877</td><td>12,923</td><td>14,251</td></tr><tr><td></td><td></td><td></td><td>调整后EPS</td><td>8.93</td><td>10.89</td><td>11.72</td><td>13.04</td></tr><tr><td>蒙特利尔银行 (2026-07-27)</td><td>跑赢大市</td><td>518.00</td><td>营业收入(百万美元)</td><td>10,065</td><td>11,778</td><td>13,255</td><td>-</td></tr><tr><td></td><td></td><td></td><td>调整后EPS</td><td>8.94</td><td>10.77</td><td>11.78</td><td>-</td></tr><tr><td>瑞银 (2026-07-17)</td><td>中性</td><td>550.00</td><td>营业收入(百万美元)</td><td>10,065</td><td>11,576</td><td>13,059</td><td>14,770</td></tr><tr><td></td><td></td><td></td><td>调整后EPS</td><td>8.93</td><td>10.37</td><td>11.53</td><td>12.84</td></tr><tr><td>花旗 (2026-07-17)</td><td>买入</td><td>500.00</td><td>营业收入(百万美元)</td><td>10,065</td><td>11,790</td><td>13,270</td><td>15,140</td></tr><tr><td></td><td></td><td></td><td>调整后EPS</td><td>-</td><td>10.76</td><td>11.73</td><td>13.37</td></tr><tr><td>杰富瑞 (2026-07-17)</td><td>持有</td><td>430.00</td><td>营业收入(百万美元)</td><td>10,065</td><td>11,791</td><td>13,530</td><td>15,358</td></tr><tr><td></td><td></td><td></td><td>调整后EPS</td><td>8.94</td><td>10.81</td><td>12.38</td><td>14.10</td></tr><tr><td>摩根大通 (2026-07-17)</td><td>超配</td><td>450.00</td><td>营业收入(百万美元)</td><td>10,065</td><td>11,743</td><td>13,464</td><td>15,248</td></tr><tr><td></td><td></td><td></td><td>调整后EPS</td><td>8.93</td><td>10.73</td><td>12.56</td><td>14.44</td></tr><tr><td>中金公司 (2026-07-22)</td><td>中性</td><td>389.00</td><td>营业收入(百万美元)</td><td>10,065</td><td>11,538</td><td>13,003</td><td>-</td></tr><tr><td></td><td></td><td></td><td>归母净利润(百万美元)</td><td>2,856</td><td>2,801</td><td>3,402</td><td>-</td></tr></tbody></table></div>
+<p>*注：机构预测数据均来源于其最新发布的研究报告。*</p>
+<ul><li><strong>盈利预期与估值分析</strong>：各机构对FY2026和FY2027的收入预测较为一致，但对EPS的预测存在分歧，反映出对EUP影响和利润率走向的不同假设。估值方面，多数机构采用市盈率（P/E）作为主要估值方法，目标价基于2027年EPS的倍数从<strong>32倍至44倍</strong>不等，显示出市场对公司长期增长前景的判断存在较大差异。整体而言，机构观点偏向积极（买入/超配为主），但目标价在Q2财报后普遍下调，反映了对短期增长放缓的担忧。       </li><li><strong>管理层指引</strong>：公司维持2026全年达芬奇手术量增长<strong>13.5%-15.5%</strong>的指引，并预计将<strong>接近中值（14.5%）</strong>。同时，将全年非GAAP毛利率指引上调至<strong>68%-69%</strong>，并预计非GAAP运营费用增长在<strong>11%-13%</strong>之间。</li></ul>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>Gangtise Open API（公司一页通 · stock-one-pager）· 公司财报及公开披露 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/ISRG · 生成于 2026-07-30</div></footer>
+
+<script>
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

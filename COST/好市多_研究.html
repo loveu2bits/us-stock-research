@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>好市多（COST.O）公司研究</title>
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏（美联储风格） ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 170px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.overview__date { padding: 16px 0 4px; border-top: 2px solid var(--policy-red); text-align: right; }
+.overview__date span, .overview__date strong { display: block; }
+.overview__date span { margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.overview__date strong { font-size: 15px; font-variant-numeric: tabular-nums; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item strong.down { color: var(--teal); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 正文文档 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.doc-h1 { margin: 34px 0 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line-strong); font-family: var(--font-display); font-size: 30px; font-weight: 650; }
+.doc-h1:first-child { margin-top: 0; }
+.doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+.doc-h3 { margin: 22px 0 10px; color: var(--federal-blue); font-size: 15px; font-weight: 750; }
+.doc p, .doc li { color: var(--ink-soft); font-size: 15px; }
+.doc p { margin: 0 0 14px; }
+.doc ul, .doc ol { margin: 0 0 16px; padding-left: 24px; }
+.doc li { margin-bottom: 6px; }
+.doc strong { color: var(--ink); }
+.doc code { padding: 1px 6px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper-cool); font-size: 13px; }
+.doc-hr { margin: 30px 0; border: 0; border-top: 1px solid var(--line); }
+.doc-quote { margin: 18px 0; padding: 16px 20px; border-left: 3px solid var(--amber); background: #faf6ec; color: var(--ink-soft); font-size: 14px; }
+.tbl-wrap { margin: 16px 0 24px; overflow-x: auto; }
+.doc table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.doc th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+.doc td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+.doc tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+.star { color: var(--amber); }
+.xref { color: var(--federal-blue); font-weight: 600; }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .overview__date { text-align: left; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">COST</span>
+    <span class="site-mark__text">好市多 公司研究<span>Costco · COST.O</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">研究报告</button>
+    <button data-tab="onepager">一页通（Gangtise）</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>好市多<span class="en">Costco · COST.O · 美股研究</span></h1>
+        <p class="sub">"商业模式教科书"：商品毛利率压到 11%，利润几乎全来自会员费——92.2% 续卡率的飞轮 vs 46 倍 PE 的"好公司好价格"之问。</p>
+      </div>
+      <div class="overview__date">
+        <span>研究日期</span>
+        <strong>2026-07-30</strong>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong>92.2%</strong><span>美加会员续卡率</span></div>
+<div class="summary-rail__item"><strong>51%</strong><span>会员费占营业利润比</span></div>
+<div class="summary-rail__item"><strong>46x</strong><span>当前 PE·确定性溢价</span></div>
+
+    </div>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+<blockquote class="doc-quote"><strong>研究日期</strong>：2026-07-30 ｜ <strong>数据来源</strong>：Gangtise 一页通（2026-07-30） <strong>状态</strong>：初稿 v1 ｜ <strong>下次更新</strong>：FY2026 Q4 财报（2026-09-24）或 7 月销售数据（8/5） <strong>关联研究</strong>：<span class="xref">沃尔玛研究报告</span>（会员制零售的两种范式对照）</blockquote>
+<hr class="doc-hr">
+<h3 class="doc-h2">〇、一句话结论</h3>
+<p><strong>好市多是"商业模式教科书"：商品毛利率压到 11%（只够覆盖运营成本），利润几乎全来自会员费——92.2% 续卡率构成的飞轮让它拥有零售业唯一的"定价权威"。问题只有一个：46 倍 PE vs 高个位数增长，"好公司"和"好价格"的矛盾在零售股里最极致。</strong></p>
+<hr class="doc-hr">
+<h3 class="doc-h2">一、靠什么赚钱？</h3>
+<p><strong>一句话：不靠卖东西赚钱——8,290 万付费会员的年费就是利润（FY2025 会员费 $53 亿 = 营业利润的 51%），商品只是维系会员的"成本价福利"。</strong></p>
+<p>飞轮结构：</p>
+<ul><li><strong>Executive 会员</strong>（年费 $130）：占会员近半，贡献 <strong>75%</strong> 销售额——会员质量 &gt; 数量</li><li><strong>Kirkland 自有品牌</strong>：占比 33%，既是会员粘性工具，也是与品牌方谈判的"核威慑"</li><li>增长三引擎：同店销售（核心 +6-7%）+ 每年 30 家新店 + 会员费（+12.7%）</li></ul>
+<hr class="doc-hr">
+<h3 class="doc-h2">二、护城河多深？</h3>
+<p><strong>这是全美股教科书级的结构性护城河</strong>：预付年费 → 消费自然集中（"赚回会费"心理）→ 转换成本极高 → 需求稳定 → 议价能力 → 更低价。SG&amp;A 费用率仅 8.96%，远低于同行。</p>
+<p><strong>和沃尔玛的对照（本次消费研究的核心收获）</strong>：</p>
+<div class="tbl-wrap"><table><thead><tr><th></th><th>沃尔玛</th><th>好市多</th></tr></thead><tbody><tr><td>利润来源</td><td>商品差价（微利）+ 广告/会员变现</td><td><strong>会员费本身</strong></td></tr><tr><td>护城河</td><td>规模成本 + 门店网络</td><td>会员信任 + 转换成本</td></tr><tr><td>估值</td><td>~39x（平台化预期）</td><td>~46x（确定性溢价）</td></tr><tr><td>最大风险</td><td>第二曲线能否持续高增</td><td>增长放缓杀估值</td></tr></tbody></table></div>
+<hr class="doc-hr">
+<h3 class="doc-h2">三、财务速览</h3>
+<div class="tbl-wrap"><table><thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 Q1-Q3</th></tr></thead><tbody><tr><td>总营收（亿$）</td><td>2,423</td><td>2,545</td><td>2,752</td><td>2,074（+9.7%）</td></tr><tr><td>毛利率</td><td>12.3%</td><td>12.6%</td><td>12.8%</td><td>12.9%</td></tr><tr><td>营业利润率</td><td>3.35%</td><td>3.65%</td><td>3.77%</td><td>3.80%</td></tr><tr><td>归母净利（亿$）</td><td>63</td><td>74</td><td>81</td><td>62（+13.5%）</td></tr><tr><td>自由现金流（亿$）</td><td>67</td><td>66</td><td>78</td><td>69</td></tr></tbody></table></div>
+<p><strong>读法</strong>：一张"稳定复利"的报表——收入 8-10% 增长、利润率每年小步抬升、FCF 强劲、净债务为负。Q3 毛利率下滑 21bp 是<strong>主动让利</strong>（鸡蛋牛肉成本下降就降价），不是竞争恶化——这正是"定价权威"的运作方式：率先降价、最后涨价。</p>
+<hr class="doc-hr">
+<h3 class="doc-h2">四、核心分歧：为"确定性"付 46 倍，值吗？</h3>
+<div class="tbl-wrap"><table><thead><tr><th></th><th>乐观方</th><th>谨慎方</th></tr></thead><tbody><tr><td>逻辑</td><td>经数十年验证的模式 + 92% 续卡率 = 稀缺确定性，理应有溢价</td><td>46x PE vs 高个位数增长，FCF 收益率仅 2%，低于无风险利率</td></tr><tr><td>会员</td><td>Executive 会员 +9.6%，质量在提升</td><td>总会员增速放缓至 4.1%，线上获客续卡率偏低</td></tr><tr><td>同店</td><td>核心同店 6-7%，远超行业</td><td>6 月已环比放缓（8.0%→7.0%），7 月有高基数</td></tr></tbody></table></div>
+<p><strong>关键跟踪</strong>：Costco 每月公布销售数据（美股罕见的高频验证渠道！）——8/5 的 7 月数据看增速能否守住 6-7% 区间。</p>
+<blockquote class="doc-quote">📚 *方法点评：研究 Costco 这种"无瑕疵公司"，多空双方对事实没有分歧，分歧全在<strong>估值容忍度</strong>。这类公司研究的正确产出不是"买不买"，而是"什么价格值得买"——把跟踪体系建好，等市场情绪给机会。*</blockquote>
+<hr class="doc-hr">
+<h3 class="doc-h2">五、反证条件</h3>
+<ol><li><span class="warn">⚠️</span> 核心同店增速连续两个月跌破 5%</li><li><span class="warn">⚠️</span> 美加续卡率跌破 91%（飞轮松动）</li><li><span class="warn">⚠️</span> Executive 会员增速跌破 5%（会员质量红利见顶）</li><li><span class="warn">⚠️</span> 会员费收入增速跌破 8%（增长中枢下移）</li><li><span class="warn">⚠️</span> 核心商品毛利率连续两季下滑且管理层归因于竞争（而非主动让利）</li></ol>
+<hr class="doc-hr">
+<h3 class="doc-h2">六、跟踪计划</h3>
+<div class="tbl-wrap"><table><thead><tr><th>跟踪变量</th><th>时间</th><th>说明</th></tr></thead><tbody><tr><td>月度销售数据</td><td>每月上旬（下次 8/5）</td><td>高频验证，看 6-7% 能否守住</td></tr><tr><td>FY2026 Q4 财报</td><td>2026-09-24</td><td>全年开店/capex 完成度 + FY27 展望</td></tr><tr><td>IEEPA 关税退款返还方案</td><td>未来数月</td><td>一次性消费刺激</td></tr><tr><td>续卡率 / Executive 渗透率</td><td>每季度</td><td>飞轮健康度</td></tr><tr><td>新店开设进度</td><td>每季度</td><td>年 30 家目标</td></tr></tbody></table></div>
+  </article>
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>好市多（Costco Wholesale Corporation）是全球第三大零售商，采用会员制仓储量贩模式，通过极低毛利率（2025财年商品毛利率约11.12%）销售精选SKU商品，以高周转和会员费为核心盈利来源。截至2026财年第三季度末，公司在全球运营928家门店，其中美国633家，总付费会员8,290万，续卡率在美加地区达92.2%。其自有品牌Kirkland Signature销售占比约33%，是强化定价权和会员粘性的关键工具。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul><li><strong>6月同店销售增速环比放缓，但仍处高位</strong>：2026年6月核心可比销售额（剔除汽油和汇率影响）同比增长7.0%，较5月的8.0%有所放缓，但美国市场仍保持7.6%的强劲增速。全球客流量增长3.2%，客单价（剔除汽油和汇率）增长3.7%。管理层认为6月表现稳健，5月的高增长部分受汽油价格飙升带来的额外客流提振。    </li><li><strong>第三季度业绩超预期，但毛利率承压</strong>：FY2026 Q3（截至2026年5月10日）净销售额691.5亿美元，同比增长11.6%，高于市场预期。净利润21.92亿美元，同比增长15.2%。然而，毛利率同比下降21个基点至11.04%，主要因公司主动利用成本下降（如鸡蛋、牛肉）进行降价投资，以及运输成本上升。  </li><li><strong>会员增长结构性放缓，但质量提升</strong>：总付费会员同比增长4.1%，增速较前几个季度放缓，部分归因于近期新店多为现有市场填充式开店，而非开拓新市场。但Executive会员同比增长9.6%，占总付费会员近半，贡献约75%的销售额，显示会员质量持续提升。续卡率在经历几个季度的下滑后，于Q3企稳，美加地区回升至92.2%。  </li><li><strong>数字化业务持续高增</strong>：Q3数字化可比销售额增长21.5%（剔除汇率后20.8%），6月进一步加速至21.5%。公司持续优化App体验、扩展即时配送（Same-Day Delivery）服务，并探索AI在商品信息优化和个性化推荐中的应用，个性化推荐转化率为常规水平的3倍。   </li><li><strong>资本开支加速，聚焦门店扩张与改造</strong>：公司计划FY2026资本支出约65亿美元，用于新开约30家门店（全年预计净增29家）、现有高流量门店改造（扩大停车场和加油站）、配送中心网络扩张及数字化升级。管理层重申未来每年净增30家以上门店的目标。  </li></ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol><li><strong>汽油价格回落对利润率的结构性利好</strong>：近期中东局势缓和导致汽油价格从高位回落。在Q3，高汽油价格虽拉升了营收，但因公司主动扩大价差以吸引客流，汽油业务利润率反而下降，并对整体毛利率造成约21个基点的拖累。随着汽油价格降温，这一利润率逆风将缓解。同时，Q3因高油价首次使用Costco加油站的新会员，其消费习惯和忠诚度有望在未来几个季度持续释放，形成“流量留存”效应。 </li></ol>
+<ol><li><strong>关税退款返还的潜在催化剂</strong>：公司已启动IEEPA关税退款申请，并明确表示计划以某种形式返还会员。虽然具体金额和时间尚不确定，但市场普遍预期这将是一次性的消费者刺激。若退款在夏季末或秋季落地，可能对同店销售和会员续卡率产生额外的正向推动，构成短期交易催化。  </li></ol>
+<ol><li><strong>核心利润率环比改善的预期差</strong>：Q3核心商品毛利率（Core-on-Core）下降9个基点，引发市场对竞争加剧和公司主动让利的担忧。但管理层解释，这主要是利用LIFO费用减少和特定商品（鸡蛋、牛肉）成本下降的窗口期，进行的一次性策略性降价。随着这些临时性因素消退，且SG&amp;A费用在剔除一次性法律和医疗成本后仍实现杠杆效应，Q4核心利润率存在环比改善的可能，有望修正市场的悲观预期。 </li></ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol><li><strong>会员生态的飞轮效应与定价权</strong>：Costco的商业模式核心是“低价精选商品 → 会员高续卡率 → 规模效应 → 更强的供应链议价能力 → 更低价”。92.2%的美加续卡率和持续增长的Executive会员渗透率（已近50%）是这一飞轮运转的明证。这种模式下，公司赚取的是会员费而非商品差价，使其在通胀或通缩周期中均能保持“定价权威”，即消费者心中“Costco就是最低价”的认知。这种信任构成了极深的护城河，转换成本极高。   </li></ol>
+<ol><li><strong>全球门店扩张的长期增长跑道</strong>：公司已识别出约300个潜在新店址，全部位于现有运营国家，无需进入新地理区域承担过高风险。目前每年约30家的开店速度，对应约3%的平方英尺增长，为收入提供了稳定的结构性增量。国际业务（尤其是亚洲和欧洲）的利润率普遍高于美国本土，随着国际门店占比提升，有望对整体利润率产生正向拉动。  </li></ol>
+<ol><li><strong>数字化作为增量而非替代的变现潜力</strong>：Costco的数字化战略并非颠覆线下，而是增强会员粘性和钱包份额的工具。即时配送（Same-Day Delivery）增速高于整体数字业务，且高消费会员占比显著。零售媒体业务尚处早期，但已展现出高转化率。这些轻资产、高回报的数字化业务，为公司提供了在不破坏核心仓储模式的前提下，提升会员全生命周期价值的长期路径。  </li></ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul><li><strong>估值收缩风险</strong>：公司当前市盈率约46倍，显著高于其长期历史均值（约31倍）和行业可比公司。这一估值隐含了市场对其中高个位数同店增长和利润率持续扩张的乐观预期。若未来同店销售增速因消费疲软或竞争加剧而放缓至5%以下，或利润率未能如期改善，估值可能面临显著收缩。  </li><li><strong>会员增长放缓与结构变化</strong>：总付费会员增速已放缓至4.1%，且新增会员中线上渠道占比提升，这部分会员的续卡率历来偏低。虽然Executive会员增长强劲，但若整体会员基数增长持续停滞，将影响长期收入增长中枢。公司需证明其数字化获客策略能有效提升这部分新会员的生命周期价值。  </li><li><strong>竞争加剧与价格战风险</strong>：美国零售业竞争激烈，沃尔玛、亚马逊等巨头在价格和配送速度上持续投入。近期有市场消息称沃尔玛和克罗格正加大价格投资，可能引发新一轮“食品杂货价格战”。虽然Costco的商业模式具有防御性，但在极端竞争环境下，其维持“定价权威”的成本可能上升，导致利润率承压。 </li></ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul><li><strong>2026年5月28日</strong>：公司公布FY2026 Q3财报，营收超预期但毛利率下滑，股价反应平淡。 </li><li><strong>2026年6月2日</strong>：公司公布5月销售数据，核心可比销售额增长8.0%，受汽油价格飙升和强劲的美国消费驱动，表现强劲。 </li><li><strong>2026年7月7日</strong>：公司公布6月销售数据，核心可比销售额增长7.0%，较5月有所放缓，但美国市场仍保持7.6%的增速。同时宣布每股1.47美元的季度股息。   </li><li><strong>2026年7月28日</strong>：摩根士丹利发布与公司管理层（CEO、CFO等）的会议纪要，管理层表示消费需求保持韧性，未观察到消费行为有实质性恶化，并强调数字投资和门店扩张的长期战略。 </li></ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul><li><strong>2026年8月5日</strong>：公司预计将公布7月销售数据。7月将开始面临去年同期延长Executive会员购物时间的基数效应（该举措当时贡献了约1个百分点的周销售额），市场将密切关注同店销售增速能否维持在6%-7%的区间。   </li><li><strong>2026年9月24日</strong>：公司预计将公布FY2026 Q4财报。这将是公司财年最后一个季度，市场关注点包括：全年资本开支和开店目标的完成情况、核心利润率在剔除一次性因素后的真实趋势、以及管理层对FY2027的初步展望和指引。 </li><li><strong>未来数月</strong>：IEEPA关税退款的具体返还方案和时间表可能公布。任何关于退款规模、返还形式（现金券、直接抵扣等）的明确信息，都可能成为刺激消费和提振股价的短期事件。 </li></ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<h4 class="doc-h3">业务边际变化</h4>
+<p>公司近年持续在传统仓储模式上进行数字化赋能和品类延伸。数字化方面，公司已将披露口径从“电商销售”调整为“数字化销售”，涵盖所有线上发起的交易（包括即时配送和旅行服务），更准确地反映其全渠道战略。即时配送业务增速强劲，会员满意度高。品类方面，公司持续强化Kirkland Signature品牌，推出能量饮料、超滤牛奶等新品，并利用其品牌信任度进入高价值商品领域（如黄金、高端家电）。此外，零售媒体业务作为新的利润增长点，正处于早期快速发展阶段。</p>
+<h4 class="doc-h3">盈利模式</h4>
+<p>Costco的盈利模式核心是“会员费驱动”。公司以极低的毛利率（约11%）销售商品，覆盖运营成本，而净利润几乎全部来自会员费收入。2025财年，会员费收入53.23亿美元，占运营利润（103.83亿美元）的51.3%。这种模式将公司利益与会员利益高度绑定，形成了强大的客户忠诚度和可预测的经常性收入流。</p>
+<h4 class="doc-h3">业务拆分</h4>
+<p>公司营收主要分为<strong>净销售额</strong>和<strong>会员费收入</strong>两大部分。净销售额可进一步按品类划分为<strong>核心商品</strong>（食品和杂货、非食品、生鲜食品）、<strong>仓储辅助业务</strong>（汽油、药房、光学等）和<strong>其他业务</strong>（电商、商务中心、旅行等）。近年来，汽油和电商业务的增速快于核心商品，导致整体毛利率的结构性变化。</p>
+<p><strong>细分业务拆分（单位：亿美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 Q1-Q3</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2023-09-03</td><td>2024-09-01</td><td>2025-08-31</td><td>2026-05-10</td></tr><tr><td><strong>净销售额</strong></td><td>2,372.90</td><td>2,496.25</td><td>2,699.12</td><td>2,033.74</td></tr><tr><td>同比</td><td>6.76%</td><td>5.02%</td><td>8.17%</td><td>9.71%</td></tr><tr><td>占比</td><td>97.94%</td><td>98.10%</td><td>98.07%</td><td>98.04%</td></tr><tr><td><strong>会员费收入</strong></td><td>45.80</td><td>48.28</td><td>53.23</td><td>40.57</td></tr><tr><td>同比</td><td>-</td><td>5.41%</td><td>10.25%</td><td>12.73%</td></tr><tr><td>占比</td><td>1.89%</td><td>1.90%</td><td>1.93%</td><td>1.96%</td></tr><tr><td><strong>总营收</strong></td><td>2,422.90</td><td>2,544.53</td><td>2,752.35</td><td>2,074.31</td></tr></tbody></table></div>
+<p><strong>核心商品与辅助业务销售表现（基于管理层讨论）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>品类</th><th>FY2025表现</th><th>FY2026 Q3表现</th></tr></thead><tbody><tr><td><strong>核心商品</strong></td><td>销售额增长10%，所有子类别均增长。</td><td>可比销售额增长约7%（剔除汇率），其中非食品中高个位数增长，生鲜食品中个位数增长，食品和杂货低至中个位数增长。</td></tr><tr><td><strong>仓储辅助及其他</strong></td><td>销售额增长2%，主要由汽油和药房驱动。</td><td>可比销售额增长超20%，主要由汽油（增长超30%）、药房和助听器驱动。</td></tr></tbody></table></div>
+<p><strong>会员费收入</strong>：FY2026 Q3会员费收入13.73亿美元，同比增长10.7%。增长由新会员注册、2024年9月美加会费上调（贡献约25%的增长）和Executive会员升级共同驱动。截至Q3末，总付费会员8,290万，Executive会员4,120万。</p>
+<p><strong>核心商品毛利率（Core-on-Core）</strong>：FY2026 Q3，核心商品毛利率（占核心商品销售额的百分比）同比下降9个基点。下降主因是生鲜食品和食品杂货类别的策略性降价，部分被非食品类别的改善所抵消。</p>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托极高转换成本与规模效应构筑的“定价权”护城河</strong></p>
+<ul><li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。Costco的护城河并非来自单一技术或牌照，而是由其“会员费”盈利模式、极致性价比口碑和全球采购规模共同构成的商业系统。会员预付年费后，其消费行为会自然向Costco集中以“赚回”会费，形成极高的转换成本。超9成的续卡率是这一壁垒的直接证据。这种稳定的需求基本盘，反过来赋予公司对供应商的强大议价能力，形成“量大价优”的规模效应，进一步巩固其价格优势。   </li><li><strong>数据验证</strong>：FY2026 Q3，公司全球同店销售（剔除汽油和汇率）增长6.6%，客流量增长2.4%，均显著优于多数传统零售商。其SG&amp;A费用率仅为8.96%，远低于同行，体现了极致的运营效率。全球续卡率89.7%，美加地区92.2%，是客户粘性的量化证明。  </li><li><strong>动态演变</strong>：<strong>护城河变宽（巩固）</strong>。公司正通过数字化手段（如即时配送、个性化推荐）和增加Executive会员权益（如延长营业时间）来增强会员粘性，尤其是对年轻、数字化获客群体的吸引力。同时，每年约30家的全球扩张计划，持续扩大其采购规模和地理覆盖，使规模效应和品牌影响力进一步增强。  </li></ul>
+<p><strong>竞争要素 2：自有品牌Kirkland Signature的品牌信任壁垒</strong></p>
+<ul><li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。Kirkland Signature已超越普通自有品牌，成为消费者心中“高品质、低价格”的代名词。公司通过严格筛选代工厂，以接近成本的价格销售，使其成为对标全国性品牌的“杀手锏”。这不仅提升了会员价值，更成为公司与品牌供应商谈判的筹码，迫使品牌商提供更低价格以避免被Kirkland替代。  </li><li><strong>数据验证</strong>：Kirkland Signature销售额占比约33%，且仍在持续增长。在通胀环境下，消费者转向自有品牌的趋势明显，Kirkland成为吸引和留住会员的关键。公司持续推出Kirkland新品（如能量饮料、超滤牛奶），验证了其跨品类延伸的能力。  </li><li><strong>动态演变</strong>：<strong>护城河变宽（巩固）</strong>。随着公司全球扩张和会员基数增长，Kirkland的销量规模将进一步扩大，其单位成本有望继续下降，从而强化其性价比优势。同时，Kirkland品牌正逐步向高价值、高信任度品类渗透，品牌势能持续提升。  </li></ul>
+<p><strong>现阶段核心驱动力总结</strong>：</p>
+<p>Costco的Alpha在于其独特的商业模式和强大的品牌信任，使其在零售业中具备罕见的定价权和客户粘性。其Beta则与美国消费大盘，尤其是中高收入群体的消费意愿紧密相关。当前阶段，公司增长由稳定的同店销售、会员升级和全球扩张共同驱动，展现出穿越周期的韧性。</p>
+<p><strong>竞争格局传导逻辑图</strong>：</p>
+<h3 class="doc-h2">产销链</h3>
+<ul><li><strong>客户情况</strong>：Costco直接服务C端消费者和小企业主，客户基础庞大且分散，无单一客户依赖风险。截至FY2026 Q3，总持卡人达1.485亿。Executive会员（年费130美元）占比虽不到50%，但贡献了约75%的销售额，是核心价值客户。公司通过持续增加Executive会员专属权益（如延长营业时间、Instacart返现）来提升其吸引力和留存率。  </li><li><strong>供应商情况</strong>：公司采用直接采购模式，绕过中间商以降低成本。财报明确指出，公司不从任何单一供应商处采购大量商品，分散了供应链风险。Kirkland Signature品牌是公司与供应商博弈的关键工具，公司会寻找代工厂生产自有品牌商品，以此作为与全国性品牌谈判的筹码。当供应来源中断时，公司有能力寻求替代来源或商品。 </li><li><strong>成本传导能力</strong>：Costco赚取的是“会员费”而非“商品差价”，这使其在面对上游成本波动时，拥有比传统零售商更大的战略灵活性。公司倾向于率先降价、最后涨价，以维护其“定价权威”。当成本下降时（如Q3的鸡蛋和牛肉），公司会迅速调低售价让利会员，以巩固信任和驱动流量，即使这会在短期内压缩商品毛利率。  </li></ul>
+<h3 class="doc-h2">财务数据</h3>
+<p><strong>关键财务数据（单位：亿美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 Q1-Q3</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2023-09-03</td><td>2024-09-01</td><td>2025-08-31</td><td>2026-05-10</td></tr><tr><td><strong>总营收</strong></td><td>2,422.90</td><td>2,544.53</td><td>2,752.35</td><td>2,074.31</td></tr><tr><td>同比</td><td>6.76%</td><td>5.02%</td><td>8.17%</td><td>9.71%</td></tr><tr><td><strong>营业成本</strong></td><td>2,125.86</td><td>2,223.58</td><td>2,398.86</td><td>1,807.48</td></tr><tr><td><strong>毛利率</strong></td><td>12.26%</td><td>12.61%</td><td>12.84%</td><td>12.86%</td></tr><tr><td><strong>营业利润</strong></td><td>81.14</td><td>92.85</td><td>103.83</td><td>78.84</td></tr><tr><td>营业利润率</td><td>3.35%</td><td>3.65%</td><td>3.77%</td><td>3.80%</td></tr><tr><td><strong>归母净利润</strong></td><td>62.92</td><td>73.67</td><td>80.99</td><td>62.28</td></tr><tr><td>同比</td><td>7.67%</td><td>17.09%</td><td>9.94%</td><td>13.46%</td></tr><tr><td><strong>稀释EPS (美元)</strong></td><td>14.16</td><td>16.56</td><td>18.21</td><td>14.01</td></tr><tr><td><strong>自由现金流</strong></td><td>67.45</td><td>66.29</td><td>78.37</td><td>69.05</td></tr></tbody></table></div>
+<p>*注：自由现金流 = 经营活动现金流量净额 - 资本支出。FY2026 Q1-Q3数据为截至2026年5月10日的36周数据。*</p>
+<p><strong>财务分析</strong>：</p>
+<ul><li><strong>成长能力</strong>：公司营收增速在FY2025和FY2026前三季度回升至8%-10%区间，主要受同店销售增长、新店扩张和会员费收入增加的共同驱动。净利润增速略高于营收增速，显示出一定的经营杠杆效应。 </li><li><strong>盈利能力</strong>：毛利率在FY2023-FY2025年间持续小幅扩张，从12.26%提升至12.84%，体现了公司在供应链效率、自有品牌渗透和辅助业务（如电商）改善方面的成效。营业利润率亦稳步提升。但需注意，FY2026 Q3毛利率同比下滑，显示公司正在将部分成本下降的收益返还给消费者。  </li><li><strong>运营能力</strong>：作为零售企业，存货管理是关键。公司FY2025年报提及，由于库存周转加快和供应商付款条件改善，净商品库存投资（存货与应付账款之差）减少，对现金流产生了积极影响。这体现了其强大的供应链管理能力。  </li><li><strong>现金流与资本配置</strong>：公司是典型的“现金牛”，经营活动现金流强劲且持续增长。自由现金流充裕，足以覆盖资本开支、股息和股票回购。FY2024年自由现金流较低，主要因当年支付了约66.55亿美元的特别股息。公司资产负债表稳健，现金及等价物充足，净债务为负。  </li></ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p><strong>行业赛道：会员制仓储量贩</strong></p>
+<p>Costco所处的会员制仓储量贩赛道，是美国零售业中增长最稳健、竞争格局最清晰的细分市场之一。该赛道通过大包装、低SKU、低毛利的模式，满足中高收入家庭和小企业的周期性、计划性消费需求。其核心竞争要素是<strong>供应链效率、自有品牌能力和会员粘性</strong>。</p>
+<ul><li><strong>市场规模与增速</strong>：美国仓储量贩市场由Costco、Sam‘s Club（沃尔玛旗下）和BJ’s Wholesale Club三家主导。Costco在美国的市场份额远超两者。该市场的增长由门店扩张和同店销售增长共同驱动，长期增速高于传统零售业。 </li><li><strong>竞争格局</strong>：行业呈现“一超两强”的寡头格局。Costco在单店销售、会员费收入、续卡率和自有品牌渗透率等关键指标上均处于领先地位。Sam‘s Club近年来通过数字化投资和门店改造加速追赶，但Costco在消费者心智中的“定价权威”和品牌信任度仍难以撼动。 </li><li><strong>行业趋势</strong>：</li><li><strong>数字化融合</strong>：线上线下一体化成为标配，但仓储模式的“寻宝”体验和批量购买仍是核心价值。 </li><li><strong>自有品牌升级</strong>：自有品牌从低价替代品向高品质、差异化商品演变，成为提升毛利率和会员忠诚度的关键。 </li><li><strong>体验与服务延伸</strong>：加油站、药房、光学中心等辅助服务成为引流和增强粘性的重要手段。 </li></ul>
+<p><strong>可比公司</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>对标维度</th><th>分析</th></tr></thead><tbody><tr><td>Walmart (Sam‘s Club)</td><td>WMT</td><td>商业模式、目标客群</td><td>Sam’s Club是Costco最直接的竞争对手，但两者策略存在差异。Sam‘s Club更侧重于技术驱动（如Scan &amp; Go）和门店现代化改造，其自有品牌Member’s Mark渗透率（约30%）略低于Kirkland。Costco在单店平均销售额和会员费收入上领先。</td></tr><tr><td>BJ’s Wholesale Club</td><td>BJ</td><td>商业模式、区域布局</td><td>BJ‘s主要集中在美国东部，门店面积和SKU数量均小于Costco，且接受厂商优惠券，定位更偏向传统超市与仓储俱乐部的结合。其规模和盈利能力与Costco有较大差距。</td></tr><tr><td>Amazon</td><td>AMZN</td><td>数字化竞争、全渠道零售</td><td>亚马逊虽非仓储俱乐部，但其Prime会员制和强大的物流配送体系，在争夺消费者钱包份额上与Costco构成间接竞争。Costco的数字化战略（尤其是即时配送）正是对此的回应。</td></tr><tr><td>Kroger</td><td>KR</td><td>食品杂货零售、自有品牌</td><td>作为美国最大的传统超市运营商之一，Kroger在食品杂货领域与Costco存在竞争。其自有品牌体系成熟，但整体商业模式和盈利驱动力与Costco的会员制有本质区别。</td></tr></tbody></table></div>
+<p><strong>总结分析</strong>：Costco在会员制仓储赛道中拥有稳固的领导地位和显著的竞争优势。其面临的竞争更多来自外部模式（如亚马逊的电商效率）和潜在的价格战，而非同赛道对手的直接挑战。公司的护城河在于其独特的商业模式和品牌信任，这使其在竞争中保持了较强的独立性和定价权。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<p><strong>议题一：同店销售增速的可持续性</strong></p>
+<ul><li><strong>背景</strong>：公司核心同店销售（剔除汽油和汇率）在过去几个季度维持在6%-7%的较高水平，远超行业平均。市场关注这一增速能否持续，尤其是在面临高基数、汽油价格回落和消费不确定性时。  </li><li><strong>问题列表</strong>：</li><li>6月核心同店销售增速环比下滑100个基点至7.0%，是短期波动还是趋势性放缓的开始？</li><li>7月将面临去年同期延长营业时间带来的约100个基点的基数效应，同店销售增速是否会进一步下滑？</li><li>在食品通缩背景下，客单价的增长能否持续由“商品数量增加”和“消费升级”驱动？</li></ul>
+<p><strong>议题二：利润率趋势与价值投资策略</strong></p>
+<ul><li><strong>背景</strong>：Q3核心商品毛利率（Core-on-Core）下降9个基点，引发市场对公司是否正在牺牲利润以换取市场份额的担忧。同时，公司明确表示将利用成本下降机会主动降价。 </li><li><strong>问题列表</strong>：</li><li>Q3核心商品毛利率的下滑是一次性的策略性投资，还是竞争加剧下结构性让利的开始？</li><li>公司如何平衡“为会员创造价值”与“为股东创造利润”之间的关系？长期毛利率的稳定中枢在哪里？</li><li>零售媒体、自有品牌等高利润业务能否在未来对冲商品毛利率的压力？</li></ul>
+<p><strong>议题三：会员增长的质量与数量</strong></p>
+<ul><li><strong>背景</strong>：总付费会员增速放缓至4.1%，但Executive会员增速高达9.6%。同时，线上获客占比提升，这部分会员的续卡率偏低，导致整体续卡率在过去几个季度承压。  </li><li><strong>问题列表</strong>：</li><li>会员增长的放缓是暂时的（受开店节奏影响）还是长期的（市场饱和）？</li><li>公司能否通过数字化手段有效提升线上获客会员的续卡率，使其向线下会员的水平靠拢？</li><li>Executive会员的高增长能否完全对冲付费会员数量增长放缓的影响，从而维持会员费收入的增长中枢？</li></ul>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧：当前的高估值是否可持续？</strong></p>
+<p>市场对Costco的看法存在显著分歧，核心在于其估值水平是否合理。</p>
+<ul><li><strong>乐观方观点：估值溢价是对其“确定性”和“稀缺性”的合理定价。</strong></li><li><strong>逻辑</strong>：Costco拥有零售业中罕见的、经数十年验证的商业模式，其会员生态的飞轮效应带来了极高的客户粘性和盈利可预测性。在全球经济不确定性增加的背景下，这种“确定性”具有稀缺价值，理应享受估值溢价。 </li><li><strong>支撑依据</strong>：公司持续交出6%-7%的核心同店销售增长，远超行业均值；续卡率稳定在90%以上；Executive会员渗透率持续提升，驱动客单价和利润增长。其长期增长故事（全球扩张、数字化变现）清晰且远未结束。  </li></ul>
+<ul><li><strong>谨慎方观点：增长与估值不匹配，安全边际不足。</strong></li><li><strong>逻辑</strong>：以接近50倍市盈率交易，意味着市场已计入了非常乐观的长期增长预期。然而，公司营收增速仅为高个位数，且会员增长、同店销售增速均面临放缓风险。一旦增长失速，估值可能面临“戴维斯双杀”。  </li><li><strong>支撑依据</strong>：总付费会员增速已降至4.1%；6月同店销售增速出现环比放缓；Q3毛利率的下滑显示公司并非对竞争和成本压力免疫。其自由现金流收益率仅约2%，低于无风险利率，对价值投资者缺乏吸引力。  </li></ul>
+<p><strong>总结分析</strong>：Costco无疑是一家世界级的优秀企业，其护城河深度和盈利质量毋庸置疑。当前的市场分歧本质上是“好公司”与“好价格”之间的矛盾。乐观方押注的是其商业模式的长期复利力量和稀缺性，愿意为确定性支付溢价。谨慎方则更关注短期增长动能减弱的信号和极高的估值倍数，认为风险收益比不佳。公司的未来股价表现，将取决于其能否持续证明自己能够穿越周期，维持中高个位数的增长，并逐步兑现数字化等新业务的变现潜力，从而消化当前的高估值。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>管理层指引</strong>：</p>
+<p>根据FY2026 Q3财报，公司计划在FY2026财年开设29家净新仓库，资本支出约为65亿美元。管理层重申了未来每年净增30家以上门店的长期目标。</p>
+<p><strong>券商盈利预测与估值</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价(美元)</th><th>财务指标</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>美国银行 (2026-03-03)</td><td>买入</td><td>1,185</td><td>营业收入(百万美元)</td><td>275,235</td><td>297,877</td><td>322,584</td><td>349,664</td></tr><tr><td></td><td></td><td></td><td>调整后EPS(美元)</td><td>17.98</td><td>20.21</td><td>22.34</td><td>24.84</td></tr><tr><td>瑞银 (2026-07-10)</td><td>买入</td><td>1,275</td><td>营业收入(百万美元)</td><td>275,235</td><td>301,379</td><td>323,475</td><td>352,785</td></tr><tr><td></td><td></td><td></td><td>调整后EPS(美元)</td><td>18.21</td><td>21.12</td><td>24.44</td><td>26.84</td></tr><tr><td>摩根士丹利 (2026-07-28)</td><td>超配</td><td>1,130</td><td>调整后EPS(美元)</td><td>17.98</td><td>20.49</td><td>22.40</td><td>25.01</td></tr><tr><td>富国证券 (2026-07-16)</td><td>持平</td><td>1,000</td><td>调整后EPS(美元)</td><td>18.21</td><td>20.35</td><td>22.05</td><td>-</td></tr><tr><td>花旗 (2026-07-09)</td><td>中性</td><td>1,020</td><td>调整后EPS(美元)</td><td>-</td><td>-</td><td>22.61</td><td>-</td></tr></tbody></table></div>
+<p><strong>盈利预测与估值分析</strong>：</p>
+<p>主要券商对Costco的评级和估值存在一定分歧，目标价从1,000美元到1,275美元不等，但普遍给予FY2027财年45倍至53倍的市盈率。这一估值区间远高于零售行业平均水平，反映了市场对其增长确定性和商业模式的溢价。看多方（如瑞银、美银）强调其同店销售的韧性和市场份额的持续增长，认为高估值有基本面支撑。谨慎方（如富国、花旗）则担忧增长动能放缓和估值过高，认为风险收益比已不具吸引力。整体而言，市场对公司的盈利预测较为一致，预计FY2026-FY2028年EPS将保持10%-12%的年均复合增长。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>Gangtise Open API（公司一页通 · stock-one-pager）· 公司财报及公开披露 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/COST · 生成于 2026-07-30</div></footer>
+
+<script>
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
