@@ -23,10 +23,10 @@ def main():
     from WindPy import w
     w.start()
 
-    # 美股最新收盘日：北京时间白天跑脚本时“今天”是占位值，结束日期取昨天，
-    # 用标普 500 的最后一个有效交易日作为数据日期
-    end = (datetime.date.today() - datetime.timedelta(days=1)).isoformat()
-    d = w.wsd('SPX.GI', 'close', '2026-01-01', end, '')
+    # 美股最新收盘日：北京时间白天跑脚本时“今天”是占位值，结束日期取昨天；
+    # 只拉最近 15 天标普日线来确定最新交易日（省额度，指数行情本身不上页面）
+    end = datetime.date.today() - datetime.timedelta(days=1)
+    d = w.wsd('SPX.GI', 'close', (end - datetime.timedelta(days=15)).isoformat(), end.isoformat(), '')
     pts = [(t, v) for t, v in zip(d.Times, d.Data[0]) if v]
     latest_date = pts[-1][0]
     print(f'数据日期: {latest_date}')
