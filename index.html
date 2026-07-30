@@ -61,6 +61,9 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 .search-field input { width: 100%; height: 42px; padding: 0 14px 0 38px; border: 1px solid var(--line-strong); border-radius: 4px; background: white; color: var(--ink); font-size: 14px; font-family: inherit; }
 .search-field input:focus { border-color: var(--federal-blue); outline: 3px solid rgba(22,75,122,.14); }
 .search-field::before { position: absolute; top: 50%; left: 13px; transform: translateY(-50%); color: var(--ink-faint); content: "⌕"; font-size: 17px; }
+.filter-row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-bottom: 10px; }
+.filter-row:last-child { margin-bottom: 0; }
+.filter-row__label { margin-right: 6px; color: var(--ink-faint); font-size: 12px; font-weight: 700; }
 .tier-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
 .tab { min-height: 32px; padding: 5px 12px; border: 1px solid transparent; border-radius: 4px; background: transparent; color: var(--ink-soft); cursor: pointer; font-size: 12px; font-weight: 650; font-family: inherit; transition: all .15s ease; }
 .tab:hover { background: var(--paper-cool); color: var(--ink); }
@@ -158,9 +161,15 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
       <div class="search-field">
         <input id="search" type="text" placeholder="搜索公司名称 / 代码 / 行业 / 主题关键词…">
       </div>
+    </div>
+    <div class="filter-row">
+      <span class="filter-row__label">市值</span>
       <div class="tier-tabs" id="tierTabs"></div>
     </div>
-    <div class="sector-chips" id="sectorChips"></div>
+    <div class="filter-row">
+      <span class="filter-row__label">行业</span>
+      <div class="sector-chips" id="sectorChips"></div>
+    </div>
   </div>
 
   <div id="content"></div>
@@ -399,7 +408,7 @@ function renderViewTabs(){
 
 function renderTierTabs(){
   const el = document.getElementById('tierTabs');
-  el.style.display = state.view === 'theme' ? 'none' : 'flex';
+  el.closest('.filter-row').style.display = state.view === 'theme' ? 'none' : 'flex';
   const tabs = [{key:'all',name:'全部市值'}, ...TIERS];
   el.innerHTML = tabs.map(t =>
     `<button class="tab ${state.tier===t.key?'active':''}" data-tier="${t.key}">${t.name}</button>`).join('');
@@ -409,7 +418,7 @@ function renderTierTabs(){
 function renderChips(){
   const el = document.getElementById('sectorChips');
   el.innerHTML = sectors.map(s =>
-    `<button class="chip ${state.sector===s?'active':''}" data-sector="${s}">${s}</button>`).join('');
+    `<button class="chip ${(state.sector==='all' ? s==='全部' : state.sector===s)?'active':''}" data-sector="${s}">${s}</button>`).join('');
   el.querySelectorAll('.chip').forEach(b => b.onclick = () => {
     state.sector = b.dataset.sector === '全部' ? 'all' : b.dataset.sector; renderAll();
   });
