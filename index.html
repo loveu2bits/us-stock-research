@@ -24,6 +24,11 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 .site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 16px; font-weight: 700; }
 .site-mark__text { font-size: 14px; font-weight: 700; }
 .site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); overflow-x: auto; }
+.site-nav a { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; color: var(--ink-soft); font-size: 13px; font-weight: 600; text-decoration: none; white-space: nowrap; }
+.site-nav a::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav a:hover, .site-nav a.is-active { color: var(--federal-blue); }
+.site-nav a:hover::after, .site-nav a.is-active::after { opacity: 1; transform: scaleX(1); }
 
 .shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
 
@@ -87,6 +92,8 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   .overview__date { text-align: left; }
   .summary-rail { grid-template-columns: repeat(2, 1fr); }
   .filter-count { width: 100%; margin-left: 0; }
+  .site-nav a { min-width: 72px; padding: 0 8px; font-size: 12px; }
+  .site-mark__text span { display: none; }
 }
 </style>
 </head>
@@ -97,6 +104,10 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
     <span class="site-mark__seal">研</span>
     <span class="site-mark__text">公司研究<span>US EQUITY RESEARCH</span></span>
   </a>
+  <nav class="site-nav">
+    <a href="./overview/">公司概况</a>
+    <a class="is-active" href="./">深度研究</a>
+  </nav>
 </header>
 
 <section class="overview">
