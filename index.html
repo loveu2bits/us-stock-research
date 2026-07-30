@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>公司研究 · 美股研究</title>
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 16px; font-weight: 700; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 170px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.overview__date { padding: 16px 0 4px; border-top: 2px solid var(--policy-red); text-align: right; }
+.overview__date span, .overview__date strong { display: block; }
+.overview__date span { margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.overview__date strong { font-size: 15px; font-variant-numeric: tabular-nums; }
+
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 行业筛选栏 ===== */
+.filter-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 32px 0 6px; padding: 14px 0; border-bottom: 1px solid var(--line-strong); }
+.filter-bar__label { margin-right: 6px; color: var(--ink-faint); font-size: 12px; font-weight: 700; }
+.filter-chip { --chip-color: var(--federal-blue); min-height: 34px; padding: 6px 14px; border: 1px solid transparent; border-radius: 4px; background: transparent; color: var(--ink-soft); cursor: pointer; font-size: 12.5px; font-weight: 650; font-family: inherit; transition: all .15s ease; }
+.filter-chip:hover { background: var(--paper-cool); color: var(--ink); }
+.filter-chip[aria-pressed="true"] { border-color: color-mix(in srgb, var(--chip-color) 48%, white); background: color-mix(in srgb, var(--chip-color) 8%, white); color: var(--chip-color); }
+.filter-count { margin-left: auto; color: var(--ink-faint); font-size: 12px; }
+
+.company-list { margin-bottom: 60px; border-top: 1px solid transparent; }
+.company-row { --accent: var(--federal-blue); position: relative; display: grid; grid-template-columns: 54px 54px 230px minmax(0,1fr) 118px 28px; gap: 20px; align-items: center; min-height: 108px; padding: 14px 0; border-bottom: 1px solid var(--line); color: inherit; text-decoration: none; transition: background .15s ease; }
+.company-row:hover { background: color-mix(in srgb, var(--accent) 4%, white); }
+.company-row__num { color: var(--accent); font-family: var(--font-display); font-size: 24px; font-variant-numeric: tabular-nums; }
+.company-row__seal { display: grid; width: 44px; height: 44px; place-items: center; border: 1.5px solid var(--accent); border-radius: 50%; color: var(--accent); font-family: var(--font-display); font-size: 12px; font-weight: 700; letter-spacing: -0.02em; }
+.company-row__name strong { display: block; margin-bottom: 3px; font-size: 17px; }
+.company-row__name .role { display: block; color: var(--ink-faint); font-size: 12px; }
+.company-row__name .sector-tag { display: inline-block; margin-top: 5px; padding: 1px 8px; border: 1px solid color-mix(in srgb, var(--accent) 40%, white); border-radius: 999px; color: var(--accent); font-size: 10.5px; font-weight: 700; }
+.company-row__tag { margin: 0; color: var(--ink-soft); font-size: 13.5px; line-height: 1.6; }
+.company-row__metric { text-align: right; }
+.company-row__metric strong { display: block; font-family: var(--font-display); font-size: 19px; font-weight: 650; }
+.company-row__metric strong.up { color: var(--policy-red); }
+.company-row__metric strong.down { color: var(--teal); }
+.company-row__metric span { color: var(--ink-faint); font-size: 11px; }
+.company-row__arrow { color: var(--line-strong); font-size: 18px; transition: transform .15s ease, color .15s ease; }
+.company-row:hover .company-row__arrow { color: var(--accent); transform: translateX(4px); }
+
+.empty-state { display: none; padding: 60px 0; text-align: center; color: var(--ink-faint); font-size: 14px; }
+.empty-state.is-visible { display: block; }
+
+.chain-note { margin: 0 0 70px; padding: 20px 24px; border-left: 3px solid var(--amber); background: #faf6ec; color: var(--ink-soft); font-size: 14px; }
+.chain-note strong { color: var(--ink); }
+
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 860px) {
+  .company-row { grid-template-columns: 44px minmax(0,1fr) 28px; gap: 14px; }
+  .company-row__num, .company-row__metric { display: none; }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .overview__date { text-align: left; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .filter-count { width: 100%; margin-left: 0; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="./index.html">
+    <span class="site-mark__seal">研</span>
+    <span class="site-mark__text">公司研究<span>US EQUITY RESEARCH</span></span>
+  </a>
+</header>
+
+<section class="overview">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>公司研究<span class="en">每家两页：研究报告 + Gangtise 一页通 · 按行业筛选</span></h1>
+        <p class="sub">当前主线为 AI 算力产业链（链主 + 下游买家交叉验证），并持续扩展消费、医药、地产等行业覆盖。</p>
+      </div>
+      <div class="overview__date">
+        <span>最近更新</span>
+        <strong id="update-date">2026-07-30</strong>
+      </div>
+    </div>
+    <div class="summary-rail" id="summary-rail"></div>
+  </div>
+</section>
+
+<main class="shell">
+
+  <div class="filter-bar" id="filter-bar">
+    <span class="filter-bar__label">行业筛选</span>
+    <!-- 筛选按钮由 JS 生成 -->
+    <span class="filter-count" id="filter-count"></span>
+  </div>
+
+  <div class="company-list" id="company-list"></div>
+  <div class="empty-state" id="empty-state">该行业暂无已研究公司。</div>
+
+  <div class="chain-note">
+    <strong>⭐ 产业链交叉验证（2026-07 财报季）：</strong>微软（下季 capex &gt;$500 亿）+ 谷歌（上调至 $2,050 亿）+ Meta（$1,300-1,450 亿）三大下游买家资本开支全部指向"继续加码"——英伟达 8 月下旬财报的需求环境几乎确定强劲，分歧只在 2027 年。待验证：亚马逊（AWS capex，7/30 盘后）。
+  </div>
+
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>Gangtise Open API（公司一页通 · stock-one-pager）· 公司财报及公开披露 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究 · 更新于 2026-07-30</div></footer>
+
+<script>
+// ================= 公司库 =================
+// 新增公司：在此数组末尾追加一条即可，行业筛选与统计自动更新。
+// sector 取值建议沿用 GICS 中文板块名：信息技术/通信服务/非必需消费/必需消费/金融/医疗保健/工业/能源/公用事业/原材料/房地产
+const COMPANIES = [
+  { code:'NVDA', seal:'NVDA', cn:'英伟达', en:'NVIDIA', sector:'信息技术',
+    role:'AI 算力链 · 链主 · GPU 约 80% 份额',
+    tag:'AI 时代"收算力税"的公司。$4.7 万亿市值已充分定价，核心问题是高增长能持续几年、什么信号说明逻辑坏了。',
+    metric:'+85%', metricCls:'up', metricNote:'FY27Q1 营收增速',
+    href:'./NVDA/英伟达_研究.html' },
+  { code:'MSFT', seal:'MSFT', cn:'微软', en:'Microsoft', sector:'信息技术',
+    role:'AI 算力链 · 下游 · Azure + Copilot',
+    tag:'AI 应用变现走得最远的巨头。财报全面超预期盘后 +8%——市场不是反对 AI 资本开支，是反对看不到回报的资本开支。',
+    metric:'+8.1%', metricCls:'up', metricNote:'财报后盘后 · Azure +43%',
+    href:'./MSFT/微软_研究.html' },
+  { code:'GOOGL', seal:'GOOG', cn:'谷歌', en:'Alphabet', sector:'通信服务',
+    role:'AI 算力链 · 下游 · 全栈 AI（TPU+Gemini）',
+    tag:'唯一"芯片-模型-平台-应用"全栈自研的巨头。云 +82% 爆发，但 2000 亿年度资本开支是"烧钱"还是"筑墙"？',
+    metric:'+82%', metricCls:'up', metricNote:'Q2 云增速',
+    href:'./GOOGL/谷歌_研究.html' },
+  { code:'META', seal:'META', cn:'Meta', en:'Meta Platforms', sector:'通信服务',
+    role:'AI 算力链 · 下游 · AI 广告 + 算力豪赌',
+    tag:'被 AI 重新点火的广告印钞机，正把钱整捆塞进算力熔炉。收入超预期，但自由现金流暴跌 91%，盘后 -7.5%。',
+    metric:'-7.5%', metricCls:'down', metricNote:'财报后盘后 · FCF -91%',
+    href:'./META/Meta_研究.html' },
+  { code:'NFLX', seal:'NFLX', cn:'奈飞', en:'Netflix', sector:'通信服务',
+    role:'对照样本 · 流媒体 · 订阅+广告双轮',
+    tag:'现金流机器，基本面历史最好。Q3 指引 miss 跌 9%——这是内容空档期的暂时波谷，还是注意力被蚕食的结构性拐点？',
+    metric:'-9%', metricCls:'down', metricNote:'财报后盘后 · 指引 miss',
+    href:'./NFLX/奈飞_研究.html' },
+  { code:'TSLA', seal:'TSLA', cn:'特斯拉', en:'Tesla', sector:'非必需消费',
+    role:'对照样本 · 物理 AI 平台 · FSD/Robotaxi/Optimus',
+    tag:'报表是汽车公司，股价是 AI 公司：营业利润率 1.4%，估值 90% 来自尚未规模化的业务——研究"叙事如何定价"的活教材。',
+    metric:'1.4%', metricCls:'down', metricNote:'Q2 营业利润率',
+    href:'./TSLA/特斯拉_研究.html' },
+];
+
+// 行业配色（新行业自动轮换取色）
+const PALETTE = ['#164b7a', '#b64045', '#23766f', '#9a6a16', '#72566f', '#3d6b35', '#8a4b2d'];
+const sectorColor = {};
+[...new Set(COMPANIES.map(c => c.sector))].forEach((s, i) => sectorColor[s] = PALETTE[i % PALETTE.length]);
+
+// ================= 统计栏 =================
+const sectors = [...new Set(COMPANIES.map(c => c.sector))];
+document.getElementById('summary-rail').innerHTML = `
+  <div class="summary-rail__item"><strong>${COMPANIES.length}</strong><span>已覆盖公司</span></div>
+  <div class="summary-rail__item"><strong>${sectors.length}</strong><span>行业板块</span></div>
+  <div class="summary-rail__item"><strong>3</strong><span>研究范式（验证投入 / 周期结构 / 叙事定价）</span></div>
+  <div class="summary-rail__item"><strong>1</strong><span>主线：AI 算力产业链</span></div>`;
+
+// ================= 筛选按钮 =================
+let activeSector = '全部';
+const filterBar = document.getElementById('filter-bar');
+const countEl = document.getElementById('filter-count');
+const sectorsWithAll = ['全部', ...sectors];
+
+function renderChips() {
+  filterBar.querySelectorAll('.filter-chip').forEach(el => el.remove());
+  sectorsWithAll.forEach(s => {
+    const b = document.createElement('button');
+    b.className = 'filter-chip';
+    b.textContent = s === '全部' ? `全部 ${COMPANIES.length}` : `${s} ${COMPANIES.filter(c => c.sector === s).length}`;
+    b.setAttribute('aria-pressed', activeSector === s ? 'true' : 'false');
+    if (s !== '全部') b.style.setProperty('--chip-color', sectorColor[s]);
+    b.onclick = () => { activeSector = s; renderChips(); renderList(); };
+    filterBar.insertBefore(b, countEl);
+  });
+}
+
+// ================= 公司列表 =================
+function renderList() {
+  const list = COMPANIES.filter(c => activeSector === '全部' || c.sector === activeSector);
+  const el = document.getElementById('company-list');
+  el.innerHTML = list.map((c, i) => `
+    <a class="company-row" href="${c.href}" style="--accent:${sectorColor[c.sector]}">
+      <span class="company-row__num">${String(COMPANIES.indexOf(c) + 1).padStart(2, '0')}</span>
+      <span class="company-row__seal">${c.seal}</span>
+      <div class="company-row__name">
+        <strong>${c.cn}</strong>
+        <span class="role">${c.en} · ${c.role}</span>
+        <span class="sector-tag">${c.sector}</span>
+      </div>
+      <p class="company-row__tag">${c.tag}</p>
+      <div class="company-row__metric"><strong class="${c.metricCls}">${c.metric}</strong><span>${c.metricNote}</span></div>
+      <span class="company-row__arrow">→</span>
+    </a>`).join('');
+  countEl.textContent = `显示 ${list.length} / ${COMPANIES.length} 家`;
+  document.getElementById('empty-state').classList.toggle('is-visible', list.length === 0);
+}
+
+renderChips();
+renderList();
+</script>
+</body>
+</html>

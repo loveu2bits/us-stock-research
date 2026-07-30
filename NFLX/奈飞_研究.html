@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>奈飞（NFLX.O）公司研究</title>
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏（美联储风格） ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 170px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.overview__date { padding: 16px 0 4px; border-top: 2px solid var(--policy-red); text-align: right; }
+.overview__date span, .overview__date strong { display: block; }
+.overview__date span { margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.overview__date strong { font-size: 15px; font-variant-numeric: tabular-nums; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item strong.down { color: var(--teal); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 正文文档 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.doc-h1 { margin: 34px 0 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line-strong); font-family: var(--font-display); font-size: 30px; font-weight: 650; }
+.doc-h1:first-child { margin-top: 0; }
+.doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+.doc-h3 { margin: 22px 0 10px; color: var(--federal-blue); font-size: 15px; font-weight: 750; }
+.doc p, .doc li { color: var(--ink-soft); font-size: 15px; }
+.doc p { margin: 0 0 14px; }
+.doc ul, .doc ol { margin: 0 0 16px; padding-left: 24px; }
+.doc li { margin-bottom: 6px; }
+.doc strong { color: var(--ink); }
+.doc code { padding: 1px 6px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper-cool); font-size: 13px; }
+.doc-hr { margin: 30px 0; border: 0; border-top: 1px solid var(--line); }
+.doc-quote { margin: 18px 0; padding: 16px 20px; border-left: 3px solid var(--amber); background: #faf6ec; color: var(--ink-soft); font-size: 14px; }
+.tbl-wrap { margin: 16px 0 24px; overflow-x: auto; }
+.doc table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.doc th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+.doc td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+.doc tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+.star { color: var(--amber); }
+.xref { color: var(--federal-blue); font-weight: 600; }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .overview__date { text-align: left; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">NFLX</span>
+    <span class="site-mark__text">奈飞 公司研究<span>Netflix · NFLX.O</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">研究报告</button>
+    <button data-tab="onepager">一页通（Gangtise）</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>奈飞<span class="en">Netflix · NFLX.O · 美股研究</span></h1>
+        <p class="sub">"内容飞轮+订阅广告双轮"的现金流机器，基本面历史最好——Q3 指引 miss 跌 9% 后：这是暂时波谷，还是结构性拐点？</p>
+      </div>
+      <div class="overview__date">
+        <span>研究日期</span>
+        <strong>2026-07-30</strong>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong>+13.4%</strong><span>Q2 营收增速</span></div>
+<div class="summary-rail__item"><strong class="up">32.9%</strong><span>FY26H1 营业利润率</span></div>
+<div class="summary-rail__item"><strong class="down">-9%</strong><span>财报后盘后跌幅</span></div>
+
+    </div>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+<blockquote class="doc-quote"><strong>研究日期</strong>：2026-07-29 ｜ <strong>数据来源</strong>：Gangtise 一页通（2026-07-29）、Q2 财报（7/16 披露） <strong>状态</strong>：初稿 v1 ｜ <strong>下次更新</strong>：Q3 财报（2026 年 10 月）或重点内容上线后</blockquote>
+<hr class="doc-hr">
+<h3 class="doc-h2">〇、一句话结论</h3>
+<p><strong>奈飞是一台"内容飞轮 + 订阅/广告双轮"的现金流机器，基本面（利润率、FCF）处在历史最好状态，但 Q3 指引 miss 引发盘后大跌 9%——当前的研究问题是：这是内容空档期造成的暂时波谷，还是用户注意力被 YouTube/TikTok 蚕食的结构性拐点？股价已跌到 2022 年用户负增长时期的估值，赔率开始变得有意思。</strong></p>
+<hr class="doc-hr">
+<h3 class="doc-h2">一、靠什么赚钱？</h3>
+<p><strong>一句话：3.3 亿付费会员订阅费为基本盘，广告套餐（2.5 亿月活）为第二引擎——本质是把"全球规模摊销内容成本"的飞轮变现。</strong></p>
+<ul><li>订阅：UCAN（43%）靠提价，EMEA（32%）稳健，LATAM/APAC（各 12%）贡献增量</li><li>广告：2026 年目标 30 亿美元（翻倍），仅占收入 6%——对比传统媒体 ~20% 占比，空间巨大</li><li>新边疆：直播体育（NFL/拳击）、云游戏、短视频 Clips——抢的是 YouTube 的用户时长</li></ul>
+<hr class="doc-hr">
+<h3 class="doc-h2">二、护城河多深？</h3>
+<p><strong>规模效应护城河：3.3 亿会员摊销 200 亿美元年内容预算 → 每小时观看成本全行业最低 → 既能持续投入又能持续提价。</strong> 竞争对手（Disney+、Prime Video）单点内容可以打，但飞轮转不起来。</p>
+<p><strong>裂缝（本次财报暴露的）</strong>：观看时长 H1 仅 +2%，且公司把参与度报告从半年一次降为一年一次——<strong>在数据变差时降低透明度，是研究公司时要警惕的经典信号</strong>。</p>
+<hr class="doc-hr">
+<h3 class="doc-h2">三、财务健康吗？</h3>
+<div class="tbl-wrap"><table><thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td>营收（亿$）</td><td>337</td><td>390</td><td>452</td><td>248（+14.7%）</td></tr><tr><td>营业利润率</td><td>20.6%</td><td>26.7%</td><td>29.5%</td><td><strong>32.9%</strong></td></tr><tr><td>归母净利（亿$）</td><td>54</td><td>87</td><td>110</td><td>87</td></tr><tr><td>自由现金流（亿$）</td><td>—</td><td>69</td><td>95</td><td>（全年指引 125）</td></tr></tbody></table></div>
+<p><strong>这是一张"越来越好"的报表</strong>：收入 15% 增长、利润率每年抬升 3 个点、FCF 三年翻近倍、Q2 单季回购 47 亿美元创纪录。问题只有一个：<strong>增速在减速</strong>——Q2 +13.4% → Q3 指引 +11.7%。</p>
+<blockquote class="doc-quote">📚 *方法点评：注意这家公司和 NVDA/GOOGL 的区别——它没有巨额 capex 问题，FCF 强劲。研究它不用操心"投入回报"，要操心的是"增长中枢"。不同商业模式，研究焦点完全不同。*</blockquote>
+<hr class="doc-hr">
+<h3 class="doc-h2">四、市场分歧（本次研究的灵魂）</h3>
+<div class="tbl-wrap"><table><thead><tr><th></th><th>乐观方</th><th>谨慎方</th></tr></thead><tbody><tr><td>增长放缓</td><td>上半年内容空档期，下半年片单极强（《三体》S2、NFL、泰森拳击赛）</td><td>时长 +2% 是注意力被 UGC 平台分流的证据</td></tr><tr><td>估值</td><td>20x 远期 PE = 2022 年低谷水平，利空出尽</td><td>降低披露频率 = 管理层自己也没信心</td></tr><tr><td>广告</td><td>30 亿只是起步，2-3 年高速增长</td><td>广告拉低 ARPU，稀释订阅价值</td></tr></tbody></table></div>
+<p><strong>我的判断框架</strong>：这是"周期 vs 结构"之争，验证方法不是辩论而是数据——<strong>Q3 观看时长和 Q3 实际增速（vs 被压低的 11.7% 指引）会在 10 月给出答案</strong>。管理层指引历来保守（under-promise, over-deliver 是奈飞传统）。</p>
+<hr class="doc-hr">
+<h3 class="doc-h2">五、估值与情景</h3>
+<p>机构目标价：90（大摩/中金）～115（Evercore），EPS 一致预期 FY26 ~3.55。</p>
+<div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>隐含逻辑</th></tr></thead><tbody><tr><td>乐观（30%）</td><td>下半年内容回暖，Q3 实际增速回到 13%+，广告超 30 亿</td><td>估值修复至 28-30x，回到历史中枢</td></tr><tr><td>中性（50%）</td><td>增速 11-13% 常态化，广告按计划兑现</td><td>20-25x 震荡，赚业绩增长的钱</td></tr><tr><td>悲观（20%）</td><td>时长继续停滞+增速跌破 10%，"结构性拐点"被证实</td><td>杀估值至 15x 以下</td></tr></tbody></table></div>
+<hr class="doc-hr">
+<h3 class="doc-h2">六、反证条件</h3>
+<ol><li><span class="warn">⚠️</span> Q3 实际营收增速低于已压低的指引（11.7%）——保守指引下还 miss 是危险信号</li><li><span class="warn">⚠️</span> 广告收入明显跑输 30 亿年度目标的进度</li><li><span class="warn">⚠️</span> 下半年重磅内容（《三体》S2 等）上线后观看数据仍无起色</li><li><span class="warn">⚠️</span> 再次出现"数据变差 + 披露缩减"的组合动作</li><li><span class="warn">⚠️</span> 重启大规模并购（此前竞购 WBD 放弃拿了 28 亿分手费）——内容飞轮公司靠买是买不出护城河的</li></ol>
+<hr class="doc-hr">
+<h3 class="doc-h2">七、跟踪计划</h3>
+<div class="tbl-wrap"><table><thead><tr><th>跟踪变量</th><th>时间</th><th>说明</th></tr></thead><tbody><tr><td>重点内容上线表现</td><td>8-9 月（《绅士们》S4、NFL 揭幕）</td><td>参与度拐点先行指标</td></tr><tr><td>Q3 财报：实际增速 vs 指引 + 广告进展</td><td>2026-10</td><td>核心验证点</td></tr><tr><td>泰森 vs 约书亚拳击赛拉新效果</td><td>2026 Q4</td><td>直播战略验证</td></tr><tr><td>2027 年初步展望（广告新市场）</td><td>2026 Q4</td><td>次年增长引擎</td></tr></tbody></table></div>
+  </article>
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>奈飞是全球领先的流媒体娱乐服务商，提供电视剧、电影、游戏及直播节目等多元化内容，覆盖超190个国家和地区。公司核心商业模式为订阅制，并已拓展广告支持套餐，形成“订阅+广告”双轮驱动。截至2026年中，全球付费会员超3.3亿，是全球最大的流媒体平台，在用户规模、内容投入和品牌认知上均处于行业绝对龙头地位。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul><li><strong>Q2业绩符合预期，但Q3指引低于市场一致预期</strong>：2026年Q2营收125.60亿美元，同比增长13.4%，基本符合预期；经营利润率33.4%，略超预期。但公司给出的Q3营收指引为128.60亿美元，对应同比增长约11.7%，低于市场预期的约13%，引发股价盘后显著下跌。  </li><li><strong>用户参与度增长放缓，数据披露频率降低</strong>：2026年上半年总观看时长同比增长2%，较2025年同期的1.5%略有改善，但仍处低位。公司同时宣布，自2027年起将“What We Watched”报告的发布频率从半年一次降为每年一次，此举被市场解读为透明度下降，加剧了对参与度前景的担忧。 </li><li><strong>广告业务维持翻倍指引，货币化进程加速</strong>：公司重申2026年广告收入目标约30亿美元，同比翻倍。广告套餐月活用户已超2.5亿，超过80%的广告会员每周保持活跃观看。公司正通过自建广告技术栈、推出AI驱动的广告工具（如Audience Insights API）和拓展程序化购买来提升变现效率。   </li><li><strong>内容矩阵持续扩容，直播与游戏成新焦点</strong>：公司继续拓展直播体育赛事，如与NFL扩大合作、获得MLB全垒打大赛等版权。云游戏月活用户自规模化推广以来增长11倍，儿童游戏日活增长3倍。同时，公司开始测试短视频Clips和视频播客，以覆盖更广泛的娱乐场景。  </li><li><strong>资本回报力度加大，创单季回购纪录</strong>：Q2公司回购股票47亿美元，为历史最高单季回购额，剩余回购授权额度约270亿美元。管理层重申资本配置优先级为有机增长投资、维持健康资产负债表，并通过回购返还超额现金。 </li></ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol><li><strong>Q3指引低于预期引发的估值下修已较充分，存在利空出尽的交易性机会</strong></li></ol>
+<p>公司Q3指引低于预期，叠加参与度报告频率降低，导致股价在财报后出现接近两位数的下跌。当前股价交易于约20倍远期市盈率，已回落至2022年订阅用户负增长时期的估值低谷。市场对增速放缓的悲观预期已较充分地反映在股价中，若Q3实际业绩能符合或略超当前已被压低的预期，或后续内容表现超预期，可能触发空头回补和估值修复。需关注Q3后期重磅内容（如《绅士们》S4、《72小时》等）的实际上线表现。</p>
+<ol><li><strong>下半年内容储备增强，有望驱动参与度边际改善</strong></li></ol>
+<p>上半年内容供给偏弱是参与度承压的重要原因。展望下半年，公司内容储备显著增强，包括《绅士们》S4、《怪物：莉兹·波登的故事》、《三体》S2等热门剧集回归，以及《72小时》等明星阵容电影。叠加NFL新赛季、泰森vs约书亚拳击赛等直播事件，内容供给的量和质均有改善，有望在Q3末至Q4带动观看时长和用户增长边际回暖，成为股价催化剂。</p>
+<ol><li><strong>广告业务进入规模化变现阶段，收入贡献有望持续超预期</strong></li></ol>
+<p>广告业务是公司当前最明确的增量收入引擎。2026年30亿美元目标仅占总收入约6%，对比传统媒体广告收入占比（如华纳兄弟探索约20%）仍有巨大提升空间。随着广告技术栈完善、程序化购买渗透率提升、以及15个新广告市场在2027年开放，广告收入有望在未来2-3年保持高速增长，成为对冲订阅收入增速放缓的关键力量，其进展是短期股价的重要观察点。</p>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol><li><strong>全球付费家庭渗透率不足45%，量价齐升的长期增长空间依然广阔</strong></li></ol>
+<p>公司估计全球可触达家庭约8亿，其付费渗透率不足45%，在约6700亿美元的可触达收入市场中仅占约7%，全球电视观看时长份额仅约5%。随着全球中产阶级扩容（预计2020-2030年从34亿增至47亿），尤其在新兴市场，奈飞凭借本地化内容制作能力和品牌优势，仍有持续获取新用户的长期空间。同时，公司每小时观看成本远低于同类竞品，具备持续提价的能力。量价齐升的逻辑远未见顶。</p>
+<ol><li><strong>规模效应构筑深厚护城河，内容投资回报率优势难以复制</strong></li></ol>
+<p>公司超3.3亿的全球付费会员基础，使其能够以单部作品摊销至全球市场的模式，支撑远超竞争对手的内容预算（2026年预计约200亿美元）。这种规模优势转化为更高的内容投资回报率、更强的创作者吸引力和更优的用户体验，形成自我强化的飞轮。行业整合虽在持续，但奈飞作为“建设者而非收购者”的纪律性，以及其全球分发和变现能力，使其在内容军备竞赛中处于优势地位。</p>
+<ol><li><strong>从“订阅”到“订阅+广告”的商业模式升级，打开利润率和现金流长期改善空间</strong></li></ol>
+<p>广告业务不仅是增量收入来源，更是商业模式的结构性升级。广告套餐在降低用户门槛、扩大可触达市场的同时，其单用户收入（ARPU）与标准套餐的差距正在缩小，长期有望超越。广告收入的高毛利率特性，叠加内容支出增速低于收入增速的纪律（预计2026年内容费用增长约10%，低于收入增速），将驱动经营利润率持续提升和自由现金流稳健增长（2026年指引约125亿美元），为持续的股东回报提供坚实基础。</p>
+<h3 class="doc-h2">风险提示</h3>
+<ul><li><strong>用户参与度持续低迷，侵蚀定价权与长期增长逻辑</strong>：2026年上半年观看时长同比仅增2%，且公司降低了数据披露频率。若参与度持续在低位徘徊，可能意味着用户对平台内容的价值感知下降，进而削弱未来的提价能力和用户留存率。尽管管理层强调参与度质量在提升，但市场更关注可量化的时长指标，若该指标长期未见改善，可能引发对公司长期增长中枢的系统性下修。  </li><li><strong>内容投资回报不确定性，爆款产出具有天然波动性</strong>：流媒体行业的核心竞争力在于持续产出爆款内容，但这具有高度不确定性。上半年内容空档期已对增长造成拖累，下半年虽有储备，但能否转化为实际观看量和用户增长仍存变数。若重磅内容表现不及预期，或AI在内容制作上的降本增效未能如期兑现，可能导致内容投资回报率下降，压制利润率改善空间。 </li></ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul><li><strong>2026年4月</strong>：公司宣布放弃对华纳兄弟探索流媒体及工作室资产的竞购，因价格超出财务纪律范围。随后获得约28亿美元分手费。  </li><li><strong>2026年5月</strong>：公司在Upfront大会上宣布，广告套餐月活用户已超2.5亿，并计划于2027年将广告业务扩展至15个新国家。 </li><li><strong>2026年7月16日</strong>：公司发布Q2财报，业绩基本符合预期，但Q3指引低于市场预期，并宣布降低参与度报告发布频率，导致股价盘后大跌约9%。  </li></ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul><li><strong>2026年8月-9月</strong>：多部重点内容上线，包括《绅士们》S4（8月20日）、NFL新赛季揭幕战（9月10日）、《绅士们》S2（9月3日）等。若这些内容获得超预期观看量和口碑，有望扭转市场对参与度的悲观情绪。 </li><li><strong>2026年10月-11月</strong>：泰森vs约书亚拳击赛、MLB梦幻之地大赛等直播事件，以及《亚森·罗宾》S4等热门剧集回归。直播事件的拉新效应和广告变现效果将是市场关注焦点。 </li><li><strong>2026年Q4</strong>：公司可能提供2027财年的初步展望，尤其是广告业务在15个新市场开放后的增长预期，以及AI在内容制作中降本增效的量化指引，将是影响估值的关键。 </li></ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<h4 class="doc-h3">业务边际变化</h4>
+<p>公司正从单一的订阅制流媒体平台，向融合广告、直播、游戏、播客等多元化娱乐生态演进。2026年，广告业务进入规模化阶段，收入目标同比翻倍至约30亿美元。直播内容（如NFL、WWE、MLB）的投入持续增加，虽仅占内容预算的5%和观看时长的1%，但在拉新和广告变现上效果显著。云游戏和儿童游戏业务开始展现早期增长势头。同时，公司开始测试短视频和播客，以应对来自YouTube和TikTok的竞争。</p>
+<h4 class="doc-h3">盈利模式</h4>
+<p>公司核心盈利模式为通过提供优质内容吸引用户付费订阅，并在此基础上通过广告套餐实现二次变现。其护城河在于全球化的规模效应，使其能以更高的内容投资回报率持续投入，巩固内容质量和品牌优势，形成“优质内容→用户增长与留存→收入增长→内容再投资”的正向循环。</p>
+<h4 class="doc-h3">业务拆分</h4>
+<p>公司业务按地区划分为四个分部：美国和加拿大（UCAN）、欧洲、中东和非洲（EMEA）、拉丁美洲（LATAM）和亚太（APAC）。UCAN作为最成熟的市场，增长主要依赖提价和广告；EMEA是收入贡献最大的国际区域；LATAM和APAC则处于快速增长阶段，是用户和收入增量的主要来源。公司当前处于业绩兑现期，利润率和自由现金流持续改善。</p>
+<p><strong>细分业务拆分（按地区）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>地区</th><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td><strong>UCAN</strong></td><td>收入(亿美元)</td><td>148.74</td><td>173.59</td><td>199.57</td><td>106.77</td></tr><tr><td></td><td>同比(%)</td><td>-</td><td>16.7%</td><td>15.0%</td><td>11.8%</td></tr><tr><td></td><td>收入占比(%)</td><td>44.1%</td><td>44.5%</td><td>44.2%</td><td>43.0%</td></tr><tr><td><strong>EMEA</strong></td><td>收入(亿美元)</td><td>105.56</td><td>123.87</td><td>145.15</td><td>80.32</td></tr><tr><td></td><td>同比(%)</td><td>-</td><td>17.3%</td><td>17.2%</td><td>15.7%</td></tr><tr><td></td><td>收入占比(%)</td><td>31.3%</td><td>31.8%</td><td>32.1%</td><td>32.4%</td></tr><tr><td><strong>LATAM</strong></td><td>收入(亿美元)</td><td>44.46</td><td>48.40</td><td>53.58</td><td>30.81</td></tr><tr><td></td><td>同比(%)</td><td>-</td><td>8.9%</td><td>10.7%</td><td>19.9%</td></tr><tr><td></td><td>收入占比(%)</td><td>13.2%</td><td>12.4%</td><td>11.9%</td><td>12.4%</td></tr><tr><td><strong>APAC</strong></td><td>收入(亿美元)</td><td>37.64</td><td>44.15</td><td>53.54</td><td>30.19</td></tr><tr><td></td><td>同比(%)</td><td>-</td><td>17.3%</td><td>21.3%</td><td>17.7%</td></tr><tr><td></td><td>收入占比(%)</td><td>11.2%</td><td>11.3%</td><td>11.8%</td><td>12.2%</td></tr><tr><td><strong>合计</strong></td><td><strong>收入(亿美元)</strong></td><td><strong>337.23</strong></td><td><strong>390.01</strong></td><td><strong>451.83</strong></td><td><strong>248.10</strong></td></tr></tbody></table></div>
+<p>*注：FY2023年同比数据未在资料中提供。*</p>
+<p><strong>各业务板块最新情况（2026年上半年）</strong>：</p>
+<ul><li><strong>UCAN</strong>：实现收入106.77亿美元，同比增长11.8%。作为最成熟的市场，增速低于公司平均水平，增长主要由2026年初的提价和广告收入驱动。Q2增速放缓至10.2%，部分原因是提价分批生效，仅体现部分季度贡献。  </li><li><strong>EMEA</strong>：实现收入80.32亿美元，同比增长15.7%。该地区是公司最大的国际收入来源，保持稳健增长。本地化内容（如南非剧集《The Polygamist》）的成功，以及广告套餐的渗透，是主要驱动力。  </li><li><strong>LATAM</strong>：实现收入30.81亿美元，同比增长19.9%，增速显著回升。该地区受益于会员增长和定价调整，显示出新兴市场的量价弹性。巴西市场的税务问题在2025年一次性处理后，对后续利润率有正面影响。  </li><li><strong>APAC</strong>：实现收入30.19亿美元，同比增长17.7%。该地区是公司重要的增长引擎，日本、印度、韩国等市场表现强劲。直播内容（如世界棒球经典赛）在日本的巨大成功，展示了该地区通过事件驱动增长的潜力。  </li></ul>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托全球规模化会员基础构筑的内容投资回报率优势</strong></p>
+<ul><li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。奈飞超过3.3亿的全球付费会员基础，使其能够将巨额内容制作成本摊销到全球市场，从而支撑远超任何单一竞争对手的内容预算。这种规模效应是长期积累的结果，竞争对手难以在短期内复制。 </li><li><strong>数据验证</strong>：公司2026年内容现金支出预计约200亿美元，同比增长10%，但占收入比重持续下降。FY2025年经营利润率为29.5%，FY2026年指引为31.5%，显示出内容支出杠杆效应带来的利润率持续改善。公司表示，其全球电视观看时长份额仅约5%，显示在用户钱包和注意力份额上仍有巨大提升空间。  </li><li><strong>动态演变</strong>：<strong>护城河变宽（巩固）</strong>。随着全球中产阶级扩容和新兴市场宽带渗透率提升，奈飞的潜在用户基础仍在扩大。同时，公司通过AI提升内容制作效率和个性化推荐能力，有望进一步提高内容投资的回报率，巩固其规模优势。 </li></ul>
+<p><strong>竞争要素 2：从“订阅”到“订阅+广告”的商业模式升级，打开利润率和现金流长期改善空间</strong></p>
+<ul><li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。广告业务的引入不仅创造了新的收入来源，更重要的是通过低价套餐降低了用户门槛，扩大了可触达市场（TAM），同时广告收入的高毛利率特性将结构性提升公司整体盈利能力和现金流水平。 </li><li><strong>数据验证</strong>：公司指引2026年广告收入约30亿美元，同比翻倍。管理层表示，广告套餐的ARPU与标准套餐的差距正在缩小，代表了近期的未实现收入增长机会。FY2026年自由现金流指引为125亿美元，较FY2025年的94.61亿美元大幅增长，体现了商业模式升级带来的现金生成能力质变。 </li><li><strong>动态演变</strong>：<strong>护城河变宽（巩固）</strong>。公司正在自建广告技术栈、引入AI工具优化投放，并计划于2027年将广告业务扩展至15个新市场。随着广告基础设施的完善和覆盖市场的扩大，广告收入的增长飞轮正在加速，将进一步提升公司的盈利能力和竞争壁垒。 </li></ul>
+<p><strong>现阶段核心驱动力总结</strong>：</p>
+<p>奈飞的Alpha在于其作为全球流媒体龙头的强大规模效应和持续进化的商业模式，这使其能够在内容军备竞赛中保持领先，并实现利润率和现金流的持续改善。其Beta属性则体现在对全球宏观经济（影响订阅和广告支出）和内容创意周期（影响用户增长和参与度）的敏感度上。</p>
+<p><strong>竞争格局传导逻辑图</strong>：</p>
+<h3 class="doc-h2">产销链</h3>
+<ul><li><strong>客户情况</strong>：奈飞直接面向全球消费者，客户基础极为分散，无单一客户依赖风险。公司通过多样化的套餐组合（含广告套餐8.99美元/月起）满足不同消费能力用户的需求。近期在美国、墨西哥、西班牙等市场的提价进展顺利，显示出较强的客户粘性和定价权。 </li><li><strong>供应商情况</strong>：内容供应商包括全球各大影视工作室、独立制作公司和创意人才。奈飞正从主要依赖外部授权转向以自制内容为主，降低了对单一供应商的依赖。公司表示，无单一供应商的观看时长占比超过小个位数。同时，奈飞也与竞争对手（如派拉蒙、环球、索尼）保持内容授权合作，形成竞合关系。  </li><li><strong>经销商情况</strong>：奈飞采用DTC模式，无经销商环节。 </li><li><strong>成本传导能力</strong>：公司赚取的是“品牌溢价+规模效应”的钱。当上游内容制作成本因通胀或竞争上升时，奈飞凭借其全球化的规模优势，能够比竞争对手更有效地摊销成本。同时，其强大的品牌和用户粘性使其能够通过提价将成本压力部分转嫁给消费者，维持健康的利润率。 </li></ul>
+<h3 class="doc-h2">财务数据</h3>
+<p><strong>关键财务数据</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2023-12-31</td><td>2024-12-31</td><td>2025-12-31</td><td>2026-06-30</td></tr><tr><td>营业总收入(亿美元)</td><td>337.23</td><td>390.01</td><td>451.83</td><td>248.10</td></tr><tr><td>收入同比(%)</td><td>6.67%</td><td>15.65%</td><td>15.85%</td><td>14.74%</td></tr><tr><td>营业成本(亿美元)</td><td>197.15</td><td>210.38</td><td>232.75</td><td>119.25</td></tr><tr><td>营业利润(亿美元)</td><td>69.54</td><td>104.18</td><td>133.27</td><td>81.50</td></tr><tr><td>营业利润率(%)</td><td>20.62%</td><td>26.71%</td><td>29.49%</td><td>32.85%</td></tr><tr><td>归母净利润(亿美元)</td><td>54.08</td><td>87.12</td><td>109.81</td><td>86.84</td></tr><tr><td>归母净利润同比(%)</td><td>20.39%</td><td>61.09%</td><td>26.05%</td><td>44.36%</td></tr><tr><td>稀释EPS(美元)</td><td>1.20</td><td>1.98</td><td>2.53</td><td>2.03</td></tr><tr><td>自由现金流(亿美元)</td><td>-</td><td>69.22</td><td>94.61</td><td>-</td></tr></tbody></table></div>
+<p>*注：自由现金流数据FY2023及FY2026 H1未在资料中提供。*</p>
+<p><strong>财务分析</strong>：</p>
+<ul><li><strong>成长能力</strong>：公司收入增速从FY2023的6.67%显著回升至FY2024-FY2025的15%以上，主要由付费共享打击、广告套餐推出和提价驱动。FY2026 H1收入同比增长14.74%，但Q2单季增速已放缓至13.4%，Q3指引进一步放缓至约11.7%，显示增长动能有所减弱。  </li><li><strong>盈利能力</strong>：公司盈利能力持续改善，经营利润率从FY2023的20.62%提升至FY2025的29.49%，FY2026 H1进一步提升至32.85%。这主要得益于收入增长带来的经营杠杆，尤其是内容支出增速低于收入增速。公司指引FY2026全年经营利润率为31.5%。  </li><li><strong>现金流</strong>：公司自由现金流在FY2024和FY2025持续为正且大幅增长，标志着业务模式已进入自我造血阶段。FY2026年指引自由现金流约125亿美元，显示出强大的现金生成能力，为大规模回购提供了坚实基础。 </li></ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p><strong>行业分析</strong>：</p>
+<p>奈飞所处的全球流媒体视频行业仍处于增长阶段，但增速正在放缓。市场驱动力包括全球宽带渗透率提升、用户从传统电视向流媒体迁移的长期趋势，以及新兴市场中产阶级的扩大。然而，行业竞争异常激烈，已进入存量博弈阶段。竞争者不仅包括迪士尼+、亚马逊Prime Video等直接对手，还包括YouTube、TikTok等占据用户时长的间接替代品。行业趋势上，广告支持模式（AVOD/FAST）正成为主流，各大平台纷纷推出广告套餐以扩大用户基础和增加收入来源。同时，内容成本持续高企，促使行业整合加速。</p>
+<p><strong>竞争格局</strong>：</p>
+<p>奈飞是全球流媒体行业的绝对领导者，在用户规模、收入和内容投入上均遥遥领先。其核心竞争优势在于全球化的规模效应和强大的品牌认知。然而，在用户观看时长份额上，奈飞面临来自YouTube的强力竞争。根据Nielsen数据，YouTube在美国电视端的观看时长份额持续领先于奈飞。此外，迪士尼、亚马逊等拥有强大IP库和生态协同的对手也在持续追赶。</p>
+<p><strong>可比公司</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>对标维度</th><th>分析</th></tr></thead><tbody><tr><td>华特迪士尼</td><td>DIS US</td><td>流媒体业务</td><td>拥有Disney+、Hulu等，IP库强大，但流媒体业务盈利能力弱于奈飞。</td></tr><tr><td>亚马逊</td><td>AMZN US</td><td>流媒体业务</td><td>Prime Video作为电商生态的一部分，内容投入巨大，但独立盈利能力不透明。</td></tr><tr><td>Alphabet (YouTube)</td><td>GOOGL US</td><td>用户时长竞争</td><td>在用户生成内容和观看时长上领先，是奈飞在注意力争夺上的最大对手。</td></tr><tr><td>Spotify</td><td>SPOT US</td><td>订阅+广告模式</td><td>音频流媒体龙头，与奈飞在订阅和广告变现模式上有相似之处，但内容成本结构不同。</td></tr></tbody></table></div>
+<p><strong>总结分析</strong>：奈飞在与传统媒体和科技巨头的流媒体竞争中，凭借先发优势和全球化规模，已建立起稳固的领先地位。其面临的主要挑战并非来自同质化的流媒体对手，而是来自YouTube、TikTok等以UGC和算法推荐见长的新兴平台对用户时长的争夺。奈飞通过拓展直播、游戏、播客等新内容形式，正是为了应对这一挑战，拓宽其在用户娱乐时间中的份额。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<p><strong>议题一：用户参与度增长放缓与数据透明度下降</strong></p>
+<ul><li><strong>背景</strong>：奈飞2026年上半年总观看时长同比增长仅2%，较收入增速（13.4%）显著偏低。同时，公司宣布将“What We Watched”报告的发布频率从半年一次降为每年一次。市场担忧，在增长放缓时降低数据透明度，可能掩盖了更深层次的用户参与度问题。 </li><li><strong>问题列表</strong>：</li><li>观看时长增长停滞是否意味着奈飞的内容吸引力正在下降？</li><li>管理层声称的“参与度质量”提升，如何量化验证？其与商业变现的关联度究竟有多高？</li><li>降低数据披露频率，是否是为了在市场预期管理上获得更大灵活性？</li></ul>
+<p><strong>议题二：收入增速放缓的持续性及广告业务的填补能力</strong></p>
+<ul><li><strong>背景</strong>：公司收入增速已连续两个季度放缓，Q3指引进一步降至约11.7%。市场担心，在付费共享和广告套餐的初期红利消退后，公司是否已进入增长平台期。 </li><li><strong>问题列表</strong>：</li><li>收入增速的放缓是周期性的（受内容排期影响）还是结构性的（市场渗透率见顶）？</li><li>广告业务30亿美元的目标能否如期实现？其利润率结构如何，能否有效对冲订阅收入放缓对整体利润的影响？</li><li>未来提价的空间和频率如何？在竞争加剧和用户价格敏感度提升的背景下，提价是否会加速用户流失？</li></ul>
+<p><strong>议题三：大规模并购的可能性与资本配置纪律</strong></p>
+<ul><li><strong>背景</strong>：公司在2026年初高调竞购华纳兄弟探索资产但最终放弃，显示出对大规模并购的兴趣。近期Comcast宣布分拆NBC环球，再次引发市场对奈飞可能成为买家的猜测。 </li><li><strong>问题列表</strong>：</li><li>管理层对大型并购的“极高门槛”具体指什么？在什么情况下会再次启动大规模交易？</li><li>若进行大型并购，如何平衡短期财务压力（如债务增加、整合风险）与长期战略价值？</li><li>当前270亿美元的回购授权，是否意味着管理层认为自身股票是被低估的最佳投资标的？</li></ul>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧：奈飞当前的困境是增长周期的暂时性波谷，还是行业领导地位被侵蚀的结构性拐点？</strong></p>
+<ul><li><strong>乐观方观点：周期性的内容空档期，增长引擎依然完好</strong></li></ul>
+<p>乐观方认为，近期的增长放缓主要是由于上半年内容排期偏弱造成的暂时性现象。下半年重磅内容储备丰富，有望迅速扭转局面。奈飞在全球付费家庭中的渗透率不足45%，广告业务才刚起步（仅占收入约6%），这两大核心增长引擎远未见顶。公司强大的自由现金流和积极的回购，也为其估值提供了坚实支撑。当前的估值水平（约20倍远期市盈率）已回落至历史低位，提供了良好的安全边际。</p>
+<ul><li><strong>谨慎方观点：竞争加剧与用户时长流失，增长天花板已现</strong></li></ul>
+<p>谨慎方指出，观看时长增长近乎停滞，是用户注意力被YouTube、TikTok等平台分流的危险信号。奈飞通过提价和广告实现收入增长的模式不可持续，因为这会损害用户体验和长期竞争力。公司降低数据披露频率，可能是在掩盖不利趋势。同时，行业整合可能催生出更强大的竞争对手（如Paramount Skydance与WBD的合并实体），而奈飞在体育版权等关键领域的投入可能因竞价而变得不再经济。</p>
+<p><strong>总结分析</strong>：</p>
+<p>当前的市场分歧本质上是“短期”与“长期”、“量”与“质”的争论。谨慎方更关注短期可量化的指标（观看时长、收入增速），而乐观方则更看重长期的战略逻辑和商业模式的进化（广告、全球化、现金流）。奈飞的优势在于其无与伦比的全球规模和品牌，这为其提供了试错和转型的缓冲空间。风险在于，若内容创意持续无法跟上用户需求，或广告变现不及预期，则可能导致“量”（用户时长）的损失最终传导至“价”（定价权和利润率），从而证实谨慎方的判断。当前估值已较充分反映了谨慎预期，但股价的实质性修复需要管理层用业绩证明其增长引擎依然有效。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>管理层最新指引</strong>：</p>
+<ul><li><strong>FY2026全年</strong>：收入指引510亿-514亿美元（同比增长13%-14%），经营利润率指引31.5%，自由现金流指引约125亿美元。广告收入目标约30亿美元。 </li><li><strong>FY2026 Q3</strong>：收入指引128.6亿美元（同比增长约11.7%），经营利润率指引33.2%。 </li></ul>
+<p><strong>券商盈利预测与估值</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价(美元)</th><th>财务指标</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>摩根士丹利 (2026-07-14)</td><td>Overweight</td><td>90.00</td><td>营业收入(百万美元)</td><td>-</td><td>51,298</td><td>-</td><td>-</td></tr><tr><td></td><td></td><td></td><td>EPS(美元)</td><td>2.53</td><td>3.59</td><td>3.70</td><td>4.45</td></tr><tr><td>汇丰控股 (2026-07-20)</td><td>Buy</td><td>96.00</td><td>营业收入(百万美元)</td><td>45,183</td><td>51,137</td><td>56,614</td><td>62,436</td></tr><tr><td></td><td></td><td></td><td>EPS(美元)</td><td>2.53</td><td>3.58</td><td>3.82</td><td>4.64</td></tr><tr><td>美国银行 (2026-07-22)</td><td>Buy</td><td>105.00</td><td>营业收入(百万美元)</td><td>45,183</td><td>51,203</td><td>57,400</td><td>62,760</td></tr><tr><td></td><td></td><td></td><td>EPS(美元)</td><td>2.53</td><td>3.58</td><td>3.96</td><td>4.78</td></tr><tr><td>Evercore ISI (2026-06-15)</td><td>Outperform</td><td>115.00</td><td>营业收入(百万美元)</td><td>-</td><td>51,400</td><td>57,751</td><td>64,928</td></tr><tr><td></td><td></td><td></td><td>EPS(美元)</td><td>-</td><td>-</td><td>3.80</td><td>-</td></tr><tr><td>国泰海通证券 (2026-07-20)</td><td>增持</td><td>91.00</td><td>营业收入(百万美元)</td><td>45,183</td><td>51,236</td><td>57,736</td><td>64,677</td></tr><tr><td></td><td></td><td></td><td>EPS(美元)</td><td>-</td><td>3.59</td><td>3.78</td><td>4.68</td></tr><tr><td>中金公司 (2026-07-20)</td><td>跑赢行业</td><td>90.00</td><td>营业收入(百万美元)</td><td>45,183</td><td>51,300</td><td>56,500</td><td>-</td></tr><tr><td></td><td></td><td></td><td>EPS(美元)</td><td>2.53</td><td>3.54</td><td>3.64</td><td>-</td></tr><tr><td>华泰证券 (2026-07-19)</td><td>买入</td><td>105.95</td><td>营业收入(百万美元)</td><td>45,183</td><td>51,244</td><td>57,253</td><td>62,960</td></tr><tr><td></td><td></td><td></td><td>EPS(美元)</td><td>2.54</td><td>3.53</td><td>3.90</td><td>4.72</td></tr></tbody></table></div>
+<p><strong>盈利预测与估值分析</strong>：</p>
+<p>各机构对奈飞FY2026年的收入预测高度一致，集中在511亿-513亿美元区间，EPS预测在3.53-3.59美元之间，显示市场对短期业绩有较清晰的预期。分歧主要在于FY2027年及以后的增长斜率，以及由此给出的估值倍数。多数机构在财报后下调了目标价，主要反映了对短期增速放缓和参与度担忧的溢价压缩。估值方法上，普遍采用市盈率（P/E），部分机构也参考EV/EBITDA。当前股价交易于约20倍FY2026年预期市盈率，低于其5年平均约33倍的水平，也低于多数券商给出的目标价隐含估值，显示市场情绪较为悲观。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>Gangtise Open API（公司一页通 · stock-one-pager）· 公司财报及公开披露 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/NFLX · 生成于 2026-07-30</div></footer>
+
+<script>
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
