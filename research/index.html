@@ -85,8 +85,11 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 .site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
 
 @media (max-width: 860px) {
-  .company-row { grid-template-columns: 44px minmax(0,1fr) 28px; gap: 14px; }
+  .company-row { grid-template-columns: 44px minmax(0,1fr) 28px; gap: 10px 14px; align-items: start; }
   .company-row__num, .company-row__metric { display: none; }
+  .company-row__seal { margin-top: 2px; }
+  .company-row__tag { grid-column: 1 / -1; }
+  .company-row__arrow { align-self: center; }
   .overview__heading { grid-template-columns: 1fr; gap: 18px; }
   .overview__copy h1 { font-size: 32px; }
   .overview__date { text-align: left; }
