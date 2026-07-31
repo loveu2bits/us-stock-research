@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>苹果（AAPL.O）公司研究</title>
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏（美联储风格） ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 170px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.overview__date { padding: 16px 0 4px; border-top: 2px solid var(--policy-red); text-align: right; }
+.overview__date span, .overview__date strong { display: block; }
+.overview__date span { margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.overview__date strong { font-size: 15px; font-variant-numeric: tabular-nums; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item strong.down { color: var(--teal); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 正文文档 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.doc-h1 { margin: 34px 0 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line-strong); font-family: var(--font-display); font-size: 30px; font-weight: 650; }
+.doc-h1:first-child { margin-top: 0; }
+.doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+.doc-h3 { margin: 22px 0 10px; color: var(--federal-blue); font-size: 15px; font-weight: 750; }
+.doc p, .doc li { color: var(--ink-soft); font-size: 15px; }
+.doc p { margin: 0 0 14px; }
+.doc ul, .doc ol { margin: 0 0 16px; padding-left: 24px; }
+.doc li { margin-bottom: 6px; }
+.doc strong { color: var(--ink); }
+.doc code { padding: 1px 6px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper-cool); font-size: 13px; }
+.doc-hr { margin: 30px 0; border: 0; border-top: 1px solid var(--line); }
+.doc-quote { margin: 18px 0; padding: 16px 20px; border-left: 3px solid var(--amber); background: #faf6ec; color: var(--ink-soft); font-size: 14px; }
+.tbl-wrap { margin: 16px 0 24px; overflow-x: auto; }
+.doc table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.doc th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+.doc td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+.doc tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+.star { color: var(--amber); }
+.xref { color: var(--federal-blue); font-weight: 600; }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .overview__date { text-align: left; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">AAPL</span>
+    <span class="site-mark__text">苹果 公司研究<span>Apple · AAPL.O</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">研究报告</button>
+    <button data-tab="broker">券商研报</button>
+    <button data-tab="onepager">一页通（Gangtise）</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>苹果<span class="en">Apple · AAPL.O · 美股研究</span></h1>
+        <p class="sub">iPhone +22% 的需求撞上先进制程产能与存储涨价的墙：FQ4 指引 miss 盘后 -6%——轻资产 AI 保住了现金流，没保住增长确定性。9 月折叠屏发布会与 CEO 交接同一窗口。</p>
+      </div>
+      <div class="overview__date">
+        <span>研究日期</span>
+        <strong>2026-07-31</strong>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">+22%</strong><span>FQ3 iPhone 增速 · 需求强劲</span></div>
+<div class="summary-rail__item"><strong class="down">-6.3%</strong><span>财报后盘后 · FQ4 指引 miss</span></div>
+<div class="summary-rail__item"><strong class="down">~46.5%</strong><span>FQ4 毛利率指引（剔关税退款）· 环比 -160bps</span></div>
+
+    </div>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+<blockquote class="doc-quote"><strong>研究日期</strong>：2026-07-31 ｜ <strong>数据来源</strong>：Gangtise 一页通（2026-07-30，财报前）+ FQ3 财报（7/30 盘后）+ 券商研报（摩根大通/花旗） <strong>状态</strong>：初稿 v1（已含最新财报）｜ <strong>下次更新</strong>：9 月秋季发布会 + CEO 交接（9/1） <strong>关联研究</strong>：<span class="xref">微软研究报告</span>、<span class="xref">亚马逊研究报告</span>、<span class="xref">Meta 研究报告</span>（AI 资本配置四路径对照）、<span class="xref">NVDA 英伟达研究报告</span>（先进制程产能约束互证）</blockquote>
+<hr class="doc-hr">
+<h3 class="doc-h2">〇、一句话结论</h3>
+<p><strong>iPhone +22%、Mac +29%、大中华区 +22%——需求端几乎完美，但撞上"先进制程产能不足 + 存储涨价"的供应成本之墙：FQ4 收入指引 +9~11% 低于一致预期、剔除关税退款后毛利率指引环比 -160bps，盘后 -6.3%。EPS beat 全靠关税退款，市场看穿了。这份财报把苹果的核心问题从"需求行不行"切换成"供应和成本什么时候缓解"——而 9 月发布会（首款折叠屏 + iPhone 18 传提价 $200 + Siri AI 正式版）与 CEO 交接恰好叠在同一窗口，催化与不确定性同框。</strong></p>
+<hr class="doc-hr">
+<h3 class="doc-h2">一、财报速览（FQ3 2026，截至 2026-06 月末）</h3>
+<div class="tbl-wrap"><table><thead><tr><th>指标</th><th>实际</th><th>预期</th><th>评价</th></tr></thead><tbody><tr><td>总营收</td><td>$1,094 亿（+16%）</td><td>$1,089 亿</td><td>✅ 达指引上限（14-17%），微 beat</td></tr><tr><td>EPS</td><td>$2.02</td><td>$1.89</td><td><span class="warn">⚠️</span> 含 $0.11 <strong>关税退款</strong>，剔除后 $1.91 仅微 beat</td></tr><tr><td>iPhone</td><td>$543 亿（+22%）</td><td>$536 亿</td><td>✅ Pro 系列强劲；CQ2 全球份额 20%（去年 17%）</td></tr><tr><td>Mac</td><td>$104 亿（+29%）</td><td>$87 亿</td><td>✅ 大超，Edge AI 换机逻辑</td></tr><tr><td>iPad</td><td>$62 亿（-6%）</td><td>$70 亿</td><td>❌ miss——提价压制需求的第一个样本</td></tr><tr><td>服务</td><td>$307 亿（+12%）</td><td>$314 亿</td><td>❌ miss，环比从 16% 减速：手游疲软 + App Store 外链支付分流</td></tr><tr><td>毛利率</td><td>50.1%</td><td>48.1%</td><td><span class="warn">⚠️</span> 含 200bps 关税退款，剔除后 48.1% 正好 inline</td></tr><tr><td>大中华区</td><td>+22%</td><td>—</td><td>✅ AI 备案落地前的需求回暖</td></tr><tr><td>盘后股价</td><td><strong>-6.3%</strong>（$333.43 → $312.33）</td><td>—</td><td>7/28 刚创历史新高 $342.89、市值破 5 万亿</td></tr></tbody></table></div>
+<p><strong>FQ4 指引（9 月季度）</strong>：收入 +9~11%（一致预期 +12.1%）；毛利率 47-48%（含 ~100bps 关税退款，<strong>剔除后 ~46.5%，环比 -160bps</strong>）；iPhone mid-teens；服务 ~9.5%（剔除 FX 与 FQ3 持平）；Opex $191-194 亿。</p>
+<hr class="doc-hr">
+<h3 class="doc-h2">二、靠什么赚钱？</h3>
+<p><strong>一句话：硬件引流 + 生态绑定 + 服务变现的一体机——iPhone 占收入半壁江山，服务（毛利率 75.6%）以 26% 的收入贡献 42% 的毛利，25 亿活跃设备是这一切的地基。</strong></p>
+<p>与其他巨头最大的不同是 <strong>"轻资产 AI"</strong>：年 capex 约 $102 亿（营收占比 ~2.5%），AI 靠集成第三方模型（中国已接入阿里通义千问、百度支持搜索）+ 租赁算力实现，不建数据中心。FY26H1 经营现金流 $826 亿、回购 $370 亿——当微软/谷歌/亚马逊/Meta 在千亿级 capex 里挣扎时，苹果的 FCF 年化超 $1,400 亿，这是它 7 月逆势创历史新高、市值破 5 万亿的叙事基础。</p>
+<hr class="doc-hr">
+<h3 class="doc-h2">三、为什么 beat 了还跌 6%？——拆三层</h3>
+<ol><li><strong>关税退款的一次性粉饰</strong>：FQ3 的 EPS beat（$0.11）和毛利率 beat（200bps）全部来自关税退款；FQ4 指引里退款只剩 ~100bps——粉饰在递减，真实毛利率 46.5%、环比 -160bps。<strong>这是本财报季第四次看到一次性项目撑 beat</strong>（AMZN 的 Anthropic $530 亿账面收益和 $6 亿能源合约、META 的 $24 亿法律费用反向、AAPL 的关税退款）——本周的 beat 含水量普遍偏高，市场已经学会先拆再定价。</li><li><strong>指引 miss 的结构</strong>：+9~11% vs 一致 +12.1%，拆开是 FX 环比逆风 2.5pt + 供应限制环比加剧（先进制程产能，从 Mac 扩散到 iPhone/iPad）+ ~250bps 基数效应。摩根大通判断"收入递延而非丢失"——这是多空分界线。</li><li><strong>服务减速到 12%（FQ4 指引仅 ~9.5%）</strong>：高毛利引擎失速比硬件 miss 更伤估值——苹果的估值溢价一半建立在服务上。手游疲软和 F1 基数是暂时的，但 App Store 外链支付（监管倒逼的 link-out）是<strong>结构性分流</strong>。</li></ol>
+<blockquote class="doc-quote">📚 *方法点评：这个财报季读美股巨头，第一件事不是看 beat/miss，是<strong>找一次性项目</strong>——关税退款、投资账面收益、能源合约、法律费用，每家都有。EPS 的"含金量"= 报表值 − 一次性项，然后才是和预期比。*</blockquote>
+<hr class="doc-hr">
+<h3 class="doc-h2">四、核心分歧</h3>
+<div class="tbl-wrap"><table><thead><tr><th></th><th>乐观方</th><th>谨慎方</th></tr></thead><tbody><tr><td>供应限制</td><td><strong>递延</strong>：先进制程产能 12 月季度起缓解，苹果用户等得起，需求不消失</td><td><strong>丢失</strong>：iPad -6% 已演示"涨价压需求"；安卓同受存储涨价但不受先进制程约束，存在份额窗口</td></tr><tr><td>毛利率</td><td>存储涨价是周期；6 月 Mac/iPad 已提价 ~20%、iPhone 18 传提价 $200，转嫁能力最强（行业溢价 120%+）</td><td>46.5% 的指引说明对冲不完全；结转库存红利 9 月后递减，毛利率压力才刚开始</td></tr><tr><td>服务</td><td>减速是手游/基数/FX 的暂时因素；云服务、支付、广告仍双位数增长，Apple Pay 用户创新高</td><td>link-out 外链支付是监管驱动的结构性分流；谷歌搜索协议（~$200 亿授权收入）悬在反垄断刀下</td></tr><tr><td>估值</td><td>33x FY28（花旗/摩通）：AI 入口稀缺性 + 轻资产避险属性值得溢价</td><td>30x CY27（瑞银 $296）：花旗自己风险提示里都写了——<strong>指数权重太大，机构不敢再加仓</strong>，买盘结构是硬约束</td></tr><tr><td>轻资产 AI</td><td>不烧钱 = 资本纪律：FCF 年化 $1,400 亿+，利率高企时代的避风港</td><td>不投入 = AI 能力依赖第三方：Siri 落后是公开事实，"AI 入口"叙事存在证伪风险</td></tr></tbody></table></div>
+<hr class="doc-hr">
+<h3 class="doc-h2">五、交叉验证：AI 资本配置的光谱 <span class="star">⭐</span></h3>
+<p>本周财报恰好凑齐四条路径的市场待遇，放在一起看非常清晰：</p>
+<div class="tbl-wrap"><table><thead><tr><th>路径</th><th>公司</th><th>财报后</th><th>市场的理由</th></tr></thead><tbody><tr><td>重资产 + 回报可见</td><td>MSFT / AMZN</td><td>+8% / 上涨</td><td>capex 狂飙，但 Azure +43%、AWS +37%，回报看得见</td></tr><tr><td>重资产 + 回报不可见</td><td>META</td><td>-7.5%</td><td>capex $1,300-1,450 亿，FCF -91%，回报看不见</td></tr><tr><td>轻资产 + 供应撞墙</td><td><strong>AAPL</strong></td><td><strong>-6.3%</strong></td><td>不烧钱保住了现金流，但没保住增长确定性</td></tr></tbody></table></div>
+<p><strong>结论：本周市场惩罚一切"不确定"，只奖励"可见回报"。</strong>苹果的轻资产路线让它免于烧钱焦虑，却也暴露了另一面——不掌控算力供给，增长就受制于台积电的产能分配和存储厂商的报价。另外注意：苹果的"先进制程产能不足"恰是 TSMC 产能被 AI 芯片挤占的旁证，与 <span class="xref">NVDA 英伟达研究报告</span> 的供给约束主线互证。</p>
+<hr class="doc-hr">
+<h3 class="doc-h2">六、反证条件</h3>
+<ol><li><span class="warn">⚠️</span> FQ4 实际收入落在指引下限之下（&lt;+9%）——供应限制不是递延而是恶化</li><li><span class="warn">⚠️</span> 服务增速跌破 9%（App Store 分流加速的证据）</li><li><span class="warn">⚠️</span> 毛利率跌破 46%（存储成本 + 提价失效双重挤压）</li><li><span class="warn">⚠️</span> 9 月发布会折叠屏/Siri AI 反响平淡或再度延期（换机叙事断档）</li><li><span class="warn">⚠️</span> CEO 交接出现高管离职潮或战略摇摆（9/1 特纳斯接任）</li><li><span class="warn">⚠️</span> 谷歌搜索默认协议被判终止（~$200 亿高利润授权收入直接受冲击）</li></ol>
+<hr class="doc-hr">
+<h3 class="doc-h2">七、跟踪计划</h3>
+<div class="tbl-wrap"><table><thead><tr><th>跟踪变量</th><th>时间</th><th>说明</th></tr></thead><tbody><tr><td>9 月发布会：折叠屏 / iPhone 18 定价 / Siri AI 正式版</td><td>2026-09</td><td>换机叙事 + 提价 $200 的市场接受度，年内最大催化</td></tr><tr><td>CEO 交接（库克 → 特纳斯）</td><td>2026-09-01</td><td>新 CEO 首次公开战略沟通，留意资本配置口径变化</td></tr><tr><td>FQ4 财报</td><td>2026-10 底</td><td>收入指引 +9~11% 兑现度；毛利率 47-48%（剔退款 ~46.5%）</td></tr><tr><td>芯片长期供应战略</td><td>电话会/新闻</td><td>管理层是否签长协锁先进制程产能——"递延论"成立的硬证据</td></tr><tr><td>存储价格走势</td><td>持续</td><td>DRAM/NAND 合约价，决定毛利率天花板</td></tr><tr><td>中国 AI 落地</td><td>持续</td><td>通义千问集成上线节奏；大中华区 +22% 的持续性</td></tr><tr><td>谷歌搜索协议反垄断裁决</td><td>持续</td><td>服务收入的结构性风险</td></tr></tbody></table></div>
+  </article>
+  <article class="doc" id="tab-broker" hidden>
+<h2 class="doc-h1">苹果 · 券商研报解读（买方视角）</h2>
+<blockquote class="doc-quote"><strong>解读日期</strong>：2026-07-31 ｜ <strong>研报</strong>：3 份（摩根大通 1 份 + 花旗 2 份，均为 FQ3 财报点评） <strong>方法</strong>：提取事实与预期，不采纳结论。卖方评级普遍通胀——分歧和边际变化才是信号，一致乐观本身也是信号。</blockquote>
+<hr class="doc-hr">
+<h3 class="doc-h2">〇、一句话结论</h3>
+<p><strong>36 买 18 持 4 卖——苹果是本周覆盖中卖方分歧最大的标的（对比 AMZN 的 79 买 0 卖）。最耐读的是摩根大通：一边维持 Overweight，一边把目标价从 $345 下调到 $340（隐含仅 +2%）、FY27 EPS 下调 4.6%——评级与目标价明显背离，翻译成买方语言就是"看多公司，不看多股价"。分歧核心不在基本面（两家都承认需求强劲、供应是递延），而在 33x 这个倍数该不该给。</strong></p>
+<hr class="doc-hr">
+<h3 class="doc-h2">一、预期地图</h3>
+<p>现价 <strong>$333.43</strong>（2026-07-30 收盘）｜ 盘后 <strong>$312.33</strong>（-6.3%）</p>
+<div class="tbl-wrap"><table><thead><tr><th>券商</th><th>评级</th><th>目标价</th><th>隐含空间（收盘/盘后）</th><th>估值锚</th><th>核心论点</th></tr></thead><tbody><tr><td>摩根大通</td><td>Overweight</td><td>$345 → <strong>$340</strong> ⬇</td><td>+2% / +9%</td><td>33x CY28 P/E，自认处于"近几年交易区间高端"</td><td>需求势头强于预期，但供应限制 + 存储成本压近期盈利；供应是"收入递延非丢失"</td></tr><tr><td>花旗</td><td>Buy（维持）</td><td>$365</td><td>+9.5% / +17%</td><td>33x FY28 EPS，<strong>较苹果历史水平溢价 ~20%</strong></td><td>Mag7 中的防御性标的（ROIC 与 P/FCF 有吸引力）；聚焦 9 月发布会与 Siri AI</td></tr><tr><td>高盛（一页通，财报前）</td><td>Buy</td><td>$370</td><td>+11% / —</td><td>35-37x FY27</td><td>iPhone 需求 + AI 换机周期 + 提价逻辑</td></tr><tr><td>大摩（一页通，财报前）</td><td>增持</td><td>$364</td><td>+9% / —</td><td>35-37x FY27</td><td>同上；曾预警 FQ4 毛利率 46.8% 低于共识——<strong>被验证</strong></td></tr><tr><td>瑞银（一页通，财报前）</td><td><strong>中性</strong></td><td>$296</td><td><strong>-11%</strong> / —</td><td>30x CY27</td><td>存储成本挤压 + 服务放缓 + 高估值——财报后看是最准的一家</td></tr></tbody></table></div>
+<hr class="doc-hr">
+<h3 class="doc-h2">二、卖方一致预期（≈ 股价已经定价的东西）</h3>
+<ol><li>iPhone 17 周期需求真实且强于预期（Pro 系列 + 全球份额 17%→20%）</li><li>供应限制是"递延非丢失"：先进制程产能会缓解，FX 逆风 12 月季度起转温和</li><li>存储成本是周期逆风，提价（Mac/iPad 已 +20%、iPhone 18 传 +$200）+ 产品组合可部分对冲</li><li>9 月发布会（折叠屏 + Siri AI 正式版）是下一个催化剂，中国 AI 落地扫清监管障碍</li></ol>
+<p><span class="warn">⚠️</span> 注意：这四条全部建立在"递延论"上——而"递延论"目前只有管理层的口头保证，没有产能长协之类的硬证据。这是整个卖方共识最薄弱的支点。</p>
+<hr class="doc-hr">
+<h3 class="doc-h2">三、分歧在哪：33x 该不该给</h3>
+<p>基本面判断两家几乎一致，分歧全部集中在估值锚，而且各自写得都很"诚实"：</p>
+<div class="tbl-wrap"><table><thead><tr><th></th><th>摩根大通（33x CY28）</th><th>花旗（33x FY28）</th><th>瑞银（30x CY27，财报前）</th></tr></thead><tbody><tr><td>姿态</td><td>倍数已在"交易区间高端"，盈利又下修——目标价只能到 $340</td><td>承认比历史溢价 20%，用毛利率扩张 + 服务 mix + AI 采纳 + 资产负债表四条理由辩护</td><td>直接说"不值"，$296</td></tr><tr><td>翻译</td><td>"我给不了更高了"</td><td>"我努力说服自己它值"</td><td>"等回调"</td></tr></tbody></table></div>
+<p><strong>买方用法</strong>：盘后 $312 正处于瑞银（$296）和摩通（$340）之间——市场已经在按"谨慎方剧本"定价。如果你认可递延论，盘后价对应 FY27E EPS ~$9.4 约 33x 下移为 ~30x，恰是瑞银的锚——估值风险已经释放大半；如果你不认可递延论，$296 也守不住。</p>
+<hr class="doc-hr">
+<h3 class="doc-h2">四、增量信息（事实层，吸收进我们的框架）</h3>
+<ol><li><span class="warn">⚠️</span> <strong>EPS beat 的成色</strong>：$2.02 里 $0.11 是关税退款（剔除后 $1.91 vs 街 $1.89，仅微 beat）；毛利率 50.1% 含 200bps 退款，FQ4 指引里只剩 ~100bps——<strong>退款红利正在消失，真实毛利率 46.5% 环比 -160bps</strong></li><li><strong>存储逆风的量化</strong>：FQ3 已超 120bps，被结转库存（carry-in inventory）部分对冲；9 月后库存红利递减——毛利率压力才刚开始，不是已经结束</li><li><strong>供应限制的扩散路径</strong>：FQ3 主要影响 Mac → FQ4 扩散到 iPhone/iPad（先进制程产能 + 供应链灵活性不足）——递延论的反面是"扩散论"，下季度见分晓</li><li><strong>服务 miss 的结构</strong>：手游疲软 + link-out 外链支付分流；但云服务、视频、支付、广告仍双位数增长，Apple Pay 用户创新高——引擎没熄火，是 App Store 这一个气缸在漏</li><li><strong>花旗风险清单里的大实话</strong>：「苹果在指数中权重太大，机构投资者对继续加仓持谨慎态度」——卖方罕见讨论买盘结构而非基本面。这解释了"利好出尽"的资金面机制：最大的边际买家已经满仓</li><li>花旗电话会 7 问可直接作跟踪清单：提价策略、芯片长期供应战略、iPhone 需求/份额、Siri 反馈、服务动力、关税、秋季新品</li></ol>
+<hr class="doc-hr">
+<h3 class="doc-h2">五、与我们研究报告的交叉验证</h3>
+<ul><li><strong>一致</strong>：关税退款拆解（摩通/花旗口径与我们完全一致）、供应限制递延论、服务减速的结构分析</li><li><strong>被验证的外部预测</strong>：大摩财报前预警"FQ4 毛利率 46.8% 低于共识 47.4%"——实际指引剔除退款后 ~46.5%，比大摩预警还低。<strong>大摩是本轮预期管理最准的一家，其后续报告值得优先读</strong></li><li><strong>强化</strong>：我们"本周 beat 含水量普遍偏高"的判断被逐家证实（AMZN 的 Anthropic 收益、AAPL 的关税退款）——这个方法论资产沉淀下来了</li><li><strong>我们比卖方多一分警惕的地方</strong>：卖方把供应限制一致当"递延"，我们把它列为反证条件 #1——因为 iPad -6% 已经演示过"涨价压制需求"的实际形态，而卖方报告里没有一家认真讨论这个样本</li></ul>
+<hr class="doc-hr">
+<h3 class="doc-h2">六、评级解码（卖方语言翻译）</h3>
+<div class="tbl-wrap"><table><thead><tr><th>卖方行为</th><th>翻译</th></tr></thead><tbody><tr><td>摩通：OW 维持 + 目标价下调 $5 + FY27 EPS 砍 4.6% + 隐含空间仅 +2%</td><td>"我不好意思降级，但你别指望涨"——卖方语言里的<strong>事实持有</strong>。下调目标价（哪怕只 $5）是卖方稀缺的真实信号</td></tr><tr><td>花旗：Buy 维持 $365 + 四条理由为 20% 估值溢价辩护</td><td>盘后 -6% 给了它维持评级的空间；<strong>倍数辩护篇幅越长的报告，信心越弱</strong></td></tr><tr><td>花旗把"指数权重太大"写进风险提示</td><td>罕见的资金面警告：边际买家已满仓，利好出尽是结构性的</td></tr><tr><td>瑞银（财报前）：中性 $296</td><td>本轮唯一明确说"不值"的大行，财报后看判断最准——其后续跟踪权重应上调</td></tr></tbody></table></div>
+<p><strong>三家放在一起读：苹果的多空分水岭不在 iPhone 销量，在"33x"——而决定 33x 能不能站稳的，是 9 月发布会上折叠屏和 Siri AI 能不能给出"AI 入口"的实证。估值问题最终要靠叙事兑现来解。</strong></p>
+  </article>
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>苹果公司是全球最大的消费电子企业之一，核心业务围绕<strong>iPhone（FY2025收入占比50.4%）</strong>、Mac、iPad、可穿戴设备及服务生态构建。公司通过自研芯片、操作系统与硬件一体化设计，在全球超25亿台活跃设备基础上，形成了“硬件引流→生态绑定→服务变现→反哺硬件粘性”的正循环。其服务业务毛利率高达75.4%，贡献集团毛利比重达42%，是利润质量的核心引擎。当前公司正处于AI功能深度集成与硬件形态创新（折叠屏）的关键周期。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul><li><strong>股价与市值创新高</strong>：公司股价于2026年7月28日盘中触及342.89美元历史新高，市值短暂突破5万亿美元，成为继英伟达后全球第二家达到此里程碑的公司。近一个月股价累计上涨近20%，市场认可其“轻资产AI”策略在宏观利率高企环境下的稳健性。  </li><li><strong>推出硬件租赁计划</strong>：苹果在美国正式推出“Apple Upgrade”设备租赁计划，iPhone月租最低17.99美元起，旨在通过降低用户单次支付门槛，在潜在的价格上涨环境中保护需求并扩大用户基数。  </li><li><strong>折叠屏备货目标上调</strong>：供应链消息称，苹果已将2026年折叠屏iPhone的生产准备目标上调至约1000万台，高于此前700-800万台的预期，显示公司对首款折叠屏产品的销量信心较强。  </li><li><strong>中国区AI落地取得关键进展</strong>：Apple Intelligence已在中国完成监管备案，确认将集成阿里巴巴通义千问模型，并由百度提供AI搜索功能支持。这为AI功能在中国这一关键市场的落地扫清了主要监管障碍。   </li><li><strong>CEO交接在即</strong>：现任CEO蒂姆·库克将于2026年9月1日卸任，由硬件工程高级副总裁约翰·特纳斯接任。即将发布的FQ3财报将是库克任内最后一次财报会议，管理层过渡期的不确定性是市场关注焦点。 </li></ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol><li><strong>FQ3财报（7月30日盘后）的预期差博弈</strong>：市场对苹果FQ3的预期已处于高位，一致预期营收约1088亿美元，同比增长16%。当前的核心交易机会不在于“是否超预期”，而在于<strong>超预期的结构</strong>。多家机构预测iPhone营收和出货量将因Pro系列需求强劲及市场份额提升而超越市场预期，但服务业务收入增速可能因App Store增长放缓而低于预期。同时，市场对FQ4毛利率指引存在较大分歧，摩根士丹利预测为46.8%，低于市场共识的47.4%，主要担忧存储芯片等组件成本上升。若财报在iPhone销量上超预期，但在服务增速或毛利率指引上出现瑕疵，可能导致股价出现“好消息出货”的波动。   </li></ol>
+<ol><li><strong>9月秋季新品发布会的催化前置</strong>：历史规律显示，苹果股价在6月至9月新品发布会前通常表现积极。本次发布会预计将推出<strong>首款折叠屏iPhone、iPhone 18 Pro系列</strong>，并可能伴随更大幅度的提价（分析师预期同机型换代涨幅至少200美元）。市场将提前交易“超级周期”预期。同时，<strong>Siri AI正式版</strong>预计随iOS 27在秋季推出，开发者社区初步反馈良好。若AI功能体验超预期，将强化市场对AI驱动换机潮的信心，构成股价上行的强劲催化剂。   </li></ol>
+<ol><li><strong>“轻资产AI”叙事下的资金避风港效应</strong>：在当前大型云厂商（CSP）因巨额AI资本开支导致自由现金流承压、股价波动的背景下，苹果的“轻资产AI”策略（AI资本开支仅占营收约2.5%）成为差异化优势。公司无需大规模自建数据中心，而是通过集成第三方模型和租赁算力实现AI功能落地，维持了强劲的现金流和盈利韧性。这吸引了从高资本开支科技股中流出的资金，将苹果视为AI板块内的“避险资产”，短期内这一轮动趋势可能延续。   </li></ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol><li><strong>AI从“功能”到“入口”的生态价值重估</strong>：苹果的AI战略并非开发独立的聊天机器人，而是将Apple Intelligence深度集成到操作系统层，使其成为横跨硬件、软件和服务的第三层能力。通过端侧处理与Private Cloud Compute的隐私架构，结合Siri AI对个人语境和跨应用操作的理解，AI有望从尝鲜功能演变为用户与设备交互的核心入口。这不仅能驱动超过25亿台活跃设备的换机需求，更重要的是，AI对用户数据的深度整合将极大增强生态粘性，并为服务业务（如iCloud+、App Store搜索广告）创造新的高价值变现场景，推动公司估值锚点从“硬件销量”向“高毛利服务+AI入口”迁移。  </li></ol>
+<ol><li><strong>服务业务的持续高质量增长</strong>：服务业务已成为公司利润增长的核心引擎，FY2025毛利率高达75.4%，贡献了集团42%的毛利。其增长驱动力来自多个层面：一是<strong>用户基数的持续扩大</strong>和<strong>订阅渗透率的提升</strong>（已达78%）；二是<strong>定价权的持续显现</strong>，公司近期已上调Apple Music、AppleCare+及iCloud+部分套餐价格；三是<strong>广告业务的变现深化</strong>，Apple Ads依托App Store的分发独占性，在隐私优先的生态内构筑了独特的广告护城河。尽管App Store佣金收入面临全球监管压力，但iCloud+、AppleCare+等产品相关服务的强劲增长，预计能支撑服务业务维持双位数增速，持续优化公司整体利润率。  </li></ol>
+<ol><li><strong>产品形态创新与高端化战略的延续</strong>：苹果正进入新一轮产品形态创新周期。<strong>首款折叠屏iPhone</strong>的推出将开辟新的超高端市场，其1000万台的备货目标显示公司对该产品线的重视。同时，公司计划对Mac产品线进行全面升级，首次引入OLED屏幕和触控功能，并加速芯片迭代（M6、M7系列），以更好地支持AI工作负载。在定价策略上，通过放大Pro系列与基础款的技术代差，持续推动产品均价上移。这种“技术创新+价格锚点”的组合策略，有助于公司在全球智能手机存量博弈中，持续获取更高价值的用户份额。   </li></ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul><li><strong>存储芯片等组件成本上升侵蚀毛利率</strong>：全球存储芯片（DRAM/NAND）价格持续上涨，已迫使苹果在6月上调了Mac和iPad的售价。尽管苹果具备较强的成本转嫁能力，但若涨价抑制了需求，或成本上升速度持续快于提价幅度，公司产品毛利率将承压。管理层对FQ4的毛利率指引将是检验这一风险的关键窗口。  </li></ul>
+<ul><li><strong>反垄断与监管压力持续发酵</strong>：苹果在全球范围内面临多项反垄断诉讼和监管挑战，包括美国司法部关于智能手机市场的反垄断诉讼、与Epic Games关于App Store支付政策的持续法律纠纷，以及欧盟《数字市场法案》（DMA）对应用分发和佣金模式的限制。特别是与美国司法部的潜在和解，以及谷歌搜索默认协议的未来走向，可能对公司高利润的服务收入（如Licensing和App Store佣金）构成长期威胁。  </li></ul>
+<ul><li><strong>CEO交接期的战略不确定性</strong>：蒂姆·库克将于2026年9月1日卸任，新任CEO约翰·特纳斯虽在公司任职数十年，但市场对新领导层的战略方向、资本配置偏好及团队稳定性仍存疑虑。在即将发布重磅新品（折叠屏iPhone、Siri AI）的关键时刻进行CEO更替，增加了战略执行的潜在风险。  </li></ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul><li><strong>2026年7月15日</strong>：中国网信办发布公告，苹果“Apple 智能”大模型完成备案。同时，阿里巴巴确认其通义千问模型将集成至Apple Intelligence，为中国用户提供服务。   </li><li><strong>2026年7月15日</strong>：供应链消息称，苹果已将2026年折叠屏iPhone的生产准备目标上调至约1000万台。  </li><li><strong>2026年7月28日</strong>：苹果股价盘中创下342.89美元历史新高，市值短暂突破5万亿美元，成为全球第二家达到此里程碑的上市公司。  </li><li><strong>2026年7月28日</strong>：苹果在美国正式推出“Apple Upgrade”设备租赁计划，由Klarna提供支持，iPhone月租最低17.99美元起。  </li></ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul><li><strong>2026年7月30日</strong>：苹果发布2026财年第三季度（FQ3）财报。市场将重点关注iPhone销量、服务业务增速以及管理层对FQ4的毛利率指引。  </li><li><strong>2026年9月</strong>：预计举行秋季新品发布会，将推出首款折叠屏iPhone、iPhone 18 Pro/Pro Max系列，并可能发布搭载M6芯片的新款MacBook Pro和iMac。Siri AI正式版预计随iOS 27同期推出。   </li><li><strong>2026年9月1日</strong>：蒂姆·库克卸任CEO，约翰·特纳斯正式接任。管理层交接的平稳过渡及新任CEO的战略沟通将成为市场关注焦点。 </li></ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<p><strong>盈利模式</strong>：苹果的盈利模式已从单一硬件销售，演变为“硬件引流+生态锁定+服务变现”的一体化模式。硬件端通过技术创新和品牌溢价获取高额利润，并以此扩大活跃设备基数；服务端则依托庞大的用户群体，通过App Store佣金、授权收入、广告、订阅服务和云存储等实现高利润率、高粘性的持续性收入。这种模式的核心在于其软硬件一体的封闭生态，使得用户转换成本极高，从而为公司带来稳定且高质量的现金流。</p>
+<p><strong>业务拆分</strong>：</p>
+<p>公司业务主要按产品与服务两大类别进行披露。产品业务是收入基石，其中iPhone占据半壁江山；服务业务则是利润增长的核心引擎，增速和利润率均显著高于产品业务。当前公司正处于AI技术集成与产品形态创新（折叠屏）驱动的新一轮硬件换机周期早期，同时服务业务持续受益于用户基数扩大和订阅渗透率提升。</p>
+<p><strong>细分业务拆分（单位：亿美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2023-09-30</td><td>2024-09-28</td><td>2025-09-27</td><td>2026-03-28</td></tr><tr><td><strong>iPhone</strong></td><td></td><td></td><td></td><td></td></tr><tr><td>收入</td><td>2005.83</td><td>2011.83</td><td>2095.86</td><td>1422.63</td></tr><tr><td>同比</td><td>-</td><td>0.30%</td><td>4.18%</td><td>22.67%</td></tr><tr><td>收入占比</td><td>52.34%</td><td>51.45%</td><td>50.36%</td><td>55.80%</td></tr><tr><td><strong>Mac</strong></td><td></td><td></td><td></td><td></td></tr><tr><td>收入</td><td>293.57</td><td>299.84</td><td>337.08</td><td>167.85</td></tr><tr><td>同比</td><td>-</td><td>2.14%</td><td>12.42%</td><td>-0.89%</td></tr><tr><td>收入占比</td><td>7.66%</td><td>7.67%</td><td>8.10%</td><td>6.58%</td></tr><tr><td><strong>iPad</strong></td><td></td><td></td><td></td><td></td></tr><tr><td>收入</td><td>283.00</td><td>266.94</td><td>280.23</td><td>155.09</td></tr><tr><td>同比</td><td>-</td><td>-5.68%</td><td>4.98%</td><td>7.03%</td></tr><tr><td>收入占比</td><td>7.38%</td><td>6.83%</td><td>6.73%</td><td>6.08%</td></tr><tr><td><strong>可穿戴设备、家居及配件</strong></td><td></td><td></td><td></td><td></td></tr><tr><td>收入</td><td>398.45</td><td>370.05</td><td>356.86</td><td>193.94</td></tr><tr><td>同比</td><td>-</td><td>-7.13%</td><td>-3.56%</td><td>0.65%</td></tr><tr><td>收入占比</td><td>10.40%</td><td>9.46%</td><td>8.57%</td><td>7.61%</td></tr><tr><td><strong>服务</strong></td><td></td><td></td><td></td><td></td></tr><tr><td>收入</td><td>852.00</td><td>961.69</td><td>1091.58</td><td>609.89</td></tr><tr><td>同比</td><td>-</td><td>12.87%</td><td>13.51%</td><td>15.11%</td></tr><tr><td>收入占比</td><td>22.23%</td><td>24.59%</td><td>26.23%</td><td>23.92%</td></tr><tr><td><strong>产品毛利率</strong></td><td>36.5%</td><td>37.2%</td><td>36.8%</td><td>39.9%</td></tr><tr><td><strong>服务毛利率</strong></td><td>70.8%</td><td>73.9%</td><td>75.4%</td><td>76.6%</td></tr><tr><td><strong>总营收</strong></td><td>3832.85</td><td>3910.35</td><td>4161.61</td><td>2549.40</td></tr></tbody></table></div>
+<p><strong>iPhone</strong>：FY2026上半年营收1422.63亿美元，同比增长22.7%，是公司收入增长的主要驱动力。增长主要得益于iPhone 17系列，特别是Pro/Pro Max等高端机型的强劲需求，以及在全球智能手机市场（尤其是中国）的份额提升。尽管存储芯片等组件成本上升，但通过产品提价和高端化组合，产品毛利率在FY2026上半年提升至39.9%。</p>
+<p><strong>服务</strong>：FY2026上半年营收609.89亿美元，同比增长15.1%，毛利率高达76.6%。增长主要由广告、App Store和云服务驱动。尽管App Store增速因部分地区佣金率调整和竞争而放缓，但iCloud+、AppleCare+等高粘性订阅服务的强劲表现弥补了这一影响。服务业务是公司利润率高且可预测性强的优质收入来源。</p>
+<p><strong>Mac</strong>：FY2026上半年营收167.85亿美元，同比微降0.9%。增长受到今年3月发布的M5芯片MacBook Pro/Air及新款MacBook Neo的推动，但同时也面临因存储芯片短缺和成本上升导致的供应限制和产品提价影响。</p>
+<p><strong>iPad</strong>：FY2026上半年营收155.09亿美元，同比增长7.0%。增长主要受益于M4 iPad Air等新品发布。与Mac产品线类似，iPad也面临成本压力，公司已上调产品售价以保护利润率。</p>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：基于软硬件一体化生态的极高转换成本</strong></p>
+<ul><li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。苹果通过自研芯片、操作系统（iOS/macOS）以及iCloud、App Store等服务的深度整合，构建了一个封闭但体验无缝的生态系统。用户一旦拥有多款苹果设备，其数据、应用和操作习惯便与生态深度绑定，迁移至安卓或Windows平台的成本极高。 </li><li><strong>数据验证</strong>：FY2025服务业务毛利率高达<strong>75.4%</strong>，FY2026上半年进一步提升至<strong>76.6%</strong>，远超产品业务（39.9%），这表明用户为获取生态内服务愿意支付高额溢价，且该部分收入具有极强的经常性特征。公司活跃设备安装基数已突破<strong>25亿台</strong>，创历史新高，为生态粘性提供了庞大的用户基础。  </li><li><strong>动态演变</strong>：<strong>护城河变宽</strong>。随着Apple Intelligence的推出，AI将更深入地理解用户在设备上的个人语境和跨应用数据，使得生态体验更加个性化和智能化。这种数据层面的深度整合将进一步拉大与竞争对手的体验差距，使用户的转换成本从“硬件+数据”升级为“硬件+数据+个人AI”，从而加固护城河。 </li></ul>
+<p><strong>竞争要素 2：依托品牌溢价和定价权的产业链话语权</strong></p>
+<ul><li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。苹果凭借其强大的品牌力和产品差异化，在消费者端拥有显著的定价权，能够维持远高于行业平均水平的售价。同时，其庞大的采购规模和独特的供应链管理模式，使其对上游供应商具备强大的议价能力。 </li><li><strong>数据验证</strong>：2025年iPhone平均售价（ASP）达<strong>898美元</strong>，同比增长4.8%，维持了<strong>120%以上</strong>的行业溢价水平。在面对全球存储芯片涨价的行业压力时，苹果是唯一一家未在二季度对智能手机提价的主要OEM，并已率先对Mac和iPad产品线进行提价以转嫁成本，显示出其对终端市场的定价主导权。FY2025年公司毛利率为<strong>46.9%</strong>，FY2026上半年进一步提升至<strong>48.6%</strong>，在成本压力下依然实现了利润率扩张。 </li><li><strong>动态演变</strong>：<strong>维持</strong>。虽然苹果的定价权依然强大，但未来iPhone 18系列可能高达200美元的同机型换代涨幅，将考验消费者的价格承受上限。若提价对销量产生较大负面影响，则表明其定价权边际减弱。不过，公司推出的设备租赁计划可在一定程度上对冲此风险。 </li></ul>
+<p><strong>现阶段核心驱动力总结</strong>：公司的Alpha在于其独特的“轻资产AI”策略和强大的资本回报纪律，在行业普遍陷入AI军备竞赛时，其稳健的现金流和盈利能力成为稀缺的避险属性。Beta则在于全球AI换机周期的启动，以及公司在高端智能手机市场的份额扩张。两者叠加，使苹果在当前市场环境下具备了较强的相对收益潜力。</p>
+<p><strong>竞争格局传导逻辑图</strong>：</p>
+<h3 class="doc-h2">产销链</h3>
+<ul><li><strong>客户情况</strong>：苹果的客户主要为全球消费者，结构高度分散，不存在对单一客户的依赖风险。其产品通过自营零售店、在线商店及第三方经销商（如电信运营商）销售。FY2025财报显示，其直接和间接分销渠道分别占总净销售额的<strong>40%和60%</strong>。在应收账款方面，截至2026年3月28日，有一家客户占贸易应收账款总额的<strong>17%</strong>，第三方蜂窝网络运营商合计占<strong>30%</strong>，集中度在可控范围内。  </li></ul>
+<ul><li><strong>供应商情况</strong>：苹果采用外包生产模式，其产品主要由位于中国大陆、印度、日本、韩国、台湾和越南等地的合作伙伴制造。公司对核心零部件有较强的控制力，经常通过直接采购关键组件（如芯片、屏幕）再出售给代工厂的方式进行生产。截至2026年3月28日，其制造采购承诺总额为<strong>446亿美元</strong>，其中<strong>439亿美元</strong>需在12个月内支付，显示出其与供应商的深度绑定。公司有两家供应商分别占其供应商非贸易应收款的<strong>51%和18%</strong>，表明上游存在一定的集中度风险。当前全球存储芯片等关键组件的供应紧张和价格上涨，是公司成本端面临的主要挑战。  </li></ul>
+<ul><li><strong>成本传导能力</strong>：当上游原材料（如存储芯片）涨价时，苹果具备较强的成本转嫁能力。公司已在6月上调了Mac和iPad的售价，并预计将对即将发布的iPhone 18系列进行更大幅度的提价。这主要得益于其强大的品牌溢价和消费者忠诚度，使其赚取的是“品牌溢价+生态锁定”的钱，而非单纯的“加工费”，因此能有效保护其利润率。  </li></ul>
+<h3 class="doc-h2">财务数据</h3>
+<p><strong>关键财务数据（单位：亿美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2023-09-30</td><td>2024-09-28</td><td>2025-09-27</td><td>2026-03-28</td></tr><tr><td>营业总收入</td><td>3832.85</td><td>3910.35</td><td>4161.61</td><td>2549.40</td></tr><tr><td>收入同比</td><td>-2.80%</td><td>2.02%</td><td>6.43%</td><td>16.06%</td></tr><tr><td>营业成本</td><td>2141.37</td><td>2103.52</td><td>2209.60</td><td>1309.28</td></tr><tr><td>毛利率</td><td>44.13%</td><td>46.21%</td><td>46.91%</td><td>48.64%</td></tr><tr><td>研发费用</td><td>299.15</td><td>313.70</td><td>345.50</td><td>223.06</td></tr><tr><td>销售及管理费用</td><td>249.32</td><td>260.97</td><td>276.01</td><td>149.69</td></tr><tr><td>营业利润</td><td>1143.01</td><td>1232.16</td><td>1330.50</td><td>867.37</td></tr><tr><td>营业利润率</td><td>29.82%</td><td>31.51%</td><td>31.97%</td><td>34.02%</td></tr><tr><td>归母净利润</td><td>969.95</td><td>937.36</td><td>1120.10</td><td>716.75</td></tr><tr><td>归母净利同比</td><td>-2.81%</td><td>-3.36%</td><td>19.50%</td><td>17.29%</td></tr><tr><td>净利率</td><td>25.31%</td><td>23.97%</td><td>26.91%</td><td>28.11%</td></tr><tr><td>稀释每股收益（美元）</td><td>6.13</td><td>6.08</td><td>7.46</td><td>4.85</td></tr><tr><td>经营活动现金流净额</td><td>1105.43</td><td>1182.54</td><td>1114.82</td><td>826.27</td></tr><tr><td>资本性支出</td><td>-109.59</td><td>-94.47</td><td>-127.15</td><td>-43.44</td></tr><tr><td>自由现金流</td><td>995.84</td><td>1088.07</td><td>987.67</td><td>782.83</td></tr></tbody></table></div>
+<p><strong>财务分析</strong>：</p>
+<ul><li><strong>成长能力</strong>：公司收入在FY2025重回增长轨道后，于FY2026上半年加速至<strong>16.06%</strong>，主要由iPhone的强劲需求驱动（收入同比增长22.7%）。归母净利润增速与收入增速基本匹配，显示出健康的增长质量。  </li><li><strong>盈利能力</strong>：公司毛利率和净利率均呈现持续改善趋势。FY2026上半年毛利率达到<strong>48.64%</strong>，同比提升1.6个百分点，主要得益于产品组合向高端化倾斜及服务业务占比的提升。服务业务毛利率高达<strong>76.6%</strong>，其对利润的贡献持续扩大，是公司盈利能力提升的核心驱动力。营业利润率亦提升至<strong>34.02%</strong>，体现了良好的经营杠杆效应。  </li><li><strong>现金流与股东回报</strong>：公司是典型的“现金牛”企业，FY2026上半年经营活动现金流净额高达<strong>826.27亿美元</strong>，自由现金流为<strong>782.83亿美元</strong>。公司持续通过大规模股票回购和分红回馈股东，FY2026上半年用于回购和分红的现金支出分别为<strong>369.89亿美元</strong>和<strong>77.43亿美元</strong>。FY2025财年全年资本开支仅<strong>127.15亿美元</strong>，占营收比重极低，这是其与谷歌、微软等重资产投入AI基建的科技巨头最显著的财务特征差异。  </li></ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p>苹果的业务横跨智能手机、个人电脑、平板电脑、可穿戴设备和数字服务等多个市场。其核心竞争领域是<strong>全球高端智能手机市场</strong>。</p>
+<ul><li><strong>智能手机行业</strong>：全球智能手机市场已进入存量替换阶段，增速放缓。据IDC数据，2026年第二季度全球智能手机出货量同比下降<strong>11%</strong>，主要受存储芯片短缺和价格上涨影响。在此背景下，<strong>高端化</strong>和<strong>AI集成</strong>成为核心结构性趋势。苹果是此趋势的主要受益者，其市场份额在CQ2‘26提升至<strong>20%</strong>（去年同期为17%），是唯一未对智能手机提价的主要OEM，从而实现了显著的份额增长。在中国市场，苹果二季度出货量同比增长<strong>24%</strong>，市场份额达到<strong>18%</strong>，排名第二。 </li></ul>
+<ul><li><strong>服务市场</strong>：苹果的服务业务涵盖App Store、广告、云服务、支付、音乐/视频流媒体等多个高增长领域。其核心优势在于超过25亿的活跃设备安装基数，为服务业务提供了几乎零成本的用户触达和变现渠道。App Store和广告业务受益于生态的独占性，而iCloud+、Apple Music等订阅服务则受益于用户粘性和近期提价。尽管面临全球监管机构对App Store佣金模式的压力，但服务业务的多元化和高利润率特性使其成为公司未来增长和估值扩张的关键。 </li></ul>
+<p><strong>可比公司</strong>：</p>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>对标维度</th><th>分析</th></tr></thead><tbody><tr><td>微软</td><td>MSFT</td><td>平台生态、AI变现能力</td><td>同为平台型科技巨头，但微软的AI策略是重资产投入（如对OpenAI的投资和Azure云基建），而苹果是轻资产集成。微软面临AI投入的现金流回报压力，而苹果则无此担忧。</td></tr><tr><td>谷歌</td><td>GOOG</td><td>平台生态、AI变现能力</td><td>安卓生态的直接竞争对手。谷歌的AI策略同样重资产，且其搜索广告业务面临AI聊天机器人带来的潜在颠覆风险。苹果通过默认搜索协议从谷歌获取高利润的授权收入，但该协议面临反垄断裁决的不确定性。</td></tr><tr><td>三星电子</td><td>-</td><td>消费电子、智能手机</td><td>全球最大的智能手机制造商，是苹果在硬件领域最直接的竞争对手。三星拥有完整的硬件供应链，但在软件生态和服务变现能力上弱于苹果。当前同样面临存储芯片成本压力。</td></tr></tbody></table></div>
+<p><strong>总结分析</strong>：与可比公司相比，苹果的差异化优势在于其软硬件一体化的封闭生态和“轻资产”的AI策略。当微软、谷歌等竞争对手在AI基础设施上投入数千亿美元，导致自由现金流承压、股价波动时，苹果凭借其强大的品牌和生态，以极低的资本开支实现了AI功能的集成和变现，维持了强劲的盈利能力和现金流。这使得苹果在当前市场环境下，具备了独特的“避险”属性和估值溢价。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<ul><li><strong>议题1：毛利率能否抵御存储芯片涨价的冲击？</strong></li><li><strong>背景</strong>：全球DRAM和NAND价格自2025年下半年以来持续上涨，已迫使苹果在6月上调了Mac和iPad的售价。市场担忧成本上升会侵蚀苹果高企的利润率。 </li><li><strong>问题列表</strong>：</li><li>FQ3（6月季度）的毛利率（指引47.5%-48.5%）是否达到预期上限？产品毛利率的环比变化趋势如何？</li><li>管理层对FQ4（9月季度）的毛利率指引是多少？是否低于当前市场共识的47.4%？</li><li>公司计划如何通过提价、产品组合优化或供应链谈判来对冲未来的成本压力？iPhone 18系列的提价幅度能否完全覆盖成本上涨？</li></ul>
+<ul><li><strong>议题2：服务业务增速是否会持续放缓？</strong></li><li><strong>背景</strong>：服务业务是苹果估值溢价的核心支撑。然而，App Store收入增速因部分地区佣金率调整（如中国降至25%/12%）、第三方支付竞争以及宏观经济影响而放缓。市场关注其他服务业务能否弥补这一缺口。  </li><li><strong>问题列表</strong>：</li><li>FQ3服务业务总收入增速是多少？是否低于管理层“与FQ2增速一致（剔除汇率影响）”的隐含指引？</li><li>App Store收入的同比增速是否进一步下滑？iCloud+、AppleCare+等订阅服务的增长势头如何？</li><li>谷歌搜索默认协议面临的反垄断风险，对未来的授权收入（Licensing）有何潜在影响？</li></ul>
+<ul><li><strong>议题3：AI换机周期的真实性与可持续性？</strong></li><li><strong>背景</strong>：iPhone 17系列的热销被视为AI驱动换机潮的开端。但市场需要更多证据来判断这是结构性趋势还是短期脉冲。 </li><li><strong>问题列表</strong>：</li><li>管理层如何评价Apple Intelligence对iPhone 17系列销售的拉动作用？是Pro系列用户升级，还是吸引了更多安卓转换者或老用户？</li><li>即将推出的Siri AI和折叠屏iPhone，能否将换机周期延续至下一年？中国市场AI功能的落地时间表如何？</li><li>在iPhone 18系列可能大幅提价的背景下，管理层对下一财年的需求展望如何？</li></ul>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧：当前股价的强势上涨，是“轻资产AI”叙事下的结构性价值重估，还是资金从高资本开支科技股轮动避险的短期行为？</strong></p>
+<ul><li><strong>乐观方观点（结构性重估）</strong>：</li><li><strong>逻辑</strong>：市场正在奖励“资本纪律”。在利率高企、AI投入回报不确定的环境下，苹果不参与“烧钱竞赛”，凭借其强大的生态和用户基础，以低成本方式集成AI功能，维持了行业领先的盈利能力和现金流。这是一种更可持续、风险更低的AI变现路径。  </li><li><strong>支撑依据</strong>：苹果股价年内涨幅显著跑赢其他“七巨头”，市值一度突破5万亿美元并重夺全球第一。其FY2025年资本开支仅127亿美元，而同期自由现金流高达988亿美元，与谷歌、微软等动辄千亿美元的年度AI资本开支形成鲜明对比。服务业务75%以上的毛利率和双位数增长，为公司提供了稳定的利润基石。  </li></ul>
+<ul><li><strong>谨慎方观点（短期轮动避险）</strong>：</li><li><strong>逻辑</strong>：苹果股价的优异表现，更多是资金从超买的AI基础设施板块（如英伟达、谷歌）流出后，在科技板块内部寻找“避风港”的结果。其自身的基本面并非完美无瑕，同样面临成本上升、需求弹性和监管风险。 </li><li><strong>支撑依据</strong>：苹果同样受到存储芯片涨价影响，已开始对产品提价，这可能抑制需求。FQ3服务业务增速可能低于预期，App Store增长放缓是结构性而非周期性问题。当前股价对应约32-35倍远期市盈率，处于历史高位，已充分反映了乐观预期。一旦AI基建板块回暖或苹果自身业绩出现瑕疵，资金可能迅速流出。  </li></ul>
+<p><strong>总结分析</strong>：两种逻辑均有其合理性。苹果的财务纪律和生态优势是客观存在的长期价值，但短期内股价的快速上涨确实包含了市场风格轮动的β收益。FQ3财报将是检验两种逻辑的关键节点。如果苹果能在服务增速和毛利率指引上均交出满意答卷，将强化“结构性重估”的逻辑；反之，若出现瑕疵，则可能证实“短期避险”的判断，股价面临回调压力。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>管理层最新指引</strong>：</p>
+<ul><li><strong>FQ3（6月季度）</strong>：预计总收入同比增长14%至17%。服务收入增速预计与FQ2剔除汇率影响后的增速（约13%）持平。毛利率预计在47.5%至48.5%之间。  </li></ul>
+<p><strong>券商盈利预测与估值</strong>：</p>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价(美元)</th><th>财务指标</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>高盛 (2026-07-27)</td><td>买入</td><td>370</td><td>营收(亿美元)</td><td>4161.61</td><td>-</td><td>-</td><td>-</td></tr><tr><td></td><td></td><td></td><td>稀释EPS(美元)</td><td>7.46</td><td>-</td><td>-</td><td>-</td></tr><tr><td>摩根士丹利 (2026-07-27)</td><td>增持</td><td>364</td><td>营收(亿美元)</td><td>4161.61</td><td>-</td><td>5630.00</td><td>-</td></tr><tr><td></td><td></td><td></td><td>稀释EPS(美元)</td><td>7.46</td><td>8.86</td><td>10.39</td><td>-</td></tr><tr><td>瑞银 (2026-07-28)</td><td>中性</td><td>296</td><td>营收(亿美元)</td><td>4161.61</td><td>4767.45</td><td>5096.30</td><td>5400.02</td></tr><tr><td></td><td></td><td></td><td>稀释EPS(美元)</td><td>7.46</td><td>8.72</td><td>9.57</td><td>10.52</td></tr><tr><td>财通证券 (2026-07-19)</td><td>增持</td><td>-</td><td>营收(亿美元)</td><td>4161.61</td><td>4682.36</td><td>5013.78</td><td>5340.58</td></tr><tr><td></td><td></td><td></td><td>稀释EPS(美元)</td><td>7.46</td><td>8.58</td><td>9.49</td><td>10.36</td></tr></tbody></table></div>
+<p><strong>盈利预测与估值分析</strong>：机构间对苹果的评级和观点存在分歧。乐观方（高盛、摩根士丹利）基于iPhone强劲需求、AI驱动换机周期和提价逻辑，给出了较高的目标价和估值倍数（35-37倍FY27 P/E）。谨慎方（瑞银）则担忧存储成本对毛利率的挤压、服务增速放缓以及高估值下的潜在风险，给予中性评级和较低的目标价（30倍CY27 P/E）。整体来看，市场对FY2026-FY2027年的营收和盈利增长预期较为一致，核心分歧在于估值倍数的合理性，即市场愿意为苹果的“轻资产AI”叙事和盈利稳定性支付多高的溢价。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>Gangtise Open API（公司一页通 · stock-one-pager）· 公司财报及公开披露 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/AAPL · 生成于 2026-07-31</div></footer>
+
+<script>
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.querySelectorAll('main .doc').forEach(d => { d.hidden = d.id !== 'tab-' + btn.dataset.tab; });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
