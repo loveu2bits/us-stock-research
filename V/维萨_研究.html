@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>维萨（V.N）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏（美联储风格） ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 170px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.overview__date { padding: 16px 0 4px; border-top: 2px solid var(--policy-red); text-align: right; }
+.overview__date span, .overview__date strong { display: block; }
+.overview__date span { margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.overview__date strong { font-size: 15px; font-variant-numeric: tabular-nums; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item strong.down { color: var(--teal); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 正文文档 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.doc-h1 { margin: 34px 0 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line-strong); font-family: var(--font-display); font-size: 30px; font-weight: 650; }
+.doc-h1:first-child { margin-top: 0; }
+.doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+.doc-h3 { margin: 22px 0 10px; color: var(--federal-blue); font-size: 15px; font-weight: 750; }
+.doc p, .doc li { color: var(--ink-soft); font-size: 15px; }
+.doc p { margin: 0 0 14px; }
+.doc ul, .doc ol { margin: 0 0 16px; padding-left: 24px; }
+.doc li { margin-bottom: 6px; }
+.doc strong { color: var(--ink); }
+.doc code { padding: 1px 6px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper-cool); font-size: 13px; }
+.doc-hr { margin: 30px 0; border: 0; border-top: 1px solid var(--line); }
+.doc-quote { margin: 18px 0; padding: 16px 20px; border-left: 3px solid var(--amber); background: #faf6ec; color: var(--ink-soft); font-size: 14px; }
+.tbl-wrap { margin: 16px 0 24px; overflow-x: auto; }
+.doc table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.doc th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+.doc td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+.doc tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+.star { color: var(--amber); }
+.xref { color: var(--federal-blue); font-weight: 600; }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .overview__date { text-align: left; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">V</span>
+    <span class="site-mark__text">维萨 公司研究<span>Visa · V.N</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">研究报告</button>
+    <button data-tab="onepager">一页通（Gangtise）</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>维萨<span class="en">Visa · V.N · 美股研究</span></h1>
+        <p class="sub">"全球商业的收费站"：67% 营业利润率、单季 4 万亿美元支付额。AI 代理与稳定币时代，Visa 的答案不是捍卫卡支付，而是成为所有新支付方式的底层。</p>
+      </div>
+      <div class="overview__date">
+        <span>研究日期</span>
+        <strong>2026-07-31</strong>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">$4万亿</strong><span>单季支付额 · 历史首次</span></div>
+<div class="summary-rail__item"><strong class="up">+34%</strong><span>VAS 增值服务增速</span></div>
+<div class="summary-rail__item"><strong>67%</strong><span>非 GAAP 营业利润率</span></div>
+<div class="summary-rail__item"><strong>-7%</strong><span>裁员比例 · AI 提效再投资</span></div>
+
+    </div>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+<blockquote class="doc-quote"><strong>研究日期</strong>：2026-07-31 ｜ <strong>数据来源</strong>：Gangtise 一页通（2026-07-30，已含 FY26Q3 财报 7/28） <strong>状态</strong>：初稿 v1 ｜ <strong>下次更新</strong>：FY26Q4 财报（2026 年 10 月） <strong>关联研究</strong>：<span class="xref">亚马逊研究报告</span>（代理式商务的另一端）、<span class="xref">好市多研究报告</span>（"收费"生意的另一种形态）</blockquote>
+<hr class="doc-hr">
+<h3 class="doc-h2">〇、一句话结论</h3>
+<p><strong>Visa 是"全球商业的收费站"：不发卡、不放贷、不碰资金、不承担信用风险，只收网络通行费——67% 营业利润率、44% ROIC，生意质量全美股数一数二。FY26Q3 用 VAS +34% 和单季 4 万亿美元支付额证明"增长算法升级"成功。真正的长期问题只有一个：AI 代理和稳定币时代，"信任中介"还值不值钱——Visa 的答案不是捍卫卡支付，而是把自己变成所有新支付方式的底层。</strong></p>
+<hr class="doc-hr">
+<h3 class="doc-h2">一、靠什么赚钱？</h3>
+<p><strong>一句话：收"过路费"——按支付额和交易笔数抽成（服务费+数据处理费+国际交易费），成本以固定的人员和技术投入为主，收入随全球消费自然增长，经营杠杆极强。</strong></p>
+<ul><li><strong>消费者支付（基本盘）</strong>：全球支付额单季首破 <strong>4 万亿美元</strong>；现金仍占全球消费交易 ~46%，渗透空间远未见顶</li><li><strong>增值服务 VAS（增长引擎）</strong>：发卡处理、风控、咨询——Q3 收入 38 亿（<strong>+34%</strong>），占总收入 1/3；TAM 5,200 亿美元，渗透率仅 ~2%</li><li><strong>新支付流（期权）</strong>：Visa Direct（交易量 40 亿笔，+21%）、B2B 商业支付——目标市场合计约 <strong>200 万亿美元</strong></li></ul>
+<hr class="doc-hr">
+<h3 class="doc-h2">二、FY26Q3 财报：增长算法的验证</h3>
+<div class="tbl-wrap"><table><thead><tr><th>指标</th><th>实际</th><th>评价</th></tr></thead><tbody><tr><td>净收入</td><td>$116.33 亿（+14%，固定汇率 +13%）</td><td>✅ 高于指引 LDD</td></tr><tr><td>调整后 EPS</td><td>$3.32（+11%）</td><td>✅ 超预期</td></tr><tr><td>全球支付额</td><td>单季首破 <strong>$4 万亿</strong>（+10%）</td><td>✅ 美国 +10%，2019 财年以来最快</td></tr><tr><td>跨境支付额（不含欧洲内部）</td><td>+12%（固定汇率）</td><td>✅ 环比加速</td></tr><tr><td>VAS 收入</td><td>$38 亿（<strong>+34%</strong>）</td><td>✅ 占总收入近 1/3</td></tr><tr><td>全年指引</td><td>净收入 LDD 低端、EPS 中双位数低端</td><td>上调</td></tr></tbody></table></div>
+<p><strong>裁员 2,600 人（7%）是本季最有信号意义的动作</strong>：集中在技术和产品团队，管理层明确说用 AI 提效（代码提交量 +80%、需求定义时间缩短 80%+），遣散费 5.63 亿一次性入账。Visa 是"AI 降本"在卖 AI 的公司之外的<strong>第一批受益者</strong>——利润率本已 67%，还在用 AI 抬经营杠杆。</p>
+<hr class="doc-hr">
+<h3 class="doc-h2">三、护城河：为什么难以颠覆</h3>
+<p><strong>双边网络效应</strong>：近 5 亿支付凭证 × 1.75 亿商户受理点——发卡行换网络 = 失去全球接受度，商户不接受 = 拒绝全球消费者。数十年积累，转换成本极高。</p>
+<p><strong>A2A（Pix/UPI）的真正教训</strong>：巴西 Pix、印度 UPI 在本土确实成功，但它们缺三样东西——全球接受度、争议解决与拒付机制、信用体系。这恰是 Visa 几十年堆出来的资产。区域实时支付可以赢本地，赢不了全球。</p>
+<p><strong>"网络之网络"战略</strong>：Visa 不捍卫"卡"这个形态，而是把信任、风控、清算能力做成所有新支付方式的底层——稳定币平台（支持铸造/转移/管理）、合作发行 OpenUSD、与 OpenAI/Meta 合作把 Visa 支付嵌进 AI 代理。颠覆者变成客户，是最优雅的防御。</p>
+<hr class="doc-hr">
+<h3 class="doc-h2">四、核心分歧：估值折价是机会还是衰退信号？</h3>
+<div class="tbl-wrap"><table><thead><tr><th></th><th>乐观方</th><th>谨慎方</th></tr></thead><tbody><tr><td>增长</td><td>三轮驱动（支付额+VAS+新支付流），VAS TAM 5,200 亿渗透 2%，LDD 增速可持续多年</td><td>发达市场卡渗透见顶，增长回归宏观；VAS 含世界杯/奥运一次性因素，是"空热量"</td></tr><tr><td>技术</td><td>A2A/稳定币缺全球信任基础设施，反而成为 Visa 客户；代理式商务更需信任中介</td><td>AI 代理会选最低成本路径（A2A/稳定币直连），绕过卡网络抽成</td></tr><tr><td>监管</td><td>CCCA 历届均未通过；DOJ 诉讼最坏情况有限</td><td>CCCA + DOJ 反垄断 + 州级 IFPA 多点开花，永久压缩美国业务定价权</td></tr><tr><td>估值</td><td>瑞银 DCF：当前股价隐含长期增速仅 ~3%，远低于 LDD 现实——过度悲观</td><td>26-27x 目标 PE 已低于历史中枢，折价是市场的理性定价</td></tr></tbody></table></div>
+<hr class="doc-hr">
+<h3 class="doc-h2">五、反证条件</h3>
+<ol><li><span class="warn">⚠️</span> VAS 有机增速（剔除世界杯/奥运/收购）跌破 15%</li><li><span class="warn">⚠️</span> 美国支付额增速跌破 5%（消费基本盘恶化）</li><li><span class="warn">⚠️</span> CCCA 通过且对 EPS 量化影响超 5%</li><li><span class="warn">⚠️</span> 代理式商务起量失败，AI 代理主流路径绕开卡网络（A2A/稳定币直连）</li><li><span class="warn">⚠️</span> 营业利润率跌破 60%（VAS 稀释 + 监管定价压力共振）</li></ol>
+<hr class="doc-hr">
+<h3 class="doc-h2">六、跟踪计划</h3>
+<div class="tbl-wrap"><table><thead><tr><th>跟踪变量</th><th>时间</th><th>说明</th></tr></thead><tbody><tr><td>FY26Q4 财报 + FY27 指引</td><td>2026-10</td><td>VAS 剔除一次性因素后的韧性；裁员后费用率变化</td></tr><tr><td>CCCA 立法进展</td><td>持续</td><td>通过概率与量化冲击测算</td></tr><tr><td>DOJ 借记卡反垄断诉讼</td><td>持续</td><td>最坏情景：改变路由规则</td></tr><tr><td>稳定币平台 / OpenUSD</td><td>持续</td><td>交易量、结算量等先行指标</td></tr><tr><td>代理式商务合作落地</td><td>持续</td><td>OpenAI/Meta 集成的实际支付流量</td></tr><tr><td>B 类股交换要约</td><td>2026 下半年</td><td>增加 A 股流动性，短期技术性压力</td></tr></tbody></table></div>
+  </article>
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>维萨（Visa）是全球最大的零售电子支付网络运营商，定位为全球支付技术公司，通过其专有网络VisaNet，为覆盖200多个国家和地区的消费者、商户、金融机构及政府提供交易处理服务（主要为授权、清算和结算）。公司本身并非金融机构，不发行卡片或提供信贷，其核心角色是连接支付生态中各方的“网络交换机”。维萨凭借其全球品牌、庞大的网络规模（近5亿支付凭证、超1.75亿商户受理点）以及深厚的安全与信任壁垒，与万事达卡共同构成全球通用卡网络的双寡头格局。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul><li><strong>FY2026 Q3业绩全面超预期，核心业务量加速增长</strong>：净收入同比增长14%至116.33亿美元，固定汇率（FXN）下增长13%，高于指引的LDD水平。调整后EPS为3.32美元，同比增长11%。全球支付额FXN下同比增长10%，首次单季突破4万亿美元；美国支付额同比增长10%，为2019财年以来最快增速。跨境支付额（不含欧洲内部）FXN下同比增长12%，较上季度加速超1个百分点。</li><li><strong>增值服务（VAS）增长引擎再次提速</strong>：VAS收入FXN下同比增长34%至38亿美元，超出预期，占总收入比重接近三分之一。增长主要由发卡解决方案和受理解决方案中网络产品的更高使用率驱动，同时受益于FIFA世界杯相关的营销服务。管理层指出，过去12个月所有四个VAS产品组合的增速均快于投资者日披露的历史增速。</li><li><strong>宣布裁员以优化成本结构并再投资</strong>：公司宣布裁减约2,600个岗位，占员工总数约7%，主要集中于技术和产品团队。此举旨在利用AI提升效率，并将节省的资金重新投向消费者支付、VAS、商业及资金流动解决方案、稳定币及代理式商务等高增长领域。FY2026 Q3财报中确认了5.63亿美元的遣散费。</li><li><strong>关键客户合作与业务拓展取得进展</strong>：在欧洲，赢得了NatWest零售银行全部消费者信贷组合，并预计未来几年仅凭已赢得的项目将新增超3,000万凭证。在拉美，与巴西Bradesco续签长达55年的合作关系。Visa Direct交易量同比增长21%至40亿笔，商业支付额同比增长13%，均呈现加速态势。</li><li><strong>稳定币与代理式商务战略布局深化</strong>：推出Visa稳定币平台（Visa Stablecoin Platform），支持稳定币铸造、转移和管理。加入Open Standard，合作发行用于全球资金流动的新稳定币OpenUSD。在代理式商务方面，推出代理评分、代理目录等新能力，并与OpenAI、Meta等建立合作，将Visa支付集成至其AI代理和平台中。</li></ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol><li><strong>业绩超预期后的动量延续与指引上调</strong>：FY2026 Q3业绩在收入、VAS增长、美国支付额等多个关键指标上均超预期，管理层同步上调了全年指引，预计FY2026净收入增速处于低双位数区间低端，EPS增速处于中双位数区间低端。强劲的Q3表现和积极的Q4展望为股价提供了基本面支撑。市场关注点在于，Q3的超预期表现是否能在Q4及FY2027延续，尤其是在FIFA世界杯等一次性因素消退后。</li><li><strong>AI驱动的效率提升与成本优化预期</strong>：Visa宣布裁员约7%，主要针对技术和产品团队，并明确表示将利用AI工具（如AgentIQ）大幅提升开发效率（代码提交量增加80%，需求定义时间缩短超80%）。这一举措被市场解读为积极的成本优化信号，尽管管理层表示节省的资金将大部分用于再投资，但投资者将密切关注此举对未来运营杠杆和利润率的影响。</li><li><strong>代理式商务与稳定币叙事的持续发酵</strong>：Visa在代理式商务和稳定币领域的布局正从概念走向落地。与OpenAI、Meta的合作，以及Visa稳定币平台的推出，为市场提供了具体的想象空间。尽管这些业务短期内对财务贡献有限，但在当前AI投资主题下，任何表明Visa能在新的支付范式中保持甚至强化其“信任中介”和“网络枢纽”地位的证据，都可能成为股价上涨的催化剂。</li></ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol><li><strong>全球支付网络的双寡头护城河与不可替代性</strong>：Visa与万事达卡共同构建的全球通用卡网络，其价值在于双边网络效应——越多的消费者使用，商户就越有动力接受；越多的商户接受，消费者就越愿意使用。这种网络效应经过数十年积累，形成了极高的规模壁垒。在可预见的未来，无论是新兴的账户到账户（A2A）支付、稳定币还是代理式商务，都难以在“全球接受度”、“交易安全与争议解决机制”、“监管合规框架”这三个维度上同时匹敌Visa的网络。Visa的战略是成为所有支付方式的“网络之网络”，而非仅仅捍卫卡支付，这使其在支付方式变革中处于有利地位。</li><li><strong>增值服务（VAS）打开第二增长曲线，提升收入天花板与粘性</strong>：VAS业务（发卡、受理、风控、咨询）已占公司收入近三分之一，且增速（Q3为34%）远高于核心支付业务。VAS的TAM高达5,200亿美元，目前渗透率仅约2%。该业务的增长逻辑清晰：1）基线增长来自网络交易量和卡量的自然增长；2）通过深化现有产品渗透和拓展新地域实现增长；3）通过有机创新和并购（如Pismo、Featurespace）进入新的能力领域。VAS不仅贡献了增量收入，更重要的是，通过将风控、数据处理等核心能力嵌入客户运营，显著提高了客户转换成本，加深了护城河。</li><li><strong>新支付流（New Flows）的长期TAM扩张潜力</strong>：Visa在消费者对商户（C2B）支付之外，正系统性地拓展P2P、B2B、B2C和G2C等新支付流，其目标市场规模合计约200万亿美元。其中，Visa Direct已成为全球最大的资金分发平台之一，交易量在FY2025达125亿笔。B2B支付是最大的单一机会，Visa通过虚拟卡、Visa Commercial Choice等可编程支付解决方案，瞄准了传统支票和ACH支付的数字化迁移。</li></ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul><li><strong>监管与立法风险</strong>：全球范围内对卡网络的经济模型（尤其是交换费）的监管审查持续加强。美国的《信用卡竞争法案》（CCCA）若通过，将强制要求大型发卡行为信用卡提供至少两个非关联网络进行路由选择，可能对Visa的美国信用卡业务收入和定价能力构成实质性冲击。此外，美国司法部对Visa借记卡业务的反垄断诉讼仍在进行中，其结果可能迫使Visa改变其商业行为。</li><li><strong>技术颠覆与竞争风险</strong>：尽管Visa在积极布局，但账户到账户（A2A）实时支付系统（如巴西Pix、印度UPI）的兴起，以及稳定币在特定跨境支付场景中的应用，代表了潜在的替代性支付基础设施。长期来看，若这些替代方案在用户体验、成本和安全性上取得突破，并建立起类似Visa的双边网络，可能侵蚀Visa的支付量份额，尤其是在增量市场。</li><li><strong>宏观经济与地缘政治风险</strong>：Visa的业绩与全球消费者支出和跨境旅行高度相关。经济衰退、持续通胀或地缘政治冲突（如中东局势）可能导致消费支出放缓或跨境旅行减少，从而直接影响Visa的交易量和收入。尽管Visa的业务在历史上表现出韧性，但严重的宏观冲击仍会对其增长构成压力。</li></ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul><li><strong>2026年5月</strong>：Visa完成B类普通股交换要约，优化了股权结构。此举有助于逐步解决历史遗留的股权问题，增加A类普通股的流动性。</li><li><strong>2026年6月</strong>：Visa在2026年Baird全球消费者、科技与服务大会上，详细阐述了其商业及资金流动解决方案（CMS）战略，强调了在B2B支付、车队管理和虚拟卡领域的差异化优势，以及代理式商务带来的机遇。</li><li><strong>2026年7月28日</strong>：Visa公布FY2026 Q3财报，业绩全面超预期，并宣布裁员约2,600人。同日，公司宣布与OpenAI合作，在代理式商务中支持安全的Visa支付；并与Meta合作，在Facebook和Instagram上推出由Visa智能商务驱动的新支付方式。</li></ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul><li><strong>2026年8月-9月</strong>：FIFA世界杯剩余赛事及后续影响。尽管大部分赛事在Q3结束，但相关营销活动和品牌效应可能在Q4及之后继续为VAS中的咨询和营销服务收入带来贡献。</li><li><strong>2026年10月</strong>：FY2026 Q4财报及FY2027全年指引。这是下一个最重要的基本面验证点。市场将密切关注：1）在FIFA世界杯等一次性因素消退后，VAS和整体收入的增长韧性；2）裁员后运营费用的变化趋势；3）管理层对FY2027的初步展望。</li><li><strong>2026年下半年</strong>：Visa可能启动新一轮针对B类普通股的交换要约。此举虽不改变完全稀释后的股份总数，但会增加自由流通的A类普通股数量，可能对短期股价造成技术性压力，但长期来看有助于简化股权结构。</li></ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<h4 class="doc-h3">业务边际变化</h4>
+<p>Visa正从传统的卡支付网络运营商，向一个以“网络之网络”为核心、以增值服务为增长引擎的综合性支付科技平台演进。公司的战略重心已明确扩展至三大增长支柱：消费者支付（CP）、商业与资金流动解决方案（CMS）和增值服务（VAS）。近期，公司显著加大了对代理式商务和稳定币等前沿领域的投入，并已推出具体产品（如Visa Intelligent Commerce、Visa Stablecoin Platform）和建立关键合作（如与OpenAI、Meta的合作）。同时，公司通过裁员和AI工具部署，主动优化组织架构和成本结构。</p>
+<h4 class="doc-h3">盈利模式</h4>
+<p>Visa的核心盈利模式是“网络通行费”模式。公司通过VisaNet为发卡行和收单行提供交易处理服务，并从中收取服务费、数据处理费和国际交易费。该模式的特点是：1）收入主要基于支付额和交易笔数，而非承担信用风险；2）固定成本占比高，具有显著的经营杠杆；3）网络效应强，规模越大，价值越高。近年来，VAS业务的崛起丰富了其盈利模式，通过提供发卡处理、风控、咨询等高附加值服务，获取了基于交易或项目的订阅制/项目制收入。</p>
+<h4 class="doc-h3">业务拆分</h4>
+<p>公司近年业务结构持续向VAS和CMS倾斜。从收入构成看，占比最高、增速最快的业务板块已从传统的国际交易收入转向数据加工收入和VAS。FY2025年报显示，数据加工收入占比最高，达到总净收入的50%，而VAS收入合计占总净收入约27%。到FY2026 Q3，VAS收入占比已提升至约33%。</p>
+<p><strong>细分业务拆分（基于财报披露的收入类别，单位：百万美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>收入类别</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 Q1-Q3</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2023-09-30</td><td>2024-09-30</td><td>2025-09-30</td><td>2026-06-30</td></tr><tr><td>服务收入</td><td>14,826</td><td>16,114</td><td>17,539</td><td>14,663</td></tr><tr><td>同比</td><td>-</td><td>8.7%</td><td>8.8%</td><td>13.3%</td></tr><tr><td>数据加工收入</td><td>16,007</td><td>17,714</td><td>19,993</td><td>17,129</td></tr><tr><td>同比</td><td>-</td><td>10.7%</td><td>12.9%</td><td>17.3%</td></tr><tr><td>国际交易收入</td><td>11,638</td><td>12,665</td><td>14,166</td><td>11,136</td></tr><tr><td>同比</td><td>-</td><td>8.8%</td><td>11.9%</td><td>7.4%</td></tr><tr><td>其他收入</td><td>2,479</td><td>3,197</td><td>4,053</td><td>4,030</td></tr><tr><td>同比</td><td>-</td><td>29.0%</td><td>26.8%</td><td>40.1%</td></tr><tr><td>客户激励</td><td>(12,297)</td><td>(13,764)</td><td>(15,751)</td><td>(13,194)</td></tr><tr><td><strong>净收入合计</strong></td><td><strong>32,653</strong></td><td><strong>35,926</strong></td><td><strong>40,000</strong></td><td><strong>33,764</strong></td></tr></tbody></table></div>
+<p>注：增值服务（VAS）收入分布在服务、数据加工和其他收入中，FY2025全年为109亿美元，FY2026 Q1-Q3为103亿美元。其他收入同比+40.1% 主要受咨询和FIFA世界杯相关营销服务驱动。</p>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托极高转换成本与双边网络效应构筑的结构性护城河</strong></p>
+<ul><li><strong>护城河定性</strong>：Visa的网络构成了<strong>结构性护城河</strong>。其核心是连接数十亿持卡人和超过1.75亿商户的双边网络。对于发卡行，迁移到另一个网络意味着失去Visa的全球接受度；对于商户，不接受Visa意味着拒绝全球海量的消费者。Visa的品牌代表着“全球接受”和“安全可靠”，这本身就是一种强大的无形资产。</li><li><strong>数据验证</strong>：FY2025 GAAP营业利润率高达67.7%，非GAAP口径ROIC达44.0%（瑞银测算）。公司拥有近5亿张流通卡和超过1.75亿个受理点，这一规模是任何新进入者在短期内无法复制的。</li><li><strong>动态演变</strong>：护城河正在<strong>变宽</strong>。Visa通过VAS将风控、数据分析、发卡处理等能力深度嵌入客户运营，同时积极拥抱代理式商务和稳定币，将信任、安全和网络能力作为底层基础设施提供给新生态。</li></ul>
+<p><strong>竞争要素 2：通过增值服务（VAS）实现的生态锁定与收入多元化</strong></p>
+<ul><li><strong>护城河定性</strong>：VAS业务正在从“附加服务”演变为<strong>结构性护城河</strong>的一部分。通过提供发卡处理（DPS/Pismo）、风控（Visa Protect）、数据分析（VCA）等深度服务，Visa不再仅仅是交易管道，而是成为客户支付业务的核心运营系统。</li><li><strong>数据验证</strong>：VAS收入在FY2026 Q3已占总净收入约33%，增速（34%）远超核心支付业务。TAM高达5,200亿美元，渗透率仅约2%（美银测算）。VAS的强劲增长并未稀释公司整体利润率，FY2025非GAAP营业利润率仍维持在67.7%的高位。</li><li><strong>动态演变</strong>：护城河正在<strong>变宽</strong>。通过收购（Pismo、Featurespace）和内部创新不断扩展VAS能力边界。Pismo为富国银行提供核心银行账本服务，标志着Visa进入银行核心基础设施领域。</li></ul>
+<p><strong>现阶段核心驱动力总结</strong>：Visa的Alpha来自于其在全球支付网络中的双寡头垄断地位，Beta则与全球消费者支出和跨境旅行高度相关。当前，公司的核心驱动力正从单一的支付额增长，转向“支付额增长 + VAS渗透率提升 + 新支付流拓展”的三轮驱动模式。</p>
+<h3 class="doc-h2">产销链</h3>
+<ul><li><strong>客户情况</strong>：Visa的客户主要是金融机构（发卡行和收单行）、商户、金融科技公司和政府机构。FY2025年报显示有一家客户占总净收入的11%，但整体客户基础非常分散，涵盖全球近14,500家金融机构。公司正积极拓展与大型科技公司（Meta、OpenAI）的合作。</li><li><strong>供应商情况</strong>：主要“供应商”是技术基础设施、数据中心、电信服务和专业服务公司。人员费用是最大开支项（FY2025占净收入的17.4%），成本结构相对固定，赋予其强大的经营杠杆。</li><li><strong>成本传导能力</strong>：Visa赚取的是“网络通行费”，其定价与交换费分离。运营成本主要是固定的人员和技术投入，对上游价格不敏感。收入直接与支付额和交易量挂钩，宏观向好时收入自然增长而成本滞后，展现强大经营杠杆。</li></ul>
+<h3 class="doc-h2">财务数据</h3>
+<p><strong>关键财务数据（单位：百万美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>财务指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 Q1-Q3</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2023-09-30</td><td>2024-09-30</td><td>2025-09-30</td><td>2026-06-30</td></tr><tr><td>净收入</td><td>32,653</td><td>35,926</td><td>40,000</td><td>33,764</td></tr><tr><td>同比</td><td>11.4%</td><td>10.0%</td><td>11.3%</td><td>15.3%</td></tr><tr><td>营业利润</td><td>21,000</td><td>23,595</td><td>23,994</td><td>20,848</td></tr><tr><td>营业利润率</td><td>64.3%</td><td>65.7%</td><td>60.0%</td><td>61.7%</td></tr><tr><td>归母净利润</td><td>17,273</td><td>19,743</td><td>20,058</td><td>17,502</td></tr><tr><td>同比</td><td>15.5%</td><td>14.3%</td><td>1.6%</td><td>16.9%</td></tr><tr><td>稀释每股收益 (美元)</td><td>8.28</td><td>9.73</td><td>10.20</td><td>9.14</td></tr><tr><td>自由现金流</td><td>19,696</td><td>18,693</td><td>21,577</td><td>15,164</td></tr></tbody></table></div>
+<p>注：FY2025归母净利润增速较低，主要受诉讼拨备大幅增加（25.62亿美元）影响。</p>
+<p><strong>财务分析</strong>：</p>
+<ul><li><strong>成长能力</strong>：FY2023-FY2025净收入CAGR为10.7%。FY2026前三季度净收入同比+15.3%，主要受VAS强劲增长、支付额加速和定价调整驱动。非GAAP净利润FY2025同比+10.6%（剔除诉讼拨备），核心盈利持续增强。</li><li><strong>盈利能力</strong>：非GAAP营业利润率稳定在67.7%的高位，FY2026 Q1-Q3约67.5%。ROE在FY2025高达58.5%（美银测算）。</li><li><strong>现金流与资本配置</strong>：FY2025自由现金流215.77亿美元，占非GAAP净利润的95.7%。FY2025通过回购（183.16亿）和分红（46.34亿）返还绝大部分FCF。截至FY2026 Q3末仍有284亿美元回购授权额度。</li></ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p>Visa所处的全球数字支付行业由长期结构性趋势驱动。2025年现金仍占全球消费者支付交易约46%（麦肯锡），渗透空间巨大。核心驱动力：现金向电子支付迁移、电商发展、跨境旅行增长、新支付流数字化。</p>
+<p><strong>竞争格局</strong>：Visa与万事达卡双寡头主导全球通用卡网络。竞争对手包括区域网络（NYCE、Interac）和替代支付方式（A2A实时支付、数字钱包、BNPL、稳定币）。</p>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>主要对标维度</th><th>分析</th></tr></thead><tbody><tr><td>万事达卡 (Mastercard)</td><td>MA</td><td>商业模式、全球网络规模</td><td>商业模式最接近，双寡头。Mastercard国际业务占比更高，增速通常略快于Visa。</td></tr><tr><td>美国运通 (American Express)</td><td>AXP</td><td>支付网络、高端客群</td><td>闭环模式，同时充当发卡行和收单行，收入更依赖商户折扣率。客群高端但网络规模远小于Visa。</td></tr><tr><td>PayPal</td><td>PYPL</td><td>数字支付、在线结算</td><td>数字钱包领先者，与Visa既有合作（绑定Visa卡）也有竞争（推动A2A支付）。</td></tr></tbody></table></div>
+<h3 class="doc-h2">市场焦点议题</h3>
+<p><strong>议题一：增值服务（VAS）增长的可持续性与质量</strong>——VAS增速34%贡献了近一半净收入增长，但FY2026有FIFA世界杯和奥运会等一次性事件。关键问题：剔除一次性因素后的有机增速是多少？各产品组合利润率如何？会否拉低整体营业利润率？</p>
+<p><strong>议题二：代理式商务与稳定币是机遇还是威胁？</strong>——AI代理可能绕过卡网络，稳定币可能成为低成本替代结算方式。关键问题：Visa的“信任中介”角色是否依然不可或缺？相关服务的经济模型是增量还是蚕食？</p>
+<p><strong>议题三：美国监管与立法风险的潜在影响</strong>——CCCA、DOJ借记卡反垄断诉讼、伊利诺伊州IFPA多点压力。关键问题：CCCA通过概率与量化影响？DOJ诉讼最坏结果？IFPA会否成为全国性模板？</p>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧：Visa当前的估值折价是结构性衰退的信号，还是周期性的买入机会？</strong></p>
+<ul><li><strong>看空方</strong>：核心C2B市场在发达国家渗透接近饱和；A2A和稳定币蚕食增量市场，代理式商务可能动摇“收费站”模式；CCCA、DOJ诉讼可能永久压缩利润率和估值中枢；VAS增长被视为“空热量”。</li><li><strong>看多方</strong>：增长已升级为“支付额 + VAS + 新支付流”三轮驱动；A2A和稳定币缺乏Visa的全球接受度、信任和争议解决机制，“网络之网络”战略能从中获利；CCCA历史上均未通过，监管风险可控。</li></ul>
+<p><strong>综合分析</strong>：当前市场对Visa的担忧过度集中于潜在的、尚未兑现的风险，而低估了其业务的韧性和适应性。VAS和新支付流的强劲增长表明公司有能力在变化的支付格局中持续找到新增长点。当前因市场情绪导致的估值折价，更可能是周期性买入机会，而非结构性衰退的开始。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>管理层最新指引（FY2026）</strong>：净收入固定汇率下增速处于低双位数区间低端（约11%-12%）；调整后EPS增速处于中双位数区间低端（约14%-15%）。Q4预计调整后净收入增速处于低双位数区间高端。</p>
+<p><strong>券商盈利预测与估值</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价(美元)</th><th>财务指标</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>瑞银 (2026-07-30)</td><td>买入</td><td>410</td><td>净收入(百万美元)</td><td>40,000</td><td>45,813</td><td>51,180</td><td>56,563</td></tr><tr><td></td><td></td><td></td><td>调整后EPS(美元)</td><td>11.47</td><td>13.24</td><td>15.32</td><td>17.31</td></tr><tr><td>花旗 (2026-07-29)</td><td>买入</td><td>440</td><td>调整后EPS(美元)</td><td>-</td><td>13.24</td><td>-</td><td>-</td></tr><tr><td>摩根大通 (2026-07-29)</td><td>超配</td><td>450</td><td>净收入(百万美元)</td><td>40,000</td><td>45,900</td><td>-</td><td>-</td></tr><tr><td></td><td></td><td></td><td>调整后EPS(美元)</td><td>11.47</td><td>13.23</td><td>14.89</td><td>17.19</td></tr><tr><td>摩根士丹利 (2026-07-29)</td><td>超配</td><td>416</td><td>调整后EPS(美元)</td><td>11.44</td><td>13.18</td><td>14.89</td><td>16.92</td></tr><tr><td>美银 (2026-05-20)</td><td>买入</td><td>410</td><td>净收入(百万美元)</td><td>40,000</td><td>45,496</td><td>49,919</td><td>55,311</td></tr><tr><td></td><td></td><td></td><td>调整后EPS(美元)</td><td>11.47</td><td>13.08</td><td>14.68</td><td>17.02</td></tr></tbody></table></div>
+<p><strong>盈利预测与估值分析</strong>：主要券商评级均为“买入”或“超配”，FY2026调整后EPS预测集中在13.08-13.24美元。估值多采用市盈率法，给予26-27倍目标倍数，略低于Visa过去5年平均远期P/E（约27-28倍），反映监管和竞争风险折价。瑞银DCF显示，当前股价隐含的长期收入增长率仅约3%，远低于其LDD预期增速，表明市场定价可能过于悲观。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>Gangtise Open API（公司一页通 · stock-one-pager）· 公司财报及公开披露 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/V · 生成于 2026-07-31</div></footer>
+
+<script>
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

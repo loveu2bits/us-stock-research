@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>星座能源（CEG.O）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏（美联储风格） ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 170px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.overview__date { padding: 16px 0 4px; border-top: 2px solid var(--policy-red); text-align: right; }
+.overview__date span, .overview__date strong { display: block; }
+.overview__date span { margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.overview__date strong { font-size: 15px; font-variant-numeric: tabular-nums; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item strong.down { color: var(--teal); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 正文文档 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.doc-h1 { margin: 34px 0 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line-strong); font-family: var(--font-display); font-size: 30px; font-weight: 650; }
+.doc-h1:first-child { margin-top: 0; }
+.doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+.doc-h3 { margin: 22px 0 10px; color: var(--federal-blue); font-size: 15px; font-weight: 750; }
+.doc p, .doc li { color: var(--ink-soft); font-size: 15px; }
+.doc p { margin: 0 0 14px; }
+.doc ul, .doc ol { margin: 0 0 16px; padding-left: 24px; }
+.doc li { margin-bottom: 6px; }
+.doc strong { color: var(--ink); }
+.doc code { padding: 1px 6px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper-cool); font-size: 13px; }
+.doc-hr { margin: 30px 0; border: 0; border-top: 1px solid var(--line); }
+.doc-quote { margin: 18px 0; padding: 16px 20px; border-left: 3px solid var(--amber); background: #faf6ec; color: var(--ink-soft); font-size: 14px; }
+.tbl-wrap { margin: 16px 0 24px; overflow-x: auto; }
+.doc table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.doc th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+.doc td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+.doc tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+.star { color: var(--amber); }
+.xref { color: var(--federal-blue); font-weight: 600; }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .overview__date { text-align: left; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">CEG</span>
+    <span class="site-mark__text">星座能源 公司研究<span>Constellation Energy · CEG.O</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">研究报告</button>
+    <button data-tab="onepager">一页通（Gangtise）</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>星座能源<span class="en">Constellation Energy · CEG.O · 美股研究</span></h1>
+        <p class="sub">AI 军备竞赛的最后一环不是芯片，是电。全美最大核电舰队（22 GW）是数据中心"清洁基荷"唯一成熟的答案——微软、Meta、沃尔玛已用 20 年长约投票，问题只在签约节奏。</p>
+      </div>
+      <div class="overview__date">
+        <span>研究日期</span>
+        <strong>2026-07-31</strong>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong>22 GW</strong><span>核电装机 · 全美最大舰队</span></div>
+<div class="summary-rail__item"><strong class="up">94%+</strong><span>核电容量因子 · 高于行业 4pct</span></div>
+<div class="summary-rail__item"><strong class="up">147 TWh</strong><span>未签约清洁电量 · PPA 转化空间</span></div>
+<div class="summary-rail__item"><strong>&gt;20%</strong><span>基础 EPS 2026-29 CAGR 指引</span></div>
+
+    </div>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+<blockquote class="doc-quote"><strong>研究日期</strong>：2026-07-31 ｜ <strong>数据来源</strong>：Gangtise 一页通（2026-07-30） <strong>状态</strong>：初稿 v1 ｜ <strong>下次更新</strong>：Q2 财报（<strong>2026-08-06</strong>，下周四） <strong>关联研究</strong>：<span class="xref">微软研究报告</span>（Crane 核电 PPA 的买方）、<span class="xref">英伟达研究报告</span>（AI 算力链的最后一环：电力）</blockquote>
+<hr class="doc-hr">
+<h3 class="doc-h2">〇、一句话结论</h3>
+<p><strong>AI 军备竞赛的最后一环不是芯片，是电。CEG 手握全美最大核电舰队（22 GW）——零碳、24/7 基荷、燃料成本仅 $6-7/MWh，是数据中心"清洁基荷"唯一成熟的答案；新建同规模核电要十年以上，存量即稀缺。微软（三哩岛重启）、Meta、沃尔玛已用 20 年长约投票。问题在节奏：2025 年至今新签 PPA 慢于市场预期，股价在为"可能性"付溢价——PJM 规则落地和 8/6 财报是下一个验证点。</strong></p>
+<hr class="doc-hr">
+<h3 class="doc-h2">一、靠什么赚钱？</h3>
+<p><strong>一句话："发电+零售"一体化，赚两份钱——基础收益（核电 PTC 保护价 + 长期 PPA + 零售稳定利润率，可预测）+ 增强收益（市价电量、气电价差、容量市场，有弹性）。本质是向数据中心收"可靠性溢价"和"清洁属性溢价"：核电 PPA 价格 $70-80/MWh，远高于 PTC 保护价 $45-50。</strong></p>
+<ul><li><strong>核电（核心）</strong>：22 GW 全美最大舰队，容量因子 94%+（比行业高 4pct ≈ 每年多发 800 万 MWh）</li><li><strong>天然气调峰（Calpine，2026 年 1 月并表）</strong>：21 GW 高效机组，补上"基荷+调峰"一站式能力，合并后 55 GW = 全球最大私营电力生产商</li><li><strong>零售</strong>：250 万客户账户（含 3/4 财富 100 强），发电资产的天然对冲</li></ul>
+<hr class="doc-hr">
+<h3 class="doc-h2">二、为什么核电在 AI 时代被重估</h3>
+<p><strong>数据中心要的是"24/7 清洁基荷"：风光间歇、气电有碳、核电是唯一成熟解。</strong>而供给端，新建核电十年起步、百亿美元级、监管不确定——存量的 22 GW 就成了不可复制的稀缺资产。</p>
+<ul><li><strong>三哩岛重启（Crane 项目）是美国核电复兴的标志性事件</strong>：835 MW，微软 20 年 PPA 锁定，能源部 $10 亿贷款担保，FERC 6 月已批互联权转移，目标 2027 年并网。瑞银测算该项目全年贡献每股价值 ~$26</li><li><strong>PPA 转化空间</strong>：未签约清洁电量约 <strong>147 TWh</strong>；每转化 1 GW 核电 PPA，增厚 EPS <strong>$0.40-1.00</strong>；每 1 GW 天然气"Powered Land"交易，增厚 $0.20-0.50</li><li><strong>客户在扩散</strong>：微软 → Meta（Clinton 1,121 MW）→ 沃尔玛（首份零售业核电 PPA，176 MW）——从科技巨头向工商业外溢</li></ul>
+<hr class="doc-hr">
+<h3 class="doc-h2">三、财务与资本配置</h3>
+<ul><li><strong>Q1 2026</strong>：调整后 EPS <strong>$2.74</strong>（预期 $2.53），Calpine 贡献 $0.45 增厚；但全年指引 $11.00-12.00 仅<strong>重申未上调</strong>，2027 基础 EPS 指引 $7.60-7.70（不含任何新 PPA）显得"断档"——这是股价承压的核心</li><li><strong>现金流飞轮</strong>：预计 2028-29 年 FCF <strong>$115-130 亿</strong>（扣增长性 capex 前）；$50 亿回购授权（2026-27 执行），已启动（4 月回购 $3.35 亿）</li><li><strong>杠杆</strong>：Calpine 并表后总债务 ~$225 亿，目标 2027 年底债务/EBITDA 降至 2x；穆迪/标普维持投资级（Baa1/BBB+）</li><li>指引刻意保守：2026-29 基础 EPS CAGR &gt;20% 的指引<strong>不含</strong>任何未宣布的新 PPA——每签一单都是纯增量</li></ul>
+<hr class="doc-hr">
+<h3 class="doc-h2">四、核心分歧：为"可能性"付溢价，值不值？</h3>
+<div class="tbl-wrap"><table><thead><tr><th></th><th>乐观方</th><th>谨慎方</th></tr></thead><tbody><tr><td>估值</td><td>~24x 2026E PE vs 基础 EPS CAGR 20%+，PEG 远低于同业；核电稀缺性应享溢价</td><td>溢价已计入大量未落地的 PPA 预期；2027 指引"断档"说明没新合同增长就停</td></tr><tr><td>签约</td><td>PJM RBP 规则 6-9 月落地 → 被压制的签约潮释放（管理层亲承监管不明是客户推迟主因）</td><td>2025 年至今只签了 Meta + 沃尔玛小单，执行力存疑；也可能公司在死守高价</td></tr><tr><td>监管</td><td>FERC 大型负荷互联改革 + Crane 获批，路径在变清晰</td><td>RBP/共址规则细节可能不利现有发电商；PTC 政策 2032 年后的不确定性</td></tr><tr><td>整合</td><td>Calpine 协同 + 去杠杆路径明确，评级稳</td><td>债务翻倍至 $225 亿，整合/资产剥离不顺会拖累回购</td></tr></tbody></table></div>
+<blockquote class="doc-quote">📚 <em>方法点评：CEG 是"卖铲人"逻辑在电力行业的翻版——但和 NVDA 不同，它的收入兑现靠<strong>一份一份签出来的长约</strong>，节奏天然慢于市场心跳。研究这类资产的关键不是判断需求（AI 用电需求没有争议），而是<strong>校准"签约节奏 vs 市场预期"的差</strong>。指引不含新 PPA 这一点，其实是管理层留给自己的期权。</em></blockquote>
+<hr class="doc-hr">
+<h3 class="doc-h2">五、反证条件</h3>
+<ol><li><span class="warn">⚠️</span> 2026 下半年无任何新大型数据中心 PPA（签约叙事破产）</li><li><span class="warn">⚠️</span> PJM RBP 最终规则明显不利于现有发电商</li><li><span class="warn">⚠️</span> 2027 基础 EPS 指引下修，或 Calpine 协同/去杠杆偏离 2x 路径</li><li><span class="warn">⚠️</span> Crane 项目延期或显著超预算（核电重启的样板失败）</li><li><span class="warn">⚠️</span> 核电 PTC 政策出现不利变动；俄铀禁令豁免收紧导致燃料风险</li></ol>
+<hr class="doc-hr">
+<h3 class="doc-h2">六、跟踪计划</h3>
+<div class="tbl-wrap"><table><thead><tr><th>跟踪变量</th><th>时间</th><th>说明</th></tr></thead><tbody><tr><td>Q2 财报</td><td><strong>2026-08-06</strong></td><td>是否上调全年指引（花旗预览偏积极）；新 PPA 表态</td></tr><tr><td>PJM RBP 方案提交</td><td>2026-09 前</td><td>规则细节决定签约潮是否释放</td></tr><tr><td>新数据中心 PPA 公告</td><td>持续</td><td>核心催化剂：每 1 GW 核电 ≈ EPS +$0.40-1.00</td></tr><tr><td>Crane 项目进度</td><td>每季度</td><td>2027 并网目标的工程/预算执行</td></tr><tr><td>Calpine 整合与去杠杆</td><td>每季度</td><td>协同兑现、PJM 资产剥离、债务/EBITDA 路径</td></tr><tr><td>核燃料供应</td><td>持续</td><td>俄铀禁令豁免与库存策略</td></tr></tbody></table></div>
+  </article>
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>Constellation Energy（CEG）是美国最大的清洁能源生产商及领先的竞争性零售电力供应商。在2026年1月完成对Calpine的收购后，公司成为全球最大的私营电力生产商，拥有约<strong>55 GW</strong>的发电装机容量，年发电量可满足约<strong>2700万户家庭</strong>的用电需求，提供全美约<strong>10%</strong> 的清洁能源。其资产组合以<strong>核电为核心</strong>（约22 GW，全美最大核电舰队），辅以天然气、地热、水电、风电、太阳能及电池储能，并通过覆盖约<strong>250万</strong>客户账户（含四分之三的财富100强企业）的零售平台实现一体化运营。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul><li><strong>Q1 2026业绩超预期但指引保守</strong>：公司2026年Q1实现调整后EPS <strong>$2.74</strong>，超出市场一致预期的<strong>$2.53</strong>，主要受Calpine并表增厚、PJM容量收入上升及股权激励费用下降驱动。然而，公司仅<strong>重申</strong>2026全年调整后EPS指引区间<strong>$11.00-$12.00</strong>，未如部分投资者预期般上调，且2027年基础EPS指引（$7.60-$7.70）因未包含任何新增数据中心合同而显得保守，导致股价承压。</li><li><strong>签署首份零售业核电PPA</strong>：2026年6月，公司与<strong>沃尔玛</strong>签署了一份15年期、约<strong>176 MW</strong>的核电购电协议（PPA），电力来自伊利诺伊州的Dresden清洁能源中心，用于供电其新建的高科技冷藏配送中心。这是沃尔玛的首份核电PPA，标志着核电企业购电协议正从科技巨头向更广泛的工商业客户拓展。</li><li><strong>监管与互联取得关键进展</strong>：FERC于2026年6月初批准了将Eddystone电厂的互联权转移至Crane清洁能源中心（原三哩岛1号机组），清除了该项目重启的一大障碍，使其有望在<strong>2027年</strong>重新并网发电。同时，FERC发布命令，要求所有区域电网运营商就大型负荷互联规则进行改革，为数据中心等大用户的接入提供了更清晰的监管路径。</li><li><strong>新增产能持续落地</strong>：Q1 2026期间，位于德州的<strong>460 MW</strong> Pin Oak Creek天然气调峰电厂及加州的<strong>105 MW</strong> Pastoria太阳能项目相继投运。公司已向PJM互联队列提交了约<strong>5 GW</strong>的新增容量项目，包括核电升级、天然气发电及储能。</li><li><strong>资本配置启动</strong>：公司在2026年4月动用了约<strong>$3.35亿</strong>进行股票回购（约120万股，均价$285/股），并重申了总计<strong>$50亿</strong>的股份回购授权，计划在2026-2027年间执行。</li></ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol><li><strong>PJM市场改革落地催生数据中心签约潮</strong>：PJM正加速推进其可靠性备用采购（RBP）机制，目标在<strong>2026年6月</strong>向FERC提交最终框架。管理层在Q1电话会中明确表示，监管不确定性是当前部分超大规模客户推迟签署长期核电PPA的主要原因。一旦RBP规则明朗化，预计将触发一轮积压需求的释放。CEG已为此储备了约<strong>5 GW</strong>的待选项目，并拥有约<strong>147 TWh</strong>的未签约清洁能源电量，具备率先签署高价值合同的卡位优势。</li><li><strong>Crane核电站重启的里程碑式进展</strong>：FERC于6月初批准了Crane项目的互联权转移，这是继获得能源部<strong>$10亿</strong>贷款担保后的又一关键监管突破。该项目装机<strong>835 MW</strong>，已与微软签订20年期PPA，目前指向<strong>2027年</strong>重启的目标。瑞银测算，Crane项目全年贡献的每股价值约为<strong>$26</strong>。</li><li><strong>Q2财报及潜在的上修预期</strong>：公司将于<strong>2026年8月6日</strong>公布Q2财报。尽管管理层在Q1后仅重申了全年指引，但花旗在7月底的预览中指出，Q2业绩可能受益于更高的PJM容量收入和季节性因素。若Q2业绩超出预期，且管理层对下半年展望积极，将增强市场对全年业绩达到指引区间上沿（$12.00）的信心。</li></ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol><li><strong>不可复制的核电资产在AI时代的稀缺性重估</strong>：CEG拥有全美最大的核电舰队（<strong>22 GW</strong>），这些资产具备零碳排放、24/7基荷运行、燃料成本极低且稳定（约$6-$7/MWh）的特性，是满足AI数据中心对清洁、可靠电力近乎无限需求的最优解。新建同规模核电站面临十年以上的建设周期和巨大的成本超支风险，使得现有核电站成为一种<strong>结构性稀缺资源</strong>。公司已通过微软（Crane项目）和Meta（Clinton项目）的20年期PPA验证了这一价值。随着电网拥堵加剧和清洁电力需求增长，CEG剩余约<strong>147 TWh</strong>的未签约核电出力具备巨大的长期合约转化潜力，每转化1 GW核电PPA，预计可增厚EPS <strong>$0.40-$1.00</strong>。</li><li><strong>“核电基荷+天然气调峰”的混合平台优势</strong>：收购Calpine后，CEG构建了独特的“核电基荷+天然气调峰”组合。核电提供稳定、低成本的清洁基荷电力，而Calpine带来的<strong>21 GW</strong>高效天然气联合循环机组则为满足客户（尤其是数据中心）的峰值负荷和灵活性需求提供了关键资源。管理层预计，每1 GW的天然气“Powered Land”交易可带来<strong>$0.20-$0.50</strong>的EPS增厚。</li><li><strong>高度确定的长期盈利增长与强大的自由现金流生成能力</strong>：公司的基础收益受益于与通胀挂钩的核电生产税收抵免（PTC）、长期合同及稳定的零售利润率。管理层指引2026-2029年基础EPS复合年增长率（CAGR）超过<strong>20%</strong>，长期滚动三年增长率超过<strong>10%</strong>。更为重要的是，公司预计2028-2029年将产生<strong>$115-$130亿</strong>的自由现金流，为持续的大规模股份回购、增值性并购及有机增长投资提供了坚实基础。</li></ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul><li><strong>电力价格与商品市场波动风险</strong>：尽管有PTC和长期合同保护，CEG仍有大量发电量暴露于批发电价波动之下。“增强收益”部分高度依赖核电售价超过PTC下限、天然气价差和容量价格。若AI投资热潮降温、电力需求不及预期，或天然气价格大幅下跌，将直接冲击该部分收益。</li><li><strong>PJM市场监管与政策不确定性</strong>：公司的核心资产集中在PJM市场。PJM的容量市场设计、RBP规则细节、共址规则以及FERC的最终裁决，将深刻影响公司核电和天然气资产的价值实现方式。此外，联邦层面的核电PTC政策若发生不利变动，将动摇其基础收益的稳定性。</li><li><strong>大规模整合与运营风险</strong>：收购Calpine使公司债务规模大幅增加（总债务从约$89亿增至约$201亿），杠杆率短期承压。整合过程中可能面临协同效应不达预期、文化冲突、资产剥离不顺等风险。同时，核电运营本身具有固有的安全和监管风险。</li></ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul><li><strong>2026年5月11日</strong>：公司发布Q1 2026财报，调整后EPS <strong>$2.74</strong>超预期，但重申全年指引，未宣布新的数据中心交易。股价当日反应平淡。</li><li><strong>2026年6月2日</strong>：FERC批准将Eddystone电厂的互联权转移至Crane清洁能源中心，为该项目在<strong>2027年</strong>重启扫清了关键障碍。</li><li><strong>2026年6月23日</strong>：公司与沃尔玛签署了一份15年期、<strong>176 MW</strong>的核电购电协议，这是沃尔玛的首份核电PPA，标志着核电企业购电客户群的拓宽。</li><li><strong>2026年6月25日</strong>：FERC发布命令，要求全美六大区域电网运营商在60天内就大型负荷互联规则进行改革，旨在提高透明度、防止成本转嫁，并促进共址和灵活负荷的接入。</li></ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul><li><strong>2026年8月6日</strong>：公司预计将发布Q2 2026财报。市场将关注业绩是否再次超出预期，以及管理层是否会基于强劲的上半年表现和更清晰的监管前景，上调全年盈利指引。</li><li><strong>2026年6月至9月</strong>：PJM预计将在这一时期向FERC提交最终的可靠性备用采购（RBP）机制方案。该方案的明确化被视为释放被压制的数据中心PPA需求的关键催化剂。</li><li><strong>2026年6月30日</strong>：Calpine原股东的<strong>2500万股</strong>股票锁定期到期。市场将密切关注这些股东是否会减持，以及CEG是否会借此机会加速执行其股份回购计划。</li><li><strong>2026年下半年</strong>：随着PJM监管框架的清晰化，市场普遍预期公司将宣布新的、大规模的数据中心核电或天然气PPA。任何此类公告都将是对公司长期增长逻辑的有力验证。</li></ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<h4 class="doc-h3">业务边际变化</h4>
+<p>公司历史上最大的边际变化是2026年1月完成对Calpine的收购。此交易使CEG从一家以核电为主的清洁能源发电商，转变为一家拥有<strong>55 GW</strong>多元化机组、覆盖全美主要电力市场的综合性能源巨头。Calpine带来了约<strong>23 GW</strong>以天然气为主的发电资产和约<strong>62 TWh</strong>的零售负荷，显著增强了公司在ERCOT（德州）和加州的市场地位。整合后，公司正将战略重心转向利用其扩大的核电和天然气平台，为数据中心等大型客户提供“基荷+调峰”的一站式清洁电力解决方案。</p>
+<h4 class="doc-h3">盈利模式</h4>
+<p>公司的盈利模式是“发电+零售”一体化。盈利来源主要分为两类：<strong>基础收益</strong>和<strong>增强收益</strong>。基础收益来自受PTC保护的核电出力、已签订长期合同的发电量（如与微软、Meta的PPA）以及零售业务的稳定利润率，这部分收益可预测性强。增强收益则来自核电售价超过PTC下限的部分、天然气发电的价差利润、容量市场收入以及零售业务的超额利润，这部分与市场电价高度相关，弹性更大。公司实质上是在利用其稀缺的清洁基荷资产和多元化的调峰资产，赚取“可靠性溢价”和“清洁属性溢价”。</p>
+<h4 class="doc-h3">业务拆分</h4>
+<p>公司业务按运营模式可分为<strong>发电业务</strong>和<strong>零售业务</strong>。发电业务是利润核心，又可细分为核电、天然气及可再生能源。收购Calpine后，天然气发电的收入和利润占比大幅提升。公司目前处于<strong>业绩兑现与产能爬坡期</strong>。</p>
+<p><strong>历史业务拆分（不含Calpine）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>业务板块</th><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th></tr></thead><tbody><tr><td><strong>核电</strong></td><td>发电量 (TWh)</td><td>175.1</td><td>182.0</td><td>183.7</td></tr><tr><td></td><td>容量因子</td><td>94.4%</td><td>94.6%</td><td>94.7%</td></tr><tr><td><strong>天然气及可再生能源</strong></td><td>发电量 (TWh)</td><td>24.1</td><td>22.5</td><td>21.8</td></tr><tr><td><strong>零售业务</strong></td><td>售电量 (TWh)</td><td>203</td><td>202</td><td>204</td></tr></tbody></table></div>
+<p><strong>最新报告期业务拆分（含Calpine，2026年Q1）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>业务板块</th><th>指标</th><th>FY2026 Q1</th><th>备注</th></tr></thead><tbody><tr><td><strong>核电</strong></td><td>发电量 (TWh)</td><td>40.0</td><td>占集团总发电量约63%</td></tr><tr><td></td><td>容量因子</td><td>92.3%</td><td>受计划内停堆换料影响，属季节性低位</td></tr><tr><td><strong>天然气及可再生能源</strong></td><td>发电量 (TWh)</td><td>23.0</td><td>含Calpine贡献，占集团总发电量约37%</td></tr><tr><td><strong>零售业务</strong></td><td>年化供电量 (TWh)</td><td>~275</td><td>整合Calpine后规模</td></tr></tbody></table></div>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托不可复制的核电舰队形成的结构性稀缺资产护城河</strong></p>
+<ul><li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。CEG拥有全美最大的核电舰队（22 GW），这些资产具有极高的政策、资本和技术壁垒。新建核电站需要十年以上的周期、百亿美元级别的投资，并面临巨大的监管不确定性，使得现有核电站成为几乎无法被竞争对手复制的稀缺资产。</li><li><strong>数据验证</strong>：公司核电容量因子持续<strong>94%以上</strong>，高于行业平均约4个百分点，意味着每年比同行多产出约800万MWh的电力。核电的燃料成本极低且稳定（约$6-$7/MWh），已签署的核电PPA价格预计在<strong>$70-$80/MWh</strong>区间，远高于PTC保护价（约$45-$50/MWh）。</li><li><strong>动态演变</strong>：<strong>护城河变宽</strong>。随着电网脱碳压力加大、新建电源成本飙升以及AI数据中心对基荷清洁电力的渴求，现有核电站的稀缺性和议价能力将持续增强。公司正通过申请二次延寿（60年延至80年）和投资升级（Uprate）进一步挖掘存量资产价值。</li></ul>
+<p><strong>竞争要素 2：以“核电基荷+天然气调峰”组合构建的一站式解决方案能力</strong></p>
+<ul><li><strong>护城河定性</strong>：<strong>行业阶段性红利</strong>，但有潜力转化为结构性优势。收购Calpine后，CEG成为少数能同时提供大规模清洁基荷电力（核电）和灵活调峰电力（天然气）的供应商。这种组合恰好满足了数据中心客户对“全天候、高可靠性”电力的核心诉求。</li><li><strong>数据验证</strong>：公司已披露的ERCOT地区数据中心协议（与CyrusOne合计超<strong>1.1 GW</strong>）正是这一模式的体现。管理层指引，每1 GW的此类天然气“Powered Land”交易可增厚EPS <strong>$0.20-$0.50</strong>。公司计划至2030年新增约<strong>10 GW</strong>的支持性产能。</li><li><strong>动态演变</strong>：<strong>护城河变宽</strong>。随着电网互联瓶颈日益严重，拥有现成厂址、电网接入点和多元化机组的大型发电平台，其“时间套利”优势将愈发明显。</li></ul>
+<p><strong>现阶段核心驱动力总结</strong>：公司的Alpha在于其<strong>独一无二的核电资产稀缺性</strong>，Beta则来自于<strong>AI驱动的电力需求增长</strong>和<strong>监管环境的演变</strong>。CEG正处在将Beta机遇通过长期合同转化为Alpha收益的关键阶段。</p>
+<h3 class="doc-h2">产销链</h3>
+<ul><li><strong>客户情况</strong>：零售业务服务约250万客户账户，覆盖80%的财富100强企业，2025年工商业客户续约率达<strong>77%</strong>。批发业务方面，已与<strong>微软</strong>（Crane项目，835 MW）和<strong>Meta</strong>（Clinton项目，1,121 MW）签订20年期核电PPA。此类合同期限长、信用质量高，公司正与更多潜在超大规模客户谈判。</li><li><strong>供应商情况</strong>：核心关注核燃料供应链——约<strong>35%</strong> 的铀浓缩物需求（2026-2031年）由三家供应商提供，且部分合同源自俄罗斯。美国已立法禁止进口俄罗斯低浓缩铀但允许豁免，公司已增加核燃料库存并寻求多元化。</li><li><strong>成本传导能力</strong>：核电燃料成本占比极低，几乎不受燃料价格波动影响；天然气发电可通过电力市场传导燃料成本，盈利核心在于“价差”；零售端可灵活定价转嫁采购成本。公司赚取的是<strong>“清洁、可靠电力的稀缺性溢价”</strong>。</li></ul>
+<h3 class="doc-h2">财务数据</h3>
+<p><strong>关键财务数据（单位：亿美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 Q1</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2023-12-31</td><td>2024-12-31</td><td>2025-12-31</td><td>2026-03-31</td></tr><tr><td><strong>营业总收入</strong></td><td>249.18</td><td>235.68</td><td>255.33</td><td>111.22</td></tr><tr><td>收入同比</td><td>1.96%</td><td>-5.42%</td><td>8.34%</td><td>63.85%</td></tr><tr><td><strong>毛利润</strong></td><td>89.17</td><td>121.49</td><td>108.52</td><td>47.70</td></tr><tr><td>毛利率</td><td>35.79%</td><td>51.55%</td><td>42.50%</td><td>42.89%</td></tr><tr><td><strong>营业利润</strong></td><td>78.21</td><td>110.26</td><td>98.67</td><td>43.27</td></tr><tr><td>营业利润率</td><td>31.39%</td><td>46.79%</td><td>38.64%</td><td>38.91%</td></tr><tr><td><strong>归母净利润</strong></td><td>16.23</td><td>37.49</td><td>23.19</td><td>15.90</td></tr><tr><td><strong>稀释EPS (美元)</strong></td><td>5.01</td><td>11.89</td><td>7.40</td><td>4.49</td></tr><tr><td><strong>自由现金流</strong></td><td>-53.01</td><td>-24.64</td><td>42.37</td><td>4.25</td></tr></tbody></table></div>
+<p><strong>财务分析</strong>：</p>
+<ul><li><strong>成长能力</strong>：FY2026 Q1营收因并表Calpine录得<strong>63.85%</strong> 同比增长。FY2025营收+8.34%得益于电价和容量价格上涨。归母净利润波动大（FY2025 -38.14%），主因核电PTC收入随电价上涨而减少——PTC的“自动稳定器”特性平滑现金流。</li><li><strong>盈利能力</strong>：Calpine并表拉低整体毛利率（天然气燃料成本占比远高于核电）。调整后运营EPS是更好指标：FY2025为<strong>$9.39</strong>，公司指引FY2026为<strong>$11.00-$12.00</strong>。</li><li><strong>偿债能力</strong>：收购Calpine使总债务从约<strong>$89亿</strong>增至约<strong>$225亿</strong>。公司目标2027年底债务/EBITDA降至<strong>2倍</strong>。穆迪和标普维持投资级评级（Baa1/BBB+）。</li></ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p>公司处于<strong>美国独立发电商（IPP）</strong>行业。经历十余年电力需求停滞后，美国正进入由<strong>AI数据中心、制造业回流和电气化</strong>驱动的需求增长新时代。IEA预测到2030年全球数据中心电力需求可能翻倍。PJM和ERCOT均报告创纪录的大型负荷互联申请。</p>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>核心发电资产</th><th>与CEG的主要差异</th></tr></thead><tbody><tr><td>Vistra Corp.</td><td>VST</td><td>天然气、核能、煤炭、储能</td><td>核电占比远低于CEG，含煤炭资产，零售业务规模更大</td></tr><tr><td>Talen Energy</td><td>TLN</td><td>核能、天然气</td><td>资产集中于PJM，无零售业务，增长弹性大但风险更高</td></tr><tr><td>NRG Energy</td><td>NRG</td><td>天然气、核能</td><td>核电资产规模小，更侧重零售端价值创造</td></tr></tbody></table></div>
+<p><strong>总结分析</strong>：CEG凭借<strong>不可复制的核电舰队</strong>，在清洁基荷电力这一高价值细分市场建立了独特地位。行业核心竞争要素正从“成本领先”转向“<strong>可靠性、清洁性和交付速度</strong>”，CEG在三方面均具优势。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<p><strong>议题一：数据中心PPA的签约速度和规模不及预期</strong>——自2024年微软Crane项目后，市场对快速签署更多大规模核电PPA抱有极高期望，但2025年至今仅新增Meta Clinton和沃尔玛小单。关键问题：监管不确定性在多大程度上阻碍了谈判？公司是否因坚持高价而放慢节奏？</p>
+<p><strong>议题二：Calpine整合的协同效应与去杠杆路径</strong>——债务规模激增，市场担忧资产负债表压力。关键问题：Calpine的EPS增厚是否可持续？2027年底债务/EBITDA降至2倍的目标主要靠EBITDA增长还是债务偿还？</p>
+<p><strong>议题三：核电PTC政策的长期确定性</strong>——PTC是基础收益的基石，有效期至2032年。关键问题：之后的盈利能力如何保障？财政压力下PTC被提前削减的概率有多大？</p>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧：当前估值是否已充分反映增长潜力，还是已经透支未来预期？</strong></p>
+<ul><li><strong>乐观方</strong>：约<strong>24倍</strong>的2026年预期PE，对一家基础EPS CAGR超<strong>20%</strong>、拥有不可复制稀缺资产的公司并不昂贵，PEG远低于同业。一旦PJM监管落地，将进入新一轮合同签署和盈利上修周期，远期市盈率迅速消化。</li><li><strong>谨慎方</strong>：估值已计入大量尚未落地的乐观预期。2027年基础EPS指引（$7.60-$7.70）的显著下降表明，若没有新合同，盈利增长将出现断档。与Vistra、NRG相比估值溢价过高，而近期PPA签约执行力并未证明其应享此溢价。</li></ul>
+<p><strong>分歧点分析</strong>：本质在于对CEG<strong>资产稀缺性</strong>和<strong>管理层合同执行力</strong>的定价差异。乐观方为“可能性”付溢价，谨慎方要求“确定性”证据。PJM监管框架明朗化是打破僵局的关键变量——若2026下半年签署至少一份新的大型PPA，将有力支持乐观方。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>管理层指引</strong>：2026年调整后运营EPS指引区间 <strong>$11.00 - $12.00</strong>；2026-2029年基础EPS复合年增长率（CAGR）超过 <strong>20%</strong>。该指引<strong>不包含</strong>任何未宣布的新核电或天然气PPA、股份回购以及高于当前远期曲线的电价假设。</p>
+<p><strong>券商盈利预测与估值</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价(美元)</th><th>财务指标</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th><th>FY2029E</th></tr></thead><tbody><tr><td>Barclays (2026-04-07)</td><td>增持</td><td>360</td><td>调整后EPS (美元)</td><td>11.96</td><td>14.22</td><td>16.27</td><td>19.03</td></tr><tr><td>BNP Paribas (2026-03-23)</td><td>跑赢大盘</td><td>407</td><td>调整后EPS (美元)</td><td>8.72</td><td>11.91</td><td>19.47</td><td>23.34</td></tr><tr><td>Citi (2026-07-29)</td><td>中性/高风险</td><td>297</td><td>调整后EPS (美元)</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>UBS (2026-06-03)</td><td>买入</td><td>388</td><td>调整后EPS (美元)</td><td>11.53</td><td>13.35</td><td>17.75</td><td>19.54</td></tr><tr><td>BMO Capital (2026-05-19)</td><td>跑赢大盘</td><td>390</td><td>调整后EPS (美元)</td><td>11.79</td><td>12.91</td><td>17.12</td><td>-</td></tr></tbody></table></div>
+<p><strong>盈利预测与估值分析</strong>：机构评级普遍积极，目标价区间<strong>$297-$407</strong>，中位数约<strong>$389</strong>。分歧主要在远期（2028-2029年）盈利预测，反映对数据中心PPA落地速度和规模的不同假设。估值多采用EV/EBITDA和P/E相结合的方法，并对基础收益部分给予估值溢价，以反映其稳定性和可预测性。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>Gangtise Open API（公司一页通 · stock-one-pager）· 公司财报及公开披露 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/CEG · 生成于 2026-07-31</div></footer>
+
+<script>
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
