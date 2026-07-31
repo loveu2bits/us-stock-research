@@ -64,6 +64,7 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 .company-row__name strong { display: block; margin-bottom: 3px; font-size: 17px; }
 .company-row__name .role { display: block; color: var(--ink-faint); font-size: 12px; }
 .company-row__name .sector-tag { display: inline-block; margin-top: 5px; padding: 1px 8px; border: 1px solid color-mix(in srgb, var(--accent) 40%, white); border-radius: 999px; color: var(--accent); font-size: 10.5px; font-weight: 700; }
+.company-row__name .broker-tag { display: inline-block; margin-top: 5px; margin-left: 6px; padding: 1px 8px; border: 1px solid color-mix(in srgb, var(--amber) 45%, white); border-radius: 999px; color: var(--amber); font-size: 10.5px; font-weight: 700; }
 .company-row__tag { margin: 0; color: var(--ink-soft); font-size: 13.5px; line-height: 1.6; }
 .company-row__metric { text-align: right; }
 .company-row__metric strong { display: block; font-family: var(--font-display); font-size: 19px; font-weight: 650; }
@@ -168,6 +169,7 @@ const COMPANIES = [
     role:'AI 算力链 · 下游 · Azure + Copilot',
     tag:'AI 应用变现走得最远的巨头。财报全面超预期盘后 +8%——市场不是反对 AI 资本开支，是反对看不到回报的资本开支。',
     metric:'+8.1%', metricCls:'up', metricNote:'财报后盘后 · Azure +43%',
+    broker:true,
     href:'../MSFT/微软_研究.html' },
   { code:'GOOGL', seal:'GOOG', cn:'谷歌', en:'Alphabet', sector:'通信服务',
     role:'AI 算力链 · 下游 · 全栈 AI（TPU+Gemini）',
@@ -178,11 +180,13 @@ const COMPANIES = [
     role:'AI 算力链 · 下游 · AI 广告 + 算力豪赌',
     tag:'被 AI 重新点火的广告印钞机，正把钱整捆塞进算力熔炉。收入超预期，但自由现金流暴跌 91%，盘后 -7.5%。',
     metric:'-7.5%', metricCls:'down', metricNote:'财报后盘后 · FCF -91%',
+    broker:true,
     href:'../META/Meta_研究.html' },
   { code:'AMZN', seal:'AMZN', cn:'亚马逊', en:'Amazon', sector:'非必需消费',
     role:'AI 算力链 · 下游 · AWS + 自研芯片 + 电商基本盘',
     tag:'这份财报把"AI 烧钱"翻转成"AI 兑现"：AWS +37% 五连加速、4,960 亿订单在手，2,200 亿 capex 市场照单全收——拿着订单建产能，不是赌需求。',
     metric:'+37%', metricCls:'up', metricNote:'Q2 AWS 增速 · 18 季度最快',
+    broker:true,
     href:'../AMZN/亚马逊_研究.html' },
   { code:'NFLX', seal:'NFLX', cn:'奈飞', en:'Netflix', sector:'通信服务',
     role:'对照样本 · 流媒体 · 订阅+广告双轮',
@@ -213,6 +217,7 @@ const COMPANIES = [
     role:'地产 · 全球最大数据中心 REIT · AI 推理枢纽',
     tag:'客户付的不是房租，是接入 50 万互联节点生态的"连接费"——Q1 六成大额交易与 AI 相关，AI 推理时代的中立交通枢纽。',
     metric:'60%', metricCls:'up', metricNote:'Q1 大额交易 AI 相关占比',
+    broker:true,
     href:'../EQIX/Equinix_研究.html' },
   { code:'LLY', seal:'LLY', cn:'礼来', en:'Eli Lilly', sector:'医疗保健',
     role:'医疗 · GLP-1 药王 · 超级成长周期',
@@ -279,7 +284,7 @@ function renderList() {
       <div class="company-row__name">
         <strong>${c.cn}</strong>
         <span class="role">${c.en} · ${c.role}</span>
-        <span class="sector-tag">${c.sector}</span>
+        <span class="sector-tag">${c.sector}</span>${c.broker ? '<span class="broker-tag">研报解读</span>' : ''}
       </div>
       <p class="company-row__tag">${c.tag}</p>
       <div class="company-row__metric"><strong class="${c.metricCls}">${c.metric}</strong><span>${c.metricNote}</span></div>
