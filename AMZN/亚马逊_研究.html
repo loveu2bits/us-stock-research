@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>亚马逊（AMZN.O）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏（美联储风格） ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 170px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.overview__date { padding: 16px 0 4px; border-top: 2px solid var(--policy-red); text-align: right; }
+.overview__date span, .overview__date strong { display: block; }
+.overview__date span { margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.overview__date strong { font-size: 15px; font-variant-numeric: tabular-nums; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item strong.down { color: var(--teal); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 正文文档 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.doc-h1 { margin: 34px 0 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line-strong); font-family: var(--font-display); font-size: 30px; font-weight: 650; }
+.doc-h1:first-child { margin-top: 0; }
+.doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+.doc-h3 { margin: 22px 0 10px; color: var(--federal-blue); font-size: 15px; font-weight: 750; }
+.doc p, .doc li { color: var(--ink-soft); font-size: 15px; }
+.doc p { margin: 0 0 14px; }
+.doc ul, .doc ol { margin: 0 0 16px; padding-left: 24px; }
+.doc li { margin-bottom: 6px; }
+.doc strong { color: var(--ink); }
+.doc code { padding: 1px 6px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper-cool); font-size: 13px; }
+.doc-hr { margin: 30px 0; border: 0; border-top: 1px solid var(--line); }
+.doc-quote { margin: 18px 0; padding: 16px 20px; border-left: 3px solid var(--amber); background: #faf6ec; color: var(--ink-soft); font-size: 14px; }
+.tbl-wrap { margin: 16px 0 24px; overflow-x: auto; }
+.doc table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.doc th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+.doc td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+.doc tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+.star { color: var(--amber); }
+.xref { color: var(--federal-blue); font-weight: 600; }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .overview__date { text-align: left; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">AMZN</span>
+    <span class="site-mark__text">亚马逊 公司研究<span>Amazon · AMZN.O</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">研究报告</button>
+    <button data-tab="onepager">一页通（Gangtise）</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>亚马逊<span class="en">Amazon · AMZN.O · 美股研究</span></h1>
+        <p class="sub">"AI 烧钱"叙事翻转成"AI 兑现"：AWS +37% 五连加速、4,960 亿订单在手——2,200 亿资本开支市场照单全收，因为这是拿着订单建产能，不是赌需求。</p>
+      </div>
+      <div class="overview__date">
+        <span>研究日期</span>
+        <strong>2026-07-31</strong>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">+37%</strong><span>AWS 增速 · 18 个季度最快</span></div>
+<div class="summary-rail__item"><strong class="up">$4,960亿</strong><span>积压订单 · 同比 +154%</span></div>
+<div class="summary-rail__item"><strong class="up">39.4%</strong><span>AWS 营业利润率 · +650bp</span></div>
+<div class="summary-rail__item"><strong class="down">-$76亿</strong><span>TTM 自由现金流 · 去年同期 +182 亿</span></div>
+
+    </div>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+<blockquote class="doc-quote"><strong>研究日期</strong>：2026-07-31 ｜ <strong>数据来源</strong>：Gangtise 一页通（2026-07-30）+ 2Q26 财报及券商点评（中信/天风/招商/国金/国信/浙商等） <strong>状态</strong>：初稿 v1 ｜ <strong>下次更新</strong>：3Q26 财报（2026 年 10 月下旬） <strong>关联研究</strong>：<span class="xref">微软研究报告</span>、<span class="xref">谷歌研究报告</span>（云厂商 AI 资本开支三国杀）、<span class="xref">沃尔玛研究报告</span>（零售基本盘对照）</blockquote>
+<hr class="doc-hr">
+<h3 class="doc-h2">〇、一句话结论</h3>
+<p><strong>这份财报把"AI 烧钱"的叙事翻转成了"AI 兑现"：AWS +37% 连续五季加速、积压订单 4,960 亿美元（yoy +154%）、营业利润率逆势扩到 39.4%——资本开支上调到 2,200 亿市场照单全收，因为这是"拿着订单建产能"，不是"赌需求"。核心问题从"敢不敢投"变成两个：产能爬坡的速度，和自由现金流为负的窗口还要多久。</strong></p>
+<hr class="doc-hr">
+<h3 class="doc-h2">一、靠什么赚钱？</h3>
+<p><strong>一句话：零售是流量和规模的基本盘，利润靠三根高毛利支柱——AWS（Q2 营业利润 166 亿，OPM 39.4%）、广告（Q2 收入 198 亿，+26%）、3P 卖家服务。2025 年 AWS 以 18% 的收入贡献了 57% 的营业利润。</strong></p>
+<p>新飞轮（本季开始闭环）：AI 基建投入（capex 2,200 亿）→ AWS 算力供不应求（backlog 4,960 亿）→ 收入加速（+37%，五连加速）→ 服务器 &lt;3 年回本、5-6 年寿命 → 回本后 2-3 年 FCF 集中释放 → 再投入。</p>
+<ul><li><strong>AWS</strong>：Q2 收入 422 亿（+37%），年化 1,690 亿；AI 业务和自研芯片（Trainium）年化收入<strong>各超 250 亿美元</strong>，均三位数增长</li><li><strong>零售</strong>：北美 1,162 亿（+16%）+ 国际 422 亿（+15%），付费商品销量 +17%，Prime 会员两位数增长</li><li><strong>广告</strong>：198 亿（+26%），连续多个季度 20%+，利润率最高的业务之一</li></ul>
+<hr class="doc-hr">
+<h3 class="doc-h2">二、2Q26 财报：为什么 2,200 亿 capex 市场照单全收？</h3>
+<p>同样是"上调 capex + FCF 转负"，谷歌财报后被砸，亚马逊被追捧。区别在于管理层这次给出了三个"第一次"：</p>
+<ol><li><strong>第一次系统讲清回报模型</strong>：AI 服务器不到 3 年回本，使用寿命 5-6 年；AI 合约多为 5 年期以上——"不是无订单赌需求"，FCF 为负是收入确认与资本开支的<strong>时间错配</strong>。</li><li><strong>第一次给出订单能见度</strong>：backlog 4,960 亿（qoq +36%），2027 年新增产能<strong>大部分已被预订</strong>，2028 年在手需求管理层原话"很震撼"；约半数 backlog 将在 24 个月内确认为收入。</li><li><strong>第一次给出远期愿景</strong>：AWS 长期"很可能"成为年收入 <strong>1 万亿美元</strong>的业务（当前年化 1,690 亿，近 10 倍空间）。</li></ol>
+<p><strong>关键细节</strong>：capex 上调 200 亿的原因是<strong>内存/存储涨价</strong>（成本问题），不是需求下修；且长期合约的定价机制可以传导成本。Q3 收入指引表面平淡（+9~12%），但 Prime Day 从 Q3 前移到 Q2 拖了约 400bp、汇率拖 80bp，<strong>剔除后实际增速 +13~17%</strong>；营业利润指引中值 245 亿，同比 +40%。</p>
+<blockquote class="doc-quote">📚 <em>方法点评：研究 AI 资本开支周期，"capex 绝对值"是噪音，<strong>"订单能见度 vs 产能"才是信号</strong>。判断烧钱还是筑墙，看三个数：backlog 增速（+154%）、合约期限结构（5 年+）、单位经济（&lt;3 年回本）。亚马逊这次三题全对，所以 2,200 亿也能被当成利好。</em></blockquote>
+<hr class="doc-hr">
+<h3 class="doc-h2">三、AWS 的三重护城河在加宽</h3>
+<div class="tbl-wrap"><table><thead><tr><th>护城河</th><th>证据</th><th>为什么难复制</th></tr></thead><tbody><tr><td>自研芯片 Trainium</td><td>性价比优于同类 GPU 30-40%；年化收入 250 亿+；OpenAI/Anthropic 长协采购；开始探索<strong>外售</strong></td><td>芯片-云一体：对手买 GPU，它造芯片，成本结构代差</td></tr><tr><td>Bedrock 平台中性</td><td>Q2 token 消耗超历史全部季度总和；管理层预判未来 6+ 个顶级模型并存、全部接入 Bedrock（一个是自研）</td><td>模型越商品化，"卖算力+卖平台"的中立层越值钱——不押单一模型赢家</td></tr><tr><td>电力与产能</td><td>2027 年底电力容量较 2025 年<strong>翻倍</strong>；数据中心资产可复用 5-6 代服务器</td><td>AI 云的瓶颈是供给（电力/机房/芯片），先圈电圈地者锁定供给</td></tr></tbody></table></div>
+<p>对照微软（Azure 全年破千亿、+43%，RPO 6,780 亿）和谷歌云（+82%）：三家 Q2 全部超预期——<strong>AI 云需求是真的，且都在受供给约束</strong>，行业 beta 极强；亚马逊的 alpha 在自研芯片带来的利润率逆势扩张（OPM 39.4%，+650bp，同期对手受 GPU 折旧压制）。</p>
+<hr class="doc-hr">
+<h3 class="doc-h2">四、零售基本盘：被云光芒掩盖的稳健</h3>
+<ul><li>北美 +16%（预期 14%）、国际 +15%，在线商店 +15%、3P +16%——全面超预期</li><li><strong>K 型消费下的份额逻辑</strong>：必需品占单位销量从 33% 升至 40%，Prime Day 客单价 -11%——消费降级环境里亚马逊吃份额（2025 年已超沃尔玛成全美销售额第一）</li><li>生鲜与即时零售是新引擎：Amazon Now、药房当日达高速增长</li><li>Rufus（AI 购物助手）转化率和客单价开始正向变化；Alexa+ 拓地区</li></ul>
+<hr class="doc-hr">
+<h3 class="doc-h2">五、核心分歧</h3>
+<div class="tbl-wrap"><table><thead><tr><th></th><th>乐观方</th><th>谨慎方</th></tr></thead><tbody><tr><td>FCF</td><td>时间错配：服务器回本后 2-3 年 FCF 集中释放；微软已承诺 FY27 FCF 转正，亚马逊路径相同</td><td>TTM FCF -76 亿（去年同期 +182 亿）；若 2027 年 capex 再上调，"错配"变"常态"，发债 920 亿+ 的融资成本上升</td></tr><tr><td>AWS 利润率</td><td>自研芯片对冲折旧，OPM 39.4% 逆势扩张，AI 业务利润率轨迹优于核心云同期</td><td>2,200 亿 capex 的折旧才刚开始进表；存储涨价说明供应链通胀会吃掉一部分</td></tr><tr><td>估值</td><td>瑞银：2027 年营业利润预期比市场共识高 49%，AWS 万亿美元愿景有订单支撑</td><td>净利润 +245% 里 534 亿是 Anthropic 投资账面收益（一次性）；瑞银同时把目标价从 333 下调至 305（OpenAI 用 Trainium 推迟至 27 年初，30 亿收入后移）</td></tr><tr><td>Q3 指引</td><td>剔除 Prime Day 错期实际 +13~17%，营业利润中值 +40%</td><td>表面增速 9-12% 低于一致预期，可能被短期资金误读</td></tr></tbody></table></div>
+<hr class="doc-hr">
+<h3 class="doc-h2">六、反证条件</h3>
+<ol><li><span class="warn">⚠️</span> AWS 增速跌破 30%（五连加速的叙事终结）</li><li><span class="warn">⚠️</span> backlog 环比增速掉到 +15% 以下（订单能见度恶化）</li><li><span class="warn">⚠️</span> AWS 营业利润率跌破 35%（折旧+存储涨价压顶，芯片对冲失效）</li><li><span class="warn">⚠️</span> 2027 年 capex 再度大幅上调而 backlog 没有同步增长（投入产出脱钩）</li><li><span class="warn">⚠️</span> 零售增速跌破高个位数，或广告增速跌破 15%（基本盘松动）</li></ol>
+<hr class="doc-hr">
+<h3 class="doc-h2">七、跟踪计划</h3>
+<div class="tbl-wrap"><table><thead><tr><th>跟踪变量</th><th>时间</th><th>说明</th></tr></thead><tbody><tr><td>3Q26 财报</td><td>2026-10 下旬</td><td>AWS 能否守住 35%+；收入指引 1,970-2,020 亿（剔除错期 +13~17%）；营业利润指引 225-265 亿</td></tr><tr><td>re:Invent 大会</td><td>2026 Q4</td><td>FMR 新一代前沿模型亮相；Trainium 外售进展</td></tr><tr><td>电力容量爬坡</td><td>每季度</td><td>2027 年底较 2025 翻倍的目标进度——产能=收入</td></tr><tr><td>Anthropic/OpenAI 协议</td><td>持续</td><td>超 1,380 亿多年期协议的收入确认节奏（瑞银提示 OpenAI 部分推迟至 27 年初）</td></tr><tr><td>内存/存储价格</td><td>持续</td><td>capex 上调的成本变量，关注能否向合约价格传导</td></tr><tr><td>Amazon Leo 卫星</td><td>2026 Q3</td><td>商业化运营启动，成本资本化对报表利润的影响</td></tr></tbody></table></div>
+  </article>
+  <article class="doc" id="tab-onepager" hidden>
+<blockquote class="doc-quote">以下为 Gangtise 一页通原文（拉取于 2026-07-30，<strong>财报发布前</strong>，数据截至 2026 Q1），与上方研究报告（财报后）对照阅读。</blockquote>
+<h3 class="doc-h2">公司概况</h3>
+<p>亚马逊是全球最大的电商平台和公有云服务商，业务按<strong>北美、国际、AWS</strong>三大分部运营。公司以电商零售为基石，通过Prime会员体系、FBA物流网络和第三方卖家服务构建了深厚的消费者生态；AWS则是全球市场份额领先的云计算平台，近年正通过自研AI芯片（Trainium）和战略绑定头部大模型公司（Anthropic、OpenAI）向AI基础设施层延伸。亚马逊已于2025年超越沃尔玛，成为全美销售额最大的零售商。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul><li><strong>AWS加速增长，AI订单爆发</strong>：2026年Q1，AWS营收同比增长<strong>28%</strong>至375.87亿美元，创15个季度以来最快增速。增长主要由AI需求驱动，当季AI相关年化收入运行率（ARR）已达<strong>150亿美元</strong>。公司与Anthropic和OpenAI达成的长期云服务协议，推动积压订单（RPO）在Q1末攀升至<strong>3640亿美元</strong>，若计入Q2新增的Anthropic超1000亿美元协议，总额已接近5000亿美元。</li><li><strong>自研芯片业务超预期放量</strong>：定制芯片业务年收入运行率已突破<strong>200亿美元</strong>，同比增长三位数，跻身全球前三大数据中心芯片业务。Trainium 2芯片已基本售罄，Trainium 3接近满载，性价比优势（较同类GPU优<strong>30%-40%</strong>）正吸引OpenAI、Anthropic等头部客户签订长期算力采购协议。</li><li><strong>零售业务稳健，但消费呈现结构性变化</strong>：2026年Q1，北美和国际分部营收分别同比增长<strong>12%</strong>和<strong>19%</strong>，单位销量增速达<strong>15%</strong>，为疫情后最高水平。但消费呈现“K型分化”和必需品导向，日常必需品占单位销量比重已从2025年末的<strong>33%</strong>升至<strong>40%</strong>。6月Prime Day期间，Adobe数据显示美国线上支出同比增长<strong>9.3%</strong>，但平均订单金额同比下降<strong>11%</strong>，显示消费者更趋价值敏感。</li><li><strong>资本开支大幅扩张，自由现金流承压</strong>：公司维持2026年全年资本开支<strong>2000亿美元</strong>的指引，主要用于AWS的AI基础设施扩建。受此影响，截至Q1的过去12个月自由现金流骤降至<strong>12.32亿美元</strong>，较上年同期的259.25亿美元大幅收缩，引发市场对AI投资回报周期的关注。</li><li><strong>AI战略重大调整</strong>：2026年7月，公司被曝正重组内部AI研发，逐步停止对多数Nova旗舰模型的重点开发，将资源集中于由Pieter Abbeel领导的下一代前沿基础模型（FMR）项目，预计在年底的re:Invent大会上亮相。此举标志着亚马逊AI策略从广泛布局转向集中突破。</li></ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol><li><strong>Q2财报（7月30日）将成为AI投入回报的“试金石”</strong>：市场焦点已从AI资本开支的规模转向其产出效率。谷歌云Q2营收同比增<strong>82%</strong>但股价因资本开支上调和自由现金流转负而下跌，为亚马逊设定了严苛的参照系。亚马逊Q2的AWS营收增速（市场预期<strong>31%-34%</strong>）和积压订单增长（预计环比增超1000亿美元）是验证需求强度的关键。若AWS增速超预期且管理层能给出AI投资回报的清晰路径，将有效缓解市场对“烧钱”的担忧；反之，若资本开支再度上调而云增速不及预期，股价可能面临类似谷歌的压力。</li><li><strong>Prime Day提前至Q2造成的“节奏差”</strong>：2026年Prime Day从往年的Q3提前至6月，预计将<strong>60-80亿美元</strong>的销售额从Q3拉入Q2。这虽会提振Q2零售收入，但将导致Q3面临高基数压力。市场已对此有所预期，但若管理层给出的Q3营收指引因这一因素显著低于预期，可能被市场误读为零售动能放缓，构成短期扰动。</li><li><strong>自研芯片Trainium的变现节点</strong>：Trainium 3接近满载，且与OpenAI、Anthropic的协议中包含对Trainium芯片的采购承诺。Q2财报及电话会中，管理层对Trainium产能爬坡、客户迁移进度及利润率影响的任何增量信息，都可能成为股价的催化剂。市场正期待自研芯片从“成本中心”转向“利润中心”的明确信号。</li></ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol><li><strong>AI推理时代的“云厂商价值重估”</strong>：AI正从训练时代迈向推理时代，核心矛盾从追求极致性能转向追求<strong>算力性价比和生态丰富度</strong>。亚马逊凭借自研Trainium芯片（成本优势）、EFA网络架构（推理延迟优化）和Bedrock平台（聚合第三方模型），有望在推理时代重获竞争优势。与Anthropic和OpenAI的战略绑定，不仅锁定了未来数年的算力需求，更使AWS成为AI模型训练和部署的核心基础设施，有望在AI产业链价值从硬件向云平台迁移的过程中获取更大份额。</li><li><strong>电商护城河在AI时代依然稳固</strong>：尽管AI购物助手可能重塑流量入口，但亚马逊的<strong>物流履约体系（FBA）、庞大的第三方卖家生态和完整的交易闭环</strong>构成了难以复制的结构性壁垒。公司正将AI深度整合进Alexa for Shopping，其推荐结果已呈现“去搜索排名化”特征（超<strong>60%</strong>的推荐商品不在自然排名前十），这有望将AI流量转化为新的变现手段，巩固其作为下一代AI电商入口的地位。</li><li><strong>高利润业务驱动的结构性利润率扩张</strong>：以广告和第三方卖家服务为代表的高利润率业务增速持续快于低利润率的自营零售。2026年Q1，广告服务营收同比增长<strong>24%</strong>。随着物流网络区域化重构完成，履约费用率趋于稳定，叠加高利润业务占比提升，北美零售业务的营业利润率有望从2025年的<strong>6.9%</strong>持续向中高个位数改善，为公司整体盈利能力提供支撑。</li></ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul><li><strong>AI资本开支回报不及预期的风险</strong>：公司2026年资本开支高达<strong>2000亿美元</strong>，导致自由现金流急剧收缩。若AWS的营收增速无法持续加速以消化新增产能，或自研芯片的性价比优势未能如期转化为利润率改善，市场将对巨额投资的回报产生质疑，进而压制估值。谷歌云Q2财报后股价的负面反应已为此敲响警钟。</li><li><strong>AI战略调整的执行风险</strong>：公司近期裁撤AGI部门并大幅收缩自研Nova模型战线，转向集中资源攻坚单一前沿模型。这一战略收缩虽有助于聚焦，但也存在“押错技术路线”或前沿模型性能不及预期的风险，可能导致其在基础模型层竞争中掉队，过度依赖Anthropic等第三方模型。</li><li><strong>消费者支出疲软与宏观不确定性</strong>：美国通胀韧性较强（5月CPI同比<strong>4.2%</strong>），消费者信心波动，支出呈现向低价必需品转移的趋势。Prime Day期间平均订单金额的下降已显端倪。若宏观经济进一步恶化，将直接冲击亚马逊的核心零售业务，并可能传导至广告业务，抵消利润率改善的趋势。</li></ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul><li><strong>2026年4月</strong>：亚马逊宣布以约<strong>109亿美元</strong>收购卫星运营商Globalstar，旨在加速其Kuiper卫星互联网项目，并与苹果建立相关服务合作。</li><li><strong>2026年6月23-26日</strong>：亚马逊举办第12届Prime Day，Adobe数据显示美国线上销售额达<strong>264亿美元</strong>，同比增长<strong>9.3%</strong>，但平均订单金额同比下降11%。</li><li><strong>2026年7月</strong>：亚马逊被曝正在重组AI战略，逐步停止对多数Nova旗舰模型的开发，将资源集中于由Pieter Abbeel领导的新一代前沿模型项目。同时，公司向FCC提交申请，计划部署由<strong>5105颗</strong>卫星组成的手机直连卫星网络。</li></ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul><li><strong>2026年7月30日</strong>：亚马逊将发布2026年Q2财报。市场将重点关注AWS营收增速、积压订单增长、2026年资本开支指引是否上调以及管理层对AI投资回报的评论。</li><li><strong>2026年Q3</strong>：亚马逊低轨卫星通信服务“Amazon Leo”预计将开始商业化运营。公司此前表示，一旦服务具备商业可行性，将把相关成本资本化，这有望改善报表利润。</li><li><strong>2026年Q4</strong>：亚马逊年度re:Invent大会预计将发布其内部代号为“FMR”的新一代前沿基础模型，这将是检验其集中资源后AI研发实力的重要窗口。</li></ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<h4 class="doc-h3">业务边际变化</h4>
+<p>亚马逊正从一家以电商为主的零售公司，向以AI云服务为增长核心的科技巨头转型。传统电商业务通过物流区域化改革和拓展高毛利广告业务，聚焦于盈利能力的提升。AWS业务则全面转向AI，通过自研Trainium芯片和战略投资绑定Anthropic、OpenAI等头部模型公司，构建从底层算力到上层应用的AI全栈生态。同时，公司收缩了内部Nova模型等前景不明的业务，显示出战略聚焦的意图。</p>
+<h4 class="doc-h3">盈利模式</h4>
+<p>亚马逊的盈利模式正从低毛利的“商品差价”模式，向高毛利的“服务费”和“算力/广告费”模式迁移。电商业务通过为第三方卖家提供交易平台和物流服务（FBA）收取佣金和履约费；AWS通过提供算力、存储和AI模型平台服务，按用量或预留实例收费；广告业务则通过为卖家提供商品推广服务获取收入。AWS和广告已成为公司利润的核心支柱。</p>
+<h4 class="doc-h3">业务拆分</h4>
+<p>公司近年业务结构持续向高利润率服务倾斜。2025年，产品销售额占比<strong>41.3%</strong>，服务销售额占比<strong>58.7%</strong>。其中，AWS以<strong>18%</strong>的营收占比贡献了<strong>57%</strong>的营业利润，是绝对的利润引擎。广告服务是增速最快的业务之一，营收占比已近<strong>10%</strong>。公司目前处于AI驱动的资本开支扩张期，短期利润率和现金流承压，但意在换取AWS的长期增长空间。</p>
+<p><strong>细分业务拆分（按收入类型）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>项目 (百万美元)</th><th>FY2024</th><th>FY2025</th><th>FY2025 占比</th><th>FY2026 Q1</th><th>FY2026 Q1 同比</th></tr></thead><tbody><tr><td><strong>营业收入</strong></td><td><strong>637,959</strong></td><td><strong>716,924</strong></td><td><strong>100%</strong></td><td><strong>181,519</strong></td><td><strong>16.6%</strong></td></tr><tr><td>线上自营</td><td>247,029</td><td>269,287</td><td>37.6%</td><td>64,254</td><td>11.9%</td></tr><tr><td>实体门店</td><td>21,215</td><td>22,561</td><td>3.1%</td><td>5,785</td><td>4.6%</td></tr><tr><td>第三方卖家服务</td><td>156,146</td><td>172,162</td><td>24.0%</td><td>41,578</td><td>13.9%</td></tr><tr><td>广告服务</td><td>56,214</td><td>68,635</td><td>9.6%</td><td>17,243</td><td>23.9%</td></tr><tr><td>订阅服务</td><td>44,374</td><td>49,619</td><td>6.9%</td><td>13,427</td><td>14.6%</td></tr><tr><td><strong>AWS</strong></td><td><strong>107,556</strong></td><td><strong>128,725</strong></td><td><strong>18.0%</strong></td><td><strong>37,587</strong></td><td><strong>28.4%</strong></td></tr><tr><td>其他</td><td>5,425</td><td>5,935</td><td>0.8%</td><td>1,645</td><td>25.4%</td></tr></tbody></table></div>
+<p><strong>细分业务最新季度表现（2026年Q1）</strong>：线上自营营收642.54亿美元（+11.9%），增长由单位销量驱动；第三方卖家服务415.78亿美元（+13.9%），第三方卖家销量占比已达<strong>60%</strong>；广告服务172.43亿美元（+23.9%），受益于流量变现和Prime Video广告拓展；AWS营收375.87亿美元（+28.4%），营业利润141.61亿美元，利润率<strong>37.7%</strong>。</p>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托极高转换成本和规模效应构筑的云生态粘性</strong></p>
+<ul><li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。AWS作为全球最大的公有云平台，其护城河源于庞大的客户基础、丰富的PaaS层工具、以及与企业客户在数据存储和业务流程上的深度绑定。一旦企业将大量工作负载和数据迁移至AWS，迁移成本极高，形成了强大的客户粘性。</li><li><strong>数据验证</strong>：AWS的积压订单（RPO）在2026年Q1末高达<strong>3640亿美元</strong>，同比增长<strong>93%</strong>，这些多为多年期合同，锁定了未来收入。AWS的营业利润率长期维持在<strong>35%</strong>以上，显著高于零售业务，体现了其强大的定价能力和规模效应。</li><li><strong>动态演变</strong>：<strong>护城河变宽</strong>。在AI时代，AWS通过自研Trainium芯片和Bedrock平台，正将服务从IaaS层向上延伸至PaaS和MaaS层，进一步加深了与客户的技术绑定。与Anthropic和OpenAI的战略合作，不仅带来了巨额算力订单，也使AWS成为下一代AI应用开发的核心平台，生态粘性进一步增强。</li></ul>
+<p><strong>竞争要素 2：依托物流基础设施和Prime会员体系构筑的电商生态壁垒</strong></p>
+<ul><li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。亚马逊通过数十年的巨额投入，构建了全球规模最大、效率最高的电商物流网络（FBA）。结合Prime会员体系，形成了“更优选择、更低价格、更快配送”的飞轮效应，竞争对手在短期内难以复制。</li><li><strong>数据验证</strong>：2025年，亚马逊全球“当日达/次日达”配送商品超<strong>130亿</strong>件。第三方卖家服务中，大部分使用了FBA物流，贡献了约<strong>60%</strong>的销量。Prime会员的续费率极高，其消费能力远超非会员，构成了稳定的营收基本盘。</li><li><strong>动态演变</strong>：<strong>护城河维持</strong>。尽管面临沃尔玛等竞争对手的挑战，但亚马逊在配送速度和数字化体验上仍保持领先。公司正将物流网络开放给非平台商家（Amazon Shipping），通过提升网络利用率来进一步降低成本，强化其物流基础设施的规模优势。</li></ul>
+<h3 class="doc-h2">产销链</h3>
+<ul><li><strong>客户情况</strong>：亚马逊服务消费者、第三方卖家和企业客户，客户基础极为分散。作为平台，其议价能力较强。但AWS业务中，Anthropic和OpenAI正成为越来越重要的单一客户。公司与两者签订了总额超<strong>1380亿美元</strong>的多年期合作协议，虽锁定了长期需求，但也带来了客户集中度风险。</li><li><strong>供应商情况</strong>：电商业务供应商主要为品牌商和制造商，集中度低。AWS业务的供应商则高度集中于芯片（英伟达、AMD及自研）、服务器和网络设备制造商。公司正通过自研Trainium芯片来降低对英伟达GPU的依赖，以增强供应链议价能力并控制成本。</li><li><strong>成本传导</strong>：亚马逊赚取的主要是“服务费”和“算力费”。当上游芯片、存储和能源成本上升时，AWS具备一定的成本转嫁能力（如近期对EC2部分实例提价<strong>20%</strong>）。电商业务的物流成本上升时，公司可通过提升运营效率、向卖家收取FBA费用等方式部分消化，但若成本上涨过快，仍会对短期利润率造成压力。</li></ul>
+<h3 class="doc-h2">财务数据</h3>
+<p><strong>关键财务数据（单位：百万美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 Q1</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2023-12-31</td><td>2024-12-31</td><td>2025-12-31</td><td>2026-03-31</td></tr><tr><td><strong>营业收入</strong></td><td>574,785</td><td>637,959</td><td>716,924</td><td>181,519</td></tr><tr><td>营收同比</td><td>11.8%</td><td>11.0%</td><td>12.4%</td><td>16.6%</td></tr><tr><td>营业成本</td><td>304,739</td><td>326,288</td><td>356,414</td><td>87,463</td></tr><tr><td><strong>毛利</strong></td><td>270,046</td><td>311,671</td><td>360,510</td><td>94,056</td></tr><tr><td>毛利率</td><td>47.0%</td><td>48.9%</td><td>50.3%</td><td>51.8%</td></tr><tr><td><strong>营业利润</strong></td><td>36,852</td><td>68,593</td><td>79,975</td><td>23,852</td></tr><tr><td>营业利润率</td><td>6.4%</td><td>10.8%</td><td>11.2%</td><td>13.1%</td></tr><tr><td><strong>归母净利润</strong></td><td>30,425</td><td>59,248</td><td>77,670</td><td>30,255</td></tr><tr><td>归母净利润同比</td><td>1217.7%</td><td>94.7%</td><td>31.1%</td><td>76.7%</td></tr><tr><td><strong>稀释每股收益 (美元)</strong></td><td>2.90</td><td>5.53</td><td>7.17</td><td>2.78</td></tr><tr><td><strong>自由现金流</strong></td><td>-</td><td>38,219</td><td>11,194</td><td>1,232 (TTM)</td></tr></tbody></table></div>
+<p><strong>财务分析</strong>：</p>
+<ul><li><strong>成长能力</strong>：营收增速在2026年Q1重新加速至<strong>16.6%</strong>，主要由AWS（+28.4%）和广告（+23.9%）驱动。归母净利润同比+76.7%，但含Anthropic投资的<strong>168亿美元</strong>税前估值收益，剔除后核心利润增长依然稳健。</li><li><strong>盈利能力</strong>：毛利率和营业利润率持续改善（Q1 分别为 51.8% / 13.1%），得益于高利润率的AWS和广告占比提升。但随着AI资本开支扩大，折旧费用将显著增加，未来可能对利润率构成压力。</li><li><strong>现金流状况</strong>：经营现金流依然强劲，但巨额资本开支导致自由现金流急剧恶化，截至Q1的TTM自由现金流仅<strong>12.32亿美元</strong>。公司已通过大规模发债（年内累计超<strong>920亿美元</strong>）补充资金，融资成本上升和杠杆率增加是潜在风险。</li></ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p><strong>云计算行业</strong>：公有云市场正进入AI驱动的二次增长期。行业呈“一超多强”格局，AWS保持份额领先，但微软Azure凭借与OpenAI的深度绑定增长迅猛，谷歌云凭借自研TPU和AI能力加速追赶。竞争核心正从算力规模转向<strong>自研芯片能力、模型平台生态和全栈技术整合能力</strong>。</p>
+<p><strong>电商行业</strong>：美国电商渗透率2026年预计达<strong>24.2%</strong>。亚马逊以约<strong>47%</strong>的市场份额稳居第一，但面临沃尔玛在线上杂货领域的竞争，以及Temu、SHEIN在低价品类的冲击。AI购物助手的兴起可能重塑流量入口，构成长期挑战。</p>
+<div class="tbl-wrap"><table><thead><tr><th>可比公司</th><th>股票代码</th><th>对标维度</th><th>分析</th></tr></thead><tbody><tr><td>微软</td><td>MSFT</td><td>云服务 (Azure)</td><td>在AI领域与OpenAI深度绑定，Azure AI服务增长迅猛，是企业级AI服务的强劲对手。</td></tr><tr><td>谷歌</td><td>GOOGL</td><td>云服务 (GCP)、广告</td><td>GCP在AI和数据分析领域有差异化优势，广告业务是亚马逊广告的直接竞争对手。</td></tr><tr><td>沃尔玛</td><td>WMT</td><td>电商零售</td><td>美国第二大零售商，在线上杂货和全渠道零售方面是亚马逊最直接的竞争对手。</td></tr></tbody></table></div>
+<h3 class="doc-h2">市场焦点议题</h3>
+<p><strong>议题一：AI资本开支的规模与回报</strong>——2026年资本开支指引高达2000亿美元（注：Q2财报已上调至2200亿），自由现金流急剧萎缩。关键问题：AWS增速能否持续加速以证明投入合理？Trainium何时显著改善利润率？</p>
+<p><strong>议题二：AWS在AI时代的竞争地位</strong>——Azure凭OpenAI先发优势领先身位，谷歌云加速追赶。关键问题：与Anthropic/OpenAI的合作能否转化为份额提升？Bedrock在模型聚合生态中的竞争力如何？</p>
+<p><strong>议题三：AI对电商业务的重塑与潜在颠覆</strong>——AI购物助手推荐逻辑开始脱离传统搜索排名。关键问题：AI推荐流量会强化还是削弱亚马逊平台地位？谷歌、OpenAI会否对电商入口构成实质威胁？</p>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧：巨额AI资本开支，是构筑长期护城河的战略性投资，还是回报不确定的“军备竞赛”？</strong></p>
+<ul><li><strong>乐观方</strong>：积压订单（RPO）高企表明需求真实强劲，当前是供给不足而非需求不足；自研芯片性价比优势将从成本端和收入端双重改善AWS盈利模型；历史经验表明亚马逊在重大投资周期后总能迎来利润率显著改善。</li><li><strong>谨慎方</strong>：自由现金流接近枯竭，公司被迫大规模发债；AI技术迭代极快，巨额数据中心投资面临减值风险；对手同样在激进投资，行业整体利润率可能被长期压制。</li></ul>
+<p><strong>总结分析</strong>：分歧的本质在于对AI需求持续性和亚马逊执行能力的判断差异。Q2财报中AWS的增速和积压订单增长是验证双方逻辑的关键数据。（注：本页通成文于财报前；Q2实际数据——AWS +37%、backlog 4,960亿——已强烈支持乐观方。）</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>管理层最新指引</strong>：2026年Q2，管理层预计营收在<strong>1940亿至1990亿美元</strong>之间，同比增长<strong>16%至19%</strong>；预计营业利润在<strong>200亿至240亿美元</strong>之间。（注：Q2实际营收2006亿、营业利润275亿，均超指引上限。）</p>
+<p><strong>券商盈利预测与估值</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价(美元)</th><th>财务指标</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th></tr></thead><tbody><tr><td>杰富瑞 (2026-07-14)</td><td>买入</td><td>320</td><td>营收(百万美元)</td><td>716,924</td><td>828,452</td><td>941,192</td></tr><tr><td></td><td></td><td></td><td>EPS(美元)</td><td>7.17</td><td>9.13</td><td>-</td></tr><tr><td>摩根大通 (2026-06-29)</td><td>增持</td><td>330</td><td>营收(百万美元)</td><td>716,924</td><td>823,986</td><td>934,188</td></tr><tr><td></td><td></td><td></td><td>EPS(美元)</td><td>7.17</td><td>10.89</td><td>12.50</td></tr><tr><td>美国银行 (2026-07-28)</td><td>买入</td><td>310</td><td>营收(百万美元)</td><td>716,924</td><td>830,659</td><td>957,053</td></tr><tr><td></td><td></td><td></td><td>EPS(美元)</td><td>7.17</td><td>15.81</td><td>9.85</td></tr><tr><td>汇丰 (2026-07-15)</td><td>买入</td><td>310</td><td>营收(百万美元)</td><td>716,924</td><td>810,711</td><td>899,412</td></tr><tr><td></td><td></td><td></td><td>EPS(美元)</td><td>7.17</td><td>8.85</td><td>9.82</td></tr><tr><td>富国证券 (2026-07-09)</td><td>增持</td><td>313</td><td>营收(百万美元)</td><td>716,924</td><td>831,488</td><td>963,564</td></tr><tr><td></td><td></td><td></td><td>EPS(美元)</td><td>7.17</td><td>9.23</td><td>10.44</td></tr><tr><td>高盛 (2026-07-08)</td><td>买入</td><td>335</td><td>营收(百万美元)</td><td>716,924</td><td>827,600</td><td>952,884</td></tr><tr><td></td><td></td><td></td><td>EPS(美元)</td><td>7.17</td><td>8.85</td><td>10.15</td></tr></tbody></table></div>
+<p><strong>盈利预测与估值分析</strong>：主流机构一致看好，评级均为“买入”或“增持”，目标价集中在<strong>310-335美元</strong>区间。机构普遍预计2026年营收增速13%-16%，AWS是核心增长引擎。估值多采用<strong>分部估值法（SOTP）</strong>，对AWS给予更高倍数，对零售业务采用较低倍数。机构间对2026年EPS预测差异较大，主要源于对Anthropic等股权投资公允价值变动的假设不同，剔除后核心盈利预期相对一致。（注：以上为财报前预测；Q2超预期后，瑞银2027年营业利润预期已比市场共识高约49%。）</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>Gangtise Open API（公司一页通 · stock-one-pager）· 公司财报及公开披露 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/AMZN · 生成于 2026-07-31</div></footer>
+
+<script>
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
