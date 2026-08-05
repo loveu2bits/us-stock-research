@@ -374,9 +374,9 @@ const VIEWS = [
 const state = { view:'tier', tier:'all', sector:'all', q:'' };
 const sectors = ['全部', ...SECTOR_ORDER];
 
-function fmtCap(b){
+function fmtCap(b){  // b 单位是十亿美元（$B），1B = 10亿
   if (b >= 1000) return (b/1000).toFixed(1).replace(/\.0$/,'') + ' 万亿';
-  return b.toLocaleString() + ' 亿';
+  return (b*10).toLocaleString() + ' 亿';
 }
 
 const sortedAll = [...COMPANIES].sort((a,b)=>b.cap-a.cap);
