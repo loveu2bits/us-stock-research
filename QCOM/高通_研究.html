@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>高通（QCOM.O）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--amber); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">QCOM</span>
+    <span class="site-mark__text">高通 公司研究<span>Qualcomm · QCOM.O</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>高通<span class="en">Qualcomm · QCOM.O · 美股研究</span></h1>
+        <p class="sub">安卓旗舰 SoC 霸主 + 专利授权现金牛，正处于苹果基带流失「硬着陆」与汽车/数据中心第二曲线的交接期：FY26Q4 指引 miss 确认短痛，9 月全面提价与 12 月季度数据中心首笔收入决定转型能否被重新定价。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-06</span>
+          <span>下次更新：FY26Q4 财报后（2026-10/11）或 9 月底骁龙峰会后</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>利空出尽的逻辑诱人，但 FY27 EPS 预测仍在下修（分歧 9.57-12.40 美元）；等毛利率企稳或数据中心收入落地再升级。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">汽车 +61%</strong><span>FY26Q3 营收 $15.9亿 创新高</span></div>
+      <div class="summary-rail__item"><strong>$2.21</strong><span>FY26Q3 Non-GAAP EPS · -20% 持平预期</span></div>
+      <div class="summary-rail__item"><strong>69%</strong><span>QTL EBT 利润率 · 现金牛</span></div>
+      <div class="summary-rail__item"><strong>15-16x</strong><span>券商目标 PE 中枢 · 转型折价</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">FY26Q3 财报：苹果「硬着陆」+ Q4 指引 miss，是利空出尽还是持续恶化？</h2>
+        <span class="qa__impact-tag">→ FY27 EPS 预期区间 $9.57-12.40 · 分歧巨大</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>这是一次「确认型」财报：营收略 beat、EPS inline，但 Q4 指引 miss 把苹果基带加速归零摆上了台面。<em>短期是持续恶化（EPS 下修未止），中期看却像利空出尽的前半段——最大的长期不确定性（苹果依赖）正在以可量化的方式快速出清。判定窗口在 FY26Q4-FY27Q1：苹果收入环比 -50% 兑现后，剩下的业务是否还能增长。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>直接影响 FY27 盈利基数。</strong>苹果产品收入从 FY26Q4 到 FY27Q1 环比降约 <strong>50%</strong>，FY27 全年苹果产品收入将低于此前「略高于 20 亿美元」的指引——这是券商 FY27 EPS 预测低至 9.57-10.10 美元（Bernstein/摩根大通/汇丰）的核心原因。</p>
+            <p>但管理层同时给出对冲：FY27 非手机业务收入同比 +60% 以上，<strong>足以完全替代 FY26 全部苹果产品收入</strong>。若兑现，市场关注点从「失去什么」切换到「换成什么」，估值折价才有修复基础。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>苹果流失从「悬而未决的长期折价」变成「两个季度内计价完毕的确定损失」——<strong>不确定性本身就是估值折价，出清即修复</strong></li>
+              <li>管理层判断中国 OEM 手机收入已于 FY26Q3 <strong>触底</strong>，指引 FY26Q4 环比双位数增长</li>
+              <li>9 月 1 日起全系列芯片两位数提价，毛利率修复有明确动作而非空喊</li>
+              <li>汽车 +61%、IoT +9% 已在财报里兑现，第二曲线不是 PPT</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>FY26Q4 EPS 指引中值 2.15 美元 vs 预期 2.35 美元——<strong>miss 幅度大，且原因（毛利率+苹果）都不是一次性的</strong></li>
+              <li>下一代 iPhone 基带份额「远低于此前预估的 20%」，流失速度比最悲观假设还快</li>
+              <li>FY27 EPS 预测区间 9.57-12.40 美元，<strong>说明市场对转型后的盈利形态根本没有共识</strong></li>
+              <li>另一只靴子还没落地：苹果 QTL 专利授权协议 2027 年 4 月到期</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（FY26Q3 财报速览 · QCT 分部拆分）</summary>
+          <div class="evidence__body">
+            <h5>FY26Q3 财报速览（截至 2026-06-28）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>实际</th><th>预期 / 同比</th><th>评价</th></tr></thead><tbody><tr><td>总营收</td><td>$99.47 亿（-4%）</td><td>略超预期</td><td>微 beat，但同比仍在下滑</td></tr><tr><td>Non-GAAP EPS</td><td>$2.21（-20%）</td><td>与预期持平</td><td>inline，利润降幅远大于收入</td></tr><tr><td>QCT（芯片）</td><td>$85.04 亿（-5%）</td><td>—</td><td>EBT 利润率降至 26%</td></tr><tr><td>└ 手机</td><td>$50.86 亿（-20%）</td><td>—</td><td><span class="warn">双杀</span>：存储涨价压制 OEM 拉货 + 苹果基带流失</td></tr><tr><td>└ 汽车</td><td>$15.88 亿（+61%）</td><td>—</td><td>连续创新高；FY26 年化目标上调至 ~$70 亿</td></tr><tr><td>└ 物联网</td><td>$18.30 亿（+9%）</td><td>—</td><td>工业/网络/机器人驱动，消费类疲软</td></tr><tr><td>QTL（专利授权）</td><td>$12.78 亿</td><td>—</td><td>EBT 利润率 69%，现金牛韧性仍在</td></tr><tr><td>FY26Q4 指引</td><td>营收 $97-105 亿 · EPS $2.05-2.25</td><td>EPS 预期 $2.35</td><td><span class="warn">miss</span>——QCT 毛利率承压 + 苹果收入加速下滑</td></tr></tbody></table></div>
+            <h5>QCT 分部拆分（亿美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>业务板块</th><th>FY25Q3</th><th>FY26Q3</th><th>同比</th><th>FY26Q3 占比</th></tr></thead><tbody><tr><td>手机 (Handsets)</td><td>63.28</td><td>50.86</td><td><span class="warn">-20%</span></td><td>60%</td></tr><tr><td>汽车 (Automotive)</td><td>9.84</td><td>15.88</td><td><strong>+61%</strong></td><td>19%</td></tr><tr><td>物联网 (IoT)</td><td>16.81</td><td>18.30</td><td>+9%</td><td>21%</td></tr><tr><td><strong>QCT 合计</strong></td><td>89.93</td><td>85.04</td><td>-5%</td><td>100%</td></tr></tbody></table></div>
+            <p>结构信号清晰：手机占比 60% 但在快速萎缩，汽车+IoT 已占 QCT 的 40% 且均在增长——「新旧动能转换」不是叙事，正在报表里发生。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">9 月 1 日全面提价：QCT 毛利率能拉回 48-50% 吗？</h2>
+        <span class="qa__impact-tag">→ 毛利率修复节奏决定 FY27H1 业绩弹性</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>这是近年来最明确的一次主动定价权行使，且具备行业普遍性（联发科已先行涨价）。<em>但需求疲软下的传导速度存疑——管理层自己承认「成本与定价之间的暂时脱节」。验证窗口在 FY27Q1-Q2 财报：QCT 毛利率若触底回升，是本轮最有分量的加仓信号。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>毛利率是当前多空的第一战场。</strong>FY23-FY25 公司毛利率稳定在 55-56%，FY26 前三季度已滑至 53.8%，QCT EBT 利润率降至 26%。提价的目标是把 QCT 毛利率推回 <strong>48%-50%</strong> 历史区间——能否兑现直接决定 FY27 EPS 落在预测区间的上沿还是下沿。</p>
+            <p>反向拖累也已明示：数据中心定制 ASIC 初期毛利率显著低于公司平均，<strong>将拖累 QCT 毛利率 1.5-2 个百分点</strong>——手机端提价补回来的，一部分要被数据中心「入场费」吃掉。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>两位数百分比的全面提价 + 联发科先行——<strong>全行业成本通胀下的集体行动，单独被客户抵制的风险低</strong></li>
+              <li>高端安卓市场主导地位仍在：三星约 70% 旗舰设备采用骁龙平台，议价筹码比份额数字显示的更硬</li>
+              <li>管理层指引中国 OEM 收入 FY26Q3 触底、FY26Q4 环比双位数增长——<strong>需求底 + 提价 = 毛利率双击的可能性</strong></li>
+              <li>9 月底骁龙峰会两款新旗舰平台（新一代神经渲染 + 升级 AI 引擎），产品周期配合提价</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>2026 年全球手机销量预计<strong>低双位数下滑</strong>：存储涨价迫使 OEM 砍单、消化库存，提价在收缩市场里很难足额传导</li>
+              <li>OEM 成本敏感度上升，高端机型开始选用<strong>上一代或规格较低的芯片</strong>——产品组合恶化与提价效果对冲</li>
+              <li>管理层原话「成本与定价之间的暂时脱节导致毛利率暂时略有下降」——承认短期传不动</li>
+              <li>数据中心 ASIC 拖累 1.5-2pct 是<strong>结构性的</strong>，FY27 收入越大拖累越实</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（毛利率轨迹 · 提价时间线 · 成本传导判断）</summary>
+          <div class="evidence__body">
+            <h5>毛利率轨迹（公司整体）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>期间</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY26 Q1-Q3</th></tr></thead><tbody><tr><td>营业收入（亿美元）</td><td>358.20</td><td>389.62</td><td>442.84</td><td>327.98</td></tr><tr><td>毛利率</td><td>55.7%</td><td>56.2%</td><td>55.4%</td><td><span class="warn">53.8%</span></td></tr><tr><td>经营活动现金流（亿美元）</td><td>112.99</td><td>122.02</td><td>140.12</td><td>84.05</td></tr></tbody></table></div>
+            <h5>提价时间线</h5>
+            <ul>
+              <li><strong>2026-07-24</strong>：据报道高通已向客户发送涨价通知函</li>
+              <li><strong>2026-09-01</strong>：全系列芯片两位数百分比提价生效，逐步传导</li>
+              <li><strong>目标</strong>：QCT 毛利率未来几个季度重回 <strong>48%-50%</strong> 区间</li>
+            </ul>
+            <h5>成本传导能力判断</h5>
+            <p>上游：fabless 模式依赖台积电/三星/格芯，晶圆、封测、存储全环节短缺涨价，成本压力是真实的、全行业的。下游：手机市场疲软、OEM 成本敏感，传导存疑；汽车/IoT 因平台化附加值高，议价能力更强。<strong>结论：赚「技术溢价」的公司正在付「周期成本」，提价是把成本压力转嫁出去的必答题，答得好不好 FY27H1 见分晓。</strong></p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">第二曲线：汽车已兑现、数据中心将落地——FY27 非手机 +60% 可信吗？</h2>
+        <span class="qa__impact-tag">→ 决定估值框架是否从「手机公司」切换到「平台公司」</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>汽车业务的可信度已被报表验证（+61%、$650 亿设计订单管线、宝马十年协议）；数据中心则是「从 0 到 1」的期权——12 月季度首笔收入落地前，只能给故事估值。<em>+60% 的替代承诺方向可信、斜率存疑：汽车+IoT 的确定性增长打底，数据中心贡献弹性。这是当前分歧最大、也最值得跟踪的一条线。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这是估值框架切换问题。</strong>若市场把高通当「衰退中的手机芯片公司」，15-16x 就是天花板；若数据中心收入落地验证了「边缘 AI 推理平台」叙事，部分投资者会开始把数据中心业务单独纳入估值——<strong>同样的 EPS，不同的倍数</strong>。</p>
+            <p>管理层目标：FY27 数据中心收入 <strong>50 亿美元</strong>、FY29 非手机总收入 <strong>400 亿美元</strong>（汽车+IoT 超 240 亿、数据中心超 150 亿）。初期 ASIC 收入预计单季度约 6 亿美元——体量小，但「从 0 到 1」对估值逻辑的意义大于对 EPS 的意义。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>汽车：FY26Q3 +61% 连创新高，FY26 年化目标上调至 ~$70 亿，<strong>设计订单管线 $650 亿</strong>支撑中长期 15% 复合增长</li>
+              <li>宝马十年期数字座舱 + ADAS 主计算芯片协议——从单点供应升级为<strong>平台型锁定</strong>，单车价值量有望从数十美元升至数百甚至上千美元</li>
+              <li>数据中心已有实质进展：两个定制 ASIC 客户已下采购订单并启动晶圆生产，Meta 为 CPU 客户，<strong>不是纯 PPT</strong></li>
+              <li>HBC 技术宣称比 HBM 高 6 倍的每瓦特带宽——若客户验证兑现，切中 AI 推理「每瓦特性能」痛点，差异化成立</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>数据中心是巨头瓜分的市场（英伟达/AMD/英特尔 + 博通主导的定制 ASIC），新进入者要<strong>用利润换入场券</strong>——初期毛利率拖累 QCT 1.5-2pct 已是明牌</li>
+              <li>定制 ASIC 本质是低利润率的「设计服务」，缺乏技术壁垒和可持续性</li>
+              <li>服务器 CPU 要到 <strong>FY28H2</strong> 才规模贡献收入，届时直面成熟生态</li>
+              <li>FY27 数据中心 50 亿目标 vs 初期单季约 6 亿——<strong>全年目标隐含下半年必须急剧放量，节奏容错率低</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（数据中心路线图 · 汽车管线 · QTL 现金牛与苹果授权风险）</summary>
+          <div class="evidence__body">
+            <h5>数据中心里程碑</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>时间</th><th>事件</th><th>状态</th></tr></thead><tbody><tr><td>2026-06 投资者日</td><td>公布完整数据中心路线图（定制 ASIC / AI 加速器 / 服务器 CPU / 连接），宣布 Meta 为 CPU 客户</td><td>已发生</td></tr><tr><td>当前</td><td>两个定制 ASIC 项目获采购订单、启动晶圆生产；第一代 HBC 芯片完成流片</td><td>进行中</td></tr><tr><td>FY27Q1（2026-12 季度）</td><td>定制 ASIC 首次贡献收入，预计单季约 $6 亿</td><td><strong>关键验证点</strong></td></tr><tr><td>2027 年中</td><td>第一代 HBC（高带宽计算）芯片推出</td><td>待验证</td></tr><tr><td>FY28H2</td><td>服务器 CPU 规模贡献收入</td><td>远期</td></tr></tbody></table></div>
+            <h5>QTL 现金牛 vs 苹果授权到期</h5>
+            <ul>
+              <li>QTL FY26Q3 收入 $12.78 亿，EBT 利润率 69%——以约 13% 的营收贡献约 33% 的税前利润，是新业务投资的资金来源</li>
+              <li><strong>苹果 QTL 协议 2027-04 到期</strong>：每年约 $15-20 亿高利润率收入面临续约谈判；苹果已自研基带成功，谈判立场强硬，费率大降甚至模式被挑战都有可能</li>
+              <li>华为未续约在先——QTL 的韧性是真的，但边际压力也是真的</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 4 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">4</span>
+        <h2 class="qa__title">估值：15-16x 的转型折价，赔率如何？</h2>
+        <span class="qa__impact-tag">→ 期望值 ≈ 券商目标价中枢 · 等待验证信号</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>三情景期望值约 $165，与券商目标价中枢（165-170）基本一致——<em>市场定价已经反映了「手机承压 + 转型存疑」的中性预期，没有明显的安全边际，也没有明显泡沫。对应「持有」。升级「买入」的触发条件：FY27Q1-Q2 毛利率确认触底回升，或 12 月季度数据中心收入超预期。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这个问题本身就是估值问题。</strong>券商目标倍数集中在 15-16x——对一家仍有 69% EBT 利润率现金牛的公司，这是赤裸裸的「转型不信任」折价。倍数修复不靠 EPS 超预期，靠的是<strong>验证信号</strong>：毛利率拐点、数据中心收入、苹果授权续约条款。</p>
+            <p>中性情景一年期回报约 0 至小幅为正；赔率 ≈ 1.3:1（+20% / -19%）。不诱人，但下行有 QTL 现金流 + 大额回购托底，所以持有而非回避。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>15-16x 目标 PE 已把转型不确定性计入——<strong>苹果利空出清后，任何验证信号都是纯上行期权</strong></li>
+              <li>现金回报托底：FY26 前三季度回购 $68.06 亿 + 股息 $28.68 亿，管理层对现金流有信心</li>
+              <li>若 FY27 非手机 +60% 兑现，市场将从「失去苹果」切换到「平台重估」，<strong>同样的 EPS 配更高的倍数</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>FY27 EPS 预测区间 9.57-12.40 美元、六家券商无一「买入」级评级（Neutral/Hold/Underperform 为主）——<strong>卖方集体无法用转型故事定价</strong></li>
+              <li>期望值 ≈ 目标价中枢，悲观情景 -19% vs 乐观 +20%，赔率约 1.3:1，不值得抢跑</li>
+              <li>2027-04 苹果 QTL 续约是<strong>尚未定价的尾部风险</strong>：每年 $15-20 亿高利润率收入若费率大降，EPS 和倍数双杀</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（券商预测一览 · 三情景表）</summary>
+          <div class="evidence__body">
+            <h5>券商盈利预测与评级（财报后更新）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价</th><th>FY26E EPS</th><th>FY27E EPS</th><th>FY28E EPS</th></tr></thead><tbody><tr><td>瑞银 (2026-08-03)</td><td>Neutral</td><td>$170</td><td>10.50</td><td>10.36</td><td>13.61</td></tr><tr><td>高盛 (2026-07-31)</td><td>Neutral</td><td>$180</td><td>10.73</td><td><strong>12.40</strong></td><td>14.70</td></tr><tr><td>摩根大通 (2026-07-30)</td><td>Neutral</td><td>$215</td><td>10.51</td><td>10.00</td><td>13.55</td></tr><tr><td>Bernstein (2026-07-30)</td><td>Market-Perform</td><td>$165</td><td>10.51</td><td><span class="warn">9.57</span></td><td>12.72</td></tr><tr><td>汇丰 (2026-07-30)</td><td>Hold</td><td>$165</td><td>10.51</td><td>10.10</td><td>12.77</td></tr><tr><td>美银 (2026-05-06)</td><td>Underperform</td><td>$165</td><td>10.60</td><td>10.72</td><td>12.42</td></tr></tbody></table></div>
+            <p>注意分歧结构：FY26E 高度一致（10.50-10.73），FY27E 从 9.57 到 12.40——<strong>分歧不在眼前，全在转型后的 2027</strong>。乐观方（高盛）押数据中心显著增厚，谨慎方（Bernstein/摩通/汇丰）押手机下滑+毛利率压力。</p>
+            <h5>三情景假设（FY2027 视角，基于券商预测区间构建）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>FY27 EPS</th><th>合理 PE</th><th>隐含股价</th><th>vs 中枢 $165</th></tr></thead><tbody><tr><td>乐观（25%）</td><td>提价见效 + 数据中心收入超预期，FY27 EPS 达预测上限</td><td>~$12.40（高盛）</td><td>16x</td><td>~$198</td><td>+20%</td></tr><tr><td>中性（50%）</td><td>手机弱复苏、毛利率缓慢修复，EPS 落在券商中位</td><td>~$10.50</td><td>15.5x</td><td>~$163</td><td>-1%</td></tr><tr><td>悲观（25%）</td><td>手机下滑超预期 + 苹果授权费率下调预期发酵</td><td>~$9.57（Bernstein）</td><td>14x</td><td>~$134</td><td><span class="warn">-19%</span></td></tr></tbody></table></div>
+            <p><strong>期望值约 $165，与券商目标价中枢一致</strong>。估值不是算出「正确答案」，而是把当前定价隐含的预期拆出来：现价买入，你赌的是「毛利率拐点或数据中心落地比市场预期来得早」——在验证信号出现前，这个赌注没有赔率优势。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>：公司概况、近期要闻、催化剂（见同目录《高通_一页通.md》，亦见本站「一页通」标签页）</li>
+        <li><strong>财务数据</strong>：FY2023-FY26Q3 利润表与现金流、FY26Q3 分部数据（正文数据均来自公开财报及公开研究资料整理）</li>
+        <li><strong>局限</strong>：未读 10-K/10-Q 原文（建议下一步补读 Risk Factors 中苹果与授权模式相关章节）；本文未纳入实时股价，估值以券商目标价中枢为锚；数据中心收入为管理层目标而非市场共识</li>
+        <li><strong>管理层评估（一句话版）</strong>：敢于在投资者日给出 FY29 非手机 400 亿美元的超长期目标，转型方向清晰；但 FY27 +60% 的替代承诺容错率低，兑现度需逐季验证</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>高通是全球无线通信技术与半导体平台的领导者，核心业务分为两大板块：<strong>QCT（半导体业务）</strong>负责开发和销售基于骁龙（Snapdragon）和 Dragonwing 平台的集成芯片及系统软件，覆盖手机、汽车和物联网终端；<strong>QTL（专利授权业务）</strong>负责向全球通信设备制造商收取基于整机售价百分比的专利授权费。公司正从手机芯片巨头向"手机+汽车+物联网+数据中心"的多元化计算平台公司转型，其长期战略目标是到 2029 财年实现非手机业务收入 400 亿美元。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul><li><strong>FY26Q3 业绩与 FY26Q4 指引</strong>：FY26Q3（截至 2026 年 6 月 28 日）营收 99.47 亿美元，同比 -4%，略超预期；Non-GAAP EPS 为 2.21 美元，同比 -20%，与预期持平。但 FY26Q4（截至 2026 年 9 月）EPS 指引中值 2.15 美元，显著低于市场预期的 2.35 美元，主要受 QCT 毛利率承压和苹果收入加速下滑影响。</li><li><strong>全面提价以应对成本通胀</strong>：管理层宣布自 <strong>2026 年 9 月 1 日</strong>起对全系列芯片实施<strong>两位数百分比的涨价</strong>，以传导晶圆制造、封装测试、存储等全供应链环节的成本上涨。提价将逐步生效，目标是推动 QCT 毛利率在未来几个季度重回 <strong>48%-50%</strong> 的历史区间。</li><li><strong>苹果业务退出加速</strong>：由于供应限制和苹果自研基带推进，高通在下一代 iPhone 中的基带份额将<strong>远低于此前预估的 20%</strong>，预计苹果相关产品收入从 FY26Q4 到 FY27Q1 将环比下降约 <strong>50%</strong>。管理层预计 FY27 财年来自苹果的产品收入将低于此前"略高于 20 亿美元"的指引。</li><li><strong>汽车业务目标上调</strong>：FY26Q3 汽车业务营收 15.88 亿美元，同比 +61%，创历史新高。公司将 FY26 财年末汽车业务年化营收目标从 60 亿美元上调至约 <strong>70 亿美元</strong>，并宣布与宝马达成未来十年数字座舱与 ADAS/AD 主计算芯片供应商的里程碑协议。</li><li><strong>数据中心业务即将产生收入</strong>：两个定制化 ASIC 项目已获得采购订单并启动晶圆生产，预计从 <strong>FY27Q1（2026 年 12 月季度）</strong>开始贡献收入。第一代高带宽计算（HBC）芯片已完成流片，计划于 <strong>2027 年中</strong>推出。公司重申 FY27 数据中心收入目标为 50 亿美元，FY29 为 150 亿美元以上。</li></ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol><li><strong>苹果业务"硬着陆"的利空出尽</strong>：本次财报及指引确认苹果基带收入将在未来两个季度加速归零。尽管短期对 EPS 造成冲击，但这实质上消除了长期悬在股价上的最大不确定性。管理层明确表示，FY27 非手机业务超 60% 的同比增长将完全替代苹果产品收入。若市场将此视为一次性利空出尽，股价可能在对苹果业务完成定价后迎来重估。</li><li><strong>提价对毛利率的修复节奏与效果</strong>：高通宣布自 9 月 1 日起全系列芯片提价两位数百分比，这是近年来最明确的一次主动定价权行使，且具备行业普遍性（联发科已先行涨价）。关键观察点在于提价能否在 FY27H1 有效对冲成本通胀并推动 QCT 毛利率回升至 48%-50% 区间。</li><li><strong>数据中心业务从"故事"到"收入"的实质性跨越</strong>：随着两个定制 ASIC 项目在 12 月季度开始贡献收入，公司将从"AI 叙事"阶段进入"业绩兑现"阶段。初期收入规模（预计单季度约 6 亿美元）虽小，但"从 0 到 1"的突破对估值逻辑的切换至关重要。</li></ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol><li><strong>从"连接"到"计算"的平台化扩张</strong>：高通正将其在移动端积累的低功耗、高性能计算架构（Oryon CPU、Hexagon NPU）横向扩展至汽车、物联网和数据中心。随着 AI 推理从云端向边缘和终端扩散，"每瓦特性能"的要求变得空前重要，而这正是高通积累数十年的核心技术壁垒。若其 HBC 技术能如宣传所言实现比 HBM 高 6 倍的每瓦特带宽，则有可能在 AI 推理市场开辟一条差异化路径。</li><li><strong>汽车业务的平台型锁定与内容价值倍增</strong>：与宝马达成的十年期主计算芯片协议是"数字底盘"平台型合作的典型体现。随着汽车电子电气架构向中央计算平台演进，单车价值量有望从当前数十美元向数百甚至上千美元跃升。公司汽车业务设计订单管线已达 650 亿美元，为中长期 15% 的复合增长率提供了较高可见度。</li><li><strong>QTL 业务作为"现金牛"的持续性与韧性</strong>：QTL 业务以约 70% 的 EBT 利润率提供稳定现金流和试错空间。尽管面临华为未续约、苹果授权协议 2027 年 4 月到期等风险，但该业务 FY26Q3 仍实现 12.78 亿美元收入。只要全球智能手机出货量不出现断崖式下滑，QTL 的现金流生成能力大概率能维持。</li></ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul><li><strong>苹果专利授权协议到期风险</strong>：高通与苹果的 QTL 专利授权协议将于 <strong>2027 年 4 月</strong>到期。鉴于苹果已成功自研基带芯片，其在续约谈判中可能寻求大幅降低专利费率，甚至挑战授权模式的合法性。该协议每年贡献约 <strong>15-20 亿美元</strong>高利润率收入，若未能续约或费率显著下调，将对公司盈利产生重大冲击。</li><li><strong>数据中心业务执行与竞争风险</strong>：高通进入的是一个由英伟达、AMD、英特尔及诸多 ASIC 初创公司激烈争夺的市场。其定制 ASIC 业务虽已获得两个客户，但初期毛利率显著低于公司平均水平，预计将拖累 QCT 整体毛利率 <strong>1.5-2 个百分点</strong>。其服务器 CPU 产品需至 FY28H2 才能规模贡献收入。</li><li><strong>智能手机市场结构性逆风</strong>：受存储芯片价格持续上涨和供应短缺影响，全球智能手机市场在 2026 年预计出现低双位数的销量下滑。这不仅直接冲击 QCT 手机芯片出货量，还迫使 OEM 厂商在高端机型中选用上一代或规格较低的芯片，对产品组合和利润率产生双重挤压。</li></ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul><li><strong>2026 年 6 月 24-25 日</strong>：高通举办 2026 年投资者日，公布全面数据中心产品路线图，涵盖定制 ASIC、AI 加速器、服务器 CPU 和连接产品，并宣布 Meta 为其数据中心 CPU 客户。公司上调 FY29 非手机业务收入目标至 400 亿美元。</li><li><strong>2026 年 7 月 24 日</strong>：据报道，高通已向客户发送涨价通知函，宣布自 9 月 1 日起对全系列芯片产品实施两位数百分比的价格上调。</li><li><strong>2026 年 7 月 29 日</strong>：高通发布 FY26Q3 财报，同时宣布与宝马达成合作协议，成为其未来十年数字座舱与 ADAS/AD 系统的主计算芯片供应商；并宣布完成对 AI 软件基础设施公司 Modular 的收购。</li></ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul><li><strong>2026 年 9 月</strong>：高通计划在月底举办的骁龙峰会上发布两款新一代骁龙旗舰移动平台，预计将搭载新一代神经渲染技术和升级的 AI 引擎。</li><li><strong>2026 年 10-11 月</strong>：FY26Q4 财报发布。市场将重点关注 QCT 毛利率是否在提价措施下出现企稳迹象，以及数据中心业务的客户进展更新。</li><li><strong>2026 年 12 月季度</strong>：高通数据中心定制 ASIC 业务预计将首次产生规模收入。这是验证公司 AI 数据中心战略从"规划"走向"落地"的关键里程碑。</li></ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<p><strong>盈利模式</strong>：<strong>QCT 业务</strong>依靠设计和销售基于先进制程的集成芯片（SoC）及配套软件，赚取"技术溢价"和"规模制造"的钱，盈利水平受产品组合、代工成本和市场竞争影响。<strong>QTL 业务</strong>依靠庞大的标准必要专利（SEP）组合，向全球手机制造商收取基于整机售价百分比的专利费，赚取"知识产权垄断"的钱，具有极高的利润率。</p>
+<p><strong>业务拆分</strong>：FY26Q3，手机业务虽仍占 QCT 营收的 60%，但同比已下降 20%；汽车和物联网业务合计占比已达 40%，且分别实现 61% 和 9% 的同比增长。公司正处于"新旧动能转换"的关键期。</p>
+<div class="tbl-wrap"><table><thead><tr><th>业务板块</th><th>FY25Q3 收入 (亿美元)</th><th>FY26Q3 收入 (亿美元)</th><th>同比变化</th><th>FY26Q3 收入占比</th></tr></thead><tbody><tr><td>手机 (Handsets)</td><td>63.28</td><td>50.86</td><td>-20%</td><td>60%</td></tr><tr><td>汽车 (Automotive)</td><td>9.84</td><td>15.88</td><td>+61%</td><td>19%</td></tr><tr><td>物联网 (IoT)</td><td>16.81</td><td>18.30</td><td>+9%</td><td>21%</td></tr><tr><td><strong>QCT 总收入</strong></td><td><strong>89.93</strong></td><td><strong>85.04</strong></td><td><strong>-5%</strong></td><td><strong>100%</strong></td></tr></tbody></table></div>
+<ul><li><strong>手机业务</strong>：FY26Q3 营收 50.86 亿美元，同比 -20%。主要受存储芯片价格上涨导致 OEM 削减订单、消化库存，以及苹果自研基带加速导入两大因素拖累。管理层判断来自中国 OEM 的手机收入已于 FY26Q3 触底，并指引 FY26Q4 实现环比双位数增长。</li><li><strong>汽车业务</strong>：FY26Q3 营收 15.88 亿美元，同比 +61%，连续多个季度创历史新高。增长由"量"（新车型搭载增加）和"价"（产品组合优化）共同驱动，与宝马的十年协议标志着其正升级为战略平台合作伙伴。</li><li><strong>物联网业务</strong>：FY26Q3 营收 18.30 亿美元，同比 +9%。增长由工业、网络和机器人等领域驱动，部分被消费类产品需求疲软抵消。公司正将其细分为"个人 AI 与计算"和"工业、网络与机器人"两大领域。</li></ul>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托标准必要专利组合构筑的"收费关卡"</strong>——<strong>结构性护城河</strong>。高通在 3G/4G/5G 领域拥有大量无法绕开的标准必要专利（SEP），由国际标准组织和法律体系共同构筑，具有强制性、长期性和全球性。数据验证：QTL 业务 FY26Q3 以约 13% 的营收贡献约 33% 的税前利润，EBT 利润率高达 <strong>69%</strong>。动态演变：<strong>维持</strong>——尽管面临华为未续约、苹果协议 2027 年到期等挑战，5G/6G 标准演进和蜂窝技术向汽车、物联网渗透为长期收费基础提供支撑，但各国监管审查日益严格。</p>
+<p><strong>竞争要素 2：从移动端向边缘和云端延伸的低功耗计算架构</strong>——<strong>行业阶段性红利</strong>，有潜力转化为结构性优势。高通在智能手机时代积累的异构计算、低功耗 AI 引擎（NPU）和 SoC 设计能力，正契合 AI 推理从云端向边缘和终端扩散的趋势。数据验证：汽车业务 +61%、设计订单管线 650 亿美元；HBC 技术宣称比 HBM 高 6 倍每瓦特带宽（尚缺第三方量化交叉验证）。动态演变：<strong>护城河变宽</strong>——收购 Alphawave（高速连接 IP）和 Modular（AI 软件平台）后，正向"芯片+连接+软件"全栈平台提供商演进。</p>
+<p><strong>现阶段核心驱动力总结</strong>：公司的 Alpha 在于独特的 SEP 收费模式和向高增长非手机市场横向扩张的能力，Beta 则高度关联全球智能手机景气度。当前 Alpha 属性正在增强，Beta 属性（手机周期）正经历逆风。</p>
+<h3 class="doc-h2">产销链</h3>
+<ul><li><strong>客户情况</strong>：集中度较高。FY25 财年来自 <strong>Apple、Samsung 和 Xiaomi</strong> 的收入各自均超过总收入的 10%。Apple 业务正加速流失；Samsung 约 70% 的旗舰设备采用骁龙平台；中国 OEM（Xiaomi、OPPO、vivo）收入被认为已在 FY26Q3 触底。新客户方面，已宣布 <strong>Meta</strong> 为数据中心 CPU 客户，并与两家未具名的超大规模客户签订定制 ASIC 合同。</li><li><strong>供应商情况</strong>：<strong>fabless</strong> 模式，核心制造伙伴为<strong>台积电、三星电子、格芯</strong>。当前半导体供应链面临产能紧张和投入成本全面上涨，从晶圆、封测到存储均出现短缺和涨价——这是 9 月 1 日全面提价的根本原因。</li><li><strong>成本传导能力</strong>：手机市场因需求疲软和 OEM 成本敏感度提高，提价实际执行效果存在不确定性，管理层承认"成本与定价之间的暂时脱节导致毛利率暂时略有下降"；汽车和物联网市场因平台化附加值较高，议价能力相对更强。</li></ul>
+<h3 class="doc-h2">财务数据</h3>
+<div class="tbl-wrap"><table><thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY26 Q1-Q3</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2023-09-24</td><td>2024-09-29</td><td>2025-09-28</td><td>2026-06-28</td></tr><tr><td><strong>营业收入 (亿美元)</strong></td><td>358.20</td><td>389.62</td><td>442.84</td><td>327.98</td></tr><tr><td>同比变化</td><td>-18.96%</td><td>+8.77%</td><td>+13.66%</td><td>-0.65%</td></tr><tr><td><strong>营业成本 (亿美元)</strong></td><td>158.69</td><td>170.60</td><td>197.38</td><td>151.38</td></tr><tr><td><strong>毛利润 (亿美元)</strong></td><td>199.51</td><td>219.02</td><td>245.46</td><td>176.60</td></tr><tr><td><strong>毛利率</strong></td><td>55.7%</td><td>56.2%</td><td>55.4%</td><td>53.8%</td></tr><tr><td><strong>营业利润 (亿美元)</strong></td><td>86.50</td><td>102.50</td><td>123.94</td><td>73.99</td></tr><tr><td><strong>归母净利润 (亿美元)</strong></td><td>72.32</td><td>101.42</td><td>55.41</td><td>123.77</td></tr><tr><td><strong>稀释每股收益 (美元)</strong></td><td>6.42</td><td>8.97</td><td>5.01</td><td>11.53</td></tr><tr><td><strong>经营活动现金流净额 (亿美元)</strong></td><td>112.99</td><td>122.02</td><td>140.12</td><td>84.05</td></tr><tr><td><strong>自由现金流 (亿美元)</strong></td><td>98.49</td><td>111.61</td><td>128.20</td><td>68.27</td></tr></tbody></table></div>
+<p><em>注：FY25 归母净利润大幅下降系确认 57 亿美元递延税资产估值备抵的一次性非现金费用所致；FY26 Q1-Q3 包含 Q2 释放该备抵带来的 57 亿美元非现金税收优惠。自由现金流 = 经营活动现金流净额 - 资本性支出。</em></p>
+<ul><li><strong>盈利能力</strong>：毛利率 FY23-FY25 稳定在 55%-56% 高位，FY26 前三季度下滑至 53.8%，反映手机业务疲软和投入成本上涨。剔除一次性税收项目，正常化净利润展现较强韧性；QTL 约 70% 的 EBT 利润率提供稳定利润基石。</li><li><strong>成长能力</strong>：FY26 前三季度营收增长近乎停滞，汽车和物联网成为新引擎但体量尚不足以完全对冲手机下滑。市场关注点在于非手机业务 FY27 能否实现管理层指引的 60% 以上同比增长。</li><li><strong>运营能力与现金流</strong>：现金流生成能力强劲，FY26 前三季度经营现金流 84.05 亿美元；持续大规模回购（FY26 前三季度 68.06 亿美元）和派息（28.68 亿美元），显示对自身现金流的信心。</li></ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<ol><li><strong>智能手机 SoC 市场</strong>：成熟且高度集中，增长驱动力从"量"转向"价"（5G 渗透、AI 功能、高端化），当前面临存储涨价带来的显著逆风。高通在高端安卓市场占主导地位，面临<strong>联发科</strong>在中低端的竞争，以及 Apple、Samsung 自研芯片垂直整合的威胁。</li><li><strong>汽车半导体市场</strong>：智能座舱、自动驾驶和软件定义汽车驱动的结构性增长期。高通已迅速成为智能座舱和 ADAS 芯片的领导者，竞争对手包括<strong>英特尔（Mobileye）、英伟达、恩智浦、德州仪器</strong>等。</li><li><strong>数据中心 AI 芯片市场</strong>：规模巨大、增长迅速、竞争激烈。<strong>英伟达</strong>凭 GPU 和 CUDA 生态占绝对主导，AMD 和英特尔积极布局；云厂商自研 ASIC 趋势为高通提供机会，其以低功耗 CPU 和 HBC 内存架构作为差异化切入点。</li></ol>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>对标维度</th><th>分析</th></tr></thead><tbody><tr><td>联发科 (MediaTek)</td><td>2454.TW</td><td>智能手机 SoC</td><td>高通在高端安卓市场的主要竞争对手，两者在技术、客户和定价上全面竞争。联发科同样受手机市场逆风影响，并已宣布涨价。</td></tr><tr><td>英伟达 (Nvidia)</td><td>NVDA</td><td>数据中心 AI 芯片</td><td>数据中心 AI 加速器市场的绝对领导者，GPU + CUDA 生态构成强大壁垒。高通以低功耗推理和 HBC 架构差异化竞争，尚处早期。</td></tr><tr><td>恩智浦 (NXP)</td><td>NXPI</td><td>汽车半导体</td><td>传统汽车芯片巨头，产品线广泛。高通在智能座舱和 ADAS 领域构成直接竞争，增长势头更猛，但传统车身控制布局较少。</td></tr><tr><td>博通 (Broadcom)</td><td>AVGO</td><td>定制 ASIC / 专利授权</td><td>数据中心定制 ASIC（XPU）领域主要玩家，与高通新业务直接竞争；其专利授权模式与 QTL 有相似之处。</td></tr></tbody></table></div>
+<p><strong>总结分析</strong>：高通正处于从"一家独大"（手机）到"三线作战"（手机、汽车、数据中心）的战略转型期。在手机市场是守成者，在汽车市场是强势进攻者，在数据中心市场是挑战者。核心竞争力——低功耗计算和通信技术——在不同市场的可迁移性是决定转型成败的关键。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<p><strong>议题一：手机业务盈利能力的修复路径与时间表</strong>——FY26Q3 手机业务营收同比 -20%，QCT EBT 利润率降至 26%。关键问题：9 月 1 日提价能否在 FY27H1 完全对冲成本上涨？提价会否进一步抑制疲软的需求？"中国 OEM 收入触底"的判断是真实需求回暖还是被动补库？手机业务何时恢复同比正增长？</p>
+<p><strong>议题二：数据中心业务的真实市场空间与竞争力评估</strong>——FY27 50 亿、FY29 150 亿的目标 vs 市场的高度怀疑。关键问题：已宣布客户的长期订单承诺和收入可见度如何？HBC 架构的能效优势能否在客户实测中转化为 TCO 优势？初期低毛利率对整体利润率的拖累将持续多久？</p>
+<p><strong>议题三：苹果专利授权续约的重大不确定性</strong>——QTL 协议 2027 年 4 月到期，苹果已自研基带成功、谈判立场强硬。关键问题：苹果会否要求大幅降低费率或改为芯片级授权？若谈崩是否走向诉讼？失去每年约 15-20 亿美元授权收入对现金流和长期投资能力的影响多大？</p>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧：高通的数据中心战略是"真实的第二增长曲线"还是"用低利润率业务填补营收缺口"？</strong></p>
+<ul><li><strong>乐观方</strong>：AI 工作负载从训练转向推理，"每瓦特性能"和低 TCO 的需求将超越绝对算力峰值，高通的低功耗架构、Oryon CPU 和 HBC 近存计算技术恰好切中痛点。Meta 和两家超大规模客户订单证明技术已获顶级客户初步认可，FY27 实质性收入将推动价值重估。</li><li><strong>谨慎方</strong>：定制 ASIC 本质是低利润率的"设计服务"，缺乏壁垒；AI 加速器和 CPU 要到 2027-2028 年才规模上市，届时直面英伟达下一代产品和 AMD/英特尔成熟生态；初期毛利率拖累在手机承压背景下可能使整体盈利较长时间低于预期。市场给的低估值恰恰反映了这种不确定性。</li></ul>
+<p><strong>总结分析</strong>：成败关键在于技术差异化能否经受市场检验——HBC 能否带来颠覆性 TCO 优势、说服客户从成熟的英伟达生态迁移。未来 12 个月，随着定制 ASIC 收入落地和 HBC 芯片送样测试，市场将获得更多客观数据来评判这一分歧。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>管理层最新指引</strong>：</p>
+<ul><li><strong>FY26Q4</strong>：营收 97-105 亿美元，Non-GAAP EPS 为 2.05-2.25 美元。</li><li><strong>FY27 财年</strong>：非手机业务（含数据中心）收入同比增长超 60%，足以替代 FY26 财年的全部苹果产品收入；数据中心业务收入目标 50 亿美元。</li><li><strong>FY29 财年</strong>：非手机业务总收入目标 400 亿美元，其中汽车与物联网超 240 亿美元，数据中心超 150 亿美元。</li></ul>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价 (美元)</th><th>财务指标</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>瑞银 (2026-08-03)</td><td>Neutral</td><td>170</td><td>营业收入(百万美元)</td><td>44,283</td><td>42,775</td><td>44,650</td><td>52,641</td></tr><tr><td></td><td></td><td></td><td>Non-GAAP EPS (美元)</td><td>12.03</td><td>10.50</td><td>10.36</td><td>13.61</td></tr><tr><td>美银 (2026-05-06)</td><td>Underperform</td><td>165</td><td>营业收入(百万美元)</td><td>44,140</td><td>42,318</td><td>42,311</td><td>46,399</td></tr><tr><td></td><td></td><td></td><td>Non-GAAP EPS (美元)</td><td>12.05</td><td>10.60</td><td>10.72</td><td>12.42</td></tr><tr><td>高盛 (2026-07-31)</td><td>Neutral</td><td>180</td><td>营业收入(百万美元)</td><td>44,140</td><td>42,463</td><td>47,204</td><td>52,035</td></tr><tr><td></td><td></td><td></td><td>Non-GAAP EPS (美元)</td><td>12.03</td><td>10.73</td><td>12.40</td><td>14.70</td></tr><tr><td>摩根大通 (2026-07-30)</td><td>Neutral</td><td>215</td><td>营业收入(百万美元)</td><td>44,140</td><td>42,909</td><td>46,061</td><td>55,458</td></tr><tr><td></td><td></td><td></td><td>Non-GAAP EPS (美元)</td><td>12.03</td><td>10.51</td><td>10.00</td><td>13.55</td></tr><tr><td>Bernstein (2026-07-30)</td><td>Market-Perform</td><td>165</td><td>营业收入(百万美元)</td><td>44,140</td><td>42,898</td><td>44,856</td><td>52,400</td></tr><tr><td></td><td></td><td></td><td>Non-GAAP EPS (美元)</td><td>12.03</td><td>10.51</td><td>9.57</td><td>12.72</td></tr><tr><td>汇丰 (2026-07-30)</td><td>Hold</td><td>165</td><td>营业收入(百万美元)</td><td>44,283</td><td>42,885</td><td>43,947</td><td>49,920</td></tr><tr><td></td><td></td><td></td><td>Non-GAAP EPS (美元)</td><td>12.04</td><td>10.51</td><td>10.10</td><td>12.77</td></tr></tbody></table></div>
+<p><strong>盈利预测与估值分析</strong>：机构间对 FY27 的预测分歧巨大，EPS 预测范围在 <strong>9.57 美元至 12.40 美元</strong>之间，核心分歧在于对手机业务复苏力度和数据中心业务收入及利润率的假设不同。乐观方（如高盛）认为数据中心业务将显著增厚 FY27 业绩，谨慎方（如 Bernstein、摩根大通）更担忧手机业务下滑和毛利率压力。估值方面，多数机构采用市盈率估值法，目标倍数集中在 <strong>15-16 倍</strong>，反映市场对转型期不确定性的折价。整体而言，市场对短期业绩持谨慎态度，但对中长期战略转型的成功与否存在显著预期差。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/QCOM · 生成于 2026-08-06</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-06';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'active',  text: '<strong>全系列芯片提价生效</strong>（2026-09-01）：两位数涨价逐步传导，验证窗口在 FY27Q1-Q2 财报的 QCT 毛利率（目标重回 48-50%）', note: '2026-07-24 已向客户发函；联发科已先行涨价' },
+  { kind: 'cat', status: 'pending', text: '<strong>骁龙峰会</strong>（2026-09 底）：两款新一代旗舰移动平台发布，新一代神经渲染 + 升级 AI 引擎', note: '' },
+  { kind: 'cat', status: 'pending', text: '<strong>FY26Q4 财报</strong>（2026-10/11）：QCT 毛利率是否企稳 + 数据中心客户进展更新', note: '指引：营收 $97-105 亿 · EPS $2.05-2.25' },
+  { kind: 'cat', status: 'pending', text: '<strong>数据中心首笔收入</strong>（2026-12 季度）：两个定制 ASIC 项目开始贡献收入（预计单季约 $6 亿）——「从 0 到 1」的估值框架切换点', note: '晶圆生产已启动；HBC 芯片 2027 年中推出' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'triggered', text: '<strong>苹果基带收入加速归零</strong>：下一代 iPhone 份额远低于此前预估的 20%，苹果产品收入 FY26Q4→FY27Q1 环比约 -50%', note: 'FY26Q3 财报（2026-07-29）确认——利空出尽逻辑的前提' },
+  { kind: 'risk', status: 'clear', text: '<strong>苹果 QTL 授权协议不续约或费率大降</strong>（2027-04 到期）：涉及每年约 $15-20 亿高利润率收入', note: '尚未进入谈判披露期，2026 年底起重点跟踪' },
+  { kind: 'risk', status: 'clear', text: '<strong>提价失效</strong>：FY27Q1-Q2 QCT 毛利率仍明显低于 48%，或管理层归因「需求疲软无法传导」', note: '当前 FY26 前三季公司整体毛利率 53.8%，QCT EBT 利润率 26%' },
+  { kind: 'risk', status: 'clear', text: '<strong>存储涨价压制安卓出货超预期</strong>：2026 年全球手机销量低双位数下滑的预测进一步下修，或延续至 2027', note: '已成为行业共识假设，逐季验证' },
+  { kind: 'risk', status: 'clear', text: '<strong>数据中心低毛利拖累兑现</strong>：ASIC 收入放量后 QCT 毛利率被拖累超 2pct，或 FY27 50 亿收入目标下修', note: '公司已预告拖累 1.5-2pct' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

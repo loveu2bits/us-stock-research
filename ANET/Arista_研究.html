@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arista（ANET.N）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--amber); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">ANET</span>
+    <span class="site-mark__text">Arista 公司研究<span>Arista Networks · ANET.N</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>Arista<span class="en">Arista Networks · ANET.N · 美股研究</span></h1>
+        <p class="sub">数据中心以太网交换机龙头，AI 后端网络「以太网 vs InfiniBand」路线之争的核心受益者：Q2 营收首破 30 亿、全年指引大幅上调至 126 亿——核心问题是这份加速是补发货还是新周期起点，以及与英伟达 Spectrum-X 的竞争走向。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-06</span>
+          <span>下次更新：云客户财报季与新增 10%+ 客户官宣后（2026-08 至 10 月）</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="buy">买入</strong>
+        <em>预期差修复刚开始：指引上调 $11 亿且有 $97 亿采购承诺 + $69 亿递延托底，未来 3 个月催化密集；证伪信号明确（Q3 增速低于 +43% 指引即重检）。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">营收 +37.7%</strong><span>Q2 $30.4亿·全年指引$126亿 +40%</span></div>
+      <div class="summary-rail__item"><strong>62-64%</strong><span>FY2026 Non-GAAP 毛利率指引</span></div>
+      <div class="summary-rail__item"><strong>42%</strong><span>微软+Meta 收入占比（2025）</span></div>
+      <div class="summary-rail__item"><strong>$215-250</strong><span>券商目标价区间·PE 36-47x</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">Q2 财报：指引大幅上调是「补发货」还是需求真实加速？</h2>
+        <span class="qa__impact-tag">→ 全年指引 $115亿→$126亿 · 盘后 +11%</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>目前证据站「真实加速」一方。<em>Q2 营收 +37.7% 远超指引，Q3 指引 +43%、全年指引上调 $11 亿至 $126 亿（+40%），打破了 Q1 后「增速放缓至 20% 中段」的市场叙事；$97 亿采购承诺和 $69 亿递延收入说明管理层是用真金白银为需求背书，不是嘴上乐观。「补发货」成分无法完全排除，但规模不足以解释这个量级的上调。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>直接影响 FY2026 盈利落点和倍数中枢。</strong>指引上调 $11 亿 ≈ 在 48-49% Non-GAAP 营业利润率下多 ~$5 亿营业利润；券商 FY2026 EPS 预测已收敛至 $4.05-4.22，FY2027 分歧仍在（$4.78-5.73）——分歧的全部来源就是「这次加速能持续多久」。</p>
+            <p>对倍数：增速重回 40% 档位，「成长股」叙事成立，36-47x 的目标 PE 区间才站得住；若 Q3 被证实是补发货、增速回落，倍数会先杀。<strong>这个问题决定的是「估值修复行情能走多远」。</strong></p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点（真实加速）</h4>
+            <ul>
+              <li>管理层明确否认需求提前释放：上调指引是因为<strong>供应能力改善</strong>使公司能满足持续存在的强劲需求</li>
+              <li>先行指标齐创新高：采购承诺从一年前 $36 亿飙至 <strong>$97 亿</strong>，递延收入 <strong>$69 亿</strong>——未来几个季度收入可见性极高</li>
+              <li>AI 网络客户从 4-5 家扩展至 <strong>超 100 家</strong>，需求基础在拓宽而非集中于单一大单</li>
+              <li>上调的指引中相当一部分来自<strong>传统数据中心前端网络的恢复性增长</strong>——不只是 AI 单引擎</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点（补发货）</h4>
+            <ul>
+              <li>Q1 因供应受阻积压的订单在 Q2 集中交付，<strong>部分超预期是「还旧账」</strong>，积压消化完增速即回落</li>
+              <li>大客户资本开支天然波动：微软+Meta 占收入 <strong>42%</strong>，任何一家节奏调整都是悬崖而非缓坡</li>
+              <li>为保供应支付更高价格 + $97 亿采购承诺，<strong>成本压力后置</strong>——存在「增收不增利」路径</li>
+              <li>盘后 +11% 已部分定价修复，<strong>追高的安全边际被压缩</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（Q2 财报速览 · 上调指引的三个支撑 · 上半年财务全景）</summary>
+          <div class="evidence__body">
+            <h5>Q2 2026 财报速览（2026-08-04 发布）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>实际</th><th>预期/指引</th><th>评价</th></tr></thead><tbody><tr><td>总营收</td><td><strong>$30.36 亿（+37.7%）</strong></td><td>指引 $28 亿</td><td>首次突破 30 亿，大超指引</td></tr><tr><td>产品收入</td><td>同比 +38.8%</td><td>—</td><td>由 AI 和云客户驱动</td></tr><tr><td>Q3 指引</td><td>同比 <strong>+43%</strong></td><td>—</td><td>增速不降反升，直接反驳「放缓叙事」</td></tr><tr><td>FY2026 营收指引</td><td><strong>~$126 亿（+40%）</strong></td><td>此前 $115 亿</td><td>上调 $11 亿，供应链改善是主因</td></tr><tr><td>FY2026 Non-GAAP 营业利润率</td><td>48-49%</td><td>此前 46%</td><td>上调 2-3pct，经营杠杆持续释放</td></tr><tr><td>FY2026 Non-GAAP 毛利率</td><td>62-64%</td><td>—</td><td><span class="warn">⚠️</span> 区间下限已低于 FY2025 的 64.06%，成本压力真实存在</td></tr><tr><td>采购承诺</td><td><strong>$97 亿</strong></td><td>一年前 $36 亿</td><td>多年期承诺锁供应，也是需求确定性的旁证</td></tr><tr><td>盘后股价</td><td><strong>+11%+</strong></td><td>—</td><td>Q1 财报后市场曾因保守展望负面反应，本次完成预期差反转</td></tr></tbody></table></div>
+            <h5>上调指引的三个支撑</h5>
+            <ol>
+              <li><strong>供应链执行改善</strong>：多源采购、扩大供应商资格认证、多年期采购承诺——在芯片、内存、PCB、光模块乃至液冷供应链上均有具体进展，直接回应了 Q1 后市场最大的担忧。</li>
+              <li><strong>AI 网络双场景放量</strong>：Scale-Out 之外，Scale-Across（跨数据中心互联）首次被量化——2026 年约占 AI 收入（≥$35 亿）的 30%，即 <strong>~$12 亿</strong>，且管理层预计该市场 2030 年 TAM 达 <strong>$150-200 亿</strong>。</li>
+              <li><strong>传统前端网络回暖</strong>：管理层明确上调中有「相当一部分」来自传统数据中心前端业务的恢复性增长——AI 集群建设带动了配套前端投资。</li>
+            </ol>
+            <h5>上半年财务全景（FY2026 H1，单位：亿美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td>营业总收入</td><td>58.60</td><td>70.03</td><td>90.06</td><td>57.45（+36.47%）</td></tr><tr><td>毛利率</td><td>61.95%</td><td>64.13%</td><td>64.06%</td><td><span class="warn">62.44%</span></td></tr><tr><td>营业利润率</td><td>38.52%</td><td>42.05%</td><td>42.82%</td><td><strong>44.14%</strong></td></tr><tr><td>归母净利润</td><td>20.87</td><td>28.52</td><td>35.11</td><td>22.36（+31.32%）</td></tr><tr><td>自由现金流</td><td>19.99</td><td>36.76</td><td>42.52</td><td>26.93</td></tr></tbody></table></div>
+            <p>结构性看点：<strong>毛利率在降（大客户/AI 占比提升 + 供应成本），但营业利润率在升（费用杠杆）</strong>——规模效应正在对冲组合恶化；H1 末现金及有价证券 $133.43 亿，资产负债表极为宽裕。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">AI 后端网络之争：以太网渗透下，Arista 的份额守得住英伟达吗？</h2>
+        <span class="qa__impact-tag">→ AI 收入 两年×10 至 $35亿 · TAM $400亿→$1500亿</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>在 Scale-Out / Scale-Across 的开放以太网生态里，守得住；<em>真正的威胁不在技术而在英伟达的 GPU 捆绑销售——这是一场「开放生态 vs 垂直整合」的站队战，云大厂为避免被锁定天然需要第二供应商，这是 Arista 最硬的底牌。竞合关系不变：约 80% 的 AI 业务连的是英伟达 GPU。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>AI 网络是全部增长故事的引擎。</strong>AI 收入从 2024 年 $3.88 亿（占比 6%）爆发至 2025 年 $15 亿、2026 年目标 ≥$35 亿——两年近 10 倍，已成为第一大收入板块；这个板块的兑现度直接决定 FY2027 EPS 落在 $4.78 还是 $5.73。</p>
+            <p>对倍数：市场给 36-47x 的前提是以太网在 AI 后端持续取代 InfiniBand 且 Arista 保持「事实标准」地位；若 Spectrum-X 捆绑策略明显抢份额，增长故事降级为「周期性硬件公司」，<strong>倍数和 EPS 会双杀</strong>。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>EOS 单一操作系统跨全网络域运行，<strong>毛利率 62-65% vs 白盒 &lt;30%</strong>、NPS 高达 89——软件生态溢价是结构性护城河，且在变宽</li>
+              <li>Scale-Across 已是「事实标准」：2026 年 ~$12 亿收入 vs 当前市场总规模仅 $30-40 亿，<strong>份额极高且壁垒深</strong>（长距离、低延迟、加密）</li>
+              <li>云大厂需要开放以太网生态对抗英伟达锁定——<strong>客户的多供应商策略就是 Arista 的份额保护伞</strong></li>
+              <li>非英伟达 GPU 生态（AMD、谷歌 TPU、自研 ASIC）崛起 = Arista 的增量市场，与加速器竞争格局脱钩</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>英伟达凭 GPU 垄断地位推 Spectrum-X <strong>垂直捆绑</strong>，对一站式客户（尤其企业级和 Tier-2 云）吸引力强</li>
+              <li>Scale-Up（机架内互联）是英伟达 NVLink 的统治区，<strong>Arista 刚起步</strong>——若架构重心向 Scale-Up 倾斜则不利</li>
+              <li>交换芯片单一依赖<strong>博通</strong>，议价与供应受制于人；白盒厂商（Celestica/Accton）在价格敏感场景持续蚕食</li>
+              <li>大客户恰是最有能力自研网络方案的一方——<strong>42% 的收入集中度就是 42% 的议价软肋</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（AI 网络收入轨迹 · 竞争格局对比 · Scale-Across 新战场）</summary>
+          <div class="evidence__body">
+            <h5>AI 网络收入轨迹与市场规模</h5>
+            <ul>
+              <li>AI 收入：2024 ~$3.88 亿 → 2025 $15 亿 → 2026E <strong>≥$35 亿</strong>；Etherlink 平台累计客户 <strong>超 100 家</strong></li>
+              <li>AI 后端网络市场（Dell'Oro）：2025 ~$400 亿 → 2030 <strong>$1,500 亿+</strong>；公司整体 TAM：2025 ~$600 亿 → 2029 <strong>$1,050 亿+</strong></li>
+              <li>Arista 是唯一在 Scale-Out / Scale-Up / Scale-Across 三大架构均有可信产品路线图的厂商</li>
+              <li>新产品 7060XE7：100T+ 容量、1.6T 吞吐、首次液冷选项——2026 H2 大客户试用，2027 大规模量产</li>
+            </ul>
+            <h5>竞争格局对比</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>公司</th><th>对标维度</th><th>分析</th></tr></thead><tbody><tr><td>英伟达 (NVDA)</td><td>AI 网络核心竞品</td><td>Spectrum-X 以太网交换机 + GPU 垂直捆绑；Scale-Up（NVLink）统治，但 Scale-Out/Scale-Across 开放生态中 Arista 更深</td></tr><tr><td>思科 (CSCO)</td><td>传统网络设备龙头</td><td>产品线最广，但 AI 网络与高速交换机技术/份额落后；正通过 Silicon One 芯片追赶</td></tr><tr><td>天弘科技 (CLS)</td><td>白盒交换机代表</td><td>低成本 + 定制化，但缺乏 EOS 软件生态与系统级优化，只在价格敏感/客户自研场景构成威胁</td></tr></tbody></table></div>
+            <h5>Scale-Across：从概念到 $12 亿收入</h5>
+            <p>AI 数据中心受电力和空间限制走向分布式部署，跨数据中心互联成为刚需。Arista 凭借 EOS、SRv6、深度缓冲的优势占据先发：2026 年该业务预计 ~$12 亿（占 AI 收入 30%），而当前全市场仅 $30-40 亿——<strong>等于提前卡位了一个 2030 年 $150-200 亿 TAM 的新赛道</strong>。这是「以太网取代 InfiniBand」之外，市场尚未充分定价的第二层逻辑。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">估值：36-47x 的目标倍数隐含了什么？赔率如何？</h2>
+        <span class="qa__impact-tag">→ 目标价 $215-250 · 胜负手在 FY2027 上修空间</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>买入，但这是「动量 + 催化」型买入，不是深度价值。<em>四家券商在盘后 +11% 之后（2026-08-05）仍给出 $215-250 目标价，说明指引上调尚未被完全定价；赔率的关键在 FY2027——若新客户官宣 + 1.6T 转化把 EPS 预期推向 $5.7，现价对应倍数将明显低于目标区间。证伪信号明确：Q3 增速低于 +43% 指引、或毛利率跌破 62% 下限，即降级为持有。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这个问题本身就是赔率问题。</strong>FY2026 EPS 预测已高度趋同（$4.05-4.22，贴近指引），分歧全在 FY2027（$4.78-5.73，极差 ~20%）——FY2027 每上修 $0.5，在 40x 下就是 $20 的目标价空间。</p>
+            <p>倍数端：36-47x 的合理区间对应「40% 增速成长股」；若增速回落至 20% 中段，中枢会压向 25-30x。<strong>EPS 上修 + 倍数维持 = 乐观情景的双击；反之是双杀。</strong></p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>目标价在财报大涨 <strong>之后</strong>设定（花旗 $215 / 高盛 $225 / 大摩 $220 / 摩根大通 $250），仍隐含上行空间——上修周期可能没走完</li>
+              <li>未来 3 个月催化密集：云客户资本开支指引（8-10 月）、<strong>新增 1-2 个 10%+ 客户官宣</strong>（市场预期 Oracle/Anthropic）、1.6T 试用</li>
+              <li>Anthropic 一家 2026-2028 年即贡献 <strong>超 $30 亿</strong>增量收入——FY2027 预测的可见度比表面分歧更高</li>
+              <li>园区网络（2026 目标 ≥$12.5 亿，+55%）+ Scale-Across（$12 亿）两条新曲线，<strong>任何一条超预期都是纯增量</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>36-47x 的目标倍数本身已隐含「高增长持续数年」——<strong>任何低于「极好」的兑现都是利空</strong></li>
+              <li>毛利率指引下限 62% 已低于 FY2025 实际值，$97 亿采购承诺锁的是量也是<strong>高价成本</strong>，利润率有后置压力</li>
+              <li>42% 收入系于微软/Meta 两家——它们既是增长的来源，也是<strong>最大的单点故障</strong></li>
+              <li>AI 资本开支若在 2027 年周期性放缓，FY2027 悲观 EPS $4.78 仍可能下修</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（券商预测汇总 · 三情景表）</summary>
+          <div class="evidence__body">
+            <h5>券商盈利预测（2026-08-05，财报后更新，Non-GAAP）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价</th><th>FY2026E EPS</th><th>FY2027E EPS</th><th>FY2028E EPS</th></tr></thead><tbody><tr><td>花旗</td><td>买入</td><td>$215</td><td>$4.10</td><td>$5.08</td><td>$6.33</td></tr><tr><td>高盛</td><td>买入</td><td>$225</td><td>$4.22</td><td>$5.73</td><td>$6.95</td></tr><tr><td>摩根大通</td><td>超配</td><td>$250</td><td>$4.10</td><td>$5.45</td><td>$7.05</td></tr><tr><td>摩根士丹利</td><td>超配</td><td>$220</td><td>$4.05</td><td>$4.78</td><td>$5.44</td></tr></tbody></table></div>
+            <p>FY2026 营收预测已收敛至公司指引 $126 亿附近；估值方法统一为 P/E，基于远期 EPS 给 <strong>36-47x</strong>。</p>
+            <h5>三情景假设（FY2027 视角，估算值）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>FY2027E EPS</th><th>合理 PE</th><th>隐含股价</th></tr></thead><tbody><tr><td>乐观（30%）</td><td>新增 10%+ 客户落地 + 1.6T 试用转化 + 云厂资本开支再上修，Scale-Across 超预期</td><td>~$5.70（高盛口径）</td><td>45x</td><td>~$255</td></tr><tr><td>中性（50%）</td><td>FY2026 指引兑现，2027 增速回落至 25-30%，毛利率守住 62-64% 区间</td><td>~$5.15（四家均值）</td><td>40x</td><td>~$205</td></tr><tr><td>悲观（20%）</td><td>云厂资本开支放缓 + Spectrum-X 捆绑抢份额 + 成本压力压毛利率破 62%</td><td>~$4.60</td><td>28x</td><td>~$130</td></tr></tbody></table></div>
+            <p>期望值约 <strong>$205-210，落在券商目标价区间（$215-250）下沿</strong>——买入的实质是押注「乐观情景概率高于 30%」：新客户官宣与 1.6T 转化都将在未来 6 个月内给出答案，赔率结构是「先验证、后加注」。估值不是算出正确答案，而是问自己：FY2027 上修的催化，我信不信？</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>：公司概况、近期要闻、催化剂（见同目录《Arista_一页通.md》，亦见本站「一页通」标签页）</li>
+        <li><strong>财务数据</strong>：FY2023-FY2026 H1 利润表与现金流、Q2 2026 财报要点（正文数据均来自公开财报整理）</li>
+        <li><strong>局限</strong>：未读 10-K/10-Q 原文（建议下一步补读 Risk Factors 与客户集中度披露）；Q2 单季毛利率/EPS 精确值暂未获取；三情景中的 PE 与 FY2027 EPS 为基于券商预测的估算，非精确模型输出</li>
+        <li><strong>管理层评估（一句话版）</strong>：CEO Jayshree Ullal 自 2008 年任职至今，带领公司从挑战者做到数据中心交换机龙头，对以太网路线的长期坚持（vs InfiniBand）正在兑现；Q1 保守、Q2 用数字反转，指引可信度需持续跟踪</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>Arista Networks 是全球数据驱动型云网络解决方案的领导者，专注于大型AI、数据中心、园区及路由环境下的客户端到云端网络连接。公司的核心产品是基于自研可扩展操作系统（EOS）的以太网交换和路由平台，其解决方案以高可靠性、开放标准及智能自动化能力形成差异化。Arista 在高速以太网交换机市场占据领先地位，客户覆盖全球主要的云与AI巨头、AI及专业服务提供商以及大型企业。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul>
+<li><strong>Q2业绩与全年指引大幅超预期</strong>：公司2026年Q2营收首次突破30亿美元，达<strong>30.36亿美元</strong>，同比增长<strong>37.7%</strong>，远超此前28亿美元的指引。得益于供应链改善和强劲需求，公司将2026年全年营收指引大幅上调至约<strong>126亿美元</strong>，对应同比增长约<strong>40%</strong>，较此前115亿美元的指引增加11亿美元。</li>
+<li><strong>供应链紧张显著缓解</strong>：通过多源采购策略、扩大供应商资格认证、签订多年期采购承诺（Q2末达<strong>97亿美元</strong>）等措施，组件供应有所改善。尽管行业供应紧张预计持续至2028年，但公司针对性举措已在下半年显现成效，这成为上调全年指引的主要驱动力。</li>
+<li><strong>AI网络客户与产品里程碑</strong>：AI网络平台Etherlink累计客户数已<strong>超过100家</strong>。公司推出新一代7060XE7系列交换机，具备100T+容量和1.6T吞吐量，并首次提供液冷选项，预计2026年下半年在少数大客户试用，2027年大规模量产。</li>
+<li><strong>Scale-Across业务成为新增长极</strong>：公司首次量化Scale-Across（跨数据中心互联）业务贡献，预计2026年该业务收入将占AI总收入（至少35亿美元）的约<strong>30%</strong>，即约<strong>12亿美元</strong>。管理层预计到2030年，该市场TAM将达<strong>150亿至200亿美元</strong>。</li>
+<li><strong>上调运营利润率目标</strong>：公司将2026年全年Non-GAAP运营利润率目标上调至<strong>48%至49%</strong>（此前为46%），显示出在营收规模扩张的同时，经营杠杆效应持续释放。</li>
+</ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol>
+<li><strong>供应链改善驱动的业绩预期差修复</strong>：Q1业绩后，市场因公司对供应链和毛利率的保守展望而反应负面。然而，Q2公司以实际行动证明供应链执行正在改善，并据此大幅上调全年营收指引。这一根本性的预期差修复是未来一个季度股价的核心驱动力。管理层在电话会上详细阐述了在芯片、内存、PCB、光模块乃至液冷供应链上的具体进展和产能保障，这直接回应了市场最大的担忧，为估值修复提供了坚实基础。</li>
+<li><strong>营收增速重新加速，打破增长放缓叙事</strong>：公司Q2营收同比增长37.7%，且Q3指引为同比增长43%，全年指引上调至40%增长。这打破了此前市场关于其增速可能放缓至20%中段的担忧。增长加速主要由AI网络（Scale-Out和Scale-Across）的强劲需求以及传统数据中心前端业务的恢复性增长共同驱动。营收增速的重新加速有望推动其估值倍数向历史中枢回归甚至扩张。</li>
+<li><strong>Scale-Across业务从概念走向实质性收入贡献</strong>：公司首次明确Scale-Across业务的收入体量（2026年约12亿美元）和巨大市场空间（2030年TAM 150-200亿美元）。这验证了AI网络需求正从单一数据中心内部互联向多数据中心分布式互联延伸，而Arista凭借其在EOS软件、SRv6、深度缓冲等领域的优势，在该高壁垒市场占据"事实标准"地位。该业务的快速增长将为公司开启一个全新的、高价值的长期增长赛道。</li>
+</ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol>
+<li><strong>AI网络架构演进下的结构性受益者</strong>：AI工作负载正驱动网络架构发生根本性变革，从传统的Scale-Out向Scale-Up和Scale-Across多维扩展。Arista是唯一在三大架构中均有可信产品路线图的厂商。随着以太网在AI后端网络中逐步取代InfiniBand成为主流，以及Scale-Across需求因算力、电力分布式部署而爆发，公司可触达市场（TAM）预计将从2025年的约600亿美元增长至2029年的<strong>1050亿美元以上</strong>。公司凭借EOS的统一软件架构和硬件性能，有望在这一长期趋势中持续获取份额。</li>
+<li><strong>EOS软件生态构筑的结构性护城河</strong>：Arista的核心竞争力并非单一硬件优势，而是其自研的可扩展操作系统（EOS）。EOS作为单一Linux二进制镜像，可跨数据中心、园区、路由和AI后端网络一致运行，为客户提供了极高的运营一致性、自动化和可编程能力。这种"一个操作系统，所有网络域"的模式，在AI网络日益复杂、对运维和可靠性要求极高的背景下，其价值正转化为客户粘性和定价权，构成了竞争对手难以在短期内复制的结构性护城河。</li>
+<li><strong>多元化增长引擎的接力</strong>：短期内，AI网络（尤其是Scale-Out和Scale-Across）是核心增长引擎。中期看，园区网络业务正迎来收获期，2026年收入目标为<strong>至少12.5亿美元</strong>，同比增长超55%，在Gartner魔力象限中首次进入领导者象限，有望持续从思科等传统厂商手中夺取市场份额。长期看，随着企业AI应用的普及，传统数据中心前端网络将迎来新一轮升级周期。这种多业务接力的模式增强了公司长期增长的确定性和韧性。</li>
+</ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul>
+<li><strong>供应链与成本压力</strong>：尽管有所改善，但全行业供应紧张预计将持续至2028年，涉及晶圆、先进内存、光模块DSP等多个环节。公司为保障供应而签订的巨额采购承诺（97亿美元）和支付更高价格，将持续对毛利率构成压力。若成本上涨无法有效传导，或供应再次恶化，将影响公司盈利能力和出货节奏。</li>
+<li><strong>客户集中度风险</strong>：2025年，微软和Meta两家客户合计贡献了约<strong>42%</strong> 的收入。任何一家大客户因资本开支周期、技术路线变更或内部自研方案而减少采购，都将对公司营收产生重大影响。尽管公司预计2026年将新增1-2个10%以上客户，但客户集中度风险依然显著。</li>
+<li><strong>竞争加剧</strong>：在AI网络这一高增长市场，公司面临来自英伟达（Spectrum-X平台，提供垂直整合方案）、思科、以及白盒交换机厂商的多维度竞争。英伟达凭借其GPU的强势地位，在部分客户中推行捆绑销售策略，可能挤压Arista的市场空间。</li>
+</ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul>
+<li><strong>2026年5月</strong>：公司发布Q1 2026财报，营收同比增长35.1%，但市场因管理层对供应链紧张和毛利率压力的保守评论而反应负面，股价承压。</li>
+<li><strong>2026年6月</strong>：Arista CEO在投资者会议上重新框定毛利率预期，强调62-64%的全年指引已包含供应链成本上升的影响，并重申增长目标，市场情绪逐步回稳。</li>
+<li><strong>2026年8月4日</strong>：公司发布Q2 2026财报，营收首次突破30亿美元，同比增37.7%，并大幅上调全年营收指引至126亿美元（+40% YoY），同时上调运营利润率目标，股价盘后大涨超11%。</li>
+</ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul>
+<li><strong>2026年8月至10月</strong>：主要云客户（如微软、Meta）发布季度财报，其资本开支指引和AI基础设施建设的相关评论，将为Arista的未来需求提供更明确的前瞻性信号。</li>
+<li><strong>2026年下半年</strong>：公司1.6T交换机产品开始在关键大客户处进行试用。若试用反馈积极并转化为规模订单，将开启新一轮产品升级周期，为2027年及以后的增长提供强劲动力。</li>
+<li><strong>2026年下半年</strong>：公司有望正式宣布新增1-2个占收入比超过10%的大型客户。新客户的落地将直接验证公司客户多元化的战略，并显著降低市场对其客户集中度风险的担忧。</li>
+</ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<p><strong>业务边际变化</strong>：公司正经历从传统数据中心交换机厂商向"AI网络平台"公司的转型。业务重心已从连接服务器和存储的"前端网络"显著转向连接GPU等加速器的"后端AI网络"。同时，公司正积极横向拓展至园区网络、路由和网络安全等相邻市场，并通过VeloCloud收购补全了SD-WAN产品线。技术路径上，公司在Scale-Out领域持续领先，并开始大力布局Scale-Across（跨数据中心互联）和Scale-Up（机架内互联）市场。</p>
+<p><strong>盈利模式</strong>：公司盈利模式的核心是<strong>通过技术壁垒和软件生态实现产品溢价</strong>。Arista并非简单的硬件"盒子"销售商，其价值核心在于自研的EOS操作系统和CloudVision管理平台。客户购买的是包含高性能硬件、统一操作系统、自动化软件和全球支持在内的整体解决方案。这种"软硬一体"的模式，使其产品在性能、可靠性和运维效率上优于白盒交换机，从而能够维持显著高于行业平均水平的毛利率和客户粘性。</p>
+<p><strong>业务拆分</strong>：AI相关收入从2024年的约3.88亿美元（占收比6%）爆发式增长至2025年的15亿美元，并预计在2026年达到至少35亿美元，成为第一大收入板块。传统数据中心前端网络增速相对放缓，而园区网络作为第二增长曲线，正进入快速增长期。公司当前处于由AI驱动的<strong>业绩加速兑现期</strong>。公司自2025年起采用新的业务分类口径，将业务分为"核心（AI、云和数据中心网络）"、"认知邻接（园区和路由）"和"认知网络（软件和服务）"三大类。</p>
+<div class="tbl-wrap"><table><thead><tr><th>业务板块（亿美元）</th><th>FY2024 收入</th><th>FY2024 占比</th><th>FY2025 收入</th><th>FY2025 占比</th><th>FY2026E 目标</th></tr></thead><tbody>
+<tr><td><strong>核心（云与AI网络）</strong></td><td>约49.51</td><td>约71%</td><td>约58.50</td><td>约65%</td><td>—</td></tr>
+<tr><td>　其中：AI网络</td><td>约3.88</td><td>约6%</td><td>15.00</td><td>约17%</td><td>&gt;35.00</td></tr>
+<tr><td><strong>认知邻接（园区与路由）</strong></td><td>约10.50</td><td>约15%</td><td>约16.20</td><td>约18%</td><td>—</td></tr>
+<tr><td>　其中：园区网络</td><td>约5.59</td><td>约8%</td><td>8.00</td><td>约9%</td><td>&gt;12.50</td></tr>
+<tr><td><strong>认知网络（软件与服务）</strong></td><td>约10.02</td><td>约14%</td><td>约15.30</td><td>约17%</td><td>—</td></tr>
+<tr><td><strong>总营收</strong></td><td><strong>70.03</strong></td><td><strong>100%</strong></td><td><strong>90.06</strong></td><td><strong>100%</strong></td><td><strong>约126.00</strong></td></tr>
+</tbody></table></div>
+<p><em>注：FY2024和FY2025的分项数据根据公司披露的百分比估算。</em></p>
+<p><strong>AI网络业务（2026年Q2）</strong>：公司当前最核心的增长引擎，涵盖Scale-Out（集群内互联）和Scale-Across（跨数据中心互联）两大场景。Q2产品收入同比增长<strong>38.8%</strong>，主要由AI和云客户驱动。Scale-Across业务在2026年AI收入中占比约<strong>30%</strong>，即约12亿美元。该业务技术壁垒高，需解决长距离、高带宽、低延迟和安全加密等复杂问题，Arista的EOS和深度缓冲交换机在此领域具有统治力。</p>
+<p><strong>园区网络业务（2026年Q2）</strong>：产品涵盖园区交换机、Wi-Fi接入点和SD-WAN。2026年目标为<strong>至少12.5亿美元</strong>，同比增长超55%。公司凭借统一EOS操作系统带来的自动化、安全性和运维简化优势，正从思科、HPE等传统厂商手中持续夺取市场份额，并首次进入Gartner有线无线局域网基础设施魔力象限的领导者象限。</p>
+<p><strong>传统数据中心前端网络与路由业务（2026年Q2）</strong>：管理层在Q2电话会中明确指出，上调的全年营收指引中，有相当一部分来自该业务的恢复性增长。这表明随着客户AI基础设施建设的推进，对传统前端网络的配套投资正在回暖。</p>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托EOS统一软件架构构筑的高转换成本与运营粘性</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。EOS是单一Linux二进制镜像，可跨数据中心、园区、路由和AI后端网络一致运行，为客户提供统一的自动化、遥测和运维体验。一旦客户将网络运营体系建立在EOS之上，其迁移和替换成本极高。</li>
+<li><strong>数据验证</strong>：公司毛利率长期维持在<strong>62%-65%</strong> 的高位，远超白盒交换机厂商（通常低于30%），也高于思科等传统竞争对手。公司净推荐值（Net Promoter Score）高达<strong>89</strong>。</li>
+<li><strong>动态演变</strong>：护城河正在<strong>变宽</strong>。随着AI网络向Scale-Across等更复杂场景演进，对网络操作系统的可编程性、可靠性和自动化能力要求呈指数级上升，EOS的架构优势愈发凸显。</li>
+</ul>
+<p><strong>竞争要素 2：在AI网络关键架构（Scale-Out/Scale-Across）的先发规模与技术优势</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。通过早期与头部云巨头（微软、Meta）的深度联合研发，公司产品已在超大规模生产环境中得到验证，并积累了超过100家AI网络客户。大规模部署中积累的经验、优化的软件特性（如MRC、SSU）和建立的信任，构成强大的先发壁垒。</li>
+<li><strong>数据验证</strong>：AI网络收入两年增长近10倍（2024年3.88亿 → 2026年预计<strong>至少35亿美元</strong>）。Scale-Across市场2026年收入约12亿美元，而该市场当前总规模仅30-40亿美元，份额极高。采购承诺从一年前的36亿美元飙升至Q2末的<strong>97亿美元</strong>。</li>
+<li><strong>动态演变</strong>：护城河正在<strong>巩固</strong>。随着AI集群规模从万卡向百万卡级别演进，以及Scale-Across成为解决电力、空间限制的必然选择，Arista在这些高壁垒领域的优势将持续扩大。</li>
+</ul>
+<p><strong>现阶段核心驱动力总结</strong>：公司的Alpha来源于其EOS软件生态构筑的结构性护城河和在AI网络关键赛道的先发技术优势；其Beta则高度挂钩于全球云和AI巨头的资本开支周期。当前，公司正处于Alpha（份额提升、新业务拓展）和Beta（AI资本开支上行周期）共振的有利阶段。</p>
+<p><strong>竞争格局传导逻辑</strong>：① 单一EOS操作系统跨全网络域一致运行 → 极高的运营一致性与自动化能力 → 客户运维成本降低、转换成本极高 → 强定价权与客户粘性（毛利率62-65%）；② 与头部云巨头深度联合研发 → 在Scale-Out/Scale-Across积累先发规模优势 → 产品在超大规模环境验证、技术特性（MRC/SSU）领先 → 获取AI网络市场高份额与爆发式增长。</p>
+<h3 class="doc-h2">产销链</h3>
+<p><strong>客户情况</strong></p>
+<ul>
+<li><strong>主要客户</strong>：客户集中度较高。2025年，来自微软和Meta的收入分别占总收入的<strong>26%</strong> 和<strong>16%</strong>，合计<strong>42%</strong>。公司预计2026年将新增1-2个占收入比超过10%的客户，市场普遍预期为Oracle和Anthropic。</li>
+<li><strong>新客户</strong>：在AI和专业服务提供商（Neo Cloud）领域表现突出，已与Anthropic、Oracle等建立深度合作关系。其中，与Anthropic的合作覆盖其3GW计算集群的Scale-Out和Scale-Across网络，预计在2026至2028年间贡献超过<strong>30亿美元</strong>的增量收入。在园区市场，正通过渠道合作伙伴获取大量新企业客户。</li>
+</ul>
+<p><strong>供应商情况</strong></p>
+<ul>
+<li><strong>供应商集中度与依赖</strong>：交换芯片主要依赖<strong>博通（Broadcom）</strong>，属于单一供应商依赖。此外，在先进内存（HBM）、5nm/3nm晶圆制造（台积电）、光模块DSP等环节也面临供应商集中的风险。</li>
+<li><strong>成本结构与应对</strong>：成本主要由向第三方合同制造商（Jabil、Sanmina、Foxconn）支付的采购费用构成。为应对供应链紧张，公司采取签订长期采购承诺（Q2末达<strong>97亿美元</strong>）、扩大供应商资格认证、自建液冷供应链等策略，并通过适度提价传导压力。</li>
+</ul>
+<p><strong>经销商情况</strong>：公司采用直销与渠道相结合的销售模式，通过Arista Partner Program与渠道伙伴协作，尤其在企业园区市场。公司通常在合作伙伴获得最终客户订单后才接受订单，渠道库存风险较低。</p>
+<p><strong>产业链议价力总结</strong>：公司赚取的是<strong>技术溢价和软件生态溢价</strong>。面对上游，因依赖博通等核心供应商，议价能力相对受限；面对下游大型云客户，面临较大的定价折扣压力。但公司通过EOS的独特价值，成功将自身从单纯的硬件供应商转变为关键任务网络平台的提供者，从而在整体上维持了强大的盈利水平。</p>
+<h3 class="doc-h2">财务数据</h3>
+<div class="tbl-wrap"><table><thead><tr><th>项目（亿美元）</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody>
+<tr><td><strong>营业总收入</strong></td><td>58.60</td><td>70.03</td><td>90.06</td><td>57.45</td></tr>
+<tr><td>收入同比</td><td>33.75%</td><td>19.50%</td><td>28.60%</td><td>36.47%</td></tr>
+<tr><td><strong>毛利率</strong></td><td>61.95%</td><td>64.13%</td><td>64.06%</td><td>62.44%</td></tr>
+<tr><td><strong>营业利润</strong></td><td>22.57</td><td>29.45</td><td>38.56</td><td>25.36</td></tr>
+<tr><td><strong>营业利润率</strong></td><td>38.52%</td><td>42.05%</td><td>42.82%</td><td>44.14%</td></tr>
+<tr><td><strong>归母净利润</strong></td><td>20.87</td><td>28.52</td><td>35.11</td><td>22.36</td></tr>
+<tr><td>归母净利润同比</td><td>54.34%</td><td>36.64%</td><td>23.12%</td><td>31.32%</td></tr>
+<tr><td><strong>稀释每股收益（美元）</strong></td><td>1.65</td><td>2.23</td><td>2.75</td><td>1.75</td></tr>
+<tr><td>经营活动现金流净额</td><td>20.34</td><td>37.08</td><td>43.72</td><td>27.77</td></tr>
+<tr><td>自由现金流</td><td>19.99</td><td>36.76</td><td>42.52</td><td>26.93</td></tr>
+</tbody></table></div>
+<p><em>注：自由现金流 = 经营活动现金流净额 - 资本性支出。FY2026 H1数据为截至2026年6月30日的6个月累计数据。</em></p>
+<p><strong>财务分析</strong></p>
+<ul>
+<li><strong>成长能力</strong>：营收增速在FY2024短暂放缓至<strong>19.50%</strong> 后，于FY2025重新加速至<strong>28.60%</strong>，并在FY2026 H1进一步攀升至<strong>36.47%</strong>，主要由AI网络业务的爆发式增长驱动。归母净利润增速FY2026 H1回升至<strong>31.32%</strong>。</li>
+<li><strong>盈利能力</strong>：毛利率在FY2026 H1下滑至<strong>62.44%</strong>，主要由于毛利率相对较低的大型云客户（AI业务）收入占比大幅提升。但通过有效的费用控制，营业利润率从FY2023的<strong>38.52%</strong> 提升至FY2026 H1的<strong>44.14%</strong>，经营杠杆效应显著。</li>
+<li><strong>运营能力与现金流</strong>：FY2025和FY2026 H1经营现金流分别达<strong>43.72亿</strong>和<strong>27.77亿美元</strong>，自由现金流分别为<strong>42.52亿</strong>和<strong>26.93亿美元</strong>。截至FY2026 H1末，现金、现金等价物及有价证券总额高达<strong>133.43亿美元</strong>。</li>
+</ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p><strong>行业分析</strong>：公司所处的核心赛道是<strong>数据中心以太网交换机市场</strong>，并正快速扩展至<strong>AI网络（AI Fabric）</strong> 和<strong>园区网络</strong>市场。</p>
+<ul>
+<li><strong>AI网络市场</strong>：据Dell'Oro预测，AI网络（后端）市场规模将从2025年的约400亿美元增长至2030年的<strong>1500亿美元以上</strong>。以太网正逐步取代InfiniBand成为AI后端网络的主流标准，为Arista等以太网交换机厂商打开了巨大的市场空间。</li>
+<li><strong>数据中心前端网络市场</strong>：相对成熟但稳定增长。Arista是该市场的领导者，据IDC数据，其2025年市场份额约为<strong>18%</strong>，位居全球前二。</li>
+<li><strong>园区网络市场</strong>：规模庞大（约250-300亿美元）但增长较慢，长期由思科、HPE主导。Arista 2025年市场份额约<strong>3%</strong>，作为挑战者快速渗透。</li>
+</ul>
+<p><strong>竞争格局</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>对标维度</th><th>分析</th></tr></thead><tbody>
+<tr><td>思科 (Cisco)</td><td>CSCO</td><td>传统网络设备龙头</td><td>产品线最广，但在AI网络和高速交换机领域的技术和市场份额落后于Arista。正通过Silicon One芯片和收购试图追赶。</td></tr>
+<tr><td>英伟达 (Nvidia)</td><td>NVDA</td><td>AI网络核心竞品</td><td>凭借GPU优势提供Spectrum-X以太网交换机，形成垂直捆绑。在Scale-Up领域（NVLink）占据统治地位，但在Scale-Out/Scale-Across的开放生态中，Arista更具优势。</td></tr>
+<tr><td>天弘科技 (Celestica)</td><td>CLS</td><td>白盒交换机代表</td><td>竞争力在于低成本和定制化，但缺乏Arista的EOS软件生态和系统级优化能力。</td></tr>
+</tbody></table></div>
+<p><strong>总结分析</strong>：Arista在AI网络这一核心增长市场，凭借其EOS软件生态和先发技术优势，对思科和白盒厂商形成了显著的差异化壁垒。与英伟达的竞争是竞合关系，Arista约80%的AI业务与英伟达GPU相连，但在网络层面两者存在直接竞争。Arista的策略是拥抱开放以太网生态，服务于客户对多供应商选择和避免锁定的需求。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<p><strong>议题一：供应链紧张对增长和利润率的制约程度</strong></p>
+<ol>
+<li>公司Q2的供应链改善是短期现象还是趋势性逆转？97亿美元的采购承诺能否确保未来4-6个季度的供应稳定？</li>
+<li>在内存、晶圆代工等上游成本持续上涨的背景下，公司62-64%的毛利率指引是否过于乐观？提价措施能否在下半年完全对冲成本压力？</li>
+</ol>
+<p><strong>议题二：AI网络业务的增长可持续性与客户多元化进展</strong></p>
+<ol>
+<li>2026年35亿美元的AI收入目标中，有多少是来自一次性的大规模集群建设，有多少是可持续的扩容和更新需求？</li>
+<li>公司预计新增的1-2家10%以上客户（如Anthropic、Oracle）的订单可见度如何？其资本开支的持续性是否足以支撑公司2027年及以后的增长？</li>
+</ol>
+<p><strong>议题三：来自英伟达的竞争威胁</strong></p>
+<ol>
+<li>在英伟达GPU占主导的AI集群中，Arista的Etherlink平台与英伟达Spectrum-X相比，其核心竞争优势和劣势分别是什么？</li>
+<li>公司如何看待非英伟达GPU生态（如AMD MI系列、谷歌TPU、自研ASIC）的崛起？这是否是Arista扩大市场份额的战略机遇？</li>
+</ol>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧：当前的高增长是真实需求的兑现，还是供应链缓解后的一次性"补发货"效应？</strong></p>
+<ul>
+<li><strong>乐观方观点</strong>：当前增长是真实、可持续的AI网络需求爆发。依据包括：1）公司递延收入和采购承诺等先行指标持续创下新高，表明需求远未满足；2）AI网络客户从4-5家快速扩展至超过100家，需求基础正在拓宽；3）Scale-Across等新应用场景的出现，打开了比传统数据中心网络更大的市场空间。</li>
+<li><strong>谨慎方观点</strong>：Q2的超预期增长部分源于Q1因供应受阻而积压的订单在Q2得到交付，存在"补发货"效应。担忧在于：1）一旦前期积压的订单消化完毕，增速可能回落；2）大客户的需求具有波动性；3）公司为保障供应而付出的高成本，最终会传导至利润表，导致"增收不增利"。</li>
+</ul>
+<p><strong>综合分析</strong>：Q2的强劲表现和大幅上修的全年指引，在很大程度上支持了乐观方的观点。公司明确指出，上调指引并非因为需求提前释放，而是供应能力改善使得公司能更好地满足持续存在的强劲需求。<strong>97亿美元</strong>的采购承诺和<strong>69亿美元</strong>的递延收入余额，为未来几个季度的收入提供了极高的可见性。当前的证据更倾向于表明，Arista正处于一个由AI驱动的、多年期的需求扩张周期之中。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>管理层最新指引（2026年8月5日）</strong>：2026年全年营收约<strong>126亿美元</strong>，同比增长约<strong>40%</strong>；Non-GAAP毛利率<strong>62%至64%</strong>；Non-GAAP营业利润率<strong>48%至49%</strong>；有效税率约<strong>21.5%</strong>。</p>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价(美元)</th><th>财务指标</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody>
+<tr><td>花旗 (2026-08-05)</td><td>买入</td><td>215.00</td><td>营业收入(百万美元)<br>Non-GAAP EPS(美元)</td><td>9,006<br>2.95</td><td>12,625<br>4.10</td><td>15,863<br>5.08</td><td>19,817<br>6.33</td></tr>
+<tr><td>高盛 (2026-08-05)</td><td>买入</td><td>225.00</td><td>营业收入(百万美元)<br>Non-GAAP EPS(美元)</td><td>9,006<br>2.97</td><td>13,003<br>4.22</td><td>17,213<br>5.73</td><td>20,729<br>6.95</td></tr>
+<tr><td>摩根大通 (2026-08-05)</td><td>超配</td><td>250.00</td><td>营业收入(百万美元)<br>Non-GAAP EPS(美元)</td><td>9,006<br>2.95</td><td>12,650<br>4.10</td><td>16,703<br>5.45</td><td>21,209<br>7.05</td></tr>
+<tr><td>摩根士丹利 (2026-08-05)</td><td>超配</td><td>220.00</td><td>营业收入(百万美元)<br>Non-GAAP EPS(美元)</td><td>9,006<br>2.94</td><td>12,600<br>4.05</td><td>16,002<br>4.78</td><td>18,466<br>5.44</td></tr>
+</tbody></table></div>
+<p><em>注：以上预测均为Non-GAAP口径。</em></p>
+<p><strong>盈利预测与估值分析</strong>：在Q2财报后，主流券商普遍大幅上调了盈利预测。机构间对FY2026的营收预测已高度趋同于公司指引的<strong>126亿美元</strong>附近，但对FY2027及以后的增速存在一定分歧，主要源于对AI资本开支周期持续性的不同假设。估值方法上，机构普遍采用P/E估值法，基于未来12个月或更远期的EPS给予<strong>36倍至47倍</strong>的估值倍数。目标价区间集中在<strong>215至250美元</strong>。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/ANET · 生成于 2026-08-06</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-06';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'hit',     text: '<strong>Q2 财报 + 全年指引上调</strong>：营收 $30.36 亿（+37.7%）远超 $28 亿指引，全年指引 $115 亿 → $126 亿（+40%），盘后 +11%', note: '2026-08-04 发布，预期差修复兑现' },
+  { kind: 'cat', status: 'pending', text: '<strong>新增 1-2 个 10%+ 大客户官宣</strong>（2026 H2）：市场预期 Oracle / Anthropic——直接验证客户多元化、压低集中度折价', note: 'Anthropic 3GW 集群 2026-2028 增量收入 >$30 亿' },
+  { kind: 'cat', status: 'active',  text: '<strong>1.6T 交换机（7060XE7）大客户试用</strong>（2026 H2）：首次液冷选项，反馈积极则开启 2027 产品升级周期', note: '2027 年大规模量产' },
+  { kind: 'cat', status: 'pending', text: '<strong>云客户财报季资本开支指引</strong>（2026-08 至 10 月）：微软 / Meta 的 capex 评论是 Arista 需求的前瞻信号', note: '' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>Q3 增速大幅低于 +43% 指引</strong>——「补发货」论被证实的第一信号', note: 'Q3 财报核对（约 2026-11）' },
+  { kind: 'risk', status: 'clear', text: '<strong>Non-GAAP 毛利率跌破 62%</strong> 指引下限——供应成本无法传导的信号', note: 'FY2026 H1 实际 62.44%，已在区间下沿' },
+  { kind: 'risk', status: 'clear', text: '<strong>微软 / Meta（合计 42% 收入）下调资本开支</strong>或转向自研网络方案', note: '每季度财报季核对' },
+  { kind: 'risk', status: 'clear', text: '<strong>英伟达 Spectrum-X 捆绑销售明显抢份额</strong>（企业级 / Tier-2 云客户流失）', note: '关注大客户网络架构披露' },
+  { kind: 'risk', status: 'clear', text: '<strong>供应链再度恶化</strong>：行业紧张预计持续至 2028，晶圆 / HBM / 光模块 DSP 任一环节断供', note: '当前 $97 亿采购承诺锁供应，未触发' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

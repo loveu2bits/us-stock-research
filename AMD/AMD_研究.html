@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMD（AMD.O）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--amber); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">AMD</span>
+    <span class="site-mark__text">AMD 公司研究<span>超威半导体 · AMD.O</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>AMD<span class="en">超威半导体 · AMD.O · 美股研究</span></h1>
+        <p class="sub">AI 算力「二供」的成人礼：数据中心 +107% 首次贡献过半营收、14 吉瓦框架协议在手，市场却为「低于买方最乐观预期」的指引而回调——核心矛盾已不是需求有没有，而是订单质量（认股权证）与 Helios 首次量产的执行力。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-06</span>
+          <span>下次更新：Helios 首批出货（2026-09）/ Q3 财报</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="buy">买入</strong>
+        <em>回调是预期差窗口：Q3 指引 beat 共识、2027 数据中心指引 +100% 远超预期，跌的是买方最激进预期而非基本面。重检条件：Helios 交付延期，或毛利率指引跌破 54%。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">营收 +50%</strong><span>Q2 $115 亿 · 超预期</span></div>
+      <div class="summary-rail__item"><strong>+107%</strong><span>数据中心 · 占比首次过半 58%</span></div>
+      <div class="summary-rail__item"><strong>$130 亿</strong><span>Q3 指引 +41% · 高于共识 $125 亿</span></div>
+      <div class="summary-rail__item"><strong>56%</strong><span>Non-GAAP 毛利率 · 同比 +200bps</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">Q2 财报：营收 +50%、数据中心 +107%，beat 了为什么还跌？</h2>
+        <span class="qa__impact-tag">→ Q3 指引 beat 共识 · 盘后回调 = 预期差</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>beat 是实的，跌的是预期差而不是基本面。<em>Q3 指引 $130 亿高于一致预期 $125 亿，只是低于买方财报前更激进的押注；毛利率指引 56% 环比持平，浇灭了「AI 放量必带毛利率跳升」的幻想。财报确认的是加速度——真正的验证压力被推给了 9 月开始的 Helios 交付。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>短期决定交易方向，中期不改变盈利路径。</strong>市场已对「beat 但不够炸」做了一次性定价（回调）；卖方在财报后反而集体上调了 2027 年预测——四家机构 2027 EPS 预测区间 $14.38–18.65，全部隐含同比翻倍以上。</p>
+            <p>真正影响倍数的是管理层把话说满了：<strong>2027 数据中心 +100% 的指引，把「兑现压力」从季度 beat/miss 升级成了年度承诺</strong>——一旦 Helios 爬坡不及预期，下修将同时打在 EPS 和 PE 上。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>数据中心 <strong>+107%</strong>、占比首次过半（58%）——增长引擎切换已完成，不是预期是事实</li>
+              <li>Q3 指引 $130 亿（+41%）<strong>高于一致预期</strong> $125 亿；管理层称 Helios 客户需求「超出初步预测」</li>
+              <li>2027 指引极为强劲：数据中心 +100%+、服务器 CPU +70%+——<strong>卖方财报后集体上修</strong>而非下修</li>
+              <li>服务器 CPU 供应紧张、上半年大部分需求未被预见——<strong>供不应求 = 业绩高确定性</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>指引低于买方激进预期、毛利率 56% 环比持平——<strong>「AI 放量 = 利润率扩张」的剧本没有兑现</strong></li>
+              <li>游戏业务 <strong>-31%</strong>（主机周期后半段），下半年 PC 市场因内存/组件涨价走软</li>
+              <li>存货从 $79 亿增至 ~$85 亿——为新品爬坡备货，也是<b>滞销风险的敞口</b></li>
+              <li>把 2027 年增长说得越满，<strong>兑现不了的反噬越大</strong>——管理层在用自己的信誉加杠杆</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（Q2 财报速览 · 为什么 beat 了还跌 · 资产负债表）</summary>
+          <div class="evidence__body">
+            <h5>Q2 2026 财报速览（截至 2026-06-27，2026-08-04 发布）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>实际</th><th>预期</th><th>评价</th></tr></thead><tbody><tr><td>总营收</td><td>$115.36 亿（+50%，环比 +13%）</td><td>$113.06 亿</td><td>beat，连续加速（Q1 +43.8% → Q2 +50%）</td></tr><tr><td>Non-GAAP EPS</td><td>$1.66</td><td>超预期</td><td>同比约 +246%，经营杠杆显著</td></tr><tr><td>数据中心</td><td>$67.18 亿（<strong>+107%</strong>）</td><td>—</td><td>占比首次过半达 58%；EPYC +70%+ 与 Instinct 翻倍以上双轮驱动</td></tr><tr><td>客户端与游戏</td><td>$38.41 亿（+6%）</td><td>—</td><td>客户端 +23%（移动处理器创纪录）/ <span class="warn">游戏 -31%</span>（主机周期后半段）</td></tr><tr><td>嵌入式</td><td>$9.77 亿（+19%）</td><td>—</td><td>三年多来最强，周期性底部复苏</td></tr><tr><td>Non-GAAP 毛利率</td><td>56%（同比 +200bps）</td><td>—</td><td>数据中心占比提升拉动</td></tr><tr><td>Q3 指引</td><td>$130 亿（+41%），毛利率 56% 持平</td><td>一致预期 $125 亿</td><td><span class="warn">⚠️</span> beat 共识但低于买方激进预期——<strong>回调的直接原因</strong></td></tr><tr><td>2027 展望</td><td>数据中心 +100%+（CPU +70%+，AI 远超 100%）</td><td>—</td><td>显著高于市场此前预期，并暗示大幅超越 EPS $20 战略目标</td></tr></tbody></table></div>
+            <h5>为什么 beat 了还跌——拆三层</h5>
+            <ol>
+              <li><strong>买方预期跑得比共识快</strong>：财报前买方押注的 Q3 指引高于 $130 亿，beat 共识 ≠ beat 买方，股价按边际买家定价。</li>
+              <li><strong>毛利率指引环比持平（56%）</strong>：市场期待 AI 业务放量带来利润率跳升，管理层给的答案是「持平」——AI GPU/机架系统的毛利率稀释效应第一次被量化感知。</li>
+              <li><strong>2027 指引太好反而抬高了验证门槛</strong>：+100% 的数字市场不敢全信，也不敢不信——在 Helios 出货数据出来前，先按「打个折」定价。</li>
+            </ol>
+            <h5>资产负债表与现金流</h5>
+            <ul>
+              <li>现金及短期投资 ~<strong>$131 亿</strong> vs 总债务 ~$32 亿，净现金充足</li>
+              <li>1H26 自由现金流 ~<strong>$41 亿</strong>；Q2 资本开支增加（OSAT 设备采购，支持 Venice 爬坡）</li>
+              <li>存货 ~$85 亿（FY25 末 $79 亿）——主动为 Helios/Venice 备货，需跟踪周转</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">14 吉瓦框架协议：真实需求，还是认股权证换来的订单？</h2>
+        <span class="qa__impact-tag">→ 决定 2027 EPS 落在 $14 还是 $19 · 大摩明确提示稀释</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>两者都是——这正是定价分歧的根源。<em>客户「第二供应商」的动机是真实的（避免被英伟达单一锁定），14 吉瓦的部署规模也不是 PPT；但认股权证 + 对 Anthropic 至多 $50 亿战略投资意味着 AMD 在用股权贴补获客，订单的「含金量」要打折。判定窗口：2027 年上半年 Anthropic 首批 1 吉瓦启动部署时的真实拉货节奏。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这是 2027 EPS 预测区间宽达 $14.38–18.65 的第一变量。</strong>框架协议高比例转化为确定订单 → EPS 走向上沿（瑞银/花旗剧本 $18+）；转化率低或附带条款侵蚀利润 → 落向下沿（摩通 $14.38）。</p>
+            <p>对倍数的影响更微妙：认股权证是<strong>隐性的获客成本</strong>——若市场把它资本化计入「真实盈利能力」，AI GPU 业务的估值倍数应从英伟达系折价而非平价。大摩已把这一点写进「持有」评级。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>AI 市场 TAM 2030 年 <strong>$1.4 万亿</strong>，容得下第二供应商；客户有强烈的「去单一化」动机</li>
+              <li>锚定客户阵容是硬通货：<strong>OpenAI、Meta、Anthropic</strong>——前沿模型公司不会拿自己的算力命脉配合财务安排</li>
+              <li>Helios 机架级系统提供差异化 TCO：更高 HBM 容量 + 系统级优化，<strong>单机架价值量远超芯片</strong></li>
+              <li>ROCm 生态质变：300 万+ 模型 Day 0 支持、社区贡献 +10 倍、6 周一版——<strong>迁移成本在塌缩</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>向 OpenAI/Meta 发行<strong>认股权证</strong>锁单 = 用股东权益付营销费，AI GPU 真实盈利打折</li>
+              <li>AMD 向 Anthropic 战略投资至多 <strong>$50 亿</strong>、Anthropic 再采购 2 吉瓦——<strong>「投资换订单」的循环结构</strong>，收入质量存疑</li>
+              <li>框架协议≠确定订单：有多少具备法律约束力、多少会转化为收入，公司未量化</li>
+              <li>客户集中度骤升 + 大客户议价能力过强——<strong>绑定越深，利润率越受制于人</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（14 吉瓦协议拆解 · 认股权证的会计含义 · 跟踪清单）</summary>
+          <div class="evidence__body">
+            <h5>已公开的大客户协议</h5>
+            <ul>
+              <li><strong>Anthropic</strong>：部署高达 <strong>2 吉瓦</strong> Helios 系统，首批 1 吉瓦 2027 年上半年启动；AMD 同时向其提供至多 <strong>$50 亿</strong>战略投资</li>
+              <li><strong>OpenAI / Meta</strong>：大规模多年期部署协议（附认股权证），三家合计框架协议 <strong>14 吉瓦</strong></li>
+              <li>管理层口径：Helios 客户需求「超出初步预测」，Meta/OpenAI/Anthropic 部署计划清晰</li>
+            </ul>
+            <h5>认股权证问题的实质</h5>
+            <p>把认股权证理解为一笔<strong>递延的、按履约进度确认的收入抵减</strong>：订单越大，摊薄越多。这不是说订单是假的——而是说报表营收与「经济利润」之间有一个缺口，缺口大小取决于权证条款（行权价、归属条件）。在 10-Q 披露更多细节前，对 AI GPU 业务的利润率假设应保守。</p>
+            <h5>需求质量跟踪清单</h5>
+            <ol>
+              <li>2026-09 起 Helios 首批出货的<strong>客户验收与良率</strong>反馈</li>
+              <li>2027H1 Anthropic 首批 1 吉瓦<strong>是否如期启动</strong>——框架协议转化的第一个实证</li>
+              <li>14 吉瓦中具备法律约束力的比例，管理层是否在电话会量化</li>
+              <li>剔除战略投资/权证影响后，AI GPU 业务何时出现<strong>有机增长</strong></li>
+            </ol>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">服务器 CPU +70% 与 56% 毛利率：「确定性引擎」能否对冲 AI GPU 的利润率稀释？</h2>
+        <span class="qa__impact-tag">→ 毛利率每 1pct ≈ $5 亿毛利 · 危险线 54%</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>CPU 是目前确定性最高的一条腿：Q2 +70%、下半年指引 +80%、2027 再 +70%，且供应紧张给了定价权。<em>但毛利率的方向是「组合问题」——Q3 指引持平 56%，说明 AI 机架的稀释与 CPU 的增厚恰好打平；能否向上突破，取决于 Venice 的 ASP 提升和 Helios 毛利率爬坡曲线。判定：CPU 引擎可信，毛利率跳升别指望。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>毛利率每变动 1pct，在 2026E ~$510 亿营收基数上 ≈ $5 亿毛利。</strong>CPU 放量 + ASP 上行若把毛利率推向 58%+，EPS 弹性直接；反之 Helios 占比快速抬升而毛利率曲线平缓，营收 beat 也可能 EPS inline。</p>
+            <p>CPU 业务还是估值的「压舱石」叙事：它提供高毛利现金流，让 AMD 的 AI 故事不像纯 GPU 挑战者那样脆弱——<strong>「CPU 保底盘、AI 给期权」的结构支撑了市场愿给的倍数下限</strong>。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>Agentic AI 重估服务器 CPU：任务编排/工具调用需要大量高性能 CPU，<strong>TAM 从 $260 亿 → 2030 年 $2,200 亿+</strong></li>
+              <li>供应紧张到「上半年大部分需求未被预见」——<strong>供不应求 = 定价权</strong>，ASP 与出货量双升</li>
+              <li>Venice（2nm）Q4 部署，性能较上代 <strong>1.8 倍</strong>，针对 AI 负载优化——代际优势延续</li>
+              <li>Q2 毛利率 56%、同比 <strong>+200bps</strong>——组合恶化论目前被数据证伪</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>机架级系统的毛利率天然低于服务器 CPU——<strong>AI 占比越高，结构性稀释越重</strong>，管理层自己承认 2027 毛利率「取决于业务组合」</li>
+              <li>内存等组件成本高企，机架系统 BOM 里 HBM 占比大——<strong>成本端受制于人</strong></li>
+              <li>英特尔加速产品迭代 + 降价保份额；ARM 架构在特定场景侵蚀 x86</li>
+              <li>CPU 的 +70% 指引建立在供应紧张上——<strong>产能一旦追上，议价红利即逝</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（EPYC 增长轨迹 · 毛利率机制 · 双市场 TAM）</summary>
+          <div class="evidence__body">
+            <h5>服务器 CPU 增长轨迹（管理层口径）</h5>
+            <ul>
+              <li>Q2 2026：服务器 CPU 营收同比 <strong>+70% 以上</strong>，单位出货量与 ASP 共同驱动</li>
+              <li>2026 下半年指引：<strong>+80% 以上</strong>；2027 年：<strong>+70% 以上</strong>（更高基数上）</li>
+              <li>供应链当前紧张；公司已为 2027 年增长提前规划产能</li>
+            </ul>
+            <h5>毛利率的拔河机制</h5>
+            <p>增厚方：高毛利服务器 CPU 占比提升（Q2 已拉动整体毛利率 +200bps 至 56%）+ Venice ASP 上行。稀释方：AI GPU 尤其是机架级系统（GPU+CPU+网络+液冷集成的 BOM 更重、HBM 成本高企）。<strong>Q3 指引 56% 持平 = 两股力量当前打平</strong>；管理层明示 2027 毛利率取决于组合。跟踪点：Helios 毛利率何时达到公司平均水平（管理层未给时间表）。</p>
+            <h5>双市场 TAM（公司预测）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>市场</th><th>2025</th><th>2030E</th><th>CAGR</th><th>AMD 位置</th></tr></thead><tbody><tr><td>AI 加速器</td><td>~$2,000 亿</td><td><strong>$1.4 万亿</strong></td><td>&gt;45%</td><td>头号挑战者，开放生态 + 性价比二供</td></tr><tr><td>服务器 CPU</td><td>~$260 亿</td><td><strong>$2,200 亿+</strong></td><td>&gt;50%</td><td>技术领先者，持续从英特尔手中夺份额</td></tr></tbody></table></div>
+            <p>注：TAM 为公司口径，按管理层的乐观程度惯例打折使用；但「推理需求 2026 年首次超过训练」这一结构判断对 CPU 逻辑是顺风。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 4 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">4</span>
+        <h2 class="qa__title">估值：2027 EPS 预测 $14.4–18.7 的巨大分歧下，赔率如何？</h2>
+        <span class="qa__impact-tag">→ 三情景期望 ~$490 · 卖方目标带 $465–730</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>卖方目标价横跨 $465–730（跨度 57%），分歧不在方向在斜率——连「持有」的大摩锚也是 $465。<em>三情景期望值约 $490：回调后买入的赔率偏正，前提是接受 Helios 执行风险。赔率改善的触发器：2027 EPS 预期向 $18 上沿收敛（Helios 爬坡数据出来）；逻辑证伪的触发器：跌破悲观锚 ~$290 说明 AI 资本开支叙事坏了，需重检。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这个问题本身决定仓位。</strong>合理前瞻 PE 区间 25–39x：给多高的倍数取决于你相信「AI 平台化转型」还是「周期 + 贴补获客」——乐观方（瑞银/花旗）按 27–35x 以上给，谨慎方（大摩/摩通）压倍数。</p>
+            <p>注意一个结构性事实：<strong>2027 EPS 每 ±$2，在 30x 下就是 ±$60 股价</strong>——EPS 预测的宽分歧意味着波动是常态，仓位要按能承受「悲观情景 -40%」来定。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>2027 数据中心 +100% 指引若兑现，EPS 上沿 $18.65 × 35–39x → <strong>$650–730</strong>（瑞银 $730、花旗 $575 之上仍有空间）</li>
+              <li>管理层暗示将大幅超越 <strong>EPS $20</strong> 战略目标——长期锚比卖方模型更激进</li>
+              <li>CPU 业务提供盈利底盘，2027 服务器 CPU +70% 在供不应求下近乎「已锁定」</li>
+              <li>财报后回调释放了「买方过度预期」的泡沫——<strong>现在的预期差反而站在多头一边</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>当前估值已计入大部分乐观预期——<strong>认股权证稀释和竞争风险尚未被充分定价</strong></li>
+              <li>大摩「持有」$465、摩通「中性」$550：<strong>谨慎方不是不看好公司，是不看好订单质量与盈利含金量</strong></li>
+              <li>Helios 是公司史上最复杂的系统级产品，首次量产几乎没有不摔跤的先例</li>
+              <li>AI 资本开支若 2027 年见顶，AMD 作为二供的弹性<strong>向下比向上大</strong>（龙头先保供，二供先砍单）</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（机构预测地图 · 三情景表）</summary>
+          <div class="evidence__body">
+            <h5>机构盈利预测（财报后，2026-08-05；日历年）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价</th><th>FY26E EPS</th><th>FY27E EPS</th><th>FY28E EPS</th></tr></thead><tbody><tr><td>瑞银（07-28）</td><td>买入</td><td><strong>$730</strong></td><td>$7.82</td><td>$18.65</td><td>$27.57</td></tr><tr><td>花旗</td><td>买入</td><td>$575</td><td>$7.89</td><td>$18.23</td><td>$28.47</td></tr><tr><td>摩根大通</td><td>中性</td><td>$550</td><td>$7.25</td><td>$14.38</td><td>$21.80</td></tr><tr><td>摩根士丹利</td><td>持有</td><td><strong>$465</strong></td><td>$7.67</td><td>$15.54</td><td>$23.30</td></tr></tbody></table></div>
+            <p>乐观方（瑞银/花旗）押注 AI GPU + CPU 双超预期；谨慎方（大摩/摩通）担心 AI GPU 稀释毛利率与认股权证摊薄——<strong>大摩明确点出了权证的负面影响</strong>。2026E EPS 四家几乎一致（$7.25–7.89），分歧全部在 2027 年之后。</p>
+            <h5>三情景假设（2027 年视角，一年期）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>2027 EPS</th><th>合理 PE</th><th>隐含股价</th><th>参照</th></tr></thead><tbody><tr><td>乐观（25%）</td><td>Helios 爬坡超预期 + Venice 放量，框架协议高转化</td><td>~$18.5</td><td>39x</td><td>~$730</td><td>≈ 瑞银目标价</td></tr><tr><td>中性（50%）</td><td>2027 数据中心 +100% 兑现，但 AI GPU 毛利率平庸 + 权证摊薄</td><td>~$15.5</td><td>30x</td><td>~$465</td><td>≈ 大摩「持有」目标价</td></tr><tr><td>悲观（25%）</td><td>AI 资本开支降温或 Helios 执行瑕疵，指引下修</td><td>~$11.5</td><td>25x</td><td>~$290</td><td>跌破所有卖方目标</td></tr></tbody></table></div>
+            <p><strong>期望值约 $490</strong>——恰好落在摩通中性（$550）与大摩持有（$465）之间，说明卖方中位数定价与情景分析互洽。估值不是算出「正确答案」，而是把分歧拆开：<strong>你愿不愿意为 Helios 的执行力付从 $465 到 $730 的差价？</strong>悲观情景的 $290 同时是风控线——跌到那里说明不是波动是逻辑坏了。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>：公司概况、近期要闻、催化剂（见同目录《AMD_一页通.md》，亦见本站「一页通」标签页）</li>
+        <li><strong>财务数据</strong>：FY2023–FY2025 及 1H26 利润表、Q2 2026 分部数据（正文数据均来自公开财报整理）</li>
+        <li><strong>局限</strong>：未读 10-Q 原文（认股权证条款、框架协议约束力等关键细节需补读）；现价与股本数据未纳入本次采集，估值以卖方目标带与 EPS 预测区间为锚；机构预测为第三方观点，不代表本研究立场</li>
+        <li><strong>管理层评估（一句话版）</strong>：苏姿丰任内完成 Zen 翻盘与 Xilinx/Pensando/ZT 收购拼图，战略记录极强；Helios 是其「系统级转型」的最大赌注——机架级量产是全新考验，2026-09 起验证</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>超威半导体（AMD）是一家全球半导体公司，核心业务是为数据中心、客户端PC、游戏和嵌入式市场提供高性能计算解决方案。公司产品线覆盖<strong>AI加速器（Instinct系列）、服务器CPU（EPYC系列）、客户端CPU（Ryzen系列）、GPU（Radeon系列）、FPGA及自适应SoC</strong>。AMD是x86服务器CPU市场的第二大供应商，并在数据中心AI加速器市场对英伟达构成主要挑战。公司采用无晶圆厂模式，主要依赖台积电生产芯片。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul><li><strong>Q2业绩超预期，数据中心成绝对主力</strong>：公司2026年Q2营收<strong>115.36亿美元</strong>，同比增长<strong>50%</strong>，环比增长13%，高于市场一致预期的113.06亿美元。Non-GAAP EPS为<strong>1.66美元</strong>，超预期。其中，<strong>数据中心业务营收67.18亿美元</strong>，同比暴增<strong>107%</strong>，占总营收比重首次超过一半，达<strong>58%</strong>，成为增长核心引擎。</li><li><strong>上调2027年数据中心增长预期</strong>：管理层在业绩会上给出极为乐观的展望，预计2027年数据中心业务营收将<strong>同比增长超过100%</strong>，其中服务器CPU增长<strong>超过70%</strong>，数据中心AI业务增长将远超100%。这显著高于市场此前预期。</li><li><strong>Helios机架级AI平台进入量产</strong>：公司宣布其旗舰级AI机架系统Helios已进入<strong>全面量产阶段</strong>，首批出货计划于<strong>2026年Q3末</strong>开始，Q4及2027年将大规模爬坡。该系统整合了MI455X GPU、Venice CPU及Pensando网络芯片，被视为AMD从芯片供应商向全栈AI基础设施提供商转型的关键产品。</li><li><strong>新增大客户Anthropic</strong>：AMD宣布与前沿AI模型公司Anthropic达成战略合作，Anthropic将部署<strong>高达2吉瓦</strong>的Helios系统，首批1吉瓦将于<strong>2027年上半年</strong>启动。同时，公司将为Anthropic提供至多<strong>50亿美元</strong>的战略投资。</li><li><strong>PC市场展望谨慎</strong>：尽管Q2客户端业务营收同比增长23%，但管理层预警<strong>2026年下半年PC市场将因内存和组件成本上涨而走软</strong>，不过仍预计AMD的客户端业务表现将优于市场。</li></ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol><li><strong>Helios平台Q3末启动交付，Q4放量是核心催化剂</strong>：Helios机架级AI平台是AMD未来3-6个月最关键的交易驱动因素。该产品已进入量产，首批出货定于<strong>2026年9月</strong>，Q4将迎来大规模收入确认。Helios的推出标志着AMD首次以完整机架系统而非单独芯片的形式交付，单机架价值量远高于以往。管理层表示客户需求<strong>超出初步预测</strong>，且Meta、OpenAI、Anthropic等锚定客户的部署计划清晰。Helios的成功交付和快速爬坡，将是验证AMD在AI基础设施领域竞争力的“试金石”，任何关于良率、供应或客户部署的积极进展都可能成为股价的强力催化剂。</li><li><strong>服务器CPU需求爆发式增长，供应紧张提供业绩高确定性</strong>：服务器CPU市场正经历由Agentic AI驱动的结构性需求扩张。AMD的EPYC处理器Q2营收同比增长超70%，且管理层指引2026年下半年将增长<strong>超80%</strong>，2027年将增长<strong>超70%</strong>。当前服务器CPU供应链<strong>处于紧张状态</strong>，因为上半年的大部分需求未被预见。这种供不应求的局面为AMD的短期业绩提供了极高的确定性，同时也增强了其议价能力。随着更高核心数的Venice处理器在下半年推出，ASP有望继续提升，驱动营收和利润超预期。</li><li><strong>Q3指引略低于买方高预期，可能形成短期预期差交易机会</strong>：尽管AMD给出的Q3营收指引<strong>130亿美元</strong>（同比+41%）高于当时市场一致预期的125亿美元，但低于部分买方在业绩发布前更为激进的预期，尤其是在毛利率方面（指引为56%，环比持平）。这导致股价在业绩发布后出现回调。然而，管理层对2027年的展望极为强劲，且Q3通常是季节性淡季。如果市场因短期指引未达“最乐观预期”而过度反应，将为看好公司长期AI基础设施平台化转型的投资者提供一个具有吸引力的介入窗口。</li></ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol><li><strong>从芯片供应商向全栈AI基础设施平台商的战略转型</strong>：AMD正通过Helios机架系统、ROCm软件生态和Pensando网络产品的整合，系统性地从一家芯片设计公司转型为提供完整AI基础设施解决方案的平台型企业。这一转型的核心在于，通过提供预集成、高性能的机架级系统，AMD不仅提升了单客户价值量，更关键的是，通过系统级的软硬件协同设计，构建了比单纯销售芯片更深的客户粘性和技术壁垒。公司计划<strong>每年推出一代新的Helios系统</strong>，这种年度迭代的路线图与英伟达的策略相似，旨在锁定大型云客户和AI实验室的长期资本开支计划，将AMD嵌入其AI基础设施的核心。</li><li><strong>Agentic AI驱动服务器CPU市场迎来结构性重估</strong>：AMD将Agentic AI定义为服务器CPU市场的下一个重大增长引擎。与主要依赖GPU的传统AI训练不同，Agentic AI工作负载（如多智能体协作、工具调用、数据库交互）需要大量高性能CPU进行任务编排和数据处理。管理层预测，到2030年，服务器CPU的TAM将从当前的约260亿美元增长至<strong>超过2200亿美元</strong>，年复合增长率超50%，其中Agentic AI相关服务器将成为最大、增长最快的部分。AMD凭借其EPYC处理器在核心数、性能和能效方面的优势，有望在这一增量市场中占据领导地位，实现长期的量价齐升。</li><li><strong>开放软件生态（ROCm）的成熟将打破英伟达CUDA的绝对锁定</strong>：AMD长期竞争力的核心瓶颈在于其软件生态与英伟达CUDA的差距。然而，这一局面正在发生根本性变化。公司推出的<strong>ROCm.AI平台</strong>，利用AI辅助开发工具，大幅降低了开发者将模型从CUDA迁移至ROCm的成本和复杂度。管理层表示，ROCm的版本迭代已加速至<strong>每6周一次</strong>，开源社区的贡献<strong>同比增长超10倍</strong>，且已实现对超过<strong>300万个模型</strong>的“Day 0”支持。随着AI编程助手能够自主完成代码迁移和优化，CUDA的生态锁定效应正在被削弱。一个成熟、开放的软件生态是AMD在AI加速器市场实现长期份额扩张的基石。</li></ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul><li><strong>Helios平台首次大规模量产的执行风险</strong>：Helios是AMD历史上最复杂的系统级产品，涉及GPU、CPU、网络、液冷、机架集成等多个环节的协同。作为首次交付的机架级方案，其在制造、集成、测试和客户现场部署环节面临显著的良率爬坡和供应链协同挑战。任何环节的延迟或质量问题，都可能导致产品交付和收入确认不及预期，对公司的技术声誉和客户信心造成打击。</li><li><strong>AI资本开支的周期性风险与客户集中度</strong>：AMD的数据中心业务增长高度依赖少数大型云客户和AI实验室的资本开支。尽管当前需求旺盛，但若未来AI应用变现不及预期，或宏观经济下行，这些客户可能削减资本开支，导致AMD的订单大幅下滑。此外，公司与OpenAI、Meta等大客户通过认股权证深度绑定，虽能锁定需求，但也带来了股权稀释和客户议价能力过强的潜在风险。</li><li><strong>来自英伟达和ASIC的双线竞争压力</strong>：在AI加速器市场，英伟达凭借其成熟的CUDA生态和强大的产品路线图，仍占据绝对主导地位。同时，大型云厂商（如谷歌的TPU、亚马逊的Trainium）正越来越多地采用自研ASIC芯片，这可能在中长期侵蚀AMD作为“第二供应商”的市场空间。在服务器CPU市场，英特尔正积极提升其产品竞争力，而ARM架构CPU也在特定场景对x86构成威胁。</li></ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul><li><strong>2026年7月23日</strong>：AMD在“Advancing AI 2026”大会上正式发布Helios机架级AI平台、第六代EPYC Venice CPU、ROCm.AI软件平台，并宣布与Anthropic达成2吉瓦的部署合作。公司同时大幅上调了长期TAM预测。</li><li><strong>2026年8月4日</strong>：AMD公布2026年Q2财报，营收和EPS均超市场预期，数据中心业务营收首次突破半数占比。公司给出了强劲的Q3指引，并对2027年数据中心业务增长表达了极为乐观的预期。</li></ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul><li><strong>2026年9月</strong>：Helios机架级AI平台预计开始首批出货。这是AMD从芯片供应商向系统级解决方案提供商转型的关键里程碑，其交付进度和客户反馈将是市场关注的焦点。</li><li><strong>2026年Q4</strong>：第六代EPYC Venice服务器CPU预计开始部署。作为采用2nm工艺、针对Agentic AI优化的重磅产品，其市场接受度和性能表现将直接影响AMD在服务器CPU市场的份额和盈利能力。</li><li><strong>2026年Q4</strong>：Helios平台进入大规模爬坡和收入确认阶段。市场将密切关注其季度出货量、客户部署规模以及对公司整体毛利率的影响，这将是验证其AI业务长期增长逻辑的关键时期。</li></ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<p><strong>业务边际变化</strong>：AMD正经历从以PC和游戏为主的芯片设计公司，向以数据中心为核心的全栈AI计算平台提供商的战略转型。近年来，公司通过内部研发和外部收购（如Xilinx、Pensando、ZT Systems设计团队），构建了覆盖<strong>CPU、GPU、DPU、FPGA和软件</strong>的完整产品组合。2026年，随着Helios机架级AI平台的推出，公司正式进入系统级解决方案市场，单客户价值量和竞争壁垒显著提升。同时，AI的兴起，特别是Agentic AI的出现，正驱动其服务器CPU业务进入新一轮爆发式增长期。</p>
+<p><strong>盈利模式</strong>：AMD的盈利模式正从<strong>销售标准化芯片</strong>，转向通过<strong>技术壁垒和系统级整合能力</strong>获取更高附加值的模式。在CPU市场，公司依靠领先的制程和架构设计（Zen系列）实现性能和能效优势，从而获取溢价。在AI市场，公司正试图通过“开放软件生态（ROCm）+ 高性能硬件 + 系统级优化”的组合，构建一个可与英伟达CUDA生态竞争的完整平台，其盈利不仅来自芯片销售，更来自整个机架系统的价值。</p>
+<p><strong>业务拆分</strong>：公司近年业务结构发生根本性变化，数据中心业务已成为绝对核心。2026年Q2，该业务营收占比首次超过一半，达到<strong>58%</strong>，而去年同期为42%。客户端和游戏业务虽仍占重要地位，但增速远不及数据中心。嵌入式业务正从周期性低谷中复苏。公司当前处于<strong>业绩兑现期</strong>，前期在AI和服务器CPU领域的研发与客户投入正转化为强劲的收入和利润增长。</p>
+<p><strong>细分业务拆分（单位：亿美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>业务板块</th><th>FY2024 收入</th><th>FY2024 占比</th><th>FY2025 收入</th><th>FY2025 占比</th><th>1Q26 收入</th><th>2Q26 收入</th><th>2Q26 同比</th><th>2Q26 占比</th></tr></thead><tbody><tr><td><strong>数据中心</strong></td><td>125.79</td><td>48.8%</td><td>166.35</td><td>48.0%</td><td>57.75</td><td><strong>67.18</strong></td><td><strong>+107%</strong></td><td><strong>58.2%</strong></td></tr><tr><td><strong>客户端与游戏</strong></td><td>96.49</td><td>37.4%</td><td>145.50</td><td>42.0%</td><td>36.05</td><td><strong>38.41</strong></td><td><strong>+6%</strong></td><td>33.3%</td></tr><tr><td>客户端</td><td>70.54</td><td>-</td><td>106.40</td><td>-</td><td>28.85</td><td>30.62</td><td>+23%</td><td>-</td></tr><tr><td>游戏</td><td>25.95</td><td>-</td><td>39.10</td><td>-</td><td>7.20</td><td>7.79</td><td>-31%</td><td>-</td></tr><tr><td><strong>嵌入式</strong></td><td>35.57</td><td>13.8%</td><td>34.54</td><td>10.0%</td><td>8.73</td><td><strong>9.77</strong></td><td><strong>+19%</strong></td><td>8.5%</td></tr><tr><td><strong>总计</strong></td><td>257.85</td><td>100%</td><td>346.39</td><td>100%</td><td>102.53</td><td><strong>115.36</strong></td><td><strong>+50%</strong></td><td>100%</td></tr></tbody></table></div>
+<p><em>注：2025年Q1起，公司将客户端和游戏合并为一个报告分部。毛利率数据未在分部层面详细披露。</em></p>
+<p><strong>数据中心业务（2026年Q2）</strong>：营收<strong>67.18亿美元</strong>，同比增长<strong>107%</strong>。增长由EPYC服务器CPU（同比+70%以上）和Instinct AI加速器（同比翻倍以上）共同驱动。云和企业客户需求均非常强劲。该业务是公司增长和利润的核心来源。</p>
+<p><strong>客户端与游戏业务（2026年Q2）</strong>：营收<strong>38.41亿美元</strong>，同比增长<strong>6%</strong>。其中，客户端业务营收30.62亿美元，同比增长23%，受创纪录的移动处理器收入和份额增长驱动；游戏业务营收7.79亿美元，同比下降31%，主要因游戏主机周期进入后半段，半定制芯片销售下滑。</p>
+<p><strong>嵌入式业务（2026年Q2）</strong>：营收<strong>9.77亿美元</strong>，同比增长<strong>19%</strong>，环比增长12%，为三年多来最强增长。需求基础广泛，在航空航天、国防、网络和通信等领域表现强劲，正从周期性底部复苏。</p>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托x86生态与性能代际领先，在服务器CPU市场建立的强大定价权</strong></p>
+<ul><li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。AMD的EPYC服务器CPU凭借其先进的Zen架构和台积电领先制程，在核心数、性能和能效方面持续对英特尔形成代际优势。在x86服务器市场，客户对高性能、高能效CPU的需求缺乏其他成熟的替代方案，这使得AMD拥有强大的定价权，能够将技术优势转化为高ASP和高利润率。</li><li><strong>数据验证</strong>：2026年Q2，AMD服务器CPU营收同比增长<strong>超过70%</strong>，且增长由<strong>单位出货量和ASP共同驱动</strong>。公司预计2027年服务器CPU营收将在更高基数上再增长<strong>超过70%</strong>。其数据中心业务的强劲增长直接拉动了公司整体毛利率，Q2 Non-GAAP毛利率达到<strong>56%</strong>，同比提升超200个基点。</li><li><strong>动态演变</strong>：<strong>护城河变宽</strong>。随着Agentic AI时代的到来，对高性能CPU的需求正从传统的通用计算扩展到AI推理和智能体编排等新场景。AMD即将推出的第六代EPYC Venice处理器，采用2nm工艺，针对AI工作负载进行了专门优化，性能较上一代提升1.8倍，有望进一步巩固其技术领先地位，并在一个快速增长的TAM中持续扩大份额。</li></ul>
+<p><strong>竞争要素 2：通过开放软件生态（ROCm）和系统级解决方案（Helios），在AI加速器市场构建的客户转换成本</strong></p>
+<ul><li><strong>护城河定性</strong>：<strong>行业阶段性红利</strong>，正向结构性护城河演变。在AI加速器市场，英伟达的CUDA生态构成了极高的转换成本。AMD正通过两条路径构建自己的护城河：一是大力投资<strong>开源的ROCm软件生态</strong>，降低开发者迁移门槛；二是推出<strong>Helios机架级系统</strong>，通过软硬件一体化设计，提供差异化的性能和TCO优势。一旦客户将其AI工作负载深度集成到AMD的系统和软件栈中，其迁移成本将随时间推移而增加。</li><li><strong>数据验证</strong>：ROCm生态进展显著，已支持超过<strong>300万个模型</strong>，开源社区贡献<strong>同比增长超10倍</strong>。公司推出的ROCm.AI平台，利用AI辅助开发，可将推理性能提升<strong>3.3倍</strong>。在客户层面，已锁定OpenAI、Meta、Anthropic等头部AI公司的大规模、多年期部署协议，总规模达<strong>14吉瓦</strong>。这些协议本身就是客户用脚投票，证明了AMD方案的竞争力。</li><li><strong>动态演变</strong>：<strong>护城河变宽</strong>。随着Helios系统在Q3末开始交付，AMD将首次以完整系统而非单独芯片的形式与客户深度耦合。这种系统级的合作模式比单纯的芯片供应具有更强的粘性。同时，ROCm.AI等工具的出现，正在利用AI技术本身来瓦解CUDA的软件壁垒，这是一个具有颠覆性的长期趋势。</li></ul>
+<p><strong>现阶段核心驱动力总结</strong>：AMD的Alpha来源于其在x86服务器CPU市场的<strong>强定价权</strong>和<strong>技术护城河</strong>，这为其提供了稳定的现金流和高利润率。其Beta则来自于AI计算市场的<strong>整体扩张</strong>，以及公司作为英伟达主要替代方案，在AI加速器市场<strong>份额扩张的潜力</strong>。公司正处在一个“CPU业务提供坚实基础，AI业务提供弹性期权”的有利位置。</p>
+<p><strong>竞争格局传导逻辑</strong>：Zen 架构代际性能优势 + 台积电先进制程 → 服务器 CPU 市场定价权 → 高 ASP 与高毛利率（Q2 毛利率 56%）；开放 ROCm 生态 + Helios 系统级整合 → AI 加速器客户粘性 → 大规模多年期合同（14 吉瓦部署协议）。</p>
+<h3 class="doc-h2">产销链</h3>
+<ul><li><strong>客户情况</strong>：公司客户结构正从分散走向集中。数据中心业务高度依赖大型云服务商和AI实验室。2025年报显示，<strong>无单一客户占营收比超过10%</strong>，但2026年随着与OpenAI、Meta、Anthropic签订大规模协议，客户集中度将显著提升。这些协议通常为期数年，规模达数吉瓦，为AMD带来高能见度的长期收入，但也使其面临核心客户资本开支波动和议价能力过强的风险。新客户Anthropic已明确进入<strong>大规模交货</strong>阶段，首批1吉瓦部署将于2027年上半年启动。</li><li><strong>供应商情况</strong>：公司对<strong>台积电</strong>存在高度依赖，其所有先进制程（7nm及以下）的CPU和GPU晶圆均由台积电供应。2026年，随着AI芯片需求激增，台积电的CoWoS先进封装产能成为全行业瓶颈。AMD管理层表示，当前服务器CPU供应链<strong>紧张</strong>，但已为2027年的增长提前规划了产能。此外，公司对HBM内存的供应依赖SK海力士和三星等少数厂商，当前内存价格高企，对成本和供应构成挑战。</li><li><strong>成本传导能力</strong>：当上游晶圆和内存成本上涨时，AMD展现出较强的成本传导能力。在服务器CPU市场，凭借其技术领先性和强劲需求，公司能够通过提升ASP来覆盖成本上涨。在AI加速器市场，公司通过提供差异化的系统级解决方案（如更高HBM容量的Helios）来创造附加值，从而在定价上拥有一定主动权。公司赚取的是<strong>技术壁垒和系统整合</strong>带来的溢价，而非单纯的“加工费”。</li></ul>
+<h3 class="doc-h2">财务数据</h3>
+<p><strong>关键财务数据（单位：亿美元，除EPS外）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>1H26</th></tr></thead><tbody><tr><td><strong>报告期截止日</strong></td><td>2023/12/30</td><td>2024/12/28</td><td>2025/12/27</td><td>2026/6/27</td></tr><tr><td>净营收</td><td>226.80</td><td>257.85</td><td>346.39</td><td>217.89</td></tr><tr><td>营收同比</td><td>-</td><td>+13.7%</td><td>+34.3%</td><td>+43.8%</td></tr><tr><td>营业成本</td><td>122.20</td><td>130.60</td><td>174.87</td><td>101.70</td></tr><tr><td>毛利润</td><td>104.60</td><td>127.25</td><td>171.52</td><td>116.19</td></tr><tr><td><strong>Non-GAAP毛利率</strong></td><td>-</td><td>-</td><td><strong>52.4%</strong></td><td><strong>55.7%</strong></td></tr><tr><td>研发费用</td><td>58.72</td><td>64.56</td><td>80.91</td><td>49.25</td></tr><tr><td>销售、行政及一般费用</td><td>23.18</td><td>27.35</td><td>41.44</td><td>26.54</td></tr><tr><td>营业利润</td><td>4.01</td><td>19.00</td><td>36.94</td><td>45.71</td></tr><tr><td>归母净利润</td><td>8.54</td><td>16.41</td><td>43.35</td><td>36.88</td></tr><tr><td><strong>Non-GAAP摊薄EPS</strong></td><td>-</td><td>-</td><td><strong>4.19美元</strong></td><td><strong>3.03美元</strong></td></tr><tr><td>自由现金流</td><td>-</td><td>-</td><td>约60.32</td><td>约41.26</td></tr></tbody></table></div>
+<p><em>注：Non-GAAP数据及自由现金流数据来源于公司财报及业绩会材料。1H26数据为Q1与Q2之和。</em></p>
+<p><strong>财务分析</strong>：</p>
+<ul><li><strong>成长能力</strong>：公司正处于营收和利润的爆发式增长期。2026年上半年营收同比增长<strong>43.8%</strong>，Q2单季增速更是达到<strong>50%</strong>。增长主要由数据中心业务驱动，该业务Q2增速高达<strong>107%</strong>。Non-GAAP EPS在Q2同比增长约<strong>246%</strong>，显示出显著的经营杠杆效应。</li><li><strong>盈利能力</strong>：公司毛利率持续改善，Non-GAAP毛利率从FY2025的52.4%提升至1H26的<strong>55.7%</strong>，Q2单季达到<strong>56%</strong>。这主要得益于高毛利的数据中心业务占比快速提升。营业利润率也从FY2025的10.7%大幅提升至1H26的21.0%，表明公司在大力投资研发的同时，规模效应开始显现。</li><li><strong>运营能力</strong>：存货从FY2025末的79.20亿美元增加至Q2末的约85亿美元，这与公司为支持Helios和Venice等新产品爬坡而主动增加库存的策略一致。应收账款随营收规模扩大而增长，但周转天数相对稳定。</li><li><strong>偿债能力与现金流</strong>：公司财务状况稳健。截至Q2末，现金及短期投资合计约<strong>131亿美元</strong>，总债务约32.24亿美元，净现金头寸充足。1H26自由现金流合计约<strong>41.26亿美元</strong>，尽管Q2因资本开支增加（主要用于OSAT设备采购以支持Venice爬坡）而环比下降，但整体现金流生成能力强劲，足以支持其研发投入和战略投资。</li></ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p>AMD所处的核心赛道是<strong>数据中心AI计算</strong>和<strong>服务器CPU</strong>市场，这两个市场正因生成式AI的爆发而经历历史性增长。</p>
+<ul><li><strong>AI加速器市场</strong>：公司预计该市场TAM将从2025年的约2000亿美元增长至2030年的<strong>1.4万亿美元</strong>，年复合增长率超45%。增长动力正从以训练为主转向以<strong>推理</strong>为主，2026年推理算力需求首次超过训练。AMD通过其Instinct系列GPU和Helios机架系统参与竞争，定位为英伟达的主要替代方案，强调其开放生态和更高的每美元Token吞吐量。</li><li><strong>服务器CPU市场</strong>：公司预计该市场TAM将从2025年的约260亿美元增长至2030年的<strong>超过2200亿美元</strong>，年复合增长率超50%。核心驱动力是<strong>Agentic AI</strong>，它需要大量高性能CPU来编排和调度AI智能体。AMD凭借其EPYC处理器，在该市场与英特尔和基于ARM架构的芯片竞争，强调其x86生态兼容性、高核心数和领先的每瓦性能。</li></ul>
+<p><strong>可比公司分析</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>对标维度</th><th>分析</th></tr></thead><tbody><tr><td>英伟达 (NVIDIA)</td><td>NVDA</td><td>AI加速器市场领导者</td><td>英伟达凭借CUDA生态和强大的产品执行力，在AI训练和推理市场占据主导地位，其数据中心营收规模和增速均远超AMD。AMD的策略是作为开放的“第二供应商”，通过性价比和系统级方案争夺份额。</td></tr><tr><td>英特尔 (Intel)</td><td>INTC</td><td>服务器CPU市场主要竞争对手</td><td>英特尔是x86服务器CPU市场的传统领导者，但近年来在制程和架构上落后于AMD。英特尔正通过加速产品迭代和提供更具竞争力的价格来捍卫市场份额，但其盈利能力远逊于AMD。</td></tr><tr><td>博通 (Broadcom)</td><td>AVGO</td><td>AI ASIC定制化芯片领导者</td><td>博通是谷歌TPU等定制AI芯片的主要设计合作伙伴。ASIC在特定工作负载上可能比通用GPU更高效，代表了AI计算的另一条技术路径，对AMD和英伟达的通用GPU市场构成长期潜在威胁。</td></tr></tbody></table></div>
+<p><strong>总结分析</strong>：AMD在两个关键市场均处于有利位置。在服务器CPU市场，它是技术领先者，正持续从英特尔手中夺取份额。在AI加速器市场，它是头号挑战者，正通过全栈解决方案和开放生态策略，试图在一个由英伟达主导的万亿美元级市场中建立稳固的第二极地位。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<ul><li><strong>议题1：Helios平台能否成功交付并大规模部署？</strong><br><strong>背景</strong>：Helios是AMD首款机架级AI系统，其复杂度和战略意义远超以往任何产品。市场对其寄予厚望，但也担心首次量产可能遇到良率、供应链或客户部署方面的挑战。历史上，竞争对手在首次推出类似大规模系统时也曾经历爬坡阵痛。<br><strong>问题列表</strong>：1）Helios在Q3末的首次发货能否按时完成？初期良率和客户验收情况如何？2）2027年数据中心AI业务“远超100%”的增长指引中，有多少已由客户合同和产能规划锁定？3）管理层提到客户需求“超出初步预测”，这是指订单量还是客户数量？具体超出幅度有多大？</li><li><strong>议题2：毛利率的长期趋势：AI GPU业务是稀释还是增厚？</strong><br><strong>背景</strong>：市场普遍认为AI GPU（尤其是机架级系统）的毛利率低于AMD传统的高毛利服务器CPU业务。随着AI GPU业务占比快速提升，其对整体毛利率的拖累程度是投资者关注的核心。<br><strong>问题列表</strong>：1）管理层指引2027年毛利率将取决于业务组合，能否量化AI GPU和服务器CPU业务的毛利率差距？2）随着Helios平台爬坡，其毛利率的提升曲线是怎样的？预计何时能达到公司平均水平？3）在内存等组件成本高企的背景下，公司如何确保AI GPU业务的利润率？</li><li><strong>议题3：AI GPU业务的真实竞争力：是需求拉动还是供给创造？</strong><br><strong>背景</strong>：AMD通过向OpenAI和Meta发行认股权证的方式锁定了大额订单。市场质疑，这种需求在多大程度上是客户对AMD技术实力的认可，还是由附带金融条款驱动的。<br><strong>问题列表</strong>：1）在已宣布的14吉瓦框架协议中，有多少是具备法律约束力的确定订单？2）除去认股权证的影响，客户选择AMD Helios而非竞品方案的核心技术原因是什么？3）AMD的AI GPU业务何时能实现不依赖于大规模战略投资的有机增长？</li></ul>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧：AMD在AI加速器市场的成功，是行业Beta驱动下的阶段性胜利，还是具备可持续竞争优势的Alpha体现？</strong></p>
+<p><strong>乐观方观点：开放生态与全栈整合将构建长期护城河</strong>。乐观方认为，AMD正走在一条正确的道路上。首先，AI市场足够大，足以容纳多个供应商，客户有强烈的“第二供应商”需求以避免被单一厂商锁定。其次，AMD通过<strong>ROCm.AI</strong>等工具，正利用AI技术本身来瓦解英伟达的CUDA软件壁垒，这是一个“降维打击”式的策略。最后，<strong>Helios机架级系统</strong>的推出，标志着AMD从芯片设计到系统集成的能力跃迁，这种软硬件协同优化的能力是ASIC厂商所不具备的，能提供差异化的TCO优势。与Anthropic、OpenAI等前沿模型公司的深度合作，将使其产品路线图更贴近最先进的AI需求，形成正向循环。</p>
+<p><strong>谨慎方观点：高增长背后伴随高成本与强依赖，盈利质量存疑</strong>。谨慎方则指出，AMD的AI GPU业务增长伴随着巨大的代价。为获取客户，公司发行了大量<strong>认股权证</strong>，这实质上是巨额的营销和获客成本，将严重稀释现有股东的权益。如果将这些认股权证的成本计入，AI GPU业务的真实盈利能力将大打折扣。此外，该业务高度依赖少数几家大客户，客户集中度风险极高。在技术上，尽管ROCm进步显著，但与CUDA的差距依然存在，客户迁移和适配仍需额外成本。一旦AI投资热潮降温，或英伟达推出更具竞争力的产品，AMD的AI业务可能面临营收和利润的双重压力。</p>
+<p><strong>总结分析</strong>：AMD的AI战略逻辑清晰，执行有力，其在服务器CPU市场的强势地位也为AI业务提供了坚实的现金流支撑。然而，AI GPU业务的成功确实在很大程度上依赖于行业的高景气度（Beta）和激进的商业条款。其向全栈平台转型的战略方向是正确的，但能否建立起如英伟达般深厚的、不依赖于财务补贴的生态护城河，仍需在未来2-3年内通过Helios的大规模部署和ROCm生态的有机增长来证明。当前的高估值已计入了大部分乐观预期，而认股权证的稀释效应和潜在的竞争风险尚未被充分定价。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>管理层最新指引</strong>：在2026年Q2业绩会上，管理层预计2026年Q3营收约<strong>130亿美元</strong>，Non-GAAP毛利率约<strong>56%</strong>。对于2027年，管理层预计数据中心业务营收将<strong>同比增长超过100%</strong>，其中服务器CPU增长超70%，并预计公司整体营收增速将显著高于其长期目标（35%以上），且将在战略时间框架内大幅超越每股收益20美元的目标。</p>
+<p><strong>机构盈利预测与估值</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价(美元)</th><th>财务指标</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>花旗 (2026/08/05)</td><td>买入</td><td>575</td><td>营收(百万美元)</td><td>34,639</td><td>51,289</td><td>91,500</td><td>127,000</td></tr><tr><td></td><td></td><td></td><td>Non-GAAP EPS(美元)</td><td>4.19</td><td>7.89</td><td>18.23</td><td>28.47</td></tr><tr><td>摩根士丹利 (2026/08/05)</td><td>持有</td><td>465</td><td>营收(百万美元)</td><td>34,639</td><td>51,147</td><td>88,987</td><td>125,207</td></tr><tr><td></td><td></td><td></td><td>Non-GAAP EPS(美元)</td><td>4.23</td><td>7.67</td><td>15.54</td><td>23.30</td></tr><tr><td>摩根大通 (2026/08/05)</td><td>中性</td><td>550</td><td>营收(百万美元)</td><td>34,639</td><td>50,533</td><td>84,036</td><td>115,124</td></tr><tr><td></td><td></td><td></td><td>Non-GAAP EPS(美元)</td><td>4.18</td><td>7.25</td><td>14.38</td><td>21.80</td></tr><tr><td>瑞银 (2026/07/28)</td><td>买入</td><td>730</td><td>营收(百万美元)</td><td>34,639</td><td>51,140</td><td>98,477</td><td>137,331</td></tr><tr><td></td><td></td><td></td><td>Non-GAAP EPS(美元)</td><td>4.17</td><td>7.82</td><td>18.65</td><td>27.57</td></tr></tbody></table></div>
+<p><em>注：以上预测均为日历年度。花旗和瑞银评级为“买入”，摩根士丹利评级为“持有”，摩根大通评级为“中性”。</em></p>
+<p><strong>盈利预测与估值分析</strong>：主要机构对AMD的未来增长均持乐观态度，但预测数据和对估值的看法存在显著分歧。<strong>乐观方（如瑞银、花旗）</strong>给出了更高的2027年和2028年营收及EPS预测，其目标价也更高，主要基于对公司AI GPU和CPU业务均将超预期增长的判断，并采用较高的市盈率（如27-35倍）进行估值。<strong>谨慎方（如摩根士丹利、摩根大通）</strong>虽然也大幅上调了预测，但目标价相对保守，其估值倍数相对较低，反映了对AI GPU业务稀释毛利率、认股权证摊薄以及竞争风险的担忧。摩根士丹利明确指出了认股权证对盈利的负面影响。整体而言，市场对AMD 2027年的EPS预测范围在<strong>14.38美元至18.65美元</strong>之间，分歧巨大，核心在于对AI GPU业务的增长速度和盈利质量的不同假设。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/AMD · 生成于 2026-08-06</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-06';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'hit', text: '<strong>Q2 财报 beat</strong>（2026-08-04）：营收 +50%、数据中心 +107% 首过半、2027 数据中心指引 +100%+', note: '已兑现；Q3 指引 $130 亿高于共识但盘后回调（低于买方激进预期）' },
+  { kind: 'cat', status: 'pending', text: '<strong>Helios 首批出货</strong>（2026-09）：首批交付、初期良率与客户验收——系统级转型的试金石', note: '已全面量产；Q4 大规模爬坡' },
+  { kind: 'cat', status: 'active',  text: '<strong>Helios Q4 爬坡与收入确认</strong>：季度出货量、客户部署规模、对毛利率的影响', note: 'Meta / OpenAI / Anthropic 为锚定客户，框架协议共 14 吉瓦' },
+  { kind: 'cat', status: 'pending', text: '<strong>EPYC Venice 部署</strong>（2026 Q4）：2nm、性能 1.8 倍，针对 Agentic AI 优化——ASP 与份额观察点', note: '' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>Helios 交付延期或量产良率出问题</strong>——公司史上最复杂系统级产品的首次爬坡', note: '判定窗口 2026-09 起' },
+  { kind: 'risk', status: 'clear', text: '<strong>AI 资本开支周期逆转</strong>：OpenAI / Meta / Anthropic 等大客户削减或推迟部署', note: '数据中心占比 58%，客户集中度骤升' },
+  { kind: 'risk', status: 'clear', text: '<strong>毛利率指引跌破 54%</strong>——AI 机架稀释 + 内存成本高企双重挤压', note: '最新 56%，Q3 指引 56% 持平' },
+  { kind: 'risk', status: 'clear', text: '<strong>认股权证稀释超预期</strong>或 14 吉瓦框架协议被证实大部分无法律约束力', note: '大摩已提示权证负面影响；跟踪 10-Q 披露' },
+  { kind: 'risk', status: 'clear', text: '<strong>英伟达新品压制或 ASIC 分流加速</strong>：谷歌 TPU / 亚马逊 Trainium 在二供市场抢单', note: '' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

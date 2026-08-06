@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阿斯麦（ASML.O）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--amber); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">ASML</span>
+    <span class="site-mark__text">阿斯麦 公司研究<span>ASML · ASML.O</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>阿斯麦<span class="en">ASML Holding · ASML.O · 美股研究</span></h1>
+        <p class="sub">EUV 光刻机全球唯一供应商、AI 资本开支超级周期最上游的「卖铲人」：Q2 财报后全年指引大幅上调、积压订单 388 亿欧元、能见度延伸至 2028——核心矛盾是这份确定性该给多少倍估值，以及中国变量何时从收入侵蚀演变为技术替代。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-06</span>
+          <span>下次更新：2026Q3 财报后（2026-10-14）</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>盈利上修周期刚启动，但估值已在 30-35x 区间上沿——回落至 2027E ~30x（约 €1,400 下方）或 Q3 订单再上修，升级为买入。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">营收 €93亿</strong><span>2026Q2·超指引上限，全年指引上调至 €430-450亿</span></div>
+      <div class="summary-rail__item"><strong>54.0%</strong><span>Q2 毛利率·Q3 指引 55-57%</span></div>
+      <div class="summary-rail__item"><strong>€388亿</strong><span>积压订单·2027 产能接近售罄</span></div>
+      <div class="summary-rail__item"><strong>~20%</strong><span>2026 中国市场收入占比·风险敞口</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">Q2 财报：全年指引大幅上调，是结构性加速还是周期顶点？</h2>
+        <span class="qa__impact-tag">→ 2026E EPS 上修至 €31-40 · H2 营收环比 +38-49%</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>是结构性加速，不是一次性超预期。<em>上调由三个可持续因素驱动（高毛利升级服务、EUV 向 NXE:3800E/F 切换、下半年 DUV 放量），且 Q3 指引 110-120 亿欧元意味着环比再加速。保留判断：全年指引隐含 H2 营收 249-269 亿欧元，对交付节奏和供应链是硬约束——兑现度看 10 月 14 日 Q3 财报。目前证据站多方。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>直接改写 2026 年盈利基数。</strong>全年营收指引中值从 380 亿上调至 440 亿欧元（+15.8%），券商 2026E EPS 从财报前的 €31-34 上修至 €38-40（摩根士丹利/富国财报后预测）——<strong>盈利上修周期仍在途中，财报前的所有预测已作废</strong>。</p>
+            <p>对倍数的影响：指引上调 + 2027 产能接近售罄，支撑市场继续按 2027 年盈利（€45-53）而非 2026 年定价；反之，若 Q3 指引兑现出现瑕疵，定价锚会被打回 2026E，相当于隐含倍数被动抬升——<strong>这是估值最脆弱的一根支柱</strong>。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>上调结构健康：主力是<strong>已安装设备管理的高毛利升级服务</strong>（2026H1 +28.1%），不是压货冲收入</li>
+              <li>Q3 指引营收 110-120 亿、毛利率 55-57%，<strong>环比跨越式加速</strong>——管理层没留保守余地，是信心的直接信号</li>
+              <li>存储系统 2026 年销售增长预计 <strong>&gt;75%</strong>：HBM/DDR 扩产 + DRAM 向 1b/1c 迁移，光刻强度量价齐升</li>
+              <li>2027 年产能已接近获得全部订单、<strong>已收到大量 2028 年订单</strong>——上调指引是有订单托底的</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>H2 营收隐含 249-269 亿欧元，环比 H1（181 亿）<strong>+38-49%</strong>——交付、供应链（蔡司镜头）任何一环掉链子就是 miss</li>
+              <li>升级服务的高毛利贡献有<strong>一次性成分</strong>：客户抢短期产能的升级需求会随新增产能释放而回落</li>
+              <li>资本开支周期上行段，客户存在地缘政治驱动的<strong>重复下单</strong>嫌疑，订单≠最终需求</li>
+              <li>管理层同步宣布 4.45 万员工每人 2 万欧元股权激励——周期顶部公司往往最慷慨</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（Q2 财报速览 · 交叉验证：券商预测的时间序 · 产能扩张路径）</summary>
+          <div class="evidence__body">
+            <h5>2026Q2 财报速览（2026-07-15 发布）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>实际 / 最新</th><th>此前指引 / 基准</th><th>评价</th></tr></thead><tbody><tr><td>Q2 营收</td><td><strong>€93.26 亿</strong></td><td>超此前指引上限</td><td>大超预期</td></tr><tr><td>Q2 毛利率</td><td><strong>54.0%</strong></td><td>超此前指引上限</td><td>高毛利升级服务驱动</td></tr><tr><td>全年营收指引</td><td><strong>€430-450 亿</strong></td><td>原 €360-400 亿</td><td>中值 +15.8%，年中罕见大幅上修</td></tr><tr><td>全年毛利率指引</td><td><strong>54%-56%</strong></td><td>原 51%-53%</td><td>盈利能力中枢结构性上移</td></tr><tr><td>Q3 指引</td><td>营收 €110-120 亿 · 毛利率 55%-57%</td><td>—</td><td>环比跨越式加速，下一个验证点（10-14）</td></tr><tr><td>隐含 H2 营收</td><td>€249-269 亿</td><td>H1 实际 €181 亿</td><td><span class="warn">⚠️</span> 环比 +38-49%，交付硬约束</td></tr><tr><td>积压订单</td><td><strong>€388 亿</strong></td><td>≈ 2026E 收入的 0.9 倍</td><td>短期缓冲充足，但不对冲周期拐点</td></tr><tr><td>存储系统销售（2026E）</td><td>增长 <strong>&gt;75%</strong></td><td>远超年初市场预期</td><td>DRAM 1b/1c 迁移拉动光刻强度</td></tr></tbody></table></div>
+            <h5>交叉验证：券商 2026E EPS 预测的时间序</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>发布日期</th><th>2026E EPS</th><th>2027E EPS</th><th>相对财报位置</th></tr></thead><tbody><tr><td>BNP Paribas</td><td>2026-05-16</td><td>€33.74</td><td>€49.30</td><td>财报前</td></tr><tr><td>开普勒盛富</td><td>2026-06-29</td><td>€31.44</td><td>€47.23</td><td>财报前</td></tr><tr><td>华泰证券</td><td>2026-07-08</td><td>€33.13</td><td>€45.17</td><td>财报前</td></tr><tr><td>摩根士丹利</td><td>2026-07-20</td><td><strong>€38.34</strong></td><td>€49.00</td><td>财报后，+15% 左右上修</td></tr><tr><td>富国证券</td><td>2026-07-22</td><td><strong>€40.00</strong></td><td>€52.57</td><td>财报后，最激进</td></tr></tbody></table></div>
+            <p><strong>财报后两家比财报前三家高 15-27%</strong>——盈利上修周期刚走完第一站。历史规律：这种幅度的指引上调之后，卖方通常需要 1-2 个季度才能追上公司实际指引，期间「超预期」会反复出现。</p>
+            <h5>产能扩张路径（需求信心的硬证据）</h5>
+            <ul>
+              <li>Low-NA EUV：2026 年约 <strong>65 台</strong> → 2027 年约 <strong>85 台</strong>（+30%）→ 研究 2028 年约 <strong>110 台</strong>（再 +30%）</li>
+              <li>浸没式 DUV：2026 年约 <strong>130 台</strong>，2027/2028 年各 +30%</li>
+              <li>公司表态：已接近获得满足 2027 年产能所需的<strong>全部订单</strong>，并已收到大量 2028 年订单</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">订单与定价权：€388 亿积压 + 公开谈提价，垄断溢价还能放大吗？</h2>
+        <span class="qa__impact-tag">→ ASP 每 +5% ≈ EPS +7-8% · 决定 2027 增长斜率</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>能见度是真的，提价是新增变量。<em>三个硬证据：2027 产能接近售罄、2028 订单已在手、管理层公开宣布与客户谈提价（DUV 拟 +10%）。保留判断：台积电已公开反对提价，落地幅度和时间存疑；且积压订单在周期下行时可以被推迟——388 亿欧元是缓冲垫，不是保险单。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>提价是 2027 年盈利最大的预期差。</strong>市场目前对 ASP 的预期主要基于产品组合升级（向更贵的 NXE:3800E/F 切换），对同型号直接提价几乎没有定价。设备提价几乎不打折地流入毛利——在 2027E 约 500 亿欧元营收基数上，ASP 每 +5% 约贡献 €25 亿毛利、EPS 增厚 7-8%。</p>
+            <p>对倍数：定价权叙事被证实，公司从「垄断设备商」升级为「垄断+提价权」，30-35x 区间上沿站稳；提价被大客户集体抵制而搁置，则回到靠量的逻辑，倍数回落区间中枢。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>管理层原话：设备为客户创造的价值显著高于过去，<strong>「比以往更大的定价灵活性」</strong>——垄断者公开谈提价，本身就是定价权的展示</li>
+              <li>客户为锁产能与下游签长期协议，需求能见度延伸至 <strong>2028 年乃至更远</strong>——提价谈判时客户没有替代选项</li>
+              <li>High-NA EUV 单台售价超 <strong>€3.5 亿</strong>，已在英特尔 18A 量产——下一代产品的价格台阶已经搭好</li>
+              <li>2025 年研发投入 €47 亿（占收入 14.4%）+ 蔡司光学独家绑定——<strong>追赶者的门槛仍在抬升</strong>，提价的底气可持续</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li><strong>台积电已公开反对</strong> DUV +10%——最大客户（前两大客户占收入 38%）的抵制不是姿态，是真实博弈</li>
+              <li>订单交付周期长，提价体现在财报上至少要几个季度——<strong>短期是叙事，不是利润</strong></li>
+              <li>积压订单在下行周期可被推迟或重谈：2019-2023 年间公司收入增速在 +30% 与 +2.6% 之间摆动过，<strong>订单从来不是刚性的</strong></li>
+              <li>对客户提价越狠，客户自研/扶持第二供应商的动机越强（中国国产 DUV 的土壤）</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（定价权的三层证据 · 已安装设备管理的飞轮 · 客户集中度）</summary>
+          <div class="evidence__body">
+            <h5>定价权的三层证据（从硬到软）</h5>
+            <ol>
+              <li><strong>技术垄断</strong>：EUV 全球唯一供应商，DUV 份额超 90%；2025 年 EUV 销售 48 台、收入 €116 亿</li>
+              <li><strong>转换成本</strong>：客户整套工艺、光罩、软件围绕 ASML 平台优化；台积电/三星/英特尔通过共投资计划深度绑定</li>
+              <li><strong>存量飞轮</strong>：已安装设备管理 2026H1 收入 €52.5 亿（+28.1%）、占比升至 29.0%——高毛利、高粘性、穿越周期</li>
+            </ol>
+            <h5>已安装设备管理：利润的压舱石</h5>
+            <p>该业务 2025 年收入 €81.9 亿（+26.2%），2026 年预计增长 <strong>&gt;30%</strong>，是 Q2 毛利率超指引的核心来源。随 EUV 装机量扩大自然增长——即使新设备销售进入下行周期，这块业务仍能提供利润安全垫，这是 ASML 区别于其他设备商（AMAT/LRCX/KLAC）的关键结构差异。</p>
+            <h5>客户集中度（双刃剑）</h5>
+            <ul>
+              <li>2025 年前两大客户贡献 <strong>38.0%</strong> 净销售额——绑定最深的大客户恰是最有能力抵制提价的</li>
+              <li>潜在新客户：马斯克的 <strong>Terafab</strong> 项目被视为未来增量</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">中国变量：20% 收入占比是压舱石还是倒计时？</h2>
+        <span class="qa__impact-tag">→ 极端情形 EPS -12~15% · 垄断叙事折价</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>短期（1-2 年）是压舱石，长期（3-5 年）是倒计时。<em>EUV 从未对华出口意味着管制最狠的一刀早已落下，剩余 20% 主要是 DUV+服务的存量生意，成熟制程扩张有真实需求托底；但国产浸没式 DUV 已从 0 到 1——威胁的不是 EUV 垄断，而是 DUV 份额和提价权。判断窗口：国产设备的出货量与良率披露。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p>静态测算：中国市场 2026 年贡献约 <strong>20%</strong> 净销售额（约 €86-90 亿），若管制进一步扩大致其腰斩，营收 -10%、EPS 影响约 -12~-15%（中国业务以成熟 DUV 为主，毛利率低于 EUV，弹性略小）。</p>
+            <p>对倍数的影响大于对 EPS 的影响：7 月 27 日国产 DUV 消息当天股价 <strong>-5.8%</strong>——市场交易的不是当期收入，而是「垄断叙事出现裂缝」。<strong>若国产浸没式 DUV 被验证可用，ASML 的估值逻辑会从「唯一供应商」降级为「最优供应商」，倍数中枢系统性下移。</strong></p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点（压舱石）</h4>
+            <ul>
+              <li>EUV <strong>从未对华出口</strong>——最坏情形（EUV 禁运）从来不在基本盘里，管制加码的边际冲击有限</li>
+              <li>公司维持 2026 年中国 ~20% 收入占比指引，说明<strong>在手订单和客户需求是实的</strong></li>
+              <li>光刻机是全球最复杂的工业产品：ASML 走了 20+ 年、年研发 €47 亿，国产 5 台/20 台的计划<strong>距离量产替代还有数量级差距</strong></li>
+              <li>国产替代反而可能刺激中国在窗口期内<strong>加速囤积 DUV</strong>——短期订单不降反升</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点（倒计时）</h4>
+            <ul>
+              <li>国资背景企业已开始制造浸没式 DUV，2026/2027 计划 <strong>5/20 台</strong>——浸没式恰是 ASML DUV 里最值钱的部分</li>
+              <li>管制若扩大到<strong>已售设备的售后服务</strong>，不仅丢收入还丢已安装设备管理这块高毛利业务</li>
+              <li>ASML 对华提价越狠，国产设备的相对性价比越强——<strong>提价策略在中国市场自相矛盾</strong></li>
+              <li>中国市场的结局不取决于商业逻辑，取决于荷兰/美国/欧盟的<strong>政策博弈</strong>——公司自己没有方向盘</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（中国敞口拆解 · 国产 DUV 事件复盘 · 跟踪清单）</summary>
+          <div class="evidence__body">
+            <h5>中国敞口拆解</h5>
+            <ul>
+              <li>2026 年中国市场预计贡献约 <strong>20%</strong> 净销售额（按全年指引中值 €440 亿 ≈ €88 亿）</li>
+              <li>构成：成熟制程 DUV（干式为主）+ 部分浸没式 DUV + 已售设备服务；<strong>EUV 为零</strong>（从未获得对华出口许可）</li>
+              <li>政策风险三层：DUV 管制范围扩大 / 售后服务限制 / 欧盟层面加码——第一层已部分发生，后两层是尾部风险</li>
+            </ul>
+            <h5>国产 DUV 事件复盘（2026-07-27）</h5>
+            <p>The Information 报道一家中国国资背景企业已开始制造浸没式 DUV，计划 2026/2027 年生产约 <strong>5/20 台</strong>，当天 ASML 股价 -5.8%。对比坐标：ASML 2026 年浸没式 DUV 产能约 130 台、且计划每年 +30% 扩产——<strong>国产规划产能仅为 ASML 的零头，但叙事冲击远大于份额冲击</strong>：它证明了「从 0 到 1」已经发生，剩下的只是时间问题。</p>
+            <h5>跟踪清单</h5>
+            <ol>
+              <li>国产设备的客户验证与良率数据（分水岭：是否进入主流晶圆厂量产线）</li>
+              <li>荷兰/美国对华管制政策的下一次调整（重点：售后服务是否被纳入）</li>
+              <li>每季财报中中国区收入占比的实际值 vs 20% 指引</li>
+            </ol>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 4 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">4</span>
+        <h2 class="qa__title">估值：30-35x 的垄断溢价，赔率还有多少？</h2>
+        <span class="qa__impact-tag">→ 三情景期望锚 €1,380-1,400 · 持有而非买入</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>赔率一般，对应「持有」。<em>机构普遍按 30-35x 给 2027 年盈利定价，三情景期望值约 €1,380-1,400——低于卖方目标价中枢（€1,550-1,930），说明卖方定价的是乐观情景。上调为「买入」的两个触发条件：价格回落至 2027E ~30x（约 €1,400 下方，出现安全边际），或 Q3 财报再上修 2027 订单/产能展望（中性盈利假设整体上移）。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这个问题本身就是估值问题。</strong>合理 PE 区间 25-35x：垄断地位 + 订单能见度支撑上沿，半导体设备的周期属性压住天花板——<strong>倍数的弹性空间小于 EPS 的兑现空间，收益主要靠盈利上修驱动</strong>。</p>
+            <p>中性情景一年期回报 ≈ EPS 增速（2026E→2027E 约 +25-30%）减去倍数回归的拖累——有正期望，但没有便宜可占，所以持有而非买入。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>2027E 一致预期 EPS €45-53，即便 35x 上沿定价，盈利每年 +25% 以上也能<strong>靠增长消化估值</strong></li>
+              <li>定价权 + High-NA 放量 + 存储超级周期三条腿，<strong>2027-2028 盈利仍有上修空间</strong>（富国 2028E €68.6 vs 开普勒 €56.6，分歧本身就是空间）</li>
+              <li>2030 年 €440-600 亿营收、56-60% 毛利率的长期目标给足了<strong>远期锚</strong>——按上限算是当前收入的近 2 倍</li>
+              <li>净现金头寸充裕 + 2025 年 FCF €110 亿（+21.4%），下行有底</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>估值已处历史高位，<strong>提前反映了多年高增长</strong>——任何资本开支放缓信号都会引发倍数收缩</li>
+              <li>悲观情景（2027 年资本开支见顶 + 中国侵蚀）下行空间大：EPS 退回 2026E 水平 + 倍数压向 22x，<strong>约 -40%</strong></li>
+              <li>半导体设备历史上从未摆脱周期性：2024 年公司收入增速只有 <strong>+2.6%</strong>，周期回归时 30x 的估值没有防御性</li>
+              <li>卖方目标价基于 2027-2028 年盈利——<strong>定价越远期，对叙事的依赖越重</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（当前定价测算 · 三情景表 · 券商目标价对照）</summary>
+          <div class="evidence__body">
+            <h5>当前定价的坐标系</h5>
+            <ul>
+              <li>2026E EPS：财报后预测 €38.3-40.0（大摩/富国），财报前 €31.4-33.7（已过时）</li>
+              <li>2027E EPS：€45.2-52.6，中枢约 <strong>€48-49</strong></li>
+              <li>机构估值方法：市盈率法，给予 <strong>30-35x</strong> 甚至更高，目标价普遍基于 2027-2028 年盈利</li>
+              <li>注：本数据源不含实时股价，贵贱以「2027E 盈利 × 倍数」的锚表达——2027E 中枢 €48.5 × 30x ≈ <strong>€1,455</strong> 为估值中枢线</li>
+            </ul>
+            <h5>三情景假设（2027 年视角，欧股口径）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>2027E EPS</th><th>合理 PE</th><th>隐含价值</th></tr></thead><tbody><tr><td>乐观（25%）</td><td>提价落地 + 产能扩张兑现 + High-NA 加速导入，2028 展望再上修</td><td>~€52（贴近富国）</td><td>35x</td><td>~€1,830</td></tr><tr><td>中性（50%）</td><td>指引兑现、2027 增长放缓至 teens，毛利率稳在 54-56%</td><td>~€48（一致预期中枢）</td><td>30x</td><td>~€1,440</td></tr><tr><td>悲观（25%）</td><td>2027 年客户资本开支见顶 + 中国收入腰斩，增长停滞</td><td>~€36（退回 2026E 下沿）</td><td>22x</td><td>~€800</td></tr></tbody></table></div>
+            <p><strong>期望值 ≈ €1,380-1,400</strong>（0.25×1,830 + 0.50×1,440 + 0.25×800）。低于这个价格就是市场在白送乐观情景的期权；高于 €1,830 则是在为乐观情景付全款。估值不是算出「正确答案」，而是把当前价格隐含的预期拆出来，问自己「我比市场更乐观还是更悲观？为什么？」</p>
+            <h5>券商目标价对照（信息参考，不构成依据）</h5>
+            <p>摩根士丹利 €1,930 / 富国 $2,500 / 开普勒盛富 €1,830 / 华泰 $2,500 / BNP €1,550。<strong>注意：目标价中枢 €1,800+ 已高于我们的乐观情景值</strong>——卖方整体定价的是「提价+扩产全兑现」版本，这正是需要警惕的一致预期。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>：公司概况、近期要闻、催化剂（见同目录《阿斯麦_一页通.md》，亦见本站「一页通」标签页）</li>
+        <li><strong>财务数据</strong>：FY2023-2026H1 利润表与业务拆分、2026Q2 财报要点与最新指引（正文数据均来自公开财报整理）</li>
+        <li><strong>局限</strong>：未读 20-F 原文（建议下一步补读 Risk Factors 与中国敞口章节）；数据源不含实时股价，估值以「2027E 盈利 × 倍数区间」的锚表达而非精确目标价；券商预测为公开研报转引</li>
+        <li><strong>管理层评估（一句话版）</strong>：在周期中敢于年中大幅上调指引并公布至 2028 年的产能计划，同时用全员股权激励锁定扩张期人才——进取且有订单托底；提价策略遭遇大客户公开抵制，执行力待验证</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>阿斯麦是全球半导体光刻设备领域的绝对龙头，也是目前全球唯一能够生产极紫外光刻系统的供应商。公司提供涵盖硬件、软件及服务的整体光刻解决方案，其设备是制造从成熟制程到先进制程芯片的核心环节。2025年，公司实现净销售额<strong>326.67亿欧元</strong>，在全球光刻设备市场的份额超过90%。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul><li><strong>2026年Q2业绩与全年指引大幅超预期</strong>：公司2026年Q2实现营收<strong>93.26亿欧元</strong>，毛利率<strong>54.0%</strong>，均显著高于此前指引上限。管理层将2026年全年营收指引从<strong>360-400亿欧元</strong>大幅上调至<strong>430-450亿欧元</strong>，毛利率指引从<strong>51%-53%</strong>上调至<strong>54%-56%</strong>。业绩超预期的主要驱动力来自已安装设备管理业务中的高毛利升级服务。</li><li><strong>公布激进的产能扩张计划</strong>：公司计划在2026年约<strong>65台</strong>低数值孔径EUV产能基础上，于2027年增加<strong>30%</strong>至约<strong>85台</strong>，并正在研究2028年再增加<strong>30%</strong>至约<strong>110台</strong>的方案。浸没式DUV光刻机也遵循相似的扩产路径，从2026年的约<strong>130台</strong>，计划在2027年和2028年分别提升<strong>30%</strong>。公司表示已接近获得满足2027年产能所需的全部订单，并已收到大量2028年订单。</li><li><strong>High-NA EUV达成关键量产里程碑</strong>：英特尔宣布已在其<strong>Intel 18A</strong>制程节点上，成功运用阿斯麦的High-NA EUV光刻系统实现部分处理器的量产交付，标志着该技术正式进入高量产导入阶段。</li><li><strong>启动员工股权激励计划</strong>：公司宣布将向全球约4.45万名员工发放等价<strong>2万欧元</strong>的股权激励，旨在保留人才以支持未来几年的业务扩张。</li></ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol><li><strong>2026年下半年业绩加速兑现</strong>：公司Q3指引营收为<strong>110-120亿欧元</strong>，毛利率<strong>55%-57%</strong>，环比将实现跨越式增长。全年指引隐含下半年营收需达到<strong>249-269亿欧元</strong>。这一加速主要得益于：EUV产品组合向更高ASP的<strong>NXE:3800E/F</strong>型号切换、浸没式DUV出货量在下半年显著增加、以及已安装设备管理业务中高利润升级服务的持续强劲。随着这些高毛利产品占比提升和规模效应显现，下半年盈利弹性有望显著释放。</li><li><strong>定价能力提升的预期差</strong>：管理层在业绩说明会上明确表示，由于公司设备为客户创造的价值显著高于过去，因此拥有比以往更大的<strong>定价灵活性</strong>，并已开始与客户进行相关讨论。尽管由于订单交付周期长，提价不会立即反映在财报上，但这一表态标志着公司定价策略的结构性转变。市场目前对ASP的预期可能仍主要基于产品组合升级，而对同型号设备直接提价的预期不足。随着新订单逐步签订，ASP存在持续上行的空间，这将成为未来几个季度盈利超预期的重要潜在驱动力。</li><li><strong>存储需求结构性扩张的持续验证</strong>：公司预计2026年存储相关系统销售额增长将超过<strong>75%</strong>，这一增速远超市场年初预期。增长不仅来自HBM和DDR的产能扩张，更关键的是，随着DRAM制程向<strong>1b/1c</strong>等先进节点迁移，光刻强度显著提升，EUV和浸没式DUV的使用步骤增加。这一“量价齐升”的逻辑将在未来几个季度持续得到客户资本开支和订单数据的验证，有望推动市场进一步上调对ASML存储业务收入的预期。</li></ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol><li><strong>AI驱动的资本开支超级周期</strong>：AI算力需求正驱动全球逻辑芯片和存储芯片厂商进入一轮历史性的资本开支扩张周期。据华泰证券测算，2028年全球半导体制造企业资本开支有望达到<strong>3,417亿美元</strong>，较2025年增长<strong>103.3%</strong>。作为光刻设备的垄断供应商，ASML是这场资本开支浪潮中最确定、最核心的受益者之一。公司管理层指出，客户为获得更长远的产能可见度，正与其下游签订长期协议，这使得ASML的需求能见度已延伸至2028年乃至更远。</li><li><strong>光刻强度提升与High-NA EUV的商业化</strong>：随着逻辑芯片向<strong>2nm及以下</strong>节点演进，以及DRAM制程不断微缩，单位晶圆产能所需的光刻步骤（光刻强度）持续增加。这意味即使晶圆产能扩张速度放缓，对ASML设备的需求仍能保持增长。此外，High-NA EUV技术已在英特尔<strong>18A</strong>节点实现量产突破，预计将在2027-2028年进入更广泛的客户导入阶段。High-NA EUV单台售价超过<strong>3.5亿欧元</strong>，其商业化放量将成为公司2030年实现<strong>440-600亿欧元</strong>营收和<strong>56%-60%</strong>毛利率目标的关键驱动力。</li><li><strong>已安装设备管理业务的“飞轮效应”</strong>：随着ASML在全球的装机量持续增长，其已安装设备管理业务已成为穿越周期的稳定收入来源和利润增长极。2026年该业务收入预计增长超过<strong>30%</strong>。客户为了在现有洁净室空间内快速提升产能，对能够立即提高生产效率的软件和硬件升级需求极为强劲。这项高毛利、高粘性的业务将随着EUV装机规模的扩大而自然增长，为公司构筑了坚实的业绩底座和利润安全垫。</li></ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul><li><strong>地缘政治与出口管制风险</strong>：公司业务受到荷兰、美国及欧盟等多方出口管制政策的深刻影响。尽管EUV从未对华出口，但若未来DUV设备的管制范围进一步扩大，或对已售设备的售后服务进行限制，可能会影响公司在中国市场的收入。中国市场预计在2026年仍将贡献约<strong>20%</strong>的净销售额。</li><li><strong>客户资本开支的周期性波动</strong>：半导体行业具有周期性。尽管当前AI驱动的需求十分强劲，但若未来宏观经济出现衰退，或AI应用端的回报不及预期，可能导致主要客户削减资本开支，从而影响公司订单。公司目前积压订单高达<strong>388亿欧元</strong>，提供了短期缓冲，但无法完全对冲周期下行的风险。</li><li><strong>技术路线的不确定性</strong>：High-NA EUV的商业化进程、客户导入节奏以及成本效益仍需持续验证。若该技术的大规模采用晚于预期，或出现替代性技术路线，可能会影响公司的长期增长轨迹和估值中枢。</li></ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul><li><strong>2026年7月15日</strong>：阿斯麦公布2026年第二季度财报，业绩全面超预期，并大幅上调全年业绩指引。同时，公司公布了直至2028年的产能扩张计划，并宣布与英特尔在High-NA EUV量产上达成里程碑式合作。</li><li><strong>2026年7月15日</strong>：据媒体报道，阿斯麦计划上调设备价格，已与台积电就提高EUV光刻机价格进行磋商，并计划将DUV光刻机价格上调<strong>10%</strong>，但台积电对此表示反对。</li><li><strong>2026年7月27日</strong>：据The Information报道，一家中国国资背景的企业已开始制造浸没式DUV光刻机，计划在2026/2027年生产约<strong>5/20台</strong>。此消息引发市场对ASML长期垄断地位的担忧，导致当日股价下跌<strong>5.8%</strong>。</li></ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul><li><strong>2026年7月底-8月</strong>：北美主要云服务厂商（CSP）如谷歌、微软、Meta、亚马逊将陆续公布财报和资本开支计划。若其资本开支指引继续上调，将进一步验证AI需求的可持续性，直接催化ASML股价。</li><li><strong>2026年10月14日</strong>：阿斯麦预定公布2026年第三季度财报。届时公司有望提供2027年更清晰的订单和产能展望，是验证其长期增长逻辑的下一个关键窗口。</li><li><strong>2027年6月10日</strong>：阿斯麦计划举办下一次资本市场日。公司将在会上更新其长期市场展望、技术路线图和财务模型，预计将成为市场重新评估其长期价值的重要催化剂。</li></ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<p><strong>业务边际变化</strong>：公司近年正从传统的DUV光刻设备供应商，全面转型为以EUV为核心的整体光刻解决方案提供商。EUV业务已成为公司最主要的收入和利润来源。同时，公司正积极推动下一代High-NA EUV技术的商业化，并于2026年Q2宣布与英特尔合作，首次将High-NA EUV用于逻辑芯片的量产。此外，公司通过投资Mistral AI，开始将人工智能技术整合到其产品组合和内部运营中。</p>
+<p><strong>盈利模式</strong>：公司盈利模式的核心是基于其<strong>技术垄断地位的价值定价</strong>。作为全球唯一的EUV光刻机供应商，ASML能够将设备的高生产效率为客户创造的巨大经济价值，部分转化为自身的收入和利润。此外，庞大的设备装机量带来了高利润、高粘性的存量设备管理和升级服务收入，形成了稳定的经常性收入来源。</p>
+<p><strong>业务拆分</strong>：公司近年业务结构持续向高价值的EUV系统倾斜。2025年，EUV系统销售和已安装设备管理服务是增长最快的两大板块。公司当前正处于由AI需求驱动的<strong>业绩兑现期</strong>，产能和收入规模均在快速扩张。</p>
+<div class="tbl-wrap"><table><thead><tr><th>业务板块（百万欧元）</th><th>2023A</th><th>2024A</th><th>2025A</th><th>2026H1</th></tr></thead><tbody><tr><td><strong>极紫外光刻系统 · 收入</strong></td><td>9,090</td><td>8,363</td><td>11,603</td><td>7,893</td></tr><tr><td>同比 / 占比</td><td>33.0%</td><td>-8.0% / 29.6%</td><td>+38.7% / 35.5%</td><td>43.6%</td></tr><tr><td><strong>深紫外光刻系统 · 收入</strong></td><td>12,243</td><td>12,836</td><td>12,047</td><td>4,363</td></tr><tr><td>同比 / 占比</td><td>44.4%</td><td>+4.8% / 45.4%</td><td>-6.1% / 36.9%</td><td>24.1%</td></tr><tr><td><strong>量测与检测系统 · 收入</strong></td><td>606</td><td>570</td><td>794</td><td>376</td></tr><tr><td>同比 / 占比</td><td>2.2%</td><td>-5.9% / 2.0%</td><td>+39.3% / 2.4%</td><td>2.1%</td></tr><tr><td><strong>已安装设备管理 · 收入</strong></td><td>5,620</td><td>6,494</td><td>8,193</td><td>5,250</td></tr><tr><td>同比 / 占比</td><td>20.4%</td><td>+15.6% / 23.0%</td><td>+26.2% / 25.1%</td><td>+28.1% / 29.0%</td></tr><tr><td><strong>总计</strong></td><td><strong>27,559</strong></td><td><strong>28,263</strong></td><td><strong>32,667</strong></td><td><strong>18,093</strong></td></tr></tbody></table></div>
+<p>注：2026H1数据为截至2026年6月28日的6个月数据。</p>
+<ul><li><strong>极紫外光刻系统</strong>：2026年上半年实现收入<strong>78.93亿欧元</strong>，占总收入比重提升至<strong>43.6%</strong>，是公司第一大收入来源。增长主要受AI驱动的先进逻辑和DRAM客户对<strong>NXE:3800E</strong>等高性能低数值孔径EUV系统的强劲需求推动。此外，High-NA EUV系统也开始贡献收入。该业务毛利率较高，是公司盈利能力提升的核心引擎。</li><li><strong>深紫外光刻系统</strong>：2026年上半年实现收入<strong>43.63亿欧元</strong>，占总收入比重为<strong>24.1%</strong>。尽管收入占比有所下降，但浸没式DUV作为先进制程的关键配套设备，其需求依然旺盛。公司计划在2027年和2028年大幅提升浸没式DUV的产能，显示出对该业务长期增长的信心。干式DUV设备则受益于成熟制程和特定应用领域的强劲需求。</li><li><strong>已安装设备管理</strong>：2026年上半年实现收入<strong>52.50亿欧元</strong>，同比增长<strong>28.1%</strong>，占总收入比重提升至<strong>29.0%</strong>。该业务的强劲增长是Q2业绩超预期的核心原因。客户为快速提升现有产能，对能够立即提高生产效率的软件和硬件升级方案需求迫切。随着EUV装机量的持续扩大，服务收入也自然增长。该业务毛利率较高，是公司利润的重要稳定器。</li></ul>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托全球唯一EUV技术垄断构筑的结构性护城河</strong></p>
+<ul><li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。ASML是全球唯一能够生产极紫外光刻系统的供应商，这一地位源于超过20年的持续高额研发投入、对关键供应链（如蔡司的光学系统、Cymer的光源）的深度整合与控制，以及一个由客户、供应商和研究机构组成的庞大而复杂的创新生态系统。竞争对手复制该技术所需的资金、时间和知识积累门槛极高，在可预见的未来几乎无法被逾越。</li><li><strong>数据验证</strong>：公司2025年EUV系统销售<strong>48台</strong>，实现收入<strong>116.03亿欧元</strong>，占系统销售收入的<strong>47.4%</strong>。其整体毛利率高达<strong>52.8%</strong>，显著高于同业，体现了其强大的定价权。2025年研发投入高达<strong>46.99亿欧元</strong>，占收入的<strong>14.4%</strong>，这种规模的投入是任何潜在竞争者都难以匹敌的。</li><li><strong>动态演变</strong>：<strong>护城河变宽</strong>。公司正通过推出更高生产效率的<strong>NXE:3800E/F</strong>型号和下一代<strong>High-NA EUV</strong>技术，不断拉大与潜在追赶者的技术代差。High-NA EUV在英特尔<strong>18A</strong>节点实现量产，标志着技术护城河正从“标准EUV”向“高数值孔径EUV”延伸和巩固。</li></ul>
+<p><strong>竞争要素 2：由高转换成本与深度客户绑定构筑的客户粘性</strong></p>
+<ul><li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。ASML的光刻设备是晶圆厂最核心、最昂贵的投资之一。一旦客户选择ASML的技术路线，其整套生产工艺、设计工具、光罩和软件都将围绕ASML的平台进行优化。切换设备供应商意味着巨大的转换成本、时间成本和良率风险。此外，头部客户如台积电、三星、英特尔通过“客户共投资计划”与ASML在技术路线上深度绑定，形成了命运共同体。</li><li><strong>数据验证</strong>：公司已安装设备管理业务在2025年实现收入<strong>81.93亿欧元</strong>，同比增长<strong>26.2%</strong>，占总收入<strong>25.1%</strong>。该业务的高增长和高粘性证明了客户对ASML平台的持续依赖。前两大客户在2025年贡献了<strong>38.0%</strong>的总净销售额，体现了深度绑定的客户关系。</li><li><strong>动态演变</strong>：<strong>护城河变宽</strong>。随着制程微缩，光刻工艺的复杂性和重要性持续提升，客户对ASML的设备、软件和服务的依赖度只会增加。公司正在将AI技术整合进其产品，以进一步提升设备性能和客户效率，这将使客户粘性进一步增强。</li></ul>
+<p><strong>现阶段核心驱动力总结</strong>：公司的Alpha在于其作为技术垄断者，在AI驱动的资本开支超级周期中，通过产品升级和定价能力实现远超行业平均水平的盈利增长。其Beta则体现在与全球半导体资本开支周期的高度相关性。</p>
+<p><strong>竞争格局传导逻辑</strong>：全球唯一EUV技术垄断 → 强定价权与高转换成本 → 高毛利率与高ROIC；深度客户绑定 → 高粘性经常性收入 → 共同强化盈利；持续巨额研发投入 → 技术代差持续扩大 → 反哺垄断地位。</p>
+<h3 class="doc-h2">产销链</h3>
+<ul><li><strong>客户情况</strong>：公司客户高度集中，主要为全球领先的逻辑芯片和存储芯片制造商。2025年，前两大客户合计贡献了<strong>38.0%</strong>的总净销售额，前三大客户占应收账款和融资应收账款的<strong>35.4%</strong>。这种高集中度意味着单一客户的资本开支波动会对公司业绩产生显著影响，但也反映了公司与行业领导者的深度绑定。新客户方面，马斯克的<strong>Terafab</strong>项目被视为未来的潜在增量客户。</li><li><strong>供应商情况</strong>：公司高度依赖少数关键供应商，尤其是<strong>卡尔蔡司SMT</strong>，它是公司EUV和DUV系统光学镜头的独家供应商。这种“单一来源、双重能力”的供应链策略带来了集中度风险，任何供应中断都可能直接影响公司的出货能力。为应对地缘政治风险，公司正与供应商合作，通过优化流程和增加库存来提高供应链的韧性。</li><li><strong>成本转嫁能力</strong>：公司具备较强的成本转嫁能力。其盈利模式的核心是基于技术价值的定价，而非简单的成本加成。当面临上游原材料或组件成本上升时，公司有能力通过推出更高性能、更高价格的新一代设备，或直接与客户协商价格调整，来维持甚至提升其利润率。公司赚取的是技术垄断带来的“<strong>技术溢价</strong>”。</li></ul>
+<h3 class="doc-h2">财务数据</h3>
+<div class="tbl-wrap"><table><thead><tr><th>报告期</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2023-12-31</td><td>2024-12-31</td><td>2025-12-31</td><td>2026-06-28</td></tr><tr><td><strong>营业总收入</strong></td><td>275.58</td><td>282.63</td><td>326.67</td><td>180.93</td></tr><tr><td>收入同比</td><td>30.16%</td><td>2.56%</td><td>15.58%</td><td>17.24%</td></tr><tr><td><strong>营业成本</strong></td><td>134.22</td><td>137.71</td><td>154.09</td><td>84.13</td></tr><tr><td><strong>毛利润</strong></td><td>141.36</td><td>144.92</td><td>172.58</td><td>96.80</td></tr><tr><td><strong>毛利率</strong></td><td>51.30%</td><td>51.28%</td><td>52.83%</td><td>53.50%</td></tr><tr><td><strong>营业利润</strong></td><td>90.42</td><td>90.23</td><td>113.01</td><td>66.14</td></tr><tr><td>营业利润率</td><td>32.81%</td><td>31.93%</td><td>34.60%</td><td>36.55%</td></tr><tr><td><strong>归母净利润</strong></td><td>78.39</td><td>75.72</td><td>96.09</td><td>56.74</td></tr><tr><td>净利率</td><td>28.45%</td><td>26.79%</td><td>29.42%</td><td>31.36%</td></tr><tr><td><strong>稀释每股收益</strong></td><td>19.89</td><td>19.24</td><td>24.71</td><td>14.73</td></tr><tr><td><strong>自由现金流</strong></td><td>-</td><td>90.83</td><td>110.27</td><td>-</td></tr></tbody></table></div>
+<p>注：单位为亿欧元。自由现金流为非GAAP指标，定义为经营活动现金流减去物业、厂房和设备及无形资产购买。</p>
+<ul><li><strong>成长能力</strong>：公司在2025年重回高增长轨道，收入同比增长<strong>15.58%</strong>，净利润增长<strong>26.91%</strong>。进入2026年，增长势头进一步加速，上半年收入同比增长<strong>17.24%</strong>，且管理层已将全年收入增速指引上调至<strong>31.6%-37.7%</strong>。这一增长由AI驱动的EUV和DUV系统销售，以及已安装设备管理业务的强劲表现共同推动。</li><li><strong>盈利能力</strong>：公司盈利能力持续增强。毛利率从2024年的<strong>51.28%</strong>提升至2025年的<strong>52.83%</strong>，并在2026年上半年进一步升至<strong>53.50%</strong>。营业利润率也从2024年的<strong>31.93%</strong>显著提升至2026年上半年的<strong>36.55%</strong>。这主要得益于高毛利的EUV系统销售占比提升、已安装设备管理业务中升级服务的贡献增加，以及规模效应的显现。公司预计2026年全年毛利率将达到<strong>54%-56%</strong>，显示出盈利能力的强劲上升趋势。</li><li><strong>运营能力</strong>：公司的运营能力保持稳健。尽管2026年上半年应收账款大幅增加至<strong>72.53亿欧元</strong>，但这与公司下半年集中确认收入的业务模式相符。存货水平稳定在<strong>117.39亿欧元</strong>，表明供应链管理有效，以支持未来的出货计划。</li><li><strong>偿债能力与现金流</strong>：公司财务状况极为健康。截至2026年H1，公司持有现金及现金等价物<strong>66.72亿欧元</strong>，短期投资<strong>9.10亿欧元</strong>，而长期债务仅为<strong>19.84亿欧元</strong>，净现金头寸充裕。2025年自由现金流达到<strong>110.27亿欧元</strong>，同比增长<strong>21.4%</strong>，强大的现金生成能力为公司的产能扩张、研发投入和股东回报提供了坚实基础。</li></ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p>阿斯麦所处的半导体光刻设备行业，是半导体产业链中技术壁垒最高、集中度最高的环节之一。该行业的需求主要由全球半导体资本开支驱动，而技术迭代则围绕“摩尔定律”的延续，即不断缩小芯片特征尺寸。</p>
+<ul><li><strong>行业需求</strong>：当前行业正处于由<strong>AI算力需求</strong>驱动的超级景气周期。逻辑芯片方面，为训练和推理AI模型，对<strong>5nm/4nm/3nm</strong>等先进制程芯片的需求激增，并推动<strong>2nm</strong>制程快速进入量产爬坡阶段。存储芯片方面，<strong>HBM</strong>和<strong>DDR5</strong>的需求爆发，不仅推动了产能扩张，更因制程向<strong>1b/1c</strong>等先进节点迁移而显著提升了对EUV和高端DUV光刻设备的需求强度。据ASML在2024年投资者日预测，2025-2030年全球半导体市场年复合增长率约为<strong>9%</strong>，有望在2030年突破<strong>1万亿美元</strong>。</li><li><strong>竞争格局</strong>：阿斯麦在光刻设备市场占据绝对主导地位。在EUV领域，公司是<strong>全球唯一的供应商</strong>。在DUV领域，公司主要与日本的<strong>尼康</strong>和<strong>佳能</strong>竞争，但凭借其技术领先性，尤其是在浸没式DUV方面，占据了超过90%的市场份额。公司的竞争壁垒不仅在于设备本身，更在于其围绕“整体光刻”构建的庞大生态体系，包括计算光刻、量测与检测设备以及软件，这极大地提高了客户的转换成本。</li></ul>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>主要业务</th><th>与ASML的差异</th></tr></thead><tbody><tr><td>应用材料</td><td>AMAT US</td><td>半导体制造设备（沉积、刻蚀、离子注入等）</td><td>产品线更广，覆盖芯片制造的多个环节，但在光刻领域没有直接竞争。</td></tr><tr><td>泛林集团</td><td>LRCX US</td><td>半导体制造设备（刻蚀、沉积、清洗等）</td><td>在刻蚀领域实力强大，与ASML在业务上互补，同属设备行业核心标的。</td></tr><tr><td>科磊</td><td>KLAC US</td><td>半导体过程控制（量测、检测）</td><td>在量测与检测领域与ASML的部分业务重叠，但ASML的优势在于与光刻系统的整合。</td></tr><tr><td>东京电子</td><td>8035 JP</td><td>半导体制造设备（涂胶显影、刻蚀、沉积等）</td><td>产品线广泛，是ASML在涂胶显影设备上的重要合作伙伴，双方设备通常在同一工艺流程中配套使用。</td></tr></tbody></table></div>
+<p><strong>总结分析</strong>：与可比公司相比，阿斯麦的独特之处在于其在光刻这一核心工艺环节的<strong>垄断性技术地位</strong>。这使得其定价能力、盈利能力和业绩确定性均高于同业。可比公司同样受益于AI驱动的资本开支周期，但阿斯麦因其不可替代性，被视为该周期中最核心、最确定的投资标的。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<ul><li><strong>议题一：产能扩张的极限与节奏</strong>：市场对ASML能否满足爆炸性增长的EUV需求存在持续疑虑。公司此次给出了直至2028年的清晰扩产路径，但投资者仍在评估其可行性以及是否存在进一步的上限。关键问题：2027年约<strong>85台</strong>、2028年约<strong>110台</strong>的Low-NA EUV产能目标，是基于现有洁净室空间的极限，还是仅为基于当前需求信号的规划？产能扩张的关键瓶颈是在ASML自身的组装环节，还是在其供应链（如蔡司的光学系统）？供应链能否同步实现<strong>30%</strong>的年均扩产速度？</li><li><strong>议题二：毛利率的可持续性与上行空间</strong>：公司Q2毛利率大幅超预期，并给出了创纪录的Q3和全年毛利率指引。市场希望确认这一高盈利水平是结构性的还是周期性的。关键问题：2026年下半年<strong>56%</strong>左右的毛利率指引中，有多少来自高毛利升级服务的一次性贡献，有多少来自产品组合升级等可持续因素？随着2027年产品组合进一步向更高价的<strong>3800E/F</strong>型号切换，以及潜在的提价效应开始显现，毛利率是否具备持续向<strong>56%-60%</strong>长期目标迈进的基础？</li><li><strong>议题三：中国市场的风险与韧性</strong>：出口管制政策持续收紧，同时中国本土光刻设备企业开始崭露头角，市场担忧ASML在中国市场的长期收入前景。关键问题：公司维持中国市场<strong>20%</strong>的收入占比指引，其驱动力是来自成熟制程的持续扩张，还是有新的需求来源？如何评估中国国产浸没式DUV光刻机在未来3-5年内对ASML市场份额和定价权的潜在冲击？</li></ul>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧：当前业绩的强劲增长是AI驱动的长期结构性扩张的开端，还是周期性的顶点？</strong></p>
+<ul><li><strong>乐观方观点</strong>：认为AI算力需求是新一轮长达十年的技术革命，其驱动的资本开支周期才刚刚开始。逻辑和存储芯片的“军备竞赛”、光刻强度的持续提升、以及High-NA EUV等新技术的商业化，将为ASML提供多年的增长动力。当前的产能扩张计划仍显保守，未来业绩有持续超预期的可能。因此，公司应享有更高的估值溢价。</li><li><strong>谨慎方观点</strong>：认为半导体行业从未摆脱周期性。当前的资本开支激增，部分源于客户对AI需求的过度乐观和地缘政治驱动的重复下单。随着新增产能逐步释放，2028年后市场可能面临供过于求的风险。此外，公司估值已处于历史高位，提前反映了多年的高增长，一旦需求出现放缓迹象，股价将面临较大的下行风险。</li></ul>
+<p><strong>总结分析</strong>：当前ASML的强劲表现是结构性和周期性因素共振的结果。AI确实带来了结构性的需求增量，但下游客户的资本开支仍具有周期性特征。公司的优势在于其垄断地位和极高的订单能见度（积压订单<strong>388亿欧元</strong>），这为其提供了比一般半导体公司更强的业绩防御性。然而，市场对其长期增长的预期已相当充分，任何关于客户资本开支节奏放缓或技术路线变化的信号，都可能导致其估值倍数收缩。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价</th><th>指标</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>摩根士丹利 (2026-07-20)</td><td>Overweight</td><td>€1,930</td><td>营收(百万欧) / EPS(欧)</td><td>32,667 / 24.81</td><td>43,091 / 38.34</td><td>50,887 / 49.00</td><td>56,751 / 56.42</td></tr><tr><td>富国证券 (2026-07-22)</td><td>Overweight</td><td>$2,500</td><td>营收(百万欧) / EPS(欧)</td><td>32,667 / 24.97</td><td>44,200 / 40.00</td><td>54,700 / 52.57</td><td>67,600 / 68.61</td></tr><tr><td>开普勒盛富 (2026-06-29)</td><td>Buy</td><td>€1,830</td><td>营收(百万欧) / EPS(欧)</td><td>32,667 / 24.73</td><td>39,902 / 31.44</td><td>52,178 / 47.23</td><td>59,582 / 56.58</td></tr><tr><td>华泰证券 (2026-07-08)</td><td>买入</td><td>$2,500</td><td>营收(百万欧) / EPS(欧)</td><td>32,667 / 24.97</td><td>40,033 / 33.13</td><td>50,811 / 45.17</td><td>57,536 / 52.98</td></tr><tr><td>BNP Paribas (2026-05-16)</td><td>Outperform</td><td>€1,550</td><td>营收(百万欧) / EPS(欧)</td><td>32,667 / 24.71</td><td>40,246 / 33.74</td><td>52,047 / 49.30</td><td>57,268 / 55.32</td></tr></tbody></table></div>
+<p>注：目标价单位除特殊说明外均为欧元。预测数据均来自各机构最新发布的研究报告。</p>
+<p><strong>盈利预测与估值分析</strong>：各机构对ASML未来几年的高增长已形成共识，但在增长斜率上存在分歧。乐观方如富国证券和华泰证券，基于对公司产能扩张和定价能力的更强信心，给出了远高于市场平均的2027年和2028年业绩预测。相对谨慎的机构如开普勒盛富，其预测则更接近市场一致预期。估值方面，多数机构采用市盈率估值法，并基于公司在EUV领域的垄断地位和长期增长前景，给予其<strong>30-35倍</strong>甚至更高的估值倍数。目标价的计算普遍基于2027年或2028年的盈利预测，显示出市场正在将更远期的增长计入当前估值。</p>
+<p><strong>管理层最新指引</strong>：公司管理层在2026年Q2财报中给出的最新指引为：预计2026年全年营收在<strong>430-450亿欧元</strong>之间，毛利率在<strong>54%-56%</strong>之间，年化有效税率约为<strong>17%</strong>。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/ASML · 生成于 2026-08-06</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-06';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'hit',     text: '<strong>2026Q2 财报</strong>（2026-07-15）：营收 €93.26 亿、毛利率 54.0% 双超指引上限，全年营收指引 360-400 → <strong>430-450 亿欧元</strong>', note: '已兑现，且公布至 2028 年扩产计划 + High-NA 量产里程碑' },
+  { kind: 'cat', status: 'pending', text: '<strong>2026Q3 财报</strong>（2026-10-14）：Q3 指引营收 €110-120 亿、毛利率 55-57% 的兑现度 + 2027 年订单/产能展望——下一个胜负手', note: '' },
+  { kind: 'cat', status: 'active',  text: '<strong>北美 CSP 资本开支指引</strong>（2026 年 7 月底-8 月财报季）：谷歌/微软/Meta/亚马逊 capex 继续上调 = AI 需求可持续的直接验证', note: '' },
+  { kind: 'cat', status: 'active',  text: '<strong>设备提价谈判落地</strong>：DUV 拟 +10%、EUV 与台积电磋商中——落地幅度是 2027 年盈利最大的预期差', note: '2026-07-15 报道，台积电公开反对中' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>中国出口管制扩大</strong>：DUV 管制范围加码，或已售设备售后服务被限制', note: '中国 2026 年预计贡献 ~20% 净销售额' },
+  { kind: 'risk', status: 'clear', text: '<strong>国产浸没式 DUV 量产超预期</strong>：进入主流晶圆厂量产线 = 垄断叙事裂缝', note: '2026-07-27 报道 2026/2027 计划 5/20 台，当日股价 -5.8%' },
+  { kind: 'risk', status: 'clear', text: '主要客户（台积电/三星/英特尔/存储厂）<strong>下调资本开支</strong>或推迟订单', note: '前两大客户占收入 38%，每季度财报季核对' },
+  { kind: 'risk', status: 'clear', text: '<strong>High-NA EUV 导入慢于预期</strong>：客户因成本效益推迟采用', note: '已在英特尔 18A 量产，2027-2028 更广泛导入待验证' },
+  { kind: 'risk', status: 'clear', text: '<strong>供应链跟不上 30% 扩产</strong>：蔡司光学等单一来源供应商断供或爬坡延迟', note: 'H2 营收隐含环比 +38-49%，交付是硬约束' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

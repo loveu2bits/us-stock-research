@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Palantir（PLTR.O）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--amber); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">PLTR</span>
+    <span class="site-mark__text">Palantir 公司研究<span>Palantir · PLTR.O</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>Palantir<span class="en">Palantir Technologies · PLTR.O · 美股研究</span></h1>
+        <p class="sub">政企 AI 决策操作系统的卡位者：Q2 营收 +93% 创上市以来新高、Rule of 40 高达 155%，基本面处于最强兑现期；但约 62.7x CY27e 的估值已把高增长定价到极致——核心矛盾不是「公司好不好」，而是「业绩兑现追不追得上估值」。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-06</span>
+          <span>下次更新：FY26Q3 财报后（2026-11 初）</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>基本面极强但估值透支：三情景期望回报略为负，追涨赔率差；回调或增速再加速才可加仓。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">营收 +93%</strong><span>FY26Q2 · 创上市以来最高增速</span></div>
+      <div class="summary-rail__item"><strong>155%</strong><span>Rule of 40 · 调整后营业利润率 62%</span></div>
+      <div class="summary-rail__item"><strong>+149%</strong><span>美国商业收入 · NDR 157%</span></div>
+      <div class="summary-rail__item"><strong>~62.7x</strong><span>CY27e non-GAAP PE · 估值核心矛盾</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">Q2 财报：+93% 的全面超预期，能外推吗？</h2>
+        <span class="qa__impact-tag">→ 全年指引 +82% · 管理层自警「7.5% beat 不是新常态」</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>这是一份几乎无死角的成绩单：营收、利润率、订单、指引四项全面超预期，且先行指标（TCV +153%、RDV +124%）比收入跑得更快——<em>趋势是真的。但管理层自己提示 Q2 的 7.5% 超预期幅度「不应被视为新常态」，外推 93% 的增速本身就是陷阱；判定窗口在 11 月初的 Q3 财报。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>指引上修直接抬升盈利中枢。</strong>全年营收指引升至 $81.5-81.6 亿（+82%），调整后营业利润 $48.9-49.0 亿——券商已集体上调预测，FY26E 调整后 EPS 中值约 $1.7，FY27E 约 $2.5。</p>
+            <p>但对估值的影响是双向的：财报前市场因「AI 颠覆软件」担忧年内累跌约 29%，财报后单日暴涨近 30%——<strong>估值弹性主要由叙事切换驱动，而非 EPS 本身</strong>。这意味着下一次叙事逆转时，波动同样剧烈。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>收入增速连续 <strong>12 个季度加速</strong>：16.75%（FY23）→ 56%（FY25）→ 93%（Q2），加速曲线未见拐点</li>
+              <li>先行指标比收入更快：美国商业 TCV <strong>+153%</strong>、RDV <strong>+124%</strong>——需求端仍在加速，未来收入能见度极高</li>
+              <li>增长与盈利同时兑现：调整后营业利润率 62%，<strong>Rule of 40 = 155%</strong>，冠绝软件行业</li>
+              <li>管理层提出「主权 AI」叙事，把增长归因于企业掌控数据/模型权重的结构性需求，而非短期热潮</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>管理层自己泼冷水：<strong>「7.5% 的季度超预期幅度不应被视为新常态」</strong>——指引虽上修，隐含下半年增速已在放缓</li>
+              <li>基数效应是数学必然：收入基数迅速扩大，维持 90%+ 增速的难度逐季递增，<strong>任何减速都会被高倍数放大解读</strong></li>
+              <li>财报后 +30% 含大量<strong>空头回补</strong>成分（财报前积累了大量空头头寸），不全是基本面定价</li>
+              <li>应收账款集中于「客户 I」（占比 27%），政府业务依赖预算节奏，报表并非毫无瑕疵</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（Q2 财报速览 · 指引 · 订单先行指标）</summary>
+          <div class="evidence__body">
+            <h5>FY2026 Q2 财报速览（截至 2026-06-30，2026-08-03 发布）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>实际</th><th>预期 / 对比</th><th>评价</th></tr></thead><tbody><tr><td>总营收</td><td>$19.35 亿（<strong>+93%</strong>，环比 +19%）</td><td>一致预期约 $18.1 亿</td><td>大超 ~7.5%，创上市以来最高增速</td></tr><tr><td>调整后营业利润率</td><td><strong>62%</strong></td><td>—</td><td>Rule of 40 评分 155%，连续 12 个季度扩张</td></tr><tr><td>美国商业收入</td><td>$7.64 亿（<strong>+149%</strong>，环比 +28%）</td><td>Q1 为 +133%</td><td>增速再加速，AIP 从 POC 进入规模化部署</td></tr><tr><td>美国政府收入</td><td>$8.09 亿（+90%，环比 +18%）</td><td>—</td><td>Maven 已成五角大楼正式项目</td></tr><tr><td>新签合同 TCV</td><td>$33.73 亿（+49%）</td><td>美国商业 TCV $21.32 亿（+153%）</td><td>先行指标远超收入增速</td></tr><tr><td>美国商业 RDV</td><td>$62.38 亿（+124%）</td><td>—</td><td>剩余合同价值锁定未来收入</td></tr><tr><td>净美元留存率 NDR</td><td><strong>157%</strong></td><td>—</td><td>存量客户仍在大幅增购</td></tr><tr><td>大额交易</td><td>73 笔超 $1,000 万订单</td><td>—</td><td>客户总数 1,049 家，美国商业客户数 +35%</td></tr><tr><td>财报后股价</td><td><strong>单日 +~30%</strong></td><td>财报前年内 -29%</td><td>beat + 指引上修 + 空头回补共振</td></tr></tbody></table></div>
+            <h5>FY2026 全年指引（Q2 大幅上调后）</h5>
+            <ul>
+              <li>营收 <strong>$81.50-81.58 亿</strong>，同比约 +82%</li>
+              <li>美国商业营收 <strong>&gt;$34.24 亿</strong>，同比至少 +134%</li>
+              <li>调整后营业利润 <strong>$48.89-48.97 亿</strong>；调整后自由现金流 <strong>$45-47 亿</strong></li>
+            </ul>
+            <p>管理层同时提示：Q2 的 7.5% 超预期幅度不应被视为新常态——指引上修后，市场对「再超预期」的门槛也同步抬高了。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">美国商业 +149%：结构性拐点，还是 AI 淘金热的短期脉冲？</h2>
+        <span class="qa__impact-tag">→ 决定 FY27-28 增长中枢 · 券商预测分歧 $118-204 亿</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>目前证据站「结构性」一边：NDR 157%、73 笔千万级大单、RDV +124% 说明是存量客户深化 + 大额长约锁定，不是一次性项目堆出来的。<em>但「本体论 + FDE」的护城河宽度尚无反例检验——OpenAI/Anthropic/Databricks 都在招 FDE 从上下两路包抄，竞争答案要等 2-3 个季度后才看得清。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这是 FY27-28 盈利预测分歧的全部来源。</strong>券商对 FY2028 营收的预测从 $168 亿（高盛/汇丰）到 $204 亿（花旗）——差的 $36 亿就是对「商业业务能加速多久」的不同回答，对应目标价 $162 到 $245。</p>
+            <p>若结构性叙事成立，公司可享受「护城河重定价」（花旗逻辑：5 年营收 CAGR ~58%）；若被证明是热潮脉冲，增速均值回归叠加 62.7x 的倍数，<strong>就是 EPS 与 PE 双杀的标准剧本</strong>。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li><strong>「本体论（Ontology）+ FDE」护城河</strong>：软件深度嵌入客户决策流程，替换 = 重构业务操作系统；客户和合作伙伴称「行动引擎」有约 5 年领先优势</li>
+              <li>AIP 卡位企业 AI 部署的「控制层」：模型路由/评估/安全护栏/成本管理，<strong>无论底层模型如何演变都受益</strong></li>
+              <li>Q2 电话会披露：一次客户对比测试中，「FDE + AIP」模式正面击败前沿实验室，赢下千万美元合同</li>
+              <li>联手 NVIDIA 在企业环境内微调开源模型、客户自持权重——「主权 AI」切中大型企业核心关切</li>
+              <li>前 20 大客户平均收入 $1.24 亿（+67%），AIP Bootcamp 数天出原型，获客效率高</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>OpenAI、Anthropic 等资金雄厚的前沿实验室<strong>正在招聘 FDE</strong>、推企业级产品（如 OpenAI Frontier），从模型层向下侵蚀</li>
+              <li>Databricks、Snowflake 从数据层向上构建 AI 能力，Salesforce/ServiceNow 在现有产品里加 AI——<strong>三路包抄才刚开始</strong></li>
+              <li>FDE 模式重人力投入， scalability 存疑，空方认为这限制了长期盈利能力的上限</li>
+              <li>当前增长部分源于 AI 热潮下的预算脉冲；一旦企业 AI 支出回归理性，POC 转化率和续约金额都会回落</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（商业/政府业务拆分 · 竞争格局 · 财务趋势）</summary>
+          <div class="evidence__body">
+            <h5>业务拆分（按客户类型，百万美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>业务板块</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td>政府业务收入</td><td>1,222</td><td>1,570（+28.4%）</td><td>2,402（+53.1%）</td><td>1,848（+77.7%）</td></tr><tr><td>商业业务收入</td><td>1,003</td><td>1,296（+29.2%）</td><td>2,073（+60.0%）</td><td>1,720（+102.9%）</td></tr><tr><td><strong>总收入</strong></td><td><strong>2,225</strong></td><td><strong>2,866</strong></td><td><strong>4,475</strong></td><td><strong>3,568（+89.0%）</strong></td></tr><tr><td>商业收入占比</td><td>45.1%</td><td>45.2%</td><td>46.3%</td><td>48.2%（Q2 已达 49%）</td></tr></tbody></table></div>
+            <p>美国市场是绝对核心（Q2 收入占比约 81%）。政府端：Maven 已成五角大楼正式项目，而公司过去 12 个月政府收入仅占五角大楼预算不到 25 个基点——渗透率极低是多方最常用的空间论据。</p>
+            <h5>关键财务趋势（盈利能力陡升）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td>毛利率</td><td>80.6%</td><td>80.3%</td><td>82.4%</td><td><strong>85.6%</strong></td></tr><tr><td>营业利润率</td><td>5.4%</td><td>10.8%</td><td>31.6%</td><td><strong>46.7%</strong></td></tr><tr><td>归母净利润（百万美元）</td><td>210</td><td>462</td><td>1,625</td><td>1,932（+257%）</td></tr><tr><td>稀释 EPS（美元）</td><td>0.09</td><td>0.19</td><td>0.63</td><td>0.75（半年）</td></tr></tbody></table></div>
+            <p>FY2026 H1 经营现金流 $21.15 亿，超过同期净利润（$19.42 亿），利润含金量高；现金及短期投资合计 $94.09 亿，无有息负债。成本端主要依赖第三方云托管——2026 年 3 月修订云协议，承诺未来十年至少支出 $56 亿。</p>
+            <h5>竞争格局：三路对手</h5>
+            <ol>
+              <li><strong>大型 SaaS</strong>（Salesforce、ServiceNow）：在现有产品上加 AI 功能</li>
+              <li><strong>数据平台</strong>（Databricks、Snowflake）：从数据层向上构建 AI 能力</li>
+              <li><strong>前沿 AI 实验室</strong>（OpenAI、Anthropic）：从模型层向下探索企业应用，并在招聘 FDE</li>
+            </ol>
+            <p>Palantir 的差异化在「本体论」层 + 深度驻场服务：处理高度复杂、定制化的核心决策场景。空方的问题是：如果对手把企业 AI 部署做得足够简单便宜，「厚平台 + 重服务」会不会从护城河变成成本包袱？</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">估值：~62.7x CY27e PE 隐含了什么预期？赔率如何？</h2>
+        <span class="qa__impact-tag">→ 期望值略低于现价 · 券商目标价 $162-245</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>当前估值已把「多年高速增长 + 护城河重定价」同时计入，容错率极低。<em>三情景期望回报约 -5%，对应「持有」而非「买入」。上调触发条件：美国商业 TCV/RDV 增速再加速（FY27E EPS 预期移向 $2.9+），或估值回落至 45x CY27e 以下；下调触发条件：商业收入增速跌破 100% 或 NDR 显著回落。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这个问题本身就是估值问题。</strong>62.7x CY27e 意味着：即使 FY27 盈利完全兑现券商中值（EPS ~$2.5），投资者仍要为一元利润付 63 元——倍数没有扩张空间，收益完全依赖「超预期再超预期」。</p>
+            <p>赔率测算：乐观 +39%（25% 概率）/ 中性 -8%（50%）/ 悲观 -43%（25%），<strong>期望值约 -5%</strong>。机构分歧本身就是答案：花旗买入 $245 vs 汇丰持有 $162，差出 50%。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>增速 93% + Rule of 40 155% 的组合在软件行业<strong>没有先例</strong>，稀缺性本身支撑溢价</li>
+              <li>花旗逻辑：5 年营收 CAGR ~58%，FY28E EV/FCF 67x 给 $245——若护城河被重新定价，倍数可以留在高位</li>
+              <li>订单/RDV 等先行指标增速远超收入，<strong>FY27 盈利预测大概率还要继续上修</strong>，远期 PE 会被动下降</li>
+              <li>政府端渗透率不到五角大楼预算的 25bps，商业端 NDR 157%——两条曲线都远未见顶</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>62.7x CY27e 已计入多年高增长——<strong>任何「仅仅是很好」的财报都是利空</strong>，管理层已自警超预期幅度不可持续</li>
+              <li>增速放缓是数学必然：基数扩大后从 93% 滑向 50-60% 的过程中，<strong>倍数压缩会吃掉 EPS 增长</strong></li>
+              <li>财报前年内 -29% 说明散户动量盘占比高、筹码不稳；逼空行情退潮后波动巨大</li>
+              <li>谨慎方（汇丰/中金）即使上调预测，用 PEG/远期倍数也只给 $162-168——<strong>现价已在谨慎方目标价之上</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（当前定价测算 · 券商预测分歧 · 三情景表）</summary>
+          <div class="evidence__body">
+            <h5>当前定价（估算口径）</h5>
+            <ul>
+              <li>市场引用估值约 <strong>62.7x CY27e non-GAAP PE</strong>（Q2 财报后）</li>
+              <li>券商 FY27E 调整后 EPS 中值约 <strong>$2.5</strong> → 反推现价约 <strong>$157 上下</strong>（估算，精确值以盘面为准）</li>
+              <li>券商目标价区间 $162（汇丰）- $245（花旗）：谨慎方认为现价已充分反映基本面，看多方认为护城河应重定价</li>
+            </ul>
+            <h5>券商盈利预测（Q2 财报后，均大幅上调）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价</th><th>FY26E 营收</th><th>FY27E 营收</th><th>FY27E 调整后 EPS</th></tr></thead><tbody><tr><td>花旗（08-04）</td><td>买入</td><td>$245</td><td>$82.0 亿</td><td>$134.1 亿</td><td>$2.61</td></tr><tr><td>高盛（08-03）</td><td>中性</td><td>$204</td><td>$83.7 亿</td><td>$128.7 亿</td><td>$2.39</td></tr><tr><td>大摩（08-04）</td><td>均配</td><td>$205</td><td>$82.2 亿</td><td>$117.7 亿</td><td>$2.48</td></tr><tr><td>汇丰（08-05）</td><td>持有</td><td>$162</td><td>$83.1 亿</td><td>$126.4 亿</td><td>$2.55</td></tr><tr><td>中金（08-05）</td><td>中性</td><td>$168</td><td>$82.2 亿</td><td>$117.7 亿</td><td>$2.48</td></tr></tbody></table></div>
+            <p>同一组财报，目标价差出 50%——分歧不在 FY26（营收预测都收敛在 $82-84 亿），而在 <strong>FY27-28 的增长中枢和应享有的估值溢价</strong>。</p>
+            <h5>三情景假设（CY2027 视角，以 FY27E 调整后 EPS × 合理 PE 定价）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>FY27E EPS</th><th>合理 PE</th><th>隐含股价</th><th>vs 现价（~$157）</th></tr></thead><tbody><tr><td>乐观（25%）</td><td>「主权 AI」持续获订单验证，商业增速维持三位数，FY28E 移向花旗 $204 亿营收路径</td><td>~$2.90</td><td>75x</td><td>~$218</td><td>+39%</td></tr><tr><td>中性（50%）</td><td>指引兑现但增速自然放缓至 50-60%，倍数小幅压缩</td><td>~$2.50</td><td>58x</td><td>~$145</td><td>-8%</td></tr><tr><td>悲观（25%）</td><td>基数效应 + 竞争分流，增速骤降至 35% 以下，倍数压缩至传统高成长 SaaS 区间</td><td>~$2.25</td><td>40x</td><td>~$90</td><td>-43%</td></tr></tbody></table></div>
+            <p><strong>期望值约 $149，略低于反推现价 $157（约 -5%）。</strong>Palantir 的估值不是算「正确答案」，而是承认：62.7x 的倍数下，市场已经把中性偏乐观的路径当作底线——买入需要的不是「公司继续优秀」，而是「公司比优秀更优秀」。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>：公司概况、近期要闻、催化剂（见同目录《Palantir_一页通.md》，亦见本站「一页通」标签页）</li>
+        <li><strong>财务数据</strong>：FY2023-FY2026 H1 利润表与业务拆分、FY2026 Q2 季报要点（正文数据均来自公开财报整理）</li>
+        <li><strong>局限</strong>：未读 10-K/10-Q 原文（建议下一步补读 Risk Factors 与 SBC 股份稀释章节）；现价与市值为按 CY27e PE 反推的估算值；同业估值对比（DDOG/SNOW/MSFT）数据暂缺</li>
+        <li><strong>管理层评估（一句话版）</strong>：CEO Alex Karp 叙事能力极强（「主权 AI」框架当季度提出、当季度发酵），但新叙事需要后续季度订单持续验证；管理层主动给超预期幅度降温，是难得的坦率信号</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>Palantir 是一家以构建软件平台为核心业务的公司，其平台充当客户的核心操作系统，赋能组织大规模整合数据、决策与运营。公司成立于 2003 年，初期为美国情报界开发反恐软件，后逐步扩展至商业企业。目前已构建四大主要软件平台：<strong>Gotham</strong>（面向国防与情报）、<strong>Foundry</strong>（面向商业企业的核心数据操作系统）、<strong>Apollo</strong>（持续交付平台）以及 <strong>AIP</strong>（生成式 AI 平台）。公司在美国政府及国防领域占据重要供应商地位，同时商业业务正经历高速增长，已成为美军最大的 AI 供应商之一。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul><li><strong>Q2 业绩全面超预期，营收增速再创新高</strong>：2026 年 Q2 营收 19.35 亿美元，同比增长 93%，环比增长 19%，创上市以来最高增速。调整后营业利润率达 62%，Rule of 40 评分高达 155%，连续 12 个季度扩张。业绩显著超越市场一致预期（营收约 18.1 亿美元，调整后 EPS 0.35 美元）。</li><li><strong>美国商业业务爆发式增长</strong>：Q2 美国商业收入达 7.64 亿美元，同比增长 149%，环比增长 28%，增速较 Q1 的 133% 进一步加快。增长主要由 AIP 推动现有客户扩展及新客户转化驱动，项目正从概念验证（POC）进入规模化生产部署阶段。</li><li><strong>管理层提出「主权 AI」新叙事</strong>：CEO Alex Karp 在股东信和电话会上强调，企业客户正从依赖昂贵且存在数据泄露风险的封闭式前沿模型，转向追求「AI 主权」——掌控自身数据、业务逻辑、模型选择权及模型权重。AIP 平台被定位为实现这一目标的核心控制层。</li><li><strong>美国政府业务保持强劲动能</strong>：Q2 美国政府收入达 8.09 亿美元，同比增长 90%，环比增长 18%。Maven 智能系统已成为五角大楼的正式项目。</li><li><strong>订单与剩余履约义务大幅增长</strong>：Q2 新签合同 TCV 达 33.73 亿美元（+49%），其中美国商业 TCV 21.32 亿美元（+153%）；美国商业 RDV 达 62.38 亿美元（+124%）。</li></ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol><li><strong>「主权 AI」叙事有望驱动估值重估</strong>：该叙事有效对冲了市场对大模型颠覆软件层的担忧。若在后续季度持续获得订单验证，有望推动市场对公司护城河重新定价。</li><li><strong>美国商业业务加速增长，验证规模化部署拐点</strong>：美国商业收入增速从 Q1 的 133% 加速至 149%，TCV 增速（+153%）远超收入增速；NDR 升至 157%，73 笔超 1000 万美元大额交易，AIP 项目正从 POC 进入大规模生产部署。</li><li><strong>空头回补与逼空行情可能放大股价弹性</strong>：Q2 业绩发布前市场对 AI 颠覆软件的担忧导致股价年内累计下跌约 29%，业绩大超预期及指引上调后股价单日暴涨近 30%，可能触发大规模空头回补。</li></ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol><li><strong>「本体论（Ontology）+ FDE」模式构筑深厚护城河</strong>：将企业数据、业务逻辑和决策流程映射为可操作的「数字孪生」，结合前置部署工程师深入客户现场定制落地，客户转换成本极高。多家客户和合作伙伴反馈其「行动引擎」拥有 5 年竞争护城河。</li><li><strong>企业级 AI 部署的「控制层」卡位</strong>：AIP 提供模型路由、评估、安全护栏和成本管理功能，有望受益于企业 AI 支出的长期增长，无论底层模型如何演变。</li><li><strong>政府与国防支出的长期顺风</strong>：Maven 系统已成为五角大楼正式项目，公司过去 12 个月政府收入仅占五角大楼预算不到 25 个基点，渗透率极低、成长空间巨大。政府合同周期长、粘性高，提供稳定收入基础。</li></ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul><li><strong>估值与增长预期的匹配风险</strong>：股价对应约 62.7x CY27e non-GAAP PE，已充分甚至过度反映高增长预期。一旦收入增速因基数效应或竞争加剧而放缓，可能引发估值与盈利的「双杀」。管理层已提示 Q2 的 7.5% 超预期幅度不应被视为新常态。</li><li><strong>竞争格局演变的风险</strong>：OpenAI、Anthropic 等前沿模型实验室以及 Databricks 等数据平台公司均在积极招聘 FDE 并构建企业级 AI 能力，长期可能侵蚀市场份额和定价能力。</li><li><strong>政府业务集中度与政策风险</strong>：业务高度集中于美国市场（Q2 收入占比约 81%），美国政府是最大客户之一。国防预算削减、支出优先级变化或合同流程延迟都可能对业绩产生重大影响；与国防情报部门的深度绑定也带来声誉风险。</li></ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul><li><strong>2026-05-05</strong>：公布 2026 年 Q1 业绩，营收同比增长 85%，上调全年指引；电话会强调 Maven 系统使用量激增。</li><li><strong>2026 年 6 月初</strong>：举办 AIPCon 10 大会，展示 AIP 多行业应用案例及「AI FDE」产品；合作伙伴称其「行动引擎」拥有 5 年护城河。</li><li><strong>2026 年 7-8 月</strong>：多家券商围绕「AI 颠覆论」展开辩论。花旗、瑞银等看多方强调护城河及商业业务再加速；汇丰等谨慎方提示竞争风险及高估值压力。</li><li><strong>2026-08-03</strong>：公布 Q2 业绩，营收同比增长 93% 大幅超预期，显著上调全年指引；CEO 提出「主权 AI」叙事，股价盘后及次日大幅上涨近 30%。</li></ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul><li><strong>2026 年 8-10 月</strong>：Q2 业绩后的分析师日或行业会议（如 9 月花旗全球科技会议），管理层可能就「主权 AI」战略、与 NVIDIA 的合作细节及长期增长目标提供更清晰路线图。</li><li><strong>2026 年 9-10 月</strong>：美国政府 2027 财年预算（始于 2026 年 10 月）审议进程；若国防部 AI 相关预算显著增长，将提振政府业务持续高增长的信心。</li><li><strong>2026 年 11 月初</strong>：预计公布 2026 年 Q3 业绩。考虑到 Q2 订单和 RDV 的强劲增长，Q3 大概率继续超预期；管理层对 Q4 及 2027 年的初步展望将成为焦点。</li></ul>
+<h3 class="doc-h2">业务模式及拆分</h3>
+<p><strong>业务边际变化</strong>：2023 年推出的 AIP 平台将生成式 AI 能力与 Foundry/Gotham 深度整合，公司从「大数据分析平台」转型为「企业级 AI 操作系统」，收入增速从 2023 年的 16.75% 飙升至 2026 年 Q2 的 93%。当前战略重心押注「主权 AI」，联手 NVIDIA 在企业环境内进行模型微调和后训练，让客户持有模型权重。</p>
+<p><strong>盈利模式</strong>：软件平台订阅 + 运营维护（O&amp;M）+ 专业服务。核心是技术壁垒与服务粘性的结合——「本体论」平台深度嵌入客户决策流程、替换成本极高，FDE 驻场服务建立深厚信任。毛利率长期稳定在 80% 以上（FY2026 H1 达 85.6%），经营杠杆持续提升。</p>
+<p><strong>业务拆分（按客户类型，百万美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>业务板块</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td>政府业务收入</td><td>1,222.22</td><td>1,569.61（+28.4%）</td><td>2,402.29（+53.1%）</td><td>1,848.44（+77.7%）</td></tr><tr><td>占总收入比重</td><td>54.9%</td><td>54.8%</td><td>53.7%</td><td>51.8%</td></tr><tr><td>商业业务收入</td><td>1,002.80</td><td>1,295.90（+29.2%）</td><td>2,073.16（+60.0%）</td><td>1,719.61（+102.9%）</td></tr><tr><td>占总收入比重</td><td>45.1%</td><td>45.2%</td><td>46.3%</td><td>48.2%</td></tr><tr><td><strong>总收入</strong></td><td><strong>2,225.01</strong></td><td><strong>2,865.51</strong></td><td><strong>4,475.45</strong></td><td><strong>3,568.05</strong></td></tr></tbody></table></div>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>依托「本体论（Ontology）+ FDE」构筑的极高客户转换成本</strong>：结构性护城河。核心壁垒并非 AI 模型本身，而是独有的「本体论」系统——将企业数据、业务逻辑和决策流程映射为可操作的「数字孪生」，结合 FDE 深入客户现场的定制化部署。替换 Palantir 意味着重构一套与业务深度融合的操作系统，转换成本和业务中断风险极高。</p>
+<ul><li><strong>数据验证</strong>：NDR 达 157%；前 20 大客户过去 12 个月平均收入 1.24 亿美元（+67%）；美国商业 RDV 同比增长 124%，客户以更大额、更长周期合同锁定合作。</li><li><strong>动态演变</strong>：护城河变宽。AIP 将 AI 能力深度整合进本体论，客户可在「数字孪生」上构建和部署 AI 代理；「主权 AI」叙事进一步巩固其企业 AI「控制层」地位。</li></ul>
+<h3 class="doc-h2">产销链</h3>
+<ul><li><strong>客户情况</strong>：截至 Q2 拥有 1,049 家客户，涵盖美国政府及盟友们国防情报机构与金融、能源、制造、医疗等领域商业巨头；无单一客户收入占比超 10%，前 20 大客户 TTM 平均收入 1.24 亿美元（+67%）。应收账款方面，客户 I 占 Q2 末总应收账款 27%，存在一定集中度风险。通过 AIP Bootcamp 高效获客，Q2 美国商业客户数同比增长 35%。</li><li><strong>供应商情况</strong>：主要成本来自第三方云托管服务。2026 年 3 月修订云服务协议，承诺未来十年至少支出 56 亿美元。</li><li><strong>成本传导能力</strong>：凭借高毛利订阅模式和客户价值主张，大概率可将云成本压力转嫁客户——赚取的是技术壁垒与服务粘性带来的「转换成本溢价」。</li></ul>
+<h3 class="doc-h2">财务数据</h3>
+<div class="tbl-wrap"><table><thead><tr><th>指标（百万美元）</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td>营业总收入</td><td>2,225.01</td><td>2,865.51</td><td>4,475.45</td><td>3,568.05</td></tr><tr><td>收入同比</td><td>16.75%</td><td>28.79%</td><td>56.18%</td><td>89.03%</td></tr><tr><td>毛利润</td><td>1,793.91</td><td>2,299.52</td><td>3,686.27</td><td>3,055.38</td></tr><tr><td>毛利率</td><td>80.62%</td><td>80.25%</td><td>82.37%</td><td>85.63%</td></tr><tr><td>营业利润</td><td>119.97</td><td>310.40</td><td>1,414.02</td><td>1,666.00</td></tr><tr><td>营业利润率</td><td>5.39%</td><td>10.83%</td><td>31.59%</td><td>46.69%</td></tr><tr><td>归母净利润</td><td>209.83</td><td>462.19</td><td>1,625.03</td><td>1,932.42</td></tr><tr><td>稀释每股收益（美元）</td><td>0.09</td><td>0.19</td><td>0.63</td><td>0.75</td></tr><tr><td>自由现金流</td><td>—</td><td>—</td><td>2,100.60</td><td>—</td></tr></tbody></table></div>
+<ul><li><strong>成长能力</strong>：营收增速从 FY2023 的 16.75% 飙升至 FY2026 H1 的 89.03%；GAAP 净利润 FY2026 H1 同比增长 257.35%。</li><li><strong>盈利能力</strong>：毛利率 FY2026 H1 达 85.63%；营业利润率从 FY2023 的 5.39% 扩张至 46.69%；Q2 调整后营业利润率 62%，冠绝软件行业。</li><li><strong>盈余质量</strong>：FY2026 H1 经营现金流净额 21.15 亿美元，超过同期净利润 19.42 亿美元；现金及短期投资合计 94.09 亿美元，无有息负债。</li></ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p>Palantir 处于<strong>企业级 AI 应用平台</strong>与<strong>政府国防数据分析</strong>两个细分市场的交汇点。企业级 AI 应用平台市场处于早期爆发阶段：Gartner 预测到 2028 年将有超过 60% 的企业采用某种形式的代理式 AI（Agentic AI），需求正从简单模型调用转向安全、高效地将 AI 嵌入核心业务流程。竞争对手包括：1）大型 ISV（Salesforce、ServiceNow）；2）数据平台公司（Databricks、Snowflake）；3）前沿 AI 实验室（OpenAI、Anthropic）。政府国防数据分析市场高壁垒、高粘性，Gotham 与 Maven 是该领域领导者，主要对手为传统国防承包商与系统集成商，但它们普遍缺乏现代软件工程能力和 AI 原生平台。</p>
+<p><strong>可比公司</strong>：Datadog（高增长高利润率 SaaS，聚焦 IT 监控）、Snowflake（云数据仓库，向上构建 AI 能力）、Microsoft（Azure OpenAI + Copilot，商业与政府市场的全面竞争对手）。Palantir 的差异化在于「本体论」层和 FDE 深度服务模式，直接切入客户最核心的业务决策流程。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<p><strong>议题一：高增长的可持续性与「主权 AI」叙事的验证</strong>——营收已连续 12 个季度加速，市场担忧基数效应下增速见顶。关注：美国商业 TCV 增速（+153%）能否在未来 2-3 个季度持续；「主权 AI」能否转化为更多长期大额「全栈迁移」合同；全年 82% 的营收指引是充分还是保守。</p>
+<p><strong>议题二：来自前沿 AI 实验室的竞争威胁</strong>——OpenAI、Anthropic 正招聘 FDE 并推出企业级产品（如 OpenAI  Frontier），这是 Q2 财报前股价大幅回调的核心原因。关注：正面竞争获胜案例是否越来越频繁；与 NVIDIA 合作微调开源模型是否意味着战略转向「引导客户使用更经济的开源模型」；客户流失率/竞标失败率是否上升。</p>
+<p><strong>议题三：政府业务的预算依赖与集中度风险</strong>——美国政府业务 Q2 收入占比达 42%，高度依赖国防预算与 Maven 等大型项目。关注：2027 财年若出现持续决议（CR）导致预算延迟的应对预案；应收账款集中于「客户 I」（占比 27%）的支付能力与续约前景；海外政府市场拓展进展。</p>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧：当前的高增长是 AI 驱动的结构性需求爆发，还是不可持续的短期「淘金热」？</strong></p>
+<ul><li><strong>看多方</strong>：「主权 AI」叙事切中大型企业对数据安全、模型控制和避免供应商锁定的根本性需求；NDR 157% 证明产品深度嵌入核心业务；订单和 RDV 等先行指标增速远超收入增速，增长飞轮仍在加速。</li><li><strong>谨慎方</strong>：约 62.7x CY27e PE 已计入未来多年高增长，容错率极低；前沿实验室和大型软件公司全力追赶，竞争格局存在不确定性；随着收入基数扩大，维持 90% 以上增速难度极大，任何减速都可能引发估值收缩。</li></ul>
+<p>分歧的本质在于对护城河「宽度」和「长度」的判断：看多方相信「本体论 + FDE」在 AI 时代构筑了比传统 SaaS 更深的护城河，应享极高估值溢价；谨慎方认为技术迭代和竞争可能快速侵蚀护城河，且高人力投入的 FDE 模式限制长期盈利上限。Q2 业绩和「主权 AI」叙事暂时强化了看多方逻辑，但长期争论远未结束。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>管理层最新指引（FY2026）</strong>：全年营收 81.50-81.58 亿美元（+82%）；美国商业营收超 34.24 亿美元（+134% 以上）；调整后营业利润 48.89-48.97 亿美元；调整后自由现金流 45-47 亿美元。</p>
+<div class="tbl-wrap"><table><thead><tr><th>机构（发布时间）</th><th>评级</th><th>目标价</th><th>FY2026E 营收</th><th>FY2027E 营收</th><th>FY2028E 营收</th><th>FY2026E 调整后 EPS</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>花旗（2026-08-04）</td><td>买入</td><td>245.00</td><td>8,199</td><td>13,409</td><td>20,424</td><td>1.72</td><td>2.61</td><td>3.84</td></tr><tr><td>高盛（2026-08-03）</td><td>中性</td><td>204.00</td><td>8,371.2</td><td>12,870.3</td><td>16,821.4</td><td>1.62</td><td>2.39</td><td>3.17</td></tr><tr><td>汇丰（2026-08-05）</td><td>持有</td><td>162.00</td><td>8,312</td><td>12,640</td><td>16,791</td><td>1.68</td><td>2.55</td><td>3.21</td></tr><tr><td>摩根士丹利（2026-08-04）</td><td>均配</td><td>205.00</td><td>8,222</td><td>11,771</td><td>—</td><td>1.73</td><td>2.48</td><td>—</td></tr><tr><td>中金公司（2026-08-05）</td><td>中性</td><td>168.00</td><td>8,222</td><td>11,771</td><td>—</td><td>1.73</td><td>2.48</td><td>—</td></tr></tbody></table></div>
+<p>（营收单位：百万美元；EPS 单位：美元）上述券商在 Q2 业绩后均大幅上调盈利预测，但目标价分歧明显：看多方（花旗）基于 5 年营收 CAGR 约 58% 和 67x FY28E EV/FCF 给出 245 美元；谨慎方（汇丰、中金）给予的估值倍数较低（如汇丰使用 1.75x PEG），目标价 162-168 美元，认为当前股价已反映强劲基本面。由于公司利润刚刚释放，多数机构采用远期 EV/FCF 或 PEG 估值法。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/PLTR · 生成于 2026-08-06</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-06';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'pending', text: '<strong>FY26Q3 财报</strong>（2026-11 初）：美国商业 TCV/RDV 先行指标能否延续，全年 +82% 指引是否再上修', note: '' },
+  { kind: 'cat', status: 'pending', text: '<strong>分析师日 / 花旗全球科技会议</strong>（2026-09）：「主权 AI」路线图、与 NVIDIA 合作（模型微调/后训练）细节', note: '' },
+  { kind: 'cat', status: 'pending', text: '<strong>美国 FY2027 预算审议</strong>（2026-10 起）：国防部 AI 相关预算增幅，直接关系政府业务增长信心', note: '' },
+  { kind: 'cat', status: 'active',  text: '<strong>「主权 AI」订单验证</strong>：更多客户签订长期、大额「全栈迁移」合同', note: '2026-08-03 Q2 电话会提出该叙事' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>美国商业收入增速跌破 100%</strong>（基数效应显现的明确信号）', note: '最新 Q2：+149%，缓冲很厚' },
+  { kind: 'risk', status: 'clear', text: '<strong>NDR 从 157% 显著回落</strong>，或 TCV 增速低于收入增速（先行指标拐头）', note: '最新 TCV +49% / 美国商业 TCV +153%' },
+  { kind: 'risk', status: 'clear', text: '前沿实验室（OpenAI/Anthropic）或 Databricks <strong>赢下标志性企业 AI 大单</strong>', note: 'Q2 电话会披露 Palantir 曾正面赢下对比测试' },
+  { kind: 'risk', status: 'clear', text: '<strong>国防预算削减或 CR 导致政府合同延迟</strong>；客户 I（应收占比 27%）续约/支付异常', note: '每季度财报季核对' },
+  { kind: 'risk', status: 'clear', text: '增速放缓引发<strong>估值倍数压缩</strong>（62.7x CY27e 下任何减速都被放大）', note: '管理层已提示 7.5% beat 非新常态' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

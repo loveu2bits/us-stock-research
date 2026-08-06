@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>美光（MU.O）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--policy-red); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">MU</span>
+    <span class="site-mark__text">美光 公司研究<span>Micron · MU.O</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>美光<span class="en">Micron Technology · MU.O · 美股研究</span></h1>
+        <p class="sub">全球三大存储巨头中唯一的美国公司，正借 16 份 SCA 长协（保底收入约 $1,000 亿）与 HBM4 量产，从「强周期股」向「周期成长股」切换。核心问题：这轮存储超级涨价周期还能走多久、市场何时相信盈利中枢已结构性上移。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-06</span>
+          <span>下次更新：FY26Q4 财报后（2026-09 下旬）</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="buy">买入</strong>
+        <em>FY27E 约 6x PE + SCA 下行保护，赔率约 3:1；证伪信号是合约价环比转跌。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">营收 +346%</strong><span>FY26Q3 $414.6亿·Q4指引$500亿</span></div>
+      <div class="summary-rail__item"><strong>84.9%</strong><span>FY26Q3 毛利率·历史新高</span></div>
+      <div class="summary-rail__item"><strong>~6.4x</strong><span>FY27E PE（FY26E ~13x）</span></div>
+      <div class="summary-rail__item"><strong>16 份</strong><span>SCA 长协·保底收入 $1,000亿</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">FY26Q3 财报与存储周期：超级涨价周期走到哪了？</h2>
+        <span class="qa__impact-tag">→ FY27 EPS $137–163 · 周期股 PE 6–8x</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>仍在加速段，不是尾声。<em>FY26Q3 营收 +346%、毛利率 84.9% 创历史新高，FY26Q4 指引继续上行；涨价由 ASP 驱动（DRAM ASP 环比 +60%+）而非出货量，说明供给刚性未解。判定拐点的方法很简单：盯 DRAM/NAND 合约价环比何时转平。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>周期的位置直接决定 FY27 EPS 落点。</strong>涨价延续（乐观）→ FY27 EPS 约 $155-163；高位走平（中性）→ 约 $150；2027 年见顶回落（悲观）→ 约 $138（卖方预测区间的两端）。</p>
+            <p>同时决定倍数：周期叙事 → 6-8x PE 封顶；「这次不一样」叙事被确认 → 估值体系向成长股切换。EPS 与倍数同向波动，<strong>这是美光股价弹性的全部来源</strong>。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>涨价是<strong>供给刚性</strong>驱动：FY26Q3 DRAM bit 出货量环比仅低个位数增长，ASP 环比 +60%+——需求远超供给</li>
+              <li>HBM 对晶圆产能的消耗是传统 DRAM 的 <strong>3 倍以上</strong>（HBM4E trade ratio 升至 4:1），结构性收紧整体 DRAM 供给</li>
+              <li>新建晶圆厂建设周期约 <strong>3 年</strong>，短期供给无解；三星/SK海力士财报双双确认短缺持续至 2027 年</li>
+              <li>公司指引供需紧张延续至 <strong>2027 年之后</strong>，HBM TAM 破 $1,000 亿时点提前到 2027 年</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>存储史上<strong>每一轮上行末期都伴随扩产纪律瓦解</strong>——三大原厂已宣布合计超万亿美元扩产，2028 年后产能或集中投放</li>
+              <li>美光自己也在猛扩：FY26 capex 上调至 $270 亿，FY27 隐含超 <strong>$400 亿</strong>——本轮周期的供给炸弹正在引线燃烧</li>
+              <li>三星/海力士财报当天大涨 27%/30%，美光随后却<strong>跌 5.9%</strong>——美股市场对周期持续性的分歧已经摆上台面</li>
+              <li>84.9% 的毛利率本身就是周期顶部的特征：<strong>均值回归的引力与利润率高度成正比</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（FY26Q3 财报速览 · 财务趋势 · 周期位置判断）</summary>
+          <div class="evidence__body">
+            <h5>FY26Q3 财报速览（截至 2026-05-28，2026-06-24 发布）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>实际</th><th>评价</th></tr></thead><tbody><tr><td>总营收</td><td><strong>$414.56 亿</strong>（同比 +346%，环比 +74%）</td><td>大幅超市场预期</td></tr><tr><td>Non-GAAP 毛利率</td><td><strong>84.9%</strong>（环比 +9.4pct）</td><td>创历史新高；IDM 模式下涨价几乎全部转化为利润</td></tr><tr><td>Non-GAAP EPS</td><td><strong>$25.11</strong></td><td>大幅超预期；FY26 前三季累计 EPS $41.97</td></tr><tr><td>DRAM</td><td>$313.28 亿（同比 +343%，环比 +67%）</td><td>bit 出货环比低个位数增长，ASP 环比 +low-60s%——纯涨价驱动</td></tr><tr><td>NAND</td><td>$99.43 亿（同比 +361%，环比 +99%）</td><td>ASP 环比 +mid-80s%；企业级 SSD 单季破 $50 亿、环比翻倍</td></tr><tr><td>SCA 披露</td><td>已签 <strong>16 份</strong>，保底收入约 $1,000 亿</td><td>客户预付款约 $220 亿（现金 $180 亿）同步入账</td></tr><tr><td>FY26Q4 指引</td><td>营收 $500±10 亿 · 毛利率 ~86% · EPS $31±1</td><td>继续环比大幅上行，且已连续多季超预期</td></tr><tr><td>财报后股价反应</td><td>三星 +27%、SK海力士 +30%（7/30-31），<strong>美光 -5.9%</strong></td><td><span class="warn">⚠️</span> 美股资金对周期持续性存分歧，与韩系定价不同步</td></tr></tbody></table></div>
+            <h5>四年财务趋势（单位：亿美元，FY 截至 8 月底）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>财年</th><th>营收</th><th>YoY</th><th>毛利率</th><th>归母净利</th><th>基本 EPS</th><th>自由现金流</th></tr></thead><tbody><tr><td>FY2023</td><td>155.40</td><td>-49.5%</td><td><span class="warn">-9.1%</span></td><td>-58.33</td><td>-5.34</td><td>-61.17</td></tr><tr><td>FY2024</td><td>251.11</td><td>+61.6%</td><td>22.4%</td><td>7.78</td><td>0.70</td><td>1.21</td></tr><tr><td>FY2025</td><td>373.78</td><td>+48.9%</td><td>39.8%</td><td>85.39</td><td>7.65</td><td>16.68</td></tr><tr><td><strong>FY26 Q1-Q3</strong></td><td>789.59</td><td><strong>+203%</strong></td><td><strong>76.6%</strong></td><td>472.68</td><td>41.97</td><td>261.00</td></tr></tbody></table></div>
+            <p>上一轮下行（FY2023）毛利率打到 -9.1%、净亏 $58 亿——这就是「周期股」标签的来历；本轮 FY26 前三季营收已超 FY25 全年两倍。资产负债表同步修复：FY26Q3 末净现金 $244 亿（FY25 末还是净债务 $26 亿），上半年提前偿债约 $94 亿。</p>
+            <h5>周期位置判断</h5>
+            <ul>
+              <li>需求侧：Agentic AI 单个查询调用 4-5 个并行 Agent，KV Cache 随上下文长度指数膨胀——<strong>推理侧存储消耗是持续的，不是训练侧一次性脉冲</strong></li>
+              <li>供给侧：HBM 挤占产能（3-4 倍晶圆消耗）+ 新厂 3 年建设周期 + 设备交付周期延长 50-100%，<strong>供给弹性被三重锁死</strong></li>
+              <li>库存验证：存货周转天数从 FY25 末约 140 天降至约 122 天，需求旺盛下库存加速消化</li>
+              <li>但诚实地讲：FY27 capex 超 $400 亿 + 三星/海力士同步扩产，<strong>本轮上行的终点大概率还是供给自己造出来的</strong>，只是时点大概率在 2028 年之后</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">SCA 长协能否真正锁定盈利中枢——「这次是不是不一样」？</h2>
+        <span class="qa__impact-tag">→ 决定估值范式：周期股 6–8x 还是成长股 15x+</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>部分成立，且已是硬证据而非叙事。<em>$1,000 亿保底合同 + $180 亿现金预付款是客户真金白银的背书，价格下限毛利率仍超历史周期峰值——下行保护是真实的。但覆盖度只有约 50%、期限 5 年，正确定位是「周期成长股」，不是完全消除周期。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这是倍数问题，不是 EPS 问题。</strong>若市场确认盈利模式从「周期驱动」切换为「订单驱动」，估值锚将从周期股 6-8x 移向成长股 10-15x——即使 EPS 不变，倍数切换本身就是 +50% 以上的空间。</p>
+            <p>对 EPS 的意义在下行保护：SCA 下限对应毛利率（低 60% 区间）仍高于 FY22 峰值 45%——<strong>意味着下轮下行的利润底部，高于上轮周期的利润顶部</strong>。若兑现，FY28 悲观情形的 EPS 下修幅度将远小于历史周期。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li><strong>16 份 SCA、保底收入 $1,000 亿</strong>（按最低价测算），take-or-pay 机制 + 价格上下限设计，期限以 5 年为主</li>
+              <li>客户预付款约 <strong>$220 亿（现金 $180 亿）</strong>——客户已经把钱拍在桌上，履约承诺是财务级的</li>
+              <li>价格下限毛利率仍高于历史周期峰值；上限对应 CY26Q2 市价——<strong>客户用让渡上行为代价锁定供应，说明他们判断短缺是长期的</strong></li>
+              <li>三星、SK海力士也在推类似多年期 LTA——SCA 正成为<strong>行业标准</strong>，全行业周期性有望结构性收敛</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>存储史上<strong>从无如此规模的长协先例</strong>，定价机制、取消条款等细节均未公开，信息不对称仍在</li>
+              <li>只覆盖约 20% DRAM、1/3 NAND 出货量，目标约 50% 收入——<strong>另一半仍裸奔在现货价格里</strong></li>
+              <li>极端下行周期中客户可能寻求重新谈判或利用合同漏洞，take-or-pay 的法律执行力未经考验</li>
+              <li>约 $220 亿预付款将在合同后期返还，<strong>届时对现金流是一次性冲击</strong>；且长协锁死上限也意味着放弃了部分涨价弹性</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（SCA 条款拆解 · 客户结构 · 覆盖度测算）</summary>
+          <div class="evidence__body">
+            <h5>SCA 关键条款</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>条款</th><th>内容</th><th>含义</th></tr></thead><tbody><tr><td>数量 / 期限</td><td>16 份，覆盖数据中心 / 消费电子 / 汽车，期限以 5 年为主</td><td>福特、通用、高通、现代摩比斯、哈曼等车企 7 月密集签约</td></tr><tr><td>机制</td><td>take-or-pay + 价格上下限</td><td>不买也要付钱；涨跌都有护栏</td></tr><tr><td>价格下限</td><td>对应毛利率仍高于历史周期峰值（低 60% 区间 vs FY22 峰值 45%）</td><td><strong>下行周期的利润底 &gt; 上轮周期的利润顶</strong></td></tr><tr><td>价格上限</td><td>对应 CY26Q2 市场价格水平</td><td>公司让渡了极端涨价弹性，换来可预测性</td></tr><tr><td>保底规模</td><td>14 份按最低价测算 ≈ $1,000 亿合同收入</td><td>约相当于 FY26E 全年营收的 77%</td></tr><tr><td>预付款</td><td>约 $220 亿，其中现金约 $180 亿</td><td>合同后期需返还；当下是扩产的低成本资金</td></tr><tr><td>覆盖度</td><td>约 20% DRAM 出货量 + 1/3 NAND 出货量；目标全部落地后 ≥50% 收入</td><td><span class="warn">⚠️</span> 仍有约一半收入暴露于现货价格</td></tr></tbody></table></div>
+            <h5>客户结构变化</h5>
+            <ul>
+              <li>FY26Q1 单一客户（市场普遍认为英伟达）收入占比 <strong>17%</strong>，FY25 前十大客户贡献约 50% 收入——集中度本就高</li>
+              <li>SCA 把客户从「每季度砍价的对手」变成「预付 $220 亿的合伙人」：<strong>转换成本从商业惯性升级为财务沉没</strong></li>
+              <li>公司已退出 Crucial 消费品牌业务，资源全面转向高利润的企业级/数据中心客户</li>
+            </ul>
+            <h5>「周期成长股」的量化含义</h5>
+            <p>若 SCA 按设计运行，下一轮下行期的毛利率底约 60%+（vs FY2023 的 -9.1%）——盈利波动率大幅收敛，这正是估值倍数从「周期折价」向「成长溢价」修复的数学基础。<strong>验证窗口：FY26Q4 财报的 SCA 细节披露（定价机制 / 客户构成 / 取消条款），是未来一个季度最核心的催化剂。</strong></p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">估值：FY27 约 6x PE 隐含了什么预期？赔率如何？</h2>
+        <span class="qa__impact-tag">→ 三情景期望 +25% · 赔率约 3:1</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>买入。<em>现价（反推约 $1,000）≈ FY27E 6.4x PE，市场仍在用「周期股见顶」给它定价；而 SCA 下行保护 + 12 月回购启动（或达市值 10%+）封住了悲观情形的深度。三情景期望回报约 +25%，赔率约 3:1。下调为「持有」的触发条件：合约价环比转跌，或 FY26Q4 未再超预期。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这个问题本身就是估值问题。</strong>卖方目标价 $1,400-1,800（富国 1525 / 华泰 1800 / 国泰海通 1629 / 道明 1600 / 瑞银 1625 / 花旗 1400），全部基于 FY27/FY28 PE 8-12x——<strong>对一家 FY27 净利预计 $1,500 亿+ 的公司，市场连周期股中枢的 8x 都还没给够</strong>。</p>
+            <p>中性情景（FY27 EPS $150 × 8x）一年期回报约 +20%；期望值约 +25%。赔率 ≈ 3:1（乐观 +63% vs 悲观 -17%）。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>FY27E PE 约 <strong>6.4x</strong>，与 SK海力士（5.3x）、三星（4.9x）同处周期股定价，但美光有最强的 SCA 确定性 + 唯一美国本土龙头的政策溢价</li>
+              <li>12 月 9 日 CHIPS Act 两周年后启动资本回报：<strong>100% FCF 返还股东、以回购为主</strong>，按 FY27 FCF 测算回购规模或达市值 <strong>10%+</strong>——直接构成股价底</li>
+              <li>FY27 EPS 卖方区间 $137-163，即使按最谨慎的花旗 $138，<strong>现价也只有 7x 出头</strong>——悲观已被定价</li>
+              <li>客户预付款 $180 亿现金 + FY26 前三季 FCF $261 亿，净现金 $244 亿——<strong>扩产不靠举债</strong>，激进 capex 不伤资产负债表</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>周期股「利润高点 × 低倍数」是铁律：<strong>6x 可能不是便宜，而是市场在提前贴现 2028 年的下行</strong></li>
+              <li>FY28 卖方分歧已现：乐观方预计 EPS 继续增长至 $161-187，花旗预计增速放缓至约 10%——<strong>峰值利润的持续性没人敢打包票</strong></li>
+              <li>SK海力士 IPO 募资 $265 亿 + 三星 DRAM 份额重返 39% 第一 + CXMT 2026 底月产能 35 万片——<strong>竞争和供给都在变多</strong></li>
+              <li>FY27 capex 超 $400 亿若遇需求降速，折旧压力将在下行期放大利润波动（IDM 模式的另一面）</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（当前定价测算 · 三情景表 · 同业估值对照）</summary>
+          <div class="evidence__body">
+            <h5>当前定价（基于一页通数据反推）</h5>
+            <ul>
+              <li>一页通可比表（截至 2026-07-03）：美光 FY26E PE 13.3x / FY27E PE 6.4x，按国泰海通 FY26E EPS $74 反推，<strong>股价约 $1,000</strong>（估算值，以实时行情为准）</li>
+              <li>股本估算：FY26 前三季归母净利 $472.68 亿 ÷ 基本 EPS $41.97 ≈ 11.3 亿股 → 市值约 <strong>$1.1 万亿</strong></li>
+              <li>FY26E 净利约 $74 × 11.3 亿股 ≈ $830 亿；FY27E（中性 $150 EPS）净利约 <strong>$1,700 亿</strong></li>
+            </ul>
+            <h5>三情景假设（FY2027-FY2028 视角）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>FY27 EPS</th><th>合理 PE</th><th>隐含股价</th><th>vs 当前</th></tr></thead><tbody><tr><td>乐观（30%）</td><td>SCA 细节消除疑虑、估值范式切换；HBM 份额达 20-25%；涨价延续至 2027 全年</td><td>~$163（区间上限）</td><td>10x</td><td>$1,630</td><td>+63%</td></tr><tr><td>中性（50%）</td><td>涨价高位走平，SCA 按设计运行；市场维持周期股定价但给到中枢倍数</td><td>~$150（区间中值）</td><td>8x</td><td>$1,200</td><td>+20%</td></tr><tr><td>悲观（20%）</td><td>2028 下行担忧发酵，非 SCA 部分价格回落；回购部分对冲跌幅</td><td>~$138（花旗）</td><td>6x</td><td>$830</td><td><span class="warn">-17%</span></td></tr></tbody></table></div>
+            <p><strong>期望值约 $1,255，较现价约 +25%；赔率 ≈ 3:1</strong>。关键不对称性在于：悲观情形有 SCA 下限 + 回购托底（-17%），乐观情形有估值范式切换的期权（+63%）。估值不是算出「正确答案」，而是看现价隐含的是「周期即将见顶」——而我们判断顶点至少还在一年以外。</p>
+            <h5>同业估值对照（截至 2026-07-03）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>公司</th><th>FY26E PE</th><th>FY27E PE</th><th>核心差异</th></tr></thead><tbody><tr><td>SK海力士</td><td>7.7x</td><td>5.3x</td><td>HBM 份额约 47% 领先，与英伟达绑定最深</td></tr><tr><td>三星电子</td><td>6.8x</td><td>4.9x</td><td>DRAM 份额 39% 重返第一，HBM 快速追赶</td></tr><tr><td>闪迪</td><td>26.6x</td><td>8.9x</td><td>纯 NAND/SSD，企业级 SSD 敞口高</td></tr><tr><td><strong>美光</strong></td><td><strong>13.3x</strong></td><td><strong>6.4x</strong></td><td>唯一美国本土存储龙头，SCA 推进最快、盈利确定性最强</td></tr></tbody></table></div>
+            <p>美光 FY26E 倍数高于韩系，反映美股流动性与 SCA 溢价；但 FY27E 6.4x vs 海力士 5.3x 的差距，尚不足以补偿 HBM 份额差距（19% vs 47%）正在收窄的事实——若 HBM4E 2027 年认证顺利，相对估值还有上修空间。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>：公司概况、近期要闻、催化剂、同业与卖方预测（见同目录《美光_一页通.md》，亦见本站「一页通」标签页）</li>
+        <li><strong>财务数据</strong>：FY2023-FY26Q3 利润表与现金流、分业务拆分（正文数据均来自公开财报整理）</li>
+        <li><strong>局限</strong>：未读 10-K/10-Q 原文（建议补读 Risk Factors 与 SCA 相关披露）；当前股价与市值为「PE × 卖方 EPS」反推的估算值，以实时行情为准；SCA 合同细节（定价机制 / 取消条款）未公开，覆盖度与下限毛利率均为管理层口径；HBM 份额为第三方估计</li>
+        <li><strong>管理层评估（一句话版）</strong>：本轮用 SCA + 预付款重构商业模式、逆周期大手笔扩产美国产能，战略动作激进且连贯；但 FY27 capex 超 $400 亿的纪律性要到下行期才能验证</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>美光科技是全球三大存储芯片巨头之一，与三星电子、SK海力士共同占据全球DRAM市场约90%以上份额。公司采用垂直整合制造模式，产品矩阵涵盖DRAM、NAND闪存及NOR闪存，广泛应用于数据中心、移动终端、汽车电子及工业等领域。在AI驱动的新一轮需求周期中，公司凭借HBM（高带宽内存）产品的技术突破和规模化量产，正从传统的"容量供应商"向"算力存储解决方案领导者"转型。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul><li><strong>战略客户协议密集落地</strong>：截至FY26Q3末，公司已签署<strong>16份</strong>战略客户协议，覆盖数据中心、消费电子及汽车三大终端市场，协议期限以<strong>5年</strong>为主。这些协议采用take-or-pay机制，并引入价格上下限设计，上限对应CY26Q2市场价格水平，下限对应毛利率仍高于公司历史周期峰值。其中14份协议按最低价测算，对应保底合同收入约<strong>1000亿美元</strong>，并带来约<strong>220亿美元</strong>客户预付款及相关财务承诺，其中现金约<strong>180亿美元</strong>。公司预计全部目标SCA落地后，约<strong>50%以上</strong>收入将纳入长协框架。</li><li><strong>HBM4量产推进超预期</strong>：公司HBM4已于FY26Q1量产出货，专为英伟达Vera Rubin平台设计，总带宽超<strong>2.8TB/s</strong>。截至FY26Q3末，HBM4累计收入已超<strong>10亿美元</strong>，产能爬坡和良率均优于市场预期。HBM4E（基于1γ DRAM工艺）开发中，预计<strong>2027年</strong>量产。公司重申HBM全球市场份额目标将与整体DRAM市场份额一致，对应约<strong>20%-25%</strong>。</li><li><strong>资本开支大幅上调</strong>：公司上调FY26资本开支至<strong>270亿美元</strong>（此前指引约250亿美元），并指引FY27季度资本开支将高于FY26Q4水平（FY26Q4指引约100亿美元），隐含FY27全年资本开支超<strong>400亿美元</strong>。公司同时宣布计划在2035年前将对美国本土的投资总额提升至超过<strong>2500亿美元</strong>，目标是将美国产能占其DRAM总产量的比例提升至<strong>40%</strong>。</li><li><strong>企业级SSD单季收入突破50亿美元</strong>：FY26Q3数据中心SSD收入超过<strong>50亿美元</strong>，环比翻倍以上，市场份额连续四年提升。公司PCIe Gen6规格的Micron 9650企业级SSD已率先量产，读取性能较Gen5翻倍，专为AI推理负载优化。</li><li><strong>与福特、通用等车企签署长期协议</strong>：公司近期与福特汽车、通用汽车以及高通、现代摩比斯、哈曼等汽车零部件供应商签署了长期战略客户协议，锁定汽车AI内存芯片的长期供应。</li></ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol><li><strong>FY26Q4业绩及FY27资本开支指引或持续超预期</strong>：公司FY26Q3业绩大幅超预期，FY26Q4指引营收<strong>500±10亿美元</strong>，Non-GAAP毛利率约<strong>86%</strong>，Non-GAAP EPS约<strong>31美元±1美元</strong>。考虑到公司已连续多个季度超预期，且当前DRAM/NAND价格仍在上行通道中，FY26Q4实际业绩大概率再次超预期。更重要的是，公司已明确FY27季度资本开支将高于FY26Q4的约100亿美元水平，隐含全年超400亿美元。这一激进的资本开支计划将直接推升市场对公司长期产能扩张和收入增长的预期。</li><li><strong>SCA细节持续披露或催化估值体系切换</strong>：公司已披露16份SCA的框架性条款，但市场对其定价机制、客户构成、取消条款等细节仍存在信息不对称。随着后续季报和投资者交流中更多细节浮出水面，市场对"SCA能否真正锁定中长期盈利中枢"的疑虑有望逐步消除。一旦市场确认SCA能有效将公司盈利模式由"周期驱动"切换为"订单驱动"，存储板块的估值方法将加速从周期股向成长股切换，这将是未来一个季度最核心的催化剂。</li><li><strong>12月资本回报启动或成重要催化剂</strong>：公司明确表示，在CHIPS Act协议两周年（2026年12月9日）后，将拥有完全的资本回报灵活性，并计划将<strong>100%的自由现金流</strong>通过分红和回购返还股东，且以回购为主。以当前市值和FY27自由现金流预期测算，回购规模可能达到市值的<strong>10%以上</strong>，这将成为股价的重要支撑。</li></ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol><li><strong>SCA重塑商业模式，盈利中枢结构性上移</strong>：公司已签署的16份SCA覆盖约<strong>20%的DRAM出货量</strong>和<strong>1/3的NAND出货量</strong>，且全部目标SCA落地后约<strong>50%以上</strong>收入将纳入长协框架。SCA采用take-or-pay机制，并引入价格上下限设计，下限对应毛利率仍高于公司历史周期峰值（对应低60%毛利率区间）。这意味着即使在行业下行周期中，公司也有望维持远高于历史均值的盈利能力。这一结构性变化将从根本上改变公司"周期股"的属性，使其盈利可预测性大幅提升，进而支撑估值中枢的系统性上移。</li><li><strong>Agentic AI驱动存储需求结构性增长</strong>：随着AI从训练走向推理，Agentic AI架构对存储系统提出全新要求。单个Agentic查询可同时调用<strong>4-5个</strong>并行Agent，每个Agent执行独立的CPU任务并持续与GPU/ASIC加速器交互，从而对CPU周期、DRAM容量、GPU时间、HBM带宽和SSD存储产生乘数级需求增长。KV Cache的指数级膨胀（上下文长度从数千扩展至百万量级）正推动DRAM容量和NAND存储需求同步扩张。公司预计HBM TAM突破<strong>1000亿美元</strong>的时点已从2028年提前至<strong>2027年</strong>，且供需紧张格局将延续至<strong>2027年之后</strong>。</li><li><strong>美国本土制造龙头的战略溢价</strong>：公司计划在2035年前对美国本土投资超<strong>2500亿美元</strong>，目标是将美国DRAM产能占比提升至<strong>40%</strong>。在《芯片与科学法案》提供约<strong>64亿美元</strong>补贴及<strong>35%</strong>投资税收抵免的支持下，公司正成为继英特尔之后美国先进制造的新标杆。这一战略定位不仅有助于分散地缘风险、稳定供应链，更可能使公司在中长期获得政策溢价和本土客户偏好。</li></ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul><li><strong>存储行业周期再现风险</strong>：尽管SCA提供了下行保护，但SCA仅覆盖约50%的收入，剩余部分仍暴露于现货价格波动。若AI算力投资增速边际放缓，叠加三大原厂新增产能集中释放，非SCA部分的收入和利润仍可能面临较大压力。历史上存储行业每一轮上行末期都伴随供给方扩产纪律的瓦解，这一规律是否被彻底打破仍需时间验证。</li><li><strong>竞争格局变化风险</strong>：SK海力士已完成美股IPO，募资<strong>265亿美元</strong>，资本实力进一步增强。三星电子以<strong>39%</strong>的DRAM市场份额重返全球第一，且正加速HBM产能扩张。此外，中国长鑫存储（CXMT）正加速产能释放，预计2026年底月产能将达到<strong>35万片</strong>，虽然目前在HBM领域仍落后，但在中低端DRAM市场可能形成价格压力。</li><li><strong>SCA执行与客户履约风险</strong>：SCA虽为take-or-pay结构，但在极端行业下行周期中，客户可能寻求重新谈判条款或利用合同漏洞减少履约义务。此外，约<strong>220亿美元</strong>的客户预付款将在合同后期返还，届时可能对公司现金流产生一次性影响。</li></ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul><li><strong>2026年6月24日</strong>：公司发布FY26Q3财报，营收<strong>414.56亿美元</strong>（同比+346%，环比+74%），Non-GAAP毛利率<strong>84.9%</strong>（环比+9.4pct），Non-GAAP EPS <strong>25.11美元</strong>，均大幅超市场预期。公司同时披露已签署16份SCA，并指引FY26Q4营收500±10亿美元，毛利率约86%。</li><li><strong>2026年7月6日</strong>：公司宣布与福特汽车签署长期战略客户协议，这是继7月1日与通用汽车签署类似协议后的又一汽车领域SCA。同月，公司还宣布与高通、现代摩比斯、哈曼等汽车零部件供应商签署SCA。</li><li><strong>2026年7月9日</strong>：公司宣布将美国本土投资计划从2000亿美元上调至<strong>2500亿美元</strong>以上，目标是将美国DRAM产能占比提升至40%。纽约州克莱工厂完成首次混凝土浇筑，比原计划提前超一个季度。</li><li><strong>2026年7月30日-31日</strong>：三星电子和SK海力士先后发布财报，确认存储芯片短缺将持续至2027年，且客户正签署多年期合同以锁定供应。三星股价单日上涨<strong>27%</strong>，SK海力士触及<strong>30%</strong>涨幅上限。但美光股价在随后交易日下跌<strong>5.9%</strong>，反映美国市场对存储周期持续性的分歧。</li></ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul><li><strong>2026年9月下旬</strong>：公司预计发布FY26Q4财报。考虑到当前DRAM/NAND价格仍在上行通道中，且公司已连续多个季度超预期，FY26Q4实际业绩大概率再次超预期。同时，市场将高度关注SCA进展更新及FY27资本开支的具体指引。</li><li><strong>2026年12月9日</strong>：CHIPS Act协议两周年，公司将拥有完全的资本回报灵活性。公司已明确计划将100%的自由现金流通过分红和回购返还股东，且以回购为主。这一时间节点可能成为公司启动大规模回购的催化剂。</li><li><strong>2026年下半年至2027年初</strong>：HBM4产能爬坡进展、HBM4E（基于1γ DRAM工艺）的客户认证和量产进度，以及英伟达Vera Rubin平台的放量节奏，将成为影响公司HBM市场份额和盈利能力的关键变量。</li></ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<p><strong>业务边际变化</strong>：公司正经历从"周期驱动的商品化存储供应商"向"长协锁定的AI存储解决方案龙头"的战略转型。核心变化包括：1）SCA覆盖度快速提升，约50%以上收入将纳入长协框架，盈利可预测性大幅增强；2）HBM业务从FY25的约<strong>55亿美元</strong>爆发式增长，预计FY26将超<strong>140亿美元</strong>，成为最重要的增长引擎；3）企业级SSD单季收入突破<strong>50亿美元</strong>，NAND业务正从消费级向高毛利企业级市场结构性转型；4）公司已退出Crucial消费品牌业务，进一步将资源集中于高利润企业级和数据中心客户。</p>
+<p><strong>盈利模式</strong>：公司依靠<strong>技术壁垒</strong>和<strong>规模制造能力</strong>盈利。在DRAM领域，公司凭借1β、1γ等先进制程节点和HBM的3D堆叠封装技术，在AI存储赛道构建了较强的技术护城河。在NAND领域，公司通过232层/276层3D NAND技术和QLC架构降低单位成本。SCA的引入正在将公司的盈利模式从"赚取周期波动的价格差价"升级为"赚取长期订单的技术溢价和规模成本优势"。</p>
+<p><strong>业务结构概览</strong>：公司自FY25Q4起按终端市场重组业务单元，分为四大板块。FY26Q3，<strong>CMBU</strong>（云存储，含HBM）和<strong>CDBU</strong>（核心数据中心）合计收入占比约<strong>61%</strong>，是公司最重要的收入和利润来源。<strong>MCBU</strong>（移动与客户端）占比约<strong>28%</strong>，<strong>AEBU</strong>（汽车与嵌入式）占比约<strong>11%</strong>。公司当前处于<strong>产能爬坡期</strong>与<strong>价格上行期</strong>叠加的超级景气周期，HBM和高端DRAM/NAND的供需紧张格局预计延续至2027年之后。</p>
+<p><strong>细分业务拆分</strong>（按技术，单位：亿美元）</p>
+<div class="tbl-wrap"><table><thead><tr><th>业务板块</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY26Q1-Q3</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2023-08-31</td><td>2024-08-29</td><td>2025-08-28</td><td>2026-05-28</td></tr><tr><td>DRAM收入</td><td>109.74</td><td>176.03</td><td>285.78</td><td>609.08</td></tr><tr><td>DRAM同比</td><td>-51.0%</td><td>+60.4%</td><td>+62.3%</td><td>+210.8%</td></tr><tr><td>DRAM收入占比</td><td>70.6%</td><td>70.1%</td><td>76.5%</td><td>77.1%</td></tr><tr><td>NAND收入</td><td>42.06</td><td>72.27</td><td>85.03</td><td>176.83</td></tr><tr><td>NAND同比</td><td>-46.2%</td><td>+71.8%</td><td>+17.7%</td><td>+182.9%</td></tr><tr><td>NAND收入占比</td><td>27.1%</td><td>28.8%</td><td>22.7%</td><td>22.4%</td></tr><tr><td>其他（主要为NOR）</td><td>3.60</td><td>2.81</td><td>2.97</td><td>3.68</td></tr><tr><td>总收入</td><td>155.40</td><td>251.11</td><td>373.78</td><td>789.59</td></tr></tbody></table></div>
+<p><em>注：FY26Q1-Q3为前三季度累计数据（截至2026年5月28日），非单季度数据。</em></p>
+<p><strong>DRAM业务</strong>（FY26Q3单季）：收入<strong>313.28亿美元</strong>，同比+343%，环比+67%。量价拆分：bit出货量环比增长<strong>低个位数百分比</strong>，ASP环比上涨<strong>low-60s%</strong>。增长主要受AI服务器对HBM及DDR5的强劲需求驱动。公司1γ DRAM节点正以创纪录速度达到成熟良率，预计2026年年中成为量产主力。HBM4已于FY26Q1量产出货，累计收入超10亿美元，产能爬坡快于预期。</p>
+<p><strong>NAND业务</strong>（FY26Q3单季）：收入<strong>99.43亿美元</strong>，同比+361%，环比+99%。量价拆分：bit出货量环比增长<strong>mid-single-digit%</strong>，ASP环比上涨<strong>mid-80s%</strong>。增长主要受数据中心SSD需求爆发驱动，企业级SSD单季收入突破50亿美元。公司PCIe Gen6 SSD已率先量产，G9 NAND（276层）正加速放量。</p>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托SCA构建的客户粘性与盈利可预测性</strong></p>
+<ul><li><strong>护城河定性</strong>：属于<strong>结构性护城河</strong>。SCA通过take-or-pay机制、价格上下限设计及客户预付款（约220亿美元），将公司与核心客户的利益深度绑定。客户一旦签署3-5年期协议并支付大额预付款，其转换成本极高，这为公司提供了远超传统存储周期的收入可预测性。</li><li><strong>数据验证</strong>：16份SCA按最低价测算对应保底合同收入约<strong>1000亿美元</strong>，覆盖约20%的DRAM出货量和1/3的NAND出货量。公司预计全部目标SCA落地后约<strong>50%以上</strong>收入将纳入长协框架。管理层明确表示，SCA下限对应毛利率仍高于公司历史周期峰值（对应低60%毛利率区间），而公司历史峰值毛利率为FY22的<strong>45%</strong>和FY26Q3的<strong>84.9%</strong>。约<strong>180亿美元</strong>的客户现金预付款进一步验证了客户承诺的真实性。</li><li><strong>动态演变</strong>：护城河正在<strong>变宽</strong>。公司正将SCA从数据中心客户扩展至汽车（福特、通用、高通、现代摩比斯等）和消费电子领域，覆盖的客户范围和收入占比持续扩大。随着SCA框架成为行业标准（三星、SK海力士也在推进类似LTA），存储行业的周期性波动有望结构性收敛。</li></ul>
+<p><strong>竞争要素 2：HBM领域的技术追赶与份额扩张</strong></p>
+<ul><li><strong>护城河定性</strong>：属于<strong>行业阶段性红利</strong>，但正快速向<strong>结构性护城河</strong>演变。HBM的本质是通过3D堆叠和TSV技术实现超高带宽，其技术壁垒在于先进封装工艺和与客户GPU平台的深度适配。公司HBM3E已批量出货，HBM4率先量产并深度绑定英伟达Vera Rubin平台，HBM4E预计2027年量产，技术迭代节奏已与SK海力士基本同步。</li><li><strong>数据验证</strong>：公司HBM4已于FY26Q1量产出货，累计收入超<strong>10亿美元</strong>，产能爬坡速度是HBM3E的<strong>2倍</strong>。公司目标HBM市场份额与整体DRAM份额一致（约<strong>20%-25%</strong>），而FY25其HBM市场份额估计约<strong>19%</strong>。HBM的trade ratio（DDR:HBM）预计将从HBM3E的<strong>3:1</strong>提升至HBM4E的<strong>4:1</strong>，这意味着HBM对晶圆产能的消耗将持续增加，从而结构性收紧整体DRAM供给。</li><li><strong>动态演变</strong>：护城河正在<strong>变宽</strong>。公司正通过HBM4E（基于1γ节点）和HBM4 16层堆叠产品的研发，缩小与SK海力士的技术差距。但需注意，SK海力士在HBM市场仍占据约<strong>47%</strong>的份额（FY26E），且其与英伟达的绑定深度仍高于美光。三星HBM产能也在快速扩张，预计FY26份额将提升至<strong>35%</strong>。HBM领域的竞争格局仍存在不确定性。</li></ul>
+<p><strong>现阶段核心驱动力总结</strong>：公司的Alpha在于SCA驱动的盈利模式升级和HBM领域的技术追赶，Beta在于AI算力投资驱动的存储需求结构性增长。SCA为公司提供了下行保护，HBM和高端DRAM/NAND的供需紧张提供了上行弹性。传导链条：SCA长协锁定 + HBM技术突破 → 客户转换成本提高 + 定价权增强 → 毛利率维持60%以上高位 + 收入可预测性提升 → 盈利中枢结构性上移；同时 HBM产能扩张 + 企业级SSD放量 → DRAM/NAND ASP上行 + 市场份额扩张 → 同样指向盈利中枢上移。</p>
+<h3 class="doc-h2">产销链</h3>
+<p><strong>客户情况</strong>：FY26Q1-Q3，公司<strong>单一客户</strong>收入占比分别为<strong>17%</strong>和<strong>13%</strong>（FY26Q1和前三季度累计），市场普遍认为该客户为英伟达。公司客户集中度较高，FY25前十大客户贡献约<strong>50%</strong>收入。SCA的签署正在改变客户结构，16份SCA覆盖数据中心、消费电子及汽车三大领域，客户预付款约<strong>220亿美元</strong>（其中现金约180亿美元），体现了核心客户对长期供应的强烈承诺。新客户方面，公司已与福特、通用、高通、现代摩比斯等汽车领域客户签署SCA，处于<strong>已进入供应商名录并锁定长期供应</strong>的阶段。</p>
+<p><strong>供应商情况</strong>：公司主要原材料包括硅晶圆、化学品、光刻胶、气体、靶材等。公司已与环球晶圆签署<strong>10年期</strong>供应协议，并向其提供<strong>5亿美元</strong>战略融资，以锁定美国本土300mm硅晶圆产能。公司还与ASML签署多年期EUV设备采购协议，以支持1γ及后续节点的产能扩张。半导体制造设备交付周期已延长<strong>50%-100%</strong>，供应紧张可能制约短期产能扩张节奏。</p>
+<p><strong>成本传导能力</strong>：公司采用IDM模式，固定成本（折旧）占比较高。FY26Q3折旧费用约<strong>23.64亿美元</strong>，占营收约<strong>5.7%</strong>。在价格上行周期，由于成本相对固定，价格涨幅几乎全部转化为利润（FY26Q3毛利率84.9%，环比+9.4pct）。在价格下行周期，公司可通过技术升级（如1γ节点）降低单位成本，但若价格跌幅超过成本降幅，利润率将快速承压。SCA的价格下限设计为公司提供了下行保护。公司赚取的是<strong>技术溢价</strong>和<strong>规模制造优势</strong>，而非单纯的"周期资源钱"。</p>
+<h3 class="doc-h2">财务数据</h3>
+<div class="tbl-wrap"><table><thead><tr><th>财务指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY26Q1-Q3</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2023-08-31</td><td>2024-08-29</td><td>2025-08-28</td><td>2026-05-28</td></tr><tr><td>营业总收入(亿美元)</td><td>155.40</td><td>251.11</td><td>373.78</td><td>789.59</td></tr><tr><td>收入同比(%)</td><td>-49.48</td><td>+61.59</td><td>+48.85</td><td>+202.95</td></tr><tr><td>营业成本(亿美元)</td><td>169.56</td><td>194.98</td><td>225.05</td><td>185.02</td></tr><tr><td>毛利(亿美元)</td><td>-14.16</td><td>56.13</td><td>148.73</td><td>604.57</td></tr><tr><td>毛利率(%)</td><td>-9.1</td><td>22.4</td><td>39.8</td><td>76.6</td></tr><tr><td>营业利润(亿美元)</td><td>-54.50</td><td>10.54</td><td>98.70</td><td>556.32</td></tr><tr><td>营业利润率(%)</td><td>-35.1</td><td>4.2</td><td>26.4</td><td>70.5</td></tr><tr><td>归母净利润(亿美元)</td><td>-58.33</td><td>7.78</td><td>85.39</td><td>472.68</td></tr><tr><td>净利率(%)</td><td>-37.5</td><td>3.1</td><td>22.8</td><td>59.9</td></tr><tr><td>基本EPS(美元)</td><td>-5.34</td><td>0.70</td><td>7.65</td><td>41.97</td></tr><tr><td>稀释EPS(美元)</td><td>-5.34</td><td>0.70</td><td>7.59</td><td>41.40</td></tr><tr><td>经营现金流(亿美元)</td><td>15.59</td><td>85.07</td><td>175.25</td><td>457.02</td></tr><tr><td>资本支出(亿美元)</td><td>76.76</td><td>83.86</td><td>158.57</td><td>196.02</td></tr><tr><td>自由现金流(亿美元)</td><td>-61.17</td><td>1.21</td><td>16.68</td><td>261.00</td></tr></tbody></table></div>
+<p><em>注：FY26Q1-Q3为前三季度累计数据（截至2026年5月28日），非单季度数据。自由现金流=经营现金流-资本支出。</em></p>
+<p><strong>成长能力</strong>：公司FY26前三季度收入已达<strong>789.59亿美元</strong>，同比+203%，远超FY25全年水平。增长主要由ASP驱动而非出货量增长——FY26Q3 DRAM bit出货量环比仅增长低个位数百分比，但ASP环比上涨low-60s%。这反映了AI驱动的存储需求远超供给的行业格局。</p>
+<p><strong>盈利能力</strong>：FY26前三季度毛利率<strong>76.6%</strong>，其中FY26Q3单季毛利率达<strong>84.9%</strong>，创历史新高。营业利润率从FY25的26.4%飙升至FY26前三季度的70.5%，体现了存储行业在超级上行周期中的极高经营杠杆。但需注意，这种盈利能力具有周期性，一旦价格回落，利润率可能快速收缩。</p>
+<p><strong>运营能力</strong>：FY26Q3末存货为<strong>85.67亿美元</strong>，存货周转天数约<strong>122天</strong>，较FY25末的约140天有所下降，反映需求旺盛下库存消化加速。应收账款从FY25末的<strong>92.65亿美元</strong>飙升至FY26Q3末的<strong>310.25亿美元</strong>，主要因收入大幅增长及SCA客户账期安排。</p>
+<p><strong>偿债能力与现金流</strong>：FY26Q3末公司净现金头寸为<strong>244.06亿美元</strong>（现金及投资301.28亿美元减去总债务57.22亿美元），较FY25末的净债务26.41亿美元大幅改善。公司于FY26上半年完成了约<strong>94亿美元</strong>的债务提前偿还，财务结构显著优化。FY26前三季度自由现金流为<strong>261亿美元</strong>，已远超FY25全年的16.68亿美元。</p>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p><strong>行业赛道</strong>：公司所处的存储芯片行业是半导体产业中规模最大的单一品类。据SIA数据，2026年3月存储芯片占全球半导体行业总销售额的<strong>50.6%</strong>，为历史首次突破50%。行业正经历由"传统周期波动"向"AI结构性驱动"的范式转移。AI训练和推理对HBM、DDR5及企业级SSD的需求呈指数级增长，而供给端受制于新建晶圆厂建设周期长（约3年）、HBM对晶圆消耗量是传统DRAM的<strong>3倍</strong>以上、以及节点迁移的bit增益递减，供需紧张格局预计延续至2027年之后。</p>
+<p><strong>竞争格局</strong>：全球DRAM市场由三星（约<strong>39%</strong>份额）、SK海力士（约<strong>35%</strong>）和美光（约<strong>22%</strong>）三寡头垄断。HBM市场SK海力士领先（约<strong>47%</strong>份额），三星（约<strong>35%</strong>）和美光（约<strong>19%</strong>）正加速追赶。NAND市场格局相对分散，三星、铠侠/闪迪、SK海力士和美光为主要参与者。</p>
+<p><strong>可比公司</strong>：</p>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>FY26E PE</th><th>FY27E PE</th><th>核心差异</th></tr></thead><tbody><tr><td>SK海力士</td><td>000660.KS</td><td>7.7x</td><td>5.3x</td><td>HBM市场份额领先，与英伟达绑定最深</td></tr><tr><td>三星电子</td><td>005930.KS</td><td>6.8x</td><td>4.9x</td><td>DRAM/NAND双龙头，HBM份额快速追赶</td></tr><tr><td>闪迪</td><td>SNDK.O</td><td>26.6x</td><td>8.9x</td><td>纯NAND/SSD标的，企业级SSD敞口高</td></tr><tr><td>美光科技</td><td>MU.O</td><td>13.3x</td><td>6.4x</td><td>唯一美国本土存储龙头，SCA驱动盈利确定性</td></tr></tbody></table></div>
+<p><em>注：可比公司PE基于公开一致预期，数据截至2026年7月3日。美光PE基于券商预测。</em></p>
+<p>美光相较于韩系竞争对手的核心差异在于：1）作为唯一美国本土存储龙头，享有《芯片法案》补贴和本土客户偏好；2）SCA推进速度最快，盈利可预测性最强；3）HBM市场份额虽落后但追赶势头强劲。相较于闪迪，美光拥有DRAM（尤其是HBM）的更高弹性。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<p><strong>议题一：SCA能否真正锁定中长期盈利中枢？</strong></p>
+<ul><li><strong>背景</strong>：公司已签署16份SCA，覆盖约20% DRAM和1/3 NAND出货量，并预计最终约50%以上收入将纳入长协。但市场对SCA的执行力、客户履约意愿以及价格下限的真实水平仍存疑虑。历史上存储行业从未有过如此大规模的长协安排，缺乏先例验证。</li><li><strong>问题列表</strong>：1）SCA的价格下限对应毛利率"高于历史周期峰值"，但公司历史峰值毛利率为FY22的45%和当前84.9%，具体下限水平是多少？2）在极端行业下行周期中，客户是否可能寻求重新谈判或利用合同漏洞减少履约？3）约220亿美元客户预付款将在合同后期返还，届时是否会对公司现金流产生一次性冲击？</li></ul>
+<p><strong>议题二：HBM竞争格局与公司份额能否持续提升？</strong></p>
+<ul><li><strong>背景</strong>：公司HBM4已率先量产并深度绑定英伟达Vera Rubin平台，但SK海力士在HBM市场仍占据约47%份额，且其与英伟达的绑定深度仍高于美光。三星HBM产能也在快速扩张。市场关注公司能否在HBM4/HBM4E周期中实现份额的实质性突破。</li><li><strong>问题列表</strong>：1）公司HBM4的产能爬坡速度和良率能否持续优于预期？2）HBM4E（基于1γ节点）预计2027年量产，能否通过英伟达等核心客户的认证并获取可观份额？3）SK海力士和三星的HBM扩产计划会否导致2027年后出现供过于求？</li></ul>
+<p><strong>议题三：资本开支激增会否侵蚀自由现金流和股东回报？</strong></p>
+<ul><li><strong>背景</strong>：公司FY26资本开支指引上调至270亿美元，FY27隐含超400亿美元。虽然SCA客户预付款（约180亿美元现金）可部分支撑资本开支，但大规模扩产仍将消耗大量现金流。市场关注资本开支的回报率和自由现金流的可持续性。</li><li><strong>问题列表</strong>：1）FY27超400亿美元资本开支中，多少是用于HBM/先进DRAM的产能扩张，多少是用于基础设施建设？2）公司预计12月启动资本回报，但大规模资本开支会否限制回购规模？3）新建晶圆厂从投产到满产通常需要2年，期间折旧压力会否拖累利润率？</li></ul>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧：存储行业是否已从"周期行业"转变为"成长行业"？</strong></p>
+<p><strong>乐观方观点</strong>：本轮存储周期与以往有本质区别。需求端，AI训练和推理对HBM、DDR5及企业级SSD的需求呈指数级增长，且Agentic AI架构将推动存储需求从"训练侧一次性爆发"转向"推理侧持续性消耗"。供给端，HBM对晶圆消耗量是传统DRAM的3倍以上，且新建晶圆厂建设周期长达3年，供给弹性显著受限。更重要的是，SCA的引入为行业提供了历史上从未有过的盈利可预测性。乐观方认为，存储行业正从"周期股"向"成长股"估值范式切换，当前FY27约5-6x PE的估值远未反映其中长期盈利中枢的结构性上移。</p>
+<p><strong>谨慎方观点</strong>：存储行业的周期性根深蒂固，历史上每一轮上行末期都伴随供给方扩产纪律的瓦解。当前三大原厂已宣布合计超万亿美元的扩产计划，虽然短期难以释放产能，但2028年后可能出现大规模产能集中投放。此外，SCA仅覆盖约50%的收入，剩余部分仍暴露于现货价格波动。一旦AI算力投资增速边际放缓，非SCA部分的收入和利润仍可能面临较大压力。谨慎方认为，当前股价已充分反映了乐观预期，而市场可能低估了2028年后行业下行周期的风险。</p>
+<p><strong>综合分析</strong>：SCA的引入确实为存储行业提供了历史上从未有过的盈利可预测性，这是本轮周期与以往的本质区别。但需注意，SCA的覆盖度（约50%）和期限（5年为主）意味着公司仍无法完全摆脱周期属性。更合理的定位是：公司正从"强周期股"向"周期成长股"过渡，盈利中枢结构性上移，但并非完全消除周期性。当前FY27约6x PE的估值已为下行风险提供了一定安全边际，但若市场对2028年后盈利下滑的担忧加剧，估值可能进一步承压。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价(美元)</th><th>财务指标</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>富国证券(2026-07-01)</td><td>增持</td><td>1525</td><td>营收(亿美元)</td><td>373.78</td><td>1302.18</td><td>2521.18</td><td>2598.74</td></tr><tr><td></td><td></td><td></td><td>EPS(美元)</td><td>7.59</td><td>73.94</td><td>157.99</td><td>160.85</td></tr><tr><td>华泰证券(2026-06-29)</td><td>买入</td><td>1800</td><td>营收(亿美元)</td><td>373.78</td><td>1298.89</td><td>2444.08</td><td>3005.20</td></tr><tr><td></td><td></td><td></td><td>EPS(美元)</td><td>8.40</td><td>75.95</td><td>153.48</td><td>186.69</td></tr><tr><td>国泰海通(2026-07-04)</td><td>增持</td><td>1629</td><td>营收(亿美元)</td><td>373.78</td><td>1292.44</td><td>2548.19</td><td>3101.35</td></tr><tr><td></td><td></td><td></td><td>EPS(美元)</td><td>-</td><td>74.00</td><td>163.00</td><td>180.00</td></tr><tr><td>道明证券(2026-06-19)</td><td>买入</td><td>1600</td><td>营收(亿美元)</td><td>373.78</td><td>1289.87</td><td>2460.01</td><td>-</td></tr><tr><td></td><td></td><td></td><td>EPS(美元)</td><td>8.29</td><td>73.09</td><td>155.30</td><td>-</td></tr><tr><td>瑞银(2026-06-13)</td><td>买入</td><td>1625</td><td>营收(亿美元)</td><td>373.78</td><td>1165.96</td><td>2432.93</td><td>2994.89</td></tr><tr><td></td><td></td><td></td><td>EPS(美元)</td><td>8.29</td><td>63.74</td><td>151.27</td><td>187.88</td></tr><tr><td>花旗(2026-08-03)</td><td>买入</td><td>1400</td><td>营收(亿美元)</td><td>373.78</td><td>-</td><td>-</td><td>-</td></tr><tr><td></td><td></td><td></td><td>EPS(美元)</td><td>7.43</td><td>72.15</td><td>137.69</td><td>151.81</td></tr></tbody></table></div>
+<p><em>注：各机构预测口径可能不同，部分机构使用Non-GAAP EPS，部分使用GAAP EPS。目标价和评级截至各报告发布日期。</em></p>
+<p><strong>盈利预测分析</strong>：主流券商对FY26-FY28的盈利预测存在一定分歧，FY27 EPS预测区间为<strong>137-163美元</strong>，FY28 EPS预测区间为<strong>152-188美元</strong>。乐观方（富国、华泰、国泰海通）预计FY27 EPS在<strong>155-163美元</strong>区间，且FY28仍有小幅增长；谨慎方（花旗）预计FY27 EPS约<strong>138美元</strong>，且FY28增速放缓至约10%。分歧的核心在于对2028年后存储价格走势和SCA盈利保护效果的判断。</p>
+<p><strong>估值方法</strong>：由于公司处于超级景气周期，传统PE估值可能低估其盈利能力。多数券商采用<strong>FY27或FY28 PE</strong>作为主要估值锚，目标PE区间为<strong>8-12x</strong>。华泰证券给予FY27 <strong>11.7x PE</strong>，目标价1800美元；富国证券基于FY28 <strong>9.5x PE</strong>，目标价1525美元。部分券商（如瑞银）采用远期EPS折现法，将FY29E EPS以约12%的权益成本折现至FY28，再赋予15x PE。</p>
+<p><strong>管理层指引</strong>：FY26Q4营收指引<strong>500±10亿美元</strong>，Non-GAAP毛利率约<strong>86%</strong>，Non-GAAP EPS约<strong>31美元±1美元</strong>。FY26全年资本开支指引<strong>270亿美元</strong>，FY27季度资本开支将高于FY26Q4水平（约100亿美元），隐含全年超<strong>400亿美元</strong>。公司预计DRAM和NAND供需紧张格局将延续至<strong>2027年之后</strong>，HBM TAM突破1000亿美元的时点已从2028年提前至<strong>2027年</strong>。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/MU · 生成于 2026-08-06</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-06';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'pending', text: '<strong>FY26Q4 财报</strong>（2026-09 下旬）：营收指引 $500±10亿、毛利率 ~86% 能否再超预期，SCA 细节与 FY27 capex 指引——当前价位的胜负手', note: '' },
+  { kind: 'cat', status: 'active',  text: '<strong>SCA 细节披露 → 估值体系切换</strong>：定价机制/客户构成/取消条款明朗化，市场确认「订单驱动」则周期股向成长股重估', note: '16 份已签、保底 $1,000 亿，细节待披露' },
+  { kind: 'cat', status: 'pending', text: '<strong>资本回报启动</strong>（2026-12-09 CHIPS Act 两周年后）：100% FCF 分红+回购，回购规模或达市值 10%+', note: '' },
+  { kind: 'cat', status: 'active',  text: '<strong>HBM4 爬坡 + HBM4E 认证</strong>（2026H2-2027）：绑定英伟达 Vera Rubin，份额目标 20-25%（FY25 约 19%）', note: 'HBM4 爬坡速度为 HBM3E 的 2 倍' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>DRAM/NAND 合约价环比转跌</strong>——周期见顶的第一信号', note: '最新 FY26Q3：DRAM ASP 环比 +low-60s%、NAND +mid-80s%，未触发' },
+  { kind: 'risk', status: 'clear', text: '<strong>FY26Q4 未再超预期</strong>或 FY27 指引首次环比走弱', note: '已连续多季超预期，9 月下旬核对' },
+  { kind: 'risk', status: 'clear', text: '三大原厂<strong>扩产纪律瓦解</strong>：2028 年产能集中投放时间表提前', note: '美光 FY27 capex 已超 $400 亿，盯三星/海力士跟进幅度' },
+  { kind: 'risk', status: 'clear', text: '<strong>SCA 履约裂缝</strong>：客户重新谈判条款，或预付款返还冲击现金流', note: '约 $220 亿预付款合同后期返还' },
+  { kind: 'risk', status: 'clear', text: '<strong>HBM 份额追赶停滞</strong>：HBM4E 认证受阻，或 SK海力士（47%）/三星（35%）扩产致 2027 后供过于求', note: '另盯 CXMT 中低端 DRAM 放量（2026 底月产能 35 万片）' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

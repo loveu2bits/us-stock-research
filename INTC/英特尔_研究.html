@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>英特尔（INTC.O）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--amber); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">INTC</span>
+    <span class="site-mark__text">英特尔 公司研究<span>Intel · INTC.O</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>英特尔<span class="en">Intel · INTC.O · 美股研究</span></h1>
+        <p class="sub">Q2 营收 +25% 创 15 年最快增速、DCAI 利润率 40% 首超客户端——基本面拐点真实；但代工外部收入仍只有 2.93 亿、资本开支上调至 200 亿+，40 倍 2027E PE 已把转型成功提前定价。核心问题：这份爆发是 AI 结构性需求还是供给短缺放大，10 月 14A PDK 能否换来第一个头部外部客户。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-06</span>
+          <span>下次更新：14A PDK 0.9 交付（2026-10）或 Q3 财报后</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>拐点已确认但估值已抢跑：三情景期望 ≈ 现价——胜负手在 10 月 14A PDK 能否换来头部外部客户订单。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">+25.4%</strong><span>Q2 营收增速 · 15 年最快</span></div>
+      <div class="summary-rail__item"><strong>41.8%</strong><span>Q2 Non-GAAP 毛利率 · 指引 42%</span></div>
+      <div class="summary-rail__item"><strong>+59%</strong><span>DCAI 营收增速 · 利润率 40% 首超客户端</span></div>
+      <div class="summary-rail__item"><strong>-36.2%</strong><span>代工运营亏损率 · 同比环比收窄</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">Q2 爆发：AI 结构性拐点，还是供给短缺放大的「虚假繁荣」？</h2>
+        <span class="qa__impact-tag">→ Q4 环比显著加速的兑现度 · 多空总分水岭</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>拐点是真的——营收 +25.4% 大超指引上限、EPS 是指引两倍、DCAI 利润率 40% 首超客户端，这不是财技能做出来的。<em>但 ASP +48% vs 出货量 +9% 的结构说明：需求是真的，供给短缺放大了价格和订单信号也是真的。判定窗口在 Q4——管理层指引 Q3 环比仅 +1%，却把弹药（Intel 3 + 封装基板产能）押在季末释放后的「Q4 显著环比增长」上。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这是 FY2026-2027 盈利路径的第一变量。</strong>「供给释放」逻辑兑现 → Q4 营收跳增，FY2027 EPS 走向券商乐观侧（花旗 2.78 美元）；若供给释放不及预期或需求信号是重复下单 → 一致预期 ~2.4 美元也要下修，40 倍 PE 直接失去支撑。</p>
+            <p>对倍数的影响同样直接：结构性叙事坐实，市场愿意继续给「转型成长股」溢价；被证伪为周期性短缺，估值回到「成熟 x86 公司」的 15-25 倍——<strong>这个问题的答案决定 PE 档位的切换方向</strong>。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点（结构性需求）</h4>
+            <ul>
+              <li>AI 负载从训练转向推理 / Agentic AI，<strong>CPU:GPU 部署比例已接近 1:1</strong>，服务器 CPU 市场多年双位数增长</li>
+              <li>Q2 已签 <strong>10 份 3-5 年期长期供货协议（LTA）</strong>——客户用合同投票，不是口头拉货</li>
+              <li>ASIC 年化收入近 <strong>20 亿美元、同比近 3 倍</strong>，「系统级代工」变现路径已开</li>
+              <li>供给短缺期 IDM 模式反而强化了核心客户绑定——别人拿不到货时英特尔有产能</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点（暂时性失衡）</h4>
+            <ul>
+              <li>ASP +48% vs 出货量 +9%——<strong>增长的大头是价格不是量</strong>，全行业晶圆/基板/存储短缺下的恐慌性下单和重复下单无法排除</li>
+              <li>管理层自己把 Q3 指引压到环比 +1%——如果需求真那么刚性，为什么不等额兑现？</li>
+              <li>AMD 份额仍在增长，ARM（Graviton/Ampere）持续渗透，<strong>供给恢复后竞争回到性能与能效的本质</strong></li>
+              <li>CCPG 销量同比 -8%、靠提价和 AI PC 组合撑增长——客户端的量已经在缩</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（Q2 财报速览 · 指引拆解 · 10 份 LTA 的含金量）</summary>
+          <div class="evidence__body">
+            <h5>Q2 2026 财报速览（截至 2026-06 月末）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>实际</th><th>预期/指引</th><th>评价</th></tr></thead><tbody><tr><td>总营收</td><td><strong>161.28 亿美元（+25.4%）</strong></td><td>指引 138-148 亿</td><td>大超指引上限，创近 15 年最快增速</td></tr><tr><td>Non-GAAP EPS</td><td><strong>0.42 美元</strong></td><td>—</td><td>为指引的两倍以上</td></tr><tr><td>Non-GAAP 毛利率</td><td>41.8%</td><td>—</td><td>FY2024 低谷 32.7% 以来持续修复</td></tr><tr><td>DCAI（数据中心与 AI）</td><td>62.62 亿（+59%），运营利润率 39.5%</td><td>—</td><td><strong>首次超越客户端成为最大利润池</strong>；ASP +48%、出货量 +9%</td></tr><tr><td>CCPG（客户端）</td><td>88.77 亿（+12.8%），利润率 26.4%</td><td>—</td><td>销量 -8%，靠 AI PC（占 2/3）与提价；含库存减值计提</td></tr><tr><td>英特尔代工</td><td>57.65 亿（+30.5%），亏损率 36.2%</td><td>—</td><td>亏损同比环比显著收窄；外部收入仅 2.93 亿（主要来自已剥离的 Altera）</td></tr><tr><td>Q3 指引</td><td>营收 158-168 亿 · 毛利率 ~42% · EPS 0.38</td><td>—</td><td>显著高于市场一致预期，但环比仅 +1%——<strong>管理层把弹性押在 Q4</strong></td></tr><tr><td>资本开支</td><td>2026 年上调至 &gt;200 亿美元</td><td>—</td><td>2027 年预告「显著高于」2026，绝大部分投美国本土</td></tr></tbody></table></div>
+            <h5>指引的结构：保守的 Q3，激进的 Q4</h5>
+            <p>管理层明说当前服务器 CPU「需求远超供给」，Q3 供给增长集中在季末，Q4 加速。这个指引结构本身就是一种预期管理：Q3 留了安全边际，Q4 的「显著环比增长」是口头承诺——<strong>下一季财报最该核对的就这一条</strong>。供给瓶颈在 Intel 3 节点和先进封装基板，公司已用长期协议 + 预付款锁定上游产能。</p>
+            <h5>需求可见性的硬证据与软证据</h5>
+            <ul>
+              <li><strong>硬证据</strong>：10 份数据中心 CPU 及相关芯片 LTA（3-5 年，部分锁价、部分锁量）；前三大客户 2025 年贡献 43% 营收，与谷歌、AWS 等签有定制 CPU/ASIC 长期合作</li>
+              <li><strong>软证据</strong>：「CPU:GPU 趋向 1:1」是管理层口径，行业出货量「今明两年双位数增长」同样是公司预测——方向可信，斜率待验</li>
+              <li><strong>反向样本</strong>：CCPG 销量 -8% 说明 PC 端并无短缺红利，增长全靠组合与提价——分部之间的冷热差，正是「总量信号需打折」的提醒</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">代工生死局：18A 良率与 14A PDK，换得来第一个头部外部客户吗？</h2>
+        <span class="qa__impact-tag">→ 代工估值从「负资产」到「第二引擎」的开关</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>技术侧证据在变好：18A 产出超内部目标 25%、良率优于预期、18A-P 风险生产、14A PDK 0.9 定档 10 月。<em>但商业侧仍是空白——外部代工收入 2.93 亿/季且主要来自已剥离的 Altera，至今没有任何一个能带来实质收入的外部大客户。10 月 PDK 0.9 交付后到 2026 年底的「早期客户订单承诺」，是代工估值从负资产翻正的唯一开关。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>短期是利润拖累，长期是估值开关。</strong>代工 Q2 运营亏损 20.89 亿美元（亏损率 36.2%，已从 FY2024 的 -77% 收窄至 FY2026 H1 的 -40%），亏损收窄路径清晰；资本开支 >200 亿且 2027「显著更高」，压的是自由现金流。</p>
+            <p>对估值：头部外部客户落地（苹果/谷歌/英伟达/AMD 任何一家）→ 市场会按 SOTP 给代工单独定价，美银 160 美元目标价隐含的就是这个剧本；持续空白 → 代工就是个每年烧百亿美元资本开支的内部配套，<strong>摩通/大摩 84-85 美元的地板价就是这么算的</strong>。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>18A 爬坡超预期（产出超目标 25%、环比 +50%），<strong>14A 缺陷密度和晶体管性能均优于 18A 同期</strong>——技术指标第一次有了对台说的底气</li>
+              <li>「系统级代工」差异化：CPU IP + EMIB-T 先进封装 + 玻璃基板，可承接台积电 CoWoS 外溢需求；EMIB-T 积压订单持续增长、2027 年支持客户量产</li>
+              <li><strong>美国本土唯一领先逻辑制造产能</strong>：2021-2026 年在美资本开支近 1,000 亿美元，地缘溢价是台积电给不了的</li>
+              <li>管理层预计 14A 在 2026 下半年获早期客户订单承诺——敢公开给时间表</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>代工成功不只靠制程：<strong>IP 生态、设计服务、客户信任全是台积电数十年积累</strong>，英特尔都是追赶者</li>
+              <li>潜在客户（苹果/英伟达/AMD）与英特尔产品部门存在竞争关系，IP 保护与产能分配的顾虑是结构性的</li>
+              <li>外部收入 2.93 亿 vs 代工总营收 57.65 亿——<strong>目前本质是内部成本中心换个名字</strong></li>
+              <li>2028 年 14A 大规模量产的承诺，意味着即使有客户，<strong>收入兑现也在两年后</strong>——远水</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（代工分部趋势 · 制程路线图 · 亏损收窄的算术）</summary>
+          <div class="evidence__body">
+            <h5>代工分部趋势（单位：亿美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>期间</th><th>营收</th><th>运营利润率</th><th>备注</th></tr></thead><tbody><tr><td>FY2024</td><td>173.17</td><td><strong>-77%</strong></td><td>亏损最深的一年</td></tr><tr><td>FY2025</td><td>178.26</td><td>-58%</td><td>收窄 19pct</td></tr><tr><td>FY2026 H1</td><td>111.86</td><td>-40%</td><td>规模效应 + 良率改善</td></tr><tr><td>2026 Q2 单季</td><td>57.65（+30.5%）</td><td>-36.2%</td><td>18A 先进制程晶圆产出驱动；外部收入仅 2.93 亿</td></tr></tbody></table></div>
+            <p>亏损收窄的斜率明确：-77% → -58% → -40% → -36.2%。若趋势延续且外部客户开始贡献收入，2027-2028 年看到代工盈亏平衡并非不可想象——<strong>这是乐观情景里最被低估的一条线</strong>。</p>
+            <h5>制程路线图与关键节点</h5>
+            <ul>
+              <li><strong>18A</strong>：产能爬坡超预期，Q2 产出超内部目标约 25%、环比增长超 50%，良率持续优于预期；<strong>18A-P 已进入风险生产</strong></li>
+              <li><strong>14A</strong>：PDK 0.9 定于 <strong>2026 年 10 月</strong>交付——外部客户启动设计的钥匙；公司承诺 2028 年大规模量产</li>
+              <li><strong>先进封装</strong>：EMIB-T 良率与可靠性达标，扩产以满足 2027 客户量产；已与联发科合作，聘请存储领域资深人士领军</li>
+            </ul>
+            <h5>别忽略资产负债表上的一条暗线</h5>
+            <ul>
+              <li>2026 年 4 月以 <strong>142 亿美元现金</strong>回购阿波罗持有的爱尔兰 Fab 34 工厂 49% 股权——100% 控制 Intel 3/4 核心基地的代价是当季融资现金流大额流出</li>
+              <li>2026 年 7 月宣布向爱尔兰园区<strong>追加 50 亿欧元</strong>扩 Intel 3 产能；同期 DCG 事业部新一轮裁员——一手扩产一手瘦身的资本配置</li>
+              <li>以色列 Fab 28（Intel 7 节点核心基地，<strong>贡献当前大部分营收</strong>）未投保战争/政治暴力险（10-Q 明示），且已被伊朗列为潜在报复目标——这是代工叙事之外最难定价的尾部风险</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">估值：40 倍 2027E PE 隐含了什么？三情景赔率如何？</h2>
+        <span class="qa__impact-tag">→ 期望值 ≈ 现价 · 券商目标价 84-160 分裂</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>现价已把「转型成功」提前定价：对应 2027 年一致预期 EPS ~2.4 美元的 PE 超 40 倍，三情景期望值 ≈ 现价。<em>上调为「买入」的两个触发条件：14A 拿下头部外部客户订单（代工从负资产翻正），或估值回落至 25-30 倍 2027E（约 60-72 美元区间）给出安全边际。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这个问题本身就是估值问题。</strong>券商目标价从 84（大摩）到 160（美银）几乎翻倍的分裂，说明市场对「该怎么给英特尔定价」没有共识——PE、EV/Sales、SOTP 各说各话，因为 GAAP 利润被非现金项目严重扭曲。</p>
+            <p>三情景测算：乐观 +50% / 悲观 -40%，概率各 25%，<strong>期望值 ≈ 现价——赔率对称、没有安全边际，对应「持有」而非「买入」</strong>。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>美银目标价 <strong>160 美元</strong>：AI 服务器 CPU 结构性增长 + 代工潜在爆发，SOTP 下代工单独定价</li>
+              <li>FY2028 一致预期 EPS ~2.6-3.6 美元——<strong>若成长兑现，40 倍买的是两年翻倍的盈利</strong></li>
+              <li>ASIC 年化 20 亿 → 40 亿的路径 + EMIB-T 积压订单，第二增长曲线刚起步</li>
+              <li>美国本土产能的战略稀缺性：一旦头部客户为供应链安全下单，就是估值范式的切换</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>摩通低配 <strong>85</strong> / 大摩均配 <strong>84</strong>——两家大行目标价低于现价，直指资本开支压力与外部客户获取难度</li>
+              <li>2026 capex >200 亿、2027「显著更高」，<strong>自由现金流随时可能再度转负</strong>，极端情况下股权融资稀释</li>
+              <li>40 倍 PE 对一家代工仍在亏损、PC 销量下滑的公司，<strong>任何低于「极好」的兑现都是利空</strong></li>
+              <li>FY2026 H1 归母净利润 -147.6 亿（非现金项目扭曲）——报表利润的修复远没有 Non-GAAP 好看</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（券商预测地图 · 三情景表 · 分部价值视角）</summary>
+          <div class="evidence__body">
+            <h5>券商盈利预测与目标价（2026-07 下旬，Q2 财报后）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价(美元)</th><th>FY2026E 营收(亿)</th><th>FY2027E EPS(美元)</th><th>FY2028E EPS(美元)</th></tr></thead><tbody><tr><td>美银 (07-28)</td><td>买入</td><td><strong>160</strong></td><td>628.62</td><td>2.09</td><td>3.01</td></tr><tr><td>花旗 (07-24)</td><td>买入</td><td>130</td><td>636.69</td><td><strong>2.78</strong></td><td>—</td></tr><tr><td>瑞银 (07-28)</td><td>中性</td><td>121</td><td>644.48</td><td>2.17</td><td>2.82</td></tr><tr><td>摩根大通 (07-24)</td><td>低配</td><td><strong>85</strong></td><td>633.36</td><td>2.44</td><td>3.60</td></tr><tr><td>摩根士丹利 (07-24)</td><td>均配</td><td>84</td><td>627.20</td><td>2.00</td><td>2.63</td></tr></tbody></table></div>
+            <p>注意一个细节：各家的 FY2026E 营收预测几乎一致（627-644 亿），<strong>分歧全在利润率和估值倍数上</strong>——收入端没有争议，争议是「这些收入值多少钱」。</p>
+            <h5>三情景假设（12-18 个月视角，现价为 2027E 一致 EPS ~2.4 美元 × 40 倍+ 反推，约 100 美元附近）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>FY2027E EPS</th><th>合理 PE</th><th>隐含股价</th><th>vs 当前</th></tr></thead><tbody><tr><td>乐观（25%）</td><td>14A 拿下头部外部客户，Q4 供给释放兑现，代工亏损加速收窄</td><td>~2.8（花旗口径）</td><td>50x</td><td>~140</td><td><strong>+40%</strong></td></tr><tr><td>中性（50%）</td><td>需求兑现但外部客户仍无实质落地，估值维持高位不扩张</td><td>~2.4（一致预期）</td><td>40x</td><td>~96</td><td>≈ 持平</td></tr><tr><td>悲观（25%）</td><td>供给恢复后需求回落、ASP 正常化，capex 压垮 FCF，估值向成熟 x86 公司回归</td><td>~2.0</td><td>30x</td><td>~60</td><td><strong>-40%</strong></td></tr></tbody></table></div>
+            <p><strong>期望值 ≈ 96-100 美元，与现价基本相当</strong>。赔率 1:1 对称——这笔投资的盈亏不取决于「英特尔会不会变好」（会），而取决于「变好的速度快不快过估值已经计入的速度」。</p>
+            <h5>分部价值视角（SOTP 的直觉版）</h5>
+            <ul>
+              <li><strong>产品部门（CCPG+DCAI）</strong>：FY2026 H1 运营利润率 29-35%，若独立看是一台年利润 150 亿+ 的机器——仅产品部门就撑得起现价的相当部分</li>
+              <li><strong>代工部门</strong>：市场目前按「负资产」处理（年亏损 80 亿+）；头部客户落地才会触发重估——这就是为什么 10 月 PDK 0.9 之后两个月的客户消息，比任何一份财报都重要</li>
+              <li><strong>战略期权</strong>：美国唯一先进逻辑产能的地缘价值（近 1,000 亿美元本土投资）不进任何模型，但它是悲观情景的隐含下限</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究的数据与局限</h3>
+      <ul>
+        <li><strong>数据来源</strong>：公司财报及公开披露（2026 年 Q2 财报与 10-Q 要点）、公开研究资料整理（含美银、瑞银、花旗、摩根大通、摩根士丹利等公开研报观点）</li>
+        <li><strong>局限</strong>：未读 10-Q 原文全文（Fab 28 保险条款等细节建议补读原文）；现价与隐含估值为按券商一致预期反推的估算，精确值以行情为准；外部代工客户谈判进展无公开细节，多空判定高度依赖 10 月 PDK 0.9 后的公告验证</li>
+        <li><strong>管理层评估（一句话版）</strong>：连续上调资本开支与全年指引、敢于承诺 14A 于 2028 年大规模量产并公开 PDK 时间表，18A 爬坡初步兑现了执行力；但「Q3 保守 + Q4 口头加速」的预期管理手法，需要下一季财报验证兑现度</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>英特尔是全球领先的半导体设计与制造公司，采用整合元件制造商（IDM）模式，同时经营CPU等逻辑芯片的设计、销售与先进制程的晶圆代工业务。公司核心产品为基于x86架构的客户端（PC）与服务器CPU，长期主导全球PC和服务器处理器市场。近年来，公司战略重心转向“AI无处不在”，通过CPU、专用芯片（ASIC）、先进封装（EMIB-T）和晶圆代工服务，参与AI基础设施全栈建设。公司是美国本土唯一具备领先逻辑芯片研发与大规模制造能力的企业，其战略地位在地缘政治背景下日益凸显。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul><li><strong>Q2业绩与Q3指引全面超预期</strong>：公司2026年Q2营收161.28亿美元，同比增长25.4%，创近15年最快增速，大幅超出此前138-148亿美元的指引上限。Non-GAAP毛利率41.8%，Non-GAAP EPS为0.42美元，均为指引的两倍以上。Q3营收指引中值为163亿美元，毛利率指引42%，均显著高于市场一致预期。</li><li><strong>数据中心业务（DCAI）成为增长核心引擎</strong>：Q2 DCAI营收62.62亿美元，同比激增59%，运营利润率高达40%，首次在运营利润上超越客户端业务。增长由超大规模云客户对服务器CPU的强劲需求驱动，同时定制ASIC业务年化收入接近20亿美元，同比增长近3倍。</li><li><strong>制造工艺与代工业务取得关键进展</strong>：Intel 18A制程产能爬坡超预期，Q2晶圆产出超内部目标约25%，环比增长超50%，良率持续优于预期。18A-P已进入风险生产。下一代14A制程的PDK 0.9预计于2026年10月交付，公司正式承诺于2028年实现14A的大规模量产。</li><li><strong>资本开支大幅上调以应对需求</strong>：基于强劲的客户需求信号和长期协议，公司将2026年资本开支指引上调至超过200亿美元，并预告2027年资本开支将“显著高于”2026年水平，绝大部分将投入美国本土的制造网络。</li><li><strong>先进封装业务需求强劲</strong>：EMIB-T技术的客户兴趣和积压订单持续增长，良率与可靠性达标，公司正积极扩产以满足2027年的客户量产需求，并聘请了存储领域资深人士领导先进封装业务。</li></ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol><li><strong>供给释放驱动Q4业绩非线性增长</strong>：公司明确表示，当前服务器CPU需求远超供给，Q3供给增长将集中在季末，Q4有望加速。管理层指引Q3营收环比仅微增1%，但暗示Q4将出现显著的环比增长。这一“供给释放”逻辑为Q4业绩提供了较高的确定性。若Q3末至Q4的产能（尤其是Intel 3节点和先进封装基板）如期释放，将直接转化为营收和利润的强劲增长，构成未来一个季度最核心的交易驱动力。</li><li><strong>14A PDK 0.9交付：外部代工客户突破的关键催化剂</strong>：公司计划于2026年10月交付14A制程的0.9版工艺设计套件（PDK）。这是外部无晶圆厂客户评估并启动芯片设计的关键技术节点。管理层表示，14A的缺陷密度和晶体管性能均优于18A同期水平，客户接洽势头强劲。若PDK 0.9顺利交付并引发积极的市场反馈，甚至获得早期客户订单承诺，将是对英特尔代工战略长期可行性的有力验证，有望显著提振市场信心和估值。</li><li><strong>ASIC业务高增长验证“系统级代工”价值</strong>：Q2 ASIC设计服务收入同比增长近3倍，年化收入接近20亿美元，并有望在未来达到40亿美元。该业务结合了英特尔的CPU IP、先进封装和制造能力，为客户提供定制化计算方案。ASIC业务的快速增长，证明了英特尔“系统级代工”模式的商业价值，并为其切入超千亿美元的ASIC市场提供了有力支撑，是短期内验证公司新业务模式变现能力的重要观察点。</li></ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol><li><strong>Agentic AI驱动的服务器CPU市场结构性扩张</strong>：随着AI工作负载从模型训练转向推理和Agentic AI，CPU在AI基础设施中的角色正被重新定义。公司指出，CPU与GPU的部署比例已接近1:1，未来甚至可能进一步向CPU倾斜。管理层预计，今明两年服务器CPU行业出货量将实现强劲的双位数增长，且增长势头将延续至2028年。这一结构性趋势为英特尔的核心x86服务器业务提供了长期、坚实的增长基础，使其成为AI算力扩张的核心受益者。</li><li><strong>“系统级代工”模式构筑差异化壁垒</strong>：英特尔正将其代工业务从单纯的晶圆制造，升级为涵盖CPU IP、先进封装（EMIB-T、玻璃基板）和晶圆制造的“系统级代工”模式。随着AI芯片从单片SoC向异构集成系统（SiP）演进，先进封装成为关键瓶颈。英特尔在EMIB-T和玻璃基板上的先发优势，使其能够承接台积电CoWoS的外溢需求，并吸引对高密度互连有需求的客户。这一模式有望将代工业务从高资本开支、低利润率的商品化业务，转变为高附加值、高客户粘性的增长引擎。</li><li><strong>美国本土先进制造产能的战略稀缺性</strong>：在地缘政治风险加剧、全球供应链追求韧性的背景下，英特尔作为美国唯一具备领先逻辑芯片研发与制造能力的公司，其战略价值日益凸显。公司计划2021-2026年在美国的设备与厂房总资本支出接近1000亿美元。这一庞大的本土产能不仅是满足美国政府《芯片法案》目标的基石，也成为寻求供应链多元化的全球科技巨头（如苹果、英伟达、谷歌等）的重要战略备选，为英特尔代工业务提供了长期的客户导入机会。</li></ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul><li><strong>资本开支与自由现金流的失衡风险</strong>：公司上调2026年资本开支至超200亿美元，并预告2027年将“显著增加”。尽管管理层强调投资与客户需求挂钩，但短期内巨额资本开支将导致自由现金流转负或处于低位。若未来需求增长不及预期，或先进制程回报率低于预期，公司将面临巨大的资产折旧和财务压力，可能需要进行额外的股权融资，从而稀释股东价值。</li><li><strong>外部代工客户获取与执行的重大不确定性</strong>：尽管14A等先进制程进展顺利，但截至目前，英特尔尚未公布任何为14A或18A-P带来实质性收入的大型外部代工客户。代工业务的成功不仅取决于技术竞争力，还依赖于建立客户信任、提供完善的IP生态和设计服务。若2026年10月PDK 0.9发布后未能转化为明确的客户订单，市场对代工业务的长期预期可能落空。</li><li><strong>地缘政治冲突对核心制造资产的直接威胁</strong>：公司在以色列拥有重要的Fab 28晶圆厂，该厂是Intel 7节点产品（贡献当前大部分营收）的核心生产基地。2026年Q2的10-Q文件明确指出，该工厂未投保战争或政治暴力险。鉴于中东地区冲突升级，且伊朗已将英特尔列为潜在报复目标，该工厂的任何生产中断都将对公司营收和供应链造成重大且难以量化的冲击。</li></ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul><li><strong>2026年4月</strong>：英特尔以142亿美元现金回购了阿波罗全球管理公司持有的爱尔兰Fab 34工厂49%的少数股权，从而100%掌控了这一Intel 3/4制程的核心生产基地。</li><li><strong>2026年7月</strong>：英特尔宣布向其爱尔兰莱克斯利普园区追加50亿欧元投资，用于扩大Intel 3制程产能，以满足至强6及下一代至强处理器的强劲需求。</li><li><strong>2026年7月</strong>：公司宣布对数据中心事业部（DCG）进行新一轮组织架构调整和人员裁撤，旨在提高运营效率，是公司持续“瘦身”计划的一部分。</li></ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul><li><strong>2026年8月-9月</strong>：随着Q3末产能逐步释放，市场将密切关注公司供应链改善的进度，特别是Intel 3制程和先进封装基板的供给情况，这直接影响Q4的业绩弹性。</li><li><strong>2026年10月</strong>：英特尔计划交付14A制程的0.9版工艺设计套件（PDK）。这是外部客户能否正式启动基于英特尔最先进节点进行芯片设计的关键里程碑，任何相关的客户承诺或合作消息都将成为股价的重要催化剂。</li><li><strong>2026年下半年</strong>：公司预计14A有望在2026年下半年获得早期客户订单承诺。任何来自苹果、谷歌、英伟达、AMD等潜在大客户的合作传闻或官方公告，都将是对其代工战略的最强有力背书。</li></ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<p><strong>盈利模式</strong>：英特尔采用IDM模式，盈利来源于两部分：一是“英特尔产品”部门，通过设计和销售CPU、ASIC等芯片获取收入，其盈利能力依赖于产品性能、定价和生态壁垒；二是“英特尔代工”部门，通过为内部和外部客户提供晶圆制造和先进封装服务获取收入，其盈利模式依赖于制程技术的领先性、产能规模、良率和客户组合。目前，产品部门是利润中心，代工部门因巨额资本投入和早期爬坡成本而处于亏损状态。</p>
+<p><strong>业务拆分</strong>：公司近年业务结构发生重大变化，于2025年Q1将网络与边缘（NEX）业务整合进CCG和DCAI，并确立了“英特尔产品”（含CCPG和DCAI）、“英特尔代工”和“其他”三大板块。当前，公司处于<strong>业绩兑现期</strong>，产品业务受益于AI驱动的CPU需求强劲增长，代工业务亏损随规模效应和良率改善而收窄。</p>
+<p><strong>细分业务拆分（单位：亿美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>业务板块</th><th>指标</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td><strong>CCPG</strong></td><td>营收</td><td>333.46</td><td>322.28</td><td>166.04</td></tr><tr><td></td><td>营收占比</td><td>63%</td><td>61%</td><td>56%</td></tr><tr><td></td><td>运营利润率</td><td>35%</td><td>29%</td><td>29%</td></tr><tr><td><strong>DCAI</strong></td><td>营收</td><td>161.25</td><td>169.19</td><td>113.14</td></tr><tr><td></td><td>营收占比</td><td>30%</td><td>32%</td><td>38%</td></tr><tr><td></td><td>运营利润率</td><td>9%</td><td>20%</td><td>35%</td></tr><tr><td><strong>英特尔代工</strong></td><td>营收</td><td>173.17</td><td>178.26</td><td>111.86</td></tr><tr><td></td><td>运营利润率</td><td>-77%</td><td>-58%</td><td>-40%</td></tr><tr><td><strong>其他</strong></td><td>营收</td><td>36.01</td><td>35.63</td><td>13.29</td></tr><tr><td><strong>合计</strong></td><td>营收</td><td>531.01</td><td>528.53</td><td>297.05</td></tr></tbody></table></div>
+<p><em>注：FY2026 H1数据为2026年前两个季度累计值。CCPG为客户端计算与物理AI事业部，DCAI为数据中心与AI事业部。</em></p>
+<p><strong>CCPG业务（2026年Q2）</strong>：营收88.77亿美元，同比增长12.8%，主要受产品组合向高端AI PC转移和提价带来的ASP增长驱动，但销量同比下滑8%。运营利润23.43亿美元，利润率26.4%，环比下滑主要因公司为优化产能而计提了库存减值。AI PC收入已占客户端总营收的三分之二。</p>
+<p><strong>DCAI业务（2026年Q2）</strong>：营收62.62亿美元，同比增长59%，创历史新高。增长由超大规模云客户需求驱动，服务器ASP同比提升48%，出货量增长9%。运营利润24.74亿美元，利润率高达39.5%，首次超越CCPG成为公司最大利润池。定制ASIC业务年化收入接近20亿美元，同比增长近3倍。</p>
+<p><strong>英特尔代工业务（2026年Q2）</strong>：营收57.65亿美元，同比增长30.5%，主要由18A等先进制程晶圆产出增加驱动。运营亏损20.89亿美元，亏损率36.2%，同比和环比均显著收窄。外部代工收入仅2.93亿美元，主要来自已剥离的Altera。该业务仍处于内部产品主导的产能爬坡和成本优化阶段。</p>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托x86生态与系统级能力的客户粘性</strong></p>
+<ul><li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。x86架构在过去四十年建立了庞大且深入的软件生态系统，构成了极高的客户转换成本，尤其在企业和数据中心市场。英特尔正将这一优势与先进封装、定制ASIC设计能力结合，从单纯的CPU供应商转变为系统级解决方案提供商，进一步加深了与关键客户的绑定。</li><li><strong>数据验证</strong>：Q2 DCAI业务运营利润率高达40%，显示出强大的定价能力和盈利水平。公司与谷歌、AWS等头部客户签订了长期合作协议，共同开发定制化CPU和ASIC IPU，证明了其系统级能力的商业价值。</li><li><strong>动态演变</strong>：<strong>护城河变宽（巩固）</strong>。随着AI工作流向推理和Agentic AI演进，CPU的战略重要性回升，x86生态的价值被重新定价。同时，公司通过提供CPU+ASIC+先进封装的组合方案，满足了客户对差异化硬件的需求，进一步巩固了其在AI基础设施中的核心地位。</li></ul>
+<p><strong>竞争要素 2：依托先发规模与技术突破的先进封装优势</strong></p>
+<ul><li><strong>护城河定性</strong>：<strong>行业阶段性红利</strong>。在AI芯片从单片向异构集成（SiP）转型的浪潮中，先进封装成为关键瓶颈。英特尔在EMIB-T和玻璃基板技术上具备先发优势，其技术能支持更大尺寸、更高密度的芯片互连，这是当前台积电CoWoS等主流方案难以实现的。</li><li><strong>数据验证</strong>：公司披露EMIB-T的积压订单持续增长，良率和可靠性已达标，并计划于2027年支持客户量产。公司已与联发科等客户就EMIB-T展开合作，并聘请了存储领域资深人士领导该业务，显示出其战略优先级。</li><li><strong>动态演变</strong>：<strong>维持</strong>。先进封装市场正在快速扩张，台积电等竞争对手也在积极布局。英特尔的先发优势能否转化为持久的市场份额，取决于其能否快速、高质量地实现大规模量产，并持续进行技术迭代。</li></ul>
+<p><strong>现阶段核心驱动力总结</strong>：公司的Alpha在于其IDM模式在AI时代的战略价值重估，即“产品”（x86 CPU、ASIC）和“制造”（先进制程、先进封装）两大引擎开始协同发力，驱动业绩超预期增长。其Beta则高度绑定于全球AI基础设施的资本开支周期，尤其是服务器CPU市场的结构性扩张。</p>
+<h3 class="doc-h2">产销链</h3>
+<ul><li><strong>客户情况</strong>：公司客户集中度较高，2025年前三大客户贡献了43%的营收。客户主要为全球头部PC OEM（如联想、惠普、戴尔）、超大规模云服务商（CSP，如谷歌、亚马逊、AWS）和ODM。Q2期间，公司透露已与客户签订了10份数据中心CPU及相关芯片的长期供货协议（LTA），期限为3-5年，部分锁定价格，部分锁定供应量，这极大地增强了未来需求的可见性。新客户方面，ASIC业务正与Fortinet等企业合作开发安全处理器，并积极拓展其他CSP客户。</li><li><strong>供应商情况</strong>：公司依赖全球复杂的供应链，其中ASML是EUV光刻机的唯一供应商，对先进制程扩张至关重要。近期，公司面临全行业范围的硅晶圆、基板和存储器供应短缺，这已成为限制其出货量增长的主要瓶颈。为应对此问题，公司正与供应商签订长期协议并支付预付款以锁定产能。</li><li><strong>成本传导能力</strong>：公司具备较强的成本传导能力。面对上游原材料和制造成本的通胀压力，公司通过产品组合向高端迁移和直接提价，成功提升了服务器CPU和客户端CPU的ASP，从而在Q2实现了毛利率的显著扩张。这表明公司赚取的是“技术/生态溢价”，而非单纯的“加工费”。</li></ul>
+<h3 class="doc-h2">财务数据</h3>
+<p><strong>关键财务数据（单位：亿美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2023-12-30</td><td>2024-12-28</td><td>2025-12-27</td><td>2026-06-27</td></tr><tr><td><strong>营业总收入</strong></td><td>542.28</td><td>531.01</td><td>528.53</td><td>297.05</td></tr><tr><td>营收同比</td><td>-14.00%</td><td>-2.08%</td><td>-0.47%</td><td>16.37%</td></tr><tr><td><strong>毛利率</strong></td><td>40.0%</td><td>32.7%</td><td>34.8%</td><td>39.9%</td></tr><tr><td><strong>营业利润</strong></td><td>0.31</td><td>-47.08</td><td>-0.23</td><td>29.00</td></tr><tr><td>营业利润率</td><td>0.1%</td><td>-8.9%</td><td>-0.04%</td><td>9.8%</td></tr><tr><td><strong>归母净利润</strong></td><td>16.89</td><td>-187.56</td><td>-2.67</td><td>-147.61</td></tr><tr><td><strong>Non-GAAP EPS (美元)</strong></td><td>1.05</td><td>-0.13</td><td>0.42</td><td>0.72</td></tr><tr><td><strong>自由现金流</strong></td><td>-142.79</td><td>-156.56</td><td>-49.49</td><td>14.33</td></tr></tbody></table></div>
+<p><em>注：FY2026 H1自由现金流根据经营活动现金流（81.02亿）减去资本支出（61.92亿）及融资租赁付款（8.32亿）后，并加回与爱尔兰SCIP相关的合伙人分配（14.34亿）等非经常性项目估算得出。</em></p>
+<p><strong>财务分析</strong>：</p>
+<ul><li><strong>成长能力</strong>：公司营收在经历两年下滑后，于FY2026 H1重回强劲增长轨道，同比增16.4%，主要由DCAI业务驱动。这表明公司已成功切入AI基础设施这一高增长赛道，其产品组合正从成熟的PC市场向高价值的AI数据中心市场倾斜。</li><li><strong>盈利能力</strong>：毛利率从FY2024的低谷持续反弹，FY2026 H1达到39.9%，Q2单季已达41.8%。这得益于高毛利的数据中心业务占比提升、先进制程良率改善带来的成本下降，以及ASP的提升。营业利润率在FY2026 H1转正至9.8%，显示出公司严格的费用控制（研发与销售管理费用同比下降7%）和强劲的经营杠杆。</li><li><strong>现金流状况</strong>：尽管盈利能力改善，但公司正处于大规模资本开支周期。FY2026 H1自由现金流转正，但考虑到公司已上调全年资本开支至超200亿美元，且Q2单季因回购爱尔兰工厂股权导致融资性现金流大幅流出，预计全年自由现金流将面临压力。公司的现金生成能力与巨额投资需求之间的平衡，是未来需要持续关注的核心财务指标。</li></ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p><strong>行业分析</strong>：英特尔所处的核心赛道正从传统的PC和服务器CPU市场，向AI基础设施市场（包括AI服务器CPU、AI加速器、定制ASIC和先进封装）快速延伸。据IDC预测，全球AI基础设施总支出将从2026年的4970亿美元增长至2029年的1.08万亿美元。其中，服务器CPU市场正经历结构性扩张，AMD预计2030年该市场TAM将达到2200亿美元，而英特尔自身也预计行业出货量将实现多年双位数增长。这一增长的核心驱动力是AI工作负载从训练转向推理和Agentic AI，导致CPU在AI集群中的配比和重要性大幅提升。</p>
+<p><strong>竞争格局</strong>：</p>
+<ul><li><strong>服务器CPU市场</strong>：英特尔与AMD构成双寡头，但正面临来自ARM架构（如亚马逊Graviton、Ampere）的竞争。英特尔凭借x86生态粘性和近期产品执行力的改善，在AI驱动的需求浪潮中保住了市场份额，但AMD的份额仍在持续增长。竞争焦点在于单核性能、多核密度、能效比和AI推理加速能力。</li><li><strong>AI加速器市场</strong>：英伟达凭借其GPU和CUDA生态占据绝对主导地位。英特尔通过Gaudi系列和后续的GPU产品（Crescent Island, Jaguar Shores）参与竞争，但目前市场份额有限。公司更现实的路径是，通过其CPU在AI集群中的高配比，以及为CSP提供定制ASIC，来间接参与AI加速器市场的增长。</li><li><strong>晶圆代工市场</strong>：台积电是绝对的领导者，尤其在先进制程（N3, N2）上。英特尔作为挑战者，正通过18A和14A制程追赶，并试图以“系统级代工”和地缘政治优势实现差异化。三星是另一主要竞争对手。竞争核心在于制程技术的性能、功耗、良率、产能规模、IP生态系统和客户信任。</li></ul>
+<p><strong>可比公司</strong>：</p>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>对标维度</th><th>分析</th></tr></thead><tbody><tr><td>AMD</td><td>AMD</td><td>服务器CPU、AI加速器</td><td>在x86服务器CPU市场直接竞争，AMD份额持续增长。在AI加速器领域，AMD的Instinct GPU是英伟达的主要替代选择，而英特尔在该领域份额较小。</td></tr><tr><td>英伟达</td><td>NVDA</td><td>AI加速器、系统级方案</td><td>在AI加速器市场占据主导地位，其CUDA生态是强大的护城河。在系统级方案上，英伟达的CPU+GPU组合与英特尔的方案形成竞争。</td></tr><tr><td>台积电</td><td>TSM</td><td>晶圆代工</td><td>晶圆代工市场的绝对领导者，是英特尔代工业务追赶的目标。两者在先进制程技术、客户资源和产能规模上全面竞争。</td></tr></tbody></table></div>
+<p><strong>总结分析</strong>：英特尔的核心竞争逻辑并非在AI加速器市场正面击败英伟达，而是在AI基础设施的“非GPU”部分，即CPU、ASIC和先进封装领域，利用其IDM 2.0战略建立优势。其服务器CPU业务正受益于AI带来的市场扩张，而代工业务则试图通过“系统级代工”和地缘政治定位，在台积电主导的市场中开辟差异化空间。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<p><strong>议题一：资本开支激增与自由现金流的平衡</strong></p>
+<ul><li><strong>背景</strong>：公司上调2026年资本开支至超200亿美元，并预告2027年将大幅增长，这与市场对AI投资回报率的担忧形成对比。历史上，英特尔曾因过度投资导致资产减值和现金流恶化。</li><li>2027年资本开支的规模究竟有多大？公司预计何时能实现自由现金流转正？</li><li>巨额资本开支是否已获得明确的客户订单或预付款支持，还是基于管理层对未来需求的预判？</li><li>若未来AI资本开支周期放缓，公司将如何应对可能出现的产能过剩和资产减值风险？</li></ul>
+<p><strong>议题二：外部代工客户获取的可见度与时间表</strong></p>
+<ul><li><strong>背景</strong>：尽管18A/14A制程进展顺利，但英特尔代工业务目前几乎全部收入来自内部。市场期待看到能带来实质性收入贡献的外部大客户落地，以验证其代工战略的商业可行性。</li><li>14A PDK 0.9在2026年10月交付后，预计何时能转化为首批外部客户的流片（Tape-out）？</li><li>除了已宣布的与联发科、Fortinet的合作，是否有与头部CSP或手机芯片厂商就先进制程晶圆代工进行实质性谈判？</li><li>公司如何解决潜在客户（尤其是与英特尔产品存在竞争关系的公司）对IP保护和产能分配方面的顾虑？</li></ul>
+<p><strong>议题三：服务器CPU市场份额的长期趋势</strong></p>
+<ul><li><strong>背景</strong>：尽管DCAI业务增长强劲，但AMD在x86服务器市场的份额仍在持续增长，且ARM架构CPU也在不断渗透。市场关心英特尔在供给缓解后，能否在竞争中保持当前的增长势头和定价能力。</li><li>当前服务器CPU的高ASP增长中，有多少是由结构性产品组合升级驱动，有多少是由暂时性供需失衡驱动？</li><li>随着2027年Coral Rapids等新品的推出，英特尔能否在单核性能和能效比上缩小与AMD的差距，甚至重回领先地位？</li><li>面对谷歌、亚马逊等CSP自研ARM服务器CPU的趋势，英特尔如何维持其在CSP客户中的份额？</li></ul>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧：当前强劲的业绩增长是AI驱动的结构性需求爆发，还是由供应链短缺导致的暂时性“虚假繁荣”？</strong></p>
+<ul><li><strong>乐观方观点（结构性需求驱动）</strong>：认为AI工作负载正从训练转向推理和Agentic AI，这从根本上改变了数据中心架构，使得CPU的角色从辅助变为核心。CPU与GPU的配比将从1:8向1:1甚至更高比例演进，这将为服务器CPU市场带来多年的结构性增长。英特尔凭借其x86生态、产品组合和IDM模式下的供应保障能力，是这一趋势的核心受益者。当前供不应求的局面，正是需求远超预期的证明。</li><li><strong>谨慎方观点（暂时性供需失衡）</strong>：认为当前服务器CPU的强劲增长，很大程度上是由于全行业供应链短缺（晶圆、基板、内存）导致客户恐慌性下单和重复下单，叠加部分客户因竞争压力提前拉货。一旦供应链瓶颈缓解，客户库存恢复正常，需求可能回落。同时，AMD的份额仍在增长，且ARM架构的威胁长期存在。英特尔当前的定价能力和高利润率可能无法持续，随着其自身和竞争对手产能的释放，价格战风险将加大。</li></ul>
+<p><strong>总结分析</strong>：当前英特尔的强劲表现是结构性趋势与周期性因素叠加的结果。AI工作负载的演变确实为CPU带来了长期增量需求，这是结构性的一面。但供给短缺放大了短期需求信号，并推高了ASP，这是周期性的一面。公司的优势在于，其IDM模式使其在供应紧张时期能够更好地保障核心客户的供应，从而巩固客户关系并签订长期协议。然而，风险在于，当供给全面恢复后，市场竞争将回归产品性能、成本和能效比的本质。届时，英特尔能否兑现其产品路线图（如Coral Rapids），将是决定其能否守住市场份额和利润率的关键。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>管理层最新指引</strong>：</p>
+<ul><li><strong>2026年Q3</strong>：营收预计为158-168亿美元，Non-GAAP毛利率约为42%，Non-GAAP EPS为0.38美元。</li><li><strong>2026全年</strong>：资本开支上调至超过200亿美元。预计全年Non-GAAP运营费用约为165亿美元。</li><li><strong>2027年</strong>：资本开支将显著高于2026年水平。</li></ul>
+<p><strong>券商盈利预测与估值</strong>：</p>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价(美元)</th><th>财务指标</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>美银 (2026-07-28)</td><td>买入</td><td>160.00</td><td>营收(亿美元)</td><td>628.62</td><td>731.16</td><td>847.03</td></tr><tr><td></td><td></td><td></td><td>Non-GAAP EPS(美元)</td><td>1.49</td><td>2.09</td><td>3.01</td></tr><tr><td>瑞银 (2026-07-28)</td><td>中性</td><td>121.00</td><td>营收(亿美元)</td><td>644.48</td><td>751.92</td><td>873.82</td></tr><tr><td></td><td></td><td></td><td>Non-GAAP EPS(美元)</td><td>1.56</td><td>2.17</td><td>2.82</td></tr><tr><td>花旗 (2026-07-24)</td><td>买入</td><td>130.00</td><td>营收(亿美元)</td><td>636.69</td><td>913.18</td><td>-</td></tr><tr><td></td><td></td><td></td><td>Non-GAAP EPS(美元)</td><td>1.54</td><td>2.78</td><td>-</td></tr><tr><td>摩根大通 (2026-07-24)</td><td>低配</td><td>85.00</td><td>营收(亿美元)</td><td>633.36</td><td>776.79</td><td>942.91</td></tr><tr><td></td><td></td><td></td><td>Non-GAAP EPS(美元)</td><td>1.58</td><td>2.44</td><td>3.60</td></tr><tr><td>摩根士丹利 (2026-07-24)</td><td>均配</td><td>84.00</td><td>营收(亿美元)</td><td>627.20</td><td>712.64</td><td>801.95</td></tr><tr><td></td><td></td><td></td><td>Non-GAAP EPS(美元)</td><td>1.57</td><td>2.00</td><td>2.63</td></tr></tbody></table></div>
+<p><strong>盈利预期与估值分析</strong>：券商对英特尔未来几年的营收和EPS增长普遍持乐观态度，但分歧巨大。乐观方（如美银、花旗）基于AI服务器CPU市场的强劲增长和代工业务的潜在爆发，给出了较高的营收和EPS预测，并采用基于未来EPS的PE估值或SOTP估值，目标价显著高于当前股价。谨慎方（如摩根大通、摩根士丹利）虽然也上调了预测，但对资本开支压力、外部代工客户获取的难度以及长期市场份额存在担忧，因此给出的目标价低于当前股价。估值方法上，由于公司短期GAAP净利润受非现金项目严重扭曲，市场普遍采用Non-GAAP PE、EV/Sales或SOTP进行估值。当前股价对应2027年Non-GAAP EPS的一致预期（约2.4美元）的PE已超过40倍，显示市场已计入较高的增长预期。未来股价的进一步上涨空间，将高度依赖于公司能否持续超预期兑现业绩，并在外部代工客户上取得突破性进展。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/INTC · 生成于 2026-08-06</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-06';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'pending', text: '<strong>14A PDK 0.9 交付</strong>（2026-10）：外部客户启动设计的钥匙——交付后至年底能否换来早期客户订单承诺，是代工估值翻正的开关', note: '管理层预计 2026 下半年获早期客户订单承诺' },
+  { kind: 'cat', status: 'active',  text: '<strong>Q3 末产能释放 → Q4 显著环比增长</strong>：Intel 3 节点与先进封装基板供给改善——管理层口头承诺的兑现窗口', note: 'Q3 指引环比仅 +1%，弹性全部押在 Q4' },
+  { kind: 'cat', status: 'active',  text: '<strong>ASIC 业务放量</strong>：年化收入近 20 亿美元（同比近 3 倍），向 40 亿目标迈进', note: '与 Fortinet 等合作开发安全处理器' },
+  { kind: 'cat', status: 'active',  text: '<strong>EMIB-T 先进封装扩产</strong>：积压订单持续增长，2027 年支持客户量产', note: '已与联发科合作，承接 CoWoS 外溢需求' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>外部代工客户持续空白</strong>：PDK 0.9 交付后至 2026 年底仍无任何头部客户订单承诺', note: '当前外部代工收入仅 2.93 亿/季，主要来自已剥离的 Altera' },
+  { kind: 'risk', status: 'clear', text: '<strong>Q4 供给释放不及预期</strong>：「显著环比增长」落空 → 供给释放逻辑证伪', note: '判定窗口：Q3 财报（2026-10 下旬）' },
+  { kind: 'risk', status: 'clear', text: '<strong>以色列 Fab 28 生产中断</strong>：Intel 7 核心基地（贡献当前大部分营收），未投保战争/政治暴力险', note: '10-Q 明示；伊朗已列为潜在报复目标' },
+  { kind: 'risk', status: 'clear', text: '<strong>2027 资本开支大幅上调致 FCF 再度转负或股权融资</strong>——稀释股东价值', note: '2026 capex 已上调至 >200 亿，2027「显著更高」' },
+  { kind: 'risk', status: 'clear', text: '<strong>供给缓解后服务器 ASP 回落 + AMD/ARM 份额加速侵蚀</strong>——验证「虚假繁荣」论', note: 'Q2 ASP +48% vs 出货量 +9%，价格贡献占大头' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uber（UBER.N）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--policy-red); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">UBER</span>
+    <span class="site-mark__text">Uber 公司研究<span>Uber Technologies · UBER.N</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>Uber<span class="en">Uber Technologies · UBER.N · 美股研究</span></h1>
+        <p class="sub">全球出行与配送双料第一的平台：核心业务连续四个季度总预订额增长超 20%、TTM 自由现金流首破 100 亿美元，但市场对它在 Robotaxi 时代的定位分歧巨大——是被 Waymo 去中介化的「管道」，还是自动驾驶商业化的「收费站」？约 16x 的 2027 年估值，就是这个分歧的价格。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-06</span>
+          <span>下次更新：3Q26 财报后（2026-10 下旬至 11 月）</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="buy">买入</strong>
+        <em>双引擎 20%+ 增长 + 100 亿 FCF 兜底，16x 估值为 Robotaxi 分歧付了过头折价。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">GB +24%</strong><span>2Q26 总预订额 $580亿·连续四季 &gt;20%</span></div>
+      <div class="summary-rail__item"><strong>$100亿+</strong><span>TTM 自由现金流·首次突破</span></div>
+      <div class="summary-rail__item"><strong>~16x</strong><span>2027E Non-GAAP PE·低于历史均值</span></div>
+      <div class="summary-rail__item"><strong>5000万+</strong><span>Uber One 会员·贡献 50% 总预订额</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">2Q26 再超预期：连续四季 GB +20%，增长引擎能烧到 2027 吗？</h2>
+        <span class="qa__impact-tag">→ 3Q26 指引 GB +18~22% · EPS $0.84-0.88</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>增长是真的且在加速：美国出行提速、配送有机增长良好、广告年化收入 $25 亿（+50%）。<em>3Q26 指引 GB +18~22% 是主动减速指引而非需求走弱——判定窗口在 10-11 月财报，若再超预期即触发估值修复。目前证据站多方。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>直接决定 FY2027 EPS 落在预测区间的哪一端。</strong>券商 FY2027 EPS 预测区间 $4.36-5.77：GB 增速维持 18%+ → 利润杠杆继续释放（Non-GAAP 经营利润 FY2025 +49.7%，远快于收入），EPS 走向 $5+；增速掉到 15% 以下 → EPS 靠向 $4.4 下沿。</p>
+            <p>对倍数同样关键：Uber 当前约 16x 2027E EPS 的折价，一半是 Robotaxi 分歧，另一半是「20%+ 增长不可持续」的怀疑——<strong>连续第五个 20%+ 季度就是对后者最直接的反驳</strong>。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>2Q26 GB +24% 至 $580 亿，<strong>连续四个季度超 20%</strong>；Non-GAAP EPS +35%，增长质量在改善</li>
+              <li>美国出行加速：保险成本转为顺风（费率低个位数增长，多年来最温和）+ 产品创新（Reserve、Wait & Save）+ 稀疏市场渗透（&lt;10% vs 密集市场 &gt;50%）</li>
+              <li>配送收入 1H26 +30.9%，杂货零售年化 GB $150 亿（+40%），广告年化收入 $25 亿（+50%）——<strong>第二梯队引擎已经点火</strong></li>
+              <li>Uber One 会员 5000 万+（+50%）贡献 50% 总预订额，跨平台用户消费额是单平台 3 倍、增速快 1.5 倍——<strong>复购飞轮在自我强化</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>3Q26 指引 GB +18~22%，<strong>环比减速</strong>——高基数下 20%+ 天然难以维系</li>
+              <li>巴西两轮车运力争夺战已抬高获客成本、拖累出行量，<strong>新兴市场竞争可能扩散</strong></li>
+              <li>出行收入 1H26 表观仅 +2.7%（英国模式变更拖累约 8pct），会计口径噪音掩盖真实增速，给空方留了质疑空间</li>
+              <li>全球经济放缓对可选出行/外卖需求的敏感性尚未真正被测试</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（2Q26/1H26 财报速览 · 分板块拆分 · 三年财务趋势）</summary>
+          <div class="evidence__body">
+            <h5>2Q26 与 1H26 关键数据</h5>
+            <ul>
+              <li>2Q26 总预订额 <strong>$580 亿（+24%）</strong>，连续四个季度 &gt;20%；Non-GAAP EPS +35%；TTM 自由现金流首破 <strong>$100 亿</strong></li>
+              <li>1Q26 GB +25%、EPS +44%，自动驾驶订单量同比 +10 倍、上线城市达 8 个（2Q26 为 7 城运营中）</li>
+              <li>管理层 3Q26 指引：GB $582.5-602.5 亿（固定汇率 +18~22%），Non-GAAP EPS $0.84-0.88；2026 全年 Non-GAAP 有效税率 22-25%</li>
+            </ul>
+            <h5>分板块拆分（1H26，亿美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>板块</th><th>收入</th><th>收入 YoY</th><th>总预订额</th><th>GB YoY</th><th>Non-GAAP 经营利润率（占 GB）</th></tr></thead><tbody><tr><td>出行（Mobility）</td><td>141.61</td><td>+2.7%（剔除英国模式变更约 +22%）</td><td>553.82</td><td>+22.3%</td><td>7.66%（+27bps）</td></tr><tr><td>配送（Delivery）</td><td>103.13</td><td>+30.9%</td><td>534.55</td><td>+25.7%</td><td>3.77%（+30bps）</td></tr><tr><td>货运（Freight）</td><td>29.20</td><td>+15.8%</td><td>29.05</td><td>+18.9%</td><td>微亏，持续收窄</td></tr></tbody></table></div>
+            <h5>三年财务趋势（FY2023 → FY2025，亿美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th></tr></thead><tbody><tr><td>收入</td><td>372.81</td><td>439.78（+18.0%）</td><td>520.17（+18.3%）</td></tr><tr><td>营业利润率</td><td>10.2%</td><td>12.6%</td><td>16.2%</td></tr><tr><td>归母净利润</td><td>18.87</td><td>98.56*</td><td>100.53</td></tr><tr><td>自由现金流</td><td>35.62</td><td>68.95</td><td>97.63</td></tr></tbody></table></div>
+            <p>*FY2024 净利含约 $64 亿递延税项资产估值备抵释放的一次性收益。Non-GAAP 经营利润 FY2025 同比 +49.7%——<strong>利润增速 2.7 倍于收入增速，经营杠杆是当前财报最硬的信号</strong>。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">Robotaxi：Uber 是被颠覆的「管道」，还是自动驾驶的「收费站」？</h2>
+        <span class="qa__impact-tag">→ 决定长期倍数：平台 18-20x vs 管道 10-12x</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>这是该股最大的多空分歧，也是估值折价的根源。<em>短期影响极小（自动驾驶出行量占比 &lt;0.5%），但它决定市场愿意给 10x 还是 20x。初步证据站多方：在已有自动驾驶的旧金山/洛杉矶/凤凰城，Uber 出行量 Q2 较 Q1 加速、份额同比提升。Waymo 2028 年终止合作是最大的证伪倒计时。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这个问题影响的不是 EPS，是倍数——而且是数倍级别的差异。</strong>「收费站」叙事成立（多玩家并存、Uber 收分销税）→ 估值可向 18-20x 修复甚至更高；「管道化」叙事成立（Waymo 自营成功、伙伴技术掉队）→ 出行板块估值向 10-12x 压缩。</p>
+            <p>对 EPS 的影响在 2028 年前可以忽略（占比 &lt;0.5%），但<strong>市场永远提前定价</strong>：每一个合作伙伴的落地数据（利用率、用户接受度）都会在当期股价里兑现，这是 2026 H2-2027 最密集的催化/证伪来源。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点（收费站）</h4>
+            <ul>
+              <li>自动驾驶降低出行成本、做大市场蛋糕；Uber 握有 2.08 亿月活 + 流动性网络，是<strong>任何 Robotaxi 运营商绕不开的需求入口</strong></li>
+              <li>格局将是多玩家并存而非赢家通吃：Uber 已绑 Waymo、Zoox、Nuro/Lucid、Wayve、WeRide、NVIDIA 等<strong>多元化伙伴网，不押单一技术路线</strong></li>
+              <li>合作伙伴车辆在 Uber 网络上每车每日 25-30 次行程——需求网络直接提升车辆利用率、降低空驶，这是实打实的价值创造</li>
+              <li>实证：自动驾驶已运营市场（旧金山/洛杉矶/凤凰城）Q2 出行量较 Q1 加速、份额同比提升；Uber One 5000 万会员的高粘性进一步锁定需求侧</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点（管道化）</h4>
+            <ul>
+              <li><strong>Waymo 已宣布 2028 年起结束与 Uber 合作转全栈自营</strong>——技术最强、资本最厚的玩家用投票否定了平台模式，特斯拉更是明确拒绝合作</li>
+              <li>若技术方直连用户，Uber 丧失用户关系与定价权，沦为可替代的「管道」</li>
+              <li>Uber 的备胎伙伴（Zoox/Wayve/Nuro）技术成熟度与商业化进度均落后 Waymo，<strong>多伙伴策略可能只是「一堆二线选项」</strong></li>
+              <li>承诺的 $100 亿自动驾驶投资，在巨头夹击下回报率存疑</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（合作版图与落地时间表 · 已运营市场实证 · 判断框架）</summary>
+          <div class="evidence__body">
+            <h5>自动驾驶合作版图与落地时间表</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>伙伴</th><th>落地计划</th><th>状态</th></tr></thead><tbody><tr><td>现有运营</td><td>7 个城市已在运营，2026 年底扩至 15 城</td><td>进行中</td></tr><tr><td>Zoox</td><td>2026 夏拉斯维加斯，2027 年中洛杉矶</td><td>待验证</td></tr><tr><td>Nuro / Lucid</td><td>2026 年底旧金山湾区</td><td>待验证</td></tr><tr><td>Wayve / Nissan</td><td>2026 年底东京</td><td>待验证</td></tr><tr><td>WeRide</td><td>马德里、慕尼黑（2026 H2）</td><td>待验证</td></tr><tr><td>NVIDIA（L4）</td><td>2027 洛杉矶/旧金山首发，2028 扩至 28 城</td><td>战略里程碑</td></tr><tr><td class="warn">Waymo</td><td class="warn">2028 年起终止合作、转全栈自营</td><td class="warn">证伪倒计时</td></tr></tbody></table></div>
+            <h5>判断框架：盯三个信号</h5>
+            <ol>
+              <li><strong>落地城市的运营数据</strong>：车辆利用率、等车时间、用户接受度——好数据直接给「收费站」叙事充值</li>
+              <li><strong>已运营自动驾驶城市的份额走向</strong>：若 Waymo 自营 App 起量而 Uber 份额下滑，管道化开始兑现</li>
+              <li><strong>2028 年奥斯汀/亚特兰大交接</strong>：Waymo 退出后这两个市场的份额与利润率变化，是最终裁决</li>
+            </ol>
+            <p>管理层判断自动驾驶将多玩家并存。这个判断对，Uber 就是赢家之一；这个判断错，核心业务的现金流（TTM FCF $100 亿+）也给了转型足够的缓冲——<strong>这是「输得起」的期权，不是生死局</strong>。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">$148 亿收购 Delivery Hero：协同是真金，还是整合泥潭？</h2>
+        <span class="qa__impact-tag">→ $12亿协同 · 2027 H2 交割 · 回购节奏受压</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>逻辑成立：双平台市场数翻倍至近 100 个，技术平台迁移带来 $12 亿年度协同有较高确定性。<em>但这是公司史上最大收购——50 个市场、7 个品牌的迁移 + 多辖区监管审批 + 14 个市场剥离，执行风险真实存在。市场大概率在交割前提前定价协同，2027 年前这是净催化。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>$12 亿运行率协同 ≈ FY2025 Non-GAAP 经营利润的 12%</strong>，若如期兑现直接抬升 FY2028 盈利中枢；跨平台交叉销售（如中东 Talabat 配送用户转出行）是未计入的上行期权，跨平台潜在用户群扩大超 5000 万。</p>
+            <p>代价同样明确：Q2 已因收购<strong>战术性削减回购</strong>，管理层承诺未来数月恢复至约 50% FCF 回购——回购节奏是观察资本配置纪律的第一个窗口。若整合失控，协同跳票 + 回购缩水会双杀叙事。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>能同时提供出行+配送的市场数<strong>大约翻倍</strong>，直接放大跨平台协同的 TAM（目前跨平台用户仅 20%，消费额却是 3 倍）</li>
+              <li>Delivery Hero 利润率远低于 Uber，<strong>技术平台迁移的成本杠杆确定性高</strong>；广告变现差距（DH ~3% vs Uber ~2% of GB）也是现成提升空间</li>
+              <li>管理层给出清晰路线图：交割后 18 个月内实现 $12 亿运行率协同</li>
+              <li>此前 7 月 1 日已完成 Getir 配送业务收购（$4.65 亿），整合机器在运转</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li><strong>50 个市场、7 个品牌的平台迁移</strong>，多品牌多市场整合是教科书级的高难度动作</li>
+              <li>交易需多司法辖区监管批准，<strong>14 个重叠市场强制剥离</strong>给 SSW Partners，可能侵蚀协同规模</li>
+              <li>韩国 Baemin 面临 Coupang 的激烈竞争——买来的不都是优质资产</li>
+              <li>$148 亿现金支出叠加 $100 亿自动驾驶投资承诺，资本配置三线作战，回购被挤压已有先例（Q2）</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（交易要点 · 与核心业务的关系）</summary>
+          <div class="evidence__body">
+            <h5>交易要点</h5>
+            <ul>
+              <li>2026-07-16 宣布：每股 €41.50 现金收购 Delivery Hero，交易价值约 <strong>$148 亿</strong>，预计 <strong>2027 年下半年</strong>完成</li>
+              <li>收购 50 个市场，14 个重叠市场剥离给 SSW Partners；管理层预计交割后 18 个月内实现 <strong>$12 亿年度运行率协同</strong>（主要来自技术平台整合与成本优化）</li>
+              <li>业务版图扩展至近 100 个市场；协同中交叉销售占比小但上行空间大（跨平台潜在用户群 +5000 万）</li>
+            </ul>
+            <h5>为什么这笔收购和核心业务逻辑自洽</h5>
+            <p>Uber 的复利机器是「会员 + 跨平台」：Uber One 会员贡献 50% GB、跨平台用户消费 3 倍于单平台。Delivery Hero 买的是<strong>可以灌进这台机器的新燃料</strong>——中东、韩国、拉美的配送用户和商家网络。它不改变核心叙事，而是把核心叙事的可复制范围扩大一倍。这也是为什么整合执行是唯一真正的风险：逻辑没问题，差的是落地。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 4 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">4</span>
+        <h2 class="qa__title">估值：约 16x 2027E EPS 隐含了什么？赔率如何？</h2>
+        <span class="qa__impact-tag">→ 期望约 +11% · 赔率 1.5:1 · 概率加权偏正</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>三情景期望值约 $80 vs 隐含现价约 $72（16x × FY2027E EPS 中枢 $4.5），<em>期望值高于现价约 11%，且券商目标价（$95-120.9）全部位于中性-乐观区间——折价主要来自 Robotaxi 分歧而非基本面，对应「买入」。安全边际不厚，靠 20%+ 增长与 $100 亿 FCF 兜底。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这个问题本身就是估值问题。</strong>合理 PE 区间 12-20x：当前 ~16x 位于中枢偏下——倍数修复（回到 18x）本身就是 +13% 的收益来源，EPS 兑现是另一部分。</p>
+            <p>期望值 +11%、赔率约 1.5:1（+53% / -36%），但概率分布偏正：悲观情景需要「增长失速 + Waymo 叙事恶化 + 整合翻车」同时发生。<strong>现价买入赚两部分钱：估值修复 + EPS 增长</strong>。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>~16x 2027E EPS 对一家 GB +24%、EPS +35%、FCF $100 亿+ 的公司，<strong>PEG 明显小于 1</strong>；管理层自述「远低于历史平均水平和增长潜力」</li>
+              <li>券商目标价 $95（伯恩斯坦 13x NTM EBITDA + 16x P/FCF）、$99.4（中金 SOTP）、$120.9（华泰 21x FY2026 EV/EBITDA）——<strong>全部显著高于现价</strong></li>
+              <li>约 50% FCF 回购 + 股权投资组合（滴滴/Grab/Aurora 等约 $80-90 亿）尚未变现——<strong>股东回报通道宽</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>FY2026 EPS 预测区间 $2.91-3.77、FY2027 $4.36-5.77，<strong>机构分歧本身就说明盈利路径不确定</strong>（税率、自动驾驶投入、DH 并表节奏）</li>
+              <li>16x 的折价不是错误定价，是市场对「Waymo 2028 出走」的理性计提——<strong>分歧解决前折价可能长期存在</strong></li>
+              <li>花旗已暂停评级；$148 亿现金收购 + $100 亿自动驾驶投资，资本开支高峰期的 FCF 分配存在变数</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（当前定价测算 · 三情景表 · 券商预测区间）</summary>
+          <div class="evidence__body">
+            <h5>当前定价（2026-08-06，财报后）</h5>
+            <ul>
+              <li>当前交易于约 <strong>16x 2027E Non-GAAP EPS</strong>（资料原文口径）</li>
+              <li>券商 FY2027 EPS 预测区间 $4.36-5.77，中枢约 $4.5 → 反推隐含现价约 <strong>$72 一线</strong>（估算值，以行情为准）</li>
+              <li>TTM 自由现金流 $100 亿+，净债务/EBITDA 约 0.4x，投资级评级——<strong>资产负债表不构成估值约束</strong></li>
+            </ul>
+            <h5>三情景假设（FY2027 视角，一年期）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>FY2027 EPS</th><th>合理 PE</th><th>隐含股价</th><th>vs 当前（~$72）</th></tr></thead><tbody><tr><td>乐观（25%）</td><td>GB 维持 18%+，Robotaxi 伙伴落地数据亮眼，DH 协同提前定价，估值修复至历史中枢上沿</td><td>~$5.5</td><td>20x</td><td>~$110</td><td>+53%</td></tr><tr><td>中性（50%）</td><td>GB 渐降至 mid-teens，EPS 兑现中枢，估值小幅修复</td><td>~$4.5</td><td>18x</td><td>~$81</td><td>+13%</td></tr><tr><td>悲观（25%）</td><td>增长失速至低双位数，Waymo 自营扩散冲击叙事，DH 整合拖累，管道化定价</td><td>~$3.8</td><td>12x</td><td>~$46</td><td>-36%</td></tr></tbody></table></div>
+            <p><strong>期望值约 $80，高于隐含现价约 11%。</strong>估值不是算出「正确答案」，而是把当前股价隐含的预期拆出来：16x 意味着市场已经在为「Robotaxi 管道化 + 增长减速」付费——你只需判断这个折价是否过头。以当前基本面证据（连续四季 20%+、FCF 破百亿、份额提升），我们认为过头了。</p>
+            <h5>券商盈利预测区间（2026-08-06 财报后更新）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级/目标价</th><th>FY2026E EPS</th><th>FY2027E EPS</th><th>FY2028E EPS</th></tr></thead><tbody><tr><td>摩根大通</td><td>未评级</td><td>$3.38</td><td>$4.51</td><td>$5.65</td></tr><tr><td>花旗</td><td>评级暂停（未含 DH 收购）</td><td>$3.36</td><td>$4.69</td><td>$6.10</td></tr><tr><td>伯恩斯坦</td><td>跑赢大盘 / $95.00</td><td>$3.34</td><td>$4.36</td><td>—</td></tr><tr><td>华泰证券（5月）</td><td>买入 / $120.90</td><td>$2.91</td><td>$4.43</td><td>$5.59</td></tr><tr><td>中金公司（5月）</td><td>跑赢行业 / $99.40</td><td>$3.77</td><td>$5.77</td><td>—</td></tr></tbody></table></div>
+            <p>注：各机构 EPS 口径略有差异（Non-GAAP / Adj.），华泰 FY2026E 为 $2.91 与其更早的发布日期有关。估值方法：伯恩斯坦 13x NTM Adj. EBITDA + 16x P/FCF 混合；华泰 21x FY2026 EV/EBITDA；中金 SOTP（出行 18x P/OP、配送 6x P/S、货运 0.5x P/S）。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>：公司概况、近况跟踪、催化剂、财务与券商预测（见同目录《Uber_一页通.md》，亦见本站「一页通」标签页）</li>
+        <li><strong>财务数据</strong>：FY2023-FY2025 年度报表、1H26 分板块拆分、2Q26 业绩要点（均来自公开财报整理）</li>
+        <li><strong>局限</strong>：未读 10-K/10-Q 原文（建议补读 Risk Factors 中自动驾驶与监管章节）；隐含现价由「16x × FY2027E EPS 中枢」反推，为估算值；未对 Delivery Hero 做独立建模</li>
+        <li><strong>管理层评估（一句话版）</strong>：Dara Khosrowshahi 2017 年上任后带领 Uber 从亏损扩张转向盈利纪律（经营利润率 10.2%→16.2%、FCF 破百亿），资本配置记录良好；$148 亿收购是对其整合能力迄今最大的考验</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>优步是全球领先的出行与配送科技平台，通过连接消费者与独立司机、配送员及商家，提供网约车、外卖配送及货运服务。业务覆盖全球超 70 个国家，核心市场包括美国、加拿大、拉丁美洲、欧洲、中东、非洲及亚太。凭借庞大的网络规模、技术能力和跨平台协同效应，在出行和配送两大领域均占全球领先地位，并正积极构建<strong>自动驾驶商业化平台</strong>。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul><li><strong>2Q26 业绩超预期</strong>：总预订额同比 +24% 至 $580 亿，连续四个季度超 20% 增长。Non-GAAP EPS 同比 +35%，过去 12 个月自由现金流首次突破 $100 亿。美国出行行程量和总预订额增长均加速，配送有机增长势头良好。</li><li><strong>自动驾驶战略加速落地</strong>：已在 7 个城市运营自动驾驶服务，预计 2026 年底扩至 15 城。新增 Zoox、Wayve、Nuro/Lucid 等合作伙伴，与 NVIDIA 深化合作、目标 2028 年前 28 城部署 L4。公司明确目标为全球领先的自动驾驶商业化平台。</li><li><strong>收购 Delivery Hero</strong>：约 $148 亿收购，业务版图扩至近 100 个市场，双平台市场数约翻倍；预计 2027 下半年完成，管理层预计 $12 亿年度运行率协同。</li><li><strong>Uber One 会员突破 5000 万</strong>：同比 +50%，贡献出行+配送总预订的 50%；跨平台用户增长比单产品用户快 1.5 倍。</li><li><strong>巴西市场竞争加剧</strong>：外卖两轮车运力争夺推高获取成本、影响出行量；份额保持稳定，两轮车利润率低，利润冲击有限。</li></ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol><li><strong>自动驾驶合作伙伴商业化落地的催化剂效应</strong>：2026 H2-2027 初多个伙伴落地（Zoox 拉斯维加斯、Nuro/Lucid 旧金山湾区、Wayve/Nissan 东京）。自动驾驶出行量占比不足 0.5%，任何积极运营数据（利用率、接受度）都可能成为股价催化剂。</li><li><strong>Delivery Hero 收购的协同效应预期</strong>：交割后 18 个月内 $12 亿运行率协同，技术平台迁移的成本杠杆确定性高；跨平台交叉销售存在上行空间，市场可能提前定价。</li><li><strong>核心业务增长韧性支撑估值修复</strong>：当前约 16x 2027E Non-GAAP EPS，远低于历史均值。美国出行受益保险成本改善、产品创新与稀疏市场渗透；广告年化收入 $25 亿（+50%）。若 Q3 继续超预期，可能触发估值修复。</li></ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol><li><strong>跨平台网络效应的深化</strong>：仅 20% 用户同时使用出行和配送，其总预订量是单平台用户的 3 倍以上；Uber One 渗透 + OneSearch 推动交叉销售，收购 Delivery Hero 后跨平台潜在用户群扩大超 5000 万。网络效应自我强化，构成竞争壁垒。</li><li><strong>自动驾驶平台战略的长期价值</strong>：定位为自动驾驶生态的「市场平台层」，输出需求网络、车队管理与数据。已与 Waymo、Zoox、Nuro、Wayve、WeRide、Rivian、NVIDIA 等建立合作；管理层判断格局多玩家并存，Uber 凭品牌和分销能力保持优势。</li><li><strong>全球市场扩张与品类拓展</strong>：稀疏市场渗透率不足 10%（密集市场超 50%）；杂货零售年化 GB $150 亿（+40%+）；广告年化收入 $25 亿（+50%），占配送 GB 约 2%，相比 Delivery Hero 的 3% 仍有提升空间。</li></ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul><li><strong>自动驾驶竞争格局的不确定性</strong>：Waymo 计划 2028 年起结束合作转全栈自营。若头部玩家效仿，Uber 面临「管道化」风险——失去用户关系和定价权。自动驾驶出行量占比目前不足 0.5%，但市场定价已部分反映该长期风险。</li><li><strong>收购整合与监管风险</strong>：Delivery Hero 涉及约 50 个市场、多品牌迁移的执行风险；多辖区监管审批不确定；14 个重叠市场剥离可能影响协同实现。</li><li><strong>全球宏观经济与竞争压力</strong>：业务遍布 70 多国，面临地缘政治、汇率波动和区域竞争（巴西两轮车竞争已影响出行量）。</li></ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul><li><strong>2026-07-16</strong>：宣布以每股 €41.50 现金收购 Delivery Hero，交易价值约 $148 亿；14 个重叠市场剥离给 SSW Partners。</li><li><strong>2026-07-01</strong>：完成 Getir 配送业务收购（约 $4.65 亿现金）。</li><li><strong>2026-06</strong>：与 NVIDIA 深化合作，2027 年洛杉矶/旧金山推出 L4，2028 年扩至 28 城。</li><li><strong>2026-05</strong>：1Q26 业绩：GB +25%，Non-GAAP EPS +44%；自动驾驶订单量同比 +10 倍，已上线 8 城。</li></ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul><li><strong>2026-08 至 12</strong>：多个自动驾驶伙伴商业化部署：Zoox 拉斯维加斯、Nuro/Lucid 旧金山湾区、Wayve/Nissan 东京、WeRide 马德里/慕尼黑。</li><li><strong>2026-10 至 11</strong>：3Q26 财报。指引 GB +18~22%，Non-GAAP EPS $0.84-0.88。若超预期可能触发估值修复。</li><li><strong>2026 下半年</strong>：回购恢复（Q2 因收购战术性减少），未来数月恢复至约 50% FCF 回购水平。</li><li><strong>2027 上半年</strong>：NVIDIA 合作 L4 在洛杉矶/旧金山启动部署——自动驾驶战略重要里程碑。</li></ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<p><strong>业务边际变化</strong>：从出行+配送双轮驱动向综合本地生活服务平台演进：Uber One 深化粘性、广告提升变现、自动驾驶布局未来；收购 Delivery Hero 大幅扩展全球版图（中东、韩国、拉美）。</p>
+<p><strong>盈利模式</strong>：平台连接供需两端抽取服务费（Take Rate），多数市场净额确认；另有广告、会员订阅、金融合作收入。盈利核心驱动是网络规模的固定成本杠杆与交易量增长。</p>
+<p><strong>业务拆分</strong>：出行 / 配送 / 货运三大板块。FY2025 收入占比：出行 57%、配送 33%、货运 10%。出行是主要利润来源，配送利润率快速提升，货运在盈亏平衡附近。公司处于业绩兑现期，各板块健康增长 + 利润率扩张。</p>
+<div class="tbl-wrap"><table><thead><tr><th>板块·指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>1H26</th></tr></thead><tbody><tr><td><strong>出行</strong>·收入（亿美元）</td><td>198.32</td><td>250.87</td><td>296.70</td><td>141.61</td></tr><tr><td>出行·GB（亿美元）/ YoY</td><td>688.97 / +30.8%</td><td>830.24 / +20.5%</td><td>974.97 / +17.4%</td><td>553.82 / +22.3%</td></tr><tr><td>出行·Non-GAAP 经营利润率（占 GB）</td><td>—</td><td>7.01%</td><td>7.39%</td><td>7.66%</td></tr><tr><td><strong>配送</strong>·收入（亿美元）</td><td>122.04</td><td>137.50</td><td>172.48</td><td>103.13</td></tr><tr><td>配送·GB（亿美元）/ YoY</td><td>637.26 / +14.2%</td><td>746.14 / +17.1%</td><td>908.64 / +21.8%</td><td>534.55 / +25.7%</td></tr><tr><td>配送·Non-GAAP 经营利润率（占 GB）</td><td>—</td><td>2.85%</td><td>3.47%</td><td>3.77%</td></tr><tr><td><strong>货运</strong>·收入（亿美元）</td><td>52.45</td><td>51.41</td><td>50.99</td><td>29.20</td></tr><tr><td>货运·Non-GAAP 经营利润（亿美元）</td><td>—</td><td>-1.55</td><td>-1.09</td><td>-0.54</td></tr></tbody></table></div>
+<p>1H26 出行收入 +2.7% 主要受英国商业模式变更拖累（约 8pct），剔除后约 +22%；配送收入 +30.9%，Uber One 贡献配送 GB 的 70%；货运收入 +15.8%、亏损持续收窄。</p>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托庞大网络规模与数据飞轮构筑的双边市场壁垒（结构性护城河，正在变宽）</strong>。超 2 亿月活（2.08 亿，+16%）+ 约 1000 万司机配送员（+15%）构成自我强化的双边市场，新进入者需同时解决供需冷启动、成本极高。密集市场渗透率超 50%、稀疏市场不足 10%——护城河既深、扩张空间也大。Non-GAAP 经营利润率（占 GB）从 2023 年约 3.5% 升至 2026Q2 约 3.7%，规模杠杆持续兑现。Uber One 5000 万会员贡献 50% GB，会员留存与频次显著更高。</p>
+<p><strong>竞争要素 2：跨平台协同效应与会员生态（结构性护城河，正在变宽）</strong>。全球同时运营出行+配送双平台且均领先的公司极少。跨平台用户仅 20%，但增速是单产品用户 1.5 倍、消费额 3 倍以上；约 58% 首次配送用户是平台新用户——配送有效扩大用户基盘。收购 Delivery Hero 后近 60% 市场将双平台运营。<strong>核心驱动力总结</strong>：Alpha 来自网络效应与跨平台协同 + 管理层资本配置纪律；Beta 与全球出行消费需求、自动驾驶演进、监管环境相关。</p>
+<h3 class="doc-h2">产销链</h3>
+<p><strong>客户</strong>：高度分散，无单一客户占收入 10%+。Uber One 会员（5000 万+）是最高价值群体（贡献 50% GB）；企业客户 U4B 同比 +40%，为整体出行增速两倍；过去 12 个月新增首次用户创近年记录。</p>
+<p><strong>供应商</strong>：核心供应商是司机与配送员（独立承包商），2Q26 司机数量 +15%、供给健康；巴西两轮车运力争夺推高局部成本。保险是重要成本项，2026 年美国保险转为顺风（费率低个位数增长，多年来最温和）。</p>
+<p><strong>成本传导</strong>：具备动态定价传导能力，但竞争激烈市场受限。2025-2026 年保险成本下降被再投资于降价与司机激励以驱动增长——Uber 赚的是「平台服务费」，利润率取决于双边议价与竞争格局。</p>
+<h3 class="doc-h2">财务数据</h3>
+<div class="tbl-wrap"><table><thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th></tr></thead><tbody><tr><td>收入（亿美元）</td><td>372.81</td><td>439.78</td><td>520.17</td></tr><tr><td>收入同比</td><td>+16.95%</td><td>+17.96%</td><td>+18.28%</td></tr><tr><td>毛利率</td><td>39.76%</td><td>39.40%</td><td>39.75%</td></tr><tr><td>营业利润（亿美元）/ 利润率</td><td>37.99 / 10.19%</td><td>55.31 / 12.58%</td><td>84.19 / 16.18%</td></tr><tr><td>归母净利润（亿美元）</td><td>18.87</td><td>98.56</td><td>100.53</td></tr><tr><td>稀释 EPS（美元）</td><td>0.87</td><td>4.56</td><td>4.73</td></tr><tr><td>自由现金流（亿美元）</td><td>35.62</td><td>68.95</td><td>97.63</td></tr></tbody></table></div>
+<ul><li><strong>成长能力</strong>：收入连续三年 17-18% 稳健增长；GB 增速（FY2025 +18.8%）快于收入系英国等市场总额法转净额法的会计变化，不影响盈利。Non-GAAP 经营利润 FY2025 +49.7%，经营杠杆显著。</li><li><strong>盈利能力</strong>：毛利率稳定 39-40%；营业利润率 10.2%→16.2%，受益于销售费用率（11.7%→9.4%）与管理费用率（7.2%→6.2%）下降。</li><li><strong>现金流质量</strong>：FCF 三年增长 174% 至 $97.63 亿，TTM 已破 $100 亿；约 50% FCF 计划用于回购。</li><li><strong>偿债能力</strong>：FY2025 末总债务 $106 亿、现金 $71.05 亿，净债务约 $35 亿，净债务/EBITDA 约 0.4x，投资级评级。</li></ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p><strong>出行</strong>：全球出行市场高度分散，竞争对手包括传统出租、公共交通、私家车及 Lyft/Bolt/滴滴等平台；自动驾驶商业化是最大结构性变量。Uber 在多数核心市场领先，美国份额估计超 70%。<strong>配送</strong>：竞争激烈，主要玩家 DoorDash、Delivery Hero、Just Eat Takeaway、美团；行业向杂货、零售、酒类扩展。Uber 在英国、法国、澳大利亚、日本等国际领先，美国落后于 DoorDash。<strong>货运</strong>：北美/欧洲货运经纪，与 C.H. Robinson、RXO 竞争，受宏观周期影响大。</p>
+<div class="tbl-wrap"><table><thead><tr><th>公司</th><th>代码</th><th>核心业务</th><th>市值（亿美元）</th><th>FY2025 收入增速</th><th>FY2025 毛利率</th></tr></thead><tbody><tr><td>DoorDash</td><td>DASH</td><td>食品配送</td><td>~800</td><td>~25%</td><td>~48%</td></tr><tr><td>Lyft</td><td>LYFT</td><td>网约车</td><td>~60</td><td>~15%</td><td>~35%</td></tr><tr><td>Grab</td><td>GRAB</td><td>出行+配送（东南亚）</td><td>~120</td><td>~20%</td><td>~40%</td></tr><tr><td>美团</td><td>3690.HK</td><td>配送+本地生活（中国）</td><td>~1000</td><td>~20%</td><td>~35%</td></tr></tbody></table></div>
+<p>对比 DoorDash：Uber 更多元化（出行+配送+货运）、全球化更高，但美国配送份额与利润率落后；对比 Lyft：全球规模与多元化显著占优；对比美团：Uber 全球化更广，美团本地生活生态更深。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<p><strong>议题一：自动驾驶战略的兑现风险</strong>——Waymo 2028 年起终止合作转自营、特斯拉拒绝合作；市场担忧「去中介化」。关键问题：伙伴中谁能与 Waymo 竞争？Waymo 退出对奥斯汀/亚特兰大份额与利润率的影响？$100 亿自动驾驶投资的回报节奏？自动驾驶供给充裕市场（旧金山）的出行量与份额趋势？</p>
+<p><strong>议题二：Delivery Hero 收购的整合风险与回报</strong>——$12 亿协同中成本/收入各占多少、时间表是否现实？14 个重叠市场剥离的影响？韩国 Baemin 如何应对 Coupang？对回购的近期影响？</p>
+<p><strong>议题三：核心业务增长的可持续性</strong>——美国出行加速（保险/产品创新/稀疏市场）能否持续到 2027？杂货零售与广告的利润率何时追平核心餐厅配送？巴西竞争是否扩散？宏观放缓的需求弹性？</p>
+<p><strong>议题四：资本配置与股东回报</strong>——$100 亿自动驾驶投资 + $148 亿收购的资金来源与节奏？回购何时恢复至每季度约 $15 亿？杠杆率目标？约 $80-90 亿股权投资组合（滴滴/Grab/Aurora）的变现计划？</p>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧：自动驾驶是 Uber 的机遇还是威胁？</strong></p>
+<ul><li><strong>看多方</strong>：自动驾驶降本做大市场，Uber 的用户基础与流动性使其成为商业化关键渠道；格局多玩家并存，多元化伙伴网降低单点依赖；网络效应与品牌难复制，Uber One 高粘性强化需求侧；已运营自动驾驶市场（旧金山/洛杉矶/凤凰城）Q2 出行量较 Q1 加速、份额同比提升，初步验证平台适应力。</li><li><strong>看空方</strong>：Waymo 垂直整合或成行业趋势；技术方直连用户则 Uber 丧失用户关系与定价权而「管道化」；伙伴（Zoox/Wayve/Nuro）技术落后 Waymo；$100 亿投资回报率存疑。</li><li><strong>综合分析</strong>：自动驾驶占比不足 0.5%，短期财务影响极小。中长期看，Uber 需求网络能帮运营商提升车辆利用率（伙伴车辆每车每日 25-30 次行程）、降低空驶，平台价值独特；但若头部玩家技术成本形成压倒优势并自建渠道，平台价值会被削弱。Uber 的对策是「不依赖单一伙伴」广泛布局，成败取决于伙伴的技术竞争力。地位尚未确定，但核心业务的强劲增长提供了时间与资源缓冲。</li></ul>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>管理层最新指引</strong>：3Q26 GB $582.5-602.5 亿（固定汇率 +18~22%），Non-GAAP EPS $0.84-0.88；2026 全年 Non-GAAP 有效税率 22-25%、现金税率 10-15%；预计美国出行与 GB 增长 2026 年进一步加速。</p>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级 / 目标价</th><th>FY2026E 收入（亿美元）</th><th>FY2026E EPS（美元）</th><th>FY2027E EPS（美元）</th><th>FY2028E EPS（美元）</th></tr></thead><tbody><tr><td>摩根大通（2026-08-06）</td><td>未评级</td><td>579.23</td><td>3.38</td><td>4.51</td><td>5.65</td></tr><tr><td>花旗（2026-08-06）</td><td>评级暂停</td><td>577.61</td><td>3.36</td><td>4.69</td><td>6.10</td></tr><tr><td>伯恩斯坦（2026-08-06）</td><td>跑赢大盘 / $95.00</td><td>576.30</td><td>3.34</td><td>4.36</td><td>—</td></tr><tr><td>华泰证券（2026-05-09）</td><td>买入 / $120.90</td><td>609.00</td><td>2.91</td><td>4.43</td><td>5.59</td></tr><tr><td>中金公司（2026-05-07）</td><td>跑赢行业 / $99.40</td><td>579.00</td><td>3.77</td><td>5.77</td><td>—</td></tr></tbody></table></div>
+<p><strong>估值分析</strong>：伯恩斯坦 13x NTM Adj. EBITDA + 16x P/FCF 混合估值（目标 $95）；华泰 21x FY2026 EV/EBITDA（$120.9）；中金 SOTP：出行 18x P/OP、配送 6x P/S、货运 0.5x P/S（$99.4）。FY2026 EPS 预测区间 $2.91-3.77、FY2027 $4.36-5.77，分歧来自收入增速、利润率节奏、税率与 DH 并表假设。机构普遍看好核心业务增长与利润率扩张，但估值倍数因自动驾驶不确定性受压制。花旗预测未含 Delivery Hero 收购影响。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/UBER · 生成于 2026-08-06</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-06';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'active',  text: '<strong>自动驾驶伙伴商业化落地</strong>（2026 H2）：Zoox 拉斯维加斯、Nuro/Lucid 旧金山湾区、Wayve/Nissan 东京、WeRide 马德里/慕尼黑——平台战略的关键验证', note: '已运营 7 城，2026 年底目标 15 城' },
+  { kind: 'cat', status: 'pending', text: '<strong>3Q26 财报</strong>（2026-10/11）：指引 GB +18~22%、EPS $0.84-0.88——再超预期即触发估值修复', note: '' },
+  { kind: 'cat', status: 'pending', text: '<strong>回购恢复</strong>（2026 H2）：Q2 因收购 Delivery Hero 战术性减少，承诺恢复至约 50% FCF 回购', note: '' },
+  { kind: 'cat', status: 'active',  text: '<strong>Delivery Hero 收购交割</strong>（2027 H2）：$148 亿、$12 亿运行率协同；NVIDIA L4 洛杉矶/旧金山 2027 H1 启动', note: '2026-07-16 宣布' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>Waymo 2028 终止合作</strong>的预演信号：自动驾驶已运营城市（旧金山/洛杉矶/凤凰城）Uber 份额下滑', note: '2Q26 出行量较 Q1 加速、份额同比提升，未触发' },
+  { kind: 'risk', status: 'clear', text: '<strong>巴西式竞争扩散</strong>：两轮车运力争夺战蔓延至其他新兴市场', note: '巴西份额稳定、利润冲击有限；关注其他市场' },
+  { kind: 'risk', status: 'clear', text: '<strong>Delivery Hero 监管审批受阻</strong>或剥离范围超预期，协同目标缩水', note: '14 个重叠市场已确定剥离给 SSW Partners' },
+  { kind: 'risk', status: 'clear', text: '<strong>美国出行增长失速</strong>：保险顺风消退后 GB 增速掉至低双位数以下', note: '2Q26 美国行程量与 GB 均加速，未触发' },
+  { kind: 'risk', status: 'clear', text: '<strong>资本配置失衡</strong>：$100 亿自动驾驶投资 + $148 亿收购挤压回购，FCF 分配纪律破坏', note: '每季度核对回购节奏' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
