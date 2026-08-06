@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>礼来（LLY.N）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <style>
 :root {
   --paper: #ffffff; --paper-cool: #f3f6f8;
@@ -18,10 +19,10 @@
 html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
 body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
 
-/* ===== 顶栏（美联储风格） ===== */
+/* ===== 顶栏 ===== */
 .site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
 .site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
-.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 12.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
 .site-mark__text { font-size: 14px; font-weight: 700; }
 .site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
 .site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
@@ -32,16 +33,20 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 
 .shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
 
-/* ===== 抬头 ===== */
+/* ===== 抬头：公司名称 + 观点 ===== */
 .overview { padding: 34px 0 0; }
-.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 170px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
 .overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
 .overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
 .overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
-.overview__date { padding: 16px 0 4px; border-top: 2px solid var(--policy-red); text-align: right; }
-.overview__date span, .overview__date strong { display: block; }
-.overview__date span { margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
-.overview__date strong { font-size: 15px; font-variant-numeric: tabular-nums; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--amber); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
 
 /* ===== 关键指标栏 ===== */
 .summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
@@ -49,32 +54,109 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 .summary-rail__item:last-child { border-right: 0; }
 .summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
 .summary-rail__item strong.up { color: var(--policy-red); }
-.summary-rail__item strong.down { color: var(--teal); }
 .summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
 
-/* ===== 正文文档 ===== */
+/* ===== 跟踪面板（置顶，定期核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
 .doc { padding: 40px 0 80px; }
 .doc[hidden] { display: none; }
-.doc-h1 { margin: 34px 0 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line-strong); font-family: var(--font-display); font-size: 30px; font-weight: 650; }
-.doc-h1:first-child { margin-top: 0; }
-.doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
-.doc-h3 { margin: 22px 0 10px; color: var(--federal-blue); font-size: 15px; font-weight: 750; }
-.doc p, .doc li { color: var(--ink-soft); font-size: 15px; }
-.doc p { margin: 0 0 14px; }
-.doc ul, .doc ol { margin: 0 0 16px; padding-left: 24px; }
-.doc li { margin-bottom: 6px; }
-.doc strong { color: var(--ink); }
-.doc code { padding: 1px 6px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper-cool); font-size: 13px; }
-.doc-hr { margin: 30px 0; border: 0; border-top: 1px solid var(--line); }
-.doc-quote { margin: 18px 0; padding: 16px 20px; border-left: 3px solid var(--amber); background: #faf6ec; color: var(--ink-soft); font-size: 14px; }
-.tbl-wrap { margin: 16px 0 24px; overflow-x: auto; }
-.doc table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
-.doc th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
-.doc td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
-.doc tr:hover td { background: #f8fafc; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
 .warn { color: var(--policy-red); }
-.star { color: var(--amber); }
-.xref { color: var(--federal-blue); font-weight: 600; }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager .doc-h3 { margin: 22px 0 10px; color: var(--federal-blue); font-size: 15px; font-weight: 750; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
 
 /* ===== 页脚 ===== */
 .sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
@@ -86,8 +168,14 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   .shell { width: min(calc(100% - 32px), var(--shell)); }
   .overview__heading { grid-template-columns: 1fr; gap: 18px; }
   .overview__copy h1 { font-size: 32px; }
-  .overview__date { text-align: left; }
   .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
   .site-nav button { min-width: 78px; padding: 0 8px; }
   .site-mark__text span { display: none; }
 }
@@ -101,8 +189,8 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
     <span class="site-mark__text">礼来 公司研究<span>Eli Lilly · LLY.N</span></span>
   </a>
   <nav class="site-nav">
-    <button class="is-active" data-tab="report">研究报告</button>
-    <button data-tab="onepager">一页通（Gangtise）</button>
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
   </nav>
 </header>
 
@@ -111,54 +199,251 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
     <div class="overview__heading">
       <div class="overview__copy">
         <h1>礼来<span class="en">Eli Lilly · LLY.N · 美股研究</span></h1>
-        <p class="sub">制药史罕见的超级周期：替尔泊肽单季 $128 亿、美国减重处方份额 60%、收入 +56%——研究高增长持续性与专利到期后的接力棒。</p>
+        <p class="sub">制药史罕见的超级周期：替尔泊肽两个单品单季卖 $128 亿、美国减重处方份额 60%、收入增速 +56%——核心问题是高增长还能持续多久、以及 30 倍+ PE 里专利到期后的「接力棒」是否可信。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-07-30</span>
+          <span>下次更新：2Q26 财报后（2026-08-05）</span>
+        </div>
       </div>
-      <div class="overview__date">
-        <span>研究日期</span>
-        <strong>2026-07-30</strong>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>特许经营权 2-3 年难撼动，但 30x+ 已计入「完美叙事」，任何 miss 都剧烈波动。</em>
       </div>
     </div>
     <div class="summary-rail">
-      <div class="summary-rail__item"><strong class="up">+55.6%</strong><span>1Q26 收入增速</span></div>
-<div class="summary-rail__item"><strong>60%</strong><span>美国减重处方份额</span></div>
-<div class="summary-rail__item"><strong>82%</strong><span>毛利率·创新溢价</span></div>
-
+      <div class="summary-rail__item"><strong class="up">收入 +55.6%</strong><span>1Q26 收入 $198 亿</span></div>
+      <div class="summary-rail__item"><strong>60%</strong><span>美国减重处方份额</span></div>
+      <div class="summary-rail__item"><strong>65%</strong><span>替尔泊肽两产品收入占比</span></div>
+      <div class="summary-rail__item"><strong>30x+</strong><span>远期 PE·「完美叙事」定价</span></div>
     </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
   </div>
 </section>
 
 <main class="shell">
   <article class="doc" id="tab-report">
-<blockquote class="doc-quote"><strong>研究日期</strong>：2026-07-30 ｜ <strong>数据来源</strong>：Gangtise 一页通（2026-07-30） <strong>状态</strong>：初稿 v1 ｜ <strong>下次更新</strong>：2Q26 财报（2026-08-05） <strong>关联研究</strong>：<span class="xref">直觉外科研究报告</span>（医疗里的两种垄断对照：专利药 vs 器械生态）</blockquote>
-<hr class="doc-hr">
-<h3 class="doc-h2">〇、一句话结论</h3>
-<p><strong>礼来正处在制药史上罕见的超级周期：替尔泊肽（GLP-1/GIP 双靶点）两个单品单季卖 $128 亿、美国减重处方份额 60%、收入增速 +56%——"药王"特许经营权未来 2-3 年难以撼动。研究核心：1) 高增长还能持续多久（渗透率故事才讲到个位数）；2) 30 倍+ PE 里，替尔泊肽 2030 年代专利到期后的"接力棒"（Retatrutide/并购平台）是否可信。</strong></p>
-<hr class="doc-hr">
-<h3 class="doc-h2">一、靠什么赚钱？</h3>
-<p><strong>一句话：专利壁垒 + 临床数据护城河——用代际领先的疗效（减重 ~22% vs 对手 ~15%）定义处方习惯，赚创新溢价（毛利率 82%）。</strong></p>
-<div class="tbl-wrap"><table><thead><tr><th>产品</th><th>1Q26 收入</th><th>同比</th><th>地位</th></tr></thead><tbody><tr><td>Mounjaro（降糖）</td><td>$86.6 亿</td><td>+125%</td><td>美国 2 型糖尿病处方份额 ~51%</td></tr><tr><td>Zepbound（减重）</td><td>$41.6 亿</td><td>+80%</td><td>美国减重处方份额 ~60%</td></tr><tr><td>两产品合计</td><td><strong>$128 亿 = 收入的 65%</strong></td><td>—</td><td><span class="warn">⚠️</span> 集中度极高</td></tr><tr><td>下一代 Retatrutide（三靶点）</td><td>未上市</td><td>减重 ~28%</td><td>III 期阳性，1Q27 提交 BLA</td></tr></tbody></table></div>
-<p><strong>新变量</strong>：口服 Foundayo 4 月获批上市（早期爬坡低于预期）；Medicare 7/1 起覆盖减肥药（新增 ~2000 万潜在患者，首周 Zepbound 处方 +23.8%）。</p>
-<hr class="doc-hr">
-<h3 class="doc-h2">二、护城河多深？</h3>
-<ol><li><strong>疗效代际优势（最深）</strong>：减重药是"疗效驱动处方"的市场，22% vs 15% 的差距让对手无法用价格战追赶；Retatrutide ~28% 继续拉开代差</li><li><strong>产能壁垒</strong>：$500 亿+ 全球制造投资——GLP-1 生产极难，产能本身就是市占率保障</li><li><strong>现金流飞轮</strong>：1Q26 经营现金流 $53 亿 → 上半年 $250 亿并购（CAR-T/环状 RNA/AI 制药）→ 为专利到期后的平台化转型铺路</li></ol>
-<p><strong>裂缝</strong>：</p>
-<ul><li>65% 收入押在两个分子上——安全性事件或竞争突变都会放大冲击</li><li>Retatrutide 的 MACE-3（心血管事件）HR 1.12 有争议，需更多数据证伪</li><li>IRA 药价谈判：替尔泊肽被纳入是大概率事件</li></ul>
-<hr class="doc-hr">
-<h3 class="doc-h2">三、财务速览</h3>
-<div class="tbl-wrap"><table><thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>1Q26</th></tr></thead><tbody><tr><td>收入（亿$）</td><td>341</td><td>450</td><td>652</td><td>198（<strong>+55.6%</strong>）</td></tr><tr><td>毛利率</td><td>79.3%</td><td>81.3%</td><td>83.1%</td><td>81.9%</td></tr><tr><td>营业利润率</td><td>30.3%</td><td>—</td><td>—</td><td><strong>49.4%</strong></td></tr><tr><td>归母净利（亿$）</td><td>52</td><td>106</td><td>206</td><td>74（+168%）</td></tr><tr><td>自由现金流（亿$）</td><td>7.9</td><td>37.6</td><td>89.7</td><td>28.0</td></tr></tbody></table></div>
-<p><strong>读法</strong>：收入三年接近翻倍且还在加速，营业利润率从 30% 飙到 49%——规模效应远超费用增长。这在传统药企里是没有先例的报表形态（对比：辉瑞在衰退）。</p>
-<hr class="doc-hr">
-<h3 class="doc-h2">四、核心分歧与验证点</h3>
-<div class="tbl-wrap"><table><thead><tr><th></th><th>乐观方</th><th>谨慎方</th></tr></thead><tbody><tr><td>市场</td><td>GLP-1 全球 2030 年看 $1,300-1,900 亿，礼来拿 65% 份额</td><td>定价压力 + IRA 谈判侵蚀净售价</td></tr><tr><td>管线</td><td>Retatrutide/Amylin 接力棒清晰</td><td>MACE 信号、Foundayo 疲软、并购整合风险</td></tr><tr><td>估值</td><td>高增长配 28-30x</td><td>已是"完美叙事"定价，任何 miss 都剧烈波动</td></tr></tbody></table></div>
-<p><strong>最近的验证点</strong>：<strong>8/5 的 2Q26 财报</strong>——机构预期营收 $208 亿（高于共识 $205 亿），看海外 Mounjaro 环比动能和是否上调全年指引（$850 亿上限 vs 机构预期 $861 亿）。</p>
-<blockquote class="doc-quote">📚 *方法点评：研究药企和此前所有公司都不同——驱动因素不是宏观也不是运营，而是<strong>数据读数（临床数据、处方量、审批事件）</strong>。跟踪体系要围绕催化剂日历建：财报、处方量周报（IQVIA）、FDA 节点。另外"产品集中度"是药企研究的第一检查项——65% 押两个分子，决定了这只股票的波动基因。*</blockquote>
-<hr class="doc-hr">
-<h3 class="doc-h2">五、反证条件</h3>
-<ol><li><span class="warn">⚠️</span> 替尔泊肽系列美国处方份额跌破 55%</li><li><span class="warn">⚠️</span> Retatrutide 心血管安全性被更多数据证实（或 FDA 要求额外结局研究，上市推迟）</li><li><span class="warn">⚠️</span> Foundayo 全面推广后处方量仍无拐点（口服市场被诺和诺德锁定）</li><li><span class="warn">⚠️</span> 全年指引低于 $820 亿下限或下调</li><li><span class="warn">⚠️</span> IRA 将替尔泊肽提前纳入谈判名单</li></ol>
-<hr class="doc-hr">
-<h3 class="doc-h2">六、跟踪计划</h3>
-<div class="tbl-wrap"><table><thead><tr><th>跟踪变量</th><th>时间</th><th>说明</th></tr></thead><tbody><tr><td>2Q26 财报</td><td><strong>2026-08-05</strong></td><td>海外 Mounjaro 动能 + 指引上调与否</td></tr><tr><td>Foundayo 周度处方量</td><td>每周（IQVIA）</td><td>Q3 全面推广后的拐点</td></tr><tr><td>Retatrutide BLA 前沟通</td><td>H2</td><td>心血管安全性是否证伪</td></tr><tr><td>Medicare 放量节奏</td><td>每月</td><td>2000 万新增患者的渗透</td></tr><tr><td>并购整合进展</td><td>持续</td><td>$250 亿并购的协同兑现</td></tr></tbody></table></div>
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">替尔泊肽超级周期：高增长还能持续多久？</h2>
+        <span class="qa__impact-tag">→ FY26 指引 $820-850亿 · 渗透率故事才到个位数</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>「药王」特许经营权未来 2-3 年难以撼动——渗透率故事才讲到个位数，全球 GLP-1 市场 2030 年看 $1,300-1,900 亿，礼来有望拿 65% 份额。<em>但最近的压力测试就在 8/5 的 2Q26 财报：海外 Mounjaro 环比动能与全年指引是否上调。目前证据站多方。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>影响最大。</strong>FY2026 指引 $820-850 亿、Non-GAAP EPS $35.50-37.00；机构预期已到 $861 亿，<strong>高于指引上限</strong>——若上调指引，有望复制 1Q26 财报后的股价强势；若原地不动，「完美叙事」定价下的失望即是利空。</p>
+            <p>报表形态无先例：收入三年接近翻倍且仍在加速，营业利润率从 30% 飙到 49%——规模效应远超费用增长。增长持续与否直接决定 30x+ 倍数能否维持。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>肥胖症渗透率当前仍为<strong>个位数</strong>，长期看 20-30%——量的故事远未讲完</li>
+              <li>Medicare 7/1 起覆盖减肥药，新增 <strong>~2000 万潜在患者</strong>，首周 Zepbound 处方 +23.8%</li>
+              <li>海外 Mounjaro 1Q26 收入同比 +273%（进入中国国家医保后放量），成为<strong>新增长引擎</strong></li>
+              <li>机构预测 2Q26 营收 ~$208 亿高于共识 $205 亿：海外环比共识仅 +2%，机构认为可达 +10% 以上</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>「以量换价」进行时：美国 Mounjaro 需求强劲但<strong>被较低实际售价抵消</strong>，Zepbound 主动降现金价 + 商业折扣</li>
+              <li>IRA 药价谈判：Trulicity/Verzenio 已入选 2028 谈判，<strong>替尔泊肽被纳入是大概率事件</strong></li>
+              <li>竞争突变可能：诺和诺德高剂量 Wegovy、CagriSema 的冲击不可排除</li>
+              <li>Foundayo（口服）早期爬坡低于预期：周处方 ~2.7 万张、份额 13.6%，<strong>对比诺和诺德口服药明显落后</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（产品矩阵 · 五年财务趋势 · 竞争格局）</summary>
+          <div class="evidence__body">
+            <h5>产品矩阵（1Q26）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>产品</th><th>1Q26 收入</th><th>同比</th><th>地位</th></tr></thead><tbody><tr><td>Mounjaro（降糖）</td><td>$86.6 亿</td><td>+125%</td><td>美国 2 型糖尿病处方份额 ~51%</td></tr><tr><td>Zepbound（减重）</td><td>$41.6 亿</td><td>+80%</td><td>美国减重处方份额 ~60%</td></tr><tr><td>两产品合计</td><td><strong>$128 亿 = 收入的 65%</strong></td><td>—</td><td class="warn">⚠️ 集中度极高</td></tr><tr><td>下一代 Retatrutide（三靶点）</td><td>未上市</td><td>减重 ~28%</td><td>III 期阳性，1Q27 提交 BLA</td></tr></tbody></table></div>
+            <h5>财务趋势（单位：亿美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>1Q26</th></tr></thead><tbody><tr><td>收入</td><td>341</td><td>450</td><td>652</td><td>198（<strong>+55.6%</strong>）</td></tr><tr><td>毛利率</td><td>79.3%</td><td>81.3%</td><td>83.1%</td><td>81.9%</td></tr><tr><td>营业利润率</td><td>30.3%</td><td>—</td><td>—</td><td><strong>49.4%</strong></td></tr><tr><td>归母净利</td><td>52</td><td>106</td><td>206</td><td>74（+168%）</td></tr><tr><td>自由现金流</td><td>7.9</td><td>37.6</td><td>89.7</td><td>28.0</td></tr></tbody></table></div>
+            <h5>竞争格局：「一超一强」</h5>
+            <ul>
+              <li>礼来全球肠促胰素市占率 <strong>53.2%</strong>；诺和诺德是主要对手（司美格鲁肽系列），减重疗效 ~15% vs 礼来 ~22%，口服药上市更早</li>
+              <li>辉瑞等传统巨头在 GLP-1 领域布局较晚，尚处早期追赶</li>
+              <li>市场空间驱动因素：渗透率提升 + 口服剂型扩大可及性 + 适应症向心血管/睡眠呼吸暂停/肝病拓展 + 中国巴西等新兴市场放量</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">专利到期后的「接力棒」：Retatrutide 与并购平台可信吗？</h2>
+        <span class="qa__impact-tag">→ 2030 年代增长真空 · 决定长期估值中枢</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>接力棒梯队清晰：Retatrutide 减重 ~28% 继续拉开代差、1Q27 提交 BLA，上半年 $250 亿并购系统性补强四大技术平台。<em>但 MACE-3 心血管 HR 1.12 的信号尚未证伪、Foundayo 爬坡疲软、并购整合风险真实存在——接力棒是「可信但未证实」。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p>短期对 EPS 无影响（均未上市/未贡献），但决定<strong>市场愿给多少倍数的久期</strong>：接力棒可信 → 特许经营权叙事延伸到 2030 年代，30x+ 站得住；接力棒断裂 → 估值向传统药企回归。</p>
+            <p>Retatrutide 作为<strong>生物制品申报 BLA</strong>，享有更长市场独占期、免受 IRA 小分子惩罚——若心血管安全性证伪成功，将直接提升对下一代核心产品的估值预期；反之若 FDA 要求额外结局研究、上市推迟，就是长期叙事的实质性破坏。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>TRIUMPH-2/3 两项 III 期均达主要终点：12mg 剂量 80 周减重 <strong>20.8% / 22.6%</strong>，代际优势延续</li>
+              <li>MACE-3 HR 1.12 但<strong>事件数极少</strong>，且治疗中分析 HR 为 0.92——更像统计噪音而非真实信号</li>
+              <li>Amylin 联合疗法（减重 25-29%）+ 口服周制剂，构建注射到口服、单靶点到多靶点的<strong>全方位矩阵</strong></li>
+              <li>$250 亿并购不是盲目撒网：系统性补强基因治疗/细胞治疗/神经科学/AI 制药四大平台，为 2030 年代铺路</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>MACE-3 轻微失衡<strong>仍需更大规模结局研究验证</strong>，FDA 态度未知；BLA 从 4Q26 推迟至 1Q27</li>
+              <li>Foundayo 早期数据与诺和诺德口服司美格鲁肽对比明显落后，<strong>口服市场竞争力存疑</strong></li>
+              <li>半年 $250 亿「扫货式」并购横跨多个陌生领域，整合失败、资本配置低效的风险真实存在</li>
+              <li>Eloralintide 等早期管线仍可能临床失败；迷幻药等新兴领域监管路径不确定</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（护城河三层结构 · 并购清单 · AI 研发飞轮）</summary>
+          <div class="evidence__body">
+            <h5>护城河三层结构（从深到浅）</h5>
+            <ol>
+              <li><strong>疗效代际优势（最深）</strong>：减重药是「疗效驱动处方」的市场，22% vs 15% 的差距让对手无法用价格战追赶；Retatrutide ~28% 继续拉开代差</li>
+              <li><strong>产能壁垒</strong>：$500 亿+ 全球制造投资——GLP-1 生产极难，机构测算注射笔平台峰值销售容量可达 $1,000 亿、服务约 2,500 万患者，产能本身就是市占率保障</li>
+              <li><strong>现金流飞轮</strong>：1Q26 经营现金流 $53 亿 → 上半年 $250 亿并购 → 为专利到期后的平台化转型铺路</li>
+            </ol>
+            <h5>上半年 $250 亿+ 并购版图</h5>
+            <p>覆盖体内 CAR-T、环状 RNA、迷幻药、疫苗、AI 制药等前沿领域；7 月宣布以最高 $38 亿收购迷幻药公司 AtaiBeckley，进军精神疾病治疗。</p>
+            <h5>AI 研发飞轮（长期期权）</h5>
+            <ul>
+              <li>与英伟达合作建设制药行业最强大的 AI 超级计算机；TuneLab 平台用超 $10 亿成本积累的专有实验数据训练模型</li>
+              <li>管理层预期：药物从概念到临床从 4 年缩短至 18 个月，早期临床成功率从 5-8% 提升至 15-19%——若实现，构成难以复制的数据-算力飞轮</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">估值：30 倍+ PE 的「完美叙事」定价，赔率如何？</h2>
+        <span class="qa__impact-tag">→ 远期 28-30x · 任何 miss 都剧烈波动</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>核心业务基本面极为强劲，乐观逻辑在中期内成立；但当前股价已计入「完美叙事」，任何低于预期的数据点都可能导致剧烈波动——对应「持有」。<em>升级信号：2Q26 上调指引 + Retatrutide 安全性证伪；降级信号：见跟踪面板五个反证条件。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p>券商目标价 $1,107-1,425（中金中性 / 高盛买入 / 摩根士丹利超配 / 瑞银买入），FY2026 EPS 预测 $33.81-36.86——分歧主要在 Foundayo 收入、运营费用和 IPR&D 假设，<strong>方向一致：未来几年保持高速增长</strong>。</p>
+            <p>估值方法以远期 PE 为主，瑞银/高盛均给 <strong>28x</strong>，已远高于传统制药巨头——倍数本身隐含增长溢价，一旦增长放缓，将面临 EPS 与 PE 的「戴维斯双杀」。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>增长确定性高：市场空间巨大 + 疗效/产能双壁垒，份额稳固，1Q26 业绩与指引上调是证据</li>
+              <li>管线接力棒清晰：Retatrutide/Eloralintide 数据优异，护城河可延续到 2030 年代</li>
+              <li>平台化转型<strong>提升估值天花板</strong>：从单一产品药企转向多技术平台巨头，降低单一产品风险</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>定价与政策风险被低估：全球性降价压力 + IRA 潜在影响，<strong>净售价与毛利率下降速度可能超预期</strong></li>
+              <li>管线不确定性：Retatrutide 安全性待验证、Foundayo 前景不明、并购整合存疑，任何失败都可能造成估值大幅回调</li>
+              <li>远期 PE 30 倍+ 远高于传统药企，<strong>市场可能已计入过多乐观预期</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（券商预测表 · 反证条件 · 研究方法点评）</summary>
+          <div class="evidence__body">
+            <h5>券商盈利预测与估值</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价($)</th><th>FY2026E EPS</th><th>FY2027E EPS</th></tr></thead><tbody><tr><td>摩根士丹利（2026-07-24）</td><td>超配</td><td>1,347</td><td>36.86</td><td>47.23</td></tr><tr><td>瑞银（2026-07-22）</td><td>买入</td><td>1,425</td><td>34.13</td><td>44.88</td></tr><tr><td>高盛（2026-07-24）</td><td>买入</td><td>1,283</td><td>33.81</td><td>44.43</td></tr><tr><td>中金公司（2026-05-07）</td><td>中性</td><td>1,107</td><td>35.98</td><td>46.24</td></tr></tbody></table></div>
+            <p>管理层 FY2026 指引：收入 $820-850 亿，Non-GAAP EPS $35.50-37.00。</p>
+            <h5>五个反证条件（任一触发即重检观点）</h5>
+            <ol>
+              <li>替尔泊肽系列美国处方份额跌破 55%</li>
+              <li>Retatrutide 心血管安全性被更多数据证实（或 FDA 要求额外结局研究，上市推迟）</li>
+              <li>Foundayo 全面推广后处方量仍无拐点（口服市场被诺和诺德锁定）</li>
+              <li>全年指引低于 $820 亿下限或下调</li>
+              <li>IRA 将替尔泊肽提前纳入谈判名单</li>
+            </ol>
+            <h5>研究方法点评</h5>
+            <p>研究药企和其他公司不同——驱动因素不是宏观也不是运营，而是<strong>数据读数（临床数据、处方量、审批事件）</strong>。跟踪体系要围绕催化剂日历建：财报、处方量周报（IQVIA）、FDA 节点。「产品集中度」是药企研究的第一检查项——65% 押两个分子，决定了这只股票的波动基因。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究的数据与局限</h3>
+      <ul>
+        <li><strong>数据来源</strong>：公司财报、公开披露与公开研究资料（券商预测、处方量统计、临床数据披露），正文数字均取自上述公开资料整理</li>
+        <li><strong>局限</strong>：未读 10-K/10-Q 原文；估值部分未做自建三情景测算，引用券商预测区间；处方量数据存在约 10% 的统计捕获缺口</li>
+        <li><strong>管理层评估（一句话版）</strong>：战略执行力强（$500 亿产能扩张 + $250 亿并购的平台化转型方向清晰），但高密度跨领域并购的整合能力尚待验证</li>
+        <li><strong>关联研究</strong>：直觉外科研究报告（医疗里的两种垄断对照：专利药 vs 器械生态）</li>
+      </ul>
+    </div>
+
   </article>
+
   <article class="doc" id="tab-onepager" hidden>
 <h3 class="doc-h2">公司概况</h3>
 <p>礼来是全球领先的跨国制药巨头，核心业务聚焦人类药品的发现、开发、制造与销售。公司当前处于由GLP-1/GIP双靶点药物替尔泊肽驱动的超级成长周期，该系列产品已登顶全球“药王”。凭借在心脏代谢健康领域的绝对统治力，礼来已成为全球市值最大的制药公司，并正利用其强劲的现金流向肿瘤、免疫、神经科学及基因治疗等领域进行史无前例的多元化扩张。</p>
@@ -198,7 +483,6 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 <p><strong>竞争要素 2：史无前例的资本开支构筑的规模与供应链壁垒</strong></p>
 <ul><li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。GLP-1药物的生产具有极高的资本和技术壁垒。礼来正在全球范围内进行超过500亿美元的制造扩张投资，其产能规模是竞争对手难以在短期内复制的。这确保了公司能够满足全球爆发式增长的需求，并通过对供应链的掌控维持高毛利率。 </li><li><strong>数据验证</strong>：2025年资本支出达78.41亿美元，1Q26为25.30亿美元。公司在美国北卡罗来纳州的两家新工厂已投产，并有多个新工厂在建。机构测算，其注射笔平台峰值销售容量可达1000亿美元，可服务约2500万患者。这种产能优势直接转化为市场独占性和供应稳定性。 </li><li><strong>动态演变</strong>：<strong>护城河变宽</strong>。随着新工厂在未来几年陆续投产，礼来的产能优势将进一步扩大。同时，公司正将AI和数字孪生技术应用于生产，有望进一步提升生产效率和成功率，将规模优势升级为技术驱动的智能制造优势。 </li></ul>
 <p><strong>现阶段核心驱动力总结</strong>：公司的Alpha来源于其GLP-1产品组合的<strong>代际疗效优势</strong>和<strong>无与伦比的产能规模</strong>，这使其在肥胖和糖尿病这一Beta属性极强的超级赛道中，能够持续获取超额份额并维持高利润率。</p>
-<p><strong>竞争格局传导逻辑图</strong></p>
 <h3 class="doc-h2">产销链</h3>
 <ul><li><strong>客户情况</strong>：公司在美国主要通过三大批发商（McKesson、Cencora、Cardinal Health）进行分销，2025年每家均占其合并收入10%以上，集中度较高。终端客户包括医疗机构、药房和患者。公司正通过LillyDirect直接面向消费者的平台，降低对中间渠道的依赖，增强对终端定价和患者数据的话语权。2026年7月Medicare覆盖的开启，为公司新增了约2000万潜在客户。  </li><li><strong>供应商情况</strong>：公司主要原料和中间体供应商来源多样，但部分关键物料依赖单一来源。为保障供应链安全，公司正投入巨资在全球建设自有API和制剂工厂，以内部化核心生产环节，降低对外部供应商的依赖。地缘政治风险，尤其是对中国供应链的潜在限制，是公司关注的重点。 </li><li><strong>经销商情况</strong>：公司采用直销与经销相结合的模式。在美国，批发商是主要渠道，但LillyDirect平台的处方量和销售占比正在增长，2025年已成为业务的重要组成部分。在国际市场，公司根据当地情况采用自建销售团队或与当地合作伙伴合作的方式。 </li><li><strong>成本传导能力</strong>：公司赚取的是<strong>品牌溢价</strong>和<strong>创新溢价</strong>。尽管面临全球范围内的降价压力，但其超过80%的毛利率表明，公司能够通过持续创新和疗效优势，在很大程度上将成本压力（包括原材料和关税）消化或转嫁，保持极强的盈利能力。 </li></ul>
 <h3 class="doc-h2">财务数据</h3>
@@ -235,12 +519,50 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 <section class="sources">
   <div class="shell">
     <h2>数据来源</h2>
-    <p>Gangtise Open API（公司一页通 · stock-one-pager）· 公司财报及公开披露 · 仅作研究学习用途，不构成投资建议。</p>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
   </div>
 </section>
-<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/LLY · 生成于 2026-07-30</div></footer>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/LLY · 生成于 2026-08-06</div></footer>
 
 <script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-07-30';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'pending', text: '<strong>2Q26 财报</strong>（2026-08-05）：海外 Mounjaro 环比动能（共识 +2% vs 机构 +10%+）+ 全年指引是否上调（$850亿上限 vs 机构预期 $861亿）——最近的胜负手', note: '' },
+  { kind: 'cat', status: 'active',  text: '<strong>Foundayo 全面推广</strong>（3Q26 开启）：IQVIA 周度处方量是否出现拐点', note: '当前周处方 ~2.7 万张、份额 13.6%，IQVIA 有 ~10% 捕获缺口' },
+  { kind: 'cat', status: 'active',  text: '<strong>Retatrutide BLA 前沟通</strong>（2026 H2）：心血管安全性（MACE-3 HR 1.12）是否证伪，1Q27 提交 BLA', note: '2026-07-22 TRIUMPH-2/3 顶线阳性' },
+  { kind: 'cat', status: 'active',  text: '<strong>Medicare 放量节奏</strong>（每月）：桥接计划 ~2000 万新增患者的渗透', note: '7/1 启动，首周 Zepbound KwikPen 处方 +23.8%' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '替尔泊肽系列美国处方份额<strong>跌破 55%</strong>', note: '最新：Zepbound ~60% / Mounjaro ~51%，未触发' },
+  { kind: 'risk', status: 'clear', text: '<strong>Retatrutide 心血管安全性被更多数据证实</strong>（或 FDA 要求额外结局研究、上市推迟）', note: 'TRIUMPH-3 MACE-3 HR 1.12 但事件数极少，待证伪' },
+  { kind: 'risk', status: 'clear', text: '<strong>Foundayo 全面推广后处方量仍无拐点</strong>（口服市场被诺和诺德锁定）', note: '3Q26 推广开启后按周核对' },
+  { kind: 'risk', status: 'clear', text: '全年指引<strong>低于 $820 亿下限或下调</strong>', note: '2Q26 财报（8/5）核对' },
+  { kind: 'risk', status: 'clear', text: '<strong>IRA 将替尔泊肽提前纳入谈判名单</strong>', note: 'Trulicity/Verzenio 已入选 2028 谈判，替尔泊肽纳入是大概率事件' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
 document.querySelectorAll('.site-nav button').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));

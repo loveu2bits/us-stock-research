@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>直觉外科（ISRG.O）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <style>
 :root {
   --paper: #ffffff; --paper-cool: #f3f6f8;
@@ -18,7 +19,7 @@
 html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
 body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
 
-/* ===== 顶栏（美联储风格） ===== */
+/* ===== 顶栏 ===== */
 .site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
 .site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
 .site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
@@ -32,16 +33,20 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 
 .shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
 
-/* ===== 抬头 ===== */
+/* ===== 抬头：公司名称 + 观点 ===== */
 .overview { padding: 34px 0 0; }
-.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 170px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
 .overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
 .overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
 .overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
-.overview__date { padding: 16px 0 4px; border-top: 2px solid var(--policy-red); text-align: right; }
-.overview__date span, .overview__date strong { display: block; }
-.overview__date span { margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
-.overview__date strong { font-size: 15px; font-variant-numeric: tabular-nums; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--amber); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
 
 /* ===== 关键指标栏 ===== */
 .summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
@@ -49,32 +54,108 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 .summary-rail__item:last-child { border-right: 0; }
 .summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
 .summary-rail__item strong.up { color: var(--policy-red); }
-.summary-rail__item strong.down { color: var(--teal); }
 .summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
 
-/* ===== 正文文档 ===== */
+/* ===== 跟踪面板（置顶） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
 .doc { padding: 40px 0 80px; }
 .doc[hidden] { display: none; }
-.doc-h1 { margin: 34px 0 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line-strong); font-family: var(--font-display); font-size: 30px; font-weight: 650; }
-.doc-h1:first-child { margin-top: 0; }
-.doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
-.doc-h3 { margin: 22px 0 10px; color: var(--federal-blue); font-size: 15px; font-weight: 750; }
-.doc p, .doc li { color: var(--ink-soft); font-size: 15px; }
-.doc p { margin: 0 0 14px; }
-.doc ul, .doc ol { margin: 0 0 16px; padding-left: 24px; }
-.doc li { margin-bottom: 6px; }
-.doc strong { color: var(--ink); }
-.doc code { padding: 1px 6px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper-cool); font-size: 13px; }
-.doc-hr { margin: 30px 0; border: 0; border-top: 1px solid var(--line); }
-.doc-quote { margin: 18px 0; padding: 16px 20px; border-left: 3px solid var(--amber); background: #faf6ec; color: var(--ink-soft); font-size: 14px; }
-.tbl-wrap { margin: 16px 0 24px; overflow-x: auto; }
-.doc table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
-.doc th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
-.doc td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
-.doc tr:hover td { background: #f8fafc; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
 .warn { color: var(--policy-red); }
-.star { color: var(--amber); }
-.xref { color: var(--federal-blue); font-weight: 600; }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
 
 /* ===== 页脚 ===== */
 .sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
@@ -86,8 +167,14 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   .shell { width: min(calc(100% - 32px), var(--shell)); }
   .overview__heading { grid-template-columns: 1fr; gap: 18px; }
   .overview__copy h1 { font-size: 32px; }
-  .overview__date { text-align: left; }
   .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
   .site-nav button { min-width: 78px; padding: 0 8px; }
   .site-mark__text span { display: none; }
 }
@@ -101,8 +188,8 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
     <span class="site-mark__text">直觉外科 公司研究<span>Intuitive Surgical · ISRG.O</span></span>
   </a>
   <nav class="site-nav">
-    <button class="is-active" data-tab="report">研究报告</button>
-    <button data-tab="onepager">一页通（Gangtise）</button>
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
   </nav>
 </header>
 
@@ -111,55 +198,257 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
     <div class="overview__heading">
       <div class="overview__copy">
         <h1>直觉外科<span class="en">Intuitive Surgical · ISRG.O · 美股研究</span></h1>
-        <p class="sub">"剃须刀+刀片"的终极形态：85% 经常性收入、5 万受训医生、2000 万例手术数据——美国手术量 12% 是扰动还是见顶？</p>
+        <p class="sub">"剃须刀+刀片"模式的终极形态：11,700 台达芬奇装机只是刀架，85% 收入来自耗材与服务，5 万名受训医生 + 2,000 万例手术数据构成生态锁定。核心问题：美国手术量 12% 的增速，是 ACA 政策的一次性扰动，还是核心市场渗透率的结构性减速？</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-07-30</span>
+          <span>下次更新：Q3 财报（2026 年 10 月，EUP 量化影响披露）</span>
+        </div>
       </div>
-      <div class="overview__date">
-        <span>研究日期</span>
-        <strong>2026-07-30</strong>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>报表高质量但估值敏感：胜负手在 10 月 Q3 的 EUP 量化披露与美国手术量能否回到 13%+。</em>
       </div>
     </div>
     <div class="summary-rail">
-      <div class="summary-rail__item"><strong>85%</strong><span>经常性收入占比</span></div>
-<div class="summary-rail__item"><strong class="down">12%</strong><span>美国手术量增速·近年最低</span></div>
-<div class="summary-rail__item"><strong class="up">+20.7%</strong><span>H1 收入增速</span></div>
-
+      <div class="summary-rail__item"><strong>85%</strong><span>经常性收入占比（耗材+服务+租赁）</span></div>
+      <div class="summary-rail__item"><strong class="up">+20.7%</strong><span>FY2026 H1 收入增速</span></div>
+      <div class="summary-rail__item"><strong>12%</strong><span>Q2 美国手术量增速·2021 年来最低</span></div>
+      <div class="summary-rail__item"><strong>~32x</strong><span>远期 PE（回调后）</span></div>
     </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
   </div>
 </section>
 
 <main class="shell">
   <article class="doc" id="tab-report">
-<blockquote class="doc-quote"><strong>研究日期</strong>：2026-07-30 ｜ <strong>数据来源</strong>：Gangtise 一页通（2026-07-30） <strong>状态</strong>：初稿 v1 ｜ <strong>下次更新</strong>：Q3 财报（2026 年 10 月，EUP 量化影响披露） <strong>关联研究</strong>：<span class="xref">礼来研究报告</span>（医疗里的两种垄断对照：专利药 vs 器械生态）</blockquote>
-<hr class="doc-hr">
-<h3 class="doc-h2">〇、一句话结论</h3>
-<p><strong>直觉外科是"剃须刀+刀片"模式的终极形态：11,700 台达芬奇装机只是刀架，85% 收入来自耗材和服务（经常性收入），5 万名受训医生 + 2000 万例手术数据构成生态锁定。Q2 财报"超预期却大跌"——美国手术量增速降到 12% 引发见顶担忧。研究核心：这是 ACA 政策的一次性扰动，还是核心市场渗透率的结构性减速？</strong></p>
-<hr class="doc-hr">
-<h3 class="doc-h2">一、靠什么赚钱？</h3>
-<p><strong>一句话：卖/租手术机器人建立装机（系统占 24%），然后靠每台手术消耗的器械耗材（60%）和服务合同（16%）持续收钱——手术量就是印钞转速。</strong></p>
-<p>飞轮：装机 → 医生培训/习惯养成 → 手术量增长 → 耗材+服务收入（单台手术耗材 ~$1,830）→ 数据积累 → AI/新产品 → 更深锁定</p>
-<p><strong>亮点与隐忧并存</strong>：</p>
-<ul><li>收入增速连续提速：FY23 +14% → FY25 +21% → H1 +21%</li><li>但美国手术量增速：Q1 14% → Q2 <strong>12%</strong>（2021 年以来最低）</li><li>GLP-1 正在吃掉减重手术（高个位数下滑）——<strong>礼来的成功，是直觉外科的成本</strong>（医疗内部的跨界冲击，有趣的对冲关系）</li></ul>
-<hr class="doc-hr">
-<h3 class="doc-h2">二、护城河多深？</h3>
-<ol><li><strong>转换成本（最深）</strong>：医生培训、医院流程、2000 万例手术数据——换系统等于重学外科</li><li><strong>经常性收入 85%</strong>：比大多数 SaaS 公司还"订阅制"</li><li><strong>产品矩阵分层</strong>：高端达芬奇 5（Q2 新装机占 53%）+ 翻新 XiR 打价格敏感市场（ASC 日间手术中心）+ Ion 肺活检（+36%）+ SP 单孔（+61%）</li></ol>
-<p><strong>裂缝</strong>：</p>
-<ul><li>强生 OTTAVA 已获 FDA 批准、美敦力 Hugo 扩张、中国本土价格战——垄断格局首次出现实质挑战者</li><li><strong>主动降价</strong>：2027 年对部分耗材实施延长使用计划（EUP），市场担心重演 2019 年耗材收入 -7%</li><li>关税影响毛利率 ~100bp</li></ul>
-<hr class="doc-hr">
-<h3 class="doc-h2">三、财务速览</h3>
-<div class="tbl-wrap"><table><thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td>收入（亿$）</td><td>71.2</td><td>83.5</td><td>100.7</td><td>56.6（+20.7%）</td></tr><tr><td>毛利率</td><td>66.4%</td><td>67.5%</td><td>66.0%</td><td>66.9%</td></tr><tr><td>营业利润率</td><td>24.8%</td><td>28.1%</td><td>29.3%</td><td>32.3%</td></tr><tr><td>归母净利（亿$）</td><td>18.0</td><td>23.2</td><td>28.6</td><td>16.4</td></tr><tr><td>自由现金流（亿$）</td><td>7.5</td><td>13.0</td><td>24.9</td><td>17.6（+71%）</td></tr></tbody></table></div>
-<p><strong>读法</strong>：收入破百亿、利润率逐年抬升、FCF 爆发——这是一张比礼来"慢"但同样高质量的报表。矛盾在于：<strong>报表越好，市场对手术量放缓越敏感</strong>（高估值对增长中枢的边际变化定价）。</p>
-<hr class="doc-hr">
-<h3 class="doc-h2">四、核心分歧：12% 是扰动还是见顶？</h3>
-<div class="tbl-wrap"><table><thead><tr><th></th><th>乐观方</th><th>谨慎方</th></tr></thead><tbody><tr><td>美国放缓</td><td>ACA 补贴到期的一次性冲击，手术只会推迟不会消失</td><td>核心术式渗透率已高，"大数定律"下减速是必然</td></tr><tr><td>证据</td><td>国际 +20%、急诊手术 +26%、dV5 升级周期早期</td><td>增速已连续多季下滑，EUP 主动降价恰说明定价权承压</td></tr><tr><td>估值</td><td>回调后 ~32x 远期 PE 是机会</td><td>竞争者（强生）入场 + 降价周期刚开始</td></tr></tbody></table></div>
-<p><strong>我的观察点</strong>：Q3（10 月）管理层承诺<strong>量化 EUP 对 2027 年收入的影响</strong>——这是重新定价其长期盈利模型的关键事件；同时看美国手术量能否回到 13%+。</p>
-<blockquote class="doc-quote">📚 *方法点评："财报超预期但股价大跌"是最好的教学案例——市场交易的从来不是"过去超没超预期"，而是<strong>指引和边际变化</strong>。ISRG 收入利润都 beat，但"指引未上调 + 美国手术量减速"两个边际信号就够砸盘。读财报先问：边际上变好了还是变坏了？*</blockquote>
-<hr class="doc-hr">
-<h3 class="doc-h2">五、反证条件</h3>
-<ol><li><span class="warn">⚠️</span> 美国手术量增速连续两季低于 12%（ACA 解释失效，确认结构性减速）</li><li><span class="warn">⚠️</span> EUP 量化影响大于 2019 年的 -7% 且手术量弹性不足</li><li><span class="warn">⚠️</span> 强生 OTTAVA 商业化超预期，公司被迫全面降价</li><li><span class="warn">⚠️</span> 全年手术量指引跌破 13.5% 下限</li><li><span class="warn">⚠️</span> 装机量增速明显放缓（飞轮的入口收窄）</li></ol>
-<hr class="doc-hr">
-<h3 class="doc-h2">六、跟踪计划</h3>
-<div class="tbl-wrap"><table><thead><tr><th>跟踪变量</th><th>时间</th><th>说明</th></tr></thead><tbody><tr><td>Q3 财报：EUP 量化影响</td><td>2026-10</td><td>长期盈利模型重定价的关键</td></tr><tr><td>美国手术量增速</td><td>每季度</td><td>13% 是分界线</td></tr><tr><td>达芬奇 5 装机与利用率</td><td>每季度</td><td>升级周期</td></tr><tr><td>强生 OTTAVA 商业化进展</td><td>持续</td><td>垄断格局变量</td></tr><tr><td>GI 柔性机器人审批</td><td>H2-2027</td><td>新市场期权</td></tr><tr><td>日本报销新政效果</td><td>H2</td><td>国际市场增量</td></tr></tbody></table></div>
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">美国手术量 12%：一次性扰动，还是核心市场见顶？</h2>
+        <span class="qa__impact-tag">→ 13% 是分界线 · 全年指引 13.5–15.5%</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>证据目前偏多方：放缓主要由 ACA 补贴到期这类政策性因素驱动，手术只会推迟不会消失；<em>但增速已连续多季下滑，"大数定律"下核心术式自然减速的可能性无法排除——判定窗口在接下来 1-2 个季度，13% 是分界线。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>影响最直接。</strong>85% 经常性收入跟着手术量走（单台手术耗材约 $1,830），美国市场贡献约三分之二收入——手术量增速就是这台印钞机的转速。</p>
+            <p>高估值对增长中枢的边际变化极度敏感：Q2 收入利润双 beat，仅因"指引未上调 + 美国手术量减速"两个边际信号就盘后大跌。若确认结构性减速，<strong>估值倍数与 EPS 预期将同时下修</strong>；若回到 13%+，则证伪"见顶"叙事、触发估值修复。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>管理层定性为 ACA 增强保费补贴到期的一次性冲击，<strong>"温和且非持久"</strong>——潜在疾病负担没有改变，被推迟的刚性需求终将回归</li>
+              <li>国际手术量 <strong>+20%</strong>、急诊手术 <strong>+26%</strong>，增长引擎并未全面熄火</li>
+              <li>达芬奇 5 升级周期仍在早期（Q2 新装机占 53%），更高利用率与耗材拉动力支撑收入快于手术量增长</li>
+              <li>回调后远期 PE 约 32x，<strong>已计入相当程度的悲观预期</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>美国手术量增速<strong>已连续多季下滑</strong>（Q1 14% → Q2 12%，2021 年以来最低）——ACA 或许只是压垮骆驼的最后一根稻草</li>
+              <li>核心术式（泌尿科、子宫切除）渗透率已高，公司自己提及<strong>"大数定律"</strong>，自然减速是必然</li>
+              <li>GLP-1 药物持续吃掉减重手术（高个位数下滑）——<strong>这是结构性流失，不会回来</strong></li>
+              <li>全年指引维持 13.5-15.5% 且"接近中值"，暗示下半年增速还要往下走</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（手术量结构 · 商业模式与飞轮 · 财务速览）</summary>
+          <div class="evidence__body">
+            <h5>靠什么赚钱：装机是刀架，手术量是印钞转速</h5>
+            <p>卖/租手术机器人建立装机（系统占收入 24%），然后靠每台手术消耗的器械耗材（60%）和服务合同（16%）持续收钱。飞轮：装机 → 医生培训/习惯养成 → 手术量增长 → 耗材+服务收入 → 数据积累 → AI/新产品 → 更深锁定。截至 2026-06-30，全球达芬奇装机超 11,710 台，累计手术超 2,000 万例，受训医生超 5 万名。</p>
+            <h5>亮点与隐忧并存</h5>
+            <ul>
+              <li>收入增速连续提速：FY23 +14% → FY25 +21% → FY26 H1 +20.7%</li>
+              <li>但美国手术量增速：Q1 14% → Q2 <strong>12%</strong>（2021 年以来最低），管理层归因 ACA 补贴到期导致良性疝修补、胆囊切除等可择期手术推迟</li>
+              <li>GLP-1 正在吃掉减重手术——<strong>礼来的成功，是直觉外科的成本</strong>（医疗内部的跨界冲击，有趣的对冲关系）</li>
+            </ul>
+            <h5>财务速览（单位：亿美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td>收入</td><td>71.2</td><td>83.5</td><td>100.7</td><td>56.6（+20.7%）</td></tr><tr><td>毛利率</td><td>66.4%</td><td>67.5%</td><td>66.0%</td><td>66.9%</td></tr><tr><td>营业利润率</td><td>24.8%</td><td>28.1%</td><td>29.3%</td><td>32.3%</td></tr><tr><td>归母净利</td><td>18.0</td><td>23.2</td><td>28.6</td><td>16.4</td></tr><tr><td>自由现金流</td><td>7.5</td><td>13.0</td><td>24.9</td><td>17.6（+71%）</td></tr></tbody></table></div>
+            <p><strong>读法</strong>：收入破百亿、利润率逐年抬升、FCF 爆发——一张高质量的报表。矛盾在于：<strong>报表越好，市场对手术量放缓越敏感</strong>。</p>
+            <p>📚 方法点评："财报超预期但股价大跌"是最好的教学案例——市场交易的从来不是"过去超没超预期"，而是<strong>指引和边际变化</strong>。读财报先问：边际上变好了还是变坏了？</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">EUP 主动降价：以价换量，还是利润率侵蚀的开始？</h2>
+        <span class="qa__impact-tag">→ 参考 2019 年耗材 -7% · 2026-10 量化披露</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>2027 年上半年起对部分高频 EndoWrist 器械实施延长使用计划（EUP），主动降低单台手术耗材成本。<em>是"扩大可及市场"还是"定价权塌方"，取决于降价后的手术量弹性——管理层承诺 Q3 财报（2026-10）量化对 2027 年收入的影响，这是重定价长期盈利模型的关键事件。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>直接打在公司利润率最高、现金流最稳定的业务上。</strong>市场参考 2019 年经验，担忧单台手术耗材收入出现约 <strong>-7%</strong> 的下滑；若手术量弹性不足，耗材收入将出现结构性下台阶。</p>
+            <p>反之，若 Q3 披露能清晰展示"以价换量"在 ASC 和国际市场成立，EUP 将被重新定义为长期增长驱动——<strong>同一份披露，两种截然相反的估值方向</strong>，这就是 10 月财报的全部看点。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>主动降价是<strong>进攻而非溃退</strong>：配合翻新 XiR 系统（Q2 在 ASC 装机 27 台，其中 20 台 XiR），打开价格敏感的日间手术中心和国际市场</li>
+              <li>非 GAAP 毛利率约 70%（Q2），<strong>有足够的缓冲空间</strong>用价格换份额</li>
+              <li>可及市场从 2024 年 700 万例扩展至 2026 年 900 万例，长期指向 2,000 万例微创手术市场——降价做大蛋糕</li>
+              <li>管理层敢于提前一年预告并承诺量化影响，说明测算过账、<strong>对弹性有信心</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>2019 年类似举措曾导致耗材收入约 <strong>-7%</strong>——历史会先重演价格冲击，量弹性后验</li>
+              <li>主动降价恰恰说明<strong>定价权在竞争压力下开始松动</strong>，与强生 OTTAVA 获批的时间点重合，未必是巧合</li>
+              <li>若降价幅度大于预期或弹性不足，耗材这台利润引擎将<strong>结构性降档</strong>，85% 经常性收入的"类订阅"溢价也会被重估</li>
+              <li>盈利模式可能从"高毛利、高定价"永久转向"高周转、广覆盖"——<strong>倍数体系完全不同</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（EUP 要点 · 产品组合对冲 · 关税与利润率）</summary>
+          <div class="evidence__body">
+            <h5>EUP 要点</h5>
+            <ul>
+              <li>2027 年上半年开始，针对部分高频 EndoWrist 器械延长使用次数，降低单台手术耗材成本</li>
+              <li>管理层承诺在 <strong>2026 年 Q3 财报（2026-10）量化对 2027 年收入的影响</strong></li>
+              <li>市场锚点：2019 年类似计划导致单台手术耗材收入约 -7%</li>
+            </ul>
+            <h5>产品组合的对冲</h5>
+            <ul>
+              <li>达芬奇 5 更高的售价与耗材拉动力（力反馈器械、SP 吻合器）驱动收入持续快于手术量增长；系统 ASP 约 $160 万（去年同期 $150 万）</li>
+              <li>经营租赁占比升至 <strong>54%</strong>：延迟收入确认，但降低客户门槛、锁定长期收入流</li>
+              <li>Ion 肺活检手术量 <strong>+36%</strong>（累计超 40 万例）、SP 单孔 <strong>+61%</strong>——新平台贡献增量</li>
+            </ul>
+            <h5>关税与利润率</h5>
+            <p>耗材主要在墨西哥墨西卡利生产、内窥镜在德国制造，供应链暴露于贸易摩擦。Q2 关税影响成本 $2,080 万（另有 $3,590 万 IEEPA 退款），管理层预计全年关税拖累毛利率约 <strong>100bp</strong>。全年非 GAAP 毛利率指引上调至 68-69%，非 GAAP 运营费用增长指引 11-13%。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">护城河与竞争：垄断格局第一次有了真正的挑战者？</h2>
+        <span class="qa__impact-tag">→ 60–70% 份额 · 估值溢价的对赌对象</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>护城河仍然深且宽：转换成本（医生培训+医院流程+2,000 万例数据）是最深的一层，85% 经常性收入比大多数 SaaS 还"订阅制"；<em>但强生 OTTAVA 已获 FDA 批准、美敦力 Hugo 扩张、中国本土价格战——垄断格局首次出现实质挑战者，裂缝要诚实记录、逐季跟踪。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p>直觉外科相对传统器械巨头的估值溢价（约 37x 2026E PE vs 史赛克 19x、美敦力 13x），本质是<strong>对"稀缺成长性 + 垄断定价权"的定价</strong>。</p>
+            <p>竞争若只停留在边缘市场，溢价可守；若强生在美国主流术式实质分流、或中国价格战外溢，<strong>"垄断溢价"会被系统性压缩</strong>——这是比任何单季业绩都大的估值变量。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>换系统等于<strong>重学外科</strong>：5 万+ 受训医生、医院流程改造、团队建设，转换成本是财务+时间+人员的三重锁定</li>
+              <li>5,600+ 已授权专利、年研发投入超 $13 亿（FY25，占收入 13%），<strong>投入规模远超任何挑战者</strong></li>
+              <li>2,000 万例手术真实世界数据 + 五层 AI 能力框架，正把数据变成<strong>下一代竞争壁垒</strong>（My Intuitive+、Case Insights）</li>
+              <li>美国 18 家最大 IDN 均已有达芬奇 5 入驻，许多已标准化为直觉外科平台</li>
+              <li>XiR 翻新机 + EUP 主动下沉，<strong>用 challengers 的打法打 challengers</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>强生 OTTAVA 已获 FDA 批准进入美国市场，手术台集成式设计主打普外科主流术式——<strong>最具威胁的挑战者已经进门</strong></li>
+              <li>美敦力 Hugo 2025-12 获批泌尿外科适应症并持续扩张；CMR Versius 也已进入美国</li>
+              <li>中国本土企业（微创、精锋）以高性价比打价格战，并开始布局海外</li>
+              <li>公司推出 XiR 和 EUP 等防御性策略，本身就说明<strong>竞争压力已从预期变成现实</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（护城河分层 · 竞争格局 · 可比估值 · 平台化天花板）</summary>
+          <div class="evidence__body">
+            <h5>护城河分层（从深到浅）</h5>
+            <ol>
+              <li><strong>转换成本（最深）</strong>：医生培训、医院流程、2,000 万例手术数据</li>
+              <li><strong>经常性收入 85%</strong>：耗材+服务+经营租赁，比大多数 SaaS 公司还"订阅制"</li>
+              <li><strong>产品矩阵分层</strong>：高端达芬奇 5（Q2 新装机占 53%）+ 翻新 XiR 打价格敏感市场 + Ion（+36%）+ SP 单孔（+61%）</li>
+            </ol>
+            <h5>竞争格局：从"一家独大"到"一超多强"</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>公司</th><th>系统</th><th>进展</th></tr></thead><tbody><tr><td>直觉外科</td><td>达芬奇家族 / Ion / SP</td><td>全球约 60-70% 份额，绝对领导</td></tr><tr><td>强生</td><td>OTTAVA</td><td>已获 FDA 批准进入美国，手术台集成式设计，最具潜力挑战者</td></tr><tr><td>美敦力</td><td>Hugo RAS</td><td>2025-12 获批泌尿外科，模块化设计 + Touch Surgery 生态</td></tr><tr><td>CMR Surgical</td><td>Versius</td><td>美国以外超 4.5 万例手术，2024 年获批胆囊切除术进入美国</td></tr><tr><td>中国本土</td><td>微创 / 精锋等</td><td>高性价比价格战，开始布局海外</td></tr></tbody></table></div>
+            <h5>可比公司估值（2026E）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>公司</th><th>收入增速</th><th>市盈率</th><th>毛利率</th></tr></thead><tbody><tr><td>直觉外科 ISRG</td><td>~17%</td><td>~37x</td><td>~68%</td></tr><tr><td>史赛克 SYK</td><td>~8%</td><td>~19x</td><td>~64%</td></tr><tr><td>美敦力 MDT</td><td>~4%</td><td>~13x</td><td>~66%</td></tr><tr><td>波士顿科学 BSX</td><td>~8%</td><td>~12x</td><td>~69%</td></tr></tbody></table></div>
+            <p>券商目标价基于 2027 年 EPS 的倍数从 32x 到 44x 不等——<strong>倍数分歧本身就是对"垄断溢价能否维持"的分歧</strong>。Q2 财报后目标价普遍下调，反映短期增长担忧。</p>
+            <h5>平台化打开的天花板</h5>
+            <p>全球机器人辅助手术渗透率不足 5%；管理层将可及市场从 2024 年 700 万例扩至 2026 年 900 万例，长期指向 2,000 万例。Ion 腔内（肺癌活检，累计超 40 万例）、SP 单孔（NSM 等新术式）、GI 柔性机器人（已提交 510(k)）、心脏适应症——正从软组织手术龙头向多学科微创诊疗平台转型。日本 6 月起新增 7 项手术报销，印度达芬奇 5 获批在即。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究的数据与局限</h3>
+      <ul>
+        <li><strong>数据来源</strong>：公司财报及公开披露（FY2023-FY2026H1 利润表、分业务收入、装机与手术量数据）、公开研究资料整理；公司一页通内容见本站「一页通」标签页</li>
+        <li><strong>关联研究</strong>：礼来研究报告——医疗里的两种垄断对照（专利药 vs 器械生态）；GLP-1 对减重手术的冲击正是两家公司的交叉点</li>
+        <li><strong>局限</strong>：初稿 v1，未读 10-K/10-Q 原文（建议补读 Risk Factors 中竞争与报销章节）；EUP 影响在 2026-10 披露前只能以 2019 年 -7% 为锚；远期 PE 为基于券商一致预期的估算值</li>
+        <li><strong>状态</strong>：核心跟踪变量为美国手术量增速（13% 分界线）与 EUP 量化披露，任一反证条件触发即重检观点</li>
+      </ul>
+    </div>
+
   </article>
+
   <article class="doc" id="tab-onepager" hidden>
 <h3 class="doc-h2">公司概况</h3>
 <p>直觉外科是全球软组织手术机器人领域的绝对领导者，其核心产品达芬奇手术系统自1999年商业化以来，已构建起涵盖多孔、单孔及腔内诊断的完整产品矩阵。公司通过“设备装机—手术量增长—耗材与服务收入”的飞轮模式，实现了超过80%的经常性收入占比，形成了极高的客户粘性和持续的收入流。截至2026年6月30日，全球达芬奇系统安装基数已超11,710台，累计完成超2,000万例手术，市场地位稳固。</p>
@@ -201,7 +490,6 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 <ul><li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。直觉外科拥有超过<strong>5,600项</strong>已授权专利和<strong>2,500项</strong>在申请专利，覆盖了机械臂、视觉系统、器械等核心技术。同时，其全球累计超过<strong>2,000万例</strong>手术所积累的真实世界数据，是任何竞争对手在短期内都无法复制的宝贵资产，这些数据正被用于训练AI模型，以开发下一代智能手术辅助功能。  </li><li><strong>数据验证</strong>：公司每年投入超过<strong>13亿美元</strong>用于研发（FY2025），占收入的<strong>13%</strong>，这一投入规模远超潜在竞争对手。其非GAAP毛利率高达<strong>70%</strong>（2026年Q2），显示出强大的定价能力和规模效应带来的成本优势，使其在应对价格战时拥有充足的缓冲空间。 </li><li><strong>动态演变</strong>：<strong>维持</strong>。尽管公司在技术和数据上拥有显著优势，但来自强生、美敦力等巨头的竞争正在加剧，尤其是在中国市场，本土企业凭借高性价比产品正在快速获取份额。公司通过推出XiR翻新系统和延长使用计划等策略主动应对，旨在通过成本优势和技术下沉来巩固市场地位，但这也可能对利润率造成一定压力。 </li></ul>
 <p><strong>现阶段核心驱动力总结</strong>：</p>
 <p>直觉外科的Alpha属性在于其作为行业先驱所建立的<strong>生态系统型护城河</strong>，这使其能够在竞争加剧的环境中保持定价权和客户粘性。其Beta属性则与全球微创手术的渗透率提升、新兴市场的医疗基础设施建设和人口老龄化等宏观趋势紧密相关。当前，公司的增长正从单纯的“市场扩张”驱动，转向“市场扩张+技术创新+模式升级”的复合驱动阶段。</p>
-<p><strong>竞争格局传导逻辑图</strong>：</p>
 <h3 class="doc-h2">产销链</h3>
 <ul><li><strong>客户情况</strong>：公司客户主要为全球范围内的医院和日间手术中心（ASC）。客户集中度低，无单一客户占比超过10%。在美国，约<strong>70%</strong>的系统通过租赁方式获取，这降低了医院的资本门槛，但也使公司的收入暴露于医院运营和手术量波动的风险之下。近期，部分美国客户因ACA参保趋势不确定性而表达谨慎态度，但尚未对资本销售管道产生实质性影响。  </li><li><strong>供应商情况</strong>：公司生产依赖大量定制和标准组件，部分关键零部件由<strong>单一或独家供应商</strong>提供。其大部分耗材在墨西哥墨西卡利生产，内窥镜主要在德国制造。这使得其供应链暴露于全球贸易摩擦和关税风险之下。2026年Q2，关税和相关贸易措施对总成本的影响为<strong>2,080万美元</strong>，但公司也获得了<strong>3,590万美元</strong>的IEEPA关税退款。管理层预计2026全年关税对毛利率的负面影响约为<strong>100个基点</strong>。  </li><li><strong>经销商情况</strong>：公司在美国、欧洲（部分）、中国（通过合资企业）、日本等主要市场采用直销模式。在其他市场则通过分销商销售。2026年3月，公司完成了对意大利、西班牙和葡萄牙分销业务的收购，转为直销，旨在加强对关键欧洲市场的控制。Q2分销商市场表现强劲，装机<strong>71台</strong>系统，其中<strong>42台</strong>为X或XiR系统，显示出在成本敏感型市场的渗透策略初见成效。  </li><li><strong>议价能力与成本传导</strong>：直觉外科凭借其强大的品牌和生态系统，对下游客户拥有较强的议价能力，能够将部分成本压力（如关税）通过价格调整转嫁。然而，随着竞争加剧和客户对成本日益敏感，公司也开始主动通过推出XiR系统和延长使用计划等方式，与客户分享成本节约，以换取更大的市场份额和手术量。公司赚取的是<strong>“技术溢价+生态锁定”</strong>的钱，而非简单的加工费。 </li></ul>
 <h3 class="doc-h2">财务数据</h3>
@@ -239,12 +527,50 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 <section class="sources">
   <div class="shell">
     <h2>数据来源</h2>
-    <p>Gangtise Open API（公司一页通 · stock-one-pager）· 公司财报及公开披露 · 仅作研究学习用途，不构成投资建议。</p>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
   </div>
 </section>
-<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/ISRG · 生成于 2026-07-30</div></footer>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/ISRG · 生成于 2026-08-06</div></footer>
 
 <script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-07-30';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'pending', text: '<strong>Q3 财报：EUP 量化影响披露</strong>（2026-10）：对 2027 年收入影响的量化——重定价长期盈利模型的关键事件', note: '' },
+  { kind: 'cat', status: 'active',  text: '<strong>达芬奇 5 印度商业化启动</strong>（2026 H2）：新兴市场新增长点', note: '达芬奇 5 近期在印度获批' },
+  { kind: 'cat', status: 'pending', text: '<strong>GI 柔性机器人 510(k) 审批</strong>（2026 H2–2027 初）：获批则打开胃肠道诊疗全新市场', note: '已提交申请' },
+  { kind: 'cat', status: 'active',  text: '<strong>日本报销新政效果</strong>（2026 H2）：新增 7 项手术报销 + 高利用率医院激励', note: '2026-06-01 生效，观察需求释放' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '美国手术量增速<strong>连续两季低于 12%</strong>（ACA 解释失效，确认结构性减速）', note: 'Q2 为 12%，13% 是分界线，下季度验证' },
+  { kind: 'risk', status: 'clear', text: '<strong>EUP 量化影响大于 2019 年的 -7%</strong> 且手术量弹性不足', note: '等 2026-10 Q3 财报披露' },
+  { kind: 'risk', status: 'clear', text: '<strong>强生 OTTAVA 商业化超预期</strong>，公司被迫全面降价', note: 'OTTAVA 已获 FDA 批准，持续跟踪放量' },
+  { kind: 'risk', status: 'clear', text: '全年手术量指引<strong>跌破 13.5% 下限</strong>', note: '当前指引 13.5-15.5%，预计接近中值 14.5%' },
+  { kind: 'risk', status: 'clear', text: '<strong>装机量增速明显放缓</strong>（飞轮的入口收窄）', note: 'Q2 新增装机 468 台，每季度核对' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
 document.querySelectorAll('.site-nav button').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));

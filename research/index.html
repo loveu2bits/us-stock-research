@@ -108,11 +108,13 @@ a.co:hover { background: color-mix(in srgb, var(--accent) 5%, white); }
   .co__cn { justify-content: flex-end; text-align: right; }
 }
 
-/* ===== 其他行业 ===== */
+/* ===== 其他行业（默认折叠） ===== */
 .others { margin-bottom: 60px; scroll-margin-top: calc(var(--header-height) + 12px); }
-.others__head { display: flex; align-items: baseline; gap: 12px; padding-bottom: 10px; border-bottom: 2px solid var(--ink-soft); }
-.others__head h2 { margin: 0; font-family: var(--font-display); font-size: 26px; font-weight: 650; }
-.others__head .cnt { margin-left: auto; color: var(--ink-faint); font-size: 12px; }
+.others-toggle { display: flex; align-items: baseline; gap: 12px; width: 100%; padding: 0 0 10px; border: 0; border-bottom: 2px solid var(--ink-soft); background: transparent; color: var(--ink); font-family: inherit; text-align: left; cursor: pointer; }
+.others-toggle h2 { margin: 0; font-family: var(--font-display); font-size: 26px; font-weight: 650; transition: color .15s ease; }
+.others-toggle:hover h2 { color: var(--federal-blue); }
+.others-toggle .cnt { margin-left: auto; color: var(--ink-faint); font-size: 12px; }
+.others-toggle .caret { color: var(--ink-faint); font-size: 12px; font-weight: 600; }
 .oth-grp__title { margin: 22px 0 2px; color: var(--ink-faint); font-size: 12px; font-weight: 700; letter-spacing: .08em; }
 .company-row { --accent: var(--federal-blue); display: grid; grid-template-columns: 54px minmax(0,1fr) 118px 28px; gap: 20px; align-items: center; min-height: 92px; padding: 14px 0; border-bottom: 1px solid var(--line); color: inherit; text-decoration: none; transition: background .15s ease; }
 .company-row:hover { background: color-mix(in srgb, var(--accent) 4%, white); }
@@ -176,7 +178,7 @@ a.co:hover { background: color-mix(in srgb, var(--accent) 5%, white); }
     <div class="overview__heading">
       <div class="overview__copy">
         <h1>公司研究 · 产业链视角<span class="en">以美股科技大厂为主线的产业链拆解 · 点开环节看公司 · 👑 为该环节市占率龙头</span></h1>
-        <p class="sub">每家已研究公司两页：研究报告 + Gangtise 一页通（环节内「已研究 →」可点开）。每家美股公司附国内对标（A 股 / 港股，仅列名字与代码）。市占率为约数，仅作研究参考。</p>
+        <p class="sub">每家已研究公司两页：研究报告 + 一页通（环节内「已研究 →」可点开）。每家美股公司附国内对标（A 股 / 港股，仅列名字与代码）。市占率为约数，仅作研究参考。</p>
       </div>
       <div class="overview__date">
         <span>最近更新</span>
@@ -194,11 +196,14 @@ a.co:hover { background: color-mix(in srgb, var(--accent) 5%, white); }
   </div>
 
   <section class="others" id="others">
-    <div class="others__head">
+    <button class="others-toggle" id="others-toggle" aria-expanded="false">
       <h2>其他行业</h2>
       <span class="cnt" id="others-cnt"></span>
+      <span class="caret">展开 ▾</span>
+    </button>
+    <div id="others-body" hidden>
+      <div id="others-list"></div>
     </div>
-    <div id="others-list"></div>
   </section>
 
   <div class="chain-note">
@@ -209,7 +214,7 @@ a.co:hover { background: color-mix(in srgb, var(--accent) 5%, white); }
 <section class="sources">
   <div class="shell">
     <h2>数据来源</h2>
-    <p>Gangtise Open API（公司一页通 · stock-one-pager）· 公司财报及公开披露 · 市占率为公开资料整理的约数 · 仅作研究学习用途，不构成投资建议。</p>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 市占率为公开资料的约数 · 仅作研究学习用途，不构成投资建议。</p>
   </div>
 </section>
 <footer class="site-footer"><div class="shell">美股研究 · 02_公司研究 · 更新于 2026-08-06</div></footer>
@@ -535,8 +540,17 @@ function renderNav(){
     `<div class="chain-nav__label">产业链</div>` +
     CHAINS.map(ch => `<a href="#chain-${ch.key}"><span class="dot" style="background:${ch.color}"></span>${ch.name}<small>${ch.tiers.reduce((s,t)=>s+t.segs.length,0)} 环节</small></a>`).join('') +
     `<div class="chain-nav__label">非科技</div>` +
-    `<a href="#others"><span class="dot" style="background:var(--ink-soft)"></span>其他行业<small>${othersCnt} 家</small></a>`;
+    `<a href="#others" id="nav-others"><span class="dot" style="background:var(--ink-soft)"></span>其他行业<small>${othersCnt} 家</small></a>`;
 }
+
+function toggleOthers(force){
+  const body = $('others-body'), tgl = $('others-toggle');
+  const show = force !== undefined ? force : body.hidden;
+  body.hidden = !show;
+  tgl.setAttribute('aria-expanded', show);
+  tgl.querySelector('.caret').textContent = show ? '收起 ▴' : '展开 ▾';
+}
+$('others-toggle').onclick = () => toggleOthers();
 
 function renderOthers(){
   let n = 0;
@@ -574,6 +588,7 @@ function renderStats(){
 
 renderStats();
 renderNav();
+$('nav-others').addEventListener('click', () => toggleOthers(true));
 renderChains();
 renderOthers();
 </script>

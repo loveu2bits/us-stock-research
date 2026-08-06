@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>好市多（COST.O）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <style>
 :root {
   --paper: #ffffff; --paper-cool: #f3f6f8;
@@ -18,7 +19,7 @@
 html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
 body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
 
-/* ===== 顶栏（美联储风格） ===== */
+/* ===== 顶栏 ===== */
 .site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
 .site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
 .site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
@@ -32,16 +33,20 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 
 .shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
 
-/* ===== 抬头 ===== */
+/* ===== 抬头：公司名称 + 观点 ===== */
 .overview { padding: 34px 0 0; }
-.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 170px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
 .overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
 .overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
 .overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
-.overview__date { padding: 16px 0 4px; border-top: 2px solid var(--policy-red); text-align: right; }
-.overview__date span, .overview__date strong { display: block; }
-.overview__date span { margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
-.overview__date strong { font-size: 15px; font-variant-numeric: tabular-nums; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--amber); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
 
 /* ===== 关键指标栏 ===== */
 .summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
@@ -49,32 +54,108 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 .summary-rail__item:last-child { border-right: 0; }
 .summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
 .summary-rail__item strong.up { color: var(--policy-red); }
-.summary-rail__item strong.down { color: var(--teal); }
 .summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
 
-/* ===== 正文文档 ===== */
+/* ===== 跟踪面板（置顶，每次更新研究时核对） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
 .doc { padding: 40px 0 80px; }
 .doc[hidden] { display: none; }
-.doc-h1 { margin: 34px 0 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line-strong); font-family: var(--font-display); font-size: 30px; font-weight: 650; }
-.doc-h1:first-child { margin-top: 0; }
-.doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
-.doc-h3 { margin: 22px 0 10px; color: var(--federal-blue); font-size: 15px; font-weight: 750; }
-.doc p, .doc li { color: var(--ink-soft); font-size: 15px; }
-.doc p { margin: 0 0 14px; }
-.doc ul, .doc ol { margin: 0 0 16px; padding-left: 24px; }
-.doc li { margin-bottom: 6px; }
-.doc strong { color: var(--ink); }
-.doc code { padding: 1px 6px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper-cool); font-size: 13px; }
-.doc-hr { margin: 30px 0; border: 0; border-top: 1px solid var(--line); }
-.doc-quote { margin: 18px 0; padding: 16px 20px; border-left: 3px solid var(--amber); background: #faf6ec; color: var(--ink-soft); font-size: 14px; }
-.tbl-wrap { margin: 16px 0 24px; overflow-x: auto; }
-.doc table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
-.doc th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
-.doc td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
-.doc tr:hover td { background: #f8fafc; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
 .warn { color: var(--policy-red); }
-.star { color: var(--amber); }
-.xref { color: var(--federal-blue); font-weight: 600; }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
 
 /* ===== 页脚 ===== */
 .sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
@@ -86,8 +167,14 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   .shell { width: min(calc(100% - 32px), var(--shell)); }
   .overview__heading { grid-template-columns: 1fr; gap: 18px; }
   .overview__copy h1 { font-size: 32px; }
-  .overview__date { text-align: left; }
   .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
   .site-nav button { min-width: 78px; padding: 0 8px; }
   .site-mark__text span { display: none; }
 }
@@ -101,8 +188,8 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
     <span class="site-mark__text">好市多 公司研究<span>Costco · COST.O</span></span>
   </a>
   <nav class="site-nav">
-    <button class="is-active" data-tab="report">研究报告</button>
-    <button data-tab="onepager">一页通（Gangtise）</button>
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
   </nav>
 </header>
 
@@ -111,54 +198,246 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
     <div class="overview__heading">
       <div class="overview__copy">
         <h1>好市多<span class="en">Costco · COST.O · 美股研究</span></h1>
-        <p class="sub">"商业模式教科书"：商品毛利率压到 11%，利润几乎全来自会员费——92.2% 续卡率的飞轮 vs 46 倍 PE 的"好公司好价格"之问。</p>
+        <p class="sub">"商业模式教科书"：商品毛利率压到 11%（只够覆盖运营成本），利润几乎全来自会员费——92.2% 续卡率的飞轮让它拥有零售业唯一的"定价权威"。问题只有一个：46 倍 PE vs 高个位数增长，"好公司"和"好价格"的矛盾在零售股里最极致。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-07-30</span>
+          <span>下次更新：FY2026 Q4 财报（2026-09-24）或 7 月销售数据（8/5）</span>
+        </div>
       </div>
-      <div class="overview__date">
-        <span>研究日期</span>
-        <strong>2026-07-30</strong>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>好公司但不是好价格：FCF 收益率仅 2% 低于无风险利率——正确问题不是"买不买"，而是"什么价格值得买"。</em>
       </div>
     </div>
     <div class="summary-rail">
-      <div class="summary-rail__item"><strong>92.2%</strong><span>美加会员续卡率</span></div>
-<div class="summary-rail__item"><strong>51%</strong><span>会员费占营业利润比</span></div>
-<div class="summary-rail__item"><strong>46x</strong><span>当前 PE·确定性溢价</span></div>
-
+      <div class="summary-rail__item"><strong class="up">92.2%</strong><span>美加会员续卡率·飞轮核心</span></div>
+      <div class="summary-rail__item"><strong>51%</strong><span>会员费占营业利润比（FY2025）</span></div>
+      <div class="summary-rail__item"><strong class="up">+7.0%</strong><span>6月核心同店增速（5月+8.0%）</span></div>
+      <div class="summary-rail__item"><strong>46x</strong><span>当前 PE·确定性溢价</span></div>
     </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
   </div>
 </section>
 
 <main class="shell">
   <article class="doc" id="tab-report">
-<blockquote class="doc-quote"><strong>研究日期</strong>：2026-07-30 ｜ <strong>数据来源</strong>：Gangtise 一页通（2026-07-30） <strong>状态</strong>：初稿 v1 ｜ <strong>下次更新</strong>：FY2026 Q4 财报（2026-09-24）或 7 月销售数据（8/5） <strong>关联研究</strong>：<span class="xref">沃尔玛研究报告</span>（会员制零售的两种范式对照）</blockquote>
-<hr class="doc-hr">
-<h3 class="doc-h2">〇、一句话结论</h3>
-<p><strong>好市多是"商业模式教科书"：商品毛利率压到 11%（只够覆盖运营成本），利润几乎全来自会员费——92.2% 续卡率构成的飞轮让它拥有零售业唯一的"定价权威"。问题只有一个：46 倍 PE vs 高个位数增长，"好公司"和"好价格"的矛盾在零售股里最极致。</strong></p>
-<hr class="doc-hr">
-<h3 class="doc-h2">一、靠什么赚钱？</h3>
-<p><strong>一句话：不靠卖东西赚钱——8,290 万付费会员的年费就是利润（FY2025 会员费 $53 亿 = 营业利润的 51%），商品只是维系会员的"成本价福利"。</strong></p>
-<p>飞轮结构：</p>
-<ul><li><strong>Executive 会员</strong>（年费 $130）：占会员近半，贡献 <strong>75%</strong> 销售额——会员质量 &gt; 数量</li><li><strong>Kirkland 自有品牌</strong>：占比 33%，既是会员粘性工具，也是与品牌方谈判的"核威慑"</li><li>增长三引擎：同店销售（核心 +6-7%）+ 每年 30 家新店 + 会员费（+12.7%）</li></ul>
-<hr class="doc-hr">
-<h3 class="doc-h2">二、护城河多深？</h3>
-<p><strong>这是全美股教科书级的结构性护城河</strong>：预付年费 → 消费自然集中（"赚回会费"心理）→ 转换成本极高 → 需求稳定 → 议价能力 → 更低价。SG&amp;A 费用率仅 8.96%，远低于同行。</p>
-<p><strong>和沃尔玛的对照（本次消费研究的核心收获）</strong>：</p>
-<div class="tbl-wrap"><table><thead><tr><th></th><th>沃尔玛</th><th>好市多</th></tr></thead><tbody><tr><td>利润来源</td><td>商品差价（微利）+ 广告/会员变现</td><td><strong>会员费本身</strong></td></tr><tr><td>护城河</td><td>规模成本 + 门店网络</td><td>会员信任 + 转换成本</td></tr><tr><td>估值</td><td>~39x（平台化预期）</td><td>~46x（确定性溢价）</td></tr><tr><td>最大风险</td><td>第二曲线能否持续高增</td><td>增长放缓杀估值</td></tr></tbody></table></div>
-<hr class="doc-hr">
-<h3 class="doc-h2">三、财务速览</h3>
-<div class="tbl-wrap"><table><thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 Q1-Q3</th></tr></thead><tbody><tr><td>总营收（亿$）</td><td>2,423</td><td>2,545</td><td>2,752</td><td>2,074（+9.7%）</td></tr><tr><td>毛利率</td><td>12.3%</td><td>12.6%</td><td>12.8%</td><td>12.9%</td></tr><tr><td>营业利润率</td><td>3.35%</td><td>3.65%</td><td>3.77%</td><td>3.80%</td></tr><tr><td>归母净利（亿$）</td><td>63</td><td>74</td><td>81</td><td>62（+13.5%）</td></tr><tr><td>自由现金流（亿$）</td><td>67</td><td>66</td><td>78</td><td>69</td></tr></tbody></table></div>
-<p><strong>读法</strong>：一张"稳定复利"的报表——收入 8-10% 增长、利润率每年小步抬升、FCF 强劲、净债务为负。Q3 毛利率下滑 21bp 是<strong>主动让利</strong>（鸡蛋牛肉成本下降就降价），不是竞争恶化——这正是"定价权威"的运作方式：率先降价、最后涨价。</p>
-<hr class="doc-hr">
-<h3 class="doc-h2">四、核心分歧：为"确定性"付 46 倍，值吗？</h3>
-<div class="tbl-wrap"><table><thead><tr><th></th><th>乐观方</th><th>谨慎方</th></tr></thead><tbody><tr><td>逻辑</td><td>经数十年验证的模式 + 92% 续卡率 = 稀缺确定性，理应有溢价</td><td>46x PE vs 高个位数增长，FCF 收益率仅 2%，低于无风险利率</td></tr><tr><td>会员</td><td>Executive 会员 +9.6%，质量在提升</td><td>总会员增速放缓至 4.1%，线上获客续卡率偏低</td></tr><tr><td>同店</td><td>核心同店 6-7%，远超行业</td><td>6 月已环比放缓（8.0%→7.0%），7 月有高基数</td></tr></tbody></table></div>
-<p><strong>关键跟踪</strong>：Costco 每月公布销售数据（美股罕见的高频验证渠道！）——8/5 的 7 月数据看增速能否守住 6-7% 区间。</p>
-<blockquote class="doc-quote">📚 *方法点评：研究 Costco 这种"无瑕疵公司"，多空双方对事实没有分歧，分歧全在<strong>估值容忍度</strong>。这类公司研究的正确产出不是"买不买"，而是"什么价格值得买"——把跟踪体系建好，等市场情绪给机会。*</blockquote>
-<hr class="doc-hr">
-<h3 class="doc-h2">五、反证条件</h3>
-<ol><li><span class="warn">⚠️</span> 核心同店增速连续两个月跌破 5%</li><li><span class="warn">⚠️</span> 美加续卡率跌破 91%（飞轮松动）</li><li><span class="warn">⚠️</span> Executive 会员增速跌破 5%（会员质量红利见顶）</li><li><span class="warn">⚠️</span> 会员费收入增速跌破 8%（增长中枢下移）</li><li><span class="warn">⚠️</span> 核心商品毛利率连续两季下滑且管理层归因于竞争（而非主动让利）</li></ol>
-<hr class="doc-hr">
-<h3 class="doc-h2">六、跟踪计划</h3>
-<div class="tbl-wrap"><table><thead><tr><th>跟踪变量</th><th>时间</th><th>说明</th></tr></thead><tbody><tr><td>月度销售数据</td><td>每月上旬（下次 8/5）</td><td>高频验证，看 6-7% 能否守住</td></tr><tr><td>FY2026 Q4 财报</td><td>2026-09-24</td><td>全年开店/capex 完成度 + FY27 展望</td></tr><tr><td>IEEPA 关税退款返还方案</td><td>未来数月</td><td>一次性消费刺激</td></tr><tr><td>续卡率 / Executive 渗透率</td><td>每季度</td><td>飞轮健康度</td></tr><tr><td>新店开设进度</td><td>每季度</td><td>年 30 家目标</td></tr></tbody></table></div>
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">会员费飞轮：92.2% 续卡率的护城河还牢吗？</h2>
+        <span class="qa__impact-tag">→ 会员费 $53亿 = 营业利润 51% · 续卡率每 1pct 都是利润</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>飞轮仍在加固：续卡率经历几个季度下滑后于 Q3 企稳回升至 92.2%，Executive 会员 +9.6%、渗透率近半。<em>但书：总付费会员增速已放缓至 4.1%，且线上获客占比提升——这部分会员续卡率历来偏低，是飞轮上唯一的松动点。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>会员费就是利润本身。</strong>FY2025 会员费收入 $53.23 亿，占营业利润（$103.83 亿）的 51.3%；FY2026 Q1-Q3 会员费同比 +12.7%，是利润率每年小步抬升的主要引擎。</p>
+            <p>续卡率是「确定性溢价」的地基：只要 92% 守住，市场就愿意给 46x；若美加续卡率跌破 91%（反证条件），「飞轮松动」叙事成立，<strong>杀的是估值倍数而非当期 EPS——这正是高倍数股最疼的地方</strong>。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>美加续卡率 <strong>92.2%</strong>、全球 89.7%，Q3 企稳回升——数十年验证的客户粘性</li>
+              <li>Executive 会员（年费 $130）同比 <strong>+9.6%</strong>，占会员近半、贡献 <strong>75%</strong> 销售额——会员质量 &gt; 数量</li>
+              <li>Kirkland 自有品牌占比 33%：既是粘性工具，也是对品牌方谈判的「核威慑」</li>
+              <li>SG&amp;A 费用率仅 8.96%，远低于同行——模式带来的极致运营效率</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>总付费会员增速放缓至 <strong>4.1%</strong>——部分是填充式开店节奏，但若持续停滞，增长中枢下移</li>
+              <li>新增会员中<strong>线上渠道占比提升，这部分会员续卡率历来偏低</strong>——全球续卡率此前几个季度承压正源于此</li>
+              <li>会员费 +12.7% 中有约 25% 增长来自 2024-09 美加会费上调——<strong>提价红利是一次性的</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（飞轮结构 · 会员费数据 · 与沃尔玛的范式对照）</summary>
+          <div class="evidence__body">
+            <h5>飞轮结构</h5>
+            <p>预付年费 → 消费自然集中（"赚回会费"心理）→ 转换成本极高 → 需求稳定 → 对供应商更强议价能力 → 更低价 → 续卡率 &gt;90%。商品毛利率压到 ~11% 只够覆盖运营成本，<strong>商品只是维系会员的"成本价福利"</strong>。</p>
+            <h5>会员费与会员结构</h5>
+            <ul>
+              <li>截至 FY2026 Q3 末：总付费会员 <strong>8,290 万</strong>，Executive 会员 4,120 万；总持卡人 1.485 亿</li>
+              <li>FY2026 Q3 会员费收入 $13.73 亿，同比 +10.7%；Q1-Q3 累计 +12.7%</li>
+              <li>会员费占营收仅 ~1.96%，却贡献营业利润的 51%——<strong>净利润几乎全部来自会员费</strong></li>
+            </ul>
+            <h5>与沃尔玛的范式对照（会员制零售的两种范式）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th></th><th>沃尔玛</th><th>好市多</th></tr></thead><tbody><tr><td>利润来源</td><td>商品差价（微利）+ 广告/会员变现</td><td><strong>会员费本身</strong></td></tr><tr><td>护城河</td><td>规模成本 + 门店网络</td><td>会员信任 + 转换成本</td></tr><tr><td>估值</td><td>~39x（平台化预期）</td><td>~46x（确定性溢价）</td></tr><tr><td>最大风险</td><td>第二曲线能否持续高增</td><td>增长放缓杀估值</td></tr></tbody></table></div>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">增长引擎：核心同店 6-7% 还能守住吗？</h2>
+        <span class="qa__impact-tag">→ 同店每降 1pct ≈ 营收 -$25亿 · 连续两月 &lt;5% 即证伪</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>仍在 6-7% 区间但已现环比放缓（5 月 +8.0% → 6 月 +7.0%），7 月还有延长营业时间的 ~1pct 高基数。<em>但书：放缓目前更像波动而非趋势——美国市场 6 月仍 +7.6%，客流 +3.2%；判定窗口在每月上旬的月度销售数据，这是美股罕见的高频验证渠道。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p>增长三引擎：<strong>同店销售（核心 +6-7%）+ 每年 30 家新店 + 会员费（+12.7%）</strong>，共同支撑营收 8-10% 增长、净利 10-13% 增长（经营杠杆）。</p>
+            <p>46x PE 隐含的是「中高个位数同店 + 利润率持续扩张」。若核心同店连续两个月跌破 5%（反证条件第一条），增长故事从「稳定复利」降格为「普通零售」，<strong>估值中枢可能从 46x 向历史均值 ~31x 回归——即使 EPS 不变，也是约 -30% 的倍数收缩</strong>。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>核心同店 6-7% <strong>远超行业</strong>；6 月美国市场 +7.6%，客流 +3.2%、客单价 +3.7% 量价齐升</li>
+              <li>已识别约 <strong>300 个潜在新店址</strong>（全在现有国家），每年净增 30 家提供 ~3% 结构性增量；国际门店利润率高于本土</li>
+              <li>数字化可比销售 +21.5%，即时配送高增、个性化推荐转化率为常规 3 倍——<strong>增量而非替代</strong></li>
+              <li>油价回落缓解 Q3 毛利率逆风；IEEPA 关税退款返还构成一次性消费刺激</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>6 月核心同店环比放缓 100bp 至 7.0%；7 月面临去年同期延长营业时间带来的 <strong>~1pct 基数效应</strong></li>
+              <li>Q3 毛利率同比 -21bp、核心商品毛利率 -9bp——公司说是主动让利，<strong>但市场无法当场证伪「竞争加剧」解释</strong></li>
+              <li>沃尔玛、克罗格加大价格投资，食品杂货价格战风险上升；守住「定价权威」的成本可能变贵</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（五年财务速览 · 月度同店轨迹 · Q3 毛利率解读）</summary>
+          <div class="evidence__body">
+            <h5>财务速览（单位：亿美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 Q1-Q3</th></tr></thead><tbody><tr><td>总营收</td><td>2,423</td><td>2,545</td><td>2,752</td><td>2,074（+9.7%）</td></tr><tr><td>毛利率</td><td>12.3%</td><td>12.6%</td><td>12.8%</td><td>12.9%</td></tr><tr><td>营业利润率</td><td>3.35%</td><td>3.65%</td><td>3.77%</td><td>3.80%</td></tr><tr><td>归母净利</td><td>63</td><td>74</td><td>81</td><td>62（+13.5%）</td></tr><tr><td>自由现金流</td><td>67</td><td>66</td><td>78</td><td>69</td></tr></tbody></table></div>
+            <p><strong>读法</strong>：一张"稳定复利"的报表——收入 8-10% 增长、利润率每年小步抬升、FCF 强劲、净债务为负。</p>
+            <h5>月度同店轨迹（核心可比，剔除汽油和汇率）</h5>
+            <ul>
+              <li>2026-05：+8.0%（汽油价格飙升带来额外客流提振）</li>
+              <li>2026-06：+7.0%，美国 +7.6%；客流 +3.2%、客单价 +3.7%</li>
+              <li>2026-07（8/5 公布）：面临去年同期延长 Executive 购物时间带来的 ~1pct 基数，<strong>守住 6-7% 区间即合格</strong></li>
+            </ul>
+            <h5>Q3 毛利率下滑的两种解释</h5>
+            <p>FY2026 Q3 毛利率 -21bp 至 11.04%、核心商品毛利率 -9bp。管理层解释：利用鸡蛋、牛肉成本下降窗口<strong>主动降价让利</strong> + 汽油价差扩大引流 + 运输成本上升——这正是"定价权威"的运作方式：率先降价、最后涨价。空方则担心是价格战下的结构性让利。<strong>分辨方法：看管理层归因——若未来连续两季下滑且归因「竞争」而非「主动让利」，即触发反证条件第五条。</strong></p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">估值：为"确定性"付 46 倍，值吗？什么价格值得买？</h2>
+        <span class="qa__impact-tag">→ FCF 收益率 2% · 回归历史均值 31x ≈ -30%</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>多空对事实没有分歧，分歧全在估值容忍度。46x PE + 2% FCF 收益率（低于无风险利率），现价没有安全边际，对应「持有」。<em>但书：这类"无瑕疵公司"研究的正确产出不是"买不买"，而是"什么价格值得买"——把跟踪体系建好，等市场情绪给机会。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这是全部赔率所在。</strong>券商普遍给予 FY2027 45-53x PE，目标价 1,000-1,275 美元；盈利预测高度一致：FY2026-FY2028 EPS 年均复合 +10-12%——<strong>EPS 端没有预期差，赔率全在倍数端</strong>。</p>
+            <p>持有 46x 的本质是赌「确定性溢价」不回归：若增长兑现，赚 EPS +10-12%/年的钱；若增长失速，估值向历史均值 ~31x 回归即约 -30%——<strong>赔率明显不对称，所以持有而非买入</strong>。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>经数十年验证的模式 + 92% 续卡率 = <strong>稀缺确定性</strong>，不确定性时代理应有溢价</li>
+              <li>核心同店 6-7% 远超行业，Executive 渗透率持续提升驱动客单价和利润</li>
+              <li>长期增长故事清晰且远未结束：300 个候选店址全球扩张 + 数字化/零售媒体变现早期</li>
+              <li>盈利预测各券商高度一致（EPS 年增 10-12%），<strong>业绩暴雷概率低</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>~46x PE vs 高个位数营收增长，显著高于长期历史均值 ~31x 和同业——<strong>增长与估值不匹配</strong></li>
+              <li>FCF 收益率仅约 <strong>2%，低于无风险利率</strong>，对价值投资者缺乏吸引力</li>
+              <li>总会员增速 4.1%、同店环比放缓、毛利率下滑——<strong>三个放缓信号同时出现</strong>，一旦失速就是"戴维斯双杀"</li>
+              <li>现价已计入非常乐观的长期预期：任何低于「极好」的兑现都是利空</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（券商盈利预测与目标价 · 估值分析）</summary>
+          <div class="evidence__body">
+            <h5>券商盈利预测与估值（2026-07 前后）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价(美元)</th><th>财务指标</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>美国银行 (2026-03-03)</td><td>买入</td><td>1,185</td><td>调整后EPS(美元)</td><td>17.98</td><td>20.21</td><td>22.34</td><td>24.84</td></tr><tr><td>瑞银 (2026-07-10)</td><td>买入</td><td>1,275</td><td>调整后EPS(美元)</td><td>18.21</td><td>21.12</td><td>24.44</td><td>26.84</td></tr><tr><td>摩根士丹利 (2026-07-28)</td><td>超配</td><td>1,130</td><td>调整后EPS(美元)</td><td>17.98</td><td>20.49</td><td>22.40</td><td>25.01</td></tr><tr><td>富国证券 (2026-07-16)</td><td>持平</td><td>1,000</td><td>调整后EPS(美元)</td><td>18.21</td><td>20.35</td><td>22.05</td><td>-</td></tr><tr><td>花旗 (2026-07-09)</td><td>中性</td><td>1,020</td><td>调整后EPS(美元)</td><td>-</td><td>-</td><td>22.61</td><td>-</td></tr></tbody></table></div>
+            <p>目标价 1,000-1,275 美元，普遍对应 FY2027 45-53x PE。看多方（瑞银、美银）强调同店韧性与份额增长；谨慎方（富国、花旗）担忧增长动能与估值。</p>
+            <h5>管理层指引</h5>
+            <ul>
+              <li>FY2026 净新开 29 家门店、资本支出约 $65 亿；重申未来每年净增 30 家以上</li>
+              <li>2026-07-28 摩根士丹利管理层纪要：消费需求保持韧性，未观察到消费行为实质性恶化</li>
+            </ul>
+            <h5>方法点评</h5>
+            <p>研究 Costco 这种"无瑕疵公司"，多空双方对事实没有分歧，分歧全在<strong>估值容忍度</strong>。这类公司研究的正确产出不是"买不买"，而是"什么价格值得买"——把跟踪体系建好，等市场情绪给机会。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究的数据与局限</h3>
+      <ul>
+        <li><strong>数据来源</strong>：公司财报、公开披露与公开研究资料（券商盈利预测与管理层纪要等，2026-07-30 时点）</li>
+        <li><strong>局限</strong>：未读 10-K 原文；估值结论依赖「确定性溢价是否回归」的主观判断，无精确目标价测算；月度销售数据为高频跟踪项，本页结论以 2026-07-30 前数据为准</li>
+        <li><strong>管理层评估（一句话版）</strong>：管理层言行一致——说主动让利就把毛利率降 21bp 给会员降价，说长期扩张就重申年增 30 家店；「率先降价、最后涨价」的定价权威纪律是这家公司最稀缺的治理资产</li>
+        <li><strong>关联研究</strong>：沃尔玛公司研究（会员制零售的两种范式对照）</li>
+      </ul>
+    </div>
+
   </article>
+
   <article class="doc" id="tab-onepager" hidden>
 <h3 class="doc-h2">公司概况</h3>
 <p>好市多（Costco Wholesale Corporation）是全球第三大零售商，采用会员制仓储量贩模式，通过极低毛利率（2025财年商品毛利率约11.12%）销售精选SKU商品，以高周转和会员费为核心盈利来源。截至2026财年第三季度末，公司在全球运营928家门店，其中美国633家，总付费会员8,290万，续卡率在美加地区达92.2%。其自有品牌Kirkland Signature销售占比约33%，是强化定价权和会员粘性的关键工具。</p>
@@ -240,12 +519,50 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 <section class="sources">
   <div class="shell">
     <h2>数据来源</h2>
-    <p>Gangtise Open API（公司一页通 · stock-one-pager）· 公司财报及公开披露 · 仅作研究学习用途，不构成投资建议。</p>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
   </div>
 </section>
-<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/COST · 生成于 2026-07-30</div></footer>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/COST · 生成于 2026-08-06</div></footer>
 
 <script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-07-30';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'pending', text: '<strong>7 月销售数据</strong>（2026-08-05）：核心同店能否守住 6-7% 区间——有高基数（去年延长营业时间 ~1pct），高频验证渠道', note: '月度销售数据，每月上旬公布' },
+  { kind: 'cat', status: 'pending', text: '<strong>FY2026 Q4 财报</strong>（2026-09-24）：全年开店/capex 完成度、核心利润率真实趋势、FY27 展望', note: '' },
+  { kind: 'cat', status: 'active',  text: '<strong>IEEPA 关税退款返还方案</strong>：金额/形式/时间表公布即一次性消费刺激', note: '公司已启动退款申请并表态返还会员，时间未定' },
+  { kind: 'cat', status: 'active',  text: '<strong>数字化与零售媒体变现</strong>：数字化可比销售 +21.5%，即时配送高增，零售媒体早期——长期第二引擎', note: '' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '核心同店增速<strong>连续两个月跌破 5%</strong>', note: '最新 6 月 +7.0%，未触发' },
+  { kind: 'risk', status: 'clear', text: '美加续卡率<strong>跌破 91%</strong>（飞轮松动）', note: '最新 92.2%，Q3 企稳回升' },
+  { kind: 'risk', status: 'clear', text: 'Executive 会员增速<strong>跌破 5%</strong>（会员质量红利见顶）', note: '最新 +9.6%，未触发' },
+  { kind: 'risk', status: 'clear', text: '会员费收入增速<strong>跌破 8%</strong>（增长中枢下移）', note: 'FY2026 Q1-Q3 +12.7%，未触发' },
+  { kind: 'risk', status: 'clear', text: '核心商品毛利率<strong>连续两季下滑且管理层归因竞争</strong>（而非主动让利）', note: 'Q3 -9bp 归因主动让利，需持续分辨' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
 document.querySelectorAll('.site-nav button').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));

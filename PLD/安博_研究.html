@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>安博（PLD.N）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <style>
 :root {
   --paper: #ffffff; --paper-cool: #f3f6f8;
@@ -18,10 +19,10 @@
 html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
 body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
 
-/* ===== 顶栏（美联储风格） ===== */
+/* ===== 顶栏 ===== */
 .site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
 .site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
-.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 12.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
 .site-mark__text { font-size: 14px; font-weight: 700; }
 .site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
 .site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
@@ -32,16 +33,20 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 
 .shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
 
-/* ===== 抬头 ===== */
+/* ===== 抬头：公司名称 + 观点 ===== */
 .overview { padding: 34px 0 0; }
-.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 170px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
 .overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
 .overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
 .overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
-.overview__date { padding: 16px 0 4px; border-top: 2px solid var(--policy-red); text-align: right; }
-.overview__date span, .overview__date strong { display: block; }
-.overview__date span { margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
-.overview__date strong { font-size: 15px; font-variant-numeric: tabular-nums; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--amber); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
 
 /* ===== 关键指标栏 ===== */
 .summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
@@ -49,32 +54,109 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 .summary-rail__item:last-child { border-right: 0; }
 .summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
 .summary-rail__item strong.up { color: var(--policy-red); }
-.summary-rail__item strong.down { color: var(--teal); }
 .summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
 
-/* ===== 正文文档 ===== */
+/* ===== 跟踪面板（置顶，定期核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
 .doc { padding: 40px 0 80px; }
 .doc[hidden] { display: none; }
-.doc-h1 { margin: 34px 0 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line-strong); font-family: var(--font-display); font-size: 30px; font-weight: 650; }
-.doc-h1:first-child { margin-top: 0; }
-.doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
-.doc-h3 { margin: 22px 0 10px; color: var(--federal-blue); font-size: 15px; font-weight: 750; }
-.doc p, .doc li { color: var(--ink-soft); font-size: 15px; }
-.doc p { margin: 0 0 14px; }
-.doc ul, .doc ol { margin: 0 0 16px; padding-left: 24px; }
-.doc li { margin-bottom: 6px; }
-.doc strong { color: var(--ink); }
-.doc code { padding: 1px 6px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper-cool); font-size: 13px; }
-.doc-hr { margin: 30px 0; border: 0; border-top: 1px solid var(--line); }
-.doc-quote { margin: 18px 0; padding: 16px 20px; border-left: 3px solid var(--amber); background: #faf6ec; color: var(--ink-soft); font-size: 14px; }
-.tbl-wrap { margin: 16px 0 24px; overflow-x: auto; }
-.doc table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
-.doc th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
-.doc td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
-.doc tr:hover td { background: #f8fafc; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
 .warn { color: var(--policy-red); }
-.star { color: var(--amber); }
-.xref { color: var(--federal-blue); font-weight: 600; }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager .doc-h3 { margin: 22px 0 10px; color: var(--federal-blue); font-size: 15px; font-weight: 750; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
 
 /* ===== 页脚 ===== */
 .sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
@@ -86,8 +168,14 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   .shell { width: min(calc(100% - 32px), var(--shell)); }
   .overview__heading { grid-template-columns: 1fr; gap: 18px; }
   .overview__copy h1 { font-size: 32px; }
-  .overview__date { text-align: left; }
   .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
   .site-nav button { min-width: 78px; padding: 0 8px; }
   .site-mark__text span { display: none; }
 }
@@ -101,8 +189,8 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
     <span class="site-mark__text">安博 公司研究<span>Prologis · PLD.N</span></span>
   </a>
   <nav class="site-nav">
-    <button class="is-active" data-tab="report">研究报告</button>
-    <button data-tab="onepager">一页通（Gangtise）</button>
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
   </nav>
 </header>
 
@@ -111,53 +199,244 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
     <div class="overview__heading">
       <div class="overview__copy">
         <h1>安博<span class="en">Prologis · PLD.N · 美股研究</span></h1>
-        <p class="sub">全球最大仓库房东：空置率降至 7.2%、17% 租约市价差锁定增长——第二身份是靠土地+电力管线切入数据中心的"AI 卖铲人"。</p>
+        <p class="sub">全球最大仓库房东（13 亿平方英尺物流地产），正处于基本面拐点：空置率降至 7.2%、创纪录签租、组合内还有 17% 租约市价差没兑现——核心物流业务提供了罕见的业绩可见度；第二身份是靠土地储备 + 电力管线切入数据中心的"AI 卖铲人"。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-07-30</span>
+          <span>下次更新：Q3 财报后（2026 年 10 月）</span>
+        </div>
       </div>
-      <div class="overview__date">
-        <span>研究日期</span>
-        <strong>2026-07-30</strong>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="buy">买入</strong>
+        <em>供需拐点 + 17% 市价差锁定增长 + 数据中心变现落地；赔率的主风险在利率与资产出售通道。</em>
       </div>
     </div>
     <div class="summary-rail">
-      <div class="summary-rail__item"><strong class="up">17%</strong><span>租约市价差·锁定增长</span></div>
-<div class="summary-rail__item"><strong>95.5%</strong><span>组合出租率</span></div>
-<div class="summary-rail__item"><strong class="up">82%</strong><span>通电土地出售利润率</span></div>
-
+      <div class="summary-rail__item"><strong class="up">17%</strong><span>租约市价差·隐含近 $8 亿 NOI</span></div>
+      <div class="summary-rail__item"><strong>95.5%</strong><span>组合出租率（2026Q2 末）</span></div>
+      <div class="summary-rail__item"><strong class="up">$6.22-6.30</strong><span>2026 Core FFO 指引·上调 100bp</span></div>
+      <div class="summary-rail__item"><strong class="up">82%</strong><span>通电土地出售利润率</span></div>
     </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
   </div>
 </section>
 
 <main class="shell">
   <article class="doc" id="tab-report">
-<blockquote class="doc-quote"><strong>研究日期</strong>：2026-07-30 ｜ <strong>数据来源</strong>：Gangtise 一页通（2026-07-30） <strong>状态</strong>：初稿 v1 ｜ <strong>下次更新</strong>：Q3 财报（2026 年 10 月） <strong>关联研究</strong>：<span class="xref">Equinix研究报告</span>（地产里的两种 AI 受益路径对照）</blockquote>
-<hr class="doc-hr">
-<h3 class="doc-h2">〇、一句话结论</h3>
-<p><strong>安博是"全球最大仓库房东"（13 亿平方英尺物流地产），正处于基本面拐点：空置率降至 7.2%、创纪录签租、组合内还有 17% 的租约市价差没兑现——核心物流业务提供了罕见的业绩可见度。更有意思的是第二身份：靠 14,000 亩土地储备 + 5.8GW 电力管线切入数据中心，地产股里的"AI 卖铲人"。</strong></p>
-<hr class="doc-hr">
-<h3 class="doc-h2">一、靠什么赚钱？</h3>
-<p><strong>一句话：左手收租（6,500 家客户，最大客户亚马逊仅占 6.3%），右手"开发-增值-变现"（开发利润率约 29-34%，卖给自己的基金再收管理费）。</strong></p>
-<div class="tbl-wrap"><table><thead><tr><th>板块</th><th>模式</th><th>特点</th></tr></thead><tbody><tr><td>房地产业务</td><td>持有物流物业收租</td><td>H1 收入 $47 亿，出租率 95.5%</td></tr><tr><td>战略资本</td><td>管理 $680 亿第三方资本</td><td>轻资产、高毛利管理费（2026 指引 $6.6-6.8 亿，+13%）</td></tr><tr><td>数据中心（新）</td><td>土地+电力管线开发</td><td>通电土地出售利润率高达 <strong>82%</strong></td></tr></tbody></table></div>
-<p><strong>REIT 研究入门</strong>：看 REIT 不看净利润（被折旧和资产处置收益扭曲），看 <strong>Core FFO</strong>（2026 指引上调至 $6.22-6.30/股）和<strong>同店 NOI</strong>（现金口径 +8.5%）。</p>
-<hr class="doc-hr">
-<h3 class="doc-h2">二、核心逻辑：为什么是现在？</h3>
-<ol><li><strong>供需拐点确认</strong>：2024 年物流新供应仅为疫情前 35-40%，而 2026 年美国净吸纳量预计 2.2 亿 sqft &gt; 竣工 1.95 亿——需求 &gt; 供给，空置率持续下行</li><li><strong>17% 租约市价差 = 隐藏的收入</strong>：现有租约租金比市场价低 17%，未来 2-3 年续租自然兑现近 $8 亿增量 NOI——<strong>即使市场租金不涨了，内部增长也已锁定</strong></li><li><strong>数据中心从期权变成业绩</strong>：年初至今开发启动 $21 亿（超全年指引），电力管线 5.8GW；每 $1 万亿数据中心资本开支衍生 3,000-4,000 万 sqft 物流需求</li></ol>
-<hr class="doc-hr">
-<h3 class="doc-h2">三、护城河与裂缝</h3>
-<p><strong>护城河</strong>：核心消费区的稀缺土地（位置不可复制）+ 战略资本平台（"地产+资管"网络效应）。数据中心新租需求占比已从 &lt;5% 升至 10%。</p>
-<p><strong>裂缝</strong>：</p>
-<ul><li>宏观敏感：物流需求跟着全球贸易走，关税/衰退会让客户推迟扩张</li><li>利率敏感：资本密集型，虽当前债务成本仅 3.2%、杠杆 4.7x 健康，但高利率环境持续会压制估值和资本部署</li><li>数据中心资本开支巨大，"边建边卖"模式依赖资产出售通道畅通</li></ul>
-<hr class="doc-hr">
-<h3 class="doc-h2">四、核心分歧：结构性复苏 vs 补库脉冲</h3>
-<div class="tbl-wrap"><table><thead><tr><th></th><th>乐观方</th><th>谨慎方</th></tr></thead><tbody><tr><td>需求性质</td><td>电商渗透 + 供应链重构 + 数据中心衍生需求 = 结构性</td><td>部分是压抑需求释放 + 关税前预防性囤货，宏观一转就回落</td></tr><tr><td>复苏质量</td><td>大型空间已售罄，管理层称"下一增长阶段"</td><td>中小空间改善不均，南加州复苏滞后</td></tr></tbody></table></div>
-<p><strong>我的判断框架</strong>：分歧可以搁置——<strong>17% 的租约市价差意味着即使谨慎方对了（市场租金停滞），安博靠续租也能增长</strong>。这是它比一般周期股确定性高的原因。</p>
-<blockquote class="doc-quote">📚 *方法点评：研究 REIT 的三个专属概念——① FFO/AFFO 替代净利润；② 租约市价差（mark-to-market）= 锁定增长；③ 资本化率（cap rate）与利率的关系。地产股本质是"带增长的债券"，利率下行周期里逻辑最顺。*</blockquote>
-<hr class="doc-hr">
-<h3 class="doc-h2">五、反证条件</h3>
-<ol><li><span class="warn">⚠️</span> 美国净吸纳量明显低于竣工量（供需再次失衡）</li><li><span class="warn">⚠️</span> 租约市价差收窄至 10% 以下（定价权流失）</li><li><span class="warn">⚠️</span> 数据中心资产出售不畅或利润率大幅低于 80% 标杆</li><li><span class="warn">⚠️</span> 利率重新大幅上行（融资成本 + 估值双杀）</li><li><span class="warn">⚠️</span> 出租率跌破 94%</li></ol>
-<hr class="doc-hr">
-<h3 class="doc-h2">六、跟踪计划</h3>
-<div class="tbl-wrap"><table><thead><tr><th>跟踪变量</th><th>时间</th><th>说明</th></tr></thead><tbody><tr><td>数据中心稳定资产打包出售</td><td>未来 6-9 个月</td><td>变现模式验证的关键交易</td></tr><tr><td>Q3 财报：租金变化率/出租率</td><td>2026-10</td><td>全年净有效租金 +40% 目标进度</td></tr><tr><td>净吸纳量 vs 竣工量</td><td>每季度</td><td>供需格局</td></tr><tr><td>战略资本新基金募集</td><td>持续</td><td>轻资产扩张</td></tr><tr><td>美债利率走势</td><td>持续</td><td>REIT 估值分母</td></tr></tbody></table></div>
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">物流供需拐点：结构性复苏，还是补库脉冲？<small>核心分歧：当前强劲需求是"下一增长阶段"的开始，还是压抑需求 + 关税前囤货的短暂释放</small></h2>
+        <span class="qa__impact-tag">→ 近 $8 亿锁定 NOI · 同店 NOI 现金 +8.5%</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>目前证据站多方：美国空置率降至 7.2%、Q2 签租 6,700 万平方英尺创纪录、大型空间基本售罄。<em>但这个分歧其实可以搁置——组合内 17% 的租约市价差意味着即使谨慎方对了（市场租金停滞），安博靠续租未来 2-3 年也能兑现近 $8 亿增量 NOI。这是它比一般周期股确定性高的原因。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p>REIT 不看净利润（被折旧和处置收益扭曲），看 <strong>Core FFO</strong>：2026 指引已上调至 <strong>$6.22-6.30/股</strong>（中点 +100bp），同店 NOI 现金口径 <strong>+8.5%</strong>，管理层预计全年净有效租金变化接近 <strong>+40%</strong>。</p>
+            <p>市价差兑现节奏直接决定未来几个季度 SSNOI 与 FFO 的上修空间——<strong>FFO 上修 → FFO 倍数获得支撑</strong>；反之若价差收窄至 10% 以下（定价权流失），增长叙事和倍数同时受损。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li><strong>供需拐点确认</strong>：2024 年物流新供应仅为疫情前 35-40%，2026 年美国净吸纳量预计 2.2 亿 sqft &gt; 竣工 1.95 亿——需求 &gt; 供给，空置率持续下行</li>
+              <li>需求是结构性的：电商渗透 + 供应链重构 + 数据中心衍生需求（每 $1 万亿数据中心资本开支衍生 3,000-4,000 万 sqft 物流需求）</li>
+              <li>Q2 净有效租金变动超 <strong>+36%</strong>，全球市场租金两年来首次转正；管理层判断市场已进入「下一增长阶段」</li>
+              <li>美国 Q2 净吸纳 6,600 万 sqft，为 2022 年以来最高</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>部分需求是过去两年被压抑的释放 + 关税前预防性囤货，<strong>宏观一转就回落</strong></li>
+              <li>复苏不均：中小空间改善不一致，<strong>南加州等重要市场复苏滞后</strong></li>
+              <li>租金增长才刚刚转正，市场定价能力尚未完全恢复</li>
+              <li>物流需求跟着全球贸易走，关税/衰退会让客户推迟扩张</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（市价差与兑现路径 · 反证条件 · 靠什么赚钱）</summary>
+          <div class="evidence__body">
+            <h5>17% 租约市价差 = 隐藏的收入</h5>
+            <p>现有租约租金比市场价低 17%，未来 2-3 年续租自然兑现近 <strong>$8 亿增量 NOI</strong>——即使市场租金不涨，内部增长也已锁定。市场焦点：价差在未来 2-3 年如何逐步兑现为 SSNOI 增长？Q2 的 +36% 净有效租金变化率能否持续？全年 +40% 目标的实现路径与风险是什么？</p>
+            <h5>靠什么赚钱</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>板块</th><th>模式</th><th>特点</th></tr></thead><tbody><tr><td>房地产业务</td><td>持有物流物业收租</td><td>2026 H1 收入 $47 亿，出租率 95.5%；6,500 家客户，最大客户亚马逊仅占 6.3%</td></tr><tr><td>战略资本</td><td>管理 $680 亿第三方资本</td><td>轻资产、高毛利管理费（2026 指引 $6.6-6.8 亿，+13%）</td></tr><tr><td>数据中心（新）</td><td>土地+电力管线开发</td><td>通电土地出售利润率高达 82%（见问题 2）</td></tr></tbody></table></div>
+            <h5>反证条件（任一成立即重检）</h5>
+            <ol>
+              <li>美国净吸纳量明显低于竣工量（供需再次失衡）</li>
+              <li>租约市价差收窄至 10% 以下（定价权流失）</li>
+              <li>出租率跌破 94%（当前 95.5%）</li>
+            </ol>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">数据中心第二曲线：从"期权"到"业绩"，变现模式成立吗？<small>14,000 英亩土地储备 + 5.8GW 电力管线，地产股里的"AI 卖铲人"</small></h2>
+        <span class="qa__impact-tag">→ 82% 出售利润率 · $21 亿开发启动超全年指引</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>已从概念验证进入大规模执行：年初至今开发启动 $21 亿（超全年指引），Q2 完成 100MW 通电土地出售、利润率 82%——变现路径被真实交易验证。<em>但书：模式是"边建边卖"，依赖资产出售通道畅通；未来 6-9 个月的稳定资产打包出售是模式验证的关键交易。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p>对当期业绩：数据中心衍生需求反哺主业（占新租赁比例已从 &lt;5% 升至 <strong>10%</strong>）；开发/出售利润率高（通电土地 <strong>82%</strong>、物流开发历史约 29-34%），直接增厚收益。</p>
+            <p>对倍数：若该业务持续以 80% 级别利润率变现，可能触发估值体系从「物流 REIT」向「物流 + 数字基础设施平台」重塑——<strong>影响的是估值倍数而非仅当期 FFO</strong>；反之若出售不畅或利润率大幅低于 80% 标杆，第二曲线的估值溢价即被证伪。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>电力管线扩大至 <strong>5.8GW</strong>，约 85% 有望在 2030 年前支持项目启动；Q2 启动 260MW 定制化园区</li>
+              <li>项目均为与超大规模客户签订的<strong>长期租约</strong>，收益确定性高</li>
+              <li>土地+电力的资源组合难以复制：14,000 英亩土地储备（可开发 2.4 亿 sqft）+ 强大的电力采购与政府关系</li>
+              <li>已通过通电土地出售（利润率 82%）证明灵活变现能力，「开发-增值-变现」飞轮成立</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>单项目资本开支可达数亿至数十亿美元，<strong>如何长期大规模供血是未解之题</strong></li>
+              <li>电力获取、社区审批、供应链瓶颈等执行挑战真实存在</li>
+              <li>「边建边卖」依赖资产出售通道：市场环境一变、出售不畅，现金流和回报率同时受压</li>
+              <li>数据中心项目长期 IRR 与物流开发相比尚不清晰，资本配置的平衡待观察</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（管线与启动数据 · 变现交易细节 · 平台化延伸）</summary>
+          <div class="evidence__body">
+            <h5>关键数据（2026Q2）</h5>
+            <ul>
+              <li>年初至今数据中心开发启动 <strong>$21 亿</strong>，已超全年指引</li>
+              <li>完成一笔 <strong>100MW</strong> 通电土地出售，利润率 <strong>82%</strong>——变现模式成功落地的标志</li>
+              <li>电力管线 <strong>5.8GW</strong>（6 月披露时为 5.6GW），约 85% 有望 2030 年前支持项目启动</li>
+            </ul>
+            <h5>能源与数据领域的平台化延伸</h5>
+            <p>除数据中心外，公司拥有 <strong>1.3GW</strong> 屋顶太阳能潜力（目前仅开发 8%）。这些相邻业务本身能提供两位数投资回报率，并与核心物流业务形成协同、增强客户粘性、抬升土地储备价值。</p>
+            <h5>跟踪要点</h5>
+            <p>管理层预计未来 <strong>6-9 个月</strong>内再次打包出售一批稳定的数据中心资产——此次交易的估值和利润率是市场验证其变现能力与价值创造的关键催化剂。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">估值与利率：这支"带增长的债券"，赔率如何？<small>地产股本质是带增长的债券——利率下行周期里逻辑最顺</small></h2>
+        <span class="qa__impact-tag">→ 瑞银目标 $161（23.9x 远期 Core FFO）· 利率是估值分母</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>基本面上修通道已打开：FFO 指引 +100bp、出租率指引上调至 95.25-95.75%、同店净有效增长指引上调至 5.25-5.75%；外部定价锚（瑞银买入、目标 $161 ≈ 远期 Core FFO 23.9x）较当前估值留有溢价。<em>但书：REIT 的估值分母是利率——债务成本 3.2%、杠杆 4.7x 目前健康，利率重新大幅上行是唯一的"双杀"情景（融资成本 + 倍数压缩）。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p>倍数弹性：瑞银目标价基于远期 Core FFO <strong>23.9x</strong>，较当前估值水平有溢价，反映对工业地产基本面改善和数据中心机会的乐观预期；其预计 2026 核心 FFO（不含 promote）同比 <strong>+6.3%</strong>。</p>
+            <p>利率情景：利率上行既压 cap rate（资产估值）又抬融资成本——<strong>反证条件里最硬的一条</strong>。缓冲：$67 亿总流动性、债务平均期限 8.4 年、A/A2 评级，短期再融资压力小。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>指引全面上调且 Q2 已超预期兑现（Core FFO $1.60/股，不含 promote）</li>
+              <li>战略资本轻资产收入 2026 指引 $6.6-6.8 亿（<strong>+13%</strong>），高毛利、提升盈利稳定性</li>
+              <li><strong>$420 亿</strong>开发机会储备 + 29-34% 开发利润率，价值创造飞轮可见</li>
+              <li>Q2 完成 $18 亿资产收购，较重置成本约 <strong>20% 折价</strong>——逆势抄底优质沿海市场</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>估值锚依赖单一机构预测（瑞银 2026-04-20），<strong>样本薄，需多机构交叉验证</strong></li>
+              <li>利率长期高位或进一步上行：抬升新增融资/再融资成本，压制倍数与资本部署</li>
+              <li>表观净利润被处置收益扭曲（2026 H1 同比 +76% 主要靠 Q1 大额处置收益），<strong>不可外推</strong></li>
+              <li>宏观敏感：关税/衰退让客户推迟扩张，出租率与租金增长同步承压</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（财务数据表 · 瑞银预测 · REIT 研究方法）</summary>
+          <div class="evidence__body">
+            <h5>财务数据（百万美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026 H1</th></tr></thead><tbody><tr><td><strong>营业总收入</strong></td><td>8,023</td><td>8,202</td><td>8,790</td><td>4,723</td></tr><tr><td>收入同比</td><td>34.31%</td><td>2.22%</td><td>7.18%</td><td>9.24%</td></tr><tr><td><strong>归母净利润</strong></td><td>3,053</td><td>3,726</td><td>3,322</td><td>2,041</td></tr><tr><td>归母净利润同比</td><td>-9.09%</td><td>22.02%</td><td>-10.83%</td><td>75.79%*</td></tr><tr><td><strong>基本每股收益（美元）</strong></td><td>3.30</td><td>4.02</td><td>3.58</td><td>2.18</td></tr><tr><td><strong>经营活动现金流净额</strong></td><td>5,373</td><td>4,912</td><td>5,008</td><td>—</td></tr></tbody></table></div>
+            <p>*2026 H1 归母净利润同比大增，主要因 Q1 确认了大额资产处置收益——再次说明 REIT 应看 Core FFO 而非净利润。</p>
+            <h5>瑞银预测（2026-04-20，买入，目标价 $148 → $161）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>财务指标</th><th>FY2025</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>核心 FFO（美元/股）</td><td>5.81</td><td>6.18</td><td>6.57</td><td>7.04</td></tr><tr><td>调整后 FFO（美元/股）</td><td>4.67</td><td>5.16</td><td>5.57</td><td>6.06</td></tr><tr><td>每股分红（美元）</td><td>4.04</td><td>4.25</td><td>4.46</td><td>4.69</td></tr></tbody></table></div>
+            <p>目标价 $161 基于远期核心 FFO 的 23.9 倍估值。管理层最新指引（2026Q2）：全年核心 FFO（不含 promote）$6.22-6.30/股，平均出租率 95.25-95.75%，净有效同店增长 5.25-5.75%。</p>
+            <h5>方法点评：研究 REIT 的三个专属概念</h5>
+            <p>① FFO/AFFO 替代净利润；② 租约市价差（mark-to-market）= 锁定增长；③ 资本化率（cap rate）与利率的关系。资产负债表体检：债务加权平均利率 3.2%、平均期限 8.4 年、债务/EBITDA 4.7 倍、总流动性 $67 亿、评级 A/A2。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究的数据与局限</h3>
+      <ul>
+        <li><strong>数据来源</strong>：公司财报、公开披露与公开研究资料整理；公司概况与财务明细见本站「一页通」标签页（同目录《安博_一页通.md》）</li>
+        <li><strong>局限</strong>：未读 10-K 原文（建议下一步补读 Business + Risk Factors 章节）；可比公司对标数据暂缺；估值参考仅瑞银一家预测（2026-04-20），需补充多机构交叉验证</li>
+        <li><strong>关联研究</strong>：Equinix 研究报告（地产里的两种 AI 受益路径对照）</li>
+      </ul>
+    </div>
+
   </article>
+
   <article class="doc" id="tab-onepager" hidden>
 <h3 class="doc-h2">公司概况</h3>
 <p>安博是全球最大的物流房地产投资信托基金，专注于高壁垒、高增长市场的物流设施所有权、开发与管理。公司业务遍及美洲、欧洲及亚洲的20个国家，拥有并管理约13亿平方英尺的物流资产组合，服务超过6,500家客户。其业务模式涵盖两大板块：一是直接持有并运营物流物业的<strong>房地产业务</strong>，二是通过管理第三方资本（战略资本）获取管理费及超额收益分成的<strong>轻资产业务</strong>。公司凭借其稀缺的土地储备、庞大的客户网络及强大的开发能力，构筑了深厚的竞争壁垒。</p>
@@ -198,7 +477,6 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 <ul><li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。公司管理的战略资本平台规模庞大，与全球顶级机构投资者建立了长期合作关系。该平台不仅为公司提供了稳定、低成本的第三方资本，支持其开发和收购活动，还通过管理费收入增强了盈利的稳定性和可预测性。这种“地产+资管”的模式形成了强大的网络效应，竞争对手难以在短期内复制。 </li><li><strong>数据验证</strong>：公司管理着<strong>680亿美元</strong>的第三方资本，2025年战略资本业务收入为<strong>5.92亿美元</strong>，其中高毛利的经常性费用收入为<strong>5.21亿美元</strong>。2026年上半年，公司连续成立多只新基金，吸引了数十亿美元的新资本。该平台使公司能够以更资本高效的方式抓住增长机会，同时分散风险。  </li><li><strong>动态演变</strong>：<strong>护城河变宽</strong>。公司正将战略资本平台的能力从传统物流延伸至数据中心等新领域，为不同风险偏好的投资者提供定制化产品。随着平台规模和产品线的扩张，其对资本的吸引力和费用收入贡献将持续增强。  </li></ul>
 <p><strong>现阶段核心驱动力总结</strong>：</p>
 <p>安博的Alpha来源于其将稀缺的土地资源、强大的开发能力和独特的资本循环模式相结合，创造出持续高于行业平均水平的价值增长。其Beta则体现在对全球贸易、电子商务和供应链现代化等宏观趋势的暴露。当前阶段，公司正从核心物流业务的租金兑现和新兴数据中心业务的规模化中获取双重增长动力。</p>
-<p><strong>竞争格局传导逻辑图</strong>：</p>
 <h3 class="doc-h2">产销链</h3>
 <ul><li><strong>客户情况</strong>：公司客户基础极为分散，截至2025年底，拥有超过6,500家客户，涵盖制造业、零售业、运输业等多个领域。前25大客户仅占净有效租金的约<strong>23.7%</strong>，单一最大客户亚马逊占比为<strong>6.3%</strong>，不存在对单一客户的重大依赖。近年来，来自数据中心供应商的新需求显著增长，占新租赁的比例从一年前的不足<strong>5%</strong> 升至<strong>10%</strong>，成为新的结构性需求驱动力。  </li><li><strong>供应商情况</strong>：公司的主要供应商为建筑承包商、建材供应商和电力公司。凭借其巨大的开发体量和采购规模，公司拥有较强的议价能力，能够以较低成本获取建材和电力资源。特别是在数据中心领域，公司通过提前预订长周期设备，形成了对供应链的独特控制力。 </li><li><strong>成本转嫁能力</strong>：公司赚取的是<strong>稀缺性溢价</strong>和<strong>服务增值</strong>。其物业大多位于供应受限的核心市场，客户可选择的空间有限，因此公司具备较强的成本转嫁能力。运营成本大部分可通过租赁合同中的条款回收。当上游建材或融资成本上升时，最终会传导至市场租金水平，而公司作为市场领导者，是这一趋势的主要受益者。 </li></ul>
 <h3 class="doc-h2">财务数据</h3>
@@ -230,12 +508,50 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 <section class="sources">
   <div class="shell">
     <h2>数据来源</h2>
-    <p>Gangtise Open API（公司一页通 · stock-one-pager）· 公司财报及公开披露 · 仅作研究学习用途，不构成投资建议。</p>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
   </div>
 </section>
-<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/PLD · 生成于 2026-07-30</div></footer>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/PLD · 生成于 2026-08-06</div></footer>
 
 <script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-07-30';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'pending', text: '<strong>数据中心稳定资产打包出售</strong>（未来 6-9 个月）：交易估值与利润率是验证变现模式的关键交易', note: '2026-07 Q2 财报管理层指引' },
+  { kind: 'cat', status: 'pending', text: '<strong>Q3 财报</strong>（2026-10）：租金变化率 / 出租率，全年净有效租金 +40% 目标进度', note: '' },
+  { kind: 'cat', status: 'pending', text: '<strong>秋季投资者日 / 行业会议</strong>（2026-09/10）：量化数据中心长期财务贡献、战略资本新基金募集进展', note: '' },
+  { kind: 'cat', status: 'active',  text: '<strong>供需格局逐季核对</strong>：净吸纳量 vs 竣工量（2026 全年预计 2.2 亿 vs 1.95 亿 sqft）', note: '每季度核对' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '美国<strong>净吸纳量明显低于竣工量</strong>（供需再次失衡）', note: '最新 Q2 净吸纳 6,600 万 sqft，2022 年以来最高，未触发' },
+  { kind: 'risk', status: 'clear', text: '<strong>租约市价差收窄至 10% 以下</strong>（定价权流失）', note: '当前 17%，距离危险线 7pct' },
+  { kind: 'risk', status: 'clear', text: '数据中心<strong>资产出售不畅</strong>或利润率大幅低于 80% 标杆', note: 'Q2 通电土地出售利润率 82%，未触发' },
+  { kind: 'risk', status: 'clear', text: '<strong>利率重新大幅上行</strong>（融资成本 + 估值双杀）', note: '当前债务成本 3.2%、杠杆 4.7x、流动性 $67 亿' },
+  { kind: 'risk', status: 'clear', text: '<strong>出租率跌破 94%</strong>', note: '最新 95.5%，指引 95.25-95.75%' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
 document.querySelectorAll('.site-nav button').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));

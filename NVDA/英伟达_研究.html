@@ -19,7 +19,7 @@
 html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
 body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
 
-/* ===== 顶栏（美联储风格） ===== */
+/* ===== 顶栏 ===== */
 .site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
 .site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
 .site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
@@ -33,16 +33,20 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 
 .shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
 
-/* ===== 抬头 ===== */
+/* ===== 抬头：公司名称 + 观点 ===== */
 .overview { padding: 34px 0 0; }
-.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 170px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
 .overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
 .overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
 .overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
-.overview__date { padding: 16px 0 4px; border-top: 2px solid var(--policy-red); text-align: right; }
-.overview__date span, .overview__date strong { display: block; }
-.overview__date span { margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
-.overview__date strong { font-size: 15px; font-variant-numeric: tabular-nums; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--amber); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
 
 /* ===== 关键指标栏 ===== */
 .summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
@@ -50,32 +54,108 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 .summary-rail__item:last-child { border-right: 0; }
 .summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
 .summary-rail__item strong.up { color: var(--policy-red); }
-.summary-rail__item strong.down { color: var(--teal); }
 .summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
 
-/* ===== 正文文档 ===== */
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
 .doc { padding: 40px 0 80px; }
 .doc[hidden] { display: none; }
-.doc-h1 { margin: 34px 0 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line-strong); font-family: var(--font-display); font-size: 30px; font-weight: 650; }
-.doc-h1:first-child { margin-top: 0; }
-.doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
-.doc-h3 { margin: 22px 0 10px; color: var(--federal-blue); font-size: 15px; font-weight: 750; }
-.doc p, .doc li { color: var(--ink-soft); font-size: 15px; }
-.doc p { margin: 0 0 14px; }
-.doc ul, .doc ol { margin: 0 0 16px; padding-left: 24px; }
-.doc li { margin-bottom: 6px; }
-.doc strong { color: var(--ink); }
-.doc code { padding: 1px 6px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper-cool); font-size: 13px; }
-.doc-hr { margin: 30px 0; border: 0; border-top: 1px solid var(--line); }
-.doc-quote { margin: 18px 0; padding: 16px 20px; border-left: 3px solid var(--amber); background: #faf6ec; color: var(--ink-soft); font-size: 14px; }
-.tbl-wrap { margin: 16px 0 24px; overflow-x: auto; }
-.doc table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
-.doc th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
-.doc td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
-.doc tr:hover td { background: #f8fafc; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
 .warn { color: var(--policy-red); }
-.star { color: var(--amber); }
-.xref { color: var(--federal-blue); font-weight: 600; }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
 
 /* ===== 页脚 ===== */
 .sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
@@ -87,8 +167,14 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   .shell { width: min(calc(100% - 32px), var(--shell)); }
   .overview__heading { grid-template-columns: 1fr; gap: 18px; }
   .overview__copy h1 { font-size: 32px; }
-  .overview__date { text-align: left; }
   .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
   .site-nav button { min-width: 78px; padding: 0 8px; }
   .site-mark__text span { display: none; }
 }
@@ -102,8 +188,8 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
     <span class="site-mark__text">英伟达 公司研究<span>NVIDIA · NVDA.O</span></span>
   </a>
   <nav class="site-nav">
-    <button class="is-active" data-tab="report">研究报告</button>
-    <button data-tab="onepager">一页通（Gangtise）</button>
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
   </nav>
 </header>
 
@@ -113,74 +199,248 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
       <div class="overview__copy">
         <h1>英伟达<span class="en">NVIDIA · NVDA.O · 美股研究</span></h1>
         <p class="sub">AI 时代"收算力税"的公司：基本面仍在高速兑现期，但 $4.7 万亿市值已充分定价——核心问题是高增长能持续几年、什么信号说明逻辑坏了。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-07-30</span>
+          <span>下次更新：FY27Q2 财报后（2026-08 下旬）</span>
+        </div>
       </div>
-      <div class="overview__date">
-        <span>研究日期</span>
-        <strong>2026-07-30</strong>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>赔率一般：期望市值 ≈ 当前市值，胜负手在 FY27Q2 是否上修订单管道。</em>
       </div>
     </div>
     <div class="summary-rail">
       <div class="summary-rail__item"><strong class="up">营收 +85%</strong><span>FY27Q1·Q2指引$910亿+95%</span></div>
-<div class="summary-rail__item"><strong>74.9%</strong><span>FY27Q1 毛利率·定价权</span></div>
-<div class="summary-rail__item"><strong>~31x</strong><span>静态 PE（TTM 估算）</span></div>
-
+      <div class="summary-rail__item"><strong>74.9%</strong><span>FY27Q1 毛利率·定价权</span></div>
+      <div class="summary-rail__item"><strong>~31x</strong><span>静态 PE（TTM 估算）</span></div>
+      <div class="summary-rail__item"><strong>54%</strong><span>前三大客户营收占比</span></div>
     </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
   </div>
 </section>
 
 <main class="shell">
   <article class="doc" id="tab-report">
-<blockquote class="doc-quote"><strong>研究日期</strong>：2026-07-29 ｜ <strong>研究人</strong>：Claude 代笔（教学示范版） <strong>数据来源</strong>：Gangtise Open API（财报、一页通）、公开信息 <strong>状态</strong>：初稿 v1 ｜ <strong>下次更新</strong>：FY27Q2 财报后（2026 年 8 月下旬）</blockquote>
-<hr class="doc-hr">
-<h3 class="doc-h2">〇、一句话结论（先给答案）</h3>
-<p><strong>英伟达是 AI 时代"收算力税"的公司，基本面仍在高速兑现期，但 $5 万亿市值已经把"好"充分定价——研究它的核心问题不是"好不好"，而是"高增长还能持续几年、什么信号出现时逻辑破坏"。</strong></p>
-<hr class="doc-hr">
-<h3 class="doc-h2">一、靠什么赚钱？（商业模式）</h3>
-<p><strong>一句话：AI 时代的军火商——卖 GPU + CUDA 生态，向所有想训练/运行 AI 的人收算力税。</strong></p>
-<p>正在发生的模式升维：<strong>从"卖芯片"到"卖 AI 工厂"</strong>。</p>
-<div class="tbl-wrap"><table><thead><tr><th>阶段</th><th>卖什么</th><th>单笔规模</th><th>收入属性</th></tr></thead><tbody><tr><td>过去</td><td>GPU 芯片/显卡</td><td>数万美元</td><td>一次性硬件</td></tr><tr><td>现在</td><td>机架级系统（GB200/GB300 NVL）</td><td>数百万美元</td><td>硬件为主</td></tr><tr><td>演进中</td><td>全栈 AI 工厂（Vera Rubin 平台：CPU+GPU+网络+软件）</td><td>数千万美元级</td><td>增加持续服务属性</td></tr></tbody></table></div>
-<p><strong>收入结构</strong>：数据中心业务占比已接近 90%（FY2026）。FY27Q1 起公司改用新披露口径：<strong>数据中心</strong>（细分为超大规模 Hyperscale + AI云/工业/企业 ACIE）与<strong>边缘计算</strong>两大板块。</p>
-<p><strong>盈利模式的本质</strong>：客户为"最低单位 Token 成本 + 最高单位功耗性能"支付溢价。只要英伟达的每美元算力性价比领先，溢价就能维持。</p>
-<blockquote class="doc-quote">📚 *方法点评：商业模式必须一句话讲清。如果只能讲清"它是 AI 龙头"而讲不清"客户为什么非买它不可"，说明还没研究透。*</blockquote>
-<hr class="doc-hr">
-<h3 class="doc-h2">二、护城河多深？（核心问题 3：CUDA 怎么量化）</h3>
-<p>四层护城河，从硬到软：</p>
-<ol><li><strong>CUDA 软件生态（最深）</strong>：十余年积累、750 万+ 开发者、海量优化库。迁移成本不在硬件，在于客户的工程师团队、代码库、调优经验全部长在 CUDA 上。</li><li><strong>系统级协同设计</strong>：NVLink 互联、Spectrum-X 网络、机架级整体方案——竞争对手单点芯片追平，系统层面仍落后。</li><li><strong>供应链锁定</strong>：制造/供应/产能承诺 $1190 亿（FY27Q1 末），锁定 CoWoS 封装和 HBM 产能——后来者连产能都抢不到。</li><li><strong>迭代速度</strong>：一年一代（Blackwell → Rubin），逼着追赶者永远差一代。</li></ol>
-<p><strong>护城河的裂缝（要诚实面对）</strong>：</p>
-<ul><li>大客户自研 ASIC（谷歌 TPU、亚马逊 Trainium）在<strong>特定推理负载</strong>上性价比已经成立，博通是最大受益者</li><li>中国市场因出口管制实质性丢失，并间接养大了华为等对手</li></ul>
-<blockquote class="doc-quote">📚 *方法点评：护城河要能量化验证。验证方式：毛利率趋势（75% 是否守住）+ 市场份额（80%+ 是否下滑）。这两个数字每个季度都要盯。*</blockquote>
-<hr class="doc-hr">
-<h3 class="doc-h2">三、财务健康吗？（核心问题 1：数据中心与增速）</h3>
-<h4 class="doc-h3">五年利润表趋势（Gangtise 数据，单位：亿美元）</h4>
-<div class="tbl-wrap"><table><thead><tr><th>财年（截至1月）</th><th>营收</th><th>YoY</th><th>毛利</th><th>毛利率</th><th>净利润</th><th>净利率</th></tr></thead><tbody><tr><td>FY2023</td><td>269.7</td><td>+0.2%</td><td>153.6</td><td>56.9%</td><td>43.7</td><td>16.2%</td></tr><tr><td>FY2024</td><td>609.2</td><td>+126%</td><td>443.0</td><td>72.7%</td><td>297.6</td><td>48.9%</td></tr><tr><td>FY2025</td><td>1,305.0</td><td>+114%</td><td>978.6</td><td>75.0%</td><td>728.8</td><td>55.8%</td></tr><tr><td>FY2026</td><td>2,159.4</td><td>+66%</td><td>—</td><td>—</td><td>1,200.7</td><td>55.6%</td></tr><tr><td><strong>FY27Q1</strong>(截至26年4月)</td><td>816.2</td><td><strong>+85%</strong></td><td>611.6</td><td>74.9%</td><td>583.2</td><td>71.5%*</td></tr></tbody></table></div>
-<p>*Q1 净利率含部分一次性/税项因素，持续口径看 55-60% 更稳妥。</p>
-<p><strong>读表要点</strong>：</p>
-<ul><li>FY2023 是上一轮游戏/矿卡周期底部——<strong>提醒：这家公司历史上是有周期性的</strong></li><li>三年营收 8 倍，且毛利率从 57% 抬到 75%——量价齐升 + 定价权，教科书级别的"戴维斯双击"基本面</li><li><strong>增速在放缓</strong>：+126% → +114% → +66% → Q1 +85%（反弹）。下一份财报（FY27Q2 指引 910 亿，+95%）是验证"再加速"的关键</li><li>FY2026 经营现金流 1,027 亿，现金流质量极高；且宣布 FY2027 起 &gt;50% FCF 返还股东（股息 0.01→0.25 美元/季 + 800 亿美元回购）——<strong>成长股向"成长+回报"转型，可能吸引价值型资金接盘</strong></li></ul>
-<p><strong>客户集中度（最大的财务软肋）</strong>：FY27Q1 前三大直接客户占营收 <strong>54%</strong>（21% / 17% / 16%）。</p>
-<blockquote class="doc-quote">📚 *方法点评：看财务先拉 5 年趋势，别只看单季。趋势回答三个问题：增长是真的吗（营收）？赚钱质量高吗（毛利率/现金流）？风险在哪（集中度）？*</blockquote>
-<hr class="doc-hr">
-<h3 class="doc-h2">四、管理层靠谱吗？</h3>
-<ul><li>黄仁勋创始人 CEO，任职 30+ 年，战略预判记录极强（2012 年押注 CUDA、2019 年收购 Mellanox 补网络短板——事后看都是神来之笔）</li><li>资本配置开始转向股东回报（分红+回购），说明管理层认为再投资边际回报已不足以吸纳全部现金流——<strong>这是个微妙信号：既是信心（现金太多），也可能暗示最疯狂的扩张期在见顶</strong></li><li>电话会风格：敢于给出超长期指引（"1 万亿美元订单管道"），需要持续验证兑现度</li></ul>
-<hr class="doc-hr">
-<h3 class="doc-h2">五、贵不贵？（估值与三情景）</h3>
-<h4 class="doc-h3">当前定价（2026-07-28 收盘）</h4>
-<ul><li>股价 $197.01，稀释股本约 244 亿股 → <strong>市值约 $4.7-4.8 万亿</strong></li><li>TTM 净利润约 $1,520 亿（FY26 全年 1,201 − FY26Q1 估算 + FY27Q1 583）→ <strong>静态 PE 约 31-32 倍</strong></li><li>若 FY2027 净利润达 $2,000 亿+（见中性情景）→ <strong>前瞻 PE 约 23-24 倍</strong></li></ul>
-<blockquote class="doc-quote"><span class="warn">⚠️</span> 注：以上股本/TTM 为我基于财报 EPS 反推的估算，精确值以 10-Q 为准。</blockquote>
-<h4 class="doc-h3">三情景假设（FY2027-FY2028 视角）</h4>
-<div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>FY27 净利润</th><th>合理 PE</th><th>隐含市值</th><th>vs 当前</th></tr></thead><tbody><tr><td>乐观（25%）</td><td>云厂商资本开支继续上调，Rubin 放量顺利，Vera CPU 拿下 $200 亿</td><td>~$2,400 亿</td><td>30x</td><td>$7.2 万亿</td><td>+50%</td></tr><tr><td>中性（50%）</td><td>资本开支高位放缓但仍增长，毛利率回落至 70-72%</td><td>~$2,000 亿</td><td>25x</td><td>$5.0 万亿</td><td>+5%</td></tr><tr><td>悲观（25%）</td><td>2027 年 AI 资本开支见顶回落，ASIC 分流加速，毛利率向 60% 回归</td><td>~$1,500 亿</td><td>20x</td><td>$3.0 万亿</td><td>-36%</td></tr></tbody></table></div>
-<p><strong>期望值约 $5.2 万亿，与当前市值基本相当</strong>——说明当前价格大致反映了"中性偏乐观"预期，<strong>赔率一般，胜负手在 FY27Q2 财报是否上修订单管道</strong>。</p>
-<blockquote class="doc-quote">📚 *方法点评：估值不是算出"正确答案"，而是把当前股价隐含的预期拆出来，问自己"我比市场更乐观还是更悲观？为什么？"*</blockquote>
-<hr class="doc-hr">
-<h3 class="doc-h2">六、这家公司会怎么死？（反证条件——事先写好）</h3>
-<p>出现以下信号 → 逻辑破坏，重新评估：</p>
-<ol><li><span class="warn">⚠️</span> <strong>连续两个季度数据中心收入环比下滑</strong></li><li><span class="warn">⚠️</span> <strong>前四大云厂商（微软/谷歌/亚马逊/Meta）集体下调资本开支指引</strong>——下游需求是先行指标</li><li><span class="warn">⚠️</span> <strong>毛利率跌破 68% 且管理层归因于"竞争定价"而非产品组合</strong></li><li><span class="warn">⚠️</span> <strong>某大客户自研 ASIC 在其内部负载占比公开超过 50%</strong>（关注谷歌 TPU 部署披露）</li><li><span class="warn">⚠️</span> <strong>Rubin 量产重大延期</strong>（已有 Kyber 机架延迟传闻，公司否认中）</li></ol>
-<hr class="doc-hr">
-<h3 class="doc-h2">七、跟踪计划</h3>
-<div class="tbl-wrap"><table><thead><tr><th>跟踪变量</th><th>频率</th><th>来源</th></tr></thead><tbody><tr><td>FY27Q2 财报（营收/毛利率/订单管道更新）</td><td><strong>2026-08 下旬</strong></td><td>财报 + 电话会</td></tr><tr><td>四大云厂商季度资本开支指引</td><td>每季度</td><td>各家财报</td></tr><tr><td>Rubin 平台出货进展</td><td>2026 H2</td><td>财报/新闻</td></tr><tr><td>Vera CPU 客户导入（OpenAI/Anthropic/Oracle）</td><td>持续</td><td>新闻/gangtise</td></tr><tr><td>出口管制政策变化</td><td>事件驱动</td><td>新闻</td></tr><tr><td>毛利率（75% 防线）</td><td>每季度</td><td>财报</td></tr></tbody></table></div>
-<hr class="doc-hr">
-<h3 class="doc-h2">附：本研究使用的工具与局限</h3>
-<ul><li><strong>Gangtise one-pager</strong>：公司概况、近期要闻、催化剂（见同目录《英伟达_一页通.md》）</li><li><strong>Gangtise financial</strong>：FY2023-FY27Q1 利润表、FY2026 现金流量表（正文数据均来自该实拉数据）</li><li><strong>局限</strong>：未读 10-K 原文（建议下一步补读 Business + Risk Factors 章节）；peer-comparison 接口对美股暂无数据；估值中的股本与 TTM 为估算值</li></ul>
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">AI 资本开支周期：数据中心高增长还能持续几年？</h2>
+        <span class="qa__impact-tag">→ FY27 净利 ±$450亿 · PE 20–30x</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>能见度至少维持到 FY27Q2（指引 +95% 高于共识），<em>但增速拐点何时出现是估值的第一变量——判定窗口在 2026-08 下旬财报。目前证据站多方。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>影响最大。</strong>营收增速直接决定 FY27 净利润落点：资本开支持续（中性）→ ~$2,000 亿；继续上调（乐观）→ ~$2,400 亿；2027 见顶回落（悲观）→ ~$1,500 亿。</p>
+            <p>同时决定市场愿给的倍数：高增长叙事在 → 25-30x；周期见顶叙事起 → 20x 以下。两者叠加，<strong>悲观情景市值 -36% vs 乐观 +50%</strong>——这个问题就是全部赔率所在。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>FY27Q2 指引 $910 亿（+95%）<strong>显著高于市场共识</strong>，且管理层反复强调订单可见性</li>
+              <li>「1 万亿美元订单管道」的超长期指引；四大云厂资本开支仍在扩张通道</li>
+              <li>智能体 AI / 物理 AI 的 Token 消耗是聊天机器人的数倍，<strong>长尾需求才刚开始</strong></li>
+              <li>供应链承诺 $1,190 亿锁定产能——不是自己盲目扩产，是客户先付了承诺</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>增速已放缓：+126% → +114% → +66%，<strong>资本开支天然是周期性的</strong>，2027 年可能见顶</li>
+              <li>前三大直接客户占营收 <strong>54%</strong>——云厂一旦集体转向，就是悬崖而非缓坡</li>
+              <li>FY2023 就是上一轮游戏/矿卡周期底部：<strong>这家公司历史上是有周期性的</strong></li>
+              <li>管理层开始大额分红回购，微妙信号：最疯狂的扩张期可能在见顶</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（五年财务趋势 · 订单与产能承诺）</summary>
+          <div class="evidence__body">
+            <h5>五年利润表趋势（单位：亿美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>财年（截至1月）</th><th>营收</th><th>YoY</th><th>毛利</th><th>毛利率</th><th>净利润</th><th>净利率</th></tr></thead><tbody><tr><td>FY2023</td><td>269.7</td><td>+0.2%</td><td>153.6</td><td>56.9%</td><td>43.7</td><td>16.2%</td></tr><tr><td>FY2024</td><td>609.2</td><td>+126%</td><td>443.0</td><td>72.7%</td><td>297.6</td><td>48.9%</td></tr><tr><td>FY2025</td><td>1,305.0</td><td>+114%</td><td>978.6</td><td>75.0%</td><td>728.8</td><td>55.8%</td></tr><tr><td>FY2026</td><td>2,159.4</td><td>+66%</td><td>—</td><td>—</td><td>1,200.7</td><td>55.6%</td></tr><tr><td><strong>FY27Q1</strong>(截至26年4月)</td><td>816.2</td><td><strong>+85%</strong></td><td>611.6</td><td>74.9%</td><td>583.2</td><td>71.5%*</td></tr></tbody></table></div>
+            <p>*Q1 净利率含部分一次性/税项因素，持续口径看 55-60% 更稳妥。</p>
+            <h5>订单与产能承诺</h5>
+            <ul>
+              <li>FY27Q1 末制造/供应/产能承诺总额 <strong>$1,190 亿</strong>，其中 $950 亿将在 FY2027 内支付</li>
+              <li>FY2026 经营现金流 <strong>$1,027 亿</strong>，现金流质量极高</li>
+              <li>FY2027 起承诺 &gt;50% FCF 返还股东（股息 0.01→0.25 美元/季 + $800 亿回购）——既是信心（现金太多），也可能暗示扩张期见顶</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">毛利率 75% 守得住吗？</h2>
+        <span class="qa__impact-tag">→ 每 1pct ≈ $27亿利润 · 失守则 EPS×PE 双杀</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>目前守住了（74.9%），<em>但方向是回落——中性预期 70-72%，这已计入估值；真正的危险线是 68%：跌破且归因「竞争定价」= 定价权叙事破坏。目前证据站多方，裂缝诚实记录。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>毛利率每变动 1pct，在 ~$2,700 亿年化营收基数上 ≈ $27 亿利润</strong>，对 FY27 净利润（中性 $2,000 亿）影响约 ±1.3pct——单看温和。</p>
+            <p>但它是情景分水岭：回落至 70-72% 属中性（已定价）；若竞争把毛利率压向 60%（悲观假设），净利 $1,500 亿之外，「定价权」叙事同时破灭，<strong>倍数从 25x 压向 20x——EPS 与 PE 双杀</strong>，这就是悲观情景 -36% 的全部来源。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>CUDA 生态：750 万+ 开发者，客户的代码库、工程师团队、调优经验全长在上面，<strong>迁移成本极高</strong></li>
+              <li>系统级协同（NVLink / Spectrum-X / 机架级整体方案）：对手单点芯片追平，系统层面仍落后</li>
+              <li>一年一代迭代节奏（Blackwell → Rubin），<strong>逼着追赶者永远差一代</strong></li>
+              <li>客户为「最低单位 Token 成本 + 最高单位功耗性能」付溢价——只要性价比领先，溢价就在</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>谷歌 TPU、亚马逊 Trainium 在<strong>特定推理负载</strong>上性价比已经成立，博通是最大受益者</li>
+              <li>HBM4/4e 等高价组件价值量占比提升 + 集成更多低利润率组件，<strong>毛利率存在向 60% 历史均值回归的风险</strong></li>
+              <li>中国市场因出口管制实质性丢失，间接养大了华为等对手</li>
+              <li>大客户贡献 54% 营收，<strong>恰恰是这 54% 最有能力自研</strong>——客户越强，护城河越被从内部侵蚀</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（四层护城河 · 毛利率轨迹 · 裂缝清单）</summary>
+          <div class="evidence__body">
+            <h5>四层护城河（从硬到软）</h5>
+            <ol>
+              <li><strong>CUDA 软件生态（最深）</strong>：十余年积累、750 万+ 开发者、海量优化库</li>
+              <li><strong>系统级协同设计</strong>：NVLink 互联、Spectrum-X 网络、机架级整体方案</li>
+              <li><strong>供应链锁定</strong>：$1,190 亿产能承诺锁定 CoWoS 封装和 HBM 产能——后来者连产能都抢不到</li>
+              <li><strong>迭代速度</strong>：一年一代</li>
+            </ol>
+            <h5>毛利率轨迹</h5>
+            <p>56.9%（FY2023）→ 72.7%（FY2024）→ 75.0%（FY2025）→ 74.9%（FY27Q1）。三年营收 8 倍且毛利率抬升 18pct——量价齐升 + 定价权，教科书级别。但<strong>越在高位，均值回归的引力越大</strong>。</p>
+            <h5>护城河的裂缝（诚实面对）</h5>
+            <ul>
+              <li>大客户自研 ASIC 在特定推理负载性价比已成立</li>
+              <li>出口管制：中国数据中心计算市场实质性丢失</li>
+              <li>市场有 Rubin Ultra 机架（Kyber）延迟至 2028 的传闻，公司否认中</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">估值：$4.7 万亿市值隐含了什么预期？赔率如何？</h2>
+        <span class="qa__impact-tag">→ 期望值 ≈ 现价 · 中性一年 +5%</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>现价 ≈ 三情景期望值（$4.7 万亿 vs $5.2 万亿），<em>没有安全边际，对应「持有」。上调为「买入」的两个触发条件：FY27Q2 上修订单管道（净利预期移向 $2,200-2,400 亿），或市值回落至 $4 万亿以下（前瞻 ~20x）。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这个问题本身就是估值问题。</strong>合理 PE 区间 20-30x：当前 31x 静态位于上沿、23-24x 前瞻位于中枢——<strong>倍数没有扩张空间，收益只能靠 EPS 兑现</strong>。</p>
+            <p>中性情景一年期回报约 <strong>+5%</strong>；赔率 ≈ 1.4:1（+50% / -36%，各 25% 概率）。不算诱人，所以持有而非买入。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>前瞻 PE 仅 <strong>23-24x</strong>（FY27 中性净利 $2,000 亿），对 85% 增速的公司不算贵</li>
+              <li>大规模分红回购 = 「成长 + 回报」转型，可能吸引价值型资金接盘，<strong>类比苹果启动资本回报后的估值扩张</strong></li>
+              <li>Vera CPU 打开 $2,000 亿服务器 CPU TAM，CY2026 独立 Vera 收入指引 $200 亿——<strong>第二增长曲线未在现价定价</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>三情景期望值约 <strong>$5.2 万亿 ≈ 当前市值</strong>——现价已反映中性偏乐观预期，<strong>没有安全边际</strong></li>
+              <li>悲观情景（概率 25%）下行 -36%，乐观情景（概率 25%）上行 +50%，<strong>赔率 ≈ 1.4:1，不算诱人</strong></li>
+              <li>$4.7 万亿市值本身就意味着：任何低于「极好」的兑现都是利空</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（当前定价测算 · 三情景表）</summary>
+          <div class="evidence__body">
+            <h5>当前定价（2026-07-28 收盘）</h5>
+            <ul>
+              <li>股价 $197.01，稀释股本约 244 亿股 → 市值约 <strong>$4.7-4.8 万亿</strong></li>
+              <li>TTM 净利润约 $1,520 亿 → 静态 PE 约 <strong>31-32x</strong></li>
+              <li>FY2027 净利若达 $2,000 亿+ → 前瞻 PE 约 <strong>23-24x</strong></li>
+            </ul>
+            <p>注：股本/TTM 为基于财报 EPS 反推的估算，精确值以 10-Q 为准。</p>
+            <h5>三情景假设（FY2027-FY2028 视角）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>FY27 净利润</th><th>合理 PE</th><th>隐含市值</th><th>vs 当前</th></tr></thead><tbody><tr><td>乐观（25%）</td><td>云厂商资本开支继续上调，Rubin 放量顺利，Vera CPU 拿下 $200 亿</td><td>~$2,400 亿</td><td>30x</td><td>$7.2 万亿</td><td>+50%</td></tr><tr><td>中性（50%）</td><td>资本开支高位放缓但仍增长，毛利率回落至 70-72%</td><td>~$2,000 亿</td><td>25x</td><td>$5.0 万亿</td><td>+5%</td></tr><tr><td>悲观（25%）</td><td>2027 年 AI 资本开支见顶回落，ASIC 分流加速，毛利率向 60% 回归</td><td>~$1,500 亿</td><td>20x</td><td>$3.0 万亿</td><td>-36%</td></tr></tbody></table></div>
+            <p><strong>期望值约 $5.2 万亿，与当前市值基本相当</strong>。估值不是算出「正确答案」，而是把当前股价隐含的预期拆出来，问自己「我比市场更乐观还是更悲观？为什么？」</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>：公司概况、近期要闻、催化剂（见同目录《英伟达_一页通.md》，亦见本站「一页通」标签页）</li>
+        <li><strong>财务数据</strong>：FY2023-FY27Q1 利润表、FY2026 现金流量表（正文数据均来自公开财报整理）</li>
+        <li><strong>局限</strong>：未读 10-K 原文（建议下一步补读 Business + Risk Factors 章节）；同业对比数据暂缺；估值中的股本与 TTM 为估算值</li>
+        <li><strong>管理层评估（一句话版）</strong>：黄仁勋任职 30+ 年，战略预判记录极强（2012 押注 CUDA、2019 收购 Mellanox）；电话会敢于给超长期指引，需持续验证兑现度</li>
+      </ul>
+    </div>
+
   </article>
+
   <article class="doc" id="tab-onepager" hidden>
 <h3 class="doc-h2">公司概况</h3>
 <p>英伟达（NVIDIA）是全球人工智能（AI）计算领域的绝对领导者，已从图形处理器（GPU）供应商转型为<strong>数据中心级全栈AI基础设施公司</strong>。通过将硬件、系统、网络、软件和算法进行"极端协同设计"，构建了覆盖从芯片到AI工厂的完整解决方案。核心市场地位：<strong>GPU 在 AI 训练和推理市场占据约 80% 以上份额</strong>，并正通过 CPU、DPU 和网络产品大幅扩张 TAM。公司当前处于业绩高速兑现期，FY2026（截至2026年1月）营收达 2159.38 亿美元，最新一季度（FY27Q1）营收同比增长 85% 至 816.15 亿美元。</p>
@@ -205,12 +465,50 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 <section class="sources">
   <div class="shell">
     <h2>数据来源</h2>
-    <p>Gangtise Open API（公司一页通 · stock-one-pager）· 公司财报及公开披露 · 仅作研究学习用途，不构成投资建议。</p>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
   </div>
 </section>
-<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/NVDA · 生成于 2026-07-30</div></footer>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/NVDA · 生成于 2026-08-06</div></footer>
 
 <script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-05';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'pending', text: '<strong>FY27Q2 财报</strong>（2026-08 下旬）：营收/毛利率是否再超指引，「1 万亿美元订单管道」是否上修——当前价位的胜负手', note: '' },
+  { kind: 'cat', status: 'active',  text: '<strong>Rubin 平台出货</strong>（2026 H2）：Vera Rubin NVL144 开始交付', note: '2026-06 Computex 宣布全面量产' },
+  { kind: 'cat', status: 'active',  text: '<strong>Vera CPU 客户导入</strong>：OpenAI / Anthropic / Oracle 订单落地，CY2026 指引 $200 亿', note: '2026-06 已开始出货' },
+  { kind: 'cat', status: 'active',  text: '<strong>CPO 共封装光学</strong>：Spectrum-X 交换机客户采用详情（2026 H2）', note: '' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '连续两个季度<strong>数据中心收入环比下滑</strong>', note: '最新 FY27Q1：环比 +20%，未触发' },
+  { kind: 'risk', status: 'clear', text: '四大云厂（微软/谷歌/亚马逊/Meta）<strong>集体下调资本开支指引</strong>', note: '每季度财报季核对' },
+  { kind: 'risk', status: 'clear', text: '<strong>毛利率跌破 68%</strong> 且管理层归因「竞争定价」而非产品组合', note: '最新 74.9%，距离危险线 ~7pct' },
+  { kind: 'risk', status: 'clear', text: '某大客户自研 ASIC 内部负载占比<strong>公开超过 50%</strong>', note: '关注谷歌 TPU 部署披露' },
+  { kind: 'risk', status: 'clear', text: '<strong>Rubin 量产重大延期被证实</strong>', note: 'Kyber 机架延迟传闻（2026-07），公司否认中' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
 document.querySelectorAll('.site-nav button').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));

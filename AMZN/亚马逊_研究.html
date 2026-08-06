@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>亚马逊（AMZN.O）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <style>
 :root {
   --paper: #ffffff; --paper-cool: #f3f6f8;
@@ -18,7 +19,7 @@
 html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
 body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
 
-/* ===== 顶栏（美联储风格） ===== */
+/* ===== 顶栏 ===== */
 .site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
 .site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
 .site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
@@ -32,16 +33,20 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 
 .shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
 
-/* ===== 抬头 ===== */
+/* ===== 抬头：公司名称 + 观点 ===== */
 .overview { padding: 34px 0 0; }
-.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 170px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
 .overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
 .overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
 .overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
-.overview__date { padding: 16px 0 4px; border-top: 2px solid var(--policy-red); text-align: right; }
-.overview__date span, .overview__date strong { display: block; }
-.overview__date span { margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
-.overview__date strong { font-size: 15px; font-variant-numeric: tabular-nums; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--policy-red); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
 
 /* ===== 关键指标栏 ===== */
 .summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
@@ -49,32 +54,109 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 .summary-rail__item:last-child { border-right: 0; }
 .summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
 .summary-rail__item strong.up { color: var(--policy-red); }
-.summary-rail__item strong.down { color: var(--teal); }
 .summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
 
-/* ===== 正文文档 ===== */
+/* ===== 跟踪面板（置顶） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
 .doc { padding: 40px 0 80px; }
 .doc[hidden] { display: none; }
-.doc-h1 { margin: 34px 0 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line-strong); font-family: var(--font-display); font-size: 30px; font-weight: 650; }
-.doc-h1:first-child { margin-top: 0; }
-.doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
-.doc-h3 { margin: 22px 0 10px; color: var(--federal-blue); font-size: 15px; font-weight: 750; }
-.doc p, .doc li { color: var(--ink-soft); font-size: 15px; }
-.doc p { margin: 0 0 14px; }
-.doc ul, .doc ol { margin: 0 0 16px; padding-left: 24px; }
-.doc li { margin-bottom: 6px; }
-.doc strong { color: var(--ink); }
-.doc code { padding: 1px 6px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper-cool); font-size: 13px; }
-.doc-hr { margin: 30px 0; border: 0; border-top: 1px solid var(--line); }
-.doc-quote { margin: 18px 0; padding: 16px 20px; border-left: 3px solid var(--amber); background: #faf6ec; color: var(--ink-soft); font-size: 14px; }
-.tbl-wrap { margin: 16px 0 24px; overflow-x: auto; }
-.doc table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
-.doc th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
-.doc td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
-.doc tr:hover td { background: #f8fafc; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
 .warn { color: var(--policy-red); }
-.star { color: var(--amber); }
-.xref { color: var(--federal-blue); font-weight: 600; }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager .doc-h3 { margin: 22px 0 10px; color: var(--federal-blue); font-size: 15px; font-weight: 750; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
 
 /* ===== 页脚 ===== */
 .sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
@@ -86,8 +168,14 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   .shell { width: min(calc(100% - 32px), var(--shell)); }
   .overview__heading { grid-template-columns: 1fr; gap: 18px; }
   .overview__copy h1 { font-size: 32px; }
-  .overview__date { text-align: left; }
   .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
   .site-nav button { min-width: 78px; padding: 0 8px; }
   .site-mark__text span { display: none; }
 }
@@ -101,9 +189,8 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
     <span class="site-mark__text">亚马逊 公司研究<span>Amazon · AMZN.O</span></span>
   </a>
   <nav class="site-nav">
-    <button class="is-active" data-tab="report">研究报告</button>
-    <button data-tab="broker">券商研报</button>
-    <button data-tab="onepager">一页通（Gangtise）</button>
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
   </nav>
 </header>
 
@@ -112,87 +199,259 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
     <div class="overview__heading">
       <div class="overview__copy">
         <h1>亚马逊<span class="en">Amazon · AMZN.O · 美股研究</span></h1>
-        <p class="sub">"AI 烧钱"叙事翻转成"AI 兑现"：AWS +37% 五连加速、4,960 亿订单在手——2,200 亿资本开支市场照单全收，因为这是拿着订单建产能，不是赌需求。</p>
+        <p class="sub">"AI 烧钱"叙事翻转成"AI 兑现"：AWS +37% 五连加速、4,960 亿订单在手——2,200 亿资本开支市场照单全收，因为这是拿着订单建产能，不是赌需求。核心问题只剩两个：产能爬坡的速度，和自由现金流为负的窗口还要多久。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-07-31</span>
+          <span>下次更新：3Q26 财报后（2026-10 下旬）</span>
+        </div>
       </div>
-      <div class="overview__date">
-        <span>研究日期</span>
-        <strong>2026-07-31</strong>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="buy">买入</strong>
+        <em>订单能见度支撑投入逻辑；胜负手在 2027 年 capex 深度与 FCF 回正时点。</em>
       </div>
     </div>
     <div class="summary-rail">
       <div class="summary-rail__item"><strong class="up">+37%</strong><span>AWS 增速 · 18 个季度最快</span></div>
-<div class="summary-rail__item"><strong class="up">$4,960亿</strong><span>积压订单 · 同比 +154%</span></div>
-<div class="summary-rail__item"><strong class="up">39.4%</strong><span>AWS 营业利润率 · +650bp</span></div>
-<div class="summary-rail__item"><strong class="down">-$76亿</strong><span>TTM 自由现金流 · 去年同期 +182 亿</span></div>
-
+      <div class="summary-rail__item"><strong class="up">$4,960亿</strong><span>积压订单 · 同比 +154%</span></div>
+      <div class="summary-rail__item"><strong class="up">39.4%</strong><span>AWS 营业利润率 · +650bp</span></div>
+      <div class="summary-rail__item"><strong>-$76亿</strong><span>TTM 自由现金流 · 去年同期 +182 亿</span></div>
     </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
   </div>
 </section>
 
 <main class="shell">
   <article class="doc" id="tab-report">
-<blockquote class="doc-quote"><strong>研究日期</strong>：2026-07-31 ｜ <strong>数据来源</strong>：Gangtise 一页通（2026-07-30）+ 2Q26 财报及券商点评（中信/天风/招商/国金/国信/浙商等） <strong>状态</strong>：初稿 v1 ｜ <strong>下次更新</strong>：3Q26 财报（2026 年 10 月下旬） <strong>关联研究</strong>：<span class="xref">微软研究报告</span>、<span class="xref">谷歌研究报告</span>（云厂商 AI 资本开支三国杀）、<span class="xref">沃尔玛研究报告</span>（零售基本盘对照）</blockquote>
-<hr class="doc-hr">
-<h3 class="doc-h2">〇、一句话结论</h3>
-<p><strong>这份财报把"AI 烧钱"的叙事翻转成了"AI 兑现"：AWS +37% 连续五季加速、积压订单 4,960 亿美元（yoy +154%）、营业利润率逆势扩到 39.4%——资本开支上调到 2,200 亿市场照单全收，因为这是"拿着订单建产能"，不是"赌需求"。核心问题从"敢不敢投"变成两个：产能爬坡的速度，和自由现金流为负的窗口还要多久。</strong></p>
-<hr class="doc-hr">
-<h3 class="doc-h2">一、靠什么赚钱？</h3>
-<p><strong>一句话：零售是流量和规模的基本盘，利润靠三根高毛利支柱——AWS（Q2 营业利润 166 亿，OPM 39.4%）、广告（Q2 收入 198 亿，+26%）、3P 卖家服务。2025 年 AWS 以 18% 的收入贡献了 57% 的营业利润。</strong></p>
-<p>新飞轮（本季开始闭环）：</p>
-<ul><li><strong>AWS</strong>：Q2 收入 422 亿（+37%），年化 1,690 亿；AI 业务和自研芯片（Trainium）年化收入<strong>各超 250 亿美元</strong>，均三位数增长</li><li><strong>零售</strong>：北美 1,162 亿（+16%）+ 国际 422 亿（+15%），付费商品销量 +17%，Prime 会员两位数增长</li><li><strong>广告</strong>：198 亿（+26%），连续多个季度 20%+，利润率最高的业务之一</li></ul>
-<hr class="doc-hr">
-<h3 class="doc-h2">二、2Q26 财报：为什么 2,200 亿 capex 市场照单全收？</h3>
-<p>同样是"上调 capex + FCF 转负"，谷歌财报后被砸，亚马逊被追捧。区别在于管理层这次给出了三个"第一次"：</p>
-<ol><li><strong>第一次系统讲清回报模型</strong>：AI 服务器不到 3 年回本，使用寿命 5-6 年；AI 合约多为 5 年期以上——"不是无订单赌需求"，FCF 为负是收入确认与资本开支的<strong>时间错配</strong>。</li><li><strong>第一次给出订单能见度</strong>：backlog 4,960 亿（qoq +36%），2027 年新增产能<strong>大部分已被预订</strong>，2028 年在手需求管理层原话"很震撼"；约半数 backlog 将在 24 个月内确认为收入。</li><li><strong>第一次给出远期愿景</strong>：AWS 长期"很可能"成为年收入<strong>1 万亿美元</strong>的业务（当前年化 1,690 亿，近 10 倍空间）。</li></ol>
-<p><strong>关键细节</strong>：capex 上调 200 亿的原因是<strong>内存/存储涨价</strong>（成本问题），不是需求下修；且长期合约的定价机制可以传导成本。Q3 收入指引表面平淡（+9~12%），但 Prime Day 从 Q3 前移到 Q2 拖了约 400bp、汇率拖 80bp，<strong>剔除后实际增速 +13~17%</strong>；营业利润指引中值 245 亿，同比 +40%。</p>
-<blockquote class="doc-quote">📚 *方法点评：研究 AI 资本开支周期，"capex 绝对值"是噪音，<strong>"订单能见度 vs 产能"才是信号</strong>。判断烧钱还是筑墙，看三个数：backlog 增速（+154%）、合约期限结构（5 年+）、单位经济（&lt;3 年回本）。亚马逊这次三题全对，所以 2,200 亿也能被当成利好。*</blockquote>
-<hr class="doc-hr">
-<h3 class="doc-h2">三、AWS 的三重护城河在加宽</h3>
-<div class="tbl-wrap"><table><thead><tr><th>护城河</th><th>证据</th><th>为什么难复制</th></tr></thead><tbody><tr><td>自研芯片 Trainium</td><td>性价比优于同类 GPU 30-40%；年化收入 250 亿+；OpenAI/Anthropic 长协采购；开始探索<strong>外售</strong></td><td>芯片-云一体，竞争对手买 GPU 它造芯片，成本结构代差</td></tr><tr><td>Bedrock 平台中性</td><td>Q2 token 消耗超历史全部季度总和；管理层预判未来 6+ 个顶级模型并存、全部接入 Bedrock（一个是自研）</td><td>模型越商品化，"卖算力+卖平台"的中立层越值钱——不押单一模型赢家</td></tr><tr><td>电力与产能</td><td>2027 年底电力容量较 2025 年<strong>翻倍</strong>；数据中心资产可复用 5-6 代服务器</td><td>AI 云的瓶颈是供给（电力/机房/芯片），先圈电圈地者锁定供给</td></tr></tbody></table></div>
-<p>对照微软（Azure 全年破千亿、+43%，RPO 6,780 亿）和谷歌云（+82%）：三家 Q2 全部超预期——<strong>AI 云需求是真的，且都在受供给约束</strong>，行业beta 极强；亚马逊的 alpha 在自研芯片带来的利润率逆势扩张（OPM 39.4%，+650bp，同期对手受 GPU 折旧压制）。</p>
-<hr class="doc-hr">
-<h3 class="doc-h2">四、零售基本盘：被云光芒掩盖的稳健</h3>
-<ul><li>北美 +16%（预期 14%）、国际 +15%，在线商店 +15%、3P +16%——全面超预期</li><li><strong>K 型消费下的份额逻辑</strong>：必需品占单位销量从 33% 升至 40%，Prime Day 客单价 -11%——消费降级环境里亚马逊吃份额（2025 年已超沃尔玛成全美销售额第一）</li><li>生鲜与即时零售是新引擎：Amazon Now、药房当日达高速增长</li><li>Rufus（AI 购物助手）转化率和客单价开始正向变化；Alexa+ 拓地区</li></ul>
-<hr class="doc-hr">
-<h3 class="doc-h2">五、核心分歧</h3>
-<div class="tbl-wrap"><table><thead><tr><th></th><th>乐观方</th><th>谨慎方</th></tr></thead><tbody><tr><td>FCF</td><td>时间错配：服务器回本后 2-3 年 FCF 集中释放；微软已承诺 FY27 FCF 转正，亚马逊路径相同</td><td>TTM FCF -76 亿（去年同期 +182 亿）；若 2027 年 capex 再上调，"错配"变"常态"，发债 920 亿+的融资成本上升</td></tr><tr><td>AWS 利润率</td><td>自研芯片对冲折旧，OPM 39.4% 逆势扩张，AI 业务利润率轨迹优于核心云同期</td><td>2,200 亿 capex 的折旧才刚开始进表；存储涨价说明供应链通胀会吃掉一部分</td></tr><tr><td>估值</td><td>瑞银：2027 年营业利润预期比市场共识高 49%，AWS 万亿美元愿景有订单支撑</td><td>净利润 +245% 里 534 亿是 Anthropic 投资账面收益（一次性）；瑞银同时把目标价从 333 下调至 305（OpenAI 用 Trainium 推迟至 27 年初，30 亿收入后移）</td></tr><tr><td>Q3 指引</td><td>剔除 Prime Day 错期实际 +13~17%，营业利润中值 +40%</td><td>表面增速 9-12% 低于一致预期，可能被短期资金误读</td></tr></tbody></table></div>
-<hr class="doc-hr">
-<h3 class="doc-h2">六、反证条件</h3>
-<ol><li><span class="warn">⚠️</span> AWS 增速跌破 30%（五连加速的叙事终结）</li><li><span class="warn">⚠️</span> backlog 环比增速掉到 +15% 以下（订单能见度恶化）</li><li><span class="warn">⚠️</span> AWS 营业利润率跌破 35%（折旧+存储涨价压顶，芯片对冲失效）</li><li><span class="warn">⚠️</span> 2027 年 capex 再度大幅上调而 backlog 没有同步增长（投入产出脱钩）</li><li><span class="warn">⚠️</span> 零售增速跌破高个位数，或广告增速跌破 15%（基本盘松动）</li></ol>
-<hr class="doc-hr">
-<h3 class="doc-h2">七、跟踪计划</h3>
-<div class="tbl-wrap"><table><thead><tr><th>跟踪变量</th><th>时间</th><th>说明</th></tr></thead><tbody><tr><td>3Q26 财报</td><td>2026-10 下旬</td><td>AWS 能否守住 35%+；收入指引 1,970-2,020 亿（剔除错期 +13~17%）；营业利润指引 225-265 亿</td></tr><tr><td>re:Invent 大会</td><td>2026 Q4</td><td>FMR 新一代前沿模型亮相；Trainium 外售进展</td></tr><tr><td>电力容量爬坡</td><td>每季度</td><td>2027 年底较 2025 翻倍的目标进度——产能=收入</td></tr><tr><td>Anthropic/OpenAI 协议</td><td>持续</td><td>超 1,380 亿多年期协议的收入确认节奏（瑞银提示 OpenAI 部分推迟至 27 年初）</td></tr><tr><td>内存/存储价格</td><td>持续</td><td>capex 上调的成本变量，关注能否向合约价格传导</td></tr><tr><td>Amazon Leo 卫星</td><td>2026 Q3</td><td>商业化运营启动，成本资本化对报表利润的影响</td></tr></tbody></table></div>
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">2,200 亿资本开支：是烧钱还是筑墙？</h2>
+        <span class="qa__impact-tag">→ backlog +154% · 约半数 24 个月内转收入</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>筑墙。管理层本季给出三个「第一次」——回报模型（服务器 &lt;3 年回本、寿命 5-6 年）、订单能见度（backlog 4,960 亿、2027 年新增产能大部分已被预订）、远期愿景（AWS 长期年收入 1 万亿美元）——市场因此照单全收。<em>但叙事成立的前提是订单能见度持续：capex 绝对值是噪音，「订单能见度 vs 产能」才是信号。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>影响最大。</strong>「拿着订单建产能」叙事在 → 市场容忍 FCF 为负、给成长倍数（卖方 79 买 0 卖，目标价隐含 +32%~+55%）；叙事一旦破坏（capex 上调而 backlog 不同步）→ 谷歌式的「上调 capex 被砸」就是现成参照系。</p>
+            <p>盈利端：约半数 backlog 将在 24 个月内确认为收入，直接决定 2027-2028 收入斜率；瑞银 2027 年营业利润预期已比市场共识高 <strong>49%</strong>。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>backlog <strong>4,960 亿（同比 +154%、环比 +36%）</strong>，2027 年新增产能大部分已被预订，2028 年在手需求管理层原话「很震撼」</li>
+              <li>AI 合约多为 <strong>5 年期以上</strong>，约半数 backlog 在 24 个月内确认为收入——FCF 为负是收入确认与资本开支的时间错配</li>
+              <li>服务器不到 3 年回本、使用寿命 5-6 年，回本后 2-3 年 FCF 集中释放</li>
+              <li>三大云厂 Q2 全部超预期且都受供给约束——<strong>AI 云需求是真的，行业 beta 极强</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>TTM 自由现金流 <strong>-$76 亿</strong>（去年同期 +182 亿）；年内发债 920 亿+，融资成本上升</li>
+              <li>若 2027 年 capex 再度大幅上调，「错配」变「常态」——摩通已预测 FCFF 负值贯穿 2028（2027 年 -$1,211 亿）</li>
+              <li>净利润 +245% 里 <strong>534 亿是 Anthropic 投资账面收益</strong>（一次性），核心利润成色要拆开看</li>
+              <li>「超预期」门槛在抬高：本季 AWS +37% 已 beat 买方 35-36% 预期，下季预期自动上移——beat 会越来越变成「理所当然」</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（三个「第一次」· 判断框架 · 关键细节）</summary>
+          <div class="evidence__body">
+            <h5>为什么 2,200 亿 capex 市场照单全收：三个「第一次」</h5>
+            <ol>
+              <li><strong>第一次系统讲清回报模型</strong>：AI 服务器不到 3 年回本，使用寿命 5-6 年；AI 合约多为 5 年期以上——「不是无订单赌需求」。</li>
+              <li><strong>第一次给出订单能见度</strong>：backlog 4,960 亿（环比 +36%），2027 年新增产能大部分已被预订；约半数 backlog 将在 24 个月内确认为收入。</li>
+              <li><strong>第一次给出远期愿景</strong>：AWS 长期「很可能」成为年收入 1 万亿美元的业务（当前年化 1,690 亿，近 10 倍空间）。</li>
+            </ol>
+            <h5>判断烧钱还是筑墙的三个数（本季全对）</h5>
+            <ul>
+              <li>backlog 增速：<strong>+154%</strong></li>
+              <li>合约期限结构：<strong>5 年+</strong></li>
+              <li>单位经济：<strong>&lt;3 年回本</strong>（vs 5-6 年寿命）</li>
+            </ul>
+            <h5>关键细节</h5>
+            <ul>
+              <li>capex 上调 200 亿的原因是<strong>内存/存储涨价</strong>（成本问题），不是需求下修；长期合约的定价机制可以传导成本</li>
+              <li>Q3 收入指引表面平淡（+9~12%），但 Prime Day 从 Q3 前移到 Q2 拖约 400bp、汇率拖 80bp，<strong>剔除后实际增速 +13~17%</strong>；营业利润指引中值 245 亿，同比 +40%</li>
+              <li>backlog 4,960 亿（环比 +36%）主要由 Anthropic 驱动；Graviton 收入承诺环比增约 3 倍——自研芯片在被外部客户验证</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">AWS 营业利润率 39.4% 守得住吗？</h2>
+        <span class="qa__impact-tag">→ OPM 每 1pct ≈ $17亿营业利润 · 危险线 35%</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>目前守住了且逆势扩张（+650bp），自研芯片对冲折旧是核心机制。<em>但 39.4% 含 6 亿美元能源合约一次性收益，校准基线应按 37.9% 看；且 2,200 亿 capex 的折旧才刚开始进表，方向性压力真实存在。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p>AWS 年化收入约 1,690 亿，<strong>OPM 每变动 1pct ≈ 17 亿美元营业利润</strong>。2025 年 AWS 以 18% 的收入贡献了 57% 的营业利润——这条线的斜率就是全公司利润的斜率。</p>
+            <p>跌破 <strong>35%</strong> 是反证条件：意味着「折旧 + 存储涨价压顶、芯片对冲失效」，自研芯片的 alpha 叙事被破坏，需重检观点。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>自研芯片 Trainium 性价比优于同类 GPU <strong>30-40%</strong>，年化收入 250 亿+、三位数增长——芯片-云一体，成本结构代差</li>
+              <li>管理层口径：AI 投资的回报与利润率轨迹<strong>好于核心 AWS 发展同期</strong></li>
+              <li>长期合约定价机制可向客户传导内存/存储涨价（capex 上调 200 亿是成本问题，不是需求问题）</li>
+              <li>同期对手受 GPU 折旧压制，亚马逊 OPM 逆势 +650bp——<strong>alpha 已在兑现</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>2,200 亿 capex 的<strong>折旧才刚开始进表</strong>，利润率的方向性压力在后面几个季度</li>
+              <li>39.4% 里有 6 亿能源合约公允价值一次性收益，<strong>剔除后 37.9%</strong>；北美零售 OPM 7.9% 里也有 6 亿关税退款（剔除后 7.3%）</li>
+              <li>存储涨价说明供应链通胀会吃掉一部分利润率</li>
+              <li>瑞银把目标价从 333 下调至 305：OpenAI 用 Trainium 推迟至 2027 年初，约 30 亿收入后移</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（三重护城河 · 利润率成色校准 · 云厂商对照）</summary>
+          <div class="evidence__body">
+            <h5>AWS 的三重护城河在加宽</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>护城河</th><th>证据</th><th>为什么难复制</th></tr></thead><tbody><tr><td>自研芯片 Trainium</td><td>性价比优于同类 GPU 30-40%；年化收入 250 亿+；OpenAI/Anthropic 长协采购；开始探索<strong>外售</strong></td><td>芯片-云一体，竞争对手买 GPU 它造芯片，成本结构代差</td></tr><tr><td>Bedrock 平台中性</td><td>Q2 token 消耗超历史全部季度总和；管理层预判未来 6+ 个顶级模型并存、全部接入 Bedrock（一个是自研）</td><td>模型越商品化，「卖算力+卖平台」的中立层越值钱——不押单一模型赢家</td></tr><tr><td>电力与产能</td><td>2027 年底电力容量较 2025 年<strong>翻倍</strong>；数据中心资产可复用 5-6 代服务器</td><td>AI 云的瓶颈是供给（电力/机房/芯片），先圈电圈地者锁定供给</td></tr></tbody></table></div>
+            <h5>利润率成色校准（诚实面对）</h5>
+            <ul>
+              <li>AWS OPM 39.4% 含 <strong>$6 亿</strong>能源合约公允价值一次性收益 → 剔除后 <strong>37.9%</strong>，反证条件的基线应按此校准</li>
+              <li>北美零售 OPM 7.9% 含 <strong>$6 亿</strong>关税退款 → 剔除后 7.3%，仅符合预期</li>
+            </ul>
+            <h5>云厂商对照（2026 Q2）</h5>
+            <ul>
+              <li>微软 Azure：全年破千亿、<strong>+43%</strong>，RPO 6,780 亿</li>
+              <li>谷歌云：<strong>+82%</strong>（但 capex 上调 + FCF 转负，财报后被砸——亚马逊的现成参照系）</li>
+              <li>三家全部超预期且都在受供给约束：行业 beta 极强；亚马逊的 alpha 在自研芯片带来的利润率逆势扩张</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">自由现金流为负的窗口还有多久？赔率如何？</h2>
+        <span class="qa__impact-tag">→ 摩通锚 2027 capex $3,650亿 · 卖方目标价 $310–365</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>卖方口径已无异议（79 买 4 持 0 卖，目标价 $310-365 隐含 +32%~+55%），瑞银 2027 年营业利润预期比共识高 49%。<em>但注意：负 FCF 在卖方层面没有对手盘——没有空头可杀意味着利空出现时里面全是多头，这不改变公司质地，但会放大波动。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>真正的分歧不在「买不买」，而在 2027 年资本开支有多深</strong>——这决定 FCF 负值窗口的长度，是这只股票接下来唯一的胜负手。</p>
+            <p>买方用法：把摩通的 <strong>$3,650 亿（+65%）</strong>当作市场对 2027 capex 预期的「最激进锚」。公司给 2027 指引时，低于此 = FCF 叙事利好；达到或超出 = 考验市场容忍度的极限。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>时间错配论：服务器回本后 2-3 年 FCF 集中释放；微软已承诺 FY27 FCF 转正，亚马逊路径相同</li>
+              <li>瑞银：2027 年营业利润预期比市场共识高 <strong>49%</strong>，AWS 万亿美元愿景有订单支撑</li>
+              <li>花旗特意用「十年估值区间低端」倍数（30x 2027E P/E、11x EV/EBITDA）——留了安全边际叙事</li>
+              <li>摩通给 Overweight + Best Idea：AWS 加速 + ROIC 框架清晰，管理层称 AI 回报轨迹好于核心云同期</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>摩通自己预测 FCFF 2026 <strong>-$377 亿</strong> → 2027 <strong>-$1,211 亿</strong> → 2028 -$952 亿仍给 Best Idea——赌的是「市场继续容忍」，这是趋势判断不是价值判断</li>
+              <li>汇丰 OI 上调 4/7/11%（26/27/28 年）但被 capex 上调 10/8/26% 抵消，<strong>目标价 $310 纹丝不动</strong>——卖方语言里的谨慎，最接近「持有」</li>
+              <li>评级零分歧（79 买 0 卖）意味着「超预期」门槛持续抬高，直到某次不 beat</li>
+              <li>GAAP EPS $5.75 vs 一致预期 $1.81 的「惊天 beat」全部来自 Anthropic 534 亿账面收益——一次性，不代表核心盈利</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（卖方预期地图 · 2027 capex 分歧 · 零售基本盘）</summary>
+          <div class="evidence__body">
+            <h5>卖方预期地图（现价 $235.50，2026-07-30 收盘）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>券商</th><th>评级</th><th>目标价</th><th>隐含空间</th><th>估值锚</th></tr></thead><tbody><tr><td>摩根大通</td><td>Overweight · Best Idea</td><td>$330 → <strong>$365</strong></td><td>+55%</td><td>28x 2028E GAAP EPS $13.0</td></tr><tr><td>花旗</td><td>Buy</td><td>$325</td><td>+38%</td><td>30x 2027E P/E、11x 2027E EV/EBITDA（十年估值区间低端）</td></tr><tr><td>汇丰</td><td>Buy（维持）</td><td>$310（不变）</td><td>+32%</td><td>DCF</td></tr></tbody></table></div>
+            <p>三家放在一起读：<strong>对公司的判断高度一致，对「市场愿意付多少钱」的判断拉开了 18%（$310 vs $365）——这正是预期差该待的地方。</strong></p>
+            <h5>唯一的实质分歧：2027 年 capex 深度</h5>
+            <div class="tbl-wrap"><table><thead><tr><th></th><th>摩根大通（最激进）</th><th>汇丰（最谨慎）</th></tr></thead><tbody><tr><td>2027 capex</td><td><strong>$3,650 亿（+65%）</strong>，2028 年 $4,450 亿（+22%）</td><td>温和上调（26/27/28 年 +10/8/26%）</td></tr><tr><td>对应 FCF</td><td>FCFF 2026 -$377 亿 → 2027 -$1,211 亿 → 2028 -$952 亿，负值贯穿 2028</td><td>DCF 目标价 $310 不动：「OI 上调被投入吃掉」</td></tr><tr><td>言下之意</td><td>负 FCF 没关系，ROIC 会兑现，市场会继续容忍</td><td>增长的代价在变大，估值给不了更高</td></tr></tbody></table></div>
+            <h5>零售基本盘：被云光芒掩盖的稳健</h5>
+            <ul>
+              <li>北美 +16%（预期 14%）、国际 +15%，在线商店 +15%、3P +16%——全面超预期；广告 198 亿（+26%）连续多季 20%+</li>
+              <li><strong>K 型消费下的份额逻辑</strong>：必需品占单位销量从 33% 升至 40%，Prime Day 客单价 -11%——消费降级环境里亚马逊吃份额（2025 年已超沃尔玛成全美销售额第一）</li>
+              <li>生鲜与即时零售是新引擎（Amazon Now、药房当日达）；Rufus（AI 购物助手）转化率和客单价开始正向变化</li>
+              <li>Amazon Leo 卫星：约 400 颗在轨、今年启动服务，3Q 起约 <strong>$10 亿/季增量成本</strong>进营业利润指引（Q3 指引中值偏低的解释之一）</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究的数据与局限</h3>
+      <ul>
+        <li><strong>数据来源</strong>：公司 2Q26 财报及公开披露、公开研究资料整理（含公司一页通与多家券商财报点评）</li>
+        <li><strong>局限</strong>：未读 10-K/10-Q 原文；TTM 自由现金流等为财报整理口径；卖方 EPS 预测分歧较大，主要源于 Anthropic 等股权投资公允价值变动是否计入损益的假设不同，剔除后核心盈利预期相对一致</li>
+        <li><strong>管理层评估（一句话版）</strong>：本季首次系统讲清 AI 投入回报模型并给出超长期订单能见度（2028 年在手需求「很震撼」），口径自信、敢于给长期指引，需持续验证兑现度</li>
+      </ul>
+    </div>
+
   </article>
-  <article class="doc" id="tab-broker" hidden>
-<h2 class="doc-h1">亚马逊 · 券商研报解读（买方视角）</h2>
-<blockquote class="doc-quote"><strong>解读日期</strong>：2026-07-31 ｜ <strong>研报</strong>：3 份（汇丰 / 花旗 / 摩根大通，均为 2Q26 财报点评） <strong>方法</strong>：提取事实与预期，不采纳结论。卖方评级普遍通胀——分歧和边际变化才是信号，一致乐观本身也是信号。</blockquote>
-<hr class="doc-hr">
-<h3 class="doc-h2">〇、一句话结论</h3>
-<p><strong>三家全 Buy、目标价 $310–365（隐含 +32%~+55%），彭博口径 79 买 4 持 0 卖——卖方层面已经没有异议，"AI 兑现"叙事在卖方端打得很满。真正的分歧不在"买不买"，而在 2027 年资本开支有多深：摩根大通预测 2027 capex $3,650 亿（+65%），汇丰只温和上调——这个分歧决定 FCF 负值窗口的长度，也是这只股票接下来唯一的胜负手。</strong></p>
-<hr class="doc-hr">
-<h3 class="doc-h2">一、预期地图</h3>
-<p>现价 <strong>$235.50</strong>（2026-07-30 收盘，财报发布前）</p>
-<div class="tbl-wrap"><table><thead><tr><th>券商</th><th>评级</th><th>目标价</th><th>隐含空间</th><th>估值锚</th><th>核心论点</th></tr></thead><tbody><tr><td>摩根大通</td><td>Overweight · <strong>Best Idea</strong></td><td>$330 → <strong>$365</strong> ⬆</td><td>+55%</td><td>28x 2028E GAAP EPS $13.0（GOOGL 18.5x / META 13.5x，溢价理由是盈利增速更快）</td><td>AWS 加速 + ROIC 框架清晰，管理层称 AI 回报轨迹好于核心云同期</td></tr><tr><td>花旗</td><td>Buy</td><td>$325</td><td>+38%</td><td>30x 2027E P/E、11x 2027E EV/EBITDA（<strong>亚马逊十年估值区间低端</strong>）</td><td>收入/OI 全面超预期；3Q 指引剔除 Prime Day 错期其实不差</td></tr><tr><td>汇丰</td><td>Buy（维持）</td><td>$310（不变）</td><td>+32%</td><td>DCF</td><td>OI 上调 4/7/11%（26/27/28 年），但被 capex 上调 10/8/26% 抵消，目标价不动</td></tr></tbody></table></div>
-<hr class="doc-hr">
-<h3 class="doc-h2">二、卖方一致预期（≈ 股价已经定价的东西）</h3>
-<ol><li>AWS 30%+ 增速可持续：摩通预测 2026 全年 +38%、2027 年 +33%，且自认"按 backlog 看可能偏保守"</li><li>AI 与自研芯片 ARR 均超 $250 亿、三位数增长，backlog 继续扩张</li><li>capex 上行有订单支撑，"不到 3 年回本"的 ROIC 叙事成立——<strong>没有一家把 FCF 为负当成问题</strong></li><li>评级零分歧（79 买 0 卖）。<span class="warn">⚠️</span> <strong>这意味着"超预期"的门槛在抬高</strong>：本季 AWS +37% 已经 beat 了买方 35–36% 的预期，下一季买方预期会自动上移到 37%+——财报 beat 将越来越变成"理所当然"，直到某次不 beat</li></ol>
-<hr class="doc-hr">
-<h3 class="doc-h2">三、分歧在哪：2027 年 capex 的深度</h3>
-<p>这是三份报告唯一实质性的分歧，也是我们研究报告"FCF 时间错配 vs 常态化"分歧的卖方版本：</p>
-<div class="tbl-wrap"><table><thead><tr><th></th><th>摩根大通（最激进）</th><th>汇丰（最谨慎）</th></tr></thead><tbody><tr><td>2027 capex</td><td><strong>$3,650 亿（+65%）</strong>，2028 年 $4,450 亿（+22%）</td><td>温和上调（26/27/28 年 +10/8/26%）</td></tr><tr><td>对应 FCF</td><td>FCFF 2026 <strong>-$377 亿</strong> → 2027 <strong>-$1,211 亿</strong> → 2028 -$952 亿——负值贯穿 2028</td><td>DCF 目标价 $310 不动，等于说"OI 上调被投入吃掉"</td></tr><tr><td>言下之意</td><td>负 FCF 没关系，ROIC 会兑现，市场会继续容忍</td><td>增长的代价在变大，估值给不了更高</td></tr></tbody></table></div>
-<p>花旗居中：没给 capex 点预测，但特意用"十年估值区间低端"的倍数——留了安全边际叙事。</p>
-<p><strong>买方用法</strong>：把摩通的 $3,650 亿当作市场对 2027 capex 预期的"最激进锚"。公司实际给 2027 指引时，低于此 = FCF 叙事利好；达到或超出 = 考验市场容忍度的极限。</p>
-<hr class="doc-hr">
-<h3 class="doc-h2">四、增量信息（事实层，吸收进我们的框架）</h3>
-<ol><li><span class="warn">⚠️</span> <strong>利润率超预期的成色要打折</strong>：AWS OPM 39.4% 里有 $6 亿能源合约公允价值一次性收益（剔除后 <strong>37.9%</strong>）；北美零售 OPM 7.9% 里有 $6 亿关税退款（剔除后 7.3%，仅符合预期）。我们的反证条件 #3「AWS OPM 跌破 35%」的基线应按 37.9% 校准，而非 39.4%</li><li>backlog $4,960 亿（环比 +36%）<strong>主要由 Anthropic 驱动</strong>；Graviton 收入承诺环比增约 3 倍——客户希望推理负载贴近自己的数据，自研芯片在被外部验证</li><li>摩通记录的管理层口径：AI 投资的回报与利润率轨迹<strong>好于核心 AWS 发展同期</strong>——这是"烧钱 vs 筑墙"之争中管理层给出的最强背书</li><li>花旗点出：2Q 是 GPT 模型上架 Bedrock 的<strong>首个完整季度</strong>；电话会焦点之一是重组后的前沿模型（FM）战略——2027 年 capex 里有多少是给自研模型的，值得追问</li><li>Amazon Leo 约 400 颗卫星在轨、今年启动服务，<strong>3Q 起约 $10 亿/季增量成本</strong>进 OI 指引（3Q 指引中值偏低的解释之一），企业和政府客户已有收入承诺</li><li>GAAP EPS $5.75 vs 一致预期 $1.81 的"惊天 beat"全部来自 Anthropic $530 亿账面收益——三家卖方都主动点破了一次性，没拿来忽悠，可信度 +1</li></ol>
-<hr class="doc-hr">
-<h3 class="doc-h2">五、与我们研究报告的交叉验证</h3>
-<ul><li><strong>一致</strong>：AI 兑现叙事、订单能见度、3Q 指引剔除 Prime Day 错期后实际 +13~17%（三家口径与我们完全一致）</li><li><strong>修正</strong>：反证条件 #3 的 AWS OPM 基线从 39.4% 改为 <strong>37.9%</strong>（剔除一次性）；跟踪计划加入「2027 capex 指引」（对照摩通 $3,650 亿的锚）</li><li><strong>值得警惕的分歧</strong>：卖方无人对赌 FCF——摩通自己预测 FCF 负到 2028 年，仍给 Best Idea。我们报告里"FCF 窗口"的谨慎在卖方层面<strong>没有对手盘</strong>：没有空头可杀意味着利空出现时，里面全是多头。这不改变公司质地，但会放大波动</li></ul>
-<hr class="doc-hr">
-<h3 class="doc-h2">六、评级解码（卖方语言翻译）</h3>
-<div class="tbl-wrap"><table><thead><tr><th>卖方行为</th><th>翻译</th></tr></thead><tbody><tr><td>摩通：Overweight + Best Idea + 目标价上调 $35</td><td>卖方最强背书。但它同时预测最深的 FCF 负值——赌的是"市场继续容忍"，这是趋势判断不是价值判断</td></tr><tr><td>花旗：$325 用十年区间低端倍数</td><td>保守的乐观：故事讲满，倍数留余地</td></tr><tr><td>汇丰：OI 上调但目标价纹丝不动</td><td>卖方语言里的谨慎，最接近"持有"——投入吞掉了盈利上调</td></tr></tbody></table></div>
-<p><strong>三家放在一起读：对公司的判断高度一致，对"市场愿意付多少钱"的判断拉开了 18%（$310 vs $365）——这正是预期差该待的地方。</strong></p>
-  </article>
+
   <article class="doc" id="tab-onepager" hidden>
 <h3 class="doc-h2">公司概况</h3>
 <p>亚马逊是全球最大的电商平台和公有云服务商，业务按<strong>北美、国际、AWS</strong>三大分部运营。公司以电商零售为基石，通过Prime会员体系、FBA物流网络和第三方卖家服务构建了深厚的消费者生态；AWS则是全球市场份额领先的云计算平台，近年正通过自研AI芯片（Trainium）和战略绑定头部大模型公司（Anthropic、OpenAI）向AI基础设施层延伸。亚马逊已于2025年超越沃尔玛，成为全美销售额最大的零售商。</p>
@@ -265,16 +524,55 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 <section class="sources">
   <div class="shell">
     <h2>数据来源</h2>
-    <p>Gangtise Open API（公司一页通 · stock-one-pager）· 公司财报及公开披露 · 仅作研究学习用途，不构成投资建议。</p>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
   </div>
 </section>
-<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/AMZN · 生成于 2026-07-31</div></footer>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/AMZN · 生成于 2026-08-06</div></footer>
 
 <script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-07-31';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'pending', text: '<strong>3Q26 财报</strong>（2026-10 下旬）：AWS 能否守住 35%+；收入指引 1,970-2,020 亿（剔除错期 +13~17%）；营业利润指引 225-265 亿——当前价位的胜负手', note: '' },
+  { kind: 'cat', status: 'active',  text: '<strong>2027 capex 指引</strong>：对照摩通 $3,650 亿（+65%）的「最激进锚」——低于此 = FCF 叙事利好，达到或超出 = 考验市场容忍度', note: '跟踪计划新增，2026-07-31' },
+  { kind: 'cat', status: 'active',  text: '<strong>re:Invent 大会</strong>（2026 Q4）：FMR 新一代前沿模型亮相；Trainium 外售进展', note: '' },
+  { kind: 'cat', status: 'active',  text: '<strong>电力容量爬坡</strong>（每季度）：2027 年底较 2025 翻倍的目标进度——产能=收入；Anthropic/OpenAI 超 1,380 亿多年期协议的收入确认节奏', note: '瑞银提示 OpenAI 部分推迟至 2027 年初' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>AWS 增速跌破 30%</strong>（五连加速的叙事终结）', note: '最新 2Q26：+37%，未触发' },
+  { kind: 'risk', status: 'clear', text: '<strong>backlog 环比增速掉到 +15% 以下</strong>（订单能见度恶化）', note: '最新：环比 +36%，未触发' },
+  { kind: 'risk', status: 'clear', text: '<strong>AWS 营业利润率跌破 35%</strong>（折旧+存储涨价压顶，芯片对冲失效）', note: '最新 39.4%，剔除一次性收益基线 37.9%，距离危险线 ~3pct' },
+  { kind: 'risk', status: 'clear', text: '<strong>2027 年 capex 再度大幅上调而 backlog 没有同步增长</strong>（投入产出脱钩）', note: '待 2027 指引公布核对' },
+  { kind: 'risk', status: 'clear', text: '<strong>零售增速跌破高个位数，或广告增速跌破 15%</strong>（基本盘松动）', note: '最新：北美 +16% / 国际 +15% / 广告 +26%，未触发' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
 document.querySelectorAll('.site-nav button').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
-    document.querySelectorAll('main .doc').forEach(d => { d.hidden = d.id !== 'tab-' + btn.dataset.tab; });
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 });

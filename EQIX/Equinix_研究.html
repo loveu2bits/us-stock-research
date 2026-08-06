@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Equinix（EQIX.O）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <style>
 :root {
   --paper: #ffffff; --paper-cool: #f3f6f8;
@@ -18,7 +19,7 @@
 html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
 body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
 
-/* ===== 顶栏（美联储风格） ===== */
+/* ===== 顶栏 ===== */
 .site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
 .site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
 .site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
@@ -32,16 +33,20 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 
 .shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
 
-/* ===== 抬头 ===== */
+/* ===== 抬头：公司名称 + 观点 ===== */
 .overview { padding: 34px 0 0; }
-.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 170px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
 .overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
 .overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
 .overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
-.overview__date { padding: 16px 0 4px; border-top: 2px solid var(--policy-red); text-align: right; }
-.overview__date span, .overview__date strong { display: block; }
-.overview__date span { margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
-.overview__date strong { font-size: 15px; font-variant-numeric: tabular-nums; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--amber); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
 
 /* ===== 关键指标栏 ===== */
 .summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
@@ -49,32 +54,108 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 .summary-rail__item:last-child { border-right: 0; }
 .summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
 .summary-rail__item strong.up { color: var(--policy-red); }
-.summary-rail__item strong.down { color: var(--teal); }
 .summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
 
-/* ===== 正文文档 ===== */
+/* ===== 跟踪面板（置顶，状态随研究更新核对） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
 .doc { padding: 40px 0 80px; }
 .doc[hidden] { display: none; }
-.doc-h1 { margin: 34px 0 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line-strong); font-family: var(--font-display); font-size: 30px; font-weight: 650; }
-.doc-h1:first-child { margin-top: 0; }
-.doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
-.doc-h3 { margin: 22px 0 10px; color: var(--federal-blue); font-size: 15px; font-weight: 750; }
-.doc p, .doc li { color: var(--ink-soft); font-size: 15px; }
-.doc p { margin: 0 0 14px; }
-.doc ul, .doc ol { margin: 0 0 16px; padding-left: 24px; }
-.doc li { margin-bottom: 6px; }
-.doc strong { color: var(--ink); }
-.doc code { padding: 1px 6px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper-cool); font-size: 13px; }
-.doc-hr { margin: 30px 0; border: 0; border-top: 1px solid var(--line); }
-.doc-quote { margin: 18px 0; padding: 16px 20px; border-left: 3px solid var(--amber); background: #faf6ec; color: var(--ink-soft); font-size: 14px; }
-.tbl-wrap { margin: 16px 0 24px; overflow-x: auto; }
-.doc table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
-.doc th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
-.doc td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
-.doc tr:hover td { background: #f8fafc; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
 .warn { color: var(--policy-red); }
-.star { color: var(--amber); }
-.xref { color: var(--federal-blue); font-weight: 600; }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
 
 /* ===== 页脚 ===== */
 .sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
@@ -86,8 +167,14 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   .shell { width: min(calc(100% - 32px), var(--shell)); }
   .overview__heading { grid-template-columns: 1fr; gap: 18px; }
   .overview__copy h1 { font-size: 32px; }
-  .overview__date { text-align: left; }
   .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
   .site-nav button { min-width: 78px; padding: 0 8px; }
   .site-mark__text span { display: none; }
 }
@@ -101,9 +188,8 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
     <span class="site-mark__text">Equinix 公司研究<span>Equinix · EQIX.O</span></span>
   </a>
   <nav class="site-nav">
-    <button class="is-active" data-tab="report">研究报告</button>
-    <button data-tab="broker">券商研报</button>
-    <button data-tab="onepager">一页通（Gangtise）</button>
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
   </nav>
 </header>
 
@@ -112,83 +198,253 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
     <div class="overview__heading">
       <div class="overview__copy">
         <h1>Equinix<span class="en">Equinix · EQIX.O · 美股研究</span></h1>
-        <p class="sub">全球最大"数据包租公"+ AI 推理的中立交通枢纽：客户付的不是房租，是接入 50 万互联节点生态的"连接费"。</p>
+        <p class="sub">全球最大"数据包租公" + AI 时代的"中立交通枢纽"：281 个数据中心只是表象，真正的资产是 50 万个互联节点构成的生态——客户接入它是为了连接彼此，离开等于断网。核心问题是 AI 推理的钱到底流向谁、以及现价是否已把答案提前定价。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-07-30</span>
+          <span>下次更新：Q3 财报（2026 年 10-11 月）</span>
+        </div>
       </div>
-      <div class="overview__date">
-        <span>研究日期</span>
-        <strong>2026-07-30</strong>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>赔率一般：长期指引大幅上调验证基本面，但 ~25x P/AFFO 已高于历史均值与同行——好公司，等好价格。</em>
       </div>
     </div>
     <div class="summary-rail">
       <div class="summary-rail__item"><strong class="up">60%</strong><span>Q1 大额交易 AI 相关占比</span></div>
-<div class="summary-rail__item"><strong class="up">51%</strong><span>调整后 EBITDA 利润率·历史新高</span></div>
-<div class="summary-rail__item"><strong class="up">+74%</strong><span>Fabric 虚拟连接预订增速</span></div>
-
+      <div class="summary-rail__item"><strong class="up">+74%</strong><span>Fabric 虚拟连接预订增速</span></div>
+      <div class="summary-rail__item"><strong>51%</strong><span>调整后 EBITDA 利润率·历史新高</span></div>
+      <div class="summary-rail__item"><strong>~25x</strong><span>P/AFFO（2027E）·高于历史 23.3x</span></div>
     </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
   </div>
 </section>
 
 <main class="shell">
   <article class="doc" id="tab-report">
-<blockquote class="doc-quote"><strong>研究日期</strong>：2026-07-30 ｜ <strong>数据来源</strong>：Gangtise 一页通（2026-07-30） <strong>状态</strong>：初稿 v1 ｜ <strong>下次更新</strong>：Q3 财报（2026 年 10-11 月） <strong>关联研究</strong>：<span class="xref">安博研究报告</span>（地产里的两种 AI 受益路径对照）、<span class="xref">NVDA 英伟达研究报告</span>（AI 算力链·地产环节）</blockquote>
-<hr class="doc-hr">
-<h3 class="doc-h2">〇、一句话结论</h3>
-<p><strong>Equinix 是全球最大的"数据包租公"+ AI 时代的"中立交通枢纽"：281 个数据中心只是表象，真正的资产是 50 万个互联节点构成的生态系统——客户接入它是为了连接彼此（云、网络、AI 模型商），离开等于断网。AI 训练在超大规模云厂商，但 AI 推理需要靠近用户、多云互联——这正是 Equinix 的主场。</strong></p>
-<hr class="doc-hr">
-<h3 class="doc-h2">一、靠什么赚钱？</h3>
-<p><strong>一句话：客户付的不是房租，是"生态接入费"——超过 90% 收入是经常性收入，互联业务（连接服务）是护城河核心。</strong></p>
-<div class="tbl-wrap"><table><thead><tr><th>业务</th><th>占比</th><th>增速</th><th>角色</th></tr></thead><tbody><tr><td>托管 Colocation</td><td>71%</td><td>+12%</td><td>基本盘：机柜+电力，新签机柜功率密度 +36%（AI 驱动）</td></tr><tr><td>互联 Interconnection</td><td>18%</td><td>+13%</td><td>护城河：Fabric 虚拟连接预订量 <strong>+74%</strong></td></tr><tr><td>托管基础设施等</td><td>~10%</td><td>平</td><td>粘性工具</td></tr></tbody></table></div>
-<p><strong>AI 敞口已经很实</strong>：Q1 约 <strong>60%</strong> 大额交易与 AI 相关；全球前十大 AI 模型商中的 8 家、前五大 Neocloud 中的 4 家在平台扩张。</p>
-<hr class="doc-hr">
-<h3 class="doc-h2">二、护城河：为什么它不可复制？</h3>
-<ol><li><strong>网络效应（最深）</strong>：10,500 家客户互联成网——云厂商、运营商、AI 模型商互为吸引，新玩家建得机房建不出生态</li><li><strong>位置稀缺</strong>：77 个大都市核心区（90% 世界人口 10ms 可达），大都市拿地/拿电/审批极难</li><li><strong>转换成本</strong>：90%+ 预订来自现有客户，单一客户占比 &lt;3%</li></ol>
-<p><strong>裂缝（要诚实）</strong>：</p>
-<ul><li>全球市场份额从 2020 年 8% 降到 2025 年 5%——<strong>建设速度落后于行业</strong>，"Build Bolder"（2030 容量翻倍）是在补作业</li><li>资本开支强度 56%（capex/收入），FCF 为负——和谷歌/Meta 同款的"投入换未来"问题</li><li>老旧机房面临液冷/高功率密度（100kW+）的技术过时风险</li></ul>
-<hr class="doc-hr">
-<h3 class="doc-h2">三、财务速览</h3>
-<div class="tbl-wrap"><table><thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 Q1</th></tr></thead><tbody><tr><td>营收（亿$）</td><td>81.9</td><td>87.5</td><td>92.2</td><td>24.4（+9.8%）</td></tr><tr><td>毛利率</td><td>48.4%</td><td>48.9%</td><td>51.1%</td><td>51.5%</td></tr><tr><td>调整后 EBITDA 利润率</td><td>—</td><td>—</td><td>—</td><td><strong>51%（历史新高）</strong></td></tr><tr><td>资本开支（亿$）</td><td>31.7</td><td>34.0</td><td>53.1</td><td>13.8</td></tr><tr><td>自由现金流（亿$）</td><td>0.5</td><td>-1.5</td><td>-13.9</td><td>-6.6</td></tr></tbody></table></div>
-<p><strong>读法</strong>：收入 FY2025 触底（+5.4%）后重新加速（指引 +10-11%），利润率创新高——但 FCF 缺口在扩大。管理层称新项目无杠杆现金回报率仍维持 ~25%，<strong>这个 25% 是多空必验之数</strong>。</p>
-<hr class="doc-hr">
-<h3 class="doc-h2">四、核心分歧：AI 推理的钱到底流向谁？</h3>
-<div class="tbl-wrap"><table><thead><tr><th></th><th>看多方</th><th>看空方</th></tr></thead><tbody><tr><td>AI 推理</td><td>分布式推理 = 靠近用户 + 多云互联 = Equinix 天然主场</td><td>推理最终会集中在超大规模云厂商，Equinix 只是行业 Beta</td></tr><tr><td>估值</td><td>2027 年 ~25x P/AFFO vs 上调长期指引的可能（花旗预期收入目标 7-10%→8-11%）</td><td>P/AFFO 已高于历史均值和同行（~19x），AFFO 增速指引并未大幅上调</td></tr><tr><td>Capex</td><td>2029-2030 收入和现金流集中释放</td><td>边际回报递减，FCF 拐点遥遥无期</td></tr></tbody></table></div>
-<p><strong>验证抓手</strong>：互联业务（尤其 Fabric）增速——它是"AI 推理选择 Equinix"最直接的财务证据。Q1 Fabric 预订 +74%，Q2 若继续加速，多方得分。</p>
-<blockquote class="doc-quote">📚 *方法点评：地产两家对照着看很有意思——安博用"土地+电力"间接卖铲子（一次性开发收益），Equinix 用"生态+连接"直接收租（经常性收入）。同为 AI 基建受益，商业模式的确定性天差地别，估值方法也不同（FFO vs AFFO/EV-EBITDA）。*</blockquote>
-<hr class="doc-hr">
-<h3 class="doc-h2">五、反证条件</h3>
-<ol><li><span class="warn">⚠️</span> 互联业务增速回落到个位数（AI 推理逻辑弱化）</li><li><span class="warn">⚠️</span> 新项目回报率跌破 20%（资本纪律失守）</li><li><span class="warn">⚠️</span> 长期指引（2026-2029）上调落空或下调</li><li><span class="warn">⚠️</span> 净杠杆率突破 5x 或信用评级下调</li><li><span class="warn">⚠️</span> 份额继续下滑且管理层无应对</li></ol>
-<hr class="doc-hr">
-<h3 class="doc-h2">六、跟踪计划</h3>
-<div class="tbl-wrap"><table><thead><tr><th>跟踪变量</th><th>时间</th><th>说明</th></tr></thead><tbody><tr><td>Q2 财报（7/29 盘后）结果与长期指引更新</td><td>近期</td><td>是否上调 2026-2029 增长目标</td></tr><tr><td>Fabric / 互联业务增速</td><td>每季度</td><td>AI 推理逻辑的核心证据</td></tr><tr><td>xScale 合资项目签约</td><td>持续</td><td>超大规模客户突破</td></tr><tr><td>atNorth 收购整合</td><td>H2</td><td>欧洲高密度布局</td></tr><tr><td>新任首席产品官任命</td><td>近期</td><td>管理层过渡期</td></tr></tbody></table></div>
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">AI 推理的钱到底流向谁？Equinix 是主场还是行业 Beta？</h2>
+        <span class="qa__impact-tag">→ 收入 CAGR 指引 7-10%→10-13% · 估值体系或重塑</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>Q2 财报后证据明显站多方：长期指引大幅上调（收入 CAGR 7-10% → 10-13%，AFFO/股年增速 5-9% → 9-12%），管理层用 capex 翻倍为"AI 需求是结构性的"投票。<em>但验证抓手是互联业务（尤其 Fabric）增速——Q1 Fabric 预订 +74%，若回落到个位数，"AI 推理主场"逻辑即弱化。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这是多空的总开关。</strong>若"AI 推理 = 靠近用户 + 多云互联 = Equinix 主场"成立，收入 CAGR 中枢上移 3pct，AFFO/股增速中枢上移 3pct，隐含 2029E AFFO 约 $58（高于一致预期 $56.2），且估值体系可能从传统数据中心 REIT 向 AI 基础设施平台重塑。</p>
+            <p>若推理最终集中在超大规模云厂商，公司只是行业 Beta，则增长故事回到 7-10% 的老轨道，<strong>当前 ~25x P/AFFO 的溢价失去支撑</strong>——这个问题直接决定合理倍数是 25x 还是向同行 ~19x 回归。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>Q1 约 <strong>60%</strong> 大额交易与 AI 相关；全球前十大 AI 模型商中的 8 家、前五大 Neocloud 中的 4 家在平台扩张，部署超 110 个独立网络节点</li>
+              <li>互联业务加速：Q1 互联收入 +13%，Fabric 收入 +26%、<strong>预订量 +74%</strong>——"AI 推理选择 Equinix"最直接的财务证据</li>
+              <li>Q2 长期指引上调至收入 CAGR 10-13%、AFFO/股年增 9-12%，<strong>比花旗最乐观预期（8-11%）还高</strong></li>
+              <li>分布式推理需要靠近用户、多云互联——与公司"靠近用户、连接一切"的价值主张天然契合</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>推理负载最终可能集中在超大规模云厂商，<strong>Equinix 只是行业 Beta 而非个体 Alpha</strong></li>
+              <li>Q2 先行指标走弱：经常性收入 miss（-1.2%），总收入 beat 全靠非经常收入拉动</li>
+              <li>机柜计费净增 4,200，<strong>低于预期 -22%</strong>——同比 +250% 掩盖了环比乏力，产能去化存疑</li>
+              <li>全球市场份额从 2020 年 8% 降到 2025 年 5%，建设速度落后于行业</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（业务拆分 · AI 敞口 · Q2 财报成色拆解）</summary>
+          <div class="evidence__body">
+            <h5>靠什么赚钱：客户付的不是房租，是"生态接入费"</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>业务</th><th>占比</th><th>增速</th><th>角色</th></tr></thead><tbody><tr><td>托管 Colocation</td><td>71%</td><td>+12%</td><td>基本盘：机柜+电力，新签机柜功率密度 +36%（AI 驱动）</td></tr><tr><td>互联 Interconnection</td><td>18%</td><td>+13%</td><td>护城河：Fabric 虚拟连接预订量 <strong>+74%</strong></td></tr><tr><td>托管基础设施等</td><td>~10%</td><td>平</td><td>粘性工具</td></tr></tbody></table></div>
+            <p>超过 90% 收入是经常性收入；90%+ 预订来自现有客户，单一客户占比 &lt;3%——粘性极高、集中度极低。</p>
+            <h5>Q2 财报（7/29 盘后）的成色：利润表 beat、先行指标 miss</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>实际</th><th>vs 预期</th><th>评价</th></tr></thead><tbody><tr><td>EBITDA</td><td>$13.96 亿</td><td>+2.2%</td><td>beat</td></tr><tr><td>AFFO/share</td><td>$11.78</td><td>+2.8%</td><td>beat</td></tr><tr><td><strong>经常性收入</strong></td><td>$23.77 亿</td><td><strong>-1.2%（miss）</strong></td><td class="warn">总收入 beat 全靠非经常收入拉动</td></tr><tr><td>年化 bookings</td><td>$4.24 亿</td><td>-6.6%（miss 高盛，beat 街）</td><td class="warn">喜忧参半</td></tr><tr><td><strong>机柜计费净增</strong></td><td>4,200</td><td><strong>-22%（大 miss）</strong></td><td class="warn">预期 5,400，环比乏力</td></tr></tbody></table></div>
+            <p>这是"当下好、下一步存疑"的组合，3Q26 指引（收入 $25.25-25.75 亿）随即低于预期。<strong>机柜计费净增是比 bookings 更硬的产能去化指标，已列入跟踪。</strong></p>
+            <h5>真正的头条：长期指引全面上调</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>长期目标</th><th>旧指引</th><th>新指引</th><th>变化</th></tr></thead><tbody><tr><td>收入 CAGR（2027-29）</td><td>7-10%</td><td><strong>10-13%</strong></td><td>中枢 +3pt</td></tr><tr><td>EBITDA 利润率</td><td>52%+</td><td>53%+</td><td>+1pt</td></tr><tr><td>AFFO/share 年增速</td><td>5-9%</td><td><strong>9-12%</strong></td><td>中枢 +3pt</td></tr><tr><td>年 capex</td><td>$30-40 亿</td><td><strong>$50-70 亿</strong></td><td><strong>+67%</strong></td></tr></tbody></table></div>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">估值：~25x P/AFFO 已充分定价了吗？</h2>
+        <span class="qa__impact-tag">→ 现价 vs 高盛目标价 -1.9% · 倍数约束收益</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>现价（$1,034.86，2026-07-28 收盘）已反映上调后的剧本：高盛在认可 beat and raise + 长期指引上调的同时维持 Neutral、目标价 $1,015（比现价低 1.9%），21x NTM+1Y P/AFFO 封顶。<em>翻译过来：公司很好，但价格到头了——预期差不在基本面，在估值。好公司，等好价格。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>倍数没有便宜可占。</strong>当前 P/AFFO 约 25.4x（2027E），高于历史均值 ~23.3x、显著高于同行 ~18.8x；EV/EBITDA 约 23.4x（2027E）。AFFO/股增速指引 9-12% 并未与估值溢价同步放大——<strong>收益只能靠 AFFO 兑现，倍数端甚至是逆风</strong>。</p>
+            <p>若股价因 3Q 指引 miss 或先行指标走弱而回调，长期指引上调的基本面反而提供"接"的底气——这是持有而非卖出的原因；反之，在 25x 上加仓需要互联业务持续加速来证伪空方。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>花旗、古根海姆目标价 $1,260/$1,235，基于 2027 年 25-28x P/AFFO——<strong>高增长前景下估值仍具吸引力</strong></li>
+              <li>2029-2030 年收入和自由现金流集中释放，当前 capex 是为未来 3-5 年铺路</li>
+              <li>互联业务加速 + AI 生态扩张是<strong>尚未被充分定价的催化剂</strong>，可能触发估值体系从 REIT 向 AI 平台重塑</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>P/AFFO ~25.4x vs 历史均值 ~23.3x、同行 ~18.8x，<strong>而 AFFO 增速指引并未大幅上调</strong>——溢价缺乏盈利端支撑</li>
+              <li>高盛用 21x 封顶：指引上调只是"兑现"不是"惊喜"，<strong>市场已在按上调后的剧本定价</strong></li>
+              <li>卖方一致"买入"本身也是信号——分歧和边际变化才有信息量，一致乐观没有对手盘</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（券商盈利预测与估值 · 管理层指引）</summary>
+          <div class="evidence__body">
+            <h5>券商盈利预测与估值</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价($)</th><th>指标</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>花旗 (2026-06-29)</td><td>买入</td><td>1,260</td><td>营收(百万$) / AFFO每股($)</td><td>9,217 / 38.33</td><td>10,216 / 43.24</td><td>11,080 / 47.40</td><td>12,146 / 52.72</td></tr><tr><td>古根海姆 (2026-05-20)</td><td>买入</td><td>1,235</td><td>营收(百万$) / AFFO每股($)</td><td>9,217 / 38.33</td><td>10,483 / 44.14</td><td>11,775 / 48.64</td><td>12,920 / 52.73</td></tr><tr><td>伯恩斯坦 (2026-03-10)</td><td>跑赢大盘</td><td>1,128</td><td>营收(百万$) / AFFO每股($)</td><td>9,217 / 38.42</td><td>10,220 / 41.89</td><td>10,944 / 44.92</td><td>12,047 / 49.12</td></tr><tr><td>瑞银 (2026-02-13)</td><td>买入</td><td>1,010</td><td>营收(百万$) / AFFO每股($)</td><td>9,217 / 38.33</td><td>10,181 / 42.45</td><td>— / 45.83</td><td>— / 49.38</td></tr><tr><td>高盛 (2Q26 First Take)</td><td><strong>Neutral</strong></td><td><strong>1,015</strong></td><td colspan="5">21.0x NTM+1Y P/AFFO 封顶；认可 beat and raise，不愿多给第 22 倍</td></tr></tbody></table></div>
+            <p>公司作为 REIT 折旧摊销高，市场普遍采用 P/AFFO 和 EV/EBITDA 估值；FY2026 AFFO/股预测集中在 $42-44。</p>
+            <h5>管理层 FY2026 指引（Q1 上调后）</h5>
+            <ul>
+              <li>营收 $101.4-102.4 亿（+10-11%）</li>
+              <li>调整后 EBITDA $51.7-52.5 亿（利润率约 51%）</li>
+              <li>AFFO $42.0-42.8 亿（+12-14%），AFFO/股 $42.31-43.11（+9-11%）</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">Capex 翻倍后：25% 回报率守得住吗？FCF 拐点何时来？</h2>
+        <span class="qa__impact-tag">→ 年 capex $50-70亿 · 回报率跌破 20% = 警报</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>"Build Bolder"（2030 容量翻倍）+ 年 capex 指引上调至 $50-70 亿，把"投入换未来"推到极致：FCF 缺口在扩大（FY2025 -$13.9 亿）。管理层称新项目无杠杆现金回报率仍维持 ~25%，<em>这个 25% 是多空必验之数——跌破 20% 即资本纪律失守，反证条件触发。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>回报率决定 capex 是资产还是包袱。</strong>守住 ~25%：2029-2030 收入和现金流集中释放，AFFO 长期增速上台阶，当前高 capex 被追认为远见；跌破 20%：边际回报递减叙事坐实，FCF 拐点遥遥无期，<strong>股息增长与估值同时承压</strong>。</p>
+            <p>财务安全垫目前够用：净杠杆率 3.8x，处投资级合理区间；但 capex 翻倍后杠杆路径需要每季度重验——净杠杆率突破 5x 或评级下调是明确的证伪信号。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>管理层强调新项目无杠杆现金回报率维持 ~25% 中值区间，<strong>与历史水平一致</strong></li>
+              <li>大园区（支持 1-5MW）+ 半预售模式（2026 零售扩容约 25% 已预售）降低去化风险</li>
+              <li>xScale 合资（GIC/CPP）表外开发承接超大规模需求，<strong>优化资本效率</strong>；净收入贡献 2026 年 ~$1,100 万 → 2030 年 ~$1.14 亿（伯恩斯坦预测）</li>
+              <li>2029-2030 收入和 FCF 集中释放——capex 强度有明确的下降路径</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>资本开支强度 56%（capex/收入，FY26Q1），FCF 连续为负且缺口扩大——<strong>和谷歌/Meta 同款的"投入换未来"问题</strong></li>
+              <li>伯恩斯坦提示近期投资存在<strong>边际回报递减</strong>风险</li>
+              <li>年 capex 从 $30-40 亿跳到 $50-70 亿（+67%），若 AI 需求不及预期或电力瓶颈，新增产能利用率不足</li>
+              <li>老旧机房面临液冷/高功率密度（100kW+）技术过时风险，或触发减值</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（五年财务趋势 · 护城河与裂缝 · 反证条件）</summary>
+          <div class="evidence__body">
+            <h5>财务速览（单位：亿美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 Q1</th></tr></thead><tbody><tr><td>营收</td><td>81.9</td><td>87.5</td><td>92.2</td><td>24.4（+9.8%）</td></tr><tr><td>毛利率</td><td>48.4%</td><td>48.9%</td><td>51.1%</td><td>51.5%</td></tr><tr><td>调整后 EBITDA 利润率</td><td>—</td><td>—</td><td>—</td><td><strong>51%（历史新高）</strong></td></tr><tr><td>资本开支</td><td>31.7</td><td>34.0</td><td>53.1</td><td>13.8</td></tr><tr><td>自由现金流</td><td>0.5</td><td>-1.5</td><td>-13.9</td><td>-6.6</td></tr></tbody></table></div>
+            <p>收入 FY2025 触底（+5.4%）后重新加速（指引 +10-11%），利润率创新高——但 FCF 缺口在扩大。</p>
+            <h5>护城河（为什么不可复制）与裂缝（诚实记录）</h5>
+            <ol>
+              <li><strong>网络效应（最深）</strong>：10,500 家客户互联成网——云厂商、运营商、AI 模型商互为吸引，新玩家建得出机房建不出生态</li>
+              <li><strong>位置稀缺</strong>：77 个大都市核心区（90% 世界人口 10ms 可达），大都市拿地/拿电/审批极难</li>
+              <li><strong>转换成本</strong>：90%+ 预订来自现有客户，单一客户占比 &lt;3%</li>
+            </ol>
+            <ul>
+              <li class="warn">裂缝一：全球份额 2020 年 8% → 2025 年 5%，建设速度落后于行业，"Build Bolder"是在补作业</li>
+              <li class="warn">裂缝二：capex 强度 56%，FCF 为负且缺口扩大</li>
+              <li class="warn">裂缝三：老旧机房的液冷/高功率密度技术过时风险</li>
+            </ul>
+            <h5>反证条件（任一触发 → 重检观点）</h5>
+            <ol>
+              <li>互联业务增速回落到个位数（AI 推理逻辑弱化）</li>
+              <li>新项目回报率跌破 20%（资本纪律失守）</li>
+              <li>长期指引（2026-2029）上调落空或下调——<strong>Q2 已上调且超预期，此条警报解除</strong></li>
+              <li>净杠杆率突破 5x 或信用评级下调</li>
+              <li>份额继续下滑且管理层无应对</li>
+            </ol>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究的数据与局限</h3>
+      <ul>
+        <li><strong>数据来源</strong>：公司财报及公开披露（FY2023-FY2026Q2 财务数据、业绩指引）、公开研究资料整理（花旗/古根海姆/伯恩斯坦/瑞银/高盛等券商观点）</li>
+        <li><strong>局限</strong>：未读 10-K/10-Q 原文；估值倍数（P/AFFO、EV/EBITDA）依赖券商口径，各家测算存在差异；Q2 完整电话会纪要待补（高盛 First Take 未覆盖 Fabric/互联业务增速这一核心验证抓手）</li>
+        <li><strong>管理层评估（一句话版）</strong>：管理层用 capex 翻倍（年 $30-40 亿 → $50-70 亿）为 AI 需求的结构性投票，资本配置思路清晰；但 CFO（2026-03 新任）与首席业务官（2026-07 离职）接连更替，执行连续性待验证</li>
+      </ul>
+    </div>
+
   </article>
-  <article class="doc" id="tab-broker" hidden>
-<h2 class="doc-h1">Equinix · 券商研报解读（买方视角）</h2>
-<blockquote class="doc-quote"><strong>解读日期</strong>：2026-07-31 ｜ <strong>研报</strong>：1 份（高盛 2Q26 First Take） <strong>方法</strong>：提取事实与预期，不采纳结论。卖方评级普遍通胀——分歧和边际变化才是信号，一致乐观本身也是信号。</blockquote>
-<hr class="doc-hr">
-<h3 class="doc-h2">〇、一句话结论</h3>
-<p><strong>这份是卖方里的稀有物种：财报 beat and raise、长期指引大幅上调——评级却是 Neutral，目标价 $1,015 比现价还低 1.9%。翻译过来就一句话："公司很好，但价格到头了。"这是「知道公司好不好 ≠ 股价还能不能涨」最标准的活教材：基本面验证多方，估值约束股价。</strong></p>
-<hr class="doc-hr">
-<h3 class="doc-h2">一、预期地图</h3>
-<p>现价 <strong>$1,034.86</strong>（2026-07-28 收盘，财报前）</p>
-<div class="tbl-wrap"><table><thead><tr><th>券商</th><th>评级</th><th>目标价</th><th>隐含空间</th><th>估值锚</th><th>核心论点</th></tr></thead><tbody><tr><td>高盛</td><td><strong>Neutral</strong></td><td>$1,015</td><td><strong>-1.9%</strong></td><td>21.0x NTM+1Y P/AFFO</td><td>Beat and raise + 长期指引上调都认可，但 21x 已充分定价，不愿多给</td></tr></tbody></table></div>
-<p>单份报告的局限：没有对手盘可读。但 Neutral + 目标价低于现价的组合本身信息量足够——高盛承认基本面全部向好，只是拒绝为"AI 推理枢纽"的叙事付第 22 倍。</p>
-<hr class="doc-hr">
-<h3 class="doc-h2">二、Beat 的成色：拆开看没表面那么亮</h3>
-<p>高盛自己的 variance 表把"beat and raise"的成色拆得很清楚：</p>
-<div class="tbl-wrap"><table><thead><tr><th>指标</th><th>实际</th><th>vs 高盛预期</th><th>评价</th></tr></thead><tbody><tr><td>EBITDA</td><td>$13.96 亿</td><td>+2.2%</td><td>✅ beat</td></tr><tr><td>AFFO/share</td><td>$11.78</td><td>+2.8%</td><td>✅ beat</td></tr><tr><td><strong>经常性收入</strong></td><td>$23.77 亿</td><td><strong>-1.2%（miss）</strong></td><td><span class="warn">⚠️</span> 总收入 beat 全靠非经常收入拉动</td></tr><tr><td>年化 bookings</td><td>$4.24 亿</td><td><strong>-6.6%（miss 高盛，beat 街）</strong></td><td><span class="warn">⚠️</span> 喜忧参半</td></tr><tr><td><strong>机柜计费净增</strong></td><td>4,200</td><td><strong>-22%（大 miss）</strong></td><td><span class="warn">⚠️</span> 高盛/街预期 5,400/5,389，同比 +250% 掩盖了环比乏力</td></tr></tbody></table></div>
-<p><strong>读法</strong>：利润表 beat、先行指标（经常性收入、bookings、机柜净增）全部 miss——这是"当下好、下一步存疑"的组合。3Q26 指引随即验证：收入 $25.25-25.75 亿和 EBITDA 均低于高盛预期。<strong>短期催化剂偏负面。</strong></p>
-<hr class="doc-hr">
-<h3 class="doc-h2">三、真正的增量：长期指引大幅上调，capex 翻倍</h3>
-<p>被市场忽略的头条在这里——2027-29 长期指引全面上调，幅度远超我们研究报告里记录的花旗预期（7-10% → 8-11%）：</p>
-<div class="tbl-wrap"><table><thead><tr><th>长期目标</th><th>旧指引</th><th>新指引</th><th>变化</th></tr></thead><tbody><tr><td>收入 CAGR（2027-29）</td><td>7-10%</td><td><strong>10-13%</strong></td><td>中枢 +3pt</td></tr><tr><td>EBITDA 利润率</td><td>52%+</td><td>53%+</td><td>+1pt</td></tr><tr><td>AFFO/share 年增速</td><td>5-9%</td><td><strong>9-12%</strong></td><td>中枢 +3pt</td></tr><tr><td>年 capex</td><td>$30-40 亿</td><td><strong>$50-70 亿</strong></td><td><strong>+67%</strong></td></tr></tbody></table></div>
-<p>隐含 2029E AFFO $58，高于高盛/一致预期的 $56.47/$56.20。<strong>管理层用 capex 翻倍投票：AI 数据中心需求是结构性的，不是周期脉冲。</strong>这与我们研究报告"AI 推理主场"的多方逻辑互相印证。</p>
-<hr class="doc-hr">
-<h3 class="doc-h2">四、与我们研究报告的交叉验证</h3>
-<ul><li><strong>验证多方</strong>：我们反证条件 #3「长期指引上调落空或下调」——不但上调且大超预期，此条警报解除；核心分歧表里"花旗预期收入目标 7-10%→8-11%"，实际给到 10-13%，比最乐观预期还高</li><li><strong>验证谨慎方</strong>：我们核心分歧表的估值行「P/AFFO 已高于历史均值和同行（~19x）」——高盛 21x 封顶正是这个逻辑的卖方表达；年 capex 从 $30-40 亿抬到 $50-70 亿，我们报告"FCF 为负、投入换未来"的裂缝加深</li><li><strong>新增裂缝信号</strong>：机柜净增 -22% miss + 经常性收入 miss——我们报告里"建设速度落后于行业（份额 8%→5%）"的老裂缝，在本季先行指标上又看到了影子。建议把「机柜计费净增」加入跟踪计划，它是比 bookings 更硬的产能去化指标</li><li><strong>待补</strong>：高盛 First Take 未覆盖 Fabric/互联业务增速（我们的核心验证抓手）——等完整报告或电话会纪要补充</li></ul>
-<hr class="doc-hr">
-<h3 class="doc-h2">五、评级解码（卖方语言翻译）</h3>
-<div class="tbl-wrap"><table><thead><tr><th>卖方行为</th><th>翻译</th></tr></thead><tbody><tr><td>Neutral + 目标价低于现价，同时全文认可 beat and raise</td><td>"基本面我全认，但这个价我不让你追"——卖方最诚实的形态之一（它本可以随大流上调目标价）</td></tr><tr><td>长期指引大超预期，目标价却不动</td><td>高盛认为市场已经在按上调后的剧本定价（21x），指引上调只是"兑现"不是"惊喜"</td></tr></tbody></table></div>
-<p><strong>买方用法</strong>：这份报告的正确读法不是"卖出"，而是"这家公司的预期差已经不在基本面，在估值"——如果股价因 3Q 指引 miss 或先行指标走弱而回调，长期指引上调的基本面反而提供了接的底气。好公司，等好价格。</p>
-  </article>
+
   <article class="doc" id="tab-onepager" hidden>
 <h3 class="doc-h2">公司概况</h3>
 <p>易昆尼克斯（Equinix）是全球最大的零售型数据中心运营商，定位为全球数字基础设施公司。公司提供运营商中立的托管（Colocation）、互联（Interconnection）及边缘解决方案，其核心价值在于构建了一个汇聚超过10,500家企业、云服务商、网络服务商及AI参与者的全球性数字生态系统。截至2026年Q1，公司在全球36个国家的77个市场运营着281个数据中心，拥有超过50万个互联节点，是数字经济的核心物理枢纽。</p>
@@ -225,7 +481,7 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 <ul><li><strong>客户情况</strong>：公司客户基础高度分散且多元化，涵盖云和IT服务商、网络服务商、金融、内容与数字媒体及各类企业。截至2025年底，拥有超过10,500家客户。<strong>客户集中度风险极低</strong>，单一最大客户收入占比低于3%，前50大客户合计贡献约36%的经常性收入。2026年Q1，公司完成了3,800笔交易，涉及3,100多个独立客户，显示出强大的客户获取能力和广泛的市场需求。新客户方面，前十大AI模型提供商中的8家已成为其客户，并正在积极扩张。  </li><li><strong>供应商情况</strong>：公司的主要“供应商”包括电力公司、房地产开发商、网络运营商和设备制造商。在电力方面，公司凭借其30年的运营历史和规模优势，与全球主要公用事业公司建立了深厚关系，2026年未因电力约束导致项目延迟。公司通过多元化供电策略（电网、天然气、绿色能源）和长期电力采购协议来管理成本和供应风险。在网络方面，公司依赖电信运营商提供连接，但双方更多是竞合关系，Equinix的生态价值使其在与运营商的合作中具备较强话语权。 </li><li><strong>成本传导能力</strong>：公司具备较强的成本传导能力。当上游成本（如电力、建设成本）上升时，公司能够通过提高机柜价格（MRR/机柜同比增长9.3%）和互联服务费用将成本转嫁给客户。这得益于其提供的服务对客户业务至关重要，且客户缺乏同等替代方案。公司赚取的是<strong>“生态接入费”和“低延迟连接溢价”</strong>，而非单纯的“加工费”。  </li></ul>
 <h3 class="doc-h2">财务数据</h3>
 <p><strong>关键财务数据（单位：亿美元）</strong></p>
-<div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2023&lt;br&gt;截止2023-12-31</th><th>FY2024&lt;br&gt;截止2024-12-31</th><th>FY2025&lt;br&gt;截止2025-12-31</th><th>FY2026 Q1&lt;br&gt;截止2026-03-31</th></tr></thead><tbody><tr><td><strong>营业收入</strong></td><td>81.88</td><td>87.48</td><td>92.17</td><td>24.44</td></tr><tr><td>营收同比</td><td>12.74%</td><td>6.84%</td><td>5.36%</td><td>9.84%</td></tr><tr><td>营业成本</td><td>42.28</td><td>44.67</td><td>45.08</td><td>11.86</td></tr><tr><td><strong>毛利润</strong></td><td>39.60</td><td>42.81</td><td>47.09</td><td>12.58</td></tr><tr><td><strong>毛利率</strong></td><td>48.37%</td><td>48.93%</td><td>51.09%</td><td>51.47%</td></tr><tr><td>营业开支</td><td>25.09</td><td>26.57</td><td>27.43</td><td>6.85</td></tr><tr><td><strong>营业利润</strong></td><td>14.51</td><td>16.24</td><td>19.66</td><td>5.73</td></tr><tr><td>归母净利润</td><td>9.69</td><td>8.15</td><td>13.50</td><td>4.15</td></tr><tr><td>归母净利润同比</td><td>37.45%</td><td>-15.89%</td><td>65.64%</td><td>20.99%</td></tr><tr><td>稀释每股收益（美元）</td><td>10.31</td><td>8.50</td><td>13.76</td><td>4.20</td></tr><tr><td>经营活动现金流净额</td><td>32.17</td><td>32.49</td><td>39.11</td><td>7.17</td></tr><tr><td>资本性支出</td><td>31.65</td><td>34.03</td><td>53.05</td><td>13.79</td></tr><tr><td><strong>自由现金流</strong></td><td>0.52</td><td>-1.54</td><td>-13.94</td><td>-6.62</td></tr></tbody></table></div>
+<div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2023 截止2023-12-31</th><th>FY2024 截止2024-12-31</th><th>FY2025 截止2025-12-31</th><th>FY2026 Q1 截止2026-03-31</th></tr></thead><tbody><tr><td><strong>营业收入</strong></td><td>81.88</td><td>87.48</td><td>92.17</td><td>24.44</td></tr><tr><td>营收同比</td><td>12.74%</td><td>6.84%</td><td>5.36%</td><td>9.84%</td></tr><tr><td>营业成本</td><td>42.28</td><td>44.67</td><td>45.08</td><td>11.86</td></tr><tr><td><strong>毛利润</strong></td><td>39.60</td><td>42.81</td><td>47.09</td><td>12.58</td></tr><tr><td><strong>毛利率</strong></td><td>48.37%</td><td>48.93%</td><td>51.09%</td><td>51.47%</td></tr><tr><td>营业开支</td><td>25.09</td><td>26.57</td><td>27.43</td><td>6.85</td></tr><tr><td><strong>营业利润</strong></td><td>14.51</td><td>16.24</td><td>19.66</td><td>5.73</td></tr><tr><td>归母净利润</td><td>9.69</td><td>8.15</td><td>13.50</td><td>4.15</td></tr><tr><td>归母净利润同比</td><td>37.45%</td><td>-15.89%</td><td>65.64%</td><td>20.99%</td></tr><tr><td>稀释每股收益（美元）</td><td>10.31</td><td>8.50</td><td>13.76</td><td>4.20</td></tr><tr><td>经营活动现金流净额</td><td>32.17</td><td>32.49</td><td>39.11</td><td>7.17</td></tr><tr><td>资本性支出</td><td>31.65</td><td>34.03</td><td>53.05</td><td>13.79</td></tr><tr><td><strong>自由现金流</strong></td><td>0.52</td><td>-1.54</td><td>-13.94</td><td>-6.62</td></tr></tbody></table></div>
 <p><strong>财务分析</strong>：</p>
 <ul><li><strong>成长能力</strong>：公司营收增速在FY2025触底（+5.4%）后，于FY2026 Q1强劲反弹至近10%，主要受AI和云计算需求驱动。管理层预计FY2026全年营收增长10-11%，标志着公司进入新一轮增长加速期。归母净利润在FY2024因减值等因素下滑后，FY2025大幅反弹，FY2026 Q1延续增势。  </li><li><strong>盈利能力</strong>：毛利率从FY2023的48.4%持续提升至FY2026 Q1的51.5%，显示出公司在规模扩张的同时实现了经营杠杆的改善。调整后EBITDA利润率在FY2026 Q1达到51%的历史新高，同比提升300个基点，反映了公司在成本控制和产品组合优化（高利润互联业务占比提升）方面的成效。  </li><li><strong>运营与偿债能力</strong>：公司处于大规模投资周期，资本开支强度（Capex/Revenue）从FY2023的38.7%大幅攀升至FY2026 Q1的56.4%，导致自由现金流为负。这是公司为抓住AI机遇而主动进行的战略投资。截至FY2026 Q1，公司净杠杆率（Net Debt/Adj. EBITDA）为3.8倍，处于投资级评级的合理范围内，短期偿债风险可控。  </li></ul>
 <h3 class="doc-h2">行业及竞争分析</h3>
@@ -257,16 +513,55 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 <section class="sources">
   <div class="shell">
     <h2>数据来源</h2>
-    <p>Gangtise Open API（公司一页通 · stock-one-pager）· 公司财报及公开披露 · 仅作研究学习用途，不构成投资建议。</p>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
   </div>
 </section>
-<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/EQIX · 生成于 2026-07-30</div></footer>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/EQIX · 生成于 2026-08-06</div></footer>
 
 <script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-07-30';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'hit', text: '<strong>长期指引上调</strong>：Q2 财报（7/29 盘后）收入 CAGR 7-10%→10-13%、AFFO/股年增 5-9%→9-12%，比花旗最乐观预期还高', note: '2026-07-29 已兑现，幅度超预期' },
+  { kind: 'cat', status: 'active', text: '<strong>Fabric / 互联业务增速</strong>：AI 推理逻辑的核心证据，每季度验证；Q1 Fabric 预订 +74%、互联收入 +13%', note: 'Q2 完整电话会纪要待补' },
+  { kind: 'cat', status: 'active', text: '<strong>xScale 合资项目签约</strong>：超大规模客户突破；净收入贡献 2026 ~$1,100 万 → 2030 ~$1.14 亿（伯恩斯坦预测）', note: '持续跟踪' },
+  { kind: 'cat', status: 'pending', text: '<strong>atNorth 收购整合 + 新任首席产品官任命</strong>：欧洲高密度布局与管理层过渡期（Q3 财报季更新）', note: '2026 年 9-10 月' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>互联业务增速回落到个位数</strong>（AI 推理逻辑弱化）', note: '最新 Q1：互联 +13%、Fabric 预订 +74%，未触发' },
+  { kind: 'risk', status: 'triggered', text: '<strong>机柜计费净增走弱</strong>：Q2 净增 4,200，低于预期 -22%（预期 5,400）——产能去化指标亮黄灯', note: '2026-07-29 Q2 财报；已列入重点跟踪，下季度重检观点' },
+  { kind: 'risk', status: 'clear', text: '<strong>新项目回报率跌破 20%</strong>（资本纪律失守）', note: '管理层口径维持 ~25%，必验之数' },
+  { kind: 'risk', status: 'clear', text: '<strong>净杠杆率突破 5x</strong> 或信用评级下调', note: '最新 3.8x（FY26Q1），投资级区间内' },
+  { kind: 'risk', status: 'clear', text: '<strong>份额继续下滑且管理层无应对</strong>', note: '份额 2020 年 8%→2025 年 5%；Build Bolder + capex 翻倍是应对，看执行' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
 document.querySelectorAll('.site-nav button').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
-    document.querySelectorAll('main .doc').forEach(d => { d.hidden = d.id !== 'tab-' + btn.dataset.tab; });
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 });

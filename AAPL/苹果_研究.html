@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>苹果（AAPL.O）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <style>
 :root {
   --paper: #ffffff; --paper-cool: #f3f6f8;
@@ -18,7 +19,7 @@
 html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
 body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
 
-/* ===== 顶栏（美联储风格） ===== */
+/* ===== 顶栏 ===== */
 .site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
 .site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
 .site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
@@ -32,16 +33,20 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 
 .shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
 
-/* ===== 抬头 ===== */
+/* ===== 抬头：公司名称 + 观点 ===== */
 .overview { padding: 34px 0 0; }
-.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 170px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
 .overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
 .overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
 .overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
-.overview__date { padding: 16px 0 4px; border-top: 2px solid var(--policy-red); text-align: right; }
-.overview__date span, .overview__date strong { display: block; }
-.overview__date span { margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
-.overview__date strong { font-size: 15px; font-variant-numeric: tabular-nums; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--amber); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
 
 /* ===== 关键指标栏 ===== */
 .summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
@@ -49,32 +54,108 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 .summary-rail__item:last-child { border-right: 0; }
 .summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
 .summary-rail__item strong.up { color: var(--policy-red); }
-.summary-rail__item strong.down { color: var(--teal); }
 .summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
 
-/* ===== 正文文档 ===== */
+/* ===== 跟踪面板（置顶） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
 .doc { padding: 40px 0 80px; }
 .doc[hidden] { display: none; }
-.doc-h1 { margin: 34px 0 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line-strong); font-family: var(--font-display); font-size: 30px; font-weight: 650; }
-.doc-h1:first-child { margin-top: 0; }
-.doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
-.doc-h3 { margin: 22px 0 10px; color: var(--federal-blue); font-size: 15px; font-weight: 750; }
-.doc p, .doc li { color: var(--ink-soft); font-size: 15px; }
-.doc p { margin: 0 0 14px; }
-.doc ul, .doc ol { margin: 0 0 16px; padding-left: 24px; }
-.doc li { margin-bottom: 6px; }
-.doc strong { color: var(--ink); }
-.doc code { padding: 1px 6px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper-cool); font-size: 13px; }
-.doc-hr { margin: 30px 0; border: 0; border-top: 1px solid var(--line); }
-.doc-quote { margin: 18px 0; padding: 16px 20px; border-left: 3px solid var(--amber); background: #faf6ec; color: var(--ink-soft); font-size: 14px; }
-.tbl-wrap { margin: 16px 0 24px; overflow-x: auto; }
-.doc table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
-.doc th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
-.doc td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
-.doc tr:hover td { background: #f8fafc; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
 .warn { color: var(--policy-red); }
-.star { color: var(--amber); }
-.xref { color: var(--federal-blue); font-weight: 600; }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
 
 /* ===== 页脚 ===== */
 .sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
@@ -86,8 +167,14 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   .shell { width: min(calc(100% - 32px), var(--shell)); }
   .overview__heading { grid-template-columns: 1fr; gap: 18px; }
   .overview__copy h1 { font-size: 32px; }
-  .overview__date { text-align: left; }
   .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
   .site-nav button { min-width: 78px; padding: 0 8px; }
   .site-mark__text span { display: none; }
 }
@@ -101,9 +188,8 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
     <span class="site-mark__text">苹果 公司研究<span>Apple · AAPL.O</span></span>
   </a>
   <nav class="site-nav">
-    <button class="is-active" data-tab="report">研究报告</button>
-    <button data-tab="broker">券商研报</button>
-    <button data-tab="onepager">一页通（Gangtise）</button>
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
   </nav>
 </header>
 
@@ -112,85 +198,303 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
     <div class="overview__heading">
       <div class="overview__copy">
         <h1>苹果<span class="en">Apple · AAPL.O · 美股研究</span></h1>
-        <p class="sub">iPhone +22% 的需求撞上先进制程产能与存储涨价的墙：FQ4 指引 miss 盘后 -6%——轻资产 AI 保住了现金流，没保住增长确定性。9 月折叠屏发布会与 CEO 交接同一窗口。</p>
+        <p class="sub">iPhone +22% 的强劲需求撞上先进制程产能与存储涨价的墙：FQ4 指引 miss 盘后 -6%——轻资产 AI 保住了现金流，没保住增长确定性。核心问题已从「需求行不行」切换成「供应和成本什么时候缓解」，而 9 月发布会与 CEO 交接恰好叠在同一窗口。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-07-31</span>
+          <span>下次更新：9 月秋季发布会 + CEO 交接（9/1）</span>
+        </div>
       </div>
-      <div class="overview__date">
-        <span>研究日期</span>
-        <strong>2026-07-31</strong>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>盘后 $312 已释放大半估值风险：递延论证实看向 $340-365，证伪则 $296 守不住——胜负手在 9 月发布会与 FQ4 兑现度。</em>
       </div>
     </div>
     <div class="summary-rail">
-      <div class="summary-rail__item"><strong class="up">+22%</strong><span>FQ3 iPhone 增速 · 需求强劲</span></div>
-<div class="summary-rail__item"><strong class="down">-6.3%</strong><span>财报后盘后 · FQ4 指引 miss</span></div>
-<div class="summary-rail__item"><strong class="down">~46.5%</strong><span>FQ4 毛利率指引（剔关税退款）· 环比 -160bps</span></div>
-
+      <div class="summary-rail__item"><strong class="up">+22%</strong><span>FQ3 iPhone 增速 · 全球份额 20%</span></div>
+      <div class="summary-rail__item"><strong>+9~11%</strong><span>FQ4 收入指引（一致 +12.1%）· miss</span></div>
+      <div class="summary-rail__item"><strong>~46.5%</strong><span>FQ4 毛利率指引（剔关税退款）· 环比 -160bps</span></div>
+      <div class="summary-rail__item"><strong>33x vs 30x</strong><span>估值分歧：花旗/摩通 vs 瑞银</span></div>
     </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
   </div>
 </section>
 
 <main class="shell">
   <article class="doc" id="tab-report">
-<blockquote class="doc-quote"><strong>研究日期</strong>：2026-07-31 ｜ <strong>数据来源</strong>：Gangtise 一页通（2026-07-30，财报前）+ FQ3 财报（7/30 盘后）+ 券商研报（摩根大通/花旗） <strong>状态</strong>：初稿 v1（已含最新财报）｜ <strong>下次更新</strong>：9 月秋季发布会 + CEO 交接（9/1） <strong>关联研究</strong>：<span class="xref">微软研究报告</span>、<span class="xref">亚马逊研究报告</span>、<span class="xref">Meta 研究报告</span>（AI 资本配置四路径对照）、<span class="xref">NVDA 英伟达研究报告</span>（先进制程产能约束互证）</blockquote>
-<hr class="doc-hr">
-<h3 class="doc-h2">〇、一句话结论</h3>
-<p><strong>iPhone +22%、Mac +29%、大中华区 +22%——需求端几乎完美，但撞上"先进制程产能不足 + 存储涨价"的供应成本之墙：FQ4 收入指引 +9~11% 低于一致预期、剔除关税退款后毛利率指引环比 -160bps，盘后 -6.3%。EPS beat 全靠关税退款，市场看穿了。这份财报把苹果的核心问题从"需求行不行"切换成"供应和成本什么时候缓解"——而 9 月发布会（首款折叠屏 + iPhone 18 传提价 $200 + Siri AI 正式版）与 CEO 交接恰好叠在同一窗口，催化与不确定性同框。</strong></p>
-<hr class="doc-hr">
-<h3 class="doc-h2">一、财报速览（FQ3 2026，截至 2026-06 月末）</h3>
-<div class="tbl-wrap"><table><thead><tr><th>指标</th><th>实际</th><th>预期</th><th>评价</th></tr></thead><tbody><tr><td>总营收</td><td>$1,094 亿（+16%）</td><td>$1,089 亿</td><td>✅ 达指引上限（14-17%），微 beat</td></tr><tr><td>EPS</td><td>$2.02</td><td>$1.89</td><td><span class="warn">⚠️</span> 含 $0.11 <strong>关税退款</strong>，剔除后 $1.91 仅微 beat</td></tr><tr><td>iPhone</td><td>$543 亿（+22%）</td><td>$536 亿</td><td>✅ Pro 系列强劲；CQ2 全球份额 20%（去年 17%）</td></tr><tr><td>Mac</td><td>$104 亿（+29%）</td><td>$87 亿</td><td>✅ 大超，Edge AI 换机逻辑</td></tr><tr><td>iPad</td><td>$62 亿（-6%）</td><td>$70 亿</td><td>❌ miss——提价压制需求的第一个样本</td></tr><tr><td>服务</td><td>$307 亿（+12%）</td><td>$314 亿</td><td>❌ miss，环比从 16% 减速：手游疲软 + App Store 外链支付分流</td></tr><tr><td>毛利率</td><td>50.1%</td><td>48.1%</td><td><span class="warn">⚠️</span> 含 200bps 关税退款，剔除后 48.1% 正好 inline</td></tr><tr><td>大中华区</td><td>+22%</td><td>—</td><td>✅ AI 备案落地前的需求回暖</td></tr><tr><td>盘后股价</td><td><strong>-6.3%</strong>（$333.43 → $312.33）</td><td>—</td><td>7/28 刚创历史新高 $342.89、市值破 5 万亿</td></tr></tbody></table></div>
-<p><strong>FQ4 指引（9 月季度）</strong>：收入 +9~11%（一致预期 +12.1%）；毛利率 47-48%（含 ~100bps 关税退款，<strong>剔除后 ~46.5%，环比 -160bps</strong>）；iPhone mid-teens；服务 ~9.5%（剔除 FX 与 FQ3 持平）；Opex $191-194 亿。</p>
-<hr class="doc-hr">
-<h3 class="doc-h2">二、靠什么赚钱？</h3>
-<p><strong>一句话：硬件引流 + 生态绑定 + 服务变现的一体机——iPhone 占收入半壁江山，服务（毛利率 75.6%）以 26% 的收入贡献 42% 的毛利，25 亿活跃设备是这一切的地基。</strong></p>
-<p>与其他巨头最大的不同是 <strong>"轻资产 AI"</strong>：年 capex 约 $102 亿（营收占比 ~2.5%），AI 靠集成第三方模型（中国已接入阿里通义千问、百度支持搜索）+ 租赁算力实现，不建数据中心。FY26H1 经营现金流 $826 亿、回购 $370 亿——当微软/谷歌/亚马逊/Meta 在千亿级 capex 里挣扎时，苹果的 FCF 年化超 $1,400 亿，这是它 7 月逆势创历史新高、市值破 5 万亿的叙事基础。</p>
-<hr class="doc-hr">
-<h3 class="doc-h2">三、为什么 beat 了还跌 6%？——拆三层</h3>
-<ol><li><strong>关税退款的一次性粉饰</strong>：FQ3 的 EPS beat（$0.11）和毛利率 beat（200bps）全部来自关税退款；FQ4 指引里退款只剩 ~100bps——粉饰在递减，真实毛利率 46.5%、环比 -160bps。<strong>这是本财报季第四次看到一次性项目撑 beat</strong>（AMZN 的 Anthropic $530 亿账面收益和 $6 亿能源合约、META 的 $24 亿法律费用反向、AAPL 的关税退款）——本周的 beat 含水量普遍偏高，市场已经学会先拆再定价。</li><li><strong>指引 miss 的结构</strong>：+9~11% vs 一致 +12.1%，拆开是 FX 环比逆风 2.5pt + 供应限制环比加剧（先进制程产能，从 Mac 扩散到 iPhone/iPad）+ ~250bps 基数效应。摩根大通判断"收入递延而非丢失"——这是多空分界线。</li><li><strong>服务减速到 12%（FQ4 指引仅 ~9.5%）</strong>：高毛利引擎失速比硬件 miss 更伤估值——苹果的估值溢价一半建立在服务上。手游疲软和 F1 基数是暂时的，但 App Store 外链支付（监管倒逼的 link-out）是<strong>结构性分流</strong>。</li></ol>
-<blockquote class="doc-quote">📚 *方法点评：这个财报季读美股巨头，第一件事不是看 beat/miss，是<strong>找一次性项目</strong>——关税退款、投资账面收益、能源合约、法律费用，每家都有。EPS 的"含金量"= 报表值 − 一次性项，然后才是和预期比。*</blockquote>
-<hr class="doc-hr">
-<h3 class="doc-h2">四、核心分歧</h3>
-<div class="tbl-wrap"><table><thead><tr><th></th><th>乐观方</th><th>谨慎方</th></tr></thead><tbody><tr><td>供应限制</td><td><strong>递延</strong>：先进制程产能 12 月季度起缓解，苹果用户等得起，需求不消失</td><td><strong>丢失</strong>：iPad -6% 已演示"涨价压需求"；安卓同受存储涨价但不受先进制程约束，存在份额窗口</td></tr><tr><td>毛利率</td><td>存储涨价是周期；6 月 Mac/iPad 已提价 ~20%、iPhone 18 传提价 $200，转嫁能力最强（行业溢价 120%+）</td><td>46.5% 的指引说明对冲不完全；结转库存红利 9 月后递减，毛利率压力才刚开始</td></tr><tr><td>服务</td><td>减速是手游/基数/FX 的暂时因素；云服务、支付、广告仍双位数增长，Apple Pay 用户创新高</td><td>link-out 外链支付是监管驱动的结构性分流；谷歌搜索协议（~$200 亿授权收入）悬在反垄断刀下</td></tr><tr><td>估值</td><td>33x FY28（花旗/摩通）：AI 入口稀缺性 + 轻资产避险属性值得溢价</td><td>30x CY27（瑞银 $296）：花旗自己风险提示里都写了——<strong>指数权重太大，机构不敢再加仓</strong>，买盘结构是硬约束</td></tr><tr><td>轻资产 AI</td><td>不烧钱 = 资本纪律：FCF 年化 $1,400 亿+，利率高企时代的避风港</td><td>不投入 = AI 能力依赖第三方：Siri 落后是公开事实，"AI 入口"叙事存在证伪风险</td></tr></tbody></table></div>
-<hr class="doc-hr">
-<h3 class="doc-h2">五、交叉验证：AI 资本配置的光谱 <span class="star">⭐</span></h3>
-<p>本周财报恰好凑齐四条路径的市场待遇，放在一起看非常清晰：</p>
-<div class="tbl-wrap"><table><thead><tr><th>路径</th><th>公司</th><th>财报后</th><th>市场的理由</th></tr></thead><tbody><tr><td>重资产 + 回报可见</td><td>MSFT / AMZN</td><td>+8% / 上涨</td><td>capex 狂飙，但 Azure +43%、AWS +37%，回报看得见</td></tr><tr><td>重资产 + 回报不可见</td><td>META</td><td>-7.5%</td><td>capex $1,300-1,450 亿，FCF -91%，回报看不见</td></tr><tr><td>轻资产 + 供应撞墙</td><td><strong>AAPL</strong></td><td><strong>-6.3%</strong></td><td>不烧钱保住了现金流，但没保住增长确定性</td></tr></tbody></table></div>
-<p><strong>结论：本周市场惩罚一切"不确定"，只奖励"可见回报"。</strong>苹果的轻资产路线让它免于烧钱焦虑，却也暴露了另一面——不掌控算力供给，增长就受制于台积电的产能分配和存储厂商的报价。另外注意：苹果的"先进制程产能不足"恰是 TSMC 产能被 AI 芯片挤占的旁证，与 <span class="xref">NVDA 英伟达研究报告</span> 的供给约束主线互证。</p>
-<hr class="doc-hr">
-<h3 class="doc-h2">六、反证条件</h3>
-<ol><li><span class="warn">⚠️</span> FQ4 实际收入落在指引下限之下（&lt;+9%）——供应限制不是递延而是恶化</li><li><span class="warn">⚠️</span> 服务增速跌破 9%（App Store 分流加速的证据）</li><li><span class="warn">⚠️</span> 毛利率跌破 46%（存储成本 + 提价失效双重挤压）</li><li><span class="warn">⚠️</span> 9 月发布会折叠屏/Siri AI 反响平淡或再度延期（换机叙事断档）</li><li><span class="warn">⚠️</span> CEO 交接出现高管离职潮或战略摇摆（9/1 特纳斯接任）</li><li><span class="warn">⚠️</span> 谷歌搜索默认协议被判终止（~$200 亿高利润授权收入直接受冲击）</li></ol>
-<hr class="doc-hr">
-<h3 class="doc-h2">七、跟踪计划</h3>
-<div class="tbl-wrap"><table><thead><tr><th>跟踪变量</th><th>时间</th><th>说明</th></tr></thead><tbody><tr><td>9 月发布会：折叠屏 / iPhone 18 定价 / Siri AI 正式版</td><td>2026-09</td><td>换机叙事 + 提价 $200 的市场接受度，年内最大催化</td></tr><tr><td>CEO 交接（库克 → 特纳斯）</td><td>2026-09-01</td><td>新 CEO 首次公开战略沟通，留意资本配置口径变化</td></tr><tr><td>FQ4 财报</td><td>2026-10 底</td><td>收入指引 +9~11% 兑现度；毛利率 47-48%（剔退款 ~46.5%）</td></tr><tr><td>芯片长期供应战略</td><td>电话会/新闻</td><td>管理层是否签长协锁先进制程产能——"递延论"成立的硬证据</td></tr><tr><td>存储价格走势</td><td>持续</td><td>DRAM/NAND 合约价，决定毛利率天花板</td></tr><tr><td>中国 AI 落地</td><td>持续</td><td>通义千问集成上线节奏；大中华区 +22% 的持续性</td></tr><tr><td>谷歌搜索协议反垄断裁决</td><td>持续</td><td>服务收入的结构性风险</td></tr></tbody></table></div>
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">供应撞墙：收入是「递延」还是「丢失」？</h2>
+        <span class="qa__impact-tag">→ FQ4 收入 +9~11% vs 一致 +12.1% · 盘后 -6.3%</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>需求端已被证明（iPhone +22%、Mac +29%、大中华区 +22%），指引 miss 拆开是 FX 逆风 2.5pt + 供应限制加剧 + ~250bps 基数——<em>但「递延论」目前只有管理层口头保证，没有产能长协之类的硬证据；iPad -6% 已经演示过「提价压需求」的实际形态。判定窗口：FQ4 财报与 12 月季度产能是否如期缓解。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这是多空分界线，直接决定 FY27 盈利路径。</strong>递延论成立 → 收入后移而非消失，FY27 增速恢复，当前盈利下修只是节奏问题；丢失论成立 → FQ4 实际收入落在指引下限之下（&lt;+9%），EPS 面临新一轮下修。</p>
+            <p>对倍数的影响同样直接：递延被证实，33x 的估值锚站得住；递延被证伪，市场会向瑞银的 30x 甚至更低切换——<strong>这个问题决定的是「下修是否见底」</strong>。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点（递延）</h4>
+            <ul>
+              <li>先进制程产能 <strong>12 月季度起缓解</strong>，苹果用户等得起，需求不消失（摩根大通判断「收入递延而非丢失」）</li>
+              <li>FQ3 需求证据极强：iPhone +22%、CQ2 全球份额 20%（去年 17%）、大中华区 +22%</li>
+              <li>苹果的先进制程产能不足恰是 TSMC 产能被 AI 芯片挤占的旁证——<strong>是行业性挤占，不是需求问题</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点（丢失）</h4>
+            <ul>
+              <li>iPad -6% miss 已演示<strong>「涨价压制需求」</strong>的实际形态，卖方没有一家认真讨论这个样本</li>
+              <li>安卓阵营同受存储涨价、但不受先进制程约束——<strong>存在份额窗口</strong></li>
+              <li>供应限制从 Mac 扩散到 iPhone/iPad，「递延论」的反面是「扩散论」，下季度见分晓</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（FQ3 财报速览 · 为什么 beat 了还跌 6% · AI 资本配置光谱）</summary>
+          <div class="evidence__body">
+            <h5>FQ3 财报速览（截至 2026-06 月末）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>实际</th><th>预期</th><th>评价</th></tr></thead><tbody><tr><td>总营收</td><td>$1,094 亿（+16%）</td><td>$1,089 亿</td><td>达指引上限（14-17%），微 beat</td></tr><tr><td>EPS</td><td>$2.02</td><td>$1.89</td><td><span class="warn">⚠️</span> 含 $0.11 <strong>关税退款</strong>，剔除后 $1.91 仅微 beat</td></tr><tr><td>iPhone</td><td>$543 亿（+22%）</td><td>$536 亿</td><td>Pro 系列强劲；CQ2 全球份额 20%（去年 17%）</td></tr><tr><td>Mac</td><td>$104 亿（+29%）</td><td>$87 亿</td><td>大超，Edge AI 换机逻辑</td></tr><tr><td>iPad</td><td>$62 亿（-6%）</td><td>$70 亿</td><td><span class="warn">miss</span>——提价压制需求的第一个样本</td></tr><tr><td>服务</td><td>$307 亿（+12%）</td><td>$314 亿</td><td><span class="warn">miss</span>，环比从 16% 减速：手游疲软 + App Store 外链支付分流</td></tr><tr><td>毛利率</td><td>50.1%</td><td>48.1%</td><td><span class="warn">⚠️</span> 含 200bps 关税退款，剔除后 48.1% 正好 inline</td></tr><tr><td>大中华区</td><td>+22%</td><td>—</td><td>AI 备案落地前的需求回暖</td></tr><tr><td>盘后股价</td><td><strong>-6.3%</strong>（$333.43 → $312.33）</td><td>—</td><td>7/28 刚创历史新高 $342.89、市值破 5 万亿</td></tr></tbody></table></div>
+            <p><strong>FQ4 指引（9 月季度）</strong>：收入 +9~11%（一致预期 +12.1%）；毛利率 47-48%（含 ~100bps 关税退款，剔除后 ~46.5%）；iPhone mid-teens；服务 ~9.5%；Opex $191-194 亿。</p>
+            <h5>为什么 beat 了还跌 6%——拆三层</h5>
+            <ol>
+              <li><strong>关税退款的一次性粉饰</strong>：EPS beat（$0.11）和毛利率 beat（200bps）全部来自关税退款；FQ4 指引里退款只剩 ~100bps——粉饰在递减，市场已经学会先拆再定价。</li>
+              <li><strong>指引 miss 的结构</strong>：+9~11% vs 一致 +12.1%，拆开是 FX 环比逆风 2.5pt + 供应限制环比加剧（先进制程产能，从 Mac 扩散到 iPhone/iPad）+ ~250bps 基数效应。</li>
+              <li><strong>服务减速到 12%</strong>（FQ4 指引仅 ~9.5%）：高毛利引擎失速比硬件 miss 更伤估值——苹果的估值溢价一半建立在服务上。</li>
+            </ol>
+            <h5>交叉验证：AI 资本配置的光谱</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>路径</th><th>公司</th><th>财报后</th><th>市场的理由</th></tr></thead><tbody><tr><td>重资产 + 回报可见</td><td>MSFT / AMZN</td><td>+8% / 上涨</td><td>capex 狂飙，但 Azure +43%、AWS +37%，回报看得见</td></tr><tr><td>重资产 + 回报不可见</td><td>META</td><td>-7.5%</td><td>capex $1,300-1,450 亿，FCF -91%，回报看不见</td></tr><tr><td>轻资产 + 供应撞墙</td><td><strong>AAPL</strong></td><td><strong>-6.3%</strong></td><td>不烧钱保住了现金流，但没保住增长确定性</td></tr></tbody></table></div>
+            <p><strong>本周市场惩罚一切「不确定」，只奖励「可见回报」。</strong>轻资产路线让苹果免于烧钱焦虑，却也暴露了另一面——不掌控算力供给，增长就受制于台积电的产能分配和存储厂商的报价。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">毛利率：存储涨价 vs 提价转嫁，谁赢？</h2>
+        <span class="qa__impact-tag">→ 剔退款指引 ~46.5% · 环比 -160bps · 危险线 46%</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>关税退款粉饰正在递减（FQ3 200bps → FQ4 ~100bps），真实毛利率指引 ~46.5%、环比 -160bps——<em>存储逆风 FQ3 已超 120bps，靠结转库存部分对冲，而库存红利 9 月后递减：毛利率压力才刚开始，不是已经结束。提价能否完全覆盖成本是核心未知。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p>毛利率是 FY27 EPS 的第一敏感变量：大摩财报前预警「FQ4 毛利率 46.8% 低于共识 47.4%」已被验证（实际剔除退款后 ~46.5%，比预警还低）——<strong>卖方的盈利下修周期可能没走完</strong>。</p>
+            <p>反证条件明确：<strong>毛利率跌破 46%</strong>（存储成本 + 提价失效双重挤压）即触发观点重检。若提价顺利转嫁，毛利率企稳则是「递延论」的旁证。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>存储涨价是<strong>周期</strong>，不是结构性侵蚀</li>
+              <li>6 月 Mac/iPad 已提价 ~20%、iPhone 18 传提价 $200——<strong>转嫁能力行业最强</strong>（ASP 溢价 120%+）</li>
+              <li>产品组合向 Pro 系列倾斜 + 服务占比提升，结构性托底毛利率</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>46.5% 的指引说明<strong>对冲不完全</strong>——管理层自己已经认了</li>
+              <li>结转库存红利 9 月后递减，毛利率压力才刚开始</li>
+              <li>iPad -6% 说明提价有需求弹性代价；<strong>iPhone 18 提价 $200 将考验消费者承受上限</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（关税退款拆解 · 存储逆风量化 · 方法论沉淀）</summary>
+          <div class="evidence__body">
+            <h5>EPS 与毛利率的「含金量」拆解</h5>
+            <ul>
+              <li>FQ3 EPS $2.02 中 <strong>$0.11 是关税退款</strong>，剔除后 $1.91 vs 预期 $1.89，仅微 beat</li>
+              <li>毛利率 50.1% 含 <strong>200bps 退款</strong>，剔除后 48.1% 正好 inline；FQ4 指引里退款只剩 ~100bps</li>
+              <li>这是本财报季第四次看到一次性项目撑 beat（AMZN 的 Anthropic 账面收益和能源合约、META 的法律费用反向、AAPL 的关税退款）——<strong>本周 beat 含水量普遍偏高</strong></li>
+            </ul>
+            <h5>存储逆风的量化</h5>
+            <ul>
+              <li>存储成本逆风 FQ3 已超 <strong>120bps</strong>，被结转库存（carry-in inventory）部分对冲</li>
+              <li>9 月后库存红利递减——毛利率压力才刚开始，不是已经结束</li>
+            </ul>
+            <h5>方法点评</h5>
+            <p>这个财报季读美股巨头，第一件事不是看 beat/miss，是<strong>找一次性项目</strong>——关税退款、投资账面收益、能源合约、法律费用，每家都有。EPS 的「含金量」= 报表值 − 一次性项，然后才是和预期比。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">服务减速到 12%（指引 9.5%）：暂时扰动还是结构性分流？</h2>
+        <span class="qa__impact-tag">→ 服务以 26% 收入贡献 42% 毛利 · 估值溢价一半在服务</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>减速的结构要拆开看：手游疲软和 F1 基数是暂时的，<em>但 App Store 外链支付（监管倒逼的 link-out）是结构性分流——引擎没熄火（云服务、支付、广告仍双位数增长，Apple Pay 用户创新高），是 App Store 这一个气缸在漏。谷歌搜索协议 ~$200 亿授权收入悬在反垄断刀下，是尾部风险。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>高毛利引擎失速比硬件 miss 更伤估值——苹果的估值溢价一半建立在服务上</strong>（服务毛利率 75%+，以 26% 的收入贡献 42% 的毛利）。服务增速从 16% → 12% → 指引 ~9.5%，直接压缩市场愿给的倍数。</p>
+            <p>反证条件：<strong>服务增速跌破 9%</strong>（App Store 分流加速的证据）；<strong>谷歌搜索默认协议被判终止</strong>（~$200 亿高利润授权收入直接受冲击）。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>减速是手游/基数/FX 的<strong>暂时因素</strong>；FQ4 指引 ~9.5% 剔除 FX 与 FQ3 持平</li>
+              <li>云服务、视频、支付、广告仍<strong>双位数增长</strong>，Apple Pay 用户创新高</li>
+              <li>订阅渗透率已达 78%，iCloud+、AppleCare+ 等高粘性服务近期还有提价</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>link-out 外链支付是<strong>监管驱动的结构性分流</strong>，不会自己好转</li>
+              <li>谷歌搜索协议（~$200 亿授权收入）悬在反垄断刀下——这是服务里<strong>利润率最高的一块</strong></li>
+              <li>美国司法部反垄断诉讼、Epic 纠纷、欧盟 DMA 多点开花，佣金模式长期承压</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（服务 miss 的结构 · 监管风险清单）</summary>
+          <div class="evidence__body">
+            <h5>服务 miss 的结构</h5>
+            <ul>
+              <li>FQ3 服务 $307 亿（+12%）vs 预期 $314 亿——手游疲软 + link-out 外链支付分流</li>
+              <li>但云服务、视频、支付、广告仍双位数增长，Apple Pay 用户创新高——<strong>引擎没熄火，是 App Store 这一个气缸在漏</strong></li>
+            </ul>
+            <h5>监管风险清单</h5>
+            <ul>
+              <li>美国司法部智能手机市场反垄断诉讼（潜在和解）</li>
+              <li>Epic Games 关于 App Store 支付政策的持续法律纠纷</li>
+              <li>欧盟《数字市场法案》（DMA）对应用分发和佣金模式的限制</li>
+              <li>谷歌搜索默认协议的未来走向——对高利润授权收入构成长期威胁</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 4 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">4</span>
+        <h2 class="qa__title">估值：33x 该不该给？盘后 $312 的赔率如何？</h2>
+        <span class="qa__impact-tag">→ 摩通 $340 / 花旗 $365 / 瑞银 $296 · 卖方分歧本周最大</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>盘后 $312 正落在瑞银（$296）与摩通（$340）之间——<em>市场已经在按「谨慎方剧本」定价，估值风险释放大半。但 33x 的根基是「AI 入口」叙事，要靠 9 月发布会折叠屏和 Siri AI 给出实证；花旗自己风险提示里都写了「指数权重太大，机构不敢再加仓」——买盘结构是硬约束。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>多空分水岭不在 iPhone 销量，在「33x」。</strong>盘后价对应 FY27E EPS ~$9.4 约 33x 下移为 ~30x，恰是瑞银的锚——若认可递延论，估值风险已释放大半；不认可则 $296 也守不住。</p>
+            <p>上行空间：递延证实 + 发布会给力 → 回到摩通 $340（+9%）/ 花旗 $365（+17%）；下行：瑞银 $296（-5% from 盘后）。<strong>赔率略偏正，但兑现高度依赖 9 月催化，对应「持有」。</strong></p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>花旗/摩通 33x FY28/CY28：AI 入口稀缺性 + 轻资产避险属性值得溢价</li>
+              <li>FCF 年化 <strong>$1,400 亿+</strong>、capex 仅占营收 ~2.5%——利率高企时代的避风港</li>
+              <li>卖方 36 买 18 持 4 卖；大摩财报前预警毛利率 46.8% 已被验证——<strong>谨慎预期已提前打进价格</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>瑞银 30x CY27 目标价 <strong>$296</strong>——本轮唯一明确说「不值」的大行，财报后看判断最准</li>
+              <li>摩通维持 OW 却把目标价 $345→$340、FY27 EPS 砍 4.6%——卖方语言里的<strong>「事实持有」</strong></li>
+              <li>「指数权重太大，机构不敢再加仓」——<strong>最大的边际买家已满仓</strong>，利好出尽是结构性的</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（券商预期地图 · 评级解码 · 33x 分歧的实质）</summary>
+          <div class="evidence__body">
+            <h5>券商预期地图（现价 $333.43 收盘 / 盘后 $312.33）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>券商</th><th>评级</th><th>目标价</th><th>隐含空间（收盘/盘后）</th><th>估值锚</th><th>核心论点</th></tr></thead><tbody><tr><td>摩根大通</td><td>Overweight</td><td>$345 → <strong>$340</strong> ⬇</td><td>+2% / +9%</td><td>33x CY28 P/E，自认处于「近几年交易区间高端」</td><td>需求势头强于预期，但供应限制 + 存储成本压近期盈利；供应是「收入递延非丢失」</td></tr><tr><td>花旗</td><td>Buy（维持）</td><td>$365</td><td>+9.5% / +17%</td><td>33x FY28 EPS，<strong>较苹果历史水平溢价 ~20%</strong></td><td>Mag7 中的防御性标的；聚焦 9 月发布会与 Siri AI</td></tr><tr><td>高盛（财报前）</td><td>Buy</td><td>$370</td><td>+11% / —</td><td>35-37x FY27</td><td>iPhone 需求 + AI 换机周期 + 提价逻辑</td></tr><tr><td>大摩（财报前）</td><td>增持</td><td>$364</td><td>+9% / —</td><td>35-37x FY27</td><td>曾预警 FQ4 毛利率 46.8% 低于共识——<strong>被验证</strong></td></tr><tr><td>瑞银（财报前）</td><td><strong>中性</strong></td><td>$296</td><td><strong>-11%</strong> / —</td><td>30x CY27</td><td>存储成本挤压 + 服务放缓 + 高估值——财报后看是最准的一家</td></tr></tbody></table></div>
+            <h5>评级解码（卖方语言翻译）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>卖方行为</th><th>翻译</th></tr></thead><tbody><tr><td>摩通：OW 维持 + 目标价下调 $5 + FY27 EPS 砍 4.6% + 隐含空间仅 +2%</td><td>「我不好意思降级，但你别指望涨」——卖方语言里的<strong>事实持有</strong></td></tr><tr><td>花旗：Buy 维持 $365 + 四条理由为 20% 估值溢价辩护</td><td>盘后 -6% 给了它维持评级的空间；<strong>倍数辩护篇幅越长的报告，信心越弱</strong></td></tr><tr><td>花旗把「指数权重太大」写进风险提示</td><td>罕见的资金面警告：边际买家已满仓，利好出尽是结构性的</td></tr><tr><td>瑞银（财报前）：中性 $296</td><td>本轮唯一明确说「不值」的大行，财报后看判断最准——其后续跟踪权重应上调</td></tr></tbody></table></div>
+            <h5>33x 分歧的实质</h5>
+            <p>基本面判断各家几乎一致（需求强劲、供应是递延），分歧全部集中在估值锚。苹果的多空分水岭不在 iPhone 销量，在「33x」——而决定 33x 能不能站稳的，是 9 月发布会上折叠屏和 Siri AI 能不能给出「AI 入口」的实证。<strong>估值问题最终要靠叙事兑现来解。</strong></p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究的数据与局限</h3>
+      <ul>
+        <li><strong>数据来源</strong>：公司财报及公开披露（FQ3 2026 财报与电话会）、公开研究资料整理（含摩根大通、花旗、高盛、大摩、瑞银等公开研报观点）</li>
+        <li><strong>局限</strong>：未读 10-K/10-Q 原文；「递延论」缺乏产能长协等硬证据，多空判定依赖后续财报验证；券商目标价与盈利预测为第三方观点，不代表本研究立场</li>
+        <li><strong>管理层评估（一句话版）</strong>：库克时代以运营与资本回报著称（FY26H1 回购 $370 亿）；9/1 起特纳斯（硬件工程出身）接任，在折叠屏 + Siri AI 关键窗口换帅，战略连续性待首次公开沟通验证</li>
+      </ul>
+    </div>
+
   </article>
-  <article class="doc" id="tab-broker" hidden>
-<h2 class="doc-h1">苹果 · 券商研报解读（买方视角）</h2>
-<blockquote class="doc-quote"><strong>解读日期</strong>：2026-07-31 ｜ <strong>研报</strong>：3 份（摩根大通 1 份 + 花旗 2 份，均为 FQ3 财报点评） <strong>方法</strong>：提取事实与预期，不采纳结论。卖方评级普遍通胀——分歧和边际变化才是信号，一致乐观本身也是信号。</blockquote>
-<hr class="doc-hr">
-<h3 class="doc-h2">〇、一句话结论</h3>
-<p><strong>36 买 18 持 4 卖——苹果是本周覆盖中卖方分歧最大的标的（对比 AMZN 的 79 买 0 卖）。最耐读的是摩根大通：一边维持 Overweight，一边把目标价从 $345 下调到 $340（隐含仅 +2%）、FY27 EPS 下调 4.6%——评级与目标价明显背离，翻译成买方语言就是"看多公司，不看多股价"。分歧核心不在基本面（两家都承认需求强劲、供应是递延），而在 33x 这个倍数该不该给。</strong></p>
-<hr class="doc-hr">
-<h3 class="doc-h2">一、预期地图</h3>
-<p>现价 <strong>$333.43</strong>（2026-07-30 收盘）｜ 盘后 <strong>$312.33</strong>（-6.3%）</p>
-<div class="tbl-wrap"><table><thead><tr><th>券商</th><th>评级</th><th>目标价</th><th>隐含空间（收盘/盘后）</th><th>估值锚</th><th>核心论点</th></tr></thead><tbody><tr><td>摩根大通</td><td>Overweight</td><td>$345 → <strong>$340</strong> ⬇</td><td>+2% / +9%</td><td>33x CY28 P/E，自认处于"近几年交易区间高端"</td><td>需求势头强于预期，但供应限制 + 存储成本压近期盈利；供应是"收入递延非丢失"</td></tr><tr><td>花旗</td><td>Buy（维持）</td><td>$365</td><td>+9.5% / +17%</td><td>33x FY28 EPS，<strong>较苹果历史水平溢价 ~20%</strong></td><td>Mag7 中的防御性标的（ROIC 与 P/FCF 有吸引力）；聚焦 9 月发布会与 Siri AI</td></tr><tr><td>高盛（一页通，财报前）</td><td>Buy</td><td>$370</td><td>+11% / —</td><td>35-37x FY27</td><td>iPhone 需求 + AI 换机周期 + 提价逻辑</td></tr><tr><td>大摩（一页通，财报前）</td><td>增持</td><td>$364</td><td>+9% / —</td><td>35-37x FY27</td><td>同上；曾预警 FQ4 毛利率 46.8% 低于共识——<strong>被验证</strong></td></tr><tr><td>瑞银（一页通，财报前）</td><td><strong>中性</strong></td><td>$296</td><td><strong>-11%</strong> / —</td><td>30x CY27</td><td>存储成本挤压 + 服务放缓 + 高估值——财报后看是最准的一家</td></tr></tbody></table></div>
-<hr class="doc-hr">
-<h3 class="doc-h2">二、卖方一致预期（≈ 股价已经定价的东西）</h3>
-<ol><li>iPhone 17 周期需求真实且强于预期（Pro 系列 + 全球份额 17%→20%）</li><li>供应限制是"递延非丢失"：先进制程产能会缓解，FX 逆风 12 月季度起转温和</li><li>存储成本是周期逆风，提价（Mac/iPad 已 +20%、iPhone 18 传 +$200）+ 产品组合可部分对冲</li><li>9 月发布会（折叠屏 + Siri AI 正式版）是下一个催化剂，中国 AI 落地扫清监管障碍</li></ol>
-<p><span class="warn">⚠️</span> 注意：这四条全部建立在"递延论"上——而"递延论"目前只有管理层的口头保证，没有产能长协之类的硬证据。这是整个卖方共识最薄弱的支点。</p>
-<hr class="doc-hr">
-<h3 class="doc-h2">三、分歧在哪：33x 该不该给</h3>
-<p>基本面判断两家几乎一致，分歧全部集中在估值锚，而且各自写得都很"诚实"：</p>
-<div class="tbl-wrap"><table><thead><tr><th></th><th>摩根大通（33x CY28）</th><th>花旗（33x FY28）</th><th>瑞银（30x CY27，财报前）</th></tr></thead><tbody><tr><td>姿态</td><td>倍数已在"交易区间高端"，盈利又下修——目标价只能到 $340</td><td>承认比历史溢价 20%，用毛利率扩张 + 服务 mix + AI 采纳 + 资产负债表四条理由辩护</td><td>直接说"不值"，$296</td></tr><tr><td>翻译</td><td>"我给不了更高了"</td><td>"我努力说服自己它值"</td><td>"等回调"</td></tr></tbody></table></div>
-<p><strong>买方用法</strong>：盘后 $312 正处于瑞银（$296）和摩通（$340）之间——市场已经在按"谨慎方剧本"定价。如果你认可递延论，盘后价对应 FY27E EPS ~$9.4 约 33x 下移为 ~30x，恰是瑞银的锚——估值风险已经释放大半；如果你不认可递延论，$296 也守不住。</p>
-<hr class="doc-hr">
-<h3 class="doc-h2">四、增量信息（事实层，吸收进我们的框架）</h3>
-<ol><li><span class="warn">⚠️</span> <strong>EPS beat 的成色</strong>：$2.02 里 $0.11 是关税退款（剔除后 $1.91 vs 街 $1.89，仅微 beat）；毛利率 50.1% 含 200bps 退款，FQ4 指引里只剩 ~100bps——<strong>退款红利正在消失，真实毛利率 46.5% 环比 -160bps</strong></li><li><strong>存储逆风的量化</strong>：FQ3 已超 120bps，被结转库存（carry-in inventory）部分对冲；9 月后库存红利递减——毛利率压力才刚开始，不是已经结束</li><li><strong>供应限制的扩散路径</strong>：FQ3 主要影响 Mac → FQ4 扩散到 iPhone/iPad（先进制程产能 + 供应链灵活性不足）——递延论的反面是"扩散论"，下季度见分晓</li><li><strong>服务 miss 的结构</strong>：手游疲软 + link-out 外链支付分流；但云服务、视频、支付、广告仍双位数增长，Apple Pay 用户创新高——引擎没熄火，是 App Store 这一个气缸在漏</li><li><strong>花旗风险清单里的大实话</strong>：「苹果在指数中权重太大，机构投资者对继续加仓持谨慎态度」——卖方罕见讨论买盘结构而非基本面。这解释了"利好出尽"的资金面机制：最大的边际买家已经满仓</li><li>花旗电话会 7 问可直接作跟踪清单：提价策略、芯片长期供应战略、iPhone 需求/份额、Siri 反馈、服务动力、关税、秋季新品</li></ol>
-<hr class="doc-hr">
-<h3 class="doc-h2">五、与我们研究报告的交叉验证</h3>
-<ul><li><strong>一致</strong>：关税退款拆解（摩通/花旗口径与我们完全一致）、供应限制递延论、服务减速的结构分析</li><li><strong>被验证的外部预测</strong>：大摩财报前预警"FQ4 毛利率 46.8% 低于共识 47.4%"——实际指引剔除退款后 ~46.5%，比大摩预警还低。<strong>大摩是本轮预期管理最准的一家，其后续报告值得优先读</strong></li><li><strong>强化</strong>：我们"本周 beat 含水量普遍偏高"的判断被逐家证实（AMZN 的 Anthropic 收益、AAPL 的关税退款）——这个方法论资产沉淀下来了</li><li><strong>我们比卖方多一分警惕的地方</strong>：卖方把供应限制一致当"递延"，我们把它列为反证条件 #1——因为 iPad -6% 已经演示过"涨价压制需求"的实际形态，而卖方报告里没有一家认真讨论这个样本</li></ul>
-<hr class="doc-hr">
-<h3 class="doc-h2">六、评级解码（卖方语言翻译）</h3>
-<div class="tbl-wrap"><table><thead><tr><th>卖方行为</th><th>翻译</th></tr></thead><tbody><tr><td>摩通：OW 维持 + 目标价下调 $5 + FY27 EPS 砍 4.6% + 隐含空间仅 +2%</td><td>"我不好意思降级，但你别指望涨"——卖方语言里的<strong>事实持有</strong>。下调目标价（哪怕只 $5）是卖方稀缺的真实信号</td></tr><tr><td>花旗：Buy 维持 $365 + 四条理由为 20% 估值溢价辩护</td><td>盘后 -6% 给了它维持评级的空间；<strong>倍数辩护篇幅越长的报告，信心越弱</strong></td></tr><tr><td>花旗把"指数权重太大"写进风险提示</td><td>罕见的资金面警告：边际买家已满仓，利好出尽是结构性的</td></tr><tr><td>瑞银（财报前）：中性 $296</td><td>本轮唯一明确说"不值"的大行，财报后看判断最准——其后续跟踪权重应上调</td></tr></tbody></table></div>
-<p><strong>三家放在一起读：苹果的多空分水岭不在 iPhone 销量，在"33x"——而决定 33x 能不能站稳的，是 9 月发布会上折叠屏和 Siri AI 能不能给出"AI 入口"的实证。估值问题最终要靠叙事兑现来解。</strong></p>
-  </article>
+
   <article class="doc" id="tab-onepager" hidden>
 <h3 class="doc-h2">公司概况</h3>
 <p>苹果公司是全球最大的消费电子企业之一，核心业务围绕<strong>iPhone（FY2025收入占比50.4%）</strong>、Mac、iPad、可穿戴设备及服务生态构建。公司通过自研芯片、操作系统与硬件一体化设计，在全球超25亿台活跃设备基础上，形成了“硬件引流→生态绑定→服务变现→反哺硬件粘性”的正循环。其服务业务毛利率高达75.4%，贡献集团毛利比重达42%，是利润质量的核心引擎。当前公司正处于AI功能深度集成与硬件形态创新（折叠屏）的关键周期。</p>
@@ -266,16 +570,56 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 <section class="sources">
   <div class="shell">
     <h2>数据来源</h2>
-    <p>Gangtise Open API（公司一页通 · stock-one-pager）· 公司财报及公开披露 · 仅作研究学习用途，不构成投资建议。</p>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
   </div>
 </section>
-<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/AAPL · 生成于 2026-07-31</div></footer>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/AAPL · 生成于 2026-08-06</div></footer>
 
 <script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-07-31';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'pending', text: '<strong>9 月秋季发布会</strong>：首款折叠屏 iPhone / iPhone 18 定价（传提价 $200）/ Siri AI 正式版——年内最大催化，「AI 入口」叙事的实证窗口', note: '预计 2026-09；折叠屏备货目标已上调至约 1000 万台' },
+  { kind: 'cat', status: 'pending', text: '<strong>CEO 交接</strong>（2026-09-01）：库克 → 特纳斯，新 CEO 首次公开战略沟通，留意资本配置口径变化', note: '' },
+  { kind: 'cat', status: 'pending', text: '<strong>FQ4 财报</strong>（2026-10 底）：收入指引 +9~11% 兑现度；毛利率 47-48%（剔退款 ~46.5%）', note: '' },
+  { kind: 'cat', status: 'active',  text: '<strong>芯片长期供应战略</strong>：管理层是否签长协锁先进制程产能——「递延论」成立的硬证据', note: '跟踪电话会/新闻' },
+  { kind: 'cat', status: 'active',  text: '<strong>中国 AI 落地</strong>：通义千问集成上线节奏；大中华区 +22% 的持续性', note: '2026-07 已完成监管备案' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>FQ4 实际收入落在指引下限之下</strong>（&lt;+9%）——供应限制不是递延而是恶化', note: '判定窗口 2026-10 底财报' },
+  { kind: 'risk', status: 'clear', text: '<strong>服务增速跌破 9%</strong>——App Store 分流加速的证据', note: 'FQ3 +12%，FQ4 指引 ~9.5%' },
+  { kind: 'risk', status: 'clear', text: '<strong>毛利率跌破 46%</strong>——存储成本 + 提价失效双重挤压', note: '最新剔退款指引 ~46.5%，距离危险线仅 ~50bps' },
+  { kind: 'risk', status: 'clear', text: '<strong>9 月发布会折叠屏/Siri AI 反响平淡或再度延期</strong>——换机叙事断档', note: '' },
+  { kind: 'risk', status: 'clear', text: '<strong>谷歌搜索默认协议被判终止</strong>——~$200 亿高利润授权收入直接受冲击', note: '反垄断裁决持续跟踪' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
 document.querySelectorAll('.site-nav button').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
-    document.querySelectorAll('main .doc').forEach(d => { d.hidden = d.id !== 'tab-' + btn.dataset.tab; });
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 });

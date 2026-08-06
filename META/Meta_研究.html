@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Meta（META.O）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <style>
 :root {
   --paper: #ffffff; --paper-cool: #f3f6f8;
@@ -18,7 +19,7 @@
 html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
 body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
 
-/* ===== 顶栏（美联储风格） ===== */
+/* ===== 顶栏 ===== */
 .site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
 .site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
 .site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
@@ -32,16 +33,20 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 
 .shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
 
-/* ===== 抬头 ===== */
+/* ===== 抬头：公司名称 + 观点 ===== */
 .overview { padding: 34px 0 0; }
-.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 170px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
 .overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
 .overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
 .overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
-.overview__date { padding: 16px 0 4px; border-top: 2px solid var(--policy-red); text-align: right; }
-.overview__date span, .overview__date strong { display: block; }
-.overview__date span { margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
-.overview__date strong { font-size: 15px; font-variant-numeric: tabular-nums; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--amber); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
 
 /* ===== 关键指标栏 ===== */
 .summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
@@ -49,32 +54,108 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 .summary-rail__item:last-child { border-right: 0; }
 .summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
 .summary-rail__item strong.up { color: var(--policy-red); }
-.summary-rail__item strong.down { color: var(--teal); }
 .summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
 
-/* ===== 正文文档 ===== */
+/* ===== 跟踪面板（置顶，定期核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
 .doc { padding: 40px 0 80px; }
 .doc[hidden] { display: none; }
-.doc-h1 { margin: 34px 0 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line-strong); font-family: var(--font-display); font-size: 30px; font-weight: 650; }
-.doc-h1:first-child { margin-top: 0; }
-.doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
-.doc-h3 { margin: 22px 0 10px; color: var(--federal-blue); font-size: 15px; font-weight: 750; }
-.doc p, .doc li { color: var(--ink-soft); font-size: 15px; }
-.doc p { margin: 0 0 14px; }
-.doc ul, .doc ol { margin: 0 0 16px; padding-left: 24px; }
-.doc li { margin-bottom: 6px; }
-.doc strong { color: var(--ink); }
-.doc code { padding: 1px 6px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper-cool); font-size: 13px; }
-.doc-hr { margin: 30px 0; border: 0; border-top: 1px solid var(--line); }
-.doc-quote { margin: 18px 0; padding: 16px 20px; border-left: 3px solid var(--amber); background: #faf6ec; color: var(--ink-soft); font-size: 14px; }
-.tbl-wrap { margin: 16px 0 24px; overflow-x: auto; }
-.doc table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
-.doc th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
-.doc td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
-.doc tr:hover td { background: #f8fafc; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
 .warn { color: var(--policy-red); }
-.star { color: var(--amber); }
-.xref { color: var(--federal-blue); font-weight: 600; }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
 
 /* ===== 页脚 ===== */
 .sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
@@ -86,8 +167,14 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   .shell { width: min(calc(100% - 32px), var(--shell)); }
   .overview__heading { grid-template-columns: 1fr; gap: 18px; }
   .overview__copy h1 { font-size: 32px; }
-  .overview__date { text-align: left; }
   .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
   .site-nav button { min-width: 78px; padding: 0 8px; }
   .site-mark__text span { display: none; }
 }
@@ -101,9 +188,8 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
     <span class="site-mark__text">Meta 公司研究<span>Meta Platforms · META.O</span></span>
   </a>
   <nav class="site-nav">
-    <button class="is-active" data-tab="report">研究报告</button>
-    <button data-tab="broker">券商研报</button>
-    <button data-tab="onepager">一页通（Gangtise）</button>
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
   </nav>
 </header>
 
@@ -112,80 +198,320 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
     <div class="overview__heading">
       <div class="overview__copy">
         <h1>Meta<span class="en">Meta Platforms · META.O · 美股研究</span></h1>
-        <p class="sub">被 AI 重新点火的广告印钞机，正把钱整捆塞进算力熔炉：收入超预期，但自由现金流暴跌 91%——广告能为 AI 豪赌赢得多少耐心？</p>
+        <p class="sub">被 AI 广告重新点火的印钞机（广告 +28%），正把印出来的钱整捆塞进算力熔炉（capex 指引 $1,300-1,450 亿、FCF 暴跌 91% 至 $7.8 亿）——核心问题：扎克伯格的 AI 豪赌，广告业务的强劲能为它赢得多少耐心？</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-07-30</span>
+          <span>下次更新：Q3 财报（2026-10-28 前后）</span>
+        </div>
       </div>
-      <div class="overview__date">
-        <span>研究日期</span>
-        <strong>2026-07-30</strong>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>核心广告仍在加速，但 FCF 暴跌后赔率取决于耐心；胜负手在 Q3 财报能否扳回指引、Meta Compute 能否给出变现路径。</em>
       </div>
     </div>
     <div class="summary-rail">
-      <div class="summary-rail__item"><strong class="up">+28%</strong><span>Q2 营收·$608亿</span></div>
-<div class="summary-rail__item"><strong class="down">-7.5%</strong><span>财报后盘后跌幅</span></div>
-<div class="summary-rail__item"><strong class="down">$7.8亿</strong><span>Q2 自由现金流·暴跌91%</span></div>
-
+      <div class="summary-rail__item"><strong class="up">营收 +28%</strong><span>Q2 $608亿·达指引上限</span></div>
+      <div class="summary-rail__item"><strong>$1,300-1,450亿</strong><span>全年 Capex 指引·维持高位</span></div>
+      <div class="summary-rail__item"><strong>$7.8亿</strong><span>Q2 自由现金流·暴跌 91%</span></div>
+      <div class="summary-rail__item"><strong>-7.5%</strong><span>财报后盘后跌幅（$585.6→$542）</span></div>
     </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
   </div>
 </section>
 
 <main class="shell">
   <article class="doc" id="tab-report">
-<blockquote class="doc-quote"><strong>研究日期</strong>：2026-07-30 ｜ <strong>数据来源</strong>：Gangtise 一页通（财报前预期）、Q2 财报（7/29 盘后披露） <strong>状态</strong>：初稿 v1（已含最新财报）｜ <strong>下次更新</strong>：Q3 财报（2026-10-28 前后） <strong>关联研究</strong>：<span class="xref">NVDA 英伟达研究报告</span>（Meta 是 NVDA 最大买家之一，2 月刚签 Blackwell+Rubin 跨代协议）</blockquote>
-<hr class="doc-hr">
-<h3 class="doc-h2">〇、一句话结论</h3>
-<p><strong>Meta 是一台被 AI 广告重新点火的印钞机（广告 +28%），但现在正把印出来的钱整捆整捆地塞进算力熔炉（capex 指引 $1,300-1,450 亿、FCF 从 $85 亿暴跌到 $7.8 亿）——昨晚财报"收入超预期、利润被费用砸、指引偏软"，盘后 -7.5%。核心问题与谷歌相同但更尖锐：扎克伯格的 AI 豪赌，广告业务的强劲能为它赢得多少耐心？</strong></p>
-<hr class="doc-hr">
-<h3 class="doc-h2">一、财报速览（Q2 2026，截至 2026-06-30）</h3>
-<div class="tbl-wrap"><table><thead><tr><th>指标</th><th>实际</th><th>预期</th><th>评价</th></tr></thead><tbody><tr><td>营收</td><td>$608 亿（+28%）</td><td>$601.7 亿</td><td>✅ 略超预期，达指引上限</td></tr><tr><td>EPS</td><td>$6.18</td><td>$7.22</td><td>❌ 大幅 miss</td></tr><tr><td>— 其中一次性项目</td><td>$24 亿法律费用 + $11.8 亿裁员遣散费</td><td>—</td><td>剔除后营业利润实际 +9%</td></tr><tr><td>Q3 营收指引</td><td>$610-640 亿（中值 $625 亿）</td><td>$631.5 亿</td><td>❌ 低于预期</td></tr><tr><td>自由现金流</td><td><strong>$7.84 亿</strong>（去年同期 $85.5 亿）</td><td>—</td><td>❌ 暴跌 91%，市场最痛的点</td></tr><tr><td>全年 Capex 指引</td><td>$1,300-1,450 亿</td><td>—</td><td>维持高位</td></tr><tr><td>盘后股价</td><td><strong>-7.5%</strong>（$585.6 → $542）</td><td>—</td><td>—</td></tr></tbody></table></div>
-<blockquote class="doc-quote">📚 *方法点评：EPS miss 14% 看起来吓人，但拆开看——$6.18 里含约 $35 亿一次性费用（法律+遣散），剔除后核心业务是增长的。<strong>读财报第一反应永远是拆"一次性 vs 经常性"</strong>，市场盘后砸盘往往砸的是表面数字，第二天研报才会算细账。*</blockquote>
-<hr class="doc-hr">
-<h3 class="doc-h2">二、靠什么赚钱？</h3>
-<p><strong>一句话：35.6 亿用户的社交帝国（FB/IG/WhatsApp）卖广告——AI 让这台机器转得更快了，广告展示量 +19%、单价 +12%（Q1 数据）。</strong></p>
-<p>三个层次的业务：</p>
-<ol><li><strong>广告（现在的一切）</strong>：AI 推荐系统（Andromeda/GEM）+ Advantage+ 自动化（年化收入 $600 亿）——广告增速从 2023 年 16% 加速到 33%，<strong>AI 赋能广告是已被验证的真逻辑</strong></li><li><strong>AI 新变现（故事）</strong>：Meta Compute 算力出租（7 月传闻单日股价 +10%）、Muse 模型 API（开源转闭源）、消费者订阅</li><li><strong>智能眼镜（期权）</strong>：2025 年卖 700 万副、85% 市占率，"下一代个人终端"；Reality Labs 年亏 $160 亿+</li></ol>
-<hr class="doc-hr">
-<h3 class="doc-h2">三、核心分歧：投入产出比之争</h3>
-<div class="tbl-wrap"><table><thead><tr><th></th><th>乐观方</th><th>谨慎方</th></tr></thead><tbody><tr><td>广告</td><td>AI 加持 +33% 加速，是真实现金流</td><td>宏观一差广告最先被砍</td></tr><tr><td>Capex</td><td>广告现金流（年化 $1,200 亿+）付得起</td><td>2027 年买方预期 $2,000-2,250 亿，折旧将吞噬利润（Q1 折旧已 +48%）</td></tr><tr><td>新变现</td><td>Meta Compute 算力出租年化空间 $200-450 亿（花旗）</td><td>没有企业销售团队，凭什么和 AWS/Azure/GCP 竞争？</td></tr><tr><td>模型</td><td>MSL 超级智能实验室 + $145 亿入股 Scale AI</td><td>模型能力仍落后 Anthropic/OpenAI，闭源策略未必有回报</td></tr></tbody></table></div>
-<p><strong>时间维度之争</strong>：乐观方看 3-5 年，谨慎方看 1-2 年现金流。<strong>Q2 的 FCF $7.8 亿就是谨慎方最好的弹药。</strong></p>
-<hr class="doc-hr">
-<h3 class="doc-h2">四、与 NVDA 的交叉验证 <span class="star">⭐</span></h3>
-<ul><li>Meta 与 NVDA 2026 年 2 月签了<strong>覆盖 Blackwell 和 Rubin 的多年跨代供应协议</strong>，还与 AMD 达成 6GW Instinct 合作、自研 Iris 芯片（博通协助）——<strong>NVDA 需求的"多头押注"型客户</strong>：全都要</li><li>全年 capex $1,300-1,450 亿维持上调后的高位，2027 年买方预期 $2,000 亿+ → NVDA 反证条件 #2 继续<strong>不触发</strong></li><li>但 Meta 是"自研替代"最激进的买家之一（Iris + 与三星谈代工）→ 长期分流风险的观察窗口</li></ul>
-<p><strong>本周三家下游财报对 NVDA 的综合结论</strong>：MSFT（capex 加码）+ GOOGL（capex 两次上调）+ META（capex 维持高位）= <strong>8 月 NVDA 财报的下游需求环境几乎确定性强劲</strong>，分歧只在 2027 年。</p>
-<hr class="doc-hr">
-<h3 class="doc-h2">五、反证条件</h3>
-<ol><li><span class="warn">⚠️</span> 广告增速跌破 15%（宏观或竞争冲击——TikTok/AI 搜索分流）</li><li><span class="warn">⚠️</span> FCF 连续两个季度趋近于零或为负，且 2027 capex 指引落在 $2,000 亿以上</li><li><span class="warn">⚠️</span> Meta Compute 算力出租一年后仍无实质收入贡献（故事证伪）</li><li><span class="warn">⚠️</span> 广告单价/展示量同时失速（AI 广告红利见顶）</li><li><span class="warn">⚠️</span> 法律/监管费用常态化（本季 $24 亿若变成每季都有，性质就变了）</li></ol>
-<hr class="doc-hr">
-<h3 class="doc-h2">六、跟踪计划</h3>
-<div class="tbl-wrap"><table><thead><tr><th>跟踪变量</th><th>时间</th><th>说明</th></tr></thead><tbody><tr><td>Q3 财报：营收 vs $625 亿指引中值</td><td>2026-10-28</td><td>指引 miss 后能否扳回</td></tr><tr><td>Meta Compute 具体变现路径</td><td>电话会/新闻</td><td>最大预期差</td></tr><tr><td>2027 年 capex 初步指引</td><td>Q3-Q4</td><td>买方已预期 $2,000-2,250 亿</td></tr><tr><td>Reality Labs 亏损收窄信号</td><td>每季度</td><td>扎克伯格承诺"与 2025 相似后逐步收窄"</td></tr><tr><td>智能眼镜出货（Adventurer 等新品）</td><td>持续</td><td>第三曲线验证</td></tr></tbody></table></div>
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">AI 广告这台印钞机，还能转多快？</h2>
+        <span class="qa__impact-tag">→ 广告占收入 ~98% · 增速 33% vs 15% 警戒线</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>目前仍在加速：Q2 营收 +28% 达指引上限，Q1 广告展示量 +19%、单价 +12%，AI 赋能广告是已被验证的真逻辑。<em>但这台机器的全部产出正被拿去喂算力熔炉——它必须继续高速运转，任何减速都会在自由现金流上被成倍放大。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>广告就是这家公司本身。</strong>广告收入占比约 97.6%，年化经营现金流 $1,200 亿+ 是千亿美元 capex 的唯一「付款人」。增速从 2023 年的 16% 加速到 33%，是本轮估值重估的全部基础。</p>
+            <p>反证条件 #1 是<strong>广告增速跌破 15%</strong>（宏观冲击或 TikTok/AI 搜索分流）：一旦跌破，EPS 下修与「AI 红利见顶」的倍数压缩会同时发生——Q3 指引中值 $625 亿已低于市场预期（$631.5 亿），减速苗头需要逐季盯。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>AI 推荐系统（Andromeda/GEM）+ Advantage+ 自动化套件年化收入 <strong>$600 亿</strong>，广告增速从 16% 加速到 33%，<strong>是报表里已验证的真逻辑</strong></li>
+              <li>WhatsApp（日活 15 亿+）、Threads（月活 5 亿+）的广告变现才刚刚开始，新广告位持续释放</li>
+              <li>35.6 亿 DAP 的社交图谱 + 数据飞轮：更多数据 → 更好的推荐 → 更高的广告转化率</li>
+              <li>广告展示量 +19%、单价 +12% 量价齐升——增长有结构、不是靠提价硬撑</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>广告是宏观最敏感的收入：<strong>经济一差，广告预算最先被砍</strong></li>
+              <li>TikTok 短视频与 AI 搜索（SearchGPT 等）可能分流广告预算</li>
+              <li>Q3 营收指引中值 $625 亿<strong>低于市场预期</strong>——增速从 +28% 回落的信号已出现</li>
+              <li>苹果隐私政策式的监管冲击随时可能重演，单次冲击足以抹掉上百亿收入</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（Q2 财报速览 · EPS 拆解 · 业务三层结构）</summary>
+          <div class="evidence__body">
+            <h5>Q2 2026 财报速览（截至 2026-06-30）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>实际</th><th>预期</th><th>评价</th></tr></thead><tbody><tr><td>营收</td><td>$608 亿（+28%）</td><td>$601.7 亿</td><td>略超预期，达指引上限</td></tr><tr><td>EPS</td><td>$6.18</td><td>$7.22</td><td>大幅 miss（含一次性项目）</td></tr><tr><td>— 其中一次性项目</td><td>$24 亿法律费用 + $11.8 亿裁员遣散费</td><td>—</td><td>剔除后营业利润实际 +9%</td></tr><tr><td>Q3 营收指引</td><td>$610-640 亿（中值 $625 亿）</td><td>$631.5 亿</td><td>低于预期</td></tr><tr><td>自由现金流</td><td><strong>$7.84 亿</strong>（去年同期 $85.5 亿）</td><td>—</td><td>暴跌 91%，市场最痛的点</td></tr><tr><td>全年 Capex 指引</td><td>$1,300-1,450 亿</td><td>—</td><td>维持高位</td></tr><tr><td>盘后股价</td><td><strong>-7.5%</strong>（$585.6 → $542）</td><td>—</td><td>—</td></tr></tbody></table></div>
+            <p>方法点评：EPS miss 14% 看起来吓人，但拆开看——$6.18 里含约 $35 亿一次性费用（法律+遣散），剔除后核心业务是增长的。<strong>读财报第一反应永远是拆「一次性 vs 经常性」</strong>，市场盘后砸盘往往砸的是表面数字。</p>
+            <h5>靠什么赚钱：三个层次的业务</h5>
+            <ol>
+              <li><strong>广告（现在的一切）</strong>：35.6 亿用户的社交帝国（FB/IG/WhatsApp）卖广告——AI 让这台机器转得更快了</li>
+              <li><strong>AI 新变现（故事）</strong>：Meta Compute 算力出租（7 月传闻单日股价 +10%）、Muse 模型 API（开源转闭源）、消费者订阅</li>
+              <li><strong>智能眼镜（期权）</strong>：2025 年卖 700 万副、85% 市占率，「下一代个人终端」；Reality Labs 年亏 $160 亿+</li>
+            </ol>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">Capex 熔炉：现金流还撑得住吗？</h2>
+        <span class="qa__impact-tag">→ FCF $7.8亿(-91%) · 2027 capex 买方预期 $2,000-2,250亿</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>暂时撑得住，但缓冲垫在急速变薄：广告年化现金流 $1,200 亿+ 覆盖今年 $1,300-1,450 亿 capex 尚可，<em>若 2027 年上到 $2,000 亿+，折旧将开始吞噬利润（Q1 折旧已 +48%）——市场给的是「耐心」，不是「信任」。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>Q2 自由现金流 $7.8 亿（去年同期 $85.5 亿）是市场最痛的点</strong>，也是谨慎方最好的弹药。反证条件 #2：FCF 连续两个季度趋近于零或为负，且 2027 capex 指引落在 $2,000 亿以上——两者同时出现即触发。</p>
+            <p>传导路径：capex → 折旧（Q1 已 +48%，年化 $220 亿+）→ 侵蚀利润率与 EPS；若广告现金流盖不住熔炉、需要大规模发债/发股，「股东回报」叙事受损，估值倍数直接受压。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>广告现金流（年化 $1,200 亿+）<strong>付得起</strong>——这不是借钱烧钱的公司</li>
+              <li>capex 指引区间从 $1,250-1,450 亿收窄至 $1,300-1,450 亿：<strong>下限上移 $50 亿，是把不确定性收窄到高端</strong>，不是失控</li>
+              <li>财务底子厚：Q1 末净现金约 $224 亿，两轮融资发债 $550 亿后偿债压力仍可控</li>
+              <li>裁员 8,000 人 + 7,000 人转岗 AI：opex 重组在对冲 capex 冲击</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>2027 年买方预期 capex <strong>$2,000-2,250 亿</strong>，部分极端预期 $2,750 亿——折旧将吞噬利润</li>
+              <li>FCF 单季暴跌 91%：若成为常态，回购分红空间消失</li>
+              <li>没有回报的 capex 就是<strong>元宇宙 2.0</strong>——Reality Labs 年亏 $160 亿+ 的前车之鉴就在报表里</li>
+              <li>「投入巨大、回报不明」的担忧已在定价：Q1 财报后也曾跌 7%</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（投入产出比之争 · 市场四大追问 · 现金流与折旧数据）</summary>
+          <div class="evidence__body">
+            <h5>核心分歧：投入产出比之争</h5>
+            <div class="tbl-wrap"><table><thead><tr><th></th><th>乐观方</th><th>谨慎方</th></tr></thead><tbody><tr><td>广告</td><td>AI 加持 +33% 加速，是真实现金流</td><td>宏观一差广告最先被砍</td></tr><tr><td>Capex</td><td>广告现金流（年化 $1,200 亿+）付得起</td><td>2027 年买方预期 $2,000-2,250 亿，折旧将吞噬利润（Q1 折旧已 +48%）</td></tr><tr><td>新变现</td><td>Meta Compute 算力出租年化空间 $200-450 亿（花旗）</td><td>没有企业销售团队，凭什么和 AWS/Azure/GCP 竞争？</td></tr><tr><td>模型</td><td>MSL 超级智能实验室 + $145 亿入股 Scale AI</td><td>模型能力仍落后 Anthropic/OpenAI，闭源策略未必有回报</td></tr></tbody></table></div>
+            <p><strong>时间维度之争</strong>：乐观方看 3-5 年，谨慎方看 1-2 年现金流。Q2 的 FCF $7.8 亿就是谨慎方最好的弹药。</p>
+            <h5>市场关切的四个真问题（卖方电话会追问清单）</h5>
+            <ol>
+              <li><strong>capex 的变化率与持续时间</strong>——$1,300-1,450 亿的高位还要持续多久？</li>
+              <li><strong>opex 重组能否对冲</strong>——裁员/提效能不能撑住 EPS 增长？</li>
+              <li><strong>盈利、FCF 与融资方式</strong>——FCF $7.8 亿之后，要不要发债/发股？资本结构怎么安排？</li>
+              <li><strong>非核心变现的产出</strong>——agentic 产品、算力出租（Meta Compute）什么时候有收入产出和回报轮廓？</li>
+            </ol>
+            <h5>现金流与折旧轨迹</h5>
+            <ul>
+              <li>FY2025 经营现金流 <strong>$1,158 亿</strong>（+26.8%），但资本支出从 $373 亿激增至 $721 亿（+93.6%），FCF 从 $521 亿降至 $436 亿</li>
+              <li>FY2026 Q1 资本支出年化已超 $760 亿；Q1 折旧费用 $38.4 亿 → $56.8 亿（+48%），年化超 $220 亿</li>
+              <li>截至 Q1 末：现金及短期投资 $811.8 亿，长期债务 $587.5 亿，净现金约 $224 亿</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">第二曲线：Meta Compute 与智能眼镜能兑现吗？</h2>
+        <span class="qa__impact-tag">→ 算力出租年化空间 $200-450亿 · 一年内无收入=证伪</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>目前都还是期权：Meta Compute 是最大预期差（7 月传闻单日股价 +10%），智能眼镜 85% 市占率是真实的先发优势，<em>但两者都未在报表中产生实质贡献——卖方的耐心刻度是一年，与我们的反证条件 #3 一致。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>第二曲线兑现与否，就是 2027 年 EPS 预期上下沿的分水岭。</strong>花旗把 Meta Compute 计入后，2027 年 GAAP EPS 预期上调至 $36.36；未计入的机构预期在 $33-35 区间。</p>
+            <p>估值层面：若收入结构从「几乎单一广告」转向「广告+云服务+订阅」多元组合，<strong>估值中枢有上移空间</strong>；反之，capex 只能解释为成本中心，倍数继续受压。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>对外出租 2-3GW 冗余算力，按 $100-150 亿/GW 年化收入估算，<strong>年化空间 $200-450 亿</strong>（德银/花旗测算）</li>
+              <li>与 Anthropic 的百亿美元级算力租赁协议在洽谈中——若落地即首个重大客户，<strong>直接验证商业可行性</strong></li>
+              <li>智能眼镜 2025 年卖 700 万副、85% 市占率；EssilorLuxottica 考虑产能翻倍至 2,000 万副</li>
+              <li>MSL 超级智能实验室 + $145 亿入股 Scale AI；自研 Iris 芯片 9 月量产，摊薄算力成本</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>没有企业销售团队和客户关系，<strong>凭什么和 AWS/Azure/GCP 竞争？</strong></li>
+              <li>模型能力仍落后前沿（Muse Spark 基准得分 52 vs 前沿 57-60），闭源策略未必有回报，<strong>可能只能低价出租裸算力</strong></li>
+              <li>智能眼镜毛利率低，Reality Labs 年亏 $160 亿+ 短期难扭转</li>
+              <li>「算力过剩」担忧：出租消息先涨 10% 后回调，市场自己也没想清楚</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（Meta Compute 细节 · Iris 芯片 · 智能眼镜 · 与 NVDA 的交叉验证）</summary>
+          <div class="evidence__body">
+            <h5>Meta Compute：从成本中心到利润中心的赌注</h5>
+            <ul>
+              <li>2026-07 彭博报道：Meta 规划云基础设施业务，向外部客户出售多余 AI 算力及模型访问服务，隶属内部「Meta Compute」计划</li>
+              <li>算力储备：Hyperion 数据中心加码至 $500 亿（5GW），加拿大 1GW 项目 $92 亿；计划 2026 年部署 7GW、2027 年翻倍至 14GW</li>
+              <li>截至 Q1 已签署约 <strong>$2,380 亿</strong>多年期基础设施合同承诺</li>
+              <li>自研芯片 Iris 计划 2026 年 9 月量产（博通协助设计、台积电代工），目标每 6 个月一代</li>
+            </ul>
+            <h5>智能眼镜：第三曲线的验证进度</h5>
+            <ul>
+              <li>2026-06 推出 Adventurer / Fury / Starfire 自有品牌新品，起售价 $299（比上代降 $80）</li>
+              <li>杰富瑞测算：若达到 Apple Watch 级采用率（3,500-4,500 万副/年），硬件收入空间 $140-180 亿</li>
+              <li>管理层指引：2026 年 Reality Labs 亏损与 2025 年相似，此后逐步收窄</li>
+            </ul>
+            <h5>与 NVDA 的交叉验证</h5>
+            <ul>
+              <li>Meta 与英伟达 2026 年 2 月签了<strong>覆盖 Blackwell 和 Rubin 的多年跨代供应协议</strong>，还与 AMD 达成 6GW Instinct 合作、自研 Iris——英伟达需求的「多头押注」型客户：全都要</li>
+              <li>全年 capex 维持上调后高位 + 2027 年买方预期 $2,000 亿+ → 对上游（英伟达）的需求反证条件继续不触发</li>
+              <li>但 Meta 是「自研替代」最激进的买家之一（Iris + 与三星谈代工）→ 长期分流风险的观察窗口</li>
+              <li>本周三家下游财报综合结论：MSFT（capex 加码）+ GOOGL（两次上调）+ META（维持高位）= 上游需求环境几乎确定性强劲，分歧只在 2027 年</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 4 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">4</span>
+        <h2 class="qa__title">盘后 -7.5%：跌的是基本面还是预期？</h2>
+        <span class="qa__impact-tag">→ 卖方目标价 $725-850 · 盘后价隐含 +34%~+57%</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>跌的是预期不是公司：营收对卖方一致预期仅微 beat、对买方只是 inline，whisper number 被打满后的一次「预期校准」。<em>剔除约 $35 亿一次性费用后核心营业利润实际 +9%——基本面没有恶化，但估值容错率明显变低了。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>卖方估值锚：高盛 Buy、目标价 $815，2026E P/E 17.8x</strong>；盘后 $542 对应主流券商目标价区间 $725-850，隐含 +34%~+57% 空间。</p>
+            <p>但这个空间的前提是「<strong>广告现金流持续 + capex 不再上台阶</strong>」——即反证条件 #1（广告增速 &lt;15%）和 #2（FCF 连续两季趋零 + 2027 capex &gt;$2,000 亿）不触发。触发任一，先压倍数。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>剔除一次性项目后营业利润 <strong>+9%</strong>，核心业务仍在增长——EPS miss 是表象</li>
+              <li>财报当晚高盛维持 Buy $815 并预判「市场会负面反应」：卖方选择站在价值一侧</li>
+              <li>主流券商目标价 $725-850（花旗 850 / Truist 840 / 美银 835 / 杰富瑞 825 / 摩根大通 725），盘后价隐含空间显著</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>对卖方微 beat、对买方 inline：<strong>财报前预期已打满，任何「符合预期」都是利空</strong></li>
+              <li>Q2 GAAP 营业利润 miss 街预期 $27 亿；Q3 指引上限才刚够到高盛预期</li>
+              <li>高盛披露与 Meta 存在投行业务关系——Buy 评级的独立性打折</li>
+              <li>FCF $7.8 亿之后，「耐心」是有刻度的：卖方已从「听故事」转向「要数字」</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（预期地图 · beat 成色校准 · 卖方语言解码）</summary>
+          <div class="evidence__body">
+            <h5>预期地图：参照系不同，结论不同</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>实际</th><th>vs 卖方一致预期</th><th>vs 买方/高盛预期</th></tr></thead><tbody><tr><td>Q2 营收</td><td>$608 亿（+28%）</td><td>+0.7% 微 beat</td><td>大致 inline</td></tr><tr><td>广告收入</td><td>+27%（FXN +26%）</td><td>—</td><td>微 miss</td></tr><tr><td>Q3 营收指引</td><td>$610-640 亿</td><td>中值 miss</td><td>上限才刚够到 $640.6 亿</td></tr><tr><td>Q2 GAAP 营业利润</td><td>$187.8 亿</td><td>miss $27 亿（街 $215 亿）</td><td>含 $24 亿一次性法律费用</td></tr></tbody></table></div>
+            <p>读法：市场盘后砸 -7.5% 不是砸数字，是砸「预期差归零」——财报前买方把 whisper number 抬到了卖方一致预期之上，而 Meta 交出的只是一份「符合卖方预期」的答卷。<strong>对买方来说，miss 的不是财报，是期待。</strong></p>
+            <h5>卖方语言解码</h5>
+            <ul>
+              <li>财报当晚维持 Buy $815、开头却预判「市场会负面反应」→ 「跌的是预期不是公司」，17.8x 2026E P/E 是它的底气</li>
+              <li>把「算力出租收入产出」写进电话会必问清单 → 卖方对 Meta Compute 的态度从「听故事」转向「要数字」，耐心刻度约一年，与本研究反证条件 #3 一致</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究的数据与局限</h3>
+      <ul>
+        <li><strong>数据来源</strong>：公司财报及公开披露（Q2 2026 财报，7/29 盘后发布）、公开研究资料整理；公司概况与行业数据另见同目录《Meta_一页通.md》及本站「一页通」标签页</li>
+        <li><strong>局限</strong>：未读 10-Q 原文；EPS 一次性项目拆解基于公开披露口径，精确值以季报原文为准；卖方目标价与第三方测算（德银/花旗/杰富瑞等）为外部观点，不代表本研究结论；初稿 v1，下次更新 Q3 财报（2026-10-28 前后）</li>
+        <li><strong>管理层评估（一句话版）</strong>：扎克伯格 All-in AI 的意志与执行力罕见——裁员 8,000 人重组、$145 亿入股 Scale AI、capex 一年翻倍；移动互联网转型的历史赌注赌对过，但元宇宙的前科提醒：豪赌的兑现度需要逐季验证</li>
+      </ul>
+    </div>
+
   </article>
-  <article class="doc" id="tab-broker" hidden>
-<h2 class="doc-h1">Meta · 券商研报解读（买方视角）</h2>
-<blockquote class="doc-quote"><strong>解读日期</strong>：2026-07-31 ｜ <strong>研报</strong>：1 份（高盛 Q2'26 First Take，财报当晚发布） <strong>方法</strong>：提取事实与预期，不采纳结论。卖方评级普遍通胀——分歧和边际变化才是信号，一致乐观本身也是信号。</blockquote>
-<hr class="doc-hr">
-<h3 class="doc-h2">〇、一句话结论</h3>
-<p><strong>高盛维持 Buy、目标价 $815（财报前收盘价隐含 +37%，盘后 -7.5% 后隐含约 +50%）——但这份报告最有价值的不是评级，而是它开头第一句话就预判了"市场会负面反应"：它知道买方 whisper number 比卖方一致预期高，说明财报前预期已经打满。这次下跌不是基本面恶化，是一次"预期校准"。</strong></p>
-<hr class="doc-hr">
-<h3 class="doc-h2">一、预期地图</h3>
-<p>现价 <strong>$593.41</strong>（2026-07-28 收盘）｜ 盘后 <strong>约 $542</strong>（-7.5%）</p>
-<div class="tbl-wrap"><table><thead><tr><th>券商</th><th>评级</th><th>目标价</th><th>隐含空间</th><th>估值锚</th><th>核心论点</th></tr></thead><tbody><tr><td>高盛</td><td>Buy</td><td>$815</td><td>+37%（盘后口径约 +50%）</td><td>EV/GAAP EBIT 与修正 DCF（EV/FCF-SBC）等权；2026E P/E 17.8x</td><td>AI 投入在核心广告业务有回报（+27%），只是没有市场近几周期待的"超额回报"</td></tr></tbody></table></div>
-<p><span class="warn">⚠️</span> 利益披露：高盛披露与 Meta 存在投行业务关系（过去 12 个月收费、未来 3 个月预期收费）——Buy 评级的独立性打折，但其数据拆解不受影响。</p>
-<hr class="doc-hr">
-<h3 class="doc-h2">二、增量信息：beat 的成色被精确校准</h3>
-<p>我们研究报告写"营收略超预期"，高盛把这句话精确化了——<strong>参照系不同，结论不同</strong>：</p>
-<div class="tbl-wrap"><table><thead><tr><th>指标</th><th>实际</th><th>vs 卖方一致预期</th><th>vs 高盛/买方预期</th></tr></thead><tbody><tr><td>Q2 营收</td><td>$608 亿（+28%）</td><td>+0.7% 微 beat</td><td>"大致 inline"</td></tr><tr><td>广告收入</td><td>+27%（FXN +26%）</td><td>—</td><td>低于高盛 +26.4% 预期，微 miss</td></tr><tr><td>Q3 营收指引</td><td>$610-640 亿</td><td>中值 miss</td><td><strong>上限才刚够到高盛预期 $640.6 亿</strong></td></tr><tr><td>Q2 GAAP OI</td><td>$187.8 亿</td><td><strong>miss $27 亿</strong>（街 $215 亿）</td><td>含 $24 亿一次性法律费用</td></tr></tbody></table></div>
-<p><strong>读法</strong>：市场盘后砸 -7.5% 不是砸数字，是砸"预期差归零"——财报前买方把 whisper number 抬到了卖方一致预期之上，而 Meta 交出的只是一份"符合卖方预期"的答卷。对买方来说，miss 的不是财报，是期待。</p>
-<hr class="doc-hr">
-<h3 class="doc-h2">三、高盛框架里的四个真问题（电话会市场关切清单）</h3>
-<p>高盛列出电话会四大追问，这基本就是当前市场对 Meta 的核心分歧清单，可直接并入我们的跟踪计划：</p>
-<ol><li><strong>capex 的变化率与持续时间</strong>——$1,300-1,450 亿的高位还要持续多久？（我们跟踪计划已有：2027 年买方预期 $2,000-2,250 亿）</li><li><strong>opex 重组能否对冲</strong>——裁员/提效能不能撑住 EPS 增长？（本季已有 $11.8 亿遣散费）</li><li><strong>盈利、FCF 与融资方式</strong>——FCF $7.8 亿之后，要不要发债/发股？资本结构怎么安排？</li><li><strong>非核心变现的产出</strong>——agentic 产品、算力出租（Meta Compute）什么时候有收入产出和回报轮廓？</li></ol>
-<hr class="doc-hr">
-<h3 class="doc-h2">四、与我们研究报告的交叉验证</h3>
-<ul><li><strong>一致</strong>：Q3 指引偏软、FCF 暴跌、一次性费用拆解（高盛也点破 $24 亿法律费用），我们报告与高盛口径完全吻合</li><li><strong>精确化</strong>：我们写"营收 ✅ 略超预期"——这个 ✅ 应该降级：对卖方微 beat，对买方 inline。财报 beat 的成色永远要看参照系，这是本次最值钱的一课</li><li><strong>capex"区间收窄"的正确读法</strong>：$125-145B → $130-145B 不是放缓信号，是<strong>把不确定性收窄到高端</strong>（下限抬 $50 亿）——我们报告"capex 维持高位"的判断应强化为"高位且下限上移"</li><li><strong>新增跟踪点</strong>：融资方式（债/股）首次进入卖方关切清单——我们反证条件 #2 关注 FCF 与 capex，建议加一条：若启动大规模发债/发股，说明广告现金流已盖不住熔炉，耐心叙事受考验</li></ul>
-<hr class="doc-hr">
-<h3 class="doc-h2">五、评级解码（卖方语言翻译）</h3>
-<div class="tbl-wrap"><table><thead><tr><th>卖方行为</th><th>翻译</th></tr></thead><tbody><tr><td>财报当晚维持 Buy $815，开头却预判"市场会负面反应"</td><td>"跌的是预期不是公司"——高盛选择站在价值一侧接飞刀，17.8x 2026E P/E 是它的底气</td></tr><tr><td>把"算力出租收入产出"写进电话会必问清单</td><td>卖方对 Meta Compute 的态度从"听故事"转向"要数字"——我们反证条件 #3（一年内无实质收入=证伪）与卖方的耐心刻度一致</td></tr></tbody></table></div>
-<p><strong>买方用法</strong>：盘后 -7.5% 后，高盛目标价隐含约 +50% 空间——但这个空间的前提是"广告现金流持续 + capex 不再上台阶"。我们的反证条件 #1（广告增速 &lt;15%）和 #2（FCF 连续两季归零 + 2027 capex &gt;$2,000 亿）就是这个前提的量化版本，比卖方评级更值得盯。</p>
-  </article>
+
   <article class="doc" id="tab-onepager" hidden>
 <h3 class="doc-h2">公司概况</h3>
 <p>Meta Platforms 是全球最大的社交网络公司，旗下拥有 Facebook、Instagram、WhatsApp、Messenger 和 Threads 等产品，构成覆盖即时通讯、综合社交、视觉内容与文字社交的完整产品矩阵。公司几乎全部收入来自广告，2025 年广告收入占比约 97.6%，是全球第二大数字广告平台。公司同时通过 Reality Labs 部门布局 VR/MR 头显和 AI 智能眼镜等下一代计算平台，目前该部门仍处于战略性亏损阶段。</p>
@@ -211,7 +537,7 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 <p>Meta 已构建覆盖 299-799 美元四个价格带的智能眼镜产品矩阵，2025 年占据全球 AI 眼镜市场约 85% 的份额。扎克伯格在 Q2 业绩会上表示，智能眼镜是“历史上增长最快的消费电子产品类别之一”，并预测数年后大多数人佩戴的眼镜都将是 AI 眼镜。与智能手机时代不同，Meta 在智能眼镜领域具备先发优势：1）与 EssilorLuxottica 的独家合作锁定了全球最大的眼镜制造和零售网络；2）Muse Spark 多模态模型为眼镜提供“语音+视觉”交互能力；3）Meta AI 月活用户已突破 10 亿，为眼镜提供用户基础。若智能眼镜年出货量在 2030 年前达到 5,000 万副以上，该业务有望成为 Meta 继广告之后的第三大收入来源。</p>
 <h3 class="doc-h2">风险提示</h3>
 <ul><li><strong>资本开支回报不及预期的风险</strong>：2026 年资本开支预算 1,250-1,450 亿美元，2027 年可能进一步增长至 2,000 亿美元以上。若 AI 云服务、订阅等新业务的变现速度不及算力扩张节奏，折旧压力将显著侵蚀利润率和自由现金流。2026 年 Q1 折旧费用已从去年同期的 38.4 亿美元升至 56.8 亿美元，年化超 220 亿美元。  </li></ul>
-<ul><li><strong>AI 模型竞争落后于前沿的风险</strong>：Muse Spark 在 Artificial Analysis 智能指数中得分 52，落后于 Claude Fable 5（60 分）和 GPT-5.5（57 分），在编码和抽象推理领域差距尤为明显。若下一代 Watermelon 模型无法追平前沿水平，Meta 在模型 API 市场的竞争力将受限，AI 云服务可能更多依赖低利润率的裸算力出租。 </li></ul>
+<ul><li><strong>AI 模型竞争落后于前沿的风险</strong>：Muse Spark 在 Artificial Analysis 智能指数中得分 52，落后于 Anthropic 旗舰模型（60 分）和 GPT-5.5（57 分），在编码和抽象推理领域差距尤为明显。若下一代 Watermelon 模型无法追平前沿水平，Meta 在模型 API 市场的竞争力将受限，AI 云服务可能更多依赖低利润率的裸算力出租。 </li></ul>
 <ul><li><strong>监管与诉讼风险持续高企</strong>：Meta 面临来自 FTC、欧盟（DMA/DSA/GDPR）的多项监管行动，以及青少年心理健康、隐私侵权等大规模诉讼。2026 年 Q1 季报披露，新墨西哥州总检察长案拟寻求高达 628.5 亿美元的罚款；FTC 正寻求修改 2020 年隐私和解令，可能限制公司对未成年人数据的使用和新产品发布能力。欧盟已因 DMA 违规对 Meta 处以 2 亿欧元罚款，并要求修改“订阅免广告”模式。 </li></ul>
 <h3 class="doc-h2">近期要闻</h3>
 <ul><li><strong>2026 年 5 月 27 日</strong>：Meta 在全球推出 Facebook Plus、Instagram Plus 和 WhatsApp Plus 消费者订阅 tiers，定价分别为 3.99 美元/月、3.99 美元/月和 2.99 美元/月。同时在部分市场测试 Meta One Plus（7.99 美元/月）和 Meta One Premium（19.99 美元/月）AI 订阅服务。 </li></ul>
@@ -242,7 +568,6 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 <ul><li><strong>数据验证</strong>：截至 2026 年 Q1，Meta 已签署约 2,380 亿美元的多年期基础设施合同承诺。公司拥有 Prometheus（1GW+）、Hyperion（5GW）等超大规模数据中心，并与英伟达、AMD、博通、Arm 等建立多供应商芯片战略。2025 年 Q1 单一季度增加基础设施合同承诺 1,070 亿美元。 </li></ul>
 <ul><li><strong>动态演变</strong>：<strong>面临不确定性</strong>。若 AI 云服务（Meta Compute）成功商业化，算力优势将从成本中心转化为利润中心，护城河将显著拓宽。但若前沿模型持续落后于 Anthropic 和 OpenAI，算力优势可能无法有效转化为模型 API 市场的竞争力，仅能通过低利润率的裸算力出租实现部分变现。 </li></ul>
 <p><strong>现阶段核心驱动力总结</strong>：Meta 的 Alpha 来源于 AI 驱动的广告效率提升和新变现渠道（WhatsApp、Threads）的释放，Beta 则与全球数字广告市场增速和 AI 基础设施投资周期高度相关。公司正处于从“纯广告平台”向“广告+AI 基础设施+硬件”多元化转型的关键期，AI 云服务的商业化进展将是决定估值中枢能否上移的核心变量。</p>
-<p><strong>竞争格局传导逻辑图</strong>：</p>
 <h3 class="doc-h2">产销链</h3>
 <p><strong>客户情况</strong>：Meta 的客户是广告主，以中小企业和直接响应广告主为主。公司无单一客户占收入超过 10%，客户集中度极低。2025 年在线商务垂直行业是广告收入增长的最大贡献者。2026 年 Q1，超过 800 万广告主使用至少一项 GenAI 创意工具，Advantage+ 已成为销售、潜客和应用推广类广告的默认投放结构。公司通过 AI 工具持续降低广告门槛，扩大广告主基数。</p>
 <p><strong>供应商情况</strong>：Meta 的 AI 基础设施供应链高度依赖少数几家芯片和硬件供应商。英伟达是 GPU 主力供应商，2026 年 2 月签署覆盖 Blackwell 和 Rubin GPU 的多年跨代供应协议。AMD 在 2026 年 2 月与 Meta 达成 6GW 规模的 Instinct GPU 合作。博通协助设计自研 MTIA 芯片，台积电负责代工。公司正通过自研芯片（Iris）和与三星代工洽谈合作来降低对单一供应商的依赖。2026 年 Q1，CFO 表示内存等组件价格上涨是资本开支上调的主要原因。</p>
@@ -257,7 +582,7 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 <p><strong>偿债能力</strong>：截至 FY2026 Q1，公司持有现金及短期投资 811.80 亿美元，长期债务 587.48 亿美元，净现金头寸约 224 亿美元。2025 年 11 月和 2026 年 5 月分别发行 300 亿和 250 亿美元债券，债务水平有所上升，但整体财务健康。</p>
 <h3 class="doc-h2">行业及竞争分析</h3>
 <p><strong>数字广告行业</strong>：Meta 在全球数字广告市场位居第二，仅次于 Google。2025 年全球数字广告市场规模约 7,000-8,000 亿美元，Meta 市场份额约 25-28%。行业增长驱动力包括：用户时间持续向数字媒体迁移、AI 驱动的广告精准度提升、社交电商和短视频广告的快速增长。竞争格局方面，Google（搜索广告+YouTube）、Amazon（电商广告）、TikTok（短视频广告）和 Apple（隐私政策限制第三方定向）是主要竞争对手。AI 时代的新变量是 OpenAI（SearchGPT 等）和 Perplexity 等 AI 原生平台可能分流搜索广告预算。</p>
-<p><strong>AI 大模型与云服务行业</strong>：Meta 通过 MSL 和 Meta Compute 进入这一市场，与 OpenAI、Anthropic、Google DeepMind 在前沿模型领域竞争，与 AWS、Azure、Google Cloud 在云服务领域竞争。Muse Spark 在 Artificial Analysis 智能指数中得分 52，落后于 Claude Fable 5（60 分）和 GPT-5.5（57 分），但 Muse Spark 1.1 在 agent 工具使用基准 MCP-Atlas 上以 88.1 分排名第一。定价方面，Muse Spark 1.1 的 API 价格（输入 1.25 美元/百万 token，输出 4.25 美元/百万 token）显著低于 GPT-5.5（5/30 美元）和 Claude Opus 4.8（5/25 美元），具备性价比优势。</p>
+<p><strong>AI 大模型与云服务行业</strong>：Meta 通过 MSL 和 Meta Compute 进入这一市场，与 OpenAI、Anthropic、Google DeepMind 在前沿模型领域竞争，与 AWS、Azure、Google Cloud 在云服务领域竞争。Muse Spark 在 Artificial Analysis 智能指数中得分 52，落后于 Anthropic 旗舰模型（60 分）和 GPT-5.5（57 分），但 Muse Spark 1.1 在 agent 工具使用基准 MCP-Atlas 上以 88.1 分排名第一。定价方面，Muse Spark 1.1 的 API 价格（输入 1.25 美元/百万 token，输出 4.25 美元/百万 token）显著低于 GPT-5.5（5/30 美元）和 Anthropic 旗舰模型（5/25 美元），具备性价比优势。</p>
 <p><strong>智能眼镜/XR 行业</strong>：Meta 在 AI 眼镜市场占据约 85% 份额，是绝对领先者。主要竞争对手包括：Snap（Spectacles AR 眼镜，定价 2,195 美元，预计 2026 年秋季发货）、Google（Android XR 智能眼镜，预计 2026 年秋季发布）、Apple（N50 项目，预计 2027 年发布）。Meta 的先发优势体现在：与 EssilorLuxottica 的独家合作、千万级出货规模、以及 Meta AI 的软件生态整合。</p>
 <p><strong>可比公司</strong>：</p>
 <div class="tbl-wrap"><table><thead><tr><th>公司</th><th>股票代码</th><th>核心业务</th><th>与 Meta 的差异</th></tr></thead><tbody><tr><td>Alphabet（Google）</td><td>GOOGL</td><td>搜索广告、YouTube 广告、Google Cloud</td><td>搜索广告为主，云服务成熟，AI 模型（Gemini）处于前沿</td></tr><tr><td>Amazon</td><td>AMZN</td><td>电商广告、AWS 云服务</td><td>电商广告增速快，AWS 是云服务市场领导者</td></tr><tr><td>Microsoft</td><td>MSFT</td><td>LinkedIn 广告、Azure 云服务</td><td>企业软件+云服务，通过 OpenAI 投资获得前沿模型访问</td></tr><tr><td>Snap</td><td>SNAP</td><td>社交广告（Snapchat）</td><td>规模较小，AI 眼镜（Spectacles）定价高端，用户以年轻人为主</td></tr></tbody></table></div>
@@ -268,7 +593,7 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 <p><strong>问题列表</strong>：</p>
 <ul><li>2027 年资本开支的初步规模预期？能否给出大致区间？</li><li>Meta Compute 云服务的具体商业模式和时间表？预计何时能产生实质性收入？</li><li>自研芯片 Iris 的成本优势量化数据？何时能大规模替代外部 GPU？</li><li>14GW 算力目标中，内部使用与外部变现的比例规划？</li></ul>
 <p><strong>议题二：Muse 模型能否追平前沿水平</strong></p>
-<p><strong>背景</strong>：Muse Spark 在多项基准测试中落后于 Claude 和 GPT 系列，尤其在编码和抽象推理领域。下一代 Watermelon 模型据称在内部测试中追平 GPT-5.5，但尚未经独立验证。若模型能力无法达到前沿水平，Meta 在模型 API 市场的竞争力将受限。</p>
+<p><strong>背景</strong>：Muse Spark 在多项基准测试中落后于 Anthropic 和 OpenAI 的前沿模型，尤其在编码和抽象推理领域。下一代 Watermelon 模型据称在内部测试中追平 GPT-5.5，但尚未经独立验证。若模型能力无法达到前沿水平，Meta 在模型 API 市场的竞争力将受限。</p>
 <p><strong>问题列表</strong>：</p>
 <ul><li>Watermelon 模型的预计发布时间和独立评测结果？</li><li>MSL 团队在人才招聘和留存方面的最新进展？2025 年重组后的离职率？</li><li>模型研发策略是继续闭源还是部分开源？Llama API 下线后的开发者生态策略？</li><li>与 Anthropic 的算力租赁协议谈判进展？是否意味着在模型层面存在合作可能？</li></ul>
 <p><strong>议题三：Reality Labs 亏损何时见顶</strong></p>
@@ -295,16 +620,55 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 <section class="sources">
   <div class="shell">
     <h2>数据来源</h2>
-    <p>Gangtise Open API（公司一页通 · stock-one-pager）· 公司财报及公开披露 · 仅作研究学习用途，不构成投资建议。</p>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
   </div>
 </section>
-<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/META · 生成于 2026-07-30</div></footer>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/META · 生成于 2026-08-06</div></footer>
 
 <script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-07-30';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'pending', text: '<strong>Q3 财报</strong>（2026-10-28 前后）：营收 vs $625 亿指引中值，指引 miss 后能否扳回——当前价位的胜负手', note: '' },
+  { kind: 'cat', status: 'active',  text: '<strong>Meta Compute 变现路径披露</strong>：算力出租/模型 API 的商业模式与时间表——最大预期差（测算年化空间 $200-450 亿）', note: '2026-07 彭博报道；Anthropic 百亿美元算力协议洽谈中' },
+  { kind: 'cat', status: 'pending', text: '<strong>2027 年 capex 初步指引</strong>（Q3-Q4 披露）：买方预期 $2,000-2,250 亿，落在区间内还是突破上沿', note: '' },
+  { kind: 'cat', status: 'active',  text: '<strong>智能眼镜放量 + Reality Labs 亏损收窄信号</strong>：Adventurer 等新品出货；2026 亏损指引「与 2025 相似后逐步收窄」', note: '2026-06 新品上市，起售价 $299' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>广告增速跌破 15%</strong>（宏观冲击或 TikTok/AI 搜索分流）', note: '最新 Q1 广告 +33%，Q3 指引偏软需逐季盯' },
+  { kind: 'risk', status: 'clear', text: '<strong>FCF 连续两个季度趋近于零或为负</strong>，且 2027 capex 指引落在 $2,000 亿以上', note: 'Q2 FCF 已降至 $7.8 亿（-91%），离触发最近的反证条件' },
+  { kind: 'risk', status: 'clear', text: '<strong>Meta Compute 一年内仍无实质收入贡献</strong>（故事证伪）', note: '卖方耐心刻度同为一年，计时起点 2026-07' },
+  { kind: 'risk', status: 'clear', text: '<strong>广告单价/展示量同时失速</strong>（AI 广告红利见顶）', note: '最新 Q1：展示 +19% / 单价 +12%，未触发' },
+  { kind: 'risk', status: 'clear', text: '<strong>法律/监管费用常态化</strong>：本季 $24 亿若变成每季都有，性质就变了', note: 'FTC/欧盟 DMA/新墨西哥州案等多线推进' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
 document.querySelectorAll('.site-nav button').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
-    document.querySelectorAll('main .doc').forEach(d => { d.hidden = d.id !== 'tab-' + btn.dataset.tab; });
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 });

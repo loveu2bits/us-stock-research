@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>沃尔玛（WMT.O）公司研究</title>
+<title>沃尔玛（WMT.N）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <style>
 :root {
   --paper: #ffffff; --paper-cool: #f3f6f8;
@@ -18,10 +19,10 @@
 html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
 body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
 
-/* ===== 顶栏（美联储风格） ===== */
+/* ===== 顶栏 ===== */
 .site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
 .site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
-.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 12.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
 .site-mark__text { font-size: 14px; font-weight: 700; }
 .site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
 .site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
@@ -32,16 +33,20 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 
 .shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
 
-/* ===== 抬头 ===== */
+/* ===== 抬头：公司名称 + 观点 ===== */
 .overview { padding: 34px 0 0; }
-.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 170px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
 .overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
 .overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
 .overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
-.overview__date { padding: 16px 0 4px; border-top: 2px solid var(--policy-red); text-align: right; }
-.overview__date span, .overview__date strong { display: block; }
-.overview__date span { margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
-.overview__date strong { font-size: 15px; font-variant-numeric: tabular-nums; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--amber); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
 
 /* ===== 关键指标栏 ===== */
 .summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
@@ -49,32 +54,108 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 .summary-rail__item:last-child { border-right: 0; }
 .summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
 .summary-rail__item strong.up { color: var(--policy-red); }
-.summary-rail__item strong.down { color: var(--teal); }
 .summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
 
-/* ===== 正文文档 ===== */
+/* ===== 跟踪面板（置顶，逐次更新核对） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
 .doc { padding: 40px 0 80px; }
 .doc[hidden] { display: none; }
-.doc-h1 { margin: 34px 0 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line-strong); font-family: var(--font-display); font-size: 30px; font-weight: 650; }
-.doc-h1:first-child { margin-top: 0; }
-.doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
-.doc-h3 { margin: 22px 0 10px; color: var(--federal-blue); font-size: 15px; font-weight: 750; }
-.doc p, .doc li { color: var(--ink-soft); font-size: 15px; }
-.doc p { margin: 0 0 14px; }
-.doc ul, .doc ol { margin: 0 0 16px; padding-left: 24px; }
-.doc li { margin-bottom: 6px; }
-.doc strong { color: var(--ink); }
-.doc code { padding: 1px 6px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper-cool); font-size: 13px; }
-.doc-hr { margin: 30px 0; border: 0; border-top: 1px solid var(--line); }
-.doc-quote { margin: 18px 0; padding: 16px 20px; border-left: 3px solid var(--amber); background: #faf6ec; color: var(--ink-soft); font-size: 14px; }
-.tbl-wrap { margin: 16px 0 24px; overflow-x: auto; }
-.doc table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
-.doc th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
-.doc td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
-.doc tr:hover td { background: #f8fafc; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
 .warn { color: var(--policy-red); }
-.star { color: var(--amber); }
-.xref { color: var(--federal-blue); font-weight: 600; }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
 
 /* ===== 页脚 ===== */
 .sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
@@ -86,8 +167,14 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   .shell { width: min(calc(100% - 32px), var(--shell)); }
   .overview__heading { grid-template-columns: 1fr; gap: 18px; }
   .overview__copy h1 { font-size: 32px; }
-  .overview__date { text-align: left; }
   .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
   .site-nav button { min-width: 78px; padding: 0 8px; }
   .site-mark__text span { display: none; }
 }
@@ -98,11 +185,11 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 <header class="site-header">
   <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
     <span class="site-mark__seal">WMT</span>
-    <span class="site-mark__text">沃尔玛 公司研究<span>Walmart · WMT.O</span></span>
+    <span class="site-mark__text">沃尔玛 公司研究<span>Walmart · WMT.N</span></span>
   </a>
   <nav class="site-nav">
-    <button class="is-active" data-tab="report">研究报告</button>
-    <button data-tab="onepager">一页通（Gangtise）</button>
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
   </nav>
 </header>
 
@@ -110,54 +197,315 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   <div class="shell">
     <div class="overview__heading">
       <div class="overview__copy">
-        <h1>沃尔玛<span class="en">Walmart · WMT.O · 美股研究</span></h1>
-        <p class="sub">正在发生"身份重估"的零售巨头：广告+会员+3P 高利润业务已贡献 1/3 营业利润——从"零售股"到"平台股"的估值切换配不配得上？</p>
+        <h1>沃尔玛<span class="en">Walmart · WMT.N · 美股研究</span></h1>
+        <p class="sub">正在发生"身份重估"的零售巨头：表面是 4% 增速、4.2% 利润率的低毛利零售商，实际广告+会员+3P 等高利润业务已贡献约 1/3 营业利润——核心问题是"零售股"到"平台股"的估值切换配不配得上。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-07-30</span>
+          <span>下次更新：FY27Q2 财报后（2026-08 中旬）</span>
+        </div>
       </div>
-      <div class="overview__date">
-        <span>研究日期</span>
-        <strong>2026-07-30</strong>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>39x 远期 PE 已定价转型成功、没有安全边际；胜负手在 FY27Q2 同店销售 4%+ 与利润增速 7-10% 能否同时兑现。</em>
       </div>
     </div>
     <div class="summary-rail">
       <div class="summary-rail__item"><strong>1/3</strong><span>高利润业务占营业利润比</span></div>
-<div class="summary-rail__item"><strong>39x</strong><span>远期 PE·平台化定价</span></div>
-<div class="summary-rail__item"><strong class="up">+44%</strong><span>Walmart Connect 广告增速</span></div>
-
+      <div class="summary-rail__item"><strong>39x</strong><span>远期 PE·平台化定价</span></div>
+      <div class="summary-rail__item"><strong class="up">+44%</strong><span>Walmart Connect 广告增速</span></div>
+      <div class="summary-rail__item"><strong>4.2%</strong><span>营业利润率·连续四年未动</span></div>
     </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
   </div>
 </section>
 
 <main class="shell">
   <article class="doc" id="tab-report">
-<blockquote class="doc-quote"><strong>研究日期</strong>：2026-07-30 ｜ <strong>数据来源</strong>：Gangtise 一页通（2026-07-30） <strong>状态</strong>：初稿 v1 ｜ <strong>下次更新</strong>：FY27Q2 财报（2026 年 8 月中旬） <strong>关联研究</strong>：<span class="xref">好市多研究报告</span>（会员制零售的两种范式对照）</blockquote>
-<hr class="doc-hr">
-<h3 class="doc-h2">〇、一句话结论</h3>
-<p><strong>沃尔玛正在发生一场"身份重估"：表面是 4% 增速、4.2% 利润率的低毛利零售商，实际广告+会员+3P 等高利润业务已贡献约 1/3 营业利润——市场按"生态平台"给它 39 倍 PE。研究核心问题：这个从"零售股"到"平台股"的估值切换，配不配得上？</strong></p>
-<hr class="doc-hr">
-<h3 class="doc-h2">一、靠什么赚钱？</h3>
-<p><strong>一句话：用"天天低价"的海量客流做基本盘（FY2026 收入 $7,132 亿、每周 2.7 亿顾客），再把流量和数据二次变现（广告/会员/3P 服务）——"零售引流 + 服务变现"。</strong></p>
-<p>三层收入结构：</p>
-<ol><li><strong>基本盘</strong>：沃尔玛美国（66%）+ 国际（20%）+ 山姆会员店（13%），毛利率仅 ~25%</li><li><strong>第二曲线（关键）</strong>：广告（Walmart Connect +44%）、会员费（+17.4%）、3P 服务（GMV +50%）——合计贡献约 <strong>1/3 营业利润</strong></li><li><strong>未来期权</strong>：电商亏损收窄（Bernstein 估 FY26 核心电商 EBIT 约 -6%，FY30 有望盈亏平衡，仅此一项 +100bp 利润率）</li></ol>
-<hr class="doc-hr">
-<h3 class="doc-h2">二、护城河多深？</h3>
-<ol><li><strong>规模成本优势（最深）</strong>：食品杂货价格比同行低 15.4% 且差距还在扩大——"低价→客流→规模→更低价"飞轮，ROI 14.9%</li><li><strong>"店仓一体"全渠道</strong>：4,600+ 美国门店（90% 人口 10 英里内）就是前置仓，60% 人口可 30 分钟达——<strong>这是亚马逊拿钱也短期内砸不出来的资产</strong></li><li><strong>生态飞轮</strong>：电商 GMV 扩大广告库存 → 3P 卖家增加广告需求 → Vizio 打开 CTV 广告 → 会员粘性反哺主业</li></ol>
-<p><strong>裂缝</strong>：SG&amp;A 费用率连升三年（20.4%→21.2%），"投资换增长"阶段利润率扩张还没兑现；新 CEO 上任后核心高管连环变动。</p>
-<hr class="doc-hr">
-<h3 class="doc-h2">三、财务速览</h3>
-<div class="tbl-wrap"><table><thead><tr><th>指标</th><th>FY2024</th><th>FY2025</th><th>FY2026</th><th>FY27Q1</th></tr></thead><tbody><tr><td>总收入（亿$）</td><td>6,481</td><td>6,810</td><td>7,132</td><td>1,778（+7.3%）</td></tr><tr><td>毛利率</td><td>24.4%</td><td>24.9%</td><td>24.9%</td><td>25.1%</td></tr><tr><td>营业利润率</td><td>4.2%</td><td>4.3%</td><td>4.2%</td><td>4.2%</td></tr><tr><td>归母净利（亿$）</td><td>155</td><td>194</td><td>219</td><td>53（+18.8%）</td></tr><tr><td>自由现金流（亿$）</td><td>151</td><td>127</td><td>149</td><td>-19（季节性备货）</td></tr></tbody></table></div>
-<p><strong>读法</strong>：收入稳、现金流强（负营运资本——先卖货后付钱给供应商）、股东回报慷慨（FY26 分红+回购 $156 亿 ≈ 全部 FCF）。唯一的问题是营业利润率一直卡在 4.2%——<strong>高利润业务的拉动还没盖过费用投入，这就是多空分歧的财务根源</strong>。</p>
-<hr class="doc-hr">
-<h3 class="doc-h2">四、核心分歧：39 倍 PE 的零售商，贵吗？</h3>
-<div class="tbl-wrap"><table><thead><tr><th></th><th>乐观方</th><th>谨慎方</th></tr></thead><tbody><tr><td>估值方法</td><td>该用 SOTP 分部估值，对标平台公司</td><td>收入只增 4-5%，39x 远期 PE 脱离地心引力</td></tr><tr><td>第二曲线</td><td>广告 FY30 看到 $113 亿（FY26 仅 $44 亿）</td><td>增速会随基数放缓，市场定价太超前</td></tr><tr><td>价格战</td><td>降价资金来自 $30 亿关税退税，不伤利润</td><td>Kroger/Albertsons 新 CEO 都加码价格投资，行业毛利率可能集体承压</td></tr></tbody></table></div>
-<p><strong>我的观察点</strong>：Q2（8 月中）看两个数——① 美国同店销售能否维持 4%+（返校季检验降价效果）；② 营业利润增速能否回到指引上限 7-10%（证明费用投入开始收敛）。</p>
-<blockquote class="doc-quote">📚 *方法点评：研究消费公司和科技公司完全不同——没有"技术颠覆"叙事，看的是<strong>同店销售、客流、客单价、费用率</strong>这些"笨指标"。消费的 alpha 来自对运营细节的跟踪，不是对趋势的想象。*</blockquote>
-<hr class="doc-hr">
-<h3 class="doc-h2">五、反证条件</h3>
-<ol><li><span class="warn">⚠️</span> 美国同店销售增速跌破 3%，或高收入客群份额停止增长</li><li><span class="warn">⚠️</span> 广告/会员增速跌破 20%（第二曲线失速 → SOTP 估值逻辑失效）</li><li><span class="warn">⚠️</span> 行业价格战导致毛利率连续两季下滑</li><li><span class="warn">⚠️</span> 电商盈利时间表（FY30 盈亏平衡）被管理层推迟</li><li><span class="warn">⚠️</span> 低收入客群消费明显恶化（核心客群受损）</li></ol>
-<hr class="doc-hr">
-<h3 class="doc-h2">六、跟踪计划</h3>
-<div class="tbl-wrap"><table><thead><tr><th>跟踪变量</th><th>时间</th><th>说明</th></tr></thead><tbody><tr><td>FY27Q2 财报</td><td>2026-08 中旬</td><td>指引 4-5% 收入 / 7-10% 利润，能否超预期</td></tr><tr><td>返校季销售</td><td>7-9 月</td><td>降价策略试金石</td></tr><tr><td>关税退税到账与投放</td><td>下半年</td><td>$30 亿的利润缓冲垫</td></tr><tr><td>Walmart Connect 广告增速</td><td>每季度</td><td>第二曲线核心</td></tr><tr><td>电商 EBIT 改善幅度</td><td>每季度</td><td>FY30 盈亏平衡的路径</td></tr></tbody></table></div>
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">第二曲线（广告+会员+3P）：1/3 营业利润的平台化转型是真是假？</h2>
+        <span class="qa__impact-tag">→ 广告 FY26 $44亿 → FY30E $113亿 · 利润率 +75bp</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>转型是真实的，且已兑现到财务上：FY27Q1 广告 +44%（Walmart Connect）、会员费 +17.4%、美国 3P GMV 近 +50%，合计贡献约 1/3 营业利润。<em>但书：会员费增速已降至 20% 以下——随着基数扩大，第二曲线增速的自然回落是对估值溢价的第一道考验。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这是估值切换的全部依据。</strong>Bernstein 预测零售媒体广告收入从 FY26 约 $44 亿增至 FY30 的 $113 亿，其高利润特性可为沃尔玛美国 EBIT 利润率贡献约 <strong>+75bp</strong>；叠加电商 FY30 盈亏平衡的 +100bp，构成营业利润率从 4.2% 走向 5%+ 的完整路径。</p>
+            <p>兑现 → SOTP 分部估值、对标平台公司的逻辑成立，39x 有支撑；若广告/会员增速跌破 20%，第二曲线失速，<strong>SOTP 逻辑失效、估值回到零售股定价</strong>——这是本研究列为反证条件的原因。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>飞轮已闭环：电商 GMV 扩大广告库存 → 3P 卖家增加广告需求 → Vizio 打开 CTV 广告增量 → 会员粘性反哺主业</li>
+              <li>Walmart+ 会员约 <strong>3,180 万</strong>创历史新高（摩根士丹利 6 月调查）；山姆 5 月提价（Club 50→60 美元、Plus 110→120 美元）将逐季贡献增量</li>
+              <li>AI 购物助手 Sparky 已覆盖约半数 App 用户，<strong>客单价比未使用者高约 35%</strong></li>
+              <li>电商 GMV 预计 FY26-FY30 CAGR 约 18%，广告库存持续扩容</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>基数扩大后增速必然放缓，<strong>市场对 FY30 $113 亿的定价太超前</strong></li>
+              <li>3P 市场 GMV 增长快，但货币化率（Take Rate）与盈利能力未披露，<strong>何时从投入期变成利润贡献者是未知数</strong></li>
+              <li>会员费 +17.4% 已在 20% 线以下；山姆提价可能引发流失</li>
+              <li>广告预算要与亚马逊、谷歌正面争夺，零售媒体不是蓝海</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（三层收入结构 · 第二曲线 FY27Q1 数据）</summary>
+          <div class="evidence__body">
+            <h5>三层收入结构</h5>
+            <ol>
+              <li><strong>基本盘</strong>：沃尔玛美国（66%）+ 国际（20%）+ 山姆会员店（13%），毛利率仅 ~25%；FY2026 总收入 $7,132 亿、每周 2.7 亿顾客</li>
+              <li><strong>第二曲线（关键）</strong>：广告（Walmart Connect +44%）、会员费（+17.4%）、3P 服务（GMV 近 +50%）——合计贡献约 <strong>1/3 营业利润</strong></li>
+              <li><strong>未来期权</strong>：电商亏损收窄（Bernstein 估 FY26 核心电商 EBIT 约 -6%，FY30 有望盈亏平衡，仅此一项 +100bp 利润率）</li>
+            </ol>
+            <h5>第二曲线 FY27Q1 关键数据</h5>
+            <ul>
+              <li>全球电商销售同比 <strong>+26%</strong>；美国 3P GMV 增长近 <strong>50%</strong>，WFS 承接约 45% 的 3P 订单</li>
+              <li>全球广告业务 <strong>+37%</strong>，其中 Walmart Connect <strong>+44%</strong></li>
+              <li>会员费收入 <strong>+17.4%</strong>（全球）；山姆美国会员费 +11.0%</li>
+              <li>无人机配送 Q1 完成超 50 万次；美国 36% 订单 3 小时内送达，60% 人口可 30 分钟达</li>
+            </ul>
+            <h5>山姆会员费提价（2026-05-01 生效）</h5>
+            <p>Club 会员 50→60 美元、Plus 会员 110→120 美元，预计在未来几个季度贡献增量收入；观察点是提价是否引发流失。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">营业利润率为什么一直卡在 4.2%？费用投入何时收敛？</h2>
+        <span class="qa__impact-tag">→ SG&A 三年 +80bp · 利润率扩张是估值分水岭</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>高利润业务的拉动还没盖过费用投入：SG&A 费用率三连升（FY24 20.4% → FY27Q1 21.2%），营业利润率四年原地踏步——这是多空分歧的财务根源。<em>但书：FY27Q1 营业利润 +5.0% 低于收入 +7.3%，主因约 $1.75 亿未预期柴油成本和重组费用等一次性扰动，调整后约 +7.5%，不能据此判定投入失控。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p>FY27 全年指引调整后营业利润 <strong>+6~8%</strong>，FY27Q2 指引 <strong>+7~10%</strong>——若 Q2 落到指引上限，即证明费用投入开始收敛，利润率叙事重启，估值溢价获得支撑。</p>
+            <p>反之，若利润增速继续低于收入增速，「投资换增长」就会被市场改读为「投资换不来增长」，<strong>39x 的平台化溢价将被抽走</strong>。Q2 的两个观察数：美国同店销售 4%+、营业利润增速回到 7-10% 上限。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>Q1 拖累多是一次性：$1.75 亿柴油成本 Q2 可通过定价部分回收；Q2 起同比消化 FY26Q2 一般责任险 <strong>约 $4 亿</strong>准备金的低基数</li>
+              <li>自动化 DC 年内覆盖约 <strong>55-60%</strong> 门店供货、数字价签年底全覆盖——降本项已在路上</li>
+              <li>电商 EBIT 改善（FY26 约 -6% → FY30 盈亏平衡）本身就是 +100bp 的利润率高期权</li>
+              <li>多家机构（古根海姆、高盛）认为 Q2 指引偏保守</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>SG&A 连升三年是事实不是预期：20.4% → 20.9% → 21.2%</li>
+              <li>费用上升项多为<strong>刚性</strong>：折旧、医疗成本、重组费用</li>
+              <li>转型投入（供应链自动化、AI、门店改造）还会持续，利润率扩张时间表可能继续后移</li>
+              <li>柴油成本 Q1 对营业利润造成约 <strong>250bp</strong> 拖累——油价若持续高于 5 美元/加仑，压力会重来</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（四年财务速览 · 费用率轨迹）</summary>
+          <div class="evidence__body">
+            <h5>财务速览（单位：亿美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>FY2024</th><th>FY2025</th><th>FY2026</th><th>FY27Q1</th></tr></thead><tbody><tr><td>总收入</td><td>6,481</td><td>6,810</td><td>7,132</td><td>1,778（+7.3%）</td></tr><tr><td>毛利率</td><td>24.4%</td><td>24.9%</td><td>24.9%</td><td>25.1%</td></tr><tr><td>营业利润率</td><td>4.2%</td><td>4.3%</td><td>4.2%</td><td>4.2%</td></tr><tr><td>归母净利</td><td>155</td><td>194</td><td>219</td><td>53（+18.8%）</td></tr><tr><td>自由现金流</td><td>151</td><td>127</td><td>149</td><td>-19（季节性备货）</td></tr></tbody></table></div>
+            <h5>读法</h5>
+            <p>收入稳、现金流强（负营运资本——先卖货后付钱给供应商，FY26 存货周转约 39 天 vs 应付账款约 43 天）、股东回报慷慨（FY26 分红+回购 $156 亿 ≈ 全部 FCF，另有新 $300 亿回购授权）。唯一的问题是营业利润率卡在 4.2%。</p>
+            <h5>SG&A 费用率轨迹</h5>
+            <p>FY2024 <strong>20.4%</strong> → FY2026 <strong>20.9%</strong> → FY27Q1 <strong>21.2%</strong>。上升来源：技术/供应链/人力投资 + 一次性费用（柴油成本、重组费用、PhonePe 股权激励、一般责任险准备金）。「投资换增长」阶段，利润率扩张有待高利润业务规模效应释放。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">价格战会不会真打起来？$30 亿关税退税是弹药还是遮羞布？</h2>
+        <span class="qa__impact-tag">→ 行业毛利率走向 · 返校季（7-9月）见分晓</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>大概率是「有限价格投资」而非全面价格战：7 月 6 日新一轮降价的资金明确来自约 <strong>$30 亿关税退税</strong>（此前未纳入年度指引），不是利润再投资，不伤利润表。<em>但书：Kroger、Albertsons 新任 CEO 均表态加码价格投资，若竞争升级为行业性毛利率压缩，再厚的缓冲垫也守不住——毛利率连续两季下滑即触发反证。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p>短期影响<strong>偏正面</strong>：退税为降价提供了不压利润率的弹药，返校季（7-9 月）有望放大客流和份额优势——Q1 美国食品杂货销量 +4.2%、一般商品同店意外加速至近 5%，价格差距（比同行低 15.4%）还在扩大。</p>
+            <p>真正的影响在情景分叉：打赢 → 份额加速集中，收入端上修；打成消耗战 → 行业毛利率集体承压，<strong>对 4.2% 营业利润率的沃尔玛而言，毛利端的任何持续下滑都会直接击穿 EPS</strong>。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>降价资金来自关税退税而非利润再投资，<strong>利润率不受侵蚀</strong>；管理层称价格差距已处有利位置、降价并非新策略</li>
+              <li>低收入客群承压、寻求价值的背景下，「天天低价」定位反而加速抢份额——Q1 各收入阶层份额均增长，高收入家庭渗透显著提升</li>
+              <li>历史上沃尔玛多次利用成本优势发动价格战清理市场，<strong>它是最不怕价格战的一方</strong></li>
+              <li>退税同时在下半年为油价波动、消费疲软提供利润缓冲垫</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>Kroger、Albertsons 新 CEO 均表态加大价格投资，行业可能进入新一轮「效率节约再投资于价格」的竞争周期</li>
+              <li>亚马逊、Temu、SHEIN 多线夹击，<strong>价格战的对手不止传统超市</strong></li>
+              <li>退税到账节奏非线性，若消费明显恶化，降价也托不住同店</li>
+              <li>7 月降价宣布后股价自 Q1 财报以来已跑输标普 500 约 <strong>700bp</strong>——市场在用脚投票</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（事件时间线 · 竞争格局）</summary>
+          <div class="evidence__body">
+            <h5>近期事件时间线</h5>
+            <ul>
+              <li><strong>2026-05-21</strong>：FY27Q1 财报，收入超预期，但营业利润 +5% 受柴油成本和重组费用拖累，股价当日承压</li>
+              <li><strong>2026-06-10</strong>：Evercore 峰会阐述增长业务组合（广告、3P、会员）战略定位</li>
+              <li><strong>2026-07-06</strong>：宣布沃尔玛美国及山姆大规模降价（食品、家清、户外、玩具等），资金来自关税退税</li>
+              <li><strong>2026-07-17</strong>：沃尔玛美国 COO Kieran Shanahan 离任，由国际业务 COO Kyle Kinnard 接任</li>
+            </ul>
+            <h5>可比公司对照</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>公司</th><th>代码</th><th>对标维度</th><th>要点</th></tr></thead><tbody><tr><td>Costco</td><td>COST</td><td>会员制仓储</td><td>同店增速强劲（美国 +8%）、续费率极高；山姆模式对标但规模较小</td></tr><tr><td>Amazon</td><td>AMZN</td><td>电商与广告生态</td><td>电商份额领先；沃尔玛凭门店网络在食品杂货与即时配送上差异化</td></tr><tr><td>Kroger</td><td>KR</td><td>传统食品杂货</td><td>新 CEO 宣布加大价格投资，行业价格战风险的直接来源</td></tr><tr><td>Target</td><td>TGT</td><td>多品类折扣零售</td><td>定位偏时尚家居，近期业绩承压、份额流失</td></tr></tbody></table></div>
+            <h5>价格战议题的三个待答问题</h5>
+            <ul>
+              <li>退税资金是否意味着本轮降价是一次性行为，而非长期价格战的开启？</li>
+              <li>竞争对手跟进降价时，利润率能否维持在指引内（FY27 营业利润 +6~8%）？</li>
+              <li>价格之外，自有品牌、服务和体验投资能否保住客流与忠诚度？</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 4 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">4</span>
+        <h2 class="qa__title">估值：39 倍远期 PE 的零售商，贵吗？</h2>
+        <span class="qa__impact-tag">→ FY28E 仍 34x · 转型速度决定戴维斯方向</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>现价已充分定价转型成功：39x 远期 PE 对一个收入增速 4-5% 的公司<strong>没有安全边际</strong>，对应「持有」而非「买入」。<em>但书：Bernstein 的「成熟期盈利折现」口径下，把 FY30 预期利润率折现回当前，「真实」PE 约 27x、低于历史均值 29x——贵不贵，取决于你信不信 FY30 的利润率。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p>券商 FY27E EPS 一致预期 <strong>2.85-2.97 美元</strong>，贴近甚至略高于公司指引上限（2.75-2.85）——<strong>市场已假设公司交出指引上沿</strong>，超预期空间窄、低于预期惩罚重。</p>
+            <p>FY28E 分歧大（3.13-3.60 美元），分歧本身就是估值的软肋：利润率扩张兑现 → EPS 上修消化倍数；失速 → <strong>EPS 与 PE 双杀</strong>。验证点在 FY27Q2（2026-08 中旬）。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>该用 <strong>SOTP 分部估值</strong>对标平台公司：广告/会员/3P 是高利润高增长资产，不应与 4% 增速的零售基本盘混同定价</li>
+              <li>管理层指引历来偏保守；Q2 三大顺风（柴油成本回收、责任险低基数、高利润业务势头）支持超预期</li>
+              <li>股东回报托底：FY26 分红+回购 <strong>$156 亿 ≈ 全部 FCF</strong>，2026-02 再批 $300 亿回购授权</li>
+              <li>必需消费品的防御属性：经济不确定性下低价定位具备业绩韧性</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>39x 远期 PE「脱离地心引力」；即便按 FY28E 盈利也仍在 <strong>34x</strong> 左右</li>
+              <li>电商盈利、AI 变现要数年才兑现，<strong>市场对长期故事的定价过于超前</strong>，容错空间小</li>
+              <li>当前价位任何低于「极好」的兑现都是利空——Q1 利润不及收入增速后跑输标普 700bp 即是预演</li>
+              <li>若高利润业务增速回落，SOTP 逻辑失效，估值向零售股回归的下行空间远大于上行</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（管理层指引 · 六家券商预测表）</summary>
+          <div class="evidence__body">
+            <h5>管理层最新指引（FY27Q1 财报）</h5>
+            <ul>
+              <li><strong>FY27 全年</strong>：净销售额 +3.5%~4.5%（固定汇率）；调整后营业利润 +6%~8%；调整后 EPS 2.75~2.85 美元</li>
+              <li><strong>FY27Q2</strong>：净销售额 +4%~5%；调整后营业利润 +7%~10%；调整后 EPS 0.72~0.74 美元</li>
+            </ul>
+            <h5>券商盈利预测与估值（EPS 单位：美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价</th><th>FY26A</th><th>FY27E</th><th>FY28E</th><th>FY29E</th></tr></thead><tbody><tr><td>Bernstein（2026-07-14）</td><td>跑赢大盘</td><td>145.00</td><td>2.64</td><td>3.09</td><td>3.60</td><td>—</td></tr><tr><td>高盛（2026-07-17）</td><td>买入</td><td>154.00</td><td>2.65</td><td>2.97</td><td>3.37</td><td>3.84</td></tr><tr><td>瑞银（2026-06-13）</td><td>买入</td><td>141.00</td><td>2.64</td><td>2.90</td><td>3.50</td><td>4.13</td></tr><tr><td>古根海姆（2026-05-28）</td><td>买入</td><td>137.00</td><td>2.65</td><td>2.85</td><td>3.13</td><td>—</td></tr><tr><td>美银（2026-07-13）</td><td>买入</td><td>144.00</td><td>2.64</td><td>2.90</td><td>3.20</td><td>3.53</td></tr><tr><td>中金（2026-05-25）</td><td>跑赢行业</td><td>138.00</td><td>2.73</td><td>2.97</td><td>3.30</td><td>—</td></tr></tbody></table></div>
+            <p>注：预测数据均为各机构模型预期，非公司官方指引。Bernstein/古根海姆为调整后 EPS 口径。</p>
+            <h5>估值方法之争</h5>
+            <p>机构普遍用 PE 但给高目标倍数（Bernstein 基于 39x FY28E、瑞银基于 40x CY27E），隐含对转型成功的溢价；古根海姆以 EV/EBITDA（22.9x FY26E）交叉验证。Bernstein 的「成熟期盈利折现」法：FY30 预期利润率折现回当前 ≈ <strong>27x</strong>，低于历史平均 <strong>29x</strong>，据此论证仍有上行空间——这是多方最精巧的论证，也是最依赖远期假设的论证。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究的数据与局限</h3>
+      <ul>
+        <li><strong>数据来源</strong>：公司财报（FY2024-FY27Q1）、公开披露与公开研究资料整理；公司概况与近况见本站「一页通」标签页</li>
+        <li><strong>局限</strong>：未读 10-K 原文（建议补读 Business 与 Risk Factors 章节）；估值倍数与目标价为各机构口径（39x 远期 PE、FY30 广告 $113 亿等来自 Bernstein/瑞银等），未做自建情景模型；同业对比仅为定性</li>
+        <li><strong>管理层评估（一句话版）</strong>：新任 CEO John Furner（2026-02 上任）正在重塑核心团队，美国 COO、山姆 COO 连环更替——战略方向未变，但执行连续性需要在 FY27Q2 及以后逐季验证</li>
+      </ul>
+    </div>
+
   </article>
+
   <article class="doc" id="tab-onepager" hidden>
 <h3 class="doc-h2">公司概况</h3>
 <p>沃尔玛是全球最大的零售商，以“天天低价”（EDLP）为核心策略，运营覆盖美国本土、国际及山姆会员店三大板块。截至FY2026（截至2026年1月31日），公司在全球19个国家拥有近10,955家门店，每周服务约2.7亿顾客，全年总收入达<strong>7,131.63亿美元</strong>。公司正从传统实体零售商向“以人为本、技术驱动的全渠道零售商”转型，通过电商、广告、第三方市场和会员服务等业务构建生态闭环。</p>
@@ -203,7 +551,6 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 <ul><li><strong>护城河定性</strong>：这是沃尔玛正在快速构建的<strong>结构性护城河</strong>。其遍布美国的<strong>4,600+家</strong>门店（90%美国人口10英里内）不仅是零售终端，更是电商履约的“前置仓”。这种“店仓一体”模式使其能以远低于纯电商的获客和履约成本，提供覆盖范围最广、速度最快的即时配送服务（60%美国人口可享30分钟达）。在此基础上，公司叠加了第三方市场、广告、会员、金融等服务，构建了一个高粘性、多维度变现的生态平台。这种线上线下融合的资产规模和生态协同效应，是纯电商或纯实体零售商难以企及的。  </li><li><strong>数据验证</strong>：FY27 Q1，美国电商销售同比增长<strong>26%</strong>，其中门店履约的配送和自提是主要驱动力。Walmart+会员数创历史新高，其消费频次和客单价显著高于非会员。广告业务（Walmart Connect）收入同比增长<strong>44%</strong>，其高利润率已成为公司利润增长的重要引擎。这些数据证明了生态飞轮正在加速运转。  </li><li><strong>动态演变</strong>：<strong>护城河变宽（巩固）</strong>。公司正通过建设“暗店”网络、扩大无人机配送（Q1完成超50万次配送）、整合Vizio的CTV广告能力等举措，不断拓宽和加深其全渠道生态的护城河。  </li></ul>
 <p><strong>现阶段核心驱动力总结</strong>：</p>
 <p>沃尔玛的Alpha来源于其<strong>从传统零售商向全渠道生态平台的转型</strong>，这正在结构性提升其盈利能力和增长可持续性。其Beta属性则体现为<strong>必需消费品零售商的防御性</strong>，在经济不确定性加剧、消费者寻求价值时，其低价定位和食品杂货主业使其具备较强的业绩韧性。</p>
-<p><strong>竞争格局传导逻辑图</strong>：</p>
 <h3 class="doc-h2">产销链</h3>
 <ul><li><strong>客户情况</strong>：沃尔玛服务约<strong>2.7亿</strong>全球客户，客户基础极为分散，无单一客户依赖风险。其核心客群为大众消费者，对价格敏感度高。近年来，公司通过改善商品品质（如服饰、自有品牌）和全渠道体验，成功吸引了更多中高收入客群。FY27 Q1，美国市场各收入阶层份额均有所增长，其中高收入家庭渗透率提升显著。管理层指出，低收入消费者行为更趋谨慎，而中高收入群体支出保持稳健。  </li></ul>
 <ul><li><strong>供应商情况</strong>：沃尔玛拥有全球数万家供应商，采购集中度低，议价能力极强。公司通过“天天低成本”（EDLC）理念，与供应商建立长期、大规模的合作关系，以获取最优采购价格。同时，公司也通过供应商融资计划（Supplier Financing Program）优化营运资金，FY27 Q1末该计划下未偿付款项为<strong>59亿美元</strong>。公司正利用数据产品（Scintilla）帮助供应商优化决策，深化合作关系。当上游原材料或燃料成本上涨时，沃尔玛凭借其规模和谈判力，既能部分消化成本压力，也能通过供应商协同和定价策略将部分成本转嫁，其赚取的是“规模效率+服务变现”的钱，而非单纯的“加工费”或“周期资源钱”。  </li></ul>
@@ -250,12 +597,50 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 <section class="sources">
   <div class="shell">
     <h2>数据来源</h2>
-    <p>Gangtise Open API（公司一页通 · stock-one-pager）· 公司财报及公开披露 · 仅作研究学习用途，不构成投资建议。</p>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
   </div>
 </section>
-<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/WMT · 生成于 2026-07-30</div></footer>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/WMT · 生成于 2026-08-06</div></footer>
 
 <script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-07-30';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'pending', text: '<strong>FY27Q2 财报</strong>（2026-08 中旬）：指引收入 +4~5% / 调整后营业利润 +7~10%，能否超预期——同店 4%+ 与利润增速回上限两个数同时看', note: 'Q1 财报后股价跑输标普 500 约 700bp，Q2 是扭转窗口' },
+  { kind: 'cat', status: 'active',  text: '<strong>返校季销售</strong>（2026 年 7-9 月）：新一轮降价策略的试金石，检验一般商品与食品杂货的价格竞争力', note: '2026-07-06 宣布降价，资金来自关税退税' },
+  { kind: 'cat', status: 'active',  text: '<strong>约 $30 亿关税退税到账与投放</strong>（下半年）：降价弹药 + 利润缓冲垫，节奏非线性', note: '此前未纳入年度指引' },
+  { kind: 'cat', status: 'active',  text: '<strong>山姆会员费提价生效</strong>（2026-05-01 起）：Club 50→60 美元、Plus 110→120 美元，观察增量收入与流失率', note: 'FY27Q1 山姆会员费 +11.0%' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '美国同店销售增速<strong>跌破 3%</strong>，或高收入客群份额停止增长', note: '最新 FY27Q1 美国同店 +4.1%，未触发' },
+  { kind: 'risk', status: 'clear', text: '<strong>广告/会员增速跌破 20%</strong>（第二曲线失速 → SOTP 估值逻辑失效）', note: 'Connect +44% 在线上；会员费 +17.4% 已在线下，需逐季盯' },
+  { kind: 'risk', status: 'clear', text: '行业价格战导致<strong>毛利率连续两季下滑</strong>', note: '最新 FY27Q1 毛利率 25.1%，同比微升，未触发' },
+  { kind: 'risk', status: 'clear', text: '<strong>电商 FY30 盈亏平衡时间表</strong>被管理层推迟', note: 'Bernstein 估 FY26 核心电商 EBIT 约 -6%' },
+  { kind: 'risk', status: 'clear', text: '<strong>低收入客群消费明显恶化</strong>（核心客群受损）', note: '管理层已提示低收入消费者压力加大，逐季跟踪' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
 document.querySelectorAll('.site-nav button').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));

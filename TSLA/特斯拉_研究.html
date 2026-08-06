@@ -19,7 +19,7 @@
 html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
 body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
 
-/* ===== 顶栏（美联储风格） ===== */
+/* ===== 顶栏 ===== */
 .site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
 .site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
 .site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
@@ -33,16 +33,20 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 
 .shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
 
-/* ===== 抬头 ===== */
+/* ===== 抬头：公司名称 + 观点 ===== */
 .overview { padding: 34px 0 0; }
-.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 170px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
 .overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
 .overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
 .overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
-.overview__date { padding: 16px 0 4px; border-top: 2px solid var(--policy-red); text-align: right; }
-.overview__date span, .overview__date strong { display: block; }
-.overview__date span { margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
-.overview__date strong { font-size: 15px; font-variant-numeric: tabular-nums; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--amber); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
 
 /* ===== 关键指标栏 ===== */
 .summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
@@ -50,32 +54,108 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 .summary-rail__item:last-child { border-right: 0; }
 .summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
 .summary-rail__item strong.up { color: var(--policy-red); }
-.summary-rail__item strong.down { color: var(--teal); }
 .summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
 
-/* ===== 正文文档 ===== */
+/* ===== 跟踪面板（置顶，核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
 .doc { padding: 40px 0 80px; }
 .doc[hidden] { display: none; }
-.doc-h1 { margin: 34px 0 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line-strong); font-family: var(--font-display); font-size: 30px; font-weight: 650; }
-.doc-h1:first-child { margin-top: 0; }
-.doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
-.doc-h3 { margin: 22px 0 10px; color: var(--federal-blue); font-size: 15px; font-weight: 750; }
-.doc p, .doc li { color: var(--ink-soft); font-size: 15px; }
-.doc p { margin: 0 0 14px; }
-.doc ul, .doc ol { margin: 0 0 16px; padding-left: 24px; }
-.doc li { margin-bottom: 6px; }
-.doc strong { color: var(--ink); }
-.doc code { padding: 1px 6px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper-cool); font-size: 13px; }
-.doc-hr { margin: 30px 0; border: 0; border-top: 1px solid var(--line); }
-.doc-quote { margin: 18px 0; padding: 16px 20px; border-left: 3px solid var(--amber); background: #faf6ec; color: var(--ink-soft); font-size: 14px; }
-.tbl-wrap { margin: 16px 0 24px; overflow-x: auto; }
-.doc table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
-.doc th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
-.doc td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
-.doc tr:hover td { background: #f8fafc; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
 .warn { color: var(--policy-red); }
-.star { color: var(--amber); }
-.xref { color: var(--federal-blue); font-weight: 600; }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
 
 /* ===== 页脚 ===== */
 .sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
@@ -87,8 +167,14 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   .shell { width: min(calc(100% - 32px), var(--shell)); }
   .overview__heading { grid-template-columns: 1fr; gap: 18px; }
   .overview__copy h1 { font-size: 32px; }
-  .overview__date { text-align: left; }
   .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
   .site-nav button { min-width: 78px; padding: 0 8px; }
   .site-mark__text span { display: none; }
 }
@@ -102,8 +188,8 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
     <span class="site-mark__text">特斯拉 公司研究<span>Tesla · TSLA.O</span></span>
   </a>
   <nav class="site-nav">
-    <button class="is-active" data-tab="report">研究报告</button>
-    <button data-tab="onepager">一页通（Gangtise）</button>
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
   </nav>
 </header>
 
@@ -112,72 +198,330 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
     <div class="overview__heading">
       <div class="overview__copy">
         <h1>特斯拉<span class="en">Tesla · TSLA.O · 美股研究</span></h1>
-        <p class="sub">报表是汽车公司，股价是 AI 公司：营业利润率 1.4%，估值 90% 来自尚未规模化的业务——研究"叙事如何定价"的样本。</p>
+        <p class="sub">报表是一家营业利润率 1.4%、自由现金流转负的汽车公司，股价却是一家 AI 平台公司——研究它的本质是研究「叙事如何定价」：买的不是现在的利润，是 FSD/Robotaxi/Optimus 三张期权的兑现概率。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-07-29</span>
+          <span>下次更新：Robotaxi 运营数据更新 / Optimus 投产进展</span>
+        </div>
       </div>
-      <div class="overview__date">
-        <span>研究日期</span>
-        <strong>2026-07-30</strong>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>乐观情景已大部分被定价，宜作观察样本而非重仓标的；胜负手在 Robotaxi 里程爬坡斜率。</em>
       </div>
     </div>
     <div class="summary-rail">
       <div class="summary-rail__item"><strong class="up">48万辆</strong><span>Q2 交付·创纪录 +25%</span></div>
-<div class="summary-rail__item"><strong class="down">1.4%</strong><span>Q2 营业利润率</span></div>
-<div class="summary-rail__item"><strong class="down">-$10.9亿</strong><span>Q2 自由现金流·转负</span></div>
-
+      <div class="summary-rail__item"><strong>1.4%</strong><span>Q2 营业利润率·利润 -57%</span></div>
+      <div class="summary-rail__item"><strong class="up">55%</strong><span>北美 FSD 选装率·订阅 148万 +56%</span></div>
+      <div class="summary-rail__item"><strong>-$10.9亿</strong><span>Q2 自由现金流·近两年首次转负</span></div>
     </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
   </div>
 </section>
 
 <main class="shell">
   <article class="doc" id="tab-report">
-<blockquote class="doc-quote"><strong>研究日期</strong>：2026-07-29 ｜ <strong>数据来源</strong>：Gangtise 一页通（2026-07-29）、Q2 财报（7/22 披露） <strong>状态</strong>：初稿 v1 ｜ <strong>下次更新</strong>：Robotaxi 运营数据更新 / Optimus 投产进展</blockquote>
-<hr class="doc-hr">
-<h3 class="doc-h2">〇、一句话结论</h3>
-<p><strong>特斯拉是本轮研究三家中最难的一家：它的报表（营业利润率 1.4%、FCF 转负）是一家挣扎中的汽车公司，但它的股价是一家 AI 平台公司——大摩 400 美元目标价里，汽车业务只值 45 美元。研究它的本质是研究"叙事如何定价"：你买的不是现在的利润，是 FSD/Robotaxi/Optimus 三张期权的兑现概率。</strong></p>
-<hr class="doc-hr">
-<h3 class="doc-h2">一、靠什么赚钱？（现在 vs 叙事）</h3>
-<div class="tbl-wrap"><table><thead><tr><th></th><th>现在（报表现实）</th><th>叙事（估值支撑）</th></tr></thead><tbody><tr><td>汽车</td><td>收入占 73%，毛利率 16-18%，Q2 营业利润率仅 <strong>1.4%</strong></td><td>只是"输血工具"和数据采集器</td></tr><tr><td>能源</td><td>占 11%，毛利率 ~25%</td><td>AI 数据中心储能需求（"卖铲人"）</td></tr><tr><td>FSD</td><td>148 万订阅（+56%），北美新车选装率 <strong>55%</strong></td><td>高毛利经常性收入，估值切换的关键</td></tr><tr><td>Robotaxi</td><td>7 城运营，无安全员里程仅 38 万英里</td><td>出行平台抽成，最大的故事</td></tr><tr><td>Optimus</td><td>2026 底投产，"S 曲线极平缓"</td><td>第二增长曲线，最远的故事</td></tr></tbody></table></div>
-<blockquote class="doc-quote">📚 *方法点评：把"报表现实"和"估值叙事"分两栏列出来，是研究叙事驱动型公司的第一步。两者差距越大，股价波动越剧烈——财报后跌 6% 就是因为报表和叙事又拉开了一次。*</blockquote>
-<hr class="doc-hr">
-<h3 class="doc-h2">二、护城河与裂缝</h3>
-<p><strong>护城河</strong>：126 亿英里 FSD 真实驾驶数据的数据飞轮（Waymo 车队仅数千台）+ 垂直整合制造能力。数据优势是真的，且难以复制。</p>
-<p><strong>裂缝（本期财报集中爆发）</strong>：</p>
-<ul><li>交付 48 万辆创纪录（+25%），<strong>营业利润反而暴跌 57%</strong>——以价换量，汽车业务造血能力恶化</li><li>capex $58 亿（+142%），FCF 近两年首次转负（-10.9 亿），还要发债 300 亿——<strong>三张期权全是吞金兽</strong></li><li>监管积分收入面临结构性萎缩，进一步侵蚀汽车利润</li><li>治理风险：马斯克分身 SpaceX 等多家公司 + 9 月加州民权诉讼开庭</li></ul>
-<hr class="doc-hr">
-<h3 class="doc-h2">三、关键验证点：叙事的三个"坡度"</h3>
-<p>研究特斯拉不用盯利润表（今年注定难看），盯这三个先行指标：</p>
-<ol><li><strong>FSD 选装率与订阅增速</strong>：55% 的北美选装率能否维持？订阅每季 +20 万的节奏能否保持？——这是唯一已经在赚钱的故事</li><li><strong>Robotaxi 无安全员里程的爬坡斜率</strong>：38 万英里 vs 250 万付费里程，管理层指引"每周两位数增长"——兑现则故事成立，断档则信仰崩塌</li><li><strong>Optimus 投产（2026 底）</strong>：从 0 到 1 的里程碑，看的是"能否执行通用任务"的视频证据，不是产量</li></ol>
-<hr class="doc-hr">
-<h3 class="doc-h2">四、估值：这不是算术题</h3>
-<ul><li>大摩 400 美元目标价拆分：汽车 45 + 网络服务/出行/机器人 ~320 + 其他——<strong>90% 的价值来自尚未规模化的业务</strong></li><li>传统 PE/PS 在这里失效（营业利润率 1.4% 的公司值 1.4 万亿美元）</li><li>正确的姿势：<strong>把股价当作三张期权的价格</strong>，每个季度问"期权的兑现概率上升了还是下降了"，而不是"利润超预期了吗"</li></ul>
-<div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>概率参考</th></tr></thead><tbody><tr><td>乐观</td><td>Robotaxi 2027 年规模化运营 + FSD 订阅 300 万+</td><td>市场当前定价已大部分反映</td></tr><tr><td>中性</td><td>FSD 稳步增长，Robotaxi 缓慢爬坡，汽车微利</td><td>股价高波动震荡</td></tr><tr><td>悲观</td><td>capex 压垮现金流被迫再融资 + Robotaxi 安全事故/监管叫停</td><td>叙事估值体系崩塌，向"汽车公司"估值回归</td></tr></tbody></table></div>
-<blockquote class="doc-quote">📚 *方法点评：研究 NVDA 是"验证增长"，研究 NFLX 是"判断周期还是结构"，研究 TSLA 是"给叙事定价"——三种完全不同的研究范式。新手建议把 TSLA 当<strong>观察样本</strong>而不是重仓标的：它的每一季财报都是学习"市场如何给梦想定价"的免费教材。*</blockquote>
-<hr class="doc-hr">
-<h3 class="doc-h2">五、反证条件</h3>
-<ol><li><span class="warn">⚠️</span> Robotaxi 发生致命安全事故或主要城市被监管叫停——叙事根基动摇</li><li><span class="warn">⚠️</span> FSD 选装率从 55% 明显回落，或订阅增速断档</li><li><span class="warn">⚠️</span> 汽车毛利率（不含积分）跌破 15%——输血功能衰竭</li><li><span class="warn">⚠️</span> 再次大规模股权融资（300 亿发债之外）——稀释 + 现金饥渴信号</li><li><span class="warn">⚠️</span> 马斯克宣布新的宏大项目进一步分散资源</li></ol>
-<hr class="doc-hr">
-<h3 class="doc-h2">六、跟踪计划</h3>
-<div class="tbl-wrap"><table><thead><tr><th>跟踪变量</th><th>频率</th><th>说明</th></tr></thead><tbody><tr><td>Robotaxi 城市数/无安全员里程</td><td>每周-每月</td><td>公司披露+新闻</td></tr><tr><td>FSD 订阅数与选装率</td><td>每季度</td><td>财报</td></tr><tr><td>Optimus 投产进展</td><td>2026 底</td><td>里程碑事件</td></tr><tr><td>Terafab 芯片厂发布会</td><td>2026 8-9 月（可能）</td><td>AI 基建蓝图</td></tr><tr><td>加州民权诉讼开庭</td><td>2026-09-21</td><td>声誉风险</td></tr><tr><td>季度交付量</td><td>每季度初</td><td>基本盘温度计</td></tr></tbody></table></div>
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">汽车基本盘：以价换量，「输血功能」还能撑多久？</h2>
+        <span class="qa__impact-tag">→ 营业利润率 1.4% · 毛利率警戒线在 15%</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>交付创纪录但造血恶化：Q2 交付 48 万辆（+25%），营业利润反而暴跌 57%。<em>汽车业务已从利润引擎退化为「输血工具 + 数据采集器」——毛利率（不含积分）16.3%，距 15% 警戒线仅 1.3pct，这是比交付量重要得多的温度计。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>对当期 EPS 影响最大，对估值影响最小——这正是特斯拉的诡异之处。</strong>汽车收入占 73%，毛利率每变动 1pct，在年化约 $700 亿收入基数上 ≈ $7 亿利润，而 Q2 全部营业利润只有 $3.98 亿——汽车业务的利润弹性已接近「清零」。</p>
+            <p>估值层面的传导是间接的：汽车业务一旦停止输血（毛利率跌破 15%），AI 战略的 $250 亿+ 年资本开支就只能靠外部融资喂养，<strong>「自我造血孵化期权」的叙事将变成「不断稀释续命」的叙事</strong>，估值体系才会真正动摇。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>Q2 交付 48.01 万辆<strong>创历史同期新高（+25%）</strong>，需求基本盘仍在</li>
+              <li>2026 H1 汽车毛利率 18.7%，较 FY2025 全年的 17.8% 有所回升，固定成本吸收改善</li>
+              <li>能源业务毛利率 ~29%（长期指引 20-25%），储能受益 AI 数据中心需求，<strong>第二台「输血机」在成型</strong></li>
+              <li>FSD 订阅收入并入报表，服务及其他毛利率已升至 11.9%，收入结构在变好</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>交付 +25% 是<strong>以价换量</strong>换来的：Q2 汽车毛利率（不含积分）环比下滑至 16.3%，营业利润 $3.98 亿、同比 -57%</li>
+              <li>监管积分收入面临<strong>结构性萎缩</strong>，进一步侵蚀汽车利润</li>
+              <li>车型矩阵收敛（Model S/X 已停产）、中国竞品持续施压，价格战没有终点</li>
+              <li>资本开支 $57.89 亿（+142%），FCF 近两年首次转负（-$10.92 亿），还要寻求 <strong>$300 亿债务融资</strong>——三张期权全是吞金兽</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（现在 vs 叙事对照表 · 分部数据 · 本期裂缝清单）</summary>
+          <div class="evidence__body">
+            <h5>现在（报表现实）vs 叙事（估值支撑）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th></th><th>现在（报表现实）</th><th>叙事（估值支撑）</th></tr></thead><tbody><tr><td>汽车</td><td>收入占 73%，毛利率 16-18%，Q2 营业利润率仅 <strong>1.4%</strong></td><td>只是「输血工具」和数据采集器</td></tr><tr><td>能源</td><td>占 11%，毛利率 ~25%</td><td>AI 数据中心储能需求（「卖铲人」）</td></tr><tr><td>FSD</td><td>148 万订阅（+56%），北美新车选装率 <strong>55%</strong></td><td>高毛利经常性收入，估值切换的关键</td></tr><tr><td>Robotaxi</td><td>7 城运营，无安全员里程仅 38 万英里</td><td>出行平台抽成，最大的故事</td></tr><tr><td>Optimus</td><td>2026 底投产，「S 曲线极平缓」</td><td>第二增长曲线，最远的故事</td></tr></tbody></table></div>
+            <h5>分部数据速览（2026 H1）</h5>
+            <ul>
+              <li>汽车：收入 $367.5 亿（+20%），占比 72.6%，毛利率 18.7%；Q2 单季不含积分毛利率环比降至 <strong>16.3%</strong></li>
+              <li>能源：收入 $55.5 亿（+1%），毛利率 28.7%；Q2 部署储能 13.5 GWh，单季毛利率因电芯保修费用降至 20.4%</li>
+              <li>服务及其他：收入 $83.3 亿（+46%，增长最快），毛利率升至 11.9%，FSD 订阅贡献高利润</li>
+            </ul>
+            <h5>本期财报集中爆发的裂缝</h5>
+            <ul>
+              <li>交付 48 万辆创纪录（+25%），<strong>营业利润反而暴跌 57%</strong>——汽车业务造血能力恶化</li>
+              <li>capex $57.89 亿（+142%），FCF 转负（-$10.92 亿），2026 年资本开支指引超 <strong>$250 亿</strong>且未来 2-3 年继续增长</li>
+              <li>电话会透露正寻求高达 <strong>$300 亿</strong>债务融资支持投资计划</li>
+              <li>治理风险：马斯克分身 SpaceX 等多家公司 + 9 月 21 日加州民权诉讼开庭</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">FSD：唯一已在赚钱的故事，订阅飞轮成立吗？</h2>
+        <span class="qa__impact-tag">→ 148万订阅 +56% · 高毛利收入的估值切换钥匙</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>成立中，且是本期财报唯一超预期的亮点：北美选装率 55% 远超市场 25-30% 的预期。<em>但书：148 万订阅相对全球保有量的渗透率仍然很低，55% 的选装率能否在促销退坡后维持，尚需两个季度验证。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>FSD 是改善 1.4% 营业利润率最直接、最可预见的手段</strong>：每月 99 美元订阅制、极高毛利率，订阅每季 +20 万的节奏若能保持，将逐年把经常性收入垒进报表。</p>
+            <p>估值层面更关键：市场已开始尝试把 FSD 经常性收入纳入估值框架——<strong>长期目标是把全球选装率从当前约 15% 提至 40%+</strong>，这是「从卖车到卖服务」估值切换的第一级火箭，也是三张期权中兑现概率最高的一张。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>北美新车交付时 FSD 选装率超 <strong>55%</strong>，远超市场此前 25-30% 的预期——用户开始真金白银为软件付费</li>
+              <li>活跃订阅 148 万（+56%），保持每季约 +20 万的增长势头</li>
+              <li>126 亿英里真实驾驶数据的数据飞轮（Waymo 车队仅数千台），<strong>数据优势真实且难以复制</strong></li>
+              <li>护城河在变宽：车队持续增长 + FSD 能力横向迁移至 Optimus，开辟新的数据场景</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>148 万订阅相对全球车队保有量，<strong>渗透率仍低</strong>；全球口径选装率仅约 15%</li>
+              <li>55% 是「交付时选装率」，其中促销捆绑的贡献有多大、续费率如何，尚未披露</li>
+              <li>任何一起引发舆论的 FSD 安全事故，都会直接打击订阅转化与监管态度</li>
+              <li>「软件定义汽车」的故事讲了多年，<strong>利润表里还看不到它的分量</strong>——服务板块毛利率 11.9% 仍薄</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（数据飞轮拆解 · 关键订阅指标 · 跟踪方法）</summary>
+          <div class="evidence__body">
+            <h5>数据飞轮（结构性护城河）</h5>
+            <p>「硬件（车辆/机器人）销售 → 海量真实世界数据收集 → 模型训练迭代 → 软件能力提升 → 促进硬件销售」的完整闭环。截至 Q2，FSD 累计行驶里程超 <strong>126 亿英里</strong>，为训练端到端神经网络提供无可比拟的数据基础；主要竞争对手 Waymo 车队规模仅数千台。</p>
+            <h5>关键订阅指标（Q2）</h5>
+            <ul>
+              <li>全球活跃 FSD 订阅用户 <strong>148 万</strong>，同比 +56%</li>
+              <li>北美新增交付车辆交付时选装率超 <strong>55%</strong>（市场预期 25-30%）</li>
+              <li>订阅制每月 99 美元，高毛利经常性收入</li>
+            </ul>
+            <h5>跟踪方法</h5>
+            <p>每季财报核对两个数：<strong>①北美选装率能否守住 55%；②订阅能否保持每季 +20 万</strong>。这是唯一已经在赚钱的故事——它断档，等于三张期权中概率最高的那张开始贬值。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">Robotaxi 与 Optimus：最大的故事和最远的故事，爬坡坡度如何？</h2>
+        <span class="qa__impact-tag">→ 大摩目标价 ~80% 权重所在 · 里程斜率是胜负手</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>Robotaxi 看「坡度」不看「城市数」，Optimus 看「从 0 到 1」不看产量。<em>核心矛盾：累计付费里程 250 万英里，无安全员里程仅 38 万——这一差距的弥合速度就是全部关键；兑现则故事成立，断档则信仰崩塌。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>短期对 EPS 几乎无贡献，对估值却是主体。</strong>大摩 400 美元目标价拆分：传统汽车业务仅贡献 <strong>45 美元</strong>，网络服务/出行/机器人合计约 <strong>320 美元</strong>——约 90% 的价值来自尚未规模化的业务，而这两张期权占了其中绝大部分。</p>
+            <p>这意味着：Robotaxi 运营数据的每一次披露，对股价的影响都大于当季利润——<strong>财报后跌 6%，跌的不是利润 miss，是「报表和叙事又拉开了一次」</strong>。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>Robotaxi 已扩展至 <strong>7 个城市</strong>，奥斯汀等部分地区实现无安全员运营，7 月初新落地迈阿密/奥兰多/坦帕</li>
+              <li>管理层指引无安全员里程<strong>「每周两位数百分比增长」</strong>，扩张策略聚焦现有城市密度与安全数据——先求实再求快</li>
+              <li>Optimus 首代产线 2026 年内启动，复用 FSD 的视觉感知/路径规划/端侧推理能力，<strong>其他纯机器人公司难以复制这种系统性成本优势</strong></li>
+              <li>Optimus 已列入 CEO 薪酬考核目标，战略优先级有制度背书</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>无安全员里程仅 <strong>38 万英里</strong>，占付费里程比例极低——「无人化」离规模运营还很远</li>
+              <li>马斯克自认 Optimus 初期量产「S 曲线非常平缓且漫长」，所有部件全新设计、供应链从零建立</li>
+              <li>Cybercab 虽已投产，但需积累新底盘道路数据校准软件，<strong>大规模部署仍需时日</strong>（管理层原话暗示）</li>
+              <li>一次致命安全事故或主要城市被监管叫停，叙事根基直接动摇</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（三个先行指标 · 运营数据 · 近期要闻）</summary>
+          <div class="evidence__body">
+            <h5>研究特斯拉不用盯利润表，盯这三个先行指标</h5>
+            <ol>
+              <li><strong>FSD 选装率与订阅增速</strong>（见问题 2）——唯一已经在赚钱的故事</li>
+              <li><strong>Robotaxi 无安全员里程的爬坡斜率</strong>：38 万英里 vs 250 万付费里程，管理层指引「每周两位数增长」——兑现则故事成立，断档则信仰崩塌</li>
+              <li><strong>Optimus 投产（2026 底）</strong>：从 0 到 1 的里程碑，看的是「能否执行通用任务」的视频证据，不是产量</li>
+            </ol>
+            <h5>运营数据快照（Q2）</h5>
+            <ul>
+              <li>Robotaxi：7 城运营，累计付费里程 250 万英里，其中无安全员里程 38 万英里</li>
+              <li>Optimus：弗里蒙特工厂 Model S/X 产线已改造为 Optimus 产线，首代生产线 2026 年晚些时候启动</li>
+              <li>资本投向：AI 计算基础设施、Robotaxi 车队扩张、Optimus 产能、Terafab 芯片工厂</li>
+            </ul>
+            <h5>近期要闻</h5>
+            <ul>
+              <li><strong>2026-07 初</strong>：Robotaxi 落地佛州迈阿密、奥兰多、坦帕</li>
+              <li><strong>2026-07-22</strong>：Q2 财报，营收/交付创同期新高但利润大幅低于预期，FCF 转负，盘后大跌</li>
+              <li><strong>2026-07-22</strong>：电话会确认 Optimus 量产初期非常缓慢，正寻求高达 $300 亿债务融资</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 4 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">4</span>
+        <h2 class="qa__title">估值：$1.4 万亿市值定价了什么？该怎样给它定价？</h2>
+        <span class="qa__impact-tag">→ 90% 价值来自未规模化业务 · PE/PS 失效</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>这不是算术题：传统 PE/PS 在这里失效（营业利润率 1.4% 的公司值 $1.4 万亿）。<em>正确的姿势是把股价当作三张期权的价格，每个季度问「期权的兑现概率上升了还是下降了」，而不是「利润超预期了吗」。当前定价已大部分反映乐观情景——对应「持有」，且更适合当观察样本而非重仓标的。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>估值锚是叙事而非盈利。</strong>大摩 400 美元目标价拆分：汽车 45 + 网络服务/出行/机器人 ~320 + 其他——90% 的价值来自尚未规模化的业务，任何「用当期利润给它定价」的尝试都会得出荒谬结论。</p>
+            <p>情景含义：乐观情景已大部分被定价（上行空间有限）；悲观情景（现金流压垮 + 安全事故/监管叫停）意味着<strong>叙事估值体系崩塌、向「汽车公司」估值回归</strong>——下行是断崖式的。不对称的结构决定了它只适合观察或小仓位。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>三张期权任一张兑现（Robotaxi 2027 年规模化运营 + FSD 订阅 300 万+），估值天花板将彻底打开</li>
+              <li>数据飞轮 + 垂直整合制造的复合优势，<strong>竞争者连复制路径都不存在</strong></li>
+              <li>能源业务作为 AI 基建「卖铲人」正在独立成立，提供估值下限的缓冲</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>乐观情景的大部分已被当前定价反映——<strong>你按「全兑现」的价格买入「未兑现」的资产</strong></li>
+              <li>capex 超级周期下 FCF 持续为负，$300 亿发债只是开始，再融资风险真实存在</li>
+              <li>悲观情景的触发器（安全事故/监管叫停/选装率断档）都不在公司掌控之内</li>
+              <li>治理折价：马斯克分身多家公司 + 个人争议 + 多起诉讼，<strong>关键人风险无法用分散持仓对冲</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（三情景表 · 研究范式对比）</summary>
+          <div class="evidence__body">
+            <h5>三情景框架</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>概率参考</th></tr></thead><tbody><tr><td>乐观</td><td>Robotaxi 2027 年规模化运营 + FSD 订阅 300 万+</td><td>市场当前定价已大部分反映</td></tr><tr><td>中性</td><td>FSD 稳步增长，Robotaxi 缓慢爬坡，汽车微利</td><td>股价高波动震荡</td></tr><tr><td>悲观</td><td>capex 压垮现金流被迫再融资 + Robotaxi 安全事故/监管叫停</td><td>叙事估值体系崩塌，向「汽车公司」估值回归</td></tr></tbody></table></div>
+            <h5>研究范式对比（方法点评）</h5>
+            <p>研究英伟达是「验证增长」，研究奈飞是「判断周期还是结构」，研究特斯拉是「给叙事定价」——三种完全不同的研究范式。把「报表现实」和「估值叙事」分两栏列出来，是研究叙事驱动型公司的第一步：两者差距越大，股价波动越剧烈。</p>
+            <p><strong>新手建议把特斯拉当观察样本而不是重仓标的</strong>：它的每一季财报都是学习「市场如何给梦想定价」的免费教材。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究的数据与局限</h3>
+      <ul>
+        <li><strong>数据来源</strong>：公司财报（2026 Q2，7 月 22 日披露）、公司公开披露与公开研究资料整理；一页通内容见本站「一页通」标签页</li>
+        <li><strong>局限</strong>：未逐条核对 10-Q 原文；估值未做传统 DCF（该公司由叙事主导，DCF 输入假设主观性过强）；三情景的概率判断为主观参考，非精确测算</li>
+        <li><strong>管理层评估（一句话版）</strong>：马斯克的战略预判与执行记录极强（FSD 数据飞轮、垂直整合制造、能源布局均为先手），但分身 SpaceX 等多家公司且个人争议不断——治理折价需要持续计入，关键人风险是这家公司估值里无法剥离的一部分</li>
+      </ul>
+    </div>
+
   </article>
+
   <article class="doc" id="tab-onepager" hidden>
 <h3 class="doc-h2">公司概况</h3>
 <p>特斯拉是全球领先的物理AI平台公司，核心业务涵盖高性能纯电动汽车的设计、制造与销售，以及能源生成与存储系统。公司正从单一电动车制造商，向以FSD（完全自动驾驶能力）为AI底座、以Robotaxi（自动驾驶出租车）和Optimus（人形机器人）为商业化出口的平台型公司转型。其市场地位稳固，Model Y已成为全球最畅销车型，同时在储能领域也占据全球领先份额。公司长期定位是将汽车业务产生的现金流和真实世界数据，投入到自动驾驶、机器人及AI算力基础设施的研发与扩张中，形成“硬件规模-软件能力-运营网络-AI基础设施”互相强化的商业闭环。</p>
 <h3 class="doc-h2">公司近况跟踪</h3>
 <ul><li><strong>Q2交付量强劲反弹，但盈利显著承压</strong>：2026年Q2全球交付量达<strong>48.01万辆</strong>，同比增长<strong>25%</strong>，创历史同期新高，远超市场预期。然而，营收增长并未转化为利润，Q2营业利润仅为<strong>3.98亿美元</strong>，同比大幅下滑<strong>57%</strong>，营业利润率降至<strong>1.4%</strong>。汽车业务毛利率（不含监管积分）为<strong>16.3%</strong>，环比下滑，主要受产品组合不利变动、Q1一次性利好（保修调整和关税优惠）消退及原材料成本上升等因素影响。   </li><li><strong>FSD（完全自动驾驶能力）商业化提速，订阅量激增</strong>：FSD的采用率成为本季度亮点。全球活跃FSD订阅用户数在Q2末达到<strong>148万</strong>，同比增长<strong>56%</strong>。北美市场的新增交付车辆中，FSD的选装率在交付时已超过<strong>55%</strong>，远超市场此前25%-30%的预期，表明软件正成为推动汽车销售和构建竞争壁垒的核心要素。   </li><li><strong>Robotaxi服务扩张，但规模化节奏审慎</strong>：无人驾驶出租车服务已扩展至美国<strong>7个城市</strong>，并在奥斯汀等部分地区实现了无安全员运营。公司披露，累计无安全员行驶里程已达<strong>38万英里</strong>，并计划以每周两位数百分比的速度增长。不过，管理层强调了在安全方面的审慎态度，扩张重点在于提升现有城市的车辆密度和安全数据，而非单纯的地理扩张。   </li><li><strong>资本开支进入历史性扩张期，自由现金流转负</strong>：公司正处于“史上规模最大、最激动人心的投资阶段”。Q2资本开支高达<strong>57.89亿美元</strong>，同比增长<strong>142%</strong>，导致自由现金流在近两年内首次转负，为 <strong>-10.92亿美元</strong>。管理层重申2026年资本开支将超过<strong>250亿美元</strong>，并预计未来2-3年将持续增长，主要用于AI计算基础设施、Robotaxi车队扩张、Optimus产能建设和Terafab芯片工厂。   </li><li><strong>Optimus量产在即，但初期爬坡将极为缓慢</strong>：公司已改造弗里蒙特工厂的Model S/X产线用于生产Optimus，首代生产线预计在2026年晚些时候启动。马斯克强调，由于所有部件均为全新设计，供应链需从零建立，Optimus的初期量产“S曲线”将非常平缓且漫长。   </li></ul>
 <h3 class="doc-h2">短期逻辑</h3>
-<ol><li><strong>Robotaxi运营数据的“爬坡斜率”将是股价的核心催化剂</strong>：未来一个季度，市场最关注的不是Robotaxi进入了多少新城市，而是<strong>现有运营城市（尤其是奥斯汀）的车队规模、无安全员运营比例和订单密度的提升速度</strong>。公司已给出每周无安全员里程两位数增长的指引，若实际数据能持续超预期兑现，将有效验证其技术可靠性和商业模型的可行性，缓解市场对“只投入不产出”的担忧。反之，若车队扩张和运营效率提升缓慢，将加剧市场对资本开支回报的疑虑。当前，Robotaxi累计付费里程已达250万英里，但无安全员里程仅38万英里，这一差距的弥合速度是关键。   </li></ol>
-<ol><li><strong>FSD（完全自动驾驶能力）订阅收入的“利润弹性”有待验证</strong>：Q2北美<strong>55%</strong>的FSD选装率是一个重大积极信号，表明消费者开始为软件能力支付溢价。未来一个季度，需密切关注该选装率能否维持或继续提升，以及全球活跃订阅用户数能否保持环比<strong>20万</strong>的增长势头。FSD订阅收入具有极高的毛利率，其快速增长是改善公司当前羸弱的盈利能力（Q2营业利润率1.4%）的最直接、最可预见的手段。市场将开始尝试将FSD的经常性收入纳入估值框架。   </li></ol>
-<ol><li><strong>Optimus V3的量产启动是“从0到1”的里程碑事件</strong>：Optimus预计于7月底/8月左右在弗里蒙特工厂启动生产。尽管初期产量将极为有限，但这标志着该项目正式从研发和原型验证阶段进入生产阶段。任何关于Optimus在特斯拉内部工厂执行有用任务的视频或信息，都将成为提振市场信心、支撑其远期估值想象空间的关键事件。市场将高度关注首批生产版本（V3）的性能、成本和潜在应用场景。   </li></ol>
+<ol><li><strong>Robotaxi运营数据的“爬坡斜率”将是股价的核心催化剂</strong>：未来一个季度，市场最关注的不是Robotaxi进入了多少新城市，而是<strong>现有运营城市（尤其是奥斯汀）的车队规模、无安全员运营比例和订单密度的提升速度</strong>。公司已给出每周无安全员里程两位数增长的指引，若实际数据能持续超预期兑现，将有效验证其技术可靠性和商业模型的可行性，缓解市场对“只投入不产出”的担忧。反之，若车队扩张和运营效率提升缓慢，将加剧市场对资本开支回报的疑虑。当前，Robotaxi累计付费里程已达250万英里，但无安全员里程仅38万英里，这一差距的弥合速度是关键。   </li><li><strong>FSD（完全自动驾驶能力）订阅收入的“利润弹性”有待验证</strong>：Q2北美<strong>55%</strong>的FSD选装率是一个重大积极信号，表明消费者开始为软件能力支付溢价。未来一个季度，需密切关注该选装率能否维持或继续提升，以及全球活跃订阅用户数能否保持环比<strong>20万</strong>的增长势头。FSD订阅收入具有极高的毛利率，其快速增长是改善公司当前羸弱的盈利能力（Q2营业利润率1.4%）的最直接、最可预见的手段。市场将开始尝试将FSD的经常性收入纳入估值框架。   </li><li><strong>Optimus V3的量产启动是“从0到1”的里程碑事件</strong>：Optimus预计于7月底/8月左右在弗里蒙特工厂启动生产。尽管初期产量将极为有限，但这标志着该项目正式从研发和原型验证阶段进入生产阶段。任何关于Optimus在特斯拉内部工厂执行有用任务的视频或信息，都将成为提振市场信心、支撑其远期估值想象空间的关键事件。市场将高度关注首批生产版本（V3）的性能、成本和潜在应用场景。   </li></ol>
 <h3 class="doc-h2">长期逻辑</h3>
-<ol><li><strong>从“卖车”到“卖服务”的商业模式跃迁</strong>：特斯拉的长期价值核心在于，能否将庞大的汽车保有量转化为一个高利润、经常性的软件和服务收入平台。FSD订阅是第一步，其长期目标是将全球选装率从当前的约15%提升至40%甚至更高。Robotaxi网络则是第二步，它将车辆从一次性销售资产升级为可产生持续运营收入的运力，形成“卖车+软件订阅+出行平台抽成”的商业闭环。摩根士丹利在其<strong>400美元</strong>的目标价中，传统汽车业务仅贡献<strong>45美元</strong>，而网络服务、出行服务和机器人业务合计贡献了约<strong>320美元</strong>，清晰地反映了这一估值逻辑的切换。  </li></ol>
-<ol><li><strong>Optimus：复用FSD能力，开辟第二增长曲线</strong>：Optimus的战略意义在于，它是FSD所积累的视觉感知、路径规划和端侧AI推理能力向真实物理世界的第二载体。特斯拉在电动车和自动驾驶领域积累的电池、电机、电控和制造经验，可复用于机器人，构成其他纯AI或机器人公司难以复制的系统性成本优势。尽管量产之路漫长，但其潜在市场空间（TAM）巨大，一旦成功，将彻底打开公司的估值天花板。管理层已将其列为CEO薪酬方案的考核目标之一，凸显其战略优先级。 </li></ol>
-<ol><li><strong>能源业务：受益于AI基建的“卖铲人”</strong>：特斯拉的Megapack储能业务已成为全球领导者，其需求不仅来自电网平衡和可再生能源并网，更日益受到AI数据中心建设的驱动。AI训练带来的巨大且不稳定的电力负荷，使储能成为数据中心的关键基础设施。公司正在建设新的Megafactory以扩大产能，并计划在美国建立垂直整合的太阳能制造体系。尽管短期利润率因竞争和定价压力而正常化（管理层指引长期毛利率在<strong>20%-25%</strong>区间），但该业务有望长期受益于全球电气化和AI算力需求增长的双重顺风。   </li></ol>
+<ol><li><strong>从“卖车”到“卖服务”的商业模式跃迁</strong>：特斯拉的长期价值核心在于，能否将庞大的汽车保有量转化为一个高利润、经常性的软件和服务收入平台。FSD订阅是第一步，其长期目标是将全球选装率从当前的约15%提升至40%甚至更高。Robotaxi网络则是第二步，它将车辆从一次性销售资产升级为可产生持续运营收入的运力，形成“卖车+软件订阅+出行平台抽成”的商业闭环。摩根士丹利在其<strong>400美元</strong>的目标价中，传统汽车业务仅贡献<strong>45美元</strong>，而网络服务、出行服务和机器人业务合计贡献了约<strong>320美元</strong>，清晰地反映了这一估值逻辑的切换。  </li><li><strong>Optimus：复用FSD能力，开辟第二增长曲线</strong>：Optimus的战略意义在于，它是FSD所积累的视觉感知、路径规划和端侧AI推理能力向真实物理世界的第二载体。特斯拉在电动车和自动驾驶领域积累的电池、电机、电控和制造经验，可复用于机器人，构成其他纯AI或机器人公司难以复制的系统性成本优势。尽管量产之路漫长，但其潜在市场空间（TAM）巨大，一旦成功，将彻底打开公司的估值天花板。管理层已将其列为CEO薪酬方案的考核目标之一，凸显其战略优先级。 </li><li><strong>能源业务：受益于AI基建的“卖铲人”</strong>：特斯拉的Megapack储能业务已成为全球领导者，其需求不仅来自电网平衡和可再生能源并网，更日益受到AI数据中心建设的驱动。AI训练带来的巨大且不稳定的电力负荷，使储能成为数据中心的关键基础设施。公司正在建设新的Megafactory以扩大产能，并计划在美国建立垂直整合的太阳能制造体系。尽管短期利润率因竞争和定价压力而正常化（管理层指引长期毛利率在<strong>20%-25%</strong>区间），但该业务有望长期受益于全球电气化和AI算力需求增长的双重顺风。   </li></ol>
 <h3 class="doc-h2">风险提示</h3>
-<ul><li><strong>资本开支回报的长期性与不确定性</strong>：公司正处于资本开支的超级周期，2026年预计超过<strong>250亿美元</strong>，未来几年将持续增长，导致自由现金流持续为负。这些投资主要投向Robotaxi、Optimus和Terafab芯片工厂等回报周期极长且存在技术路线和商业化风险的项目。若这些业务的商业化进度持续低于预期，市场对巨额资本开支的容忍度将降低，可能引发对估值逻辑的重新审视。   </li><li><strong>核心汽车业务盈利能力的持续承压</strong>：尽管Q2交付量强劲反弹，但这是在车型矩阵收敛、市场竞争加剧和融资促销力度加大的背景下实现的。汽车业务毛利率（不含监管积分）已从2022年的高位显著回落。随着监管积分收入因欧美政策变化而面临结构性萎缩，以及中国市场竞品持续施压，汽车业务自身的盈利能力可能长期处于较低水平，削弱其为AI战略“输血”的能力。  </li><li><strong>管理层与公司治理风险</strong>：公司战略高度依赖于CEO埃隆·马斯克的个人愿景和执行能力。其同时管理多家公司（如SpaceX）分散了精力，且其个人争议性言论和行为可能对品牌形象和市场需求产生负面影响。此外，公司面临多起与自动驾驶技术、歧视和 harassment 相关的诉讼及监管调查，可能带来财务和声誉上的风险。 </li></ul>
+<ul><li><strong>资本开支回报的长期性与不确定性</strong>：公司正处于资本开支的超级周期，2026年预计超过<strong>250亿美元</strong>，未来几年将持续增长，导致自由现金流持续为负。这些投资主要投向Robotaxi、Optimus和Terafab芯片工厂等回报周期极长且存在技术路线和商业化风险的项目。若这些业务的商业化进度持续低于预期，市场对巨额资本开支的容忍度将降低，可能引发对估值逻辑的重新审视。   </li><li><strong>核心汽车业务盈利能力的持续承压</strong>：尽管Q2交付量强劲反弹，但这是在车型矩阵收敛、市场竞争加剧和融资促销力度加大的背景下实现的。汽车业务毛利率（不含监管积分）已从2022年的高位显著回落。随着监管积分收入因欧美政策变化而面临结构性萎缩，以及中国市场竞品持续施压，汽车业务自身的盈利能力可能长期处于较低水平，削弱其为AI战略“输血”的能力。  </li><li><strong>管理层与公司治理风险</strong>：公司战略高度依赖于CEO埃隆·马斯克的个人愿景和执行能力。其同时管理多家公司（如SpaceX）分散了精力，且其个人争议性言论和行为可能对品牌形象和市场需求产生负面影响。此外，公司面临多起与自动驾驶技术、歧视和骚扰相关的诉讼及监管调查，可能带来财务和声誉上的风险。 </li></ul>
 <h3 class="doc-h2">近期要闻</h3>
 <ul><li><strong>2026年7月初</strong>：特斯拉开始在佛罗里达州迈阿密、奥兰多和坦帕推出Robotaxi服务，扩张其自动驾驶出行业务版图。 </li><li><strong>2026年7月22日</strong>：特斯拉发布2026年第二季度财报。尽管营收和交付量创同期新高，但毛利率和营业利润大幅低于市场预期，同时资本开支激增导致自由现金流转负，引发股价在盘后和次日大幅下跌。  </li><li><strong>2026年7月22日</strong>：在Q2业绩电话会上，马斯克表示Cybercab虽已投产，但需要时间积累新底盘的道路数据来校准软件，暗示其大规模部署仍需时日。同时，他确认Optimus量产初期将非常缓慢，并透露公司正在寻求高达<strong>300亿美元</strong>的债务融资以支持其投资计划。   </li></ul>
 <h3 class="doc-h2">未来催化</h3>
-<ul><li><strong>2026年8月-9月</strong>：特斯拉可能举行“Terafab”项目的专项发布会，公布其芯片制造工厂的具体选址、投资规模和技术路线图。这将为市场提供关于其AI算力基础设施长期规划的更清晰图景。  </li><li><strong>2026年8月-9月</strong>：FSD V15版本在北美Robotaxi车队上的灰度测试进展和性能表现，将是判断其自动驾驶技术能否实现下一次飞跃的关键。若V15展现出显著优于V14的性能，将极大增强市场对Robotaxi规模化运营的信心。  </li><li><strong>2026年9月</strong>：加州民权部门（CRD）针对特斯拉的种族歧视和 hostile work environment 诉讼案计划于<strong>2026年9月21日</strong>开始第一阶段的审判。该案件的进展和结果可能对公司声誉和股价产生影响。 </li><li><strong>2026年下半年</strong>：Optimus V3在弗里蒙特工厂的正式投产。尽管初期产量极低，但任何关于其执行通用任务（非预编程）的实质性进展，都将成为推动股价的重要事件。  </li></ul>
+<ul><li><strong>2026年8月-9月</strong>：特斯拉可能举行“Terafab”项目的专项发布会，公布其芯片制造工厂的具体选址、投资规模和技术路线图。这将为市场提供关于其AI算力基础设施长期规划的更清晰图景。  </li><li><strong>2026年8月-9月</strong>：FSD V15版本在北美Robotaxi车队上的灰度测试进展和性能表现，将是判断其自动驾驶技术能否实现下一次飞跃的关键。若V15展现出显著优于V14的性能，将极大增强市场对Robotaxi规模化运营的信心。  </li><li><strong>2026年9月</strong>：加州民权部门（CRD）针对特斯拉的种族歧视和恶劣工作环境诉讼案计划于<strong>2026年9月21日</strong>开始第一阶段的审判。该案件的进展和结果可能对公司声誉和股价产生影响。 </li><li><strong>2026年下半年</strong>：Optimus V3在弗里蒙特工厂的正式投产。尽管初期产量极低，但任何关于其执行通用任务（非预编程）的实质性进展，都将成为推动股价的重要事件。  </li></ul>
 <h3 class="doc-h2">公司业务模式及拆分</h3>
 <p><strong>业务边际变化</strong>：公司近年最核心的变化是战略重心从汽车制造向“物理AI”平台加速倾斜。车型矩阵显著收敛，高端Model S/X已停产，资源被重新分配至Optimus产线。新车开发更多基于现有Model 3/Y平台的改款和衍生，而非全新平台。同时，资本开支和研发费用以前所未有的规模投向FSD、Robotaxi、Optimus和AI芯片等未来业务。</p>
 <p><strong>盈利模式</strong>：公司当前的盈利模式仍以<strong>汽车销售</strong>为主，但正努力向<strong>软件订阅和服务收费</strong>模式转型。汽车销售通过直销模式获取一次性硬件收入和部分软件功能收入。FSD采用<strong>每月99美元的订阅制</strong>，形成高利润的经常性收入。Robotaxi和Optimus则代表了未来的服务收费和硬件销售模式。能源业务通过销售和租赁储能及发电系统获取收入。</p>
@@ -193,19 +537,56 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 <p><strong>竞争要素 2：依托极限工程与制造创新的成本控制能力</strong></p>
 <ul><li><strong>护城河定性</strong>：这属于<strong>行业阶段性红利</strong>，但特斯拉凭借其先发优势和工程创新能力，将这一红利维持了较长时间。通过一体化压铸、结构化电池包、4680电池自研、超级工厂的高效产线设计以及供应链垂直整合，特斯拉在电动车制造领域建立了显著的成本优势，使其在激烈的价格战中仍能保持相对健康的毛利率。 </li><li><strong>数据验证</strong>：尽管面临降价压力，特斯拉2026年H1的汽车业务毛利率（不含积分）仍维持在<strong>17.4%</strong>，优于多数仍在亏损的电动车初创公司。其单车生产成本在Q2保持稳定，显示出强大的成本控制能力。  </li><li><strong>动态演变</strong>：该优势面临<strong>收缩</strong>风险。随着竞争对手（尤其是中国车企）在制造效率和电池成本上快速追赶，以及行业整体向更低价位段渗透，特斯拉的成本优势正在被侵蚀。公司正通过下一代平台和进一步的生产工艺创新来维持其成本领先地位。 </li></ul>
 <p><strong>现阶段核心驱动力总结</strong>：特斯拉的Alpha在于其通过数据飞轮和工程创新构建的、难以复制的AI商业化能力，这使其区别于传统车企。其Beta则在于它仍受全球电动车市场渗透率、行业竞争格局和宏观经济周期的影响。当前，公司的估值逻辑正从Beta驱动的汽车销售，转向Alpha驱动的AI软件与服务，但这一转型的成功与否，取决于Robotaxi和Optimus的商业化进程。</p>
-<p><strong>竞争格局传导逻辑图</strong>：</p>
   </article>
 </main>
 
 <section class="sources">
   <div class="shell">
     <h2>数据来源</h2>
-    <p>Gangtise Open API（公司一页通 · stock-one-pager）· 公司财报及公开披露 · 仅作研究学习用途，不构成投资建议。</p>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
   </div>
 </section>
-<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/TSLA · 生成于 2026-07-30</div></footer>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/TSLA · 生成于 2026-08-06</div></footer>
 
 <script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-07-29';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'active',  text: '<strong>Robotaxi 无安全员里程爬坡</strong>：指引「每周两位数增长」，38 万 vs 250 万付费里程的差距弥合速度是全部关键', note: '7 城运营中（2026-07 新增佛州三城）' },
+  { kind: 'cat', status: 'active',  text: '<strong>FSD 订阅与选装率</strong>（每季度财报）：北美选装率 55% 能否维持、订阅能否保持每季 +20 万', note: 'Q2 订阅 148 万（+56%）' },
+  { kind: 'cat', status: 'pending', text: '<strong>Optimus V3 投产</strong>（2026 下半年）：弗里蒙特产线启动，看「能否执行通用任务」的证据，不看产量', note: '管理层：S 曲线极平缓' },
+  { kind: 'cat', status: 'pending', text: '<strong>Terafab 芯片厂发布会</strong>（2026 年 8-9 月可能）：选址/投资规模/技术路线图，AI 基建蓝图', note: '' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: 'Robotaxi 发生<strong>致命安全事故</strong>或主要城市被监管叫停——叙事根基动摇', note: '每周-每月跟踪运营披露与新闻' },
+  { kind: 'risk', status: 'clear', text: '<strong>FSD 选装率从 55% 明显回落</strong>，或订阅增速断档', note: '最新 Q2：55% / 148 万，未触发' },
+  { kind: 'risk', status: 'clear', text: '<strong>汽车毛利率（不含积分）跌破 15%</strong>——输血功能衰竭', note: '最新 Q2：16.3%，距离警戒线仅 1.3pct' },
+  { kind: 'risk', status: 'clear', text: '$300 亿发债之外<strong>再次大规模股权融资</strong>——稀释 + 现金饥渴信号', note: 'FCF 已转负（Q2 -$10.92 亿），密切跟踪' },
+  { kind: 'risk', status: 'clear', text: '马斯克宣布<strong>新的宏大项目</strong>进一步分散资源 / 加州民权诉讼（2026-09-21 开庭）出现重大不利进展', note: '' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
 document.querySelectorAll('.site-nav button').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
