@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>伊顿（ETN.N）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--policy-red); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">ETN</span>
+    <span class="site-mark__text">伊顿 公司研究<span>Eaton · ETN.N</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>伊顿<span class="en">Eaton · ETN.N · 美股研究</span></h1>
+        <p class="sub">数据中心电力基础设施超级周期的核心受益者：2Q26 营收/利润全面超预期，电气美洲订单出货比 1.3 倍、全球积压订单同比 +103%，美国 307GW 项目储备给出 5 年以上需求能见度。核心矛盾是：利润率修复路径与 Boyd 液冷放量的执行兑现 vs 约 26-27 倍 FY2027E 的估值已计入大部分转型红利——三情景测算赔率约 1:1，先持有、等 Q3 利润率验证再决定是否加仓。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-06</span>
+          <span>下次更新：3Q26 财报（2026-10 下旬/11 月）· 移动出行剥离进展（2027 Q1）</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>估算约 26-27x FY2027E PE，三情景期望值约 +3%~+5%、赔率约 1:1；重检条件：Q3 电气美洲利润率环比 +250bp 兑现→上调买入，修复不及指引或数据中心订单放缓→下调。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">营收 +21%</strong><span>2Q26 $85.3亿·有机 +14%</span></div>
+      <div class="summary-rail__item"><strong>$13.50</strong><span>2026 调整后 EPS 指引中值·上调 $0.22</span></div>
+      <div class="summary-rail__item"><strong>1.3x</strong><span>电气美洲订单出货比·订单有机 +41%</span></div>
+      <div class="summary-rail__item"><strong>27.5%</strong><span>电气美洲 2Q26 利润率·环比 +190bp</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">电气美洲利润率修复：1Q 暴跌 440bp 引发的核心疑虑，下半年 +450-500bp 的路径可信吗？</h2>
+        <span class="qa__impact-tag">→ 下半年 +450-500bp · 4Q26 重回 30%+</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>修复已经开始兑现，且路径被量化拆解、可信度高：2Q26 利润率环比 +190bp 至 27.5%（提价消除成本滞后贡献约 100bp、产量提升约 90bp），管理层指引下半年较上半年再提升 <strong>450-500bp</strong>（300bp 来自提价传导 + 150-200bp 来自产量与生产率），意味着 4Q26 重回 30% 以上。管理层还澄清 IRA 退款影响不足 300 万美元——超预期全部来自运营改善。<em>保留判断：2Q26 同比仍 -200bp，路径要到 Q4 才算走完，原材料再涨价与新厂爬坡是仅有的两个执行变量。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这是未来两个季度最核心的交易锚点。</strong>电气美洲占公司收入约 48%、是最大利润来源；按 2025 年该板块收入 132.76 亿美元估算，<strong>利润率每 100bp ≈ 1.3 亿美元营业利润</strong>，450-500bp 的修复对应约 6-7 亿美元年化利润弹性（估算）——这是券商 FY2027E EPS 15.1-16.0 美元（同比 +12%~+19%）预测的主要支撑。</p>
+            <p>估值层面：若 4Q26 如期回到 30%+，市场会按「转型后盈利中枢上移」给 2027 年定价，30x+ 倍数获得支撑；若修复不及指引，「增长是否以牺牲利润为代价」的疑虑回归，当前约 26-27x FY2027E 的估值直接向谨慎券商的 23-24x（目标价 350-360 美元）回归。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>2Q26 已环比修复 <strong>190bp</strong>，且驱动力拆解清晰（提价 ~100bp + 产量 ~90bp），不是一次性项目——IRA 退款贡献不足 $300 万，可忽略</li>
+              <li>提价在 Q2 和 <strong>8 月初已实施</strong>，管理层预计下半年价格/成本关系基本恢复中性，300bp 的价格贡献是「已落袋」的动作而非假设</li>
+              <li>全年指引上调：有机增长中值 +200bp 至 12%，调整后 EPS 中值 +$0.22 至 <strong>$13.50</strong>——管理层在用指引为修复背书</li>
+              <li>订单出货比 1.3x、积压订单 +33%，<strong>需求远大于供给</strong>，产能利用率和产量提升有订单保障</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>同比仍 <strong>-200bp</strong>：环比修复只走完一半，「V 型」的下半段尚未发生，现在就宣布胜利为时过早</li>
+              <li>1H26 毛利率降至 <strong>34.45%</strong>（2024 年高点 38.20%），原材料成本若再涨，提价传导可能再次滞后</li>
+              <li>新产能爬坡的工人熟练度是软变量——1Q26 的 -440bp 正是栽在「爬坡初期投入 + 成本滞后」上</li>
+              <li>1H26 归母净利润同比 <strong>-13.3%</strong>（并购利息 + 无形资产摊销），报表利润修复会滞后于调整后口径</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（2Q26 财报速览 · 利润率修复路径拆解）</summary>
+          <div class="evidence__body">
+            <h5>2Q26 财报速览（2026-07-31 发布，当日股价 +7.32%）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>实际</th><th>评价</th></tr></thead><tbody><tr><td>营收</td><td><strong>$85.31 亿</strong>，同比 +21%，有机 +14%</td><td>显著高于市场预期，beat</td></tr><tr><td>调整后 EPS</td><td><strong>$3.15</strong></td><td>超指引中值 $0.10，beat</td></tr><tr><td>电气美洲利润率</td><td><strong>27.5%</strong>，环比 +190bp（同比 -200bp）</td><td>修复启动，本季最重要信号</td></tr><tr><td>电气全球有机增长</td><td><strong>+18%</strong>（预期约 8%）</td><td>大幅 beat；数据中心有机 +65%（行业均值 23%）</td></tr><tr><td>Boyd 液冷</td><td>并表首个完整季度收入 <strong>$4.32 亿</strong></td><td>超公司内部预期 20%，全年指引上调至 $18 亿</td></tr><tr><td>订单</td><td>电气美洲滚动 12 月有机 <strong>+41%</strong>，订单出货比 <strong>1.3x</strong>；电气全球订单 +33%、积压订单 <strong>+103%</strong></td><td>需求广泛且强劲</td></tr><tr><td>2026 全年指引</td><td>有机增长 11%-13%（中值 12%，+200bp）；调整后 EPS <strong>$13.40-13.60</strong>（中值 +$0.22）；分部利润率 24.1%-24.5%</td><td><strong>全面上调</strong></td></tr></tbody></table></div>
+            <h5>利润率修复路径拆解（管理层指引）</h5>
+            <ul>
+              <li><strong>1Q26</strong>：25.6%（同比 -440bp）——产能爬坡初期投入 + 原材料成本滞后传导，市场疑虑的起点</li>
+              <li><strong>2Q26</strong>：27.5%（环比 +190bp）——提价消除成本滞后约 100bp + 产量提升约 90bp</li>
+              <li><strong>下半年指引</strong>：较上半年 +450-500bp = 价格/成本改善 300bp + 产量与生产率 150-200bp → <strong>4Q26 重回 30%+</strong></li>
+              <li><strong>3Q26 验证点</strong>：环比 +250bp 左右即符合路径；Q3 财报（2026-10/11）是下一个核对点</li>
+            </ul>
+            <h5>解读：一句话</h5>
+            <p>1Q 的利润率暴跌曾让市场怀疑「数据中心增长是低质量增长」，2Q 用「环比 +190bp + 全部来自运营」给出了初步反驳。这条路径的每一步都已量化、可核对——这正是把它设为跟踪面板第一条风险的原因：<strong>路径兑现则估值锚上移，路径落空则观点下调</strong>。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">订单与积压创纪录 + Boyd 液冷超预期：数据中心需求的持续性有多实？120 亿美元并购是壁垒还是包袱？</h2>
+        <span class="qa__impact-tag">→ 订单有机 +41% · 积压 +103% · $120亿并购</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>需求证据是目前全行业最厚的一档：美国数据中心项目储备 <strong>307GW</strong>（按 2025 年建设速度约 15 年积压量）、电气美洲订单有机 +41%、订单出货比 1.3x、全球积压 +103%、数据中心连续八个季度增长超 35%、Boyd 积压订单六个月翻倍——「从电网到芯片」的全栈卡位正在转化为份额（数据中心有机 +65% vs 行业 23%）。<em>真正的风险在执行端：约 120 亿美元并购使净债务大幅上升、公司已暂停 2026 年回购优先去杠杆，整合与协同兑现需要时间；且订单到收入有交付周期，307GW 中大部分项目 2028 年后才交付。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>订单决定 2027-2028 年收入的确定性。</strong>订单出货比 1.3x 意味着当季订单比出货多 30%，积压订单 +103% 直接垫高 FY2027E 收入基数（券商 FY2027E 营收 365 亿美元，同比 +11%）；Boyd 全年指引上调至 18 亿美元，叠加 Nvidia Rubin 平台 2026 下半年放量，液冷是 EPS 的超预期期权。</p>
+            <p>并购侧影响估值质量：若整合顺利，转型后约 70% 销售额来自长期增长型市场、数据中心占比约 30%，<strong>估值中枢理应上移</strong>（乐观券商给 30-33x FY2027E）；若整合拖累或去杠杆迟缓，倍数向传统工业股回归。1H26 归母净利 -13.3% 已经展示了并购会计成本对报表利润的压制。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>需求广度超预期：除数据中心外，机器 OEM、商业与机构、公用事业<strong>均实现两位数增长</strong>——不是单一引擎</li>
+              <li>全栈壁垒难以复制：中压配电 + 固态变压器 + 直流断路器 + UPS + 液冷 + 模块化预制，管理层称公司是<strong>唯一具备全系列能力的供应商</strong>；系统解决方案占电气业务销售额比例已从 55% 升至 75%</li>
+              <li>芯片生态卡位：与 Nvidia 从 Blackwell 延续到 <strong>Rubin 平台</strong>（Eaton Beam Rubin DSX，共推 800V DC），Boyd 是多家头部芯片厂商的设计合作伙伴</li>
+              <li>液冷赛道本身高增：市场预计从 2025 年 30 亿美元增至 2030 年 156 亿美元，<strong>CAGR 约 39%</strong>，Boyd 首季即超预期 20%</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>一年内约 <strong>$120 亿并购</strong>（Boyd/Fiberbond/Resilient/Ultra PCS）净债务大升，暂停回购优先去杠杆——整合不及预期则财务与回报双压</li>
+              <li>307GW 储备中大部分项目 <strong>2028 年及以后才交付</strong>，最终投资决策（FID）转化率和节奏存在不确定性；部分需求可能已被提前下单透支</li>
+              <li>数据中心订单系于超大规模云服务商资本开支——若 AI ROI 证伪、capex 放缓，订单增速会最先回落</li>
+              <li>非数据中心业务并不都健康：移动出行 1H26 有机 <strong>-4%</strong>（已宣布剥离），宏观下行时工业/商业建筑同样周期性</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（订单与积压订单 · Boyd 液冷 · 业务拆分）</summary>
+          <div class="evidence__body">
+            <h5>需求信号汇总（2Q26）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>信号</th><th>数据</th><th>方向</th></tr></thead><tbody><tr><td>美国数据中心项目储备</td><td><strong>307GW</strong>，按 2025 年建设速度约 15 年积压量</td><td>正——5 年以上能见度</td></tr><tr><td>电气美洲订单</td><td>滚动 12 月有机 <strong>+41%</strong>，订单出货比 <strong>1.3x</strong>，积压订单 +33%</td><td>正——需求远大于供给</td></tr><tr><td>电气全球订单</td><td>滚动 12 月有机 +33%，总积压订单同比 <strong>+103%</strong>（有机 +54%）</td><td>正——增长不再只依赖美洲</td></tr><tr><td>数据中心收入增速</td><td>有机 +65%（电气全球）/ 约 +55%（电气美洲），连续 8 个季度超 35%</td><td>正——持续跑赢 23% 的行业均值，份额提升</td></tr><tr><td>Boyd 液冷</td><td>首季收入 $4.32 亿（超预期 20%），积压订单 6 个月翻倍，全年指引 $17→18 亿</td><td>正——并购初步兑现</td></tr><tr><td>移动出行</td><td>1H26 有机 <strong>-4%</strong></td><td><span class="warn">负</span>——已宣布 2027 Q1 剥离给 Dana</td></tr></tbody></table></div>
+            <h5>细分业务拆分（单位：亿美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>业务板块</th><th>2023</th><th>2024</th><th>2025</th><th>1H26</th><th>2025 占比</th><th>2025 营业利润率</th><th>1H26 营业利润率</th></tr></thead><tbody><tr><td>电气美洲</td><td>100.98</td><td>114.36</td><td>132.76</td><td>75.51</td><td>48%</td><td>29.9%</td><td>26.6%</td></tr><tr><td>电气全球</td><td>60.84</td><td>62.48</td><td>68.15</td><td>44.63</td><td>25%</td><td>19.4%</td><td>19.6%</td></tr><tr><td>航空航天</td><td>34.13</td><td>37.44</td><td>42.49</td><td>23.62</td><td>16%</td><td>23.9%</td><td>24.7%</td></tr><tr><td>移动出行</td><td>36.02</td><td>34.52</td><td>31.09</td><td>16.07</td><td>11%</td><td>13.1%</td><td>12.3%</td></tr><tr><td><strong>总计</strong></td><td><strong>231.96</strong></td><td><strong>248.78</strong></td><td><strong>274.48</strong></td><td><strong>159.82</strong></td><td><strong>100%</strong></td><td><strong>24.5%</strong></td><td><strong>22.9%</strong></td></tr></tbody></table></div>
+            <p>注：历史数据已按 1Q26 起的新口径重述。航空航天 1H26 利润率 24.7%（同比 +210bp）、积压订单 +28%、订单出货比 1.2x，是被市场忽视的第二增长极；移动出行剥离后公司增速与利润率中枢同步抬升。</p>
+            <h5>解读：一句话</h5>
+            <p>这不是「讲故事的订单」——1.3 倍订单出货比和 +103% 的积压是已经签下的合同，全栈能力与 Nvidia 生态卡位解释了为什么份额在涨（+65% vs 行业 +23%）。需要盯的是交付与整合：把 120 亿美元买来的资产变成协同收入，同时把杠杆降回回购区间。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">估值：券商目标价 350-534 美元的巨大分歧隐含了什么？当前赔率如何？</h2>
+        <span class="qa__impact-tag">→ 期望值约 +3%~+5% · 赔率约 1:1</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>券商目标价从 350 到 534 美元，分歧本质是倍数分歧：乐观方按「转型后成长股」给 30-33x FY2027E，谨慎方按「利润率未证实的工业股」给 23-24x。按券商预测反推，现价大致在 <strong>400-420 美元</strong>（约 26-27x FY2027E，估算）——已经站在两派定价之间偏上的位置。三情景期望值约较现价 +3%~+5%，赔率约 1:1，对应「<strong>持有</strong>」。<em>保留判断：现价为反推估算；若 Q3 利润率路径兑现，倍数锚向乐观方收敛，届时上调至买入。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这个问题本身就是估值问题。</strong>FY2027E EPS 各券商高度趋同（15.14-16.00 美元），分歧几乎全在倍数：23x 到 33x 之间差出 <strong>约 45% 的股价空间</strong>。这意味着伊顿的回报不取决于「EPS 猜得准不准」，而取决于市场最终用哪一套估值框架给它定价。</p>
+            <p>悲观情景（利润率修复失败 + 数据中心 capex 放缓）下行约 -27%；乐观情景（修复兑现 + 转型重估）上行约 +25%。<strong>上下基本对称——这就是持有的全部理由：好公司，但当前价格没有为非对称回报留出钱。</strong></p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>转型完成后约 <strong>70% 销售额来自长期增长型终端市场</strong>、数据中心占比约 30%——业务构成更像成长股，30x+ 倍数有基本面依据</li>
+              <li>Bernstein 测算转型后 2025-30 年 EPS 年复合增速约 <strong>18%</strong>（高于管理层此前 12% 指引），31x 对应 PEG &lt; 2，目标价 534 美元</li>
+              <li>移动出行剥离（2027 Q1）后剩余业务增速与利润率双升，且带来约 <strong>11 亿美元现金</strong>还债——估值重评有明确的时间表</li>
+              <li>盈利上修周期仍在：2Q26 后全年 EPS 指引中值 +$0.22，券商 FY2026E 已普遍上调至 13.3-13.5 美元</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>约 26-27x FY2027E 处于自身历史区间高位，<strong>进一步扩张需要利润率修复完全兑现来支撑</strong>——安全边际不足</li>
+              <li>谨慎券商（UBS 360 / Barclays 350）给 23-24x：即使 FY2027E EPS 兑现，倍数向谨慎派回归也意味着 <strong>-12%~-15%</strong> 的下行</li>
+              <li>市场对 AI 资本开支的预期已非常饱满，任何边际负面信号（CSP 下修 capex）都会先杀估值最高的设备股</li>
+              <li>去杠杆期间回购暂停，<strong>股东回报的支撑项暂时缺席</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（当前定价测算 · 三情景表 · 券商预测）</summary>
+          <div class="evidence__body">
+            <h5>当前定价（2026-08 上旬，估算）</h5>
+            <ul>
+              <li>一页通未含现价。按 FY2027E EPS 共识约 <strong>15.3-15.7 美元</strong> 与财报后股价表现（7-31 当日 +7.32%）反推，现价大致在 <strong>400-420 美元</strong> 区间，对应约 <strong>26-27x FY2027E</strong>（估算，精确值以行情为准）</li>
+              <li>券商目标倍数：乐观方 30-33x FY2027E（Bernstein 534 / 大摩 500 / Citi 485 / 华泰 471），谨慎方 23-24x（UBS 360 / Barclays 350）</li>
+              <li>参照系：现价介于两派目标价之间偏上，市场已部分采纳「转型后成长股」叙事</li>
+            </ul>
+            <h5>三情景假设（FY2027 视角，以反推现价约 410 美元为基准，估算）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>FY2027 EPS</th><th>合理 PE</th><th>隐含股价</th><th>vs 当前</th></tr></thead><tbody><tr><td>乐观（30%）</td><td>4Q26 利润率回 30%+，Boyd/液冷随 Rubin 放量，剥离如期完成触发重估</td><td>~16.00 美元（券商上沿）</td><td>32x</td><td>~512 美元</td><td>+25%</td></tr><tr><td>中性（50%）</td><td>修复大体兑现但节奏偏慢，倍数维持当前水平，赚 EPS 增长的钱</td><td>~15.40 美元（券商中枢）</td><td>27x</td><td>~416 美元</td><td>+1%</td></tr><tr><td>悲观（20%）</td><td>修复不及指引 + 数据中心 capex 放缓，EPS 停滞，倍数向谨慎派回归之下</td><td>~13.50 美元（与 FY2026 持平）</td><td>22x</td><td>~297 美元</td><td>-28%</td></tr></tbody></table></div>
+            <p><strong>期望值约 421 美元，较反推现价约 +3%；赔率约 0.9:1（+25% / -28%）。</strong>若基准取 400 美元，期望值约 +5%、赔率约 1.1:1——无论怎么取，都不构成「买入」所需的非对称性。与台积电「低估值缓冲下行、EPS 上修放大上行」的结构不同，伊顿当前是「估值已先行、执行来验证」的结构：持有等验证，验证通过再为确定性付费。</p>
+            <h5>券商盈利预测与估值（单位：美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级 / 目标价</th><th>FY2026E EPS</th><th>FY2027E EPS</th><th>FY2028E EPS</th><th>隐含 FY27 倍数</th></tr></thead><tbody><tr><td>Bernstein（2026-08-03）</td><td>跑赢大盘 / 534</td><td>13.50</td><td>16.00</td><td>—</td><td>~33x</td></tr><tr><td>摩根士丹利（2026-07-31）</td><td>超配 / 500</td><td>13.31</td><td>15.34</td><td>17.07</td><td>~33x</td></tr><tr><td>Citi（2026-08-03）</td><td>买入 / 485</td><td>13.50</td><td>15.65</td><td>—</td><td>~31x</td></tr><tr><td>华泰证券（2026-08-03）</td><td>增持 / 471</td><td>12.74</td><td>15.32</td><td>17.99</td><td>~31x</td></tr><tr><td>UBS（2026-08-04）</td><td>中性 / 360</td><td>13.38</td><td>15.34</td><td>17.07</td><td>~23x</td></tr><tr><td>Barclays（2026-02-09）</td><td>持平 / 350</td><td>13.47</td><td>15.14</td><td>16.77</td><td>~23x</td></tr></tbody></table></div>
+            <p>注：Barclays 预测发布于 2Q26 财报前，属旧口径。EPS 预测高度趋同（FY2027E 15.14-16.00），目标价分歧几乎完全来自倍数假设——市场真正在争的不是「伊顿能挣多少」，而是「该给它什么身份」。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>：公司概况、近况跟踪、业务拆分、催化剂（见同目录《伊顿_一页通.md》，亦见本站「一页通」标签页）</li>
+        <li><strong>财务数据</strong>：FY2023-1H26 利润表、2Q26 财报要点与管理层指引（正文数据均来自公开财报整理）</li>
+        <li><strong>局限</strong>：未读财报原文与电话会纪要（建议下一步补读 2Q26 earnings call 中关于下半年利润率路径与 Boyd 订单的表述）；现价与前瞻 PE 为按券商盈利预测反推的估算值；未对约 120 亿美元并购做逐笔整合与协同建模</li>
+        <li><strong>管理层评估（一句话版）</strong>：投资组合转型方向清晰且执行初步兑现——2Q26 收入、利润率、指引三线超预期，Boyd 首季即超内部预期 20%，敢于用量化路径为利润率修复背书；但巨额并购的整合与去杠杆成效仍需 2-3 个季度持续验证</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>伊顿是一家全球领先的智能动力管理公司，核心业务围绕电气化、数字化及能源转型展开。公司产品覆盖数据中心、公用事业、工业、商业建筑、住宅、航空航天及车辆等多个终端市场，致力于提供从电网到芯片（Grid-to-Chip）的全链条电力解决方案。2025年公司营收274.48亿美元，服务全球180个国家的客户。近年来，伊顿正经历一场重大的投资组合转型，通过大规模并购强化数据中心与航空航天业务，同时剥离增长较慢的车辆/移动出行业务，以聚焦更高增长、更高利润的领域。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul>
+<li><strong>2Q26业绩全面超预期，利润率修复启动</strong>：公司2Q26实现营收85.31亿美元，同比增长21%，有机增长14%，均显著高于市场预期。调整后每股收益3.15美元，超出指引中值0.10美元。核心电气美洲业务利润率环比提升190个基点至27.5%，标志着市场最为关注的利润率修复已经开始兑现。管理层澄清，二季度IRA退款影响低于300万美元，对业绩的贡献可忽略不计，超预期部分全部来自运营改善。</li>
+<li><strong>电气全球业务增长加速，Boyd液冷贡献超预期</strong>：电气全球业务2Q26有机增长18%，其中数据中心有机收入增速高达65%，远超23%的市场平均水平，显示份额持续提升。新收购的Boyd液冷业务在并表后的首个完整季度实现收入4.32亿美元，超出公司内部预期20%，全年收入指引上调至18亿美元。</li>
+<li><strong>订单与积压订单持续创纪录，需求广泛且强劲</strong>：电气美洲滚动12个月订单有机增长41%，订单出货比升至1.3倍；电气全球滚动12个月订单有机增长33%，总积压订单同比增长103%。除数据中心外，机器OEM、商业与机构、公用事业等终端市场均实现两位数增长，显示增长动力广泛。</li>
+<li><strong>全年有机增长与盈利指引上调</strong>：基于强劲的上半年表现和持续旺盛的需求，公司将2026年全年有机增长指引中值上调200个基点至12%，调整后每股收益中值上调0.22美元至13.50美元。电气美洲和电气全球的全年有机增长指引分别上调至15%和12%。</li>
+<li><strong>移动出行业务剥离方案确定</strong>：公司于6月宣布将通过反向莫里斯信托交易，将移动出行业务与Dana公司合并，预计于2027年一季度完成。此举旨在进一步聚焦高增长、高利润的电气和航空航天业务。</li>
+</ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol>
+<li><strong>电气美洲利润率修复路径清晰，构成未来两个季度最核心的交易锚点</strong>：1Q26电气美洲利润率因产能爬坡初期投入和原材料成本滞后传导，同比大幅下滑440个基点至25.6%，一度引发市场对盈利能力的担忧。2Q26利润率已环比修复190个基点至27.5%。管理层在业绩会上给出了量化的下半年修复路径：从上半年到下半年，利润率将提升450至500个基点，其中300个基点来自已实施的提价措施对成本滞后影响的消除，150至200个基点来自产量提升和生产率改善。这一指引意味着4Q26电气美洲利润率将重回30%以上，为2027年的盈利弹性奠定坚实基础。若该路径如期兑现，将有效打消市场对“利润率能否回归”的核心疑虑，驱动估值修复。</li>
+<li><strong>Boyd液冷业务持续超预期，打开数据中心“白区”价值增量空间</strong>：伊顿于2026年3月完成对Boyd Thermal的收购，正式切入数据中心液冷赛道。Boyd在并表后的首个完整季度即实现4.32亿美元收入，超出公司内部预期20%，全年收入指引从17亿美元上调至18亿美元。Boyd的竞争优势在于：是多家头部芯片厂商的设计合作伙伴，能优先获得合作机会；在冷板和CDU领域具备市场领先的规模化交付能力；其团队源自航空航天领域，具备高可靠性的质量基因。随着Nvidia Rubin等下一代高功率芯片平台在2026年下半年逐步放量，液冷需求将进入爆发期，Boyd有望持续贡献超预期业绩。</li>
+<li><strong>电气全球业务增长加速，成为新的超预期变量</strong>：电气全球业务2Q26有机增长18%，远超市场预期的约8%。所有区域（EMEA、APAC）均实现约20%的增长，数据中心有机收入增速高达65%，机器OEM增长超20%。公司已将电气全球全年有机增长指引从7.5%大幅上调至12%。这一加速趋势若持续，将改变市场对伊顿“增长主要依赖美洲”的固有认知，打开估值上行空间。</li>
+</ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol>
+<li><strong>数据中心电力基础设施的超级周期，提供至少5年以上的高确定性增长跑道</strong>：据公司披露，美国数据中心总积压订单已增长至307GW，按2025年建设速度计算，相当于15年的积压量，其中大部分项目预计在2028年及以后交付。公司预计2026年整体终端市场增长约10%，数据中心及分布式IT维持强劲的两位数增长。这一需求体量和持续性，为伊顿的电气业务提供了远超传统经济周期的增长动力。公司每兆瓦数据中心电力内容价值约340万美元，随着向800V直流架构演进，单瓦价值量有望进一步提升。</li>
+<li><strong>“从电网到芯片”的全栈能力，构筑难以复制的系统级竞争壁垒</strong>：伊顿通过有机投资和并购（Fiberbond、Resilient Power、Boyd），已构建起覆盖中压配电、固态变压器（SST）、直流断路器、UPS电力电子、液冷（冷板与CDU）以及模块化预制解决方案的完整产品组合。管理层指出，在向800V直流架构转型的过程中，需要同时具备中压固态变压器、直流断路器技术、电力电子与电能质量、冷却技术四大核心技术模块，以及强大的服务网络。伊顿是目前唯一具备这一全系列能力的供应商。这种系统级交付能力显著提高了客户的转换成本，并扩大了公司在单个项目中的钱包份额。</li>
+<li><strong>投资组合转型提升长期盈利质量与估值中枢</strong>：公司正在执行一项重大的投资组合重塑：通过约120亿美元的并购（Boyd、Fiberbond、Ultra PCS、Resilient），将业务重心进一步向数据中心和航空航天等高增长、高利润领域倾斜；同时剥离增长缓慢、利润率较低且周期波动大的移动出行业务。据机构测算，转型完成后，公司约70%的销售额将来自长期增长型终端市场，数据中心收入占比将提升至约30%。这一转型将提升公司整体收入增速与利润率中枢，降低周期波动性，从而支撑更高的估值倍数。</li>
+</ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul>
+<li><strong>利润率修复不及预期的风险</strong>：电气美洲下半年利润率修复路径高度依赖提价对成本滞后影响的消除，以及新增产能的产量爬坡和生产率提升。若原材料成本进一步上涨，或新工厂工人熟练度提升速度慢于预期，可能导致利润率修复幅度不及指引，进而影响2027年的盈利预期。</li>
+<li><strong>数据中心资本开支增速放缓的风险</strong>：公司当前的高增长和高估值很大程度上建立在数据中心电力基础设施需求持续高增的预期之上。若宏观经济下行、AI投资回报率不及预期，或技术路径变化导致超大规模云服务商削减资本开支，将对公司订单和收入增速产生重大影响。</li>
+<li><strong>巨额并购后的整合与杠杆风险</strong>：公司在过去一年内完成了约120亿美元的并购，净债务大幅上升。尽管公司已暂停2026年的股份回购以优先去杠杆，但若Boyd等被收购业务的整合不及预期，或协同效应未能如期兑现，将对公司财务状况和股东回报产生负面影响。</li>
+</ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul>
+<li><strong>2026年6月10日</strong>：伊顿宣布与Dana Incorporated达成最终协议，将通过反向莫里斯信托交易，将移动出行业务分离并与Dana合并。交易预计于2027年一季度完成，伊顿股东将持有合并后公司至少50.1%的股份，伊顿将获得约11亿美元的现金分配。</li>
+<li><strong>2026年7月31日</strong>：伊顿公布2Q26业绩，营收与利润均超市场预期。公司上调全年有机增长指引至11%-13%，调整后每股收益指引至13.40-13.60美元。电气美洲利润率环比显著修复，Boyd液冷业务收入超预期。股价在业绩公布后上涨7.32%。</li>
+</ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul>
+<li><strong>2026年8月-9月</strong>：公司提价措施（已于二季度和八月初实施）的效果将逐步在财务报表中体现，市场将密切关注电气美洲月度/季度的利润率改善节奏，以验证下半年利润率修复指引的可实现性。</li>
+<li><strong>2026年10月-11月</strong>：3Q26业绩发布。若电气美洲利润率能如期实现环比250个基点的提升，将进一步增强市场对2027年盈利弹性的信心。同时，Boyd液冷业务的订单和收入趋势将是另一重要关注点。</li>
+<li><strong>2027年一季度</strong>：移动出行业务剥离交易预计完成。交易完成后，伊顿将获得约11亿美元现金，用于偿还债务，改善资产负债表。同时，剩余业务将呈现更高的收入增速和利润率，有望触发市场的估值重评。</li>
+</ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<h4>业务边际变化</h4>
+<p>伊顿正经历近二十年来最大规模的投资组合转型。公司战略性地将资本和资源集中于电气化和航空航天两大长期增长领域。过去一年，公司投入约120亿美元进行并购，其中约90%的资金用于数据中心领域（Boyd Thermal液冷、Fiberbond模块化电力外壳、Resilient Power固态变压器），以构建从电网到芯片的完整电力解决方案。同时，公司于2026年1月宣布，并于6月确定方案，将剥离增长较慢、利润率较低的移动出行业务（车辆与车辆电气化）。这一“进”与“出”的组合拳，旨在提升公司整体的增长速度和盈利质量。</p>
+<h4>盈利模式</h4>
+<p>伊顿的盈利模式正从传统的“产品制造商”向“系统解决方案提供商”演进。其核心盈利来源包括：1）依托在配电、电能质量、液冷等领域的技术领先性和完整产品组合，为客户提供高附加值的系统级解决方案，获取高于单一产品的溢价和钱包份额；2）通过深度绑定数据中心、航空航天等终端市场的头部客户，形成较高的转换成本和重复采购需求；3）利用全球化的制造和服务网络，实现规模效应和本地化服务优势。</p>
+<h4>业务拆分</h4>
+<p>公司业务自1Q26起重新划分为四大板块：电气美洲、电气全球、航空航天、移动出行（车辆与车辆电气化合并）。电气业务（美洲+全球）是公司的绝对核心，2025年收入占比约73%，且增速最快、利润率最高。航空航天业务是第二大板块，受益于全球航空业的复苏和国防开支增长，增长稳健。移动出行业务收入占比约11%，增长和利润率均低于公司平均水平，已宣布将被剥离。公司当前处于产能爬坡和投资组合转型的业绩兑现期。</p>
+<p><strong>细分业务拆分（单位：亿美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>业务板块</th><th>2023年收入</th><th>2024年收入</th><th>2025年收入</th><th>1H26收入</th><th>2025年收入占比</th><th>2025年营业利润率</th><th>1H26营业利润率</th></tr></thead><tbody><tr><td>电气美洲</td><td>100.98</td><td>114.36</td><td>132.76</td><td>75.51</td><td>48%</td><td>29.9%</td><td>26.6%</td></tr><tr><td>电气全球</td><td>60.84</td><td>62.48</td><td>68.15</td><td>44.63</td><td>25%</td><td>19.4%</td><td>19.6%</td></tr><tr><td>航空航天</td><td>34.13</td><td>37.44</td><td>42.49</td><td>23.62</td><td>16%</td><td>23.9%</td><td>24.7%</td></tr><tr><td>移动出行</td><td>36.02</td><td>34.52</td><td>31.09</td><td>16.07</td><td>11%</td><td>13.1%</td><td>12.3%</td></tr><tr><td><strong>总计</strong></td><td><strong>231.96</strong></td><td><strong>248.78</strong></td><td><strong>274.48</strong></td><td><strong>159.82</strong></td><td><strong>100%</td></tr></tbody></table></div>
+<p><em>注：2023-2025年数据为历史财年数据，1H26为2026年上半年数据。历史数据已按新口径重述。营业利润率为分部营业利润率。总计营业利润率：2025年24.5%，1H26 22.9%。</em></p>
+<p><strong>电气美洲（2026年上半年）</strong>：实现收入75.51亿美元，有机增长16%。该板块是公司最大的收入和利润来源，主要受益于数据中心市场的爆发式增长（2Q26数据中心有机收入增长约55%）、机器OEM的强劲复苏，以及商业和机构市场的稳健增长。2Q26营业利润率27.5%，环比提升190个基点，主要驱动力为提价措施对成本滞后影响的消除（贡献约100个基点）和产量提升（贡献约90个基点）。订单出货比升至1.3倍，积压订单同比增长33%，显示需求远大于供给，为未来收入增长提供高可见度。</p>
+<p><strong>电气全球（2026年上半年）</strong>：实现收入44.63亿美元，有机增长14%（2Q26加速至18%）。增长主要由数据中心（2Q26有机收入增长65%）、机器OEM和公用事业驱动。Boyd液冷业务自2026年3月并表，上半年贡献收入约5.24亿美元，是收入增长的另一重要引擎。2Q26营业利润率19.8%，环比提升60个基点。积压订单同比增长103%（有机增长54%），订单增长33%，显示全球电气化需求强劲。</p>
+<p><strong>航空航天（2026年上半年）</strong>：实现收入23.62亿美元，有机增长8%。增长主要来自商业OEM和商业售后市场的强劲需求。Ultra PCS收购贡献了约6个百分点的增长。1H26营业利润率24.7%，同比提升210个基点，受益于销量增长、有利的产品组合以及一季度一处设施出售的收益。积压订单同比增长28%，订单出货比1.2倍，显示需求稳健。</p>
+<p><strong>移动出行（2026年上半年）</strong>：实现收入16.07亿美元，有机下降4%。收入下降主要受公司主动退出低利润的北美轻型车业务，以及欧洲市场需求疲软的影响。1H26营业利润率12.3%，同比提升40个基点，运营效率提升部分抵消了销量下降的负面影响。该业务已被宣布将剥离。</p>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托完整产品组合与系统级交付能力构筑的解决方案壁垒</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。随着数据中心电力需求激增、功率密度提升和项目规模扩大，客户采购模式正从购买单一产品转向采购整体系统解决方案。伊顿通过有机投资和并购，构建了覆盖中压配电、固态变压器、直流断路器、UPS、液冷和模块化预制解决方案的完整“从电网到芯片”产品组合。管理层指出，公司是目前唯一具备这一全系列能力的供应商。这种系统级交付能力显著提高了客户转换成本，并扩大了公司在单个项目中的钱包份额。自2020年以来，系统解决方案占公司电气业务销售额的比例已从55%提升至75%。</li>
+<li><strong>数据验证</strong>：电气美洲业务滚动12个月订单有机增长41%，订单出货比高达1.3倍，积压订单同比增长33%。电气全球业务数据中心有机收入增速65%，远超23%的市场平均水平。这些数据表明，公司的解决方案战略正在赢得市场份额。</li>
+<li><strong>动态演变</strong>：<strong>护城河变宽</strong>。随着行业向800V直流架构演进，对供应商的技术和系统集成能力要求进一步提高。伊顿在固态变压器、直流断路器、液冷等关键技术上的前瞻布局，使其在下一轮技术迭代中占据先机，有望进一步拉大与竞争对手的差距。</li>
+</ul>
+<p><strong>竞争要素 2：深度绑定头部客户生态，具备高转换成本特征</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。伊顿与Nvidia等头部芯片厂商和超大规模云服务商建立了深度合作关系，从芯片设计的早期阶段即参与供电和冷却方案的联合开发。例如，公司与Nvidia合作开发Eaton Beam Rubin DSX平台，共同推进800V DC数据中心供电架构。这种早期嵌入和联合研发的模式，形成了极高的客户粘性和转换成本。此外，Boyd作为多家芯片厂商的设计合作伙伴，进一步强化了公司在芯片生态中的卡位优势。</li>
+<li><strong>数据验证</strong>：公司已连续八个季度在数据中心领域实现超35%的增长。Boyd的积压订单在过去六个月内翻了一倍。与Nvidia的合作已从Blackwell平台延续至下一代Rubin平台。这些事实表明，公司的客户关系稳固且持续深化。</li>
+<li><strong>动态演变</strong>：<strong>护城河变宽</strong>。随着AI芯片迭代加速和功率持续攀升，电力与冷却方案的技术复杂性日益增加，头部客户对供应商的技术能力和系统级交付能力的要求越来越高。伊顿的全栈能力和早期合作模式，使其更有可能成为长期战略合作伙伴，护城河有望持续拓宽。</li>
+</ul>
+<p><strong>现阶段核心驱动力总结</strong>：伊顿的Alpha来源于其在数据中心电力基础设施这一高景气赛道中的系统级解决方案能力和深度客户绑定，这使其能够获得超越行业平均水平的增长和利润。其Beta则来源于全球电气化、数字化和再工业化等宏观趋势对电力设备需求的广泛拉动。</p>
+<p><strong>竞争格局传导逻辑（文字版）</strong>：数据中心电力需求爆发、采购模式转向系统级解决方案 → 伊顿具备“从电网到芯片”完整产品组合与系统集成能力 → 赢得更多市场份额（订单出货比升至1.3倍）→ 营收有机增长18%、利润率环比修复190个基点；同时，与Nvidia等头部芯片厂商的早期联合研发与深度绑定 → 形成高客户转换成本、在技术迭代中占据先机 → 同样推动份额提升。</p>
+<h3 class="doc-h2">产销链</h3>
+<h4>客户情况</h4>
+<p>伊顿的客户群体广泛，涵盖数据中心运营商、公用事业公司、工业制造商、商业建筑开发商、航空航天OEM及车辆制造商等。在电气业务中，销售主要通过分销商、代理商以及直接面向OEM和终端用户。2025年，电气业务（美洲+全球）22%的销售额来自六个大型客户，客户集中度适中。航空航天业务中，2025年20%的销售额来自三家大型飞机制造商，存在一定的大客户依赖。移动出行业务中，2025年37%的销售额来自四家大型车辆OEM，集中度较高，这也是该业务被剥离的原因之一。新客户方面，公司在数据中心液冷领域正通过Boyd与头部芯片厂商和超大规模云服务商深化合作，处于大规模交货的早期阶段。</p>
+<h4>供应商情况</h4>
+<p>公司的主要原材料包括铁、钢、铜、镍、铝、铅、银、金、钛、橡胶、塑料、电子元器件、化学品和流体等。原材料从众多供应商处采购，正常情况下供应无虞。为应对供应链风险，公司持续投资于供应链韧性建设，并与关键合作伙伴紧密合作。</p>
+<h4>成本传导能力</h4>
+<p>当上游原材料（如铜、钢）涨价时，伊顿具备较强的成本转嫁能力。公司通常能够通过提价措施将成本压力传导至下游客户。2Q26电气美洲利润率修复的核心驱动力之一，就是二季度和八月初实施的提价措施，逐步消除了此前原材料成本上涨的滞后影响。管理层预计，下半年价格/成本关系将基本恢复中性。这表明公司赚取的是基于技术和解决方案价值的“品牌溢价”，而非单纯的“加工费”。</p>
+<h3 class="doc-h2">财务数据</h3>
+<p><strong>关键财务数据（单位：亿美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>财务指标</th><th>FY2023（截止2023-12-31）</th><th>FY2024（截止2024-12-31）</th><th>FY2025（截止2025-12-31）</th><th>1H26（截止2026-06-30）</th></tr></thead><tbody><tr><td>营业总收入</td><td>231.96</td><td>248.78</td><td>274.48</td><td>159.82</td></tr><tr><td>收入同比</td><td>11.78%</td><td>7.25%</td><td>10.33%</td><td>19.23%</td></tr><tr><td>营业成本</td><td>147.62</td><td>153.75</td><td>171.31</td><td>104.76</td></tr><tr><td>毛利率</td><td>36.36%</td><td>38.20%</td><td>37.59%</td><td>34.45%</td></tr><tr><td>营业利润</td><td>38.85</td><td>46.32</td><td>52.09</td><td>25.63</td></tr><tr><td>营业利润率</td><td>16.75%</td><td>18.62%</td><td>18.98%</td><td>16.04%</td></tr><tr><td>归母净利润</td><td>32.18</td><td>37.94</td><td>40.87</td><td>16.87</td></tr><tr><td>归母净利润同比</td><td>30.71%</td><td>17.90%</td><td>7.72%</td><td>-13.26%</td></tr><tr><td>稀释每股收益（美元）</td><td>8.02</td><td>9.50</td><td>10.45</td><td>4.33</td></tr><tr><td>经营活动现金流净额</td><td>36.24</td><td>43.27</td><td>44.72</td><td>16.34</td></tr><tr><td>资本性支出</td><td>7.57</td><td>8.08</td><td>9.19</td><td>4.46</td></tr><tr><td>自由现金流</td><td>28.67</td><td>35.19</td><td>35.53</td><td>11.88</td></tr></tbody></table></div>
+<p><em>注：自由现金流 = 经营活动现金流净额 - 资本性支出。1H26收入同比为对比1H25的增速。</em></p>
+<h4>财务分析</h4>
+<p><strong>成长能力</strong>：公司收入增速在2025年重新加速至10.33%，2026年上半年进一步提速至19.23%（有机增长约12%），主要由电气业务（尤其是数据中心相关）的强劲需求和并购贡献驱动。归母净利润在2023-2024年实现高增后，2025年增速放缓至7.72%，主要受产能扩张初期投入和原材料成本滞后传导对利润率的暂时性压制。1H26归母净利润同比下降13.26%，主要由于巨额并购带来的利息支出增加和无形资产摊销显著上升，但调整后每股收益同比增长5%，反映核心业务盈利能力依然稳健。</p>
+<p><strong>盈利能力</strong>：公司毛利率在2024年达到38.20%的高点后，2025年小幅回落至37.59%，1H26进一步降至34.45%，主要受原材料成本上涨和新增产能爬坡初期的效率损失影响。营业利润率呈现类似趋势。随着提价措施生效和产能利用率提升，预计下半年利润率将显著修复。管理层指引2026年全年分部利润率24.1%-24.5%。</p>
+<p><strong>运营能力与现金流</strong>：公司经营活动现金流保持健康，2025年为44.72亿美元。1H26自由现金流为11.88亿美元，同比有所下降，主要受并购相关交易成本和利息支出增加的影响。公司计划2026年资本支出约11.5亿美元，用于扩张产能以支持未来增长。由于2026年进行了大规模并购，公司已暂停股份回购，优先用于去杠杆。</p>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p>伊顿核心投入的赛道是<strong>数据中心电力基础设施</strong>，这是一个由AI算力需求爆发驱动的、兼具高增速与长周期特征的细分市场。</p>
+<p><strong>市场规模与增速</strong>：据机构测算，2025年全球数据中心热管理市场规模约151亿美元，预计到2030年将增长至398亿美元，年复合增长率约21%。其中，液冷市场增速最快，预计从2025年的30亿美元增长至2030年的156亿美元，年复合增长率约39%。伊顿管理层预计，2026年公司整体终端市场将增长约10%，其中数据中心及分布式IT市场将维持强劲的两位数增长。</p>
+<p><strong>行业发展趋势</strong>：1）<strong>算力需求驱动功率密度持续提升</strong>：AI芯片功耗不断攀升，单机柜功率正从传统的6-8kW向30kW乃至50kW以上跃迁，对供电和散热系统提出更高要求。2）<strong>供电架构向800V直流演进</strong>：为提升效率、降低损耗，数据中心供电架构正从传统的交流UPS向800V高压直流（HVDC）和固态变压器（SST）方案转型。3）<strong>液冷成为散热标配</strong>：随着GPU功率超过风冷极限，液冷（包括冷板和浸没式）正成为AI数据中心的必选项。4）<strong>模块化预制解决方案兴起</strong>：为应对建设速度要求和现场施工劳动力短缺，工厂预制的模块化电力解决方案（如伊顿的Power Cube和Fiberbond产品）渗透率快速提升。</p>
+<p><strong>竞争格局</strong>：在数据中心电力基础设施这一宽泛赛道中，伊顿的主要竞争对手包括施耐德电气、ABB、西门子、维谛等全球工业巨头。伊顿的差异化优势在于：1）<strong>全栈能力</strong>：通过并购，伊顿是目前唯一同时具备中压配电、SST、直流断路器、UPS和液冷完整产品组合的供应商。2）<strong>芯片生态卡位</strong>：通过与Nvidia的深度合作和Boyd在芯片厂商中的设计合作伙伴地位，伊顿在技术迭代的最前端占据了有利位置。3）<strong>模块化能力</strong>：通过Fiberbond，伊顿在模块化预制解决方案这一新兴细分领域建立了市场领先地位。</p>
+<p><strong>可比公司</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>对标维度</th></tr></thead><tbody><tr><td>施耐德电气</td><td>SU.PA</td><td>全球电气化与数据中心电力解决方案巨头，产品组合广泛，是伊顿在系统级项目中最直接的竞争对手。</td></tr><tr><td>ABB</td><td>ABBN.SW</td><td>在工业自动化和电力设备领域全球领先，在大电流固态断路器等技术上与伊顿存在竞争。</td></tr><tr><td>维谛</td><td>VRT.N</td><td>专注于数据中心关键基础设施，在UPS、热管理和配电领域与伊顿直接竞争，尤其是在液冷和HVDC赛道。</td></tr></tbody></table></div>
+<p>总结来看，伊顿在数据中心电力基础设施赛道的竞争地位正在强化。其通过积极的并购策略，快速补齐了液冷和模块化解决方案等关键短板，构建了差异化的全栈能力。与Nvidia的深度绑定，为其在下一代技术演进中提供了重要的先发优势。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<p><strong>议题一：电气美洲利润率修复的节奏与幅度</strong></p>
+<ul>
+<li><strong>背景</strong>：1Q26电气美洲利润率同比大幅下滑440个基点，一度引发市场对“增长是否以牺牲利润为代价”的担忧。2Q26利润率环比改善190个基点，但同比仍下降200个基点。市场高度关注下半年利润率能否如期实现强劲修复。</li>
+<li><strong>问题列表</strong>：
+<ul>
+<li>公司指引下半年利润率较上半年提升450-500个基点，其中300个基点来自价格/成本改善。提价措施能否在竞争环境中完全传导？</li>
+<li>新增产能的产量爬坡和工人熟练度提升是否符合预期？是否存在其他未被预见的成本压力？</li>
+<li>4Q26利润率能否如期回到30%以上，为2027年设定一个健康的盈利起点？</li>
+</ul></li>
+</ul>
+<p><strong>议题二：巨额并购后的整合执行与财务健康度</strong></p>
+<ul>
+<li><strong>背景</strong>：公司在过去一年内完成了约120亿美元的并购，净债务大幅上升。市场关注公司能否有效整合被收购业务，实现预期的协同效应，并在增长投资与股东回报之间取得平衡。</li>
+<li><strong>问题列表</strong>：
+<ul>
+<li>Boyd液冷业务的超预期表现能否持续？其与伊顿原有配电业务的交叉销售协同效应何时能规模化体现？</li>
+<li>公司计划何时恢复股份回购？去杠杆的优先路径和时间表是什么？</li>
+<li>移动出行业务剥离交易的完成时间和最终条款是否存在不确定性？</li>
+</ul></li>
+</ul>
+<p><strong>议题三：数据中心需求的可持续性与非数据中心市场的健康状况</strong></p>
+<ul>
+<li><strong>背景</strong>：公司当前的高增长高度依赖数据中心市场。尽管积压订单充足，但市场仍担忧AI资本开支的周期性风险。同时，非数据中心市场（如工业、商业建筑）的复苏力度，是判断公司增长是否“广泛且健康”的关键。</li>
+<li><strong>问题列表</strong>：
+<ul>
+<li>307GW的数据中心项目储备中，有多少已获得最终投资决策？转化为实际订单和收入的确定性如何？</li>
+<li>工业、商业与机构等非数据中心市场的增长是周期性的复苏，还是结构性的改善？其可持续性如何？</li>
+<li>若宏观经济下行，哪些非数据中心业务可能面临需求回落的风险？</li>
+</ul></li>
+</ul>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧：当前的高估值是否已充分反映了公司未来的增长潜力与转型红利？</strong></p>
+<ul>
+<li><strong>乐观方逻辑与依据</strong>：认为伊顿正站在一个长达数年的超级增长周期的起点。核心依据是：1）数据中心电力基础设施需求具有高确定性和长周期性，307GW的项目储备提供了至少5年以上的增长可见度。2）公司通过并购构建的“从电网到芯片”全栈能力，是难以复制的结构性护城河，将推动其市场份额和利润率持续提升。3）移动出行业务剥离后，剩余业务将呈现更高的收入增速（预计11%的有机增长）和利润率（30%+），应享有更高的估值倍数。机构测算，转型后公司2025-30年每股收益年复合增长率有望达到18%，显著高于管理层此前指引的12%，据此给予31倍市盈率，目标价534美元。</li>
+<li><strong>谨慎方逻辑与依据</strong>：认为当前估值已处于历史高位，进一步扩张空间有限，且短期面临执行风险。核心依据是：1）电气美洲利润率的修复路径虽已明确，但执行过程中仍存在不确定性，尤其是在原材料价格和劳动力市场紧张的背景下。2）巨额并购带来的高杠杆和整合风险不容忽视，去杠杆过程可能持续压制股东回报。3）数据中心需求虽然强劲，但部分需求可能已被提前透支，且市场对AI资本开支的预期已非常饱满，任何边际上的负面信号都可能导致估值回调。有机构给予“持有”评级，目标价350-360美元，认为当前估值已合理反映了利好因素。</li>
+<li><strong>总结分析</strong>：市场分歧的本质在于对“增长质量”和“估值锚”的判断不同。乐观方更看重公司长期竞争壁垒和转型后的盈利算法，愿意为高确定性增长支付溢价。谨慎方则更关注短期利润修复的执行风险和估值的安全边际。从最新业绩看，公司2Q26在收入和利润率两端均超预期，且上调了全年指引，这为乐观方提供了有力论据。利润率修复路径的初步兑现，是打破僵局的关键一步。后续需持续跟踪利润率改善的幅度和节奏，以及Boyd液冷业务的订单趋势，以验证长期增长逻辑。</li>
+</ul>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>管理层最新指引（2026年全年）</strong>：</p>
+<ul>
+<li>有机增长：11%-13%</li>
+<li>分部营业利润率：24.1%-24.5%</li>
+<li>调整后每股收益：13.40-13.60美元</li>
+</ul>
+<p><strong>券商盈利预测与估值</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价(美元)</th><th>财务指标</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>Bernstein (2026-08-03)</td><td>跑赢大盘</td><td>534.00</td><td>调整后EPS(美元)<br>营收(亿美元)</td><td>12.07<br>274.49</td><td>13.50<br>328.59</td><td>16.00<br>365.32</td><td>-<br>-</td></tr><tr><td>Citi (2026-08-03)</td><td>买入</td><td>485.00</td><td>调整后EPS(美元)</td><td>-</td><td>13.50</td><td>15.65</td><td>-</td></tr><tr><td>摩根士丹利 (2026-07-31)</td><td>超配</td><td>500.00</td><td>调整后EPS(美元)</td><td>12.07</td><td>13.31</td><td>15.34</td><td>17.07</td></tr><tr><td>华泰证券 (2026-08-03)</td><td>增持</td><td>471.00</td><td>调整后EPS(美元)</td><td>-</td><td>12.74</td><td>15.32</td><td>17.99</td></tr><tr><td>UBS (2026-08-04)</td><td>中性</td><td>360.00</td><td>调整后EPS(美元)</td><td>12.06</td><td>13.38</td><td>15.34</td><td>17.07</td></tr><tr><td>Barclays (2026-02-09)</td><td>持平</td><td>350.00</td><td>调整后EPS(美元)</td><td>12.07</td><td>13.47</td><td>15.14</td><td>16.77</td></tr></tbody></table></div>
+<p><em>注：机构预测数据均来自其最新发布的研究报告。部分机构预测未包含2028年数据。</em></p>
+<p>机构间对伊顿的盈利预测和估值存在显著分歧。乐观方（Bernstein、Citi、摩根士丹利）基于对公司投资组合转型后更高增长和利润率的预期，给出了较高的目标市盈率（30-33倍2027年EPS），目标价在485-534美元之间。谨慎方（UBS、Barclays）则更关注短期利润率修复的不确定性和估值压力，给予的目标市盈率较低（23-24倍2027年EPS），目标价在350-360美元之间。这种分歧反映了市场对公司转型红利能否如期兑现的不同判断。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/ETN · 生成于 2026-08-06</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-06';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'hit',     text: '<strong>2Q26 业绩全面超预期 + 全年指引上调</strong>：营收 +21%/有机 +14%，调整后 EPS $3.15 超指引中值 $0.10，电气美洲利润率环比 +190bp', note: '2026-07-31 兑现，当日股价 +7.32%' },
+  { kind: 'cat', status: 'active',  text: '<strong>提价效果兑现</strong>（Q2 与 8 月初已实施）：电气美洲利润率下半年 +450-500bp 路径的逐季验证', note: '3Q26 验证点：环比约 +250bp' },
+  { kind: 'cat', status: 'active',  text: '<strong>Boyd 液冷随 Nvidia Rubin 平台放量</strong>（2026 下半年）：全年收入指引已上调至 $18 亿，积压订单 6 个月翻倍', note: '并表首季超预期 20%' },
+  { kind: 'cat', status: 'pending', text: '<strong>3Q26 财报</strong>（2026-10 下旬/11 月）：利润率路径 + Boyd 订单趋势，决定观点是否上调至买入', note: '' },
+  { kind: 'cat', status: 'pending', text: '<strong>移动出行业务剥离完成</strong>（2027 Q1）：约 $11 亿现金还债 + 剩余业务增速/利润率双升，触发估值重评', note: '与 Dana 反向莫里斯信托交易' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>电气美洲利润率修复不及指引</strong>（下半年 +450-500bp 路径落空，原材料再涨或爬坡拖累）', note: '最新 27.5%；1Q26 曾同比 -440bp' },
+  { kind: 'risk', status: 'clear', text: '<strong>超大规模云服务商削减数据中心资本开支</strong>（AI ROI 证伪 → 订单增速最先回落）', note: '当前订单出货比 1.3x、积压 +103%，每季核对' },
+  { kind: 'risk', status: 'clear', text: '<strong>约 $120 亿并购整合不及预期或去杠杆迟缓</strong>：协同未兑现、回购恢复无期', note: '1H26 归母净利 -13.3%（利息+摊销），持续跟踪' },
+  { kind: 'risk', status: 'clear', text: '<strong>施耐德/维谛/ABB 在液冷与 800V HVDC 赛道抢走份额</strong>', note: '当前数据中心有机 +65% vs 行业 23%，份额在升' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

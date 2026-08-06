@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adobe（ADBE.O）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--policy-red); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">ADBE</span>
+    <span class="site-mark__text">Adobe 公司研究<span>Adobe · ADBE.O</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>Adobe<span class="en">Adobe · ADBE.O · 美股研究</span></h1>
+        <p class="sub">创意软件的「行业标准」正在经历上市以来最严峻的信任危机：生成式 AI 的颠覆恐惧把估值杀到历史低位，CEO/CFO 双双空缺、Freemium 转型又添不确定性。但 89% 毛利率、45% Non-GAAP 营业利润率的现金牛基本盘未损，AI 优先产品 ARR 一年翻 3 倍——核心矛盾是「席位模式被 AI 瓦解」的叙事 vs 「商业安全护城河 + 平台化」的现实，当前约 10 倍前瞻 Non-GAAP PE（估算）定价的是前者，我们认为赔率站在多方。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-06</span>
+          <span>下次更新：新任 CEO 公布 / FY26Q3 财报（2026-09）/ Adobe Max 大会（2026-10）</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="buy">买入</strong>
+        <em>约 10x FY2026E Non-GAAP PE（现价按券商预测反推估算），历史低位；三情景期望值约 +46%、赔率约 4.5:1；重检条件：ARR 增速持续低于 8% 或 Freemium 明显蚕食付费订阅。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">营收 +13%</strong><span>FY26Q2·同比，基本盘稳健</span></div>
+      <div class="summary-rail__item"><strong>$5亿+</strong><span>AI 优先产品 ARR·同比 3 倍+</span></div>
+      <div class="summary-rail__item"><strong>9,000万</strong><span>创意 Freemium MAU·一年前 5,000万</span></div>
+      <div class="summary-rail__item"><strong>$24.35-24.45</strong><span>FY2026 Non-GAAP EPS 指引</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">Freemium 战略转向：主动抢 AI 流量红利，还是竞争压力下的被动防御？</h2>
+        <span class="qa__impact-tag">→ 推迟 CC 提价 · 下调个人订阅 ARR 增长预期</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>两者皆是，但长期算账划算：AI 为 Adobe 带来<strong>35% 的网站流量同比增长</strong>和 <strong>9,000 万创意 Freemium 月活</strong>（一年前 5,000 万），管理层选择敞开付费墙接住这波流量，代价是推迟 Creative Cloud 提价、下调下半年个人订阅 ARR 增长预期。<em>保留判断：Freemium 的价值完全取决于转化率，而公司在管理层真空期做这场赌博——若 Q3 起披露的 MAU 增长与付费转化数据不及预期，「主动进攻」就会被市场重新定性为「防御性流血」。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>短期直接压制 ARR 与 EPS 预期。</strong>FY2026 总 ARR 增长目标定为 <strong>10.2%</strong>（含 Semrush 并表贡献、反映 Freemium 与推迟提价影响），Non-GAAP EPS 指引 24.35-24.45 美元；RBC 的 FY2026E EPS（23.40 美元）已低于指引下限，说明卖方对转型阵痛有真金白银的下修。</p>
+            <p>长期看这是一份<strong>免费期权</strong>：9,000 万 MAU 若按 Acrobat Reader 历史路径实现个位数付费转化，对应的是数千万级潜在付费用户池——这部分价值在当前约 10 倍前瞻 PE（估算）里几乎没有被定价。估值倍数的修复不取决于 Freemium 本身，而取决于它能否在 2-3 个季度内拿出可验证的转化数据。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>流量是真实的：AI 驱动网站流量同比 <strong>+35%</strong>，创意 Freemium MAU 一年从 5,000 万增至 <strong>9,000 万</strong>——不接住就是把用户让给 Canva 和 AI 原生工具</li>
+              <li>有成功先例：Acrobat Reader 免费版数十年为付费订阅输送用户，<strong>「免费获客→付费转化」是 Adobe 玩过的剧本</strong></li>
+              <li>推迟提价保用户基数，在 AI 窗口期是正确的长期主义——提价随时可以做，用户流失不可逆</li>
+              <li>Express + Firefly 免费版触达的是过去不用专业工具的「传播者」群体，<strong>TAM 在扩张而非内卷</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>推迟 Creative Cloud 提价，等于<strong>承认提价能力受限</strong>——这正是 AI 削弱定价权的第一块证据</li>
+              <li>Freemium 产品（Express、Firefly 免费版）可能<strong>蚕食付费 Creative Cloud 需求</strong>，「左右手互搏」损害高利润核心业务</li>
+              <li>ARR 增长目标 10.2% 还是<strong>含 Semrush 并表</strong>的数字，有机增速更低——基本盘减速比表面更陡</li>
+              <li>CEO/CFO 双双空缺之际启动重大战略转向，<strong>执行风险被额外放大</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（业务拆分：按客户群体 · Freemium 关键数据）</summary>
+          <div class="evidence__body">
+            <h5>细分业务拆分（按客户群体，FY2026 起新口径；单位：亿美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>客户群体</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th><th>H1 收入占比</th><th>H1 同比</th></tr></thead><tbody><tr><td>Creative &amp; Marketing Professionals</td><td>147.50</td><td>163.12</td><td>89.30</td><td>71%</td><td>+12.4%</td></tr><tr><td>Business Professionals &amp; Consumers</td><td>56.70</td><td>65.04</td><td>36.30</td><td>29%</td><td><strong>+16.0%</strong></td></tr><tr><td><strong>客户群体订阅总收入</strong></td><td><strong>204.20</strong></td><td><strong>228.16</strong></td><td><strong>125.60</strong></td><td><strong>100%</strong></td><td><strong>+13.4%</strong></td></tr></tbody></table></div>
+            <p>注：公司自 FY2026 起不再按 Digital Media / Digital Experience 披露，改为按客户群体披露，历史数据已按新口径重述。<strong>Business Professionals &amp; Consumers</strong>（Acrobat + Express）增速最快（+16.0%），正是 Freemium 战略的主要试验田；Creative &amp; Marketing Professionals 占 71%，是 AI 变现的核心阵地。</p>
+            <h5>Freemium 战略关键数据（2026 年 6 月披露）</h5>
+            <ul>
+              <li><strong>流量侧</strong>：AI 驱动公司网站流量同比 +35%；创意 Freemium 产品 MAU 从一年前 5,000 万增至 <strong>9,000 万</strong></li>
+              <li><strong>代价</strong>：推迟原计划下半年的 Creative Cloud 价格优化；管理层预计降低下半年个人订阅用户 ARR 增长预期</li>
+              <li><strong>指引</strong>：FY2026 总营收 265-266 亿美元；总 ARR 增长目标 10.2%（含 Semrush 贡献）；Non-GAAP EPS 24.35-24.45 美元；Non-GAAP 营业利润率约 45%</li>
+              <li><strong>并表</strong>：2026 年 4 月完成 Semrush 收购（对价约 18.7 亿美元，增加约 4.8 亿美元 ARR），强化 SEO/GEO 能力</li>
+            </ul>
+            <h5>解读：一句话</h5>
+            <p>Freemium 是 Adobe 对「AI 时代用户入口在哪里」的押注——用一到两年的 ARR 减速换一个数倍于现有付费用户的流量池。<strong>对错不取决于战略叙事，而取决于 Q3 起每个季度披露的转化率</strong>；这正是跟踪面板把它列为头号观察项的原因。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">生成式 AI：是瓦解席位模式的颠覆者，还是「商业安全」护城河下的第二增长曲线？</h2>
+        <span class="qa__impact-tag">→ AI ARR 同比 3 倍+ · 但占总 ARR 不足 2%</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>短期看，「颠覆」和「变现」都被夸大了：AI 优先产品 ARR 一年翻 3 倍至 <strong>5 亿美元以上</strong>，但占总 ARR（271 亿美元）<strong>不足 2%</strong>——既不能拯救增长，也尚未摧毁什么。真正的问题在长期：Adobe 的筹码是「商业安全」（授权数据训练 + IP 赔偿）和深度嵌入的工作流，对手（Midjourney、Canva、OpenAI）的筹码是门槛和成本。<em>我们的判断：专业/企业级市场 Adobe 的护城河（工作流 + 合规）仍然稳固，低端市场的侵蚀真实存在但已被当前估值充分定价。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>对 EPS 的直接影响目前小于 ±2%</strong>——AI ARR 体量决定它在 FY2026-2027 只能贡献边际增量。AI 对估值的真正作用渠道是<strong>倍数而非盈利</strong>：市场按「席位模式被瓦解」给约 10x 前瞻 PE（估算），若 AI 变现数据持续兑现（Firefly 企业版资产生成量同比 3 倍+、GenStudio/AEP 订阅 +30%+），叙事切换到「平台化受益者」，倍数修复空间远大于 EPS 上修空间。</p>
+            <p>反向风险同样走倍数渠道：若 FY2027 前 AI ARR 占比仍停在低个位数、且 Creative Cloud 席位出现净流失，市场将确认「颠覆」定价，倍数向传统成熟软件（个位数 PE）靠拢。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li><strong>「商业安全」是杀手锏</strong>：Firefly 只用授权与公共领域内容训练并提供知识产权赔偿——对可口可乐、迪士尼级客户是决定性优势，竞品短期无法复制</li>
+              <li>企业端数据在兑现：Firefly 企业版资产生成量同比 <strong>3 倍+</strong>、<strong>2,500+</strong> 企业定制模型；GenStudio、AEP 及原生应用订阅收入同比均 <strong>+30%</strong></li>
+              <li>护城河在工作流而非单点功能：PSD/PDF 行业标准 + 数十年技能与协作生态，AI 功能嵌进工作流只会<strong>增强粘性</strong></li>
+              <li>平台化卡位：核心功能「原子化」为 API/代理并嵌入 ChatGPT 等第三方平台——Adobe 要成为 AI 内容供应链的基础设施，而非被替代的应用</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>3 倍增长是<strong>低基数幻觉</strong>：5 亿美元对 271 亿总 ARR 杯水车薪，无法对冲传统业务减速</li>
+              <li>AI 降低创作门槛，直接冲击「按席位收费」模式——<strong>企业可能用更少的设计师完成更多工作</strong>，席位总量长期承压</li>
+              <li>Midjourney/Canva/OpenAI 在低端与个人市场快速迭代，「足够好」的免费/低价替代品<strong>已在侵蚀新增用户</strong></li>
+              <li>AI 推理与训练成本上升，对 89% 毛利率构成潜在压力；生成内容还在替代 Adobe Stock 这类高利润传统业务</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（AI 货币化进度 · 竞争格局传导逻辑）</summary>
+          <div class="evidence__body">
+            <h5>AI 货币化关键数据（截至 FY2026 Q2）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>数值</th><th>评价</th></tr></thead><tbody><tr><td>AI 优先产品 ARR（Firefly、Acrobat AI Assistant 等）</td><td><strong>&gt;5 亿美元</strong>，同比增长 3 倍+</td><td>方向对，但占总 ARR（271 亿）<strong>&lt;2%</strong></td></tr><tr><td>Firefly 期末 ARR</td><td>接近 <strong>3 亿美元</strong>，环比 +50%</td><td>加速中</td></tr><tr><td>Firefly 企业版（Firefly Services）</td><td>资产生成量同比 <strong>3 倍+</strong>；2,500+ 企业定制模型</td><td>「商业安全」价值主张获市场认可</td></tr><tr><td>GenStudio / AEP 及原生应用</td><td>订阅收入同比均 <strong>+30%</strong></td><td>企业级 AI 已找到产品-市场契合点</td></tr><tr><td>AEP/AEM 客户代理能力使用率</td><td><strong>&gt;80%</strong></td><td>AI 功能渗透进存量企业工作流</td></tr></tbody></table></div>
+            <h5>竞争格局传导逻辑</h5>
+            <ul>
+              <li>Adobe 的行业标准产品矩阵（Photoshop、PDF 等）→ 极高的客户转换成本与定价能力 → 高毛利率（~89%）与高营业利润率（~45%）</li>
+              <li>商业安全的 Firefly 模型 → 吸引对版权敏感的大型企业客户 → 推动 Experience Cloud 与 Firefly 企业版收入增长</li>
+              <li>AI 原生工具（Midjourney 等）降低创作门槛 → 在非专业/低端市场构成竞争压力 → 可能限制 Creative Cloud 的提价能力与用户增长（<span class="warn">负向链条</span>）</li>
+            </ul>
+            <h5>竞争维度</h5>
+            <p>Adobe 面临四个方向的竞争：AI 原生工具（Midjourney、Runway、Stable Diffusion）、平台型公司（Canva，非专业市场最强挑战者）、科技巨头（Microsoft Designer/Copilot、Google、OpenAI）、企业软件厂商（Salesforce，营销科技正面竞争）。其差异化在于<strong>从创意到营销的端到端整合</strong> + <strong>商业安全合规</strong>——两者都指向企业级高端市场，而非与 AI 原生工具在低端缠斗。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">估值：历史低位的倍数隐含了什么预期？赔率如何？</h2>
+        <span class="qa__impact-tag">→ 期望值约 +46% · 赔率约 4.5:1（估算）</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>按券商预测反推，现价大致对应 <strong>约 10x FY2026E Non-GAAP EPS（24.40 美元）</strong>——对一家 89% 毛利率、45% 营业利润率、年自由现金流近百亿美元、EPS 仍在双位数增长的公司，这个倍数定价的不是「增长减速」，而是<strong>「商业模式被 AI 瓦解」</strong>。三情景测算期望值约较现价 +46%，赔率约 4.5:1，对应「买入」。<em>保留判断：现价为按券商目标价与盈利预测反推的估算值（精确值以行情为准）；悲观情景（-22%）并非尾部——若 Freemium 蚕食与席位流失同时兑现，下行会更深。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这个问题本身就是估值问题。</strong>当前定价的矛盾在于：卖方盈利预测仍在<strong>上修通道</strong>（FY2025A Non-GAAP EPS 20.94 → FY2026E 24.40 → FY2027E 约 27.3，年增 12-16%），而估值倍数却按盈利崩塌定价。券商目标价分布（190-319 美元）本身就是分歧的量化：看空方目标价隐含约 -24%，看多方隐含 +14% 至 +28%（均以估算现价约 250 美元为基准）。</p>
+            <p>赔率结构：悲观情景（Freemium 失败 + 席位压缩）下行约 -22%，已被低倍数部分吸收；乐观情景（AI 变现兑现 + 新管理层落定触发重估）上行约 +98%。<strong>下行被现金流与回购缓冲，上行被叙事切换放大——这是买入的全部理由。</strong></p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>约 10x Non-GAAP PE 对 <strong>EPS 增速 12-16%、毛利率 89%</strong> 的公司，PEG 明显小于 1——市场为「颠覆」付的价格过于极端</li>
+              <li>FY2025 经营现金流 <strong>100 亿美元</strong>、自由现金流 <strong>98.5 亿美元</strong>，巨额回购在低估值下加速每股收益增长——下行有底</li>
+              <li>两大短期压制因素（CEO/CFO 空缺、Freemium 不确定性）都是<strong>可消除的折价项</strong>而非永久损失，催化剂日程明确（CEO 落定、Q3 财报、10 月 Max 大会）</li>
+              <li>汇丰（308）、RBC（285）、华泰（319.5）的目标价全部显著高于反推现价——<strong>专业机构里的多方给出的上行空间厚</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>美银（Underperform，190）、摩根士丹利（Underweight，240）强调 AI 带来的<strong>结构性挑战不会因低估值消失</strong>——便宜可以是价值陷阱</li>
+              <li>FY2026 H1 归母净利润同比仅 <strong>+2.83%</strong>（收购费用与商誉减值拖累），表面增长质量在恶化</li>
+              <li>管理层真空 + 战略转型同时进行，<strong>未来 2-3 个季度缺乏让市场改观的确定性事件</strong></li>
+              <li>ARR 增长目标 10.2% 还含 Semrush 并表——有机增长已进入个位数区间，<strong>成熟软件的低倍数可能是新常态而非错杀</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（财务速览 · 三情景测算 · 券商预测）</summary>
+          <div class="evidence__body">
+            <h5>关键财务数据（单位：亿美元；EPS 为 GAAP 稀释口径）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>报告期</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td>营业总收入</td><td>194.09</td><td>215.05</td><td>237.69</td><td>130.16</td></tr><tr><td>收入同比</td><td>+10.2%</td><td>+10.8%</td><td>+10.5%</td><td><strong>+12.3%</strong></td></tr><tr><td>毛利率</td><td>87.9%</td><td>89.0%</td><td>89.3%</td><td><strong>89.4%</strong></td></tr><tr><td>营业利润率</td><td>34.3%</td><td>36.0%</td><td>36.6%</td><td>35.8%</td></tr><tr><td>归母净利润（同比）</td><td>54.28（+14.1%）</td><td>55.60（+2.4%）</td><td>71.30（+28.2%）</td><td>36.01（<span class="warn">+2.8%</span>）</td></tr><tr><td>稀释每股收益（美元）</td><td>11.82</td><td>12.36</td><td>16.70</td><td>8.86</td></tr><tr><td>自由现金流</td><td>69.42</td><td>78.73</td><td><strong>98.52</strong></td><td>50.28</td></tr></tbody></table></div>
+            <p>注：FY2026 H1 净利增速放缓主要受收购相关费用与商誉减值等一次性项目影响；收入增速反而加快至 12.3%。FY2025 订阅收入占总营收 <strong>97%</strong>，Non-GAAP 营业利润率 <strong>46.2%</strong>，Experience Cloud 服务 74% 的财富 500 强。</p>
+            <h5>三情景假设（FY2027 视角，以反推现价约 250 美元为基准；现价与倍数为估算）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>EPS（Non-GAAP）</th><th>合理 PE</th><th>隐含股价</th><th>vs 当前</th></tr></thead><tbody><tr><td>乐观（25%）</td><td>Freemium 转化兑现、AI ARR 持续翻倍、新 CEO 落定触发重估</td><td>~27.5（FY2027E 上沿）</td><td>18x</td><td>~495</td><td>+98%</td></tr><tr><td>中性（50%）</td><td>营收维持 12-13% 增长，AI 渐进贡献，倍数温和修复</td><td>~27.3（FY2027E 共识）</td><td>14x</td><td>~382</td><td>+53%</td></tr><tr><td>悲观（25%）</td><td>Freemium 蚕食付费、席位被 AI 压缩，EPS 增长停滞</td><td>~24.5（停在 FY2026 水平）</td><td>8x</td><td>~196</td><td>-22%</td></tr></tbody></table></div>
+            <p><strong>期望值约 364 美元，较反推现价约 +46%；赔率约 4.5:1（+98% / -22%）。</strong>悲观情景隐含股价约 196 美元，与美银目标价（190）相互印证；乐观情景的 18x 仍显著低于 Adobe 作为成长股时期的历史常态倍数，并非激进假设。注意：当前所有券商目标价（190-319.5）都建立在受压倍数上，乐观情景隐含的是「叙事切换后的重估」，超出任何一家现有目标价——这正是预期差所在。</p>
+            <h5>券商盈利预测与目标价（Non-GAAP；华泰为 GAAP 口径）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级 / 目标价</th><th>FY2025A EPS</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>美国银行（2026-07-08）</td><td>Underperform / $190</td><td>20.95</td><td>24.40</td><td>27.54</td><td>31.08</td></tr><tr><td>摩根士丹利（2026-07-21）</td><td>Underweight / $240</td><td>20.94</td><td>24.40</td><td>27.23</td><td>29.64</td></tr><tr><td>汇丰控股（2026-07-03）</td><td>Buy / $308</td><td>20.94</td><td>24.25</td><td>27.21</td><td>30.29</td></tr><tr><td>加拿大皇家银行（2026-06-12）</td><td>Outperform / $285</td><td>20.94</td><td>23.40</td><td>26.32</td><td>—</td></tr><tr><td>华泰证券（2026-03-15）</td><td>买入 / $319.51</td><td>17.03</td><td>18.40</td><td>20.37</td><td>22.75</td></tr></tbody></table></div>
+            <p>注：五家机构 FY2026E Non-GAAP EPS 集中在 23.40-24.40（公司指引 24.35-24.45）；FY2027E 共识约 27.2-27.5。<strong>连看空的美银都在预测 EPS 年增 16%</strong>——分歧完全不在盈利方向，而在倍数该给多少。这正是「定价矛盾」的直接证据。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>：公司概况、近况跟踪、业务拆分、催化剂（见同目录《Adobe_一页通.md》，亦见本站「一页通」标签页）</li>
+        <li><strong>财务数据</strong>：FY2023-FY2026H1 利润表与现金流、FY2026 管理层指引（正文数据均来自公开财报整理）</li>
+        <li><strong>局限</strong>：未读财报原文与电话会纪要（建议下一步补读 FY26Q2 earnings call 中关于 Freemium 转化率口径与 CEO 搜寻进度的表述）；现价与前瞻 PE 为按券商盈利预测与目标价反推的估算值，精确值以行情为准；FY2026 H1 净利润含收购费用与商誉减值扰动，GAAP 与 Non-GAAP 口径差异较大，跨表比较时需注意</li>
+        <li><strong>管理层评估（一句话版）</strong>：Shantanu Narayen 执掌 Adobe 十八年、主导了订阅制转型这一教科书级案例，其转任董事长意味着战略连续性大概率保留，但 Freemium 与 AI 平台化这场新赌局将由尚未到位的新 CEO 执行——管理层质量当前处于「不可评估」状态，这本身就是估值折价的一部分</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>Adobe（Adobe）是全球领先的创意、营销和文档管理软件公司，其核心产品如Photoshop、Illustrator、Acrobat和PDF标准已成为各自领域的行业基础设施。公司通过Creative Cloud、Document Cloud和Experience Cloud三大产品云，服务于从个人创作者、商业专业人士到大型企业的广泛客户群体。Adobe的商业模式已成功从一次性软件授权转型为订阅制，构建了高度可预测和稳定的收入流。在生成式AI时代，公司正通过将AI功能深度整合进现有产品及推出Firefly等AI原生应用，力图将技术变革转化为增长动力。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul>
+<li><strong>战略转向Freemium模式</strong>：在2026财年第二季度，管理层宣布了一项重大的市场策略调整，即通过<strong>Freemium（免费增值）模式</strong>更积极地获取新用户，提供无摩擦、无即时付费墙的入门体验。此举旨在抓住AI带来的用户流量激增机遇，但同时也决定<strong>推迟原计划于下半年进行的Creative Cloud价格优化</strong>。管理层预计，此战略转变将<strong>降低下半年来自个人订阅用户的ARR增长预期</strong>（2026年6月纪要）。</li>
+<li><strong>管理层重大变动</strong>：公司正经历关键领导层过渡。长期担任CEO的Shantanu Narayen宣布将转任董事会主席，CEO搜寻工作正在进行中。同时，CFO Dan Durn也已离职，由资深财务高管Steve Day担任临时CFO（2026年6月纪要）。</li>
+<li><strong>完成对Semrush的收购</strong>：公司于2026年4月完成了对品牌可见性平台<strong>Semrush</strong>的收购，交易对价约<strong>18.7亿美元</strong>，为业务增加了约<strong>4.8亿美元</strong>的ARR。此举旨在增强公司在搜索引擎优化（SEO）和生成式引擎优化（GEO）领域的能力，并计划推出全面的品牌可见性解决方案（2026年6月纪要）。</li>
+<li><strong>AI产品货币化取得初步进展</strong>：截至2026财年第二季度，AI优先产品（如Firefly、Acrobat AI Assistant等）的ARR同比增长超过<strong>3倍</strong>，总额超过<strong>5亿美元</strong>，但仍仅占总ARR（271亿美元）的不到2%。其中，Firefly的期末ARR接近<strong>3亿美元</strong>，环比增长约50%（2026年6月纪要）。</li>
+<li><strong>宣布收购Topaz Labs</strong>：2026年6月，公司宣布收购AI视频和图像增强技术公司Topaz Labs，旨在加强其在视频AI领域的能力，并获取顶尖的AI工程师团队（2026年6月德意志银行报告）。</li>
+</ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol>
+<li><strong>Freemium策略的预期差博弈</strong>：市场对Adobe转向Freemium模式普遍持负面看法，认为这会压制短期ARR增长并增加不确定性。然而，管理层明确指出，此举是为了抓住AI带来的<strong>35%的网站流量同比增长</strong>和<strong>超过9000万的创意Freemium月活用户</strong>。核心博弈点在于，市场可能过度关注短期ARR的减速，而低估了此策略在扩大用户基数、构建长期竞争壁垒方面的价值。未来一个季度，若公司能披露更强劲的MAU增长和付费转化率数据，可能引发市场对公司长期增长前景的重新评估，从而修复估值。</li>
+<li><strong>管理层落定消除不确定性折价</strong>：CEO和CFO的同时空缺是当前压制估值的一个重要短期因素。市场对领导层真空的担忧已反映在股价中。一旦新的CEO和CFO人选尘埃落定，尤其是如果新任领导者具备深厚的AI或企业服务背景，将有望消除市场对战略连续性和执行力的疑虑，触发一波由不确定性消除带来的估值修复行情。</li>
+<li><strong>Q3业绩验证增长韧性</strong>：公司给出的Q3营收指引为<strong>66.7亿至67.2亿美元</strong>，同比增长约12%。在经历了战略调整和管理层变动的冲击后，一份稳健的财报将成为验证公司业务基本盘和增长韧性的关键。若Q3业绩能超出或达到指引上限，特别是订阅收入和RPO等先行指标表现强劲，将有力回击市场的悲观预期，证明公司核心业务的护城河依然稳固。</li>
+</ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol>
+<li><strong>从"工具"到"平台"的AI生态整合者</strong>：Adobe的长期叙事正从销售创意工具，转向成为连接创意、营销和客户体验的<strong>AI平台</strong>。公司通过将Firefly模型、第三方模型以及创意代理（Creative Agent）等能力，整合进Creative Cloud和Experience Cloud，并进一步通过MCP端点将功能"原子化"，嵌入到ChatGPT等第三方AI平台。这种"模型+应用+代理"的平台化战略，旨在使Adobe成为AI驱动的内容供应链的核心，其长期价值将远超单一软件提供商。</li>
+<li><strong>企业级AI应用的巨大变现潜力</strong>：虽然AI优先产品的ARR目前规模尚小，但其在企业市场的渗透速度值得关注。<strong>GenStudio</strong>、<strong>AEP及原生应用</strong>的订阅收入同比增长均超过<strong>30%</strong>，<strong>Firefly企业版</strong>的资产生成量同比增长超3倍。超过<strong>80%</strong> 的AEP和AEM客户正在使用产品内置的代理能力。这表明Adobe在企业级AI市场已找到产品-市场契合点。随着企业从"AI实验"转向"AI执行"，基于消费和结果的定价模式（如Firefly Services）有望打开远超传统订阅模式的价值空间，成为公司未来3-5年的核心增长引擎。</li>
+<li><strong>无可替代的"商业安全"护城河</strong>：在生成式AI领域，版权和商业安全是企业用户的首要关切。Adobe的<strong>Firefly模型专门针对已获授权和公共领域内容进行训练</strong>，并提供知识产权赔偿保障，这是Midjourney、Stable Diffusion等竞品难以复制的核心优势。对于可口可乐、迪士尼等大型品牌而言，这一特性是决定性的。随着AI生成内容在商业场景中的大规模应用，Adobe的"商业安全"标签将成为其最坚固的护城河，保障其在企业市场的长期定价权和客户粘性。</li>
+</ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul>
+<li><strong>AI颠覆风险与竞争加剧</strong>：这是公司面临的最核心、最长期的挑战。以Midjourney、Canva、OpenAI等为代表的AI原生工具和平台，正在降低内容创作的门槛，可能侵蚀Adobe在创意软件市场的份额。尤其是在低端和非专业用户市场，"足够好"的AI生成内容可能替代对专业付费工具的需求，从而对Adobe的定价能力和用户增长构成长期压力。</li>
+<li><strong>Freemium模式转型的执行风险</strong>：从付费墙模式转向Freemium模式是一次重大的战略赌博。虽然长期看可以扩大用户基础，但短期内有两大风险：一是<strong>免费用户向付费用户的转化率可能不及预期</strong>，导致ARR增长持续承压；二是<strong>Freemium产品可能蚕食现有的付费Creative Cloud需求</strong>，造成"左右手互搏"的局面，反而损害公司高利润的核心业务。</li>
+<li><strong>管理层过渡期的战略不确定性</strong>：CEO和CFO的双双更迭，发生在公司进行重大战略转型的关键时期，增加了额外的执行风险。新任领导层可能需要时间来熟悉业务并制定自己的战略，这可能导致公司在应对激烈的市场竞争时出现决策迟缓或方向摇摆，从而影响业务发展和投资者信心。</li>
+</ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul>
+<li><strong>2026年4月</strong>：Adobe在年度峰会上展示了其企业级AI战略，推出了<strong>Adobe CX Enterprise</strong>（端到端的代理式AI系统）和<strong>CX Enterprise Co-Worker</strong>等新产品，并宣布与Microsoft、Nvidia等主要AI平台的原生集成。</li>
+<li><strong>2026年4月28日</strong>：Adobe完成了对品牌可见性平台<strong>Semrush</strong>的收购，交易价值约18.7亿美元。</li>
+<li><strong>2026年6月11日</strong>：Adobe公布2026财年第二季度财报，营收同比增长13%，同时宣布了Freemium战略转型和推迟Creative Cloud价格优化的决定，并披露了CFO离职的消息。</li>
+<li><strong>2026年6月25日</strong>：Adobe宣布收购AI视频和图像增强技术公司<strong>Topaz Labs</strong>，以增强其在专业视频AI领域的能力。</li>
+</ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul>
+<li><strong>2026年8月-9月</strong>：新任CEO人选的可能公布。CEO搜寻工作的完成将是消除市场不确定性的最重要催化剂。</li>
+<li><strong>2026年9月</strong>：Adobe 2026财年第三季度财报发布。市场将高度关注Freemium模式下的MAU增长、付费转化率以及整体ARR增长数据，以验证新战略的初步成效。</li>
+<li><strong>2026年10月</strong>：Adobe Max大会。作为年度最重要的产品发布活动，公司预计将发布Firefly模型、Creative Cloud及AI代理方面的重大更新，可能成为展示其AI技术领先性和未来愿景的关键窗口。</li>
+</ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<p><strong>业务边际变化</strong>：Adobe正经历从传统创意软件商向AI驱动的内容供应链平台的战略转型。核心变化在于：1）<strong>商业模式</strong>上，从单一的订阅制转向"订阅+消费（Generative Credits）+结果导向"的混合模式；2）<strong>市场策略</strong>上，从付费墙模式转向更激进的Freemium模式以获取AI时代的海量新用户；3）<strong>产品形态</strong>上，从独立应用转向将核心功能"原子化"为API和代理，嵌入到第三方AI平台（如ChatGPT）中。</p>
+<p><strong>盈利模式</strong>：公司主要依靠<strong>订阅收入</strong>盈利，占总营收的<strong>97%</strong>。其盈利模式的核心是<strong>技术壁垒和极高的客户转换成本</strong>。Adobe的旗舰产品如Photoshop和PDF已成为行业标准，深度嵌入全球创意和商业工作者的日常工作流中。近期，公司开始通过<strong>生成式积分（Generative Credits）</strong> 对AI功能进行消费制收费，并探索基于业务成果的定价模式，旨在从AI带来的效率提升中分得一部分价值。</p>
+<p><strong>业务拆分</strong>：公司自2026财年第一季度起，将原先的三大业务板块（Digital Media、Digital Experience、Publishing and Advertising）合并为单一运营部门，并改为按客户群体披露订阅收入。公司目前处于<strong>AI战略投入期和Freemium模式转型期</strong>，短期ARR增长承压，但意在换取长期的用户基础和平台生态扩张。</p>
+<p><strong>细分业务拆分（按客户群体，单位：亿美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>客户群体</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th><th>FY2026 H1 收入占比</th><th>FY2026 H1 同比</th></tr></thead><tbody><tr><td>Creative &amp; Marketing Professionals</td><td>147.50</td><td>163.12</td><td>89.30</td><td>71%</td><td>12.4%</td></tr><tr><td>Business Professionals &amp; Consumers</td><td>56.70</td><td>65.04</td><td>36.30</td><td>29%</td><td>16.0%</td></tr><tr><td><strong>客户群体订阅总收入</strong></td><td><strong>204.20</strong></td><td><strong>228.16</strong></td><td><strong>125.60</strong></td><td><strong>100%</strong></td><td><strong>13.4%</strong></td></tr></tbody></table></div>
+<p>（截止日期：FY2024 为 2024-11-29，FY2025 为 2025-11-28，FY2026 H1 为 2026-05-29。公司自FY2026起不再按Digital Media/Digital Experience披露订阅收入，改为按上述客户群体披露。历史数据已按新口径重述。）</p>
+<ul>
+<li><strong>Creative &amp; Marketing Professionals（创意与营销专业人士）</strong>：该群体是公司最大的收入来源，FY2026 H1收入占比<strong>71%</strong>。它包括面向创意专业人士的Creative Cloud旗舰应用（如Photoshop、Illustrator、Premiere Pro）和面向营销专业人士的Digital Experience解决方案（如AEP、GenStudio）。FY2026 H1收入同比增长<strong>12.4%</strong>，增长由Creative Cloud Pro、AEP及原生应用的强劲表现驱动。该群体是公司AI变现的核心阵地，Firefly企业版和GenStudio等AI优先产品均主要服务于该群体。</li>
+<li><strong>Business Professionals &amp; Consumers（商业专业人士与消费者）</strong>：该群体是公司增长最快的部分，FY2026 H1收入同比增长<strong>16.0%</strong>，收入占比<strong>29%</strong>。它包括Acrobat产品线（含AI Assistant）和Adobe Express。增长主要得益于Acrobat订阅和Express MAU的强劲增长，以及AI助手等附加功能带来的ARPU提升。该群体是Freemium战略的主要试验田，通过Acrobat Reader和Express的免费版获取海量用户，再向付费订阅转化。</li>
+</ul>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托极高转换成本与行业标准地位构筑的客户粘性</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：这构成了Adobe的<strong>结构性护城河</strong>。其核心产品如Photoshop的PSD格式和Acrobat的PDF格式，已成为各自领域的全球性行业标准。全球创意工作者、营销机构和印刷出版行业数十年来围绕Adobe工具链建立了技能、工作流程和文件生态。替换这些工具意味着不仅要学习新软件，还要改变整个协作网络的文件交互方式，转换成本极高。</li>
+<li><strong>数据验证</strong>：Adobe的订阅收入占总营收的<strong>97%</strong>，FY2025毛利率高达<strong>89.3%</strong>，FY2025 Non-GAAP营业利润率高达<strong>46.2%</strong>，这些顶尖的财务指标是其客户粘性和定价权的直接体现。公司服务着全球绝大多数顶级企业，其Experience Cloud服务于<strong>74%的财富500强</strong>和<strong>87%的财富100强</strong>公司。</li>
+<li><strong>动态演变</strong>：<strong>维持</strong>。在AI时代，虽然生成式AI工具降低了内容创作的门槛，但Adobe通过将AI功能（如Firefly）直接嵌入其旗舰应用，并引入"商业安全"的模型训练理念，强化了其在专业工作流中的中心地位。对于需要精确控制、团队协作和商业合规性的专业和企业用户，Adobe的护城河依然稳固。但在非专业和轻量级用户市场，其护城河面临被AI原生工具侵蚀的风险。</li>
+</ul>
+<p><strong>竞争要素 2：面向企业市场的"商业安全"AI护城河</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：这是一个正在构建中的<strong>潜在结构性护城河</strong>。Adobe的Firefly生成式AI模型主打"商业安全"，即训练数据全部来自Adobe Stock（已获授权）和公共领域内容，并为使用其生成内容的企业客户提供知识产权赔偿保障。在版权诉讼风险极高的生成式AI领域，这一特性对大型品牌和企业客户具有决定性吸引力，是Midjourney、Stable Diffusion等竞品难以在短期内复制的。</li>
+<li><strong>数据验证</strong>：Firefly企业版（Firefly Services）的资产生成量同比增长超<strong>3倍</strong>，已有超过<strong>2500个</strong>企业定制模型被创建。包括可口可乐、SAP、ServiceNow在内的众多全球品牌已成为其客户。这证明了"商业安全"这一价值主张正在获得市场认可。</li>
+<li><strong>动态演变</strong>：<strong>护城河变宽（巩固）</strong>。随着全球对AI监管的加强和企业对版权风险意识的提升，Adobe的"商业安全"护城河价值将日益凸显。通过推出Firefly Foundry和Custom Models，允许企业在自己的品牌资产上训练定制化AI模型，Adobe进一步将AI能力与企业的核心知识产权深度绑定，极大地增强了客户粘性和转换成本。</li>
+</ul>
+<p><strong>现阶段核心驱动力总结</strong>：公司的Alpha在于其强大的<strong>品牌、行业标准地位和"商业安全"的AI战略</strong>，这使其在专业和企业级市场拥有难以撼动的护城河。其Beta则在于，作为一家成熟的软件巨头，其整体营收增长与全球数字经济和IT支出的大环境紧密相关。当前，市场对其的定价更多反映了对AI颠覆的恐惧（Beta），而低估了其利用AI巩固并扩展护城河的能力（Alpha）。</p>
+<p><strong>竞争格局传导逻辑</strong>：</p>
+<ul>
+<li>Adobe的行业标准产品矩阵（Photoshop、PDF等）→ 极高的客户转换成本与强大的定价能力 → 高毛利率（~90%）和高营业利润率（~45%）</li>
+<li>商业安全的Firefly AI模型 → 吸引对版权敏感的大型企业客户 → 推动Experience Cloud和Firefly企业版收入增长</li>
+<li>AI原生工具（Midjourney等）降低创作门槛 → 在非专业/低端市场构成竞争压力 → 可能限制Creative Cloud的提价能力和用户增长</li>
+</ul>
+<h3 class="doc-h2">产销链</h3>
+<ul>
+<li><strong>客户情况</strong>：Adobe的客户群极为分散，涵盖个人消费者、自由职业者、中小企业和大型跨国企业，无单一客户依赖风险。其客户结构正从以创意专业人士为主，向商业专业人士和消费者扩展。<strong>新客户</strong>获取方面，公司正通过Freemium策略大规模吸纳新用户，创意Freemium产品的MAU已从一年前的5000万增至<strong>9000万</strong>。这些用户处于"免费使用"的早期阶段，其向付费用户的转化是未来收入增长的关键。</li>
+<li><strong>供应商情况</strong>：Adobe的主要供应商为云基础设施服务商（如AWS、Azure）和数据中心硬件提供商。公司并无对单一供应商的严重依赖。其销售成本（COGS）中，第三方托管服务和数据中心成本是主要组成部分。随着AI功能使用量的增加，<strong>AI推理和训练成本</strong>正成为一项重要的成本项，可能对毛利率构成潜在压力。</li>
+<li><strong>成本传导能力</strong>：Adobe赚取的是典型的<strong>"技术壁垒溢价"和"品牌溢价"</strong>。其软件产品的边际成本极低，因此拥有超过<strong>89%</strong> 的极高毛利率。当上游云服务或AI算力成本上升时，公司具备较强的能力通过产品提价或推出更高价值的功能套餐（如包含更多生成式积分的计划）将成本压力部分转嫁给下游客户，尤其是对企业客户而言。但在竞争加剧的低端市场，其成本传导能力相对较弱。</li>
+</ul>
+<h3 class="doc-h2">财务数据</h3>
+<p><strong>关键财务数据（单位：亿美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>报告期</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td>截止日期</td><td>2023-12-01</td><td>2024-11-29</td><td>2025-11-28</td><td>2026-05-29</td></tr><tr><td><strong>营业总收入</strong></td><td>194.09</td><td>215.05</td><td>237.69</td><td>130.16</td></tr><tr><td>收入同比</td><td>10.24%</td><td>10.80%</td><td>10.53%</td><td>12.33%</td></tr><tr><td>营业成本</td><td>23.54</td><td>23.58</td><td>25.51</td><td>13.79</td></tr><tr><td><strong>毛利率</strong></td><td>87.87%</td><td>89.04%</td><td>89.27%</td><td>89.41%</td></tr><tr><td><strong>营业利润</strong></td><td>66.50</td><td>77.41</td><td>87.06</td><td>46.56</td></tr><tr><td>营业利润率</td><td>34.26%</td><td>36.00%</td><td>36.63%</td><td>35.77%</td></tr><tr><td><strong>归母净利润</strong></td><td>54.28</td><td>55.60</td><td>71.30</td><td>36.01</td></tr><tr><td>归母净利润同比</td><td>14.13%</td><td>2.43%</td><td>28.24%</td><td>2.83%</td></tr><tr><td><strong>稀释每股收益(美元)</strong></td><td>11.82</td><td>12.36</td><td>16.70</td><td>8.86</td></tr><tr><td>经营活动现金流净额</td><td>73.02</td><td>80.56</td><td>100.31</td><td>51.23</td></tr><tr><td><strong>自由现金流</strong></td><td>69.42</td><td>78.73</td><td>98.52</td><td>50.28</td></tr></tbody></table></div>
+<p>（注：自由现金流 = 经营活动现金流净额 - 资本性支出。FY2026 H1数据为截至2026年5月29日的六个月累计数据。）</p>
+<p><strong>财务分析</strong>：</p>
+<ul>
+<li><strong>成长能力</strong>：公司营收增速稳定在<strong>10%-12%</strong> 区间，展现出成熟科技巨头在庞大营收基数下的增长韧性。FY2025归母净利润同比增长<strong>28.24%</strong>，远高于营收增速，主要得益于运营杠杆和利息收入增加。但FY2026 H1净利润增速放缓至<strong>2.83%</strong>，主要受收购相关费用和商誉减值等一次性项目影响。</li>
+<li><strong>盈利能力</strong>：Adobe的盈利能力在软件行业中名列前茅。毛利率持续维持在<strong>89%</strong> 以上的极高水平，体现了其强大的定价权和极低的产品边际成本。营业利润率稳定在<strong>36%</strong> 左右，显示出其商业模式的规模效应和运营效率。</li>
+<li><strong>现金流质量</strong>：公司是名副其实的"现金牛"。FY2025经营活动现金流净额高达<strong>100.31亿美元</strong>，自由现金流为<strong>98.52亿美元</strong>，远超净利润，盈利质量极高。强劲的现金流为公司的巨额股票回购和战略并购提供了坚实基础。</li>
+</ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p>Adobe所处的行业是<strong>数字内容创作与管理软件市场</strong>，该市场正被生成式AI技术深刻重塑。</p>
+<ul>
+<li><strong>行业趋势</strong>：AI正在引发一场"内容大爆炸"，降低了内容创作的门槛，使创作者、营销人员和普通商业用户都能更高效地生成图像、视频和文案。这极大地扩展了Adobe的潜在市场（TAM），但也引入了新的竞争维度。企业客户的需求正从单一的工具采购，转向寻求能整合内容创作、管理、分发和效果衡量的<strong>端到端内容供应链平台</strong>。</li>
+<li><strong>竞争格局</strong>：竞争格局正变得空前复杂，Adobe面临来自不同维度的竞争者：
+<ul>
+<li><strong>AI原生工具</strong>：如Midjourney、Runway、Stable Diffusion等，它们在图像和视频生成领域快速迭代，对Adobe的创意云业务构成直接威胁，尤其是在个人用户和轻量级专业用户市场。</li>
+<li><strong>平台型公司</strong>：如Canva，通过提供更简单、协作性更强的设计平台，并积极整合AI功能，正在蚕食Adobe在非专业设计市场的份额。</li>
+<li><strong>科技巨头</strong>：如Google、Microsoft、OpenAI，它们拥有强大的基础AI模型，并开始将AI设计功能集成到其庞大的生态系统中。</li>
+<li><strong>企业级软件厂商</strong>：如Salesforce，在营销科技和客户体验管理领域与Adobe的Experience Cloud直接竞争。</li>
+</ul>
+</li>
+</ul>
+<p><strong>可比公司</strong>：</p>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>对标维度</th><th>分析</th></tr></thead><tbody><tr><td>Salesforce</td><td>CRM</td><td>企业级SaaS，客户体验管理</td><td>两者在企业营销和客户体验管理领域直接竞争。Salesforce的CRM生态更为庞大，而Adobe的优势在于整合了从内容创意到交付的全链条。</td></tr><tr><td>Canva</td><td>-</td><td>一体化设计平台，AI功能</td><td>Canva是Adobe在非专业设计市场最强大的挑战者，以其易用性和协作性吸引了大量用户，并正通过AI和收购向专业市场渗透。</td></tr><tr><td>Microsoft</td><td>MSFT</td><td>科技巨头，AI模型，设计工具</td><td>微软通过Copilot将AI能力整合进Office全家桶，其Designer产品直接对标Adobe Express。其与OpenAI的深度绑定使其在AI模型层面具备强大竞争力。</td></tr><tr><td>Figma</td><td>FIG</td><td>协作式UI/UX设计工具</td><td>Figma在UI/UX设计领域已成为行业标准，对Adobe XD构成巨大挑战。其基于浏览器的协作模式代表了设计工具的未来方向。</td></tr></tbody></table></div>
+<p><strong>总结分析</strong>：Adobe的竞争地位正处于一个转折点。在专业创意工具领域，其护城河依然深厚，但增长天花板已现。在面向未来的AI驱动的内容供应链和企业级体验管理市场，公司已制定了清晰的战略并取得了初步成效，但面临来自AI原生公司、科技巨头和现有企业软件对手的激烈竞争。其"商业安全"的AI策略和从创意到营销的端到端整合能力是其关键的差异化优势。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<ul>
+<li><strong>议题一：Freemium战略的长期价值与短期阵痛</strong>——<strong>背景</strong>：为应对AI带来的流量红利和用户行为变化，Adobe在Q2宣布激进地转向Freemium模式，并推迟了Creative Cloud的提价计划，导致有机ARR增长指引下调。市场担忧此举会损害其核心业务的盈利能力和增长可见度。<strong>问题列表</strong>：1）Freemium用户向付费用户的转化率能否达到或超过历史水平（如Acrobat Reader）？2）免费增值产品（如Express、Firefly免费版）在多大程度上会蚕食现有的付费Creative Cloud订阅？3）管理层如何平衡为获取新用户而进行的投资与维持现有45%左右Non-GAAP营业利润率之间的关系？</li>
+<li><strong>议题二：AI货币化的真实速度与规模</strong>——<strong>背景</strong>：尽管公司宣称AI优先产品ARR同比增长超3倍，但其绝对规模（超5亿美元）仍不到总ARR的2%。市场怀疑AI带来的增量收入能否在短期内抵消传统业务（如Stock）的下滑和潜在的竞争压力。<strong>问题列表</strong>：1）Firefly的生成式积分消费模式能否成为主流，并显著提升用户ARPU？2）企业级AI解决方案（如GenStudio、Firefly Services）的销售周期和客户采纳速度如何？3）AI带来的新增收入中，有多少是真正的新价值创造，又有多少是替代了Adobe Stock等传统高利润业务？</li>
+<li><strong>议题三：管理层真空下的战略执行力</strong>——<strong>背景</strong>：CEO和CFO的同时空缺，发生在公司进行重大战略转型的关键时期，增加了不确定性。市场对新领导层的战略方向、资本配置优先级以及与现有团队的磨合存在疑虑。<strong>问题列表</strong>：1）新任CEO是否会延续当前的Freemium和AI平台战略，还是会进行重大调整？2）在领导层过渡期间，公司如何确保关键产品的研发和市场推广计划不被延误？3）新的领导团队将如何平衡大规模股票回购与对AI创新的持续高额投入？</li>
+</ul>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p>当前市场对Adobe的核心分歧在于：<strong>生成式AI对Adobe而言，究竟是颠覆性的"灭顶之灾"，还是能为其带来第二增长曲线的"历史性机遇"？</strong></p>
+<p><strong>看空方（谨慎方）的核心逻辑</strong>：</p>
+<ol>
+<li><strong>颠覆性威胁是真实的</strong>：他们认为，Midjourney、Sora等AI原生工具在功能上正快速追赶，且成本更低、使用更便捷，将从根本上瓦解Adobe在创意软件市场的垄断地位，尤其是在对价格敏感的非专业用户群体中。</li>
+<li><strong>商业模式被削弱</strong>：AI降低了内容创作的门槛，可能导致Adobe赖以生存的"按席位收费"模式受到冲击，因为企业可能用更少的专业设计师完成更多工作。Freemium模式的转向也被视为应对竞争压力的被动之举，会拉低整体ARPU和利润率。</li>
+<li><strong>估值虽低但无催化剂</strong>：尽管估值已跌至历史低位，但在增长前景不明朗、管理层动荡的情况下，股票缺乏向上重估的催化剂，可能陷入"价值陷阱"。</li>
+</ol>
+<p><strong>看多方（乐观方）的核心逻辑</strong>：</p>
+<ol>
+<li><strong>护城河在于工作流，而非单一功能</strong>：他们认为，Adobe的核心价值在于其深度嵌入全球企业工作流的生态系统、行业标准文件格式以及数十年积累的用户技能和习惯。AI功能（如Firefly）被整合进这个工作流，只会增强其粘性，而非取代它。</li>
+<li><strong>"商业安全"是杀手锏</strong>：在企业级市场，版权合规是首要问题。Adobe的Firefly模型因其训练数据的合法性和提供的IP赔偿，是唯一能满足大型品牌严格合规要求的"商业安全"选择，这构成了一个强大的、差异化的护城河。</li>
+<li><strong>AI是TAM扩张器</strong>：AI引发的"内容大爆炸"将极大地扩展Adobe的潜在市场。通过Express和Firefly等产品，Adobe可以触达之前不使用其专业工具的广大"传播者"和"商业专业人士"群体，并通过Freemium模式将其转化为付费用户，实现长期增长。</li>
+</ol>
+<p><strong>总结分析</strong>：看空方的担忧在低端市场和个人用户领域确实存在，且已在发生。但看多方的逻辑在专业级和企业级市场更具说服力。Adobe的"商业安全"AI策略和端到端的平台整合能力，使其在高端市场拥有独特的竞争优势。当前股价的深度折价，主要反映了市场对低端市场颠覆风险的过度恐慌，而相对忽视了其在高端市场的稳固地位和AI带来的长期平台化机遇。因此，当前市场定价更倾向于对"颠覆"的定价，而非对"机遇"的定价。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>管理层最新指引</strong>（2026财年）：</p>
+<ul>
+<li>总营收：<strong>265亿至266亿美元</strong>。</li>
+<li>总ARR增长目标：<strong>10.2%</strong>（相较于财年初的256.6亿美元基础），该目标已包含Semrush的贡献，并反映了Freemium战略和推迟提价的影响。</li>
+<li>Non-GAAP每股收益：<strong>24.35至24.45美元</strong>。</li>
+<li>Non-GAAP营业利润率：约<strong>45%</strong>。</li>
+</ul>
+<p><strong>券商盈利预测与估值</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价(美元)</th><th>财务指标</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>美国银行 (2026-07-08)</td><td>Underperform</td><td>190.00</td><td>EPS(美元)<br>营收(百万美元)</td><td>20.95<br>23,769</td><td>24.40<br>26,531</td><td>27.54<br>28,857</td><td>31.08<br>31,357</td></tr><tr><td>摩根士丹利 (2026-07-21)</td><td>Underweight</td><td>240.00</td><td>EPS(美元)<br>营收(百万美元)</td><td>20.94<br>23,769</td><td>24.40<br>26,555</td><td>27.23<br>28,965</td><td>29.64<br>-</td></tr><tr><td>汇丰控股 (2026-07-03)</td><td>Buy</td><td>308.00</td><td>EPS(美元)<br>营收(百万美元)</td><td>20.94<br>23,769</td><td>24.25<br>26,518</td><td>27.21<br>28,639</td><td>30.29<br>30,644</td></tr><tr><td>加拿大皇家银行 (2026-06-12)</td><td>Outperform</td><td>285.00</td><td>EPS(美元)<br>营收(百万美元)</td><td>20.94<br>23,769</td><td>23.40<br>26,000</td><td>26.32<br>28,340</td><td>-<br>-</td></tr><tr><td>华泰证券 (2026-03-15)</td><td>买入</td><td>319.51</td><td>EPS(美元)<br>营收(百万美元)</td><td>17.03<br>23,769</td><td>18.40<br>26,049</td><td>20.37<br>28,816</td><td>22.75<br>32,173</td></tr></tbody></table></div>
+<p>（注：表中预测数据为各机构基于各自模型得出的Non-GAAP数据，华泰证券预测为GAAP口径。目标价币种为美元。）</p>
+<p>机构间对Adobe的观点存在显著分歧。<strong>看多方</strong>（如汇丰、RBC、华泰）认为市场过度悲观，AI战略将带来长期增长，当前估值提供了极具吸引力的买入机会，给出的目标价远高于当前股价。<strong>看空方</strong>（如美银、摩根士丹利）则强调AI带来的结构性挑战，认为增长放缓的趋势难以逆转，估值虽低但缺乏催化剂，因此给予"跑输大盘"评级。这种巨大的分歧恰恰反映了当前Adobe所面临的不确定性和市场的激烈博弈。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/ADBE · 生成于 2026-08-06</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-06';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'hit',     text: '<strong>FY26Q2 营收同比 +13%、AI 优先产品 ARR 同比 3 倍+ 超 5 亿美元</strong>：基本盘稳健，AI 变现初步兑现', note: '2026-06-11 财报披露' },
+  { kind: 'cat', status: 'pending', text: '<strong>新任 CEO 人选落定</strong>（预期 2026-08 至 09）：消除不确定性折价的最重要单一事件', note: 'CEO 搜寻进行中；Narayen 转任董事长' },
+  { kind: 'cat', status: 'active',  text: '<strong>Freemium 转化数据验证</strong>：9,000 万创意 Freemium MAU 的付费转化率披露——战略成败的量化判据', note: 'MAU 一年前为 5,000 万；Q3 财报为首次大考' },
+  { kind: 'cat', status: 'pending', text: '<strong>FY26Q3 财报</strong>（2026-09）：营收指引 66.7-67.2 亿美元（+12%），关注订阅收入与 RPO 先行指标', note: '' },
+  { kind: 'cat', status: 'pending', text: '<strong>Adobe Max 大会</strong>（2026-10）：Firefly 模型、Creative Cloud 与 AI 代理重大更新——展示 AI 技术领先性的窗口', note: '' },
+  { kind: 'cat', status: 'active',  text: '<strong>Firefly 企业版放量</strong>：资产生成量同比 3 倍+、2,500+ 企业定制模型——「商业安全」护城河的持续验证', note: '可口可乐、SAP、ServiceNow 等已采用' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>Freemium 明显蚕食付费 Creative Cloud</strong>：ARR 增速持续低于 10.2% 目标且无法归因于转型节奏', note: 'Q3 起逐季核对 ARR 与转化数据' },
+  { kind: 'risk', status: 'clear', text: '<strong>AI 原生工具（Midjourney/Canva/OpenAI）侵蚀席位与定价权</strong>：Creative Cloud 席位净流失或再度推迟提价', note: '低端市场侵蚀已在发生，专业/企业端尚未见实质证据' },
+  { kind: 'risk', status: 'clear', text: '<strong>管理层真空导致战略摇摆</strong>：CEO 长期悬缺或新帅推翻 Freemium/AI 平台战略', note: 'CEO/CFO 同时空缺中，临时 CFO 在任' },
+  { kind: 'risk', status: 'clear', text: '<strong>AI 推理/训练成本压制毛利率</strong>：89% 毛利率显著下滑', note: 'FY2026 H1 毛利率 89.4%，仍在高位' },
+  { kind: 'risk', status: 'clear', text: '<strong>Non-GAAP 营业利润率跌破 ~40%</strong>：Freemium 投入失控的信号', note: 'FY2026 指引约 45%；FY2025 实际 46.2%' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

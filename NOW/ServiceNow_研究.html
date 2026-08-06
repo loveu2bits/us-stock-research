@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ServiceNow（NOW.N）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--policy-red); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">NOW</span>
+    <span class="site-mark__text">ServiceNow 公司研究<span>ServiceNow · NOW.N</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>ServiceNow<span class="en">ServiceNow · NOW.N · 美股研究</span></h1>
+        <p class="sub">企业级 AI 平台的「控制塔」：Q2 订阅收入、cRPO、营业利润率三超指引上限，AI ACV 突破 10 亿美元、净新增环比 +40%，基本面在加速而非减速。但财报次日股价反而收跌——市场定价的矛盾不是当季业绩，而是 OpenAI 原生企业代理对 SaaS 席位模式的颠覆叙事 vs 公司「AI 编排层」的卡位。按券商目标价反推现价约 28x FY2026E Non-GAAP EPS（估算），仍处软件业较高估值档，赔率尚不足以买入。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-06</span>
+          <span>下次更新：Q3 财报（2026-10 前后，联邦政府旺季验证）/ 对话式服务台新品市场反馈（2026-08 至 09）</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>现价按券商目标价反推约 115-130 美元（估算），对应约 28x FY2026E Non-GAAP EPS；三情景期望约 +16%、赔率约 2.5:1，不够买入。重检条件：跌至约 22x FY2027E（约 110 美元）转积极；订阅增速（固定汇率）跌破 20% 转谨慎。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">订阅 +24.5%</strong><span>26Q2 $38.77亿·超指引上限</span></div>
+      <div class="summary-rail__item"><strong>AI ACV $10亿+</strong><span>净新增环比 +40%·年底目标 $15亿</span></div>
+      <div class="summary-rail__item"><strong>$290亿</strong><span>RPO 剩余履约义务·+22%（固定汇率）</span></div>
+      <div class="summary-rail__item"><strong>98%</strong><span>整体续约率·行业顶尖</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">Q2 财报：三项指标齐超指引上限、AI ACV 破 10 亿美元，股价为何反而下跌？</h2>
+        <span class="qa__impact-tag">→ 全年订阅指引上调 · 财报次日收跌</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>财报本身是实打实的超预期：订阅收入 +24.5% 打到指引上限之上，cRPO 与营业利润率同超指引，全年订阅收入指引上调至 157.6-157.8 亿美元。下跌定价的不是当季业绩，而是两件事：一是 <strong>OpenAI 发布企业级 AI 代理产品 Presence，「AI 颠覆 SaaS」的叙事压过了基本面</strong>；二是 Q3 订阅指引（固定汇率 +20%）环比减速、且 Q2 部分强劲来自联邦政府收入提前确认，市场质疑「透支」。<em>保留判断：这是叙事之争而非数据之争——数据在多方一边，但叙事证伪需要连续几个季度的 AI ACV 兑现。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>直接影响 FY2026 盈利落点。</strong>全年订阅指引上调后，券商 FY2026E Non-GAAP EPS 落在 <strong>3.83-4.23 美元</strong>区间（vs FY2025 的 3.50-3.51），对应约 10-21% 增长；收入超预期 + 费用管控下 Non-GAAP 营业利润率指引 31.5%，盈利上修通道未断。</p>
+            <p>但本季真正的战场在<strong>估值倍数</strong>：「SaaS 已死」叙事每发酵一次，市场给整个软件板块的倍数就压缩一档。对 ServiceNow 这种高增长高倍数标的，倍数波动的杀伤力远大于 EPS 波动——这也是财报超预期却收跌的定价逻辑。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>AI ACV 突破 <strong>10 亿美元</strong>、净新增环比增长超 <strong>40%</strong>，年底 15 亿目标稳步推进；提前达到 2030 年「AI 占 ACV 30%」的长期目标</li>
+              <li>需求广度罕见：联邦政府业务「从未如此强劲」，安全业务年收入超 10 亿且是十大网安公司中增长最快，CRM 年化 ACV 已达 20 亿</li>
+              <li>大客户用钱包投票：ACV 超 500 万美元客户 <strong>658 家（+23%）</strong>，前 20 大交易中 18 笔含 8 个以上产品，续约率 98%</li>
+              <li>RPO 290 亿美元（+22% 固定汇率），未来收入能见度极高</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>Q3 订阅指引固定汇率 +20%，环比 Q2 的 +23% <strong>减速</strong>；且 Q2 强劲部分源于联邦收入提前确认——有透支嫌疑</li>
+              <li>OpenAI Presence 证明基础模型公司正在向上构建应用层，<strong>「编排层」价值可能被架空</strong>——财报后收跌正是市场对此的投票</li>
+              <li>GAAP 订阅毛利率因收购摊销同比 <strong>-650bp</strong>，Non-GAAP 口径 -250bp，全年订阅毛利率指引下调至 81%——AI 推理成本在真实侵蚀盈利质量</li>
+              <li>连续收购 Moveworks/Veza/Armis 使资产负债表从净现金转为<strong>净负债</strong>，商誉 98.37 亿美元高悬</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（Q2 财报速览 · AI 商业化里程碑 · 盈利质量拆解）</summary>
+          <div class="evidence__body">
+            <h5>2026 Q2 财报速览（2026-07-22 发布）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>实际</th><th>预期/指引</th><th>评价</th></tr></thead><tbody><tr><td>订阅收入</td><td><strong>$38.77 亿</strong>，同比 +24.5%（固定汇率 +23%）</td><td>指引上限</td><td>超出指引上限，beat</td></tr><tr><td>cRPO / 营业利润率</td><td>均超指引上限</td><td>指引</td><td>beat</td></tr><tr><td>AI ACV</td><td>突破 <strong>$10 亿</strong>，净新增环比 +40%+</td><td>年底目标 $15 亿</td><td><strong>本季最大亮点</strong>，里程碑式突破</td></tr><tr><td>全年订阅收入指引</td><td>上调至 <strong>$157.60-157.80 亿</strong>（固定汇率 +21%，含 Armis 约 125bp 贡献）</td><td>此前更低</td><td>上调；Non-GAAP 营业利润率指引 31.5%、FCF 利润率 35%</td></tr><tr><td>Q3 指引</td><td>订阅 $39.75-39.80 亿，固定汇率 +20%；cRPO +20%</td><td>—</td><td><span class="warn">⚠️</span> 增速环比放缓，叠加联邦收入提前确认引发「透支」质疑</td></tr><tr><td>订阅毛利率</td><td>GAAP 同比 <strong>-650bp</strong>（收购摊销）；Non-GAAP -250bp；全年指引下调至 81%</td><td>—</td><td><span class="warn">弱</span>——AI/云成本上升真实发生</td></tr><tr><td>市场反应</td><td>财报次日收跌</td><td>—</td><td>OpenAI Presence 发布 + Q3 指引保守，叙事压过数据</td></tr></tbody></table></div>
+            <h5>AI 商业化里程碑（交叉验证「AI 编排层」叙事）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>信号</th><th>证据</th><th>方向</th></tr></thead><tbody><tr><td>AI ACV</td><td>突破 $10 亿、净新增环比 +40%+；首次购买 Agentic AI 的客户交易量同比 +45%</td><td>正——从概念走向收入</td></tr><tr><td>AI Control Tower</td><td>推出六个月获超 <strong>500 家</strong>客户；安全方案出现在 16 笔前 20 大交易中</td><td>正——「AI 治理中枢」定位被验证</td></tr><tr><td>定价权</td><td>新 AI 原生 SKU 带来 <strong>20-30%</strong> 价格提升；Pro Plus SKU 提价持续超 30%</td><td>正——反驳「AI 商品化软件」论调</td></tr><tr><td>定价模式</td><td>约 <strong>50%</strong> 净新增业务来自非席位（消费导向）定价</td><td>正——对冲席位通缩风险</td></tr><tr><td>盈利质量</td><td>订阅毛利率指引下调至 81%；Hyperscaler 部署+AI 推理成本上升</td><td><span class="warn">负</span>——增长有成本</td></tr><tr><td>增长成色</td><td>全年 +21% 指引中约 125bp 来自 Armis 并表；Q2 部分联邦收入提前确认</td><td><span class="warn">负</span>——内生增速略低于表观</td></tr></tbody></table></div>
+            <h5>解读：一句话</h5>
+            <p>这份财报的强度在于「<strong>AI 收入兑现（ACV 破 10 亿）+ 大客户扩张（658 家）+ 能见度（RPO +22%）</strong>」三者同时成立；弱点在于毛利率下行、增长含并表与提前确认的「水分」、以及叙事层面被 OpenAI 抢走了话筒。空方要的不是当季数据，而是「席位模式必死」的逻辑终点——多方必须用连续几个季度的非席位收入占比提升来回应。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">「AI 编排控制塔」vs 基础模型公司颠覆：护城河会被架空吗？</h2>
+        <span class="qa__impact-tag">→ 决定长期估值中枢 · 非席位收入占比 50% 是关键缓冲</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>这是该公司唯一的真问题，多空都有一半道理。多方的底牌是<strong>二十年 CMDB 与工作流数据构成的「上下文护城河」+ 中立编排层定位</strong>——企业部署成百上千个异构 AI 代理后，治理、身份、审计需求是真实且急迫的，AI Control Tower 六个月 500 家客户即是证据。空方的底牌是<strong>基础模型公司能力迭代速度远超企业软件</strong>，若代理直接完成工作流，编排层的存在前提就被削弱。<em>判断：颠覆是慢变量而非本财年变量；50% 净新业务来自非席位定价，说明公司已在为「席位通缩」的世界买保险。真正的观察窗口是 AI ACV 增速能否连续跑赢订阅整体增速。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这是估值倍数问题，不是 FY2026 EPS 问题。</strong>若「编排层」叙事成立，公司 TAM 从流程自动化扩展至整个 AI 治理市场，2030 年 300 亿美元订阅收入目标（隐含约 18% 五年 CAGR）可信度上升，支撑 30x+ 倍数；若颠覆叙事成立，席位收入通缩 + 倍数向传统软件（15-20x）回归，<strong>戴维斯双杀的下行空间可达 -40% 以上</strong>。</p>
+            <p>定价模式转型是中间的缓冲垫：非席位（消费导向）收入与客户获得的实际价值挂钩，理论上天花板高于人头数模式——但也意味着收入可预测性下降，市场会要求更高的风险溢价直到模式被验证。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li><strong>上下文数据不可复制</strong>：二十年积累的 CMDB 与跨部门工作流数据是训练/运行企业级代理的「燃料」，通用大模型公司不具备</li>
+              <li>中立性即价值：企业将同时使用多家厂商的代理，需要中立的治理层——与微软、英伟达、Anthropic 的合作（而非对抗）印证了这一卡位</li>
+              <li>AI 代理部署量 9 个月增长 <strong>9 倍</strong>，治理需求随代理数量指数级上升——编排层的价值是 AI 普及的函数而非牺牲品</li>
+              <li>98% 续约率 + 前 20 大交易 90% 含 8+ 产品：客户在用「深度整合」投票，替换成本随 AI 绑定加深而指数级上升</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>OpenAI Presence 只是开始：基础模型公司从模型向上做应用的速度，快于企业软件公司向下做模型的速度，<strong>「编排层」可能被原生代理生态架空</strong></li>
+              <li>微软式「全家桶」捆绑：从云到模型到办公套件的全栈玩家对客户的捆绑力，可能挤压独立平台的生存空间</li>
+              <li>AI 提升效率 → 企业员工减少 → <strong>席位收入通缩</strong>是结构性逆风，非席位定价能否完全对冲尚未证明</li>
+              <li>财报次日收跌说明：市场对叙事的定价权目前掌握在空方手里，扭转需要的不止一个季度的数据</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（业务拆分 · 定价模式演进 · 竞争格局）</summary>
+          <div class="evidence__body">
+            <h5>业务拆分（百万美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>业务板块</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td><strong>订阅收入</strong></td><td>8,680（+23.8%，占 96.8%）</td><td>10,646（+22.4%，占 96.9%）</td><td>12,883（+20.9%，占 97.0%）</td><td>7,548（+23.1%，占 97.3%）</td></tr><tr><td>专业服务及其他</td><td>291</td><td>338（+16.2%）</td><td>395（+16.9%）</td><td>209（+13.0%）</td></tr><tr><td><strong>总收入</strong></td><td><strong>8,971</strong></td><td><strong>10,984</strong></td><td><strong>13,278</strong></td><td><strong>7,757（+23.1%）</strong></td></tr></tbody></table></div>
+            <p>订阅是绝对核心（占比超 97%），且在 130 亿美元体量上重新加速（FY2026 H1 +23.1% vs FY2025 +20.9%）——AI 产品对增长的拉动在数据上可见。专业服务毛利率通常为负或微利，战略定位是推动产品采用。</p>
+            <h5>定价模式演进：从「席位」到「席位 + 消费」</h5>
+            <ul>
+              <li>约 <strong>50%</strong> 净新增业务已来自非席位定价模式——向消费导向转型过半</li>
+              <li>新 AI 原生 SKU 升级客户实现 <strong>20-30%</strong> 价格提升；Pro Plus SKU 提价持续超 30%</li>
+              <li>战略意义：纯席位模式在「AI 减员」背景下有收入通缩风险；按 AI 消费量（Assists）计价使收入与客户价值直接挂钩，天花板更高</li>
+              <li>代价：收入可预测性下降 + AI 推理成本先计入自己报表（订阅毛利率指引降至 81%）</li>
+            </ul>
+            <h5>竞争格局速览</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>对手</th><th>竞争维度</th><th>ServiceNow 的差异位</th></tr></thead><tbody><tr><td>Salesforce（CRM）</td><td>CRM 工作流、AI 代理</td><td>NOW 从客户服务/现场服务切入、强调跨部门编排；CRM ACV 20 亿但规模仍小</td></tr><tr><td>Microsoft（MSFT）</td><td>ITSM、低代码、AI 平台</td><td>竞合关系——AI Control Tower 定位跨平台治理，双方已宣布代理治理集成合作</td></tr><tr><td>Palo Alto Networks（PANW）</td><td>网络安全</td><td>NOW 差异在「发现威胁 → 自动修复」与 IT/业务工作流的闭环</td></tr><tr><td>OpenAI / Anthropic</td><td>基础模型向上做应用与代理编排</td><td><span class="warn">最大不确定项</span>——中立性 + 上下文数据是防线</td></tr></tbody></table></div>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">估值：券商目标价 130-180 美元隐含了什么？赔率够买入吗？</h2>
+        <span class="qa__impact-tag">→ 期望值约 +16% · 赔率约 2.5:1</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>一页通未含现价；按 6 家券商目标价 130-180 美元（评级全为买入/超配，通常隐含 15-30% 上行空间）反推，<strong>现价估算约 115-130 美元</strong>，对应约 28-32x FY2026E Non-GAAP EPS（共识约 4.1 美元）——经历今年大幅回调后，已从历史最高估值档回落，但仍是软件业较贵的梯队。三情景测算期望值约 +16%、赔率约 2.5:1：<strong>好公司、合理偏贵的价格，对应「持有」而非「买入」</strong>。<em>保留判断：现价为反推估算值，结论对现价假设敏感；若实际价格显著低于估算区间下沿，观点应上调。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>赔率结构分析。</strong>乐观情景（编排层叙事全面兑现、倍数修复至 34x FY2027E）上行约 +50%；悲观情景（席位颠覆论发酵、EPS 下修 + 倍数压至 20x）下行约 -20%。<strong>下行并未被低估值充分缓冲——这是与台积电式「低估值高赔率」结构的本质区别。</strong></p>
+            <p>赔率改善的两条路径：一是价格层面，跌至约 22x FY2027E（约 110 美元）时悲观情景下行收窄、赔率转好；二是基本面层面，AI ACV 连续兑现 + 非席位收入占比过半后，悲观情景概率下修。两者出现其一，即可重新评估买入。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>6 家券商全部买入/超配，目标价 130-180 美元<strong>全部高于反推现价</strong>，美银 130 的「保守目标价」也构成事实上的支撑参考</li>
+              <li>对一家订阅增速 21%+、RPO +22%、续约率 98% 的平台型公司，约 24-28x FY2027E 并非泡沫定价</li>
+              <li>2030 年 300 亿美元订阅收入 + 「60 法则」长期目标给出清晰的增长锚，FCF 利润率 35% 支撑 EV/FCF 估值底</li>
+              <li>「SaaS 已死」叙事若被连续财报证伪，倍数修复本身就是可观的收益来源</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>约 28x 前瞻 Non-GAAP PE（GAAP 口径更贵）在软件板块仍属高估值档——<strong>叙事逆转时高倍数标的最受伤</strong>，财报后收跌即是预演</li>
+              <li>增长成色有水分：并表贡献约 125bp、联邦收入提前确认，内生增速低于表观</li>
+              <li>商誉 98.37 亿 + 净负债资产负债表 + 毛利率下行，财务容错空间比前几年小</li>
+              <li>券商目标价分歧大（130-180，极差 38%），说明对 AI 溢价该给多少<strong>本身没有共识</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（当前定价测算 · 三情景表 · 券商预测）</summary>
+          <div class="evidence__body">
+            <h5>当前定价（2026-08 上旬，估算）</h5>
+            <ul>
+              <li>一页通未提供现价。按券商目标价反推：6 家目标价 130-180 美元、中枢约 153 美元，评级均为买入/超配（通常隐含 15-30% 上行），<strong>现价估算约 115-130 美元（中枢约 122，估算）</strong>，精确值以行情为准</li>
+              <li>对应估值：FY2026E Non-GAAP EPS 共识约 4.1 美元 → 约 <strong>28-32x</strong>；FY2027E 共识约 5.0 美元 → 约 24-26x（均为对反推现价的估算）</li>
+              <li>公司年内大幅回调（「软件消亡」叙事 + 财报后收跌），但估值仍高于传统软件板块</li>
+            </ul>
+            <h5>三情景假设（FY2027 视角，以反推现价约 122 美元为基准）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>FY2027 Non-GAAP EPS</th><th>合理 PE</th><th>隐含股价</th><th>vs 当前</th></tr></thead><tbody><tr><td>乐观（25%）</td><td>编排层叙事全面兑现：AI ACV 年底达 15 亿后持续放量，非席位收入占比过半，订阅增速维持 20%+</td><td>~5.3 美元（券商上沿）</td><td>34x</td><td>~180 美元</td><td>+48%</td></tr><tr><td>中性（50%）</td><td>增速小幅回落至 17-19%，AI 贡献增量但毛利率缓慢修复，市场维持现有估值档</td><td>~5.0 美元（券商中枢）</td><td>28x</td><td>~140 美元</td><td>+15%</td></tr><tr><td>悲观（25%）</td><td>「席位颠覆论」发酵：订阅增速跌破 15%，EPS 下修，倍数向传统软件回归</td><td>~4.6 美元（下修）</td><td>21x</td><td>~97 美元</td><td>-20%</td></tr></tbody></table></div>
+            <p><strong>期望值约 142 美元，较反推现价约 +16%；赔率约 2.5:1（+48% / -20%）。</strong>与「低估值 + 增长加速」的高赔率结构不同，ServiceNow 是「合理偏贵估值 + 增长加速 + 叙事风险」的组合——方向偏多但赔率不够，持有等待赔率改善是更优策略。</p>
+            <h5>券商盈利预测与目标价（财报后更新）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级 / 目标价</th><th>FY2026E Non-GAAP EPS</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>汇丰（2026-07-24）</td><td>买入 / 179 美元</td><td>4.23</td><td>5.32</td><td>6.85</td></tr><tr><td>摩根士丹利（2026-07-27）</td><td>超配 / 180 美元</td><td>4.09</td><td>5.06</td><td>6.05</td></tr><tr><td>花旗（2026-07-15）</td><td>买入 / 156 美元</td><td>3.83</td><td>4.79</td><td>6.04</td></tr><tr><td>美银（2026-07-28）</td><td>买入 / 130 美元</td><td>4.17</td><td>5.04</td><td>6.09</td></tr><tr><td>德银（2026-07-27）</td><td>买入 / 135 美元</td><td colspan="3">FCF 口径：FY2026E 56.76 亿 / FY2027E 68.10 亿美元</td></tr><tr><td>摩根大通（2026-07-27）</td><td>超配 / 150 美元</td><td colspan="3">uFCF 口径：FY2027E 72.00 亿美元</td></tr></tbody></table></div>
+            <p>注：花旗预测发布于 Q2 财报（07-22）前，EPS 口径偏保守；财报后四家 FY2026E EPS 落在 4.09-4.23 美元区间。目标价极差 130-180 美元（38%），本身就是 AI 溢价分歧的量化呈现；多数机构采用 DCF 或 EV/FCF 估值，认可其现金流生成能力。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>：公司概况、近况跟踪、业务拆分、催化剂（见同目录《ServiceNow_一页通.md》，亦见本站「一页通」标签页）</li>
+        <li><strong>财务数据</strong>：FY2023-FY2026H1 利润表、2026 Q2 财报要点与管理层指引（正文数据均来自公开财报整理）</li>
+        <li><strong>局限</strong>：未读财报原文与电话会纪要（建议下一步补读 Q2 earnings call 中关于 AI ACV 构成与联邦政府 pipeline 的表述）；现价与前瞻 PE 为按券商目标价/盈利预测反推的估算值，结论对现价假设敏感；未对 OpenAI 等基础模型公司竞争做独立情景定价</li>
+        <li><strong>管理层评估（一句话版）</strong>：管理层在 AI 叙事上兑现力强（AI ACV 提前达标、定价模式转型过半），但连续大额并购的整合执行与「2026 年底员工数恢复至收购前」的承诺仍需后续季度验证</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>ServiceNow 是一家全球领先的企业级AI平台公司，核心产品为基于云的 ServiceNow AI Platform。该平台通过单一数据模型和统一架构，帮助大型企业和政府机构打通跨部门的数字工作流，实现IT服务管理、客户服务、人力资源、安全风险等业务流程的自动化与智能化编排。公司定位为企业AI时代的“控制塔”与“编排层”，其平台不仅承载客户自身的数字化流程，更日益成为管理和治理企业内部成百上千个AI代理的核心中枢。目前，公司年收入规模已突破150亿美元，在全球企业软件市场中占据关键生态位。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul>
+<li><strong>AI商业化取得里程碑式突破</strong>：2026年Q2，公司AI产品的年度合同价值（AI ACV）首次突破10亿美元大关，净新增AI ACV环比增长超40%。管理层明确表示，正稳步迈向2026年底AI ACV达到15亿美元的目标，并已提前达到2030年AI占ACV 30%的长期目标。</li>
+<li><strong>安全业务平台化整合加速</strong>：继收购领先的物联网安全公司Armis和身份安全公司Veza后，公司正将其与自研的AI Control Tower深度整合，构建覆盖网络风险、暴露管理、身份与访问安全的统一安全平台。管理层称，安全与风险业务已是年收入超10亿美元、在十大企业网络安全公司中增长最快的业务。</li>
+<li><strong>联邦政府业务需求强劲</strong>：Q2业绩超预期部分得益于美国联邦政府客户的强劲需求，部分原计划于Q3确认的本地部署（on-premise）收入提前至Q2确认，显示出公共部门数字化转型的迫切性。管理层表示政府业务“从未如此强劲”。</li>
+<li><strong>产品定价模式持续演进</strong>：公司推出新的AI原生SKU，升级到新SKU的客户实现了20%-30%的价格提升，而Pro Plus SKU的价格提升持续超过30%。同时，约50%的净新增业务已来自非席位（non-seat-based）定价模式，显示出向消费导向模式转型的进展。</li>
+<li><strong>大客户与平台粘性增强</strong>：年化合同价值（ACV）超过500万美元的大客户数量增至658家，同比增长约23%。前20大交易中有18笔包含8个或更多产品，表明客户正在ServiceNow平台上进行深度整合。整体续约率保持在98%的行业高位。</li>
+</ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol>
+<li><strong>AI Control Tower与安全业务的“交叉销售”兑现</strong>：未来一个季度，市场将密切关注ServiceNow新整合的安全产品组合能否转化为实际订单。公司在Q2已展示了AI Control Tower对安全与风险业务的“超级充电”效应，安全解决方案出现在16笔前20大交易中。随着企业对AI代理治理和日益扩大的攻击面（联网设备激增）的担忧加剧，ServiceNow作为能提供从“发现”到“行动”闭环的统一安全平台，其安全业务的订单增长有望成为短期股价催化剂。这一逻辑的核心在于，ServiceNow并非从零开始，而是在其现有庞大客户基础中激活安全需求，转化成本低、路径清晰。</li>
+<li><strong>Q3联邦政府业务季节性高峰的预期差</strong>：尽管Q2的部分强劲表现源于联邦政府收入的提前确认，但这恰恰印证了下游需求的旺盛。从历史规律看，Q3通常是美国联邦政府预算执行的旺季，ServiceNow的政府业务往往在该季度达到高峰。管理层在电话会上表示Q3的政府业务管线（pipeline）健康。当前市场对Q3的指引相对保守（订阅收入固定汇率增长20%），若政府业务如期放量，叠加商业市场AI需求的持续增长，公司Q3业绩有较大概率再次超出市场预期。</li>
+<li><strong>AI原生新产品的市场反馈与定价能力验证</strong>：公司即将正式发布一款无需工单的“对话式服务台”AI原生新产品，并计划在未来数周推出更多AI原生应用。这些新产品的市场接受度、特别是其带来的20%-30%的价格提升能否被客户广泛接受，将是验证ServiceNow在AI时代定价权的关键。若新产品获得积极市场反响，将有力反驳市场关于“AI将商品化软件”的悲观论调，并可能推动公司整体增长中枢上移。</li>
+</ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol>
+<li><strong>从“工作流记录系统”到“AI编排控制塔”的定位升维</strong>：ServiceNow的长期价值在于其正从企业内部的流程自动化工具，演变为管理和编排所有AI代理的“AI编排层”。随着企业部署成百上千个来自不同厂商的AI代理，对这些代理进行身份认证、权限管理、行为监控、成本核算和结果审计的需求将呈指数级增长。ServiceNow凭借其二十年积累的、横跨各业务部门的深厚工作流数据和CMDB（配置管理数据库），构成了竞争对手和通用大模型公司难以复制的“上下文护城河”。这一平台级卡位一旦确立，将使公司成为企业AI基础设施中不可或缺的一环，其市场空间（TAM）将从流程自动化市场扩展至整个AI治理与编排市场。</li>
+<li><strong>“平台效应”驱动的多业务协同增长</strong>：ServiceNow已不再是单一的ITSM（IT服务管理）厂商。其业务已成功扩展至CRM（年化ACV达20亿美元）、安全（年收入超10亿美元）、数据与分析（RaptorDB Pro交易量同比增长80%）以及HR等多个领域。这些新业务并非孤立发展，而是得益于统一平台的协同效应——客户在IT部门使用ServiceNow后，更容易将同一平台扩展至客户服务、人力资源和安全部门。这种“一次登陆，多部门扩张”的平台销售模式，不仅降低了获客成本，也显著提升了客户单客价值（ACV超2000万美元的客户数持续增加），为未来1-3年的持续高增长提供了多引擎驱动力。</li>
+<li><strong>混合定价模式打开收入天花板</strong>：公司正从传统的纯席位（per-seat）定价，成功过渡到“席位+消费”的混合定价模式。目前已有约50%的净新业务来自非席位模式。这一转变具有战略意义：在AI提升效率、可能减少企业员工数量的背景下，纯席位模式存在收入通缩风险。而基于AI消费量（如Assists使用次数）和解决方案价值的定价模式，使ServiceNow的收入与客户获得的实际价值和AI使用量直接挂钩，理论上收入天花板远高于受限于人头数的传统SaaS模式。随着AI代理在生产环境中部署量9个月内增长9倍，消费量驱动的收入将成为长期增长的重要引擎。</li>
+</ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul>
+<li><strong>AI颠覆传统SaaS模式的风险</strong>：市场持续担忧，具备自主执行任务能力的AI代理（如OpenAI的Presence）将直接取代传统软件，压缩ServiceNow等公司的市场空间。尽管公司正积极转型为AI编排平台，但如果客户倾向于使用基础模型公司提供的原生AI工具来替代ServiceNow的核心工作流，或AI导致企业IT预算被大幅压缩，公司的增长前景将面临严峻挑战。</li>
+<li><strong>大规模并购整合与财务拖累风险</strong>：公司在过去一年内连续收购了Moveworks、Veza和Armis，导致资产负债表从净现金转为净负债，商誉及无形资产激增。Q2的GAAP订阅毛利率因收购会计处理（无形资产摊销）同比下降了约650个基点。若被收购业务增长放缓、整合不及预期，或产生商誉减值，将对公司财务报表和市场信心造成双重打击。此外，管理层虽承诺到2026年底将员工总数恢复至收购前水平，但执行存在不确定性。</li>
+<li><strong>毛利率持续承压的风险</strong>：由于更多客户选择在超大规模云服务商（Hyperscaler）上部署和使用AI功能，公司的订阅毛利率指引已下调至81%。尽管管理层认为这是短期现象，并预计随着规模扩大和AI推理成本下降，毛利率压力将缓解，但如果AI消费量的增长持续快于成本优化速度，或公司无法将新增成本有效转嫁给客户，公司的盈利能力将受到结构性压制。</li>
+</ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul>
+<li><strong>2026年5月</strong>：公司在年度Knowledge大会上发布新的AI原生SKU和产品分层策略，并推出20个AI Specialist（AI专家），覆盖IT、HR、安全等场景，可端到端完成任务。同时，公司举办了金融分析师日，公布了2030年实现300亿美元以上订阅收入、运营“60法则”（营收增长率+自由现金流利润率&gt;60%）的长期目标。</li>
+<li><strong>2026年7月22日</strong>：公司公布2026年Q2业绩，订阅收入、cRPO及营业利润率均超出指引上限。AI ACV突破10亿美元成为最大亮点。但由于市场对OpenAI发布企业级AI代理产品Presence的担忧，以及Q3指引相对保守，股价在业绩发布后次日收跌。</li>
+</ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul>
+<li><strong>2026年8月-9月</strong>：公司计划正式发布一款无需工单的“对话式服务台”AI原生新产品，并将在未来数周内推出更多全新的AI原生应用。新产品的市场初步反馈和早期客户采用情况将是验证公司AI战略的关键节点。</li>
+<li><strong>2026年9月-10月（Q3业绩期）</strong>：Q3是美国联邦政府业务的传统旺季。鉴于Q2已显示出强劲的政府需求，Q3的联邦政府订单表现将成为验证公共部门数字化转型持续性的重要窗口。若政府业务超预期，将有力支撑全年业绩。</li>
+<li><strong>2026年下半年</strong>：Armis、Veza与ServiceNow现有安全及AI控制塔产品的整合进展，以及是否能如管理层所言，在2026年底实现员工总数与收购前持平，从而驱动运营利润率提升，将是市场关注的重点。</li>
+</ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<p><strong>业务边际变化</strong>：近年来，ServiceNow的业务重心正从传统的IT工作流自动化，全面转向“AI驱动的平台化整合”。公司不再仅仅是一个SaaS工具集合，而是通过自研和收购（Moveworks、Veza、Armis），将自己重塑为企业的“AI编排层”和“安全控制塔”。这一转变体现在产品上，是从单一的Now Assist生成式AI功能，发展到具备端到端任务执行能力的AI Specialist（AI专家），再到管理所有AI代理的AI Control Tower。业务边界也从ITSM大幅扩展至CRM、安全和数据平台。</p>
+<p><strong>盈利模式</strong>：公司的盈利模式正从纯粹的订阅席位费，向“基础订阅+AI消费”的混合模式演进。传统上，公司按用户席位收取年度订阅费。现在，随着AI功能的深度嵌入，公司在保留可预测的席位费基础上，增加了基于AI使用量（Assists）的消费收入，以及因客户升级到更高阶AI SKU带来的20%-30%的价格提升。这种模式兼具了基础收入的稳定性和AI创新带来的增量弹性。</p>
+<p><strong>业务拆分</strong>：公司营收主要分为订阅收入（Subscription）和专业服务及其他收入（Professional services and other）。订阅收入是绝对核心，占比超过97%。公司内部将产品划分为四大工作流领域：Technology（技术）、CRM and Industry（客户关系管理与行业）、Core Business（核心业务）、Creator and Other（创建者及其他），但未在财报中按此拆分收入。公司正处在由AI驱动的“业绩加速兑现期”，AI相关产品的ACV增长迅猛，正成为驱动整体增长的新引擎。</p>
+<p><strong>细分业务拆分</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>业务板块 (百万美元)</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td><strong>订阅收入</strong></td><td>8,680.00</td><td>10,646.00</td><td>12,883.00</td><td>7,548.00</td></tr><tr><td>同比 (%)</td><td>23.82%</td><td>22.44%</td><td>20.88%</td><td>23.07%</td></tr><tr><td>占总收入比 (%)</td><td>96.8%</td><td>96.9%</td><td>97.0%</td><td>97.3%</td></tr><tr><td><strong>专业服务及其他收入</strong></td><td>291.00</td><td>338.00</td><td>395.00</td><td>209.00</td></tr><tr><td>同比 (%)</td><td>-</td><td>16.15%</td><td>16.86%</td><td>12.97%</td></tr><tr><td>占总收入比 (%)</td><td>3.2%</td><td>3.1%</td><td>3.0%</td><td>2.7%</td></tr><tr><td><strong>总收入</strong></td><td><strong>8,971.00</strong></td><td><strong>10,984.00</strong></td><td><strong>13,278.00</strong></td><td><strong>7,757.00</strong></td></tr></tbody></table></div>
+<p><em>注：毛利率数据未在本次提供的资料中按此业务维度详细拆分。</em></p>
+<p><strong>订阅业务</strong>：作为公司的核心收入来源，订阅业务在FY2026 H1实现收入75.48亿美元，同比增长23.07%，显示出强劲的增长韧性。增长主要得益于新客户的获取和现有客户的扩张。Q2单季订阅收入达38.77亿美元，同比增长24.5%（固定汇率23%），超出指引上限。增长动力来自强劲的净新增ACV和美国联邦政府需求的提前释放。AI产品的渗透是驱动客户扩张和升级的关键因素，Pro Plus和新的AI原生SKU带来了显著的价格提升。</p>
+<p><strong>专业服务及其他业务</strong>：该业务FY2026 H1收入为2.09亿美元，同比增长12.97%，增速慢于订阅业务，占总收入比重进一步下降至2.7%。该业务主要包括实施、配置和培训服务，公司持续依赖合作伙伴生态来交付大部分服务，自身服务团队则聚焦于战略客户和高价值项目。其毛利率通常为负或微利，因其战略定位是推动产品采用而非盈利中心。</p>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托极高转换成本与深厚数据积累构筑的平台粘性</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：构成了<strong>结构性护城河</strong>。ServiceNow的平台已深度嵌入全球大型企业的核心运营流程中，承载着IT、HR、CRM等关键业务。其CMDB（配置管理数据库）经过二十年积累，存储了海量的企业IT资产、业务服务及其相互依赖关系，构成了独特的“上下文数据”优势。替换ServiceNow意味着不仅要迁移软件，更要重建整个数字业务图谱和自动化流程，转换成本和业务中断风险极高。</li>
+<li><strong>数据验证</strong>：公司整体续约率持续保持在<strong>98%</strong>的行业顶尖水平，这是高转换成本最直接的财务证据。此外，ACV超过500万美元的大客户数同比增长<strong>23%</strong>至658家，前20大交易中<strong>90%</strong>（18笔）包含8个或以上产品，表明客户不仅不流失，反而在持续扩大消费和加深平台依赖。</li>
+<li><strong>动态演变</strong>：护城河正在<strong>变宽</strong>。随着AI代理时代的到来，企业需要一个“记录系统”来管理和治理所有AI代理。ServiceNow凭借其已有的CMDB和工作流数据，天然适合担任这一角色。其推出的AI Control Tower进一步巩固了这一地位，将管理范围从传统IT资产扩展到AI代理，使客户对其依赖度从“流程自动化”升级为“AI治理中枢”，替换难度呈指数级上升。</li>
+</ul>
+<p><strong>竞争要素 2：从“单点工具”到“AI编排平台”的生态卡位优势</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：构成了<strong>结构性护城河</strong>。ServiceNow正从一个SaaS工具集合，演变为一个连接、管理和编排企业所有其他系统（包括第三方AI代理）的中央平台。其价值主张从“提高某一部门效率”升维为“确保整个企业AI战略的治理、安全与ROI”。这种“平台的平台”的定位，使其成为企业AI基础设施中的关键控制点。</li>
+<li><strong>数据验证</strong>：AI ACV突破<strong>10亿美元</strong>，且净新增AI ACV环比增长超<strong>40%</strong>，表明客户愿意为这个平台化战略支付高额溢价。AI Control Tower在推出六个月内就获得超过<strong>500家</strong>客户，证明了市场对这一“AI治理中枢”定位的迫切需求。与微软、英伟达、Anthropic等公司的战略合作，也表明其作为中立编排层的地位正获得更广泛生态的认可。</li>
+<li><strong>动态演变</strong>：护城河正在<strong>变宽</strong>。通过收购Armis和Veza，公司迅速补强了在OT/IoT安全和身份治理领域的能力，使其AI控制塔的覆盖范围从软件代理扩展到物理设备和所有身份（人类及非人类）。这种“连接一切、治理一切、自动化一切”的平台愿景，一旦实现，将形成强大的网络效应和生态锁定。</li>
+</ul>
+<p><strong>现阶段核心驱动力总结</strong>：ServiceNow的Alpha来源于其从传统SaaS向AI PaaS的成功转型，这体现在AI ACV的爆发式增长和平台化战略的快速落地。其Beta则在于，作为企业软件巨头，其业绩仍与全球大型企业的IT支出景气度相关，但AI驱动的数字化转型浪潮为其提供了超越宏观周期的结构性需求。</p>
+<p><strong>竞争壁垒传导逻辑</strong>：二十年积累的CMDB与工作流数据 → 极高的客户转换成本与平台粘性 → 98%的高续约率、大客户ACV持续扩张；同时，从SaaS工具向AI编排平台升维 → 成为企业AI治理的关键控制点 → AI ACV突破10亿美元、AI Control Tower快速获客。两条链路相互强化，构成自我增强的平台闭环。</p>
+<h3 class="doc-h2">产销链</h3>
+<ul>
+<li><strong>客户情况</strong>：公司拥有超过8,700家客户，覆盖各行各业，客户基础呈现多元化。但存在单一客户高度集中的情况，一个美国联邦渠道合作伙伴和系统集成商，在FY2026 H1贡献了总收入的<strong>13%</strong>，占应收账款的比例为<strong>12%</strong>。该客户集中度较高，虽历史回款无虞，但需关注其预算变化或合同续约风险。新客户方面，公司正通过AI原生SKU和产品主导的增长模式，积极拓展财富50万强企业，并已观察到首次购买ServiceNow Agentic AI的客户交易量同比增长超45%。</li>
+<li><strong>供应商情况</strong>：公司的主要成本来自数据中心、云服务和IT设备。公司正越来越多地采用超大规模云服务商（Hyperscaler）的基础设施，这导致了短期毛利率压力，但管理层认为随着规模扩大，单位成本将下降。公司与一家IT设备供应商签订了不可撤销的采购协议，截至2026年Q2，剩余支付义务约<strong>14亿美元</strong>，需在FY2028年前支付。此外，与多家云服务商的协议剩余支付义务高达数十亿美元，显示出公司对未来基础设施需求的强劲预期。</li>
+<li><strong>成本传导能力</strong>：当上游云服务或AI推理成本上升时，公司短期内自身消化了部分成本，导致订阅毛利率承压（Non-GAAP订阅毛利率同比下降约250个基点）。但公司具备一定的成本转嫁能力，其定价模式正从纯席位费转向“席位+消费”的混合模式，并通过对高阶AI产品收取20%-30%的溢价来覆盖新增成本。长期来看，公司赚取的是“AI编排与治理”的平台价值钱，而非单纯的“软件加工费”，这为其维持高毛利率提供了支撑。</li>
+</ul>
+<h3 class="doc-h2">财务数据</h3>
+<p><strong>关键财务数据</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>项目 (百万美元)</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2023-12-31</td><td>2024-12-31</td><td>2025-12-31</td><td>2026-06-30</td></tr><tr><td><strong>营业总收入</strong></td><td>8,971.00</td><td>10,984.00</td><td>13,278.00</td><td>7,757.00</td></tr><tr><td>同比 (%)</td><td>23.82%</td><td>22.44%</td><td>20.88%</td><td>23.07%</td></tr><tr><td><strong>营业成本</strong></td><td>1,921.00</td><td>2,287.00</td><td>2,983.00</td><td>2,109.00</td></tr><tr><td><strong>毛利润</strong></td><td>7,050.00</td><td>8,697.00</td><td>10,295.00</td><td>5,648.00</td></tr><tr><td>毛利率 (%)</td><td>78.59%</td><td>79.18%</td><td>77.53%</td><td>72.81%</td></tr><tr><td><strong>营业利润</strong></td><td>762.00</td><td>1,364.00</td><td>1,824.00</td><td>665.00</td></tr><tr><td>营业利润率 (%)</td><td>8.49%</td><td>12.42%</td><td>13.74%</td><td>8.57%</td></tr><tr><td><strong>归母净利润</strong></td><td>1,731.00</td><td>1,425.00</td><td>1,748.00</td><td>767.00</td></tr><tr><td>归母净利率 (%)</td><td>19.30%</td><td>12.97%</td><td>13.16%</td><td>9.89%</td></tr><tr><td><strong>稀释每股收益 (美元)</strong></td><td>1.68</td><td>1.37</td><td>1.67</td><td>0.74</td></tr><tr><td><strong>经营活动现金流净额</strong></td><td>3,398.00</td><td>4,267.00</td><td>5,444.00</td><td>2,257.00</td></tr><tr><td><strong>资本性支出</strong></td><td>-694.00</td><td>-852.00</td><td>-868.00</td><td>-255.00</td></tr><tr><td><strong>自由现金流</strong></td><td>2,704.00</td><td>3,415.00</td><td>4,576.00</td><td>2,002.00</td></tr></tbody></table></div>
+<p><strong>财务分析</strong>：</p>
+<ul>
+<li><strong>成长能力</strong>：公司营收在巨大体量下仍保持超20%的强劲增长，FY2026 H1增速甚至回升至23.07%，显示出AI产品对增长的拉动作用。订阅收入作为核心驱动力，增长稳健。RPO（剩余履约义务）在Q2末达到<strong>290亿美元</strong>，同比增长22%（固定汇率），为未来收入提供了极高的可见性。</li>
+<li><strong>盈利能力</strong>：GAAP毛利率在FY2026 H1出现明显下滑，从FY2025的77.53%降至72.81%，主要受两大因素影响：一是收购Armis和Veza带来的无形资产摊销增加（非现金支出），二是AI和云服务使用量增加导致的成本上升。Non-GAAP口径下，毛利率同样承压，但营业利润率在收入超预期和费用管控下保持稳健。公司预计随着规模效应和AI推理成本优化，毛利率压力将逐步缓解。</li>
+<li><strong>现金流与资本配置</strong>：公司是典型的“现金牛”企业，经营活动现金流强劲，FY2025自由现金流达到45.76亿美元。然而，FY2026 H1自由现金流为20.02亿美元，同比有所下降，主要原因是公司为收购Armis和Veza进行了大规模债务融资，导致利息支出增加，同时持续进行激进的股票回购（H1花费22.25亿美元）。公司资产负债表从净现金状态转为净负债状态，但经营现金流足以覆盖利息和投资需求。</li>
+</ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p>ServiceNow所处的核心赛道是<strong>企业级AI平台与自动化</strong>市场，这是一个由AI驱动的、快速扩张的领域。公司并非在单一软件类别中竞争，而是横跨ITSM、CRM、安全、HR、数据分析等多个市场，其独特的平台定位使其与传统SaaS厂商和新兴AI公司既竞争又合作。</p>
+<ul>
+<li><strong>行业趋势</strong>：企业正从“购买SaaS工具”转向“构建AI驱动的自动化平台”。这要求一个能够连接数据、编排工作流、治理AI代理的中央神经系统。ServiceNow正是这一趋势的主要受益者和推动者。其TAM（可寻址市场）因其平台化战略而大幅扩张，管理层预计到2030年订阅收入可达300亿美元以上。</li>
+<li><strong>竞争格局</strong>：竞争来自多个维度。与微软、Salesforce等传统软件巨头在CRM、ITSM、低代码等领域存在竞争。同时，与OpenAI、Anthropic等基础模型公司也存在潜在的竞争关系，因为这些公司正试图向上构建应用层和代理编排能力。然而，ServiceNow的差异化优势在于其中立性和深厚的企业上下文数据，使其更适合作为连接和治理所有AI代理（无论来自哪个厂商）的中央平台。</li>
+</ul>
+<p><strong>可比公司分析</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>可比公司</th><th>股票代码</th><th>对标维度</th><th>分析</th></tr></thead><tbody><tr><td>Salesforce</td><td>CRM</td><td>CRM工作流、AI代理</td><td>两者均在CRM和AI代理领域竞争。Salesforce优势在于销售云和营销云，ServiceNow则从客户服务和现场服务切入，强调跨部门流程编排。ServiceNow的CRM业务ACV已达20亿美元，增长迅速，但其规模仍远小于Salesforce。</td></tr><tr><td>Microsoft</td><td>MSFT</td><td>IT服务管理、AI平台、安全</td><td>在ITSM和低代码领域与ServiceNow竞争，其Azure云和Copilot AI是强大的底层设施。但ServiceNow的AI Control Tower定位为跨平台治理，与微软是竞合关系，双方已宣布在AI代理治理方面进行集成合作。</td></tr><tr><td>Palo Alto Networks</td><td>PANW</td><td>网络安全</td><td>ServiceNow通过收购Armis和Veza强势进入安全领域，其安全业务年收入已超10亿美元。与Palo Alto等传统安全厂商相比，ServiceNow的差异化在于将安全响应与IT/业务工作流深度集成，实现从“发现威胁”到“自动修复”的闭环。</td></tr></tbody></table></div>
+<p><strong>总结分析</strong>：ServiceNow的竞争壁垒在于其“平台中立性”和“上下文数据”的结合。它不与任何单一厂商在单点功能上死磕，而是通过成为连接所有系统的“编排层”来创造独特价值。在AI代理泛滥的未来，这种“瑞士军刀”式的平台定位，可能比任何单点工具都更具战略价值。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<ul>
+<li><strong>议题一：AI对传统SaaS商业模式的颠覆风险</strong>——背景：市场持续担忧，以OpenAI的Presence为代表的通用AI代理将直接取代ServiceNow等传统软件，导致“软件消亡”。这种担忧是公司股价今年大幅回调的主要原因之一。关键问题：1）ServiceNow的AI ACV增长中，有多少是来自新增预算，有多少是替代了其传统SaaS产品的预算？2）随着AI代理能力增强，企业是否会减少对ServiceNow传统ITSM和CRM产品的席位订阅，从而影响其核心收入？3）面对基础模型公司的向上整合，ServiceNow的“编排层”战略能否构成足够深的护城河？</li>
+<li><strong>议题二：大规模并购整合的执行力与财务影响</strong>——背景：公司在半年内连续完成对Moveworks、Veza和Armis三笔重大收购，总耗资近百亿美元，使资产负债表从净现金转为净负债，并带来了巨大的无形资产摊销压力。关键问题：1）公司能否在2026年底前实现员工总数与收购前持平的目标，从而兑现运营杠杆承诺？2）Armis和Veza的整合进展如何？其收入增速和协同效应能否达到预期，以证明高昂收购价格的合理性？3）巨额商誉（98.37亿美元）和无形资产在未来是否存在减值风险？</li>
+<li><strong>议题三：毛利率的短期压力与长期趋势</strong>——背景：Q2的GAAP订阅毛利率因收购摊销同比下降650个基点，Non-GAAP口径也因AI和云服务成本而承压。公司下调了全年毛利率指引。关键问题：1）随着AI消费量指数级增长，相关的云基础设施和推理成本是否会持续侵蚀毛利率？2）公司通过提价和混合定价模式转嫁成本的能力有多强？能否在中期内使毛利率重回上升通道？3）管理层提出的“毛利率80%为合理底线”的判断是否过于乐观？</li>
+</ul>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧点：ServiceNow是AI时代的“卖水人”还是被颠覆的“淘金者”？</strong>市场对ServiceNow的定位存在根本性分歧，这直接决定了其估值逻辑。</p>
+<p><strong>看多方的逻辑：不可或缺的“AI控制塔”</strong>。看多方认为，ServiceNow正从SaaS工具转型为AI时代的核心基础设施。其逻辑支撑在于：1）<strong>上下文数据护城河</strong>：公司二十年积累的CMDB和工作流数据，是训练和运行企业级AI代理不可或缺的“燃料”，这是通用大模型公司不具备的独特资产。2）<strong>中立编排层定位</strong>：企业未来将使用来自不同厂商的成百上千个AI代理，需要一个中立平台进行统一治理、安全管控和ROI衡量。ServiceNow的AI Control Tower正是为此而生，其平台价值将随AI代理数量增加而指数级上升。3）<strong>定价权验证</strong>：AI原生SKU带来20%-30%的价格提升，且客户愿意买单，证明其提供的AI价值并非“商品化”，而是具有显著溢价能力。</p>
+<p><strong>谨慎方的逻辑：面临“上下夹击”的竞争风险</strong>。谨慎方认为，ServiceNow的护城河可能没有看起来那么深。其担忧在于：1）<strong>来自底层的颠覆</strong>：基础模型公司（如OpenAI）能力快速提升，可能直接构建原生AI应用来替代ServiceNow的核心工作流，使“编排层”的价值被架空。2）<strong>来自上层的竞争</strong>：像Microsoft这样的平台巨头，拥有从云基础设施到AI模型再到办公套件的完整栈，其Copilot生态可能对客户形成更强的捆绑效应，挤压ServiceNow作为独立平台的空间。3）<strong>财务数据的“噪音”</strong>：近期的高增长部分源于收购并表（Armis贡献约125个基点）和联邦政府收入的提前确认，其内生增长质量和可持续性仍有待时间检验。毛利率的持续下滑也可能预示着其商业模式的盈利能力正在发生结构性弱化。</p>
+<p>从中立视角看，ServiceNow的AI叙事正在从“概念”走向“现实”，AI ACV突破10亿美元和客户对AI原生SKU的接受是强有力的证据。然而，其面临的竞争格局确实比以往任何时候都更复杂。公司未来的关键在于，能否在基础模型公司和平台巨头之间，成功卡位并巩固其作为“独立、可信的AI治理中枢”的地位，并将这一战略优势持续转化为财务上的高质量增长。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>管理层最新指引</strong>：</p>
+<ul>
+<li><strong>FY2026全年</strong>：订阅收入指引上调至<strong>157.60亿-157.80亿美元</strong>，按固定汇率同比增长约<strong>21%</strong>（包含Armis约125个基点的贡献）。预计Non-GAAP营业利润率为<strong>31.5%</strong>，自由现金流利润率为<strong>35%</strong>。</li>
+<li><strong>FY2026 Q3</strong>：预计订阅收入为<strong>39.75亿-39.80亿美元</strong>，按固定汇率同比增长约<strong>20%</strong>。预计cRPO按固定汇率同比增长<strong>20%</strong>。</li>
+</ul>
+<p><strong>券商盈利预测与估值</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价(美元)</th><th>财务指标</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>汇丰 (2026-07-24)</td><td>Buy</td><td>179.00</td><td>营收(百万美元)<br>Non-GAAP EPS(美元)</td><td>13,278<br>3.51</td><td>16,444<br>4.23</td><td>20,340<br>5.32</td><td>25,120<br>6.85</td></tr><tr><td>摩根士丹利 (2026-07-27)</td><td>Overweight</td><td>180.00</td><td>营收(百万美元)<br>Non-GAAP EPS(美元)</td><td>-<br>3.51</td><td>16,000<br>4.09</td><td>-<br>5.06</td><td>-<br>6.05</td></tr><tr><td>花旗 (2026-07-15)</td><td>Buy</td><td>156.00</td><td>营收(百万美元)<br>Non-GAAP EPS(美元)</td><td>13,278<br>3.51</td><td>16,120<br>3.83</td><td>19,249<br>4.79</td><td>22,924<br>6.04</td></tr><tr><td>美银 (2026-07-28)</td><td>Buy</td><td>130.00</td><td>营收(百万美元)<br>Non-GAAP EPS(美元)</td><td>13,278<br>3.50</td><td>16,209<br>4.17</td><td>19,213<br>5.04</td><td>22,767<br>6.09</td></tr><tr><td>德银 (2026-07-27)</td><td>Buy</td><td>135.00</td><td>FCF(百万美元)</td><td>-</td><td>5,676</td><td>6,810</td><td>-</td></tr><tr><td>摩根大通 (2026-07-27)</td><td>Overweight</td><td>150.00</td><td>uFCF(百万美元)</td><td>-</td><td>-</td><td>7,200</td><td>-</td></tr></tbody></table></div>
+<p><em>注：各机构预测口径可能略有差异，此处摘录主要指标。</em></p>
+<p>机构间对ServiceNow普遍持积极看法，评级均为“买入”或“超配”。但在具体估值和盈利预测上存在一定分歧。目标价范围从130美元到180美元不等，反映了市场对AI带来的增长溢价和潜在风险的不同评估。多数机构采用现金流折现（DCF）或EV/FCF估值法，显示出对公司强劲自由现金流生成能力的认可。汇丰和摩根士丹利的目标价相对乐观，主要基于对AI驱动增长加速的更高预期。而花旗和美银的目标价相对保守，可能纳入了更多对毛利率压力和竞争风险的考量。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/NOW · 生成于 2026-08-06</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-06';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'hit',     text: '<strong>2026 Q2 财报超预期 + AI ACV 突破 10 亿美元</strong>：订阅/cRPO/营业利润率三超指引上限，全年订阅指引上调', note: '2026-07-22 兑现；但财报次日因 OpenAI Presence 担忧收跌' },
+  { kind: 'cat', status: 'active',  text: '<strong>AI ACV 年底 15 亿美元目标</strong>：净新增环比 +40%，提前达 2030 年「AI 占 ACV 30%」目标', note: '每季度核对 AI ACV 披露' },
+  { kind: 'cat', status: 'pending', text: '<strong>「对话式服务台」AI 原生新品发布</strong>（2026-08 至 09）：20-30% 提价能否被客户广泛接受，验证 AI 时代定价权', note: '' },
+  { kind: 'cat', status: 'pending', text: '<strong>Q3 联邦政府旺季 + Q3 财报</strong>（2026-09 至 10）：订阅指引 +20%（固定汇率）相对保守，政府 pipeline 健康', note: '' },
+  { kind: 'cat', status: 'active',  text: '<strong>Armis / Veza 整合 + 2026 年底员工数恢复至收购前</strong>：运营杠杆承诺兑现即利润率上修', note: '下半年持续跟踪' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>基础模型公司原生代理直接替代核心工作流</strong>（OpenAI Presence 类产品放量，「编排层」被架空）', note: 'Presence 发布已引发股价回调，尚无客户流失证据；每季度核对' },
+  { kind: 'risk', status: 'clear', text: '<strong>订阅增速（固定汇率）跌破 20%</strong>：剔除并表与提前确认后内生增长失速', note: '最新 Q2 +23%、Q3 指引 +20%' },
+  { kind: 'risk', status: 'clear', text: '<strong>订阅毛利率跌破 80% 底线</strong>：AI 推理/云成本增速持续快于成本优化', note: '全年指引 81%，GAAP 口径 Q2 同比 -650bp' },
+  { kind: 'risk', status: 'clear', text: '<strong>并购整合失败 / 商誉减值</strong>：商誉 98.37 亿美元，资产负债表已转净负债', note: '跟踪 Armis/Veza 收入增速与减值测试' },
+  { kind: 'risk', status: 'clear', text: '<strong>大客户集中风险</strong>：单一联邦渠道伙伴占收入 13%、应收账款 12%，预算或续约变动冲击', note: '常态跟踪' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>安靠科技（AMKR.O）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--policy-red); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">AMKR</span>
+    <span class="site-mark__text">安靠科技 公司研究<span>Amkor Technology · AMKR.O</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>安靠科技<span class="en">Amkor Technology · AMKR.O · 美股研究</span></h1>
+        <p class="sub">AI 先进封装产能外溢的最大 OSAT 受益者：Q2 营收创纪录 +25.6%、Q3 毛利率指引跃升至 18.5-19.5% 直指 2028 年目标模型，台积电 10 年协议 + 英伟达 15 亿美元订单锁定亚利桑那一期全部产能；但 25-30 亿美元资本开支使自由现金流转负，2027 年起新厂折旧将稀释营业利润率 1-2pct——核心矛盾是「结构性拐点」叙事 vs 重资产扩张期的回报率与估值透支。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-06</span>
+          <span>下次更新：2026 Q3 财报（2026-10 下旬）/ 英伟达协议细节与预付款入账披露</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>估算现价约 $55-70（中值 ~$62），对应约 24-27x FY2026E PE，三情景期望值约 +6%、赔率约 1.4:1；重检条件：Q3 计算业务环比 +30% 兑现且 Q4 毛利率守住 18%+，或亚利桑那稀释超预期 / 通信拖累延长。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">营收 +25.6%</strong><span>26Q2 $18.98亿·创纪录</span></div>
+      <div class="summary-rail__item"><strong>16.8%→18.5-19.5%</strong><span>26Q2 毛利率 → Q3 指引·触及 2028 目标</span></div>
+      <div class="summary-rail__item"><strong>+20%</strong><span>Q2 计算业务环比·Q3 指引近 +30%</span></div>
+      <div class="summary-rail__item"><strong>$25-30亿</strong><span>2026 资本开支·自由现金流转负</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">Q2 创纪录 + Q3 毛利率指引跃升至 18.5-19.5%：结构性拐点，还是利用率与组合的一次性共振？</h2>
+        <span class="qa__impact-tag">→ Q3 毛利率指引触及 2028 目标 · 营收指引低于共识 $1.2亿</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>Q2 的 16.8% 毛利率里，<strong>三分之二来自产能利用率提升（50% 区间 → 70% 高位）、三分之一来自产品组合</strong>——利用率驱动的部分天然带有周期性。但 Q3 指引 18.5-19.5% 的进一步跃升，驱动力换成了 HDFO 数据中心 CPU 项目的规模放量（计算业务环比 +~30%），这是结构性因素接棒周期性因素的关键证据。<strong>判断：拐点是真实的，但 18.5-19.5% 是「组合甜点期」的水平而非可持续中枢——2027 年亚利桑那启动成本进场后，毛利率会经历一次现实检验。</strong><em>保留判断：营收指引中点 $20 亿低于共识 $21.2 亿，缺口全部来自 SiP 迁移的反季节性下滑，这是管理层主动选择的「空气口袋」，不是需求问题。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>毛利率每 1pct 在 Q3 约 $20 亿的营收基数上 ≈ $2,000 万毛利</strong>——指引区间从 Q2 的 16.8% 跳到 18.5-19.5%，单季毛利增量约 $3,400-5,400 万，直接支撑券商把 FY2026E EPS 上修至 $2.30-2.58（FY2025 仅 $1.51）。H1 归母净利润同比 +240% 的经营杠杆已经在演示这条曲线的陡峭度。</p>
+            <p>对估值的含义是「目标提前兑现」：18.5-19.5% 已触及 2026 年 5 月投资者日给出的 <strong>2028 年目标模型（毛利率 16.5-18.5%）</strong>——若市场相信这是新中枢，估值锚会从 2028 年目标切换到 2030 年目标（EPS >$5）；若市场认为这是组合甜点期，估值仍按大摩口径的 FY2027 EPS $2.32（同比下滑）定价。<strong>这正是瑞银目标价 $90 与大摩 $70 之间 29% 差距的来源。</strong></p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点（结构性拐点）</h4>
+            <ul>
+              <li>增长引擎切换：Q3 毛利率跃升由 <strong>HDFO 数据中心 CPU 项目放量</strong>驱动，该项目「持续增长至 2027 年」——不是一次性组合红利</li>
+              <li>2026 全年先进封装业务收入预计<strong>同比约三倍增长</strong>，计算业务占比从 Q2 的 22% 快速爬升，目标 2030 年达 35% 成为第一大业务</li>
+              <li>HDFO 平台已与 <strong>5 家以上客户</strong>合作、2.5D 客户超过 6 家——技术平台的客户广度在扩张，不是单点项目</li>
+              <li>管理层敢在 SiP 迁移造成营收缺口的同一季度给出毛利率大跳升指引，<strong>说明组合改善的力度足以盖过迁移扰动</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点（周期性高峰）</h4>
+            <ul>
+              <li>Q2 毛利率改善的 <strong>2/3 来自利用率</strong>——利用率是周期变量，AI 订单一旦降速，50% 利用率的利润率塌陷会重演</li>
+              <li>大摩 FY2027E EPS 仅 <strong>$2.32，低于 FY2026E 的 $2.58</strong>——亚利桑那折旧 + SiP 迁移拖累使「2026 高利润率不可持续」有据可依</li>
+              <li>HDFO CPU 项目<strong>客户单一</strong>，尚未扩展到 GPU/ASIC 品类——单客户项目爬坡贡献了跃升，也集中了风险</li>
+              <li>通信业务（占 Q2 营收 42%）反季节性下滑将持续至 2027 上半年，<strong>一条腿在萎缩时另一条腿的基数还很小</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（Q2 财报速览 · 结构性 vs 一次性拆解 · Q3 指引对照）</summary>
+          <div class="evidence__body">
+            <h5>2026 Q2 财报速览（2026-07 下旬发布）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>实际</th><th>对比</th><th>评价</th></tr></thead><tbody><tr><td>营收</td><td><strong>$18.98 亿</strong>（同比 +25.6%）</td><td>历史单季纪录</td><td>beat，计算与汽车/工业双创新高</td></tr><tr><td>毛利率</td><td><strong>16.8%</strong>（同环比大幅提升）</td><td>FY2025 全年 14.0%</td><td>beat——2/3 利用率 + 1/3 组合</td></tr><tr><td>计算业务</td><td>环比 <strong>+20%</strong>，占比 22%</td><td>AI 数据中心需求驱动</td><td>核心增长引擎</td></tr><tr><td>通信业务</td><td>占比 <strong>42%</strong></td><td>SiP 迁移启动</td><td><span class="warn">⚠️</span> Q3 指引环比高个位数下滑</td></tr><tr><td>产能利用率</td><td>70% 区间高位</td><td>此前 50% 区间</td><td>利润率弹性的主要来源</td></tr><tr><td>2026 先进封装业务</td><td>预计收入<strong>同比约三倍</strong></td><td>—</td><td>AI 封装放量的量化指引</td></tr></tbody></table></div>
+            <h5>结构性 vs 一次性：毛利率跃升的成色拆解</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>驱动因素</th><th>属性</th><th>持续性判断</th></tr></thead><tbody><tr><td>产能利用率 50%→70% 高位</td><td><span class="warn">周期性</span></td><td>随 AI 订单波动；产能紧张期内有支撑，但不可外推</td></tr><tr><td>HDFO CPU 项目规模爬坡（Q3 计算环比 +~30%）</td><td>结构性</td><td>管理层称放量持续至 2027 年；但客户单一</td></tr><tr><td>SiP 低毛利业务迁出韩国</td><td>结构性（主动）</td><td>永久改善组合，但过渡期压营收至 2027H1</td></tr><tr><td>越南工厂爬坡结束 + 主流产品连续 5 季同比增长</td><td>半结构性</td><td>汽车/工业温和复苏支撑</td></tr><tr><td>2027 年起亚利桑那启动费用与折旧</td><td><span class="warn">结构性（负）</span></td><td>稀释营业利润率 1-2pct，2028 投产后利用率不足继续压制</td></tr></tbody></table></div>
+            <h5>Q3 指引 vs 市场预期</h5>
+            <ul>
+              <li>营收指引中点 <strong>$20 亿</strong>，低于市场一致预期 <strong>$21.2 亿</strong>——缺口全部来自 SiP 迁移的通信业务反季节性下滑（环比高个位数），属主动调整而非需求恶化</li>
+              <li>毛利率指引 <strong>18.5%-19.5%</strong>——已触及 2028 年目标模型（16.5-18.5%）上沿，是本季最大预期差</li>
+              <li>计算业务环比指引 <strong>+~30%</strong>（HDFO CPU 放量）；通信环比高个位数下滑</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">亚利桑那 70 亿美元豪赌：「一期产能全额预定」的确定性，能否覆盖 2027 年起的折旧稀释与现金流代价？</h2>
+        <span class="qa__impact-tag">→ 2027 起稀释营业利润率 1-2pct · FCF 转负</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>这是 OSAT 行业里罕见的一单「先卖后建」：一期约 35 亿美元投资、<strong>产能在完工前已被客户全额预定</strong>，英伟达 15 亿美元协议附带预付款、台积电 10 年长约提供「制造-封装」闭环的需求底盘——投资回收的确定性远高于典型的产能赌博。但财务代价真实且前置：2026 年资本开支 25-30 亿美元（约为 FY2025 营收的 40%+），H1 自由现金流已转负 <strong>$3.07 亿</strong>，2027 年起稀释营业利润率 1-2pct。<strong>判断：战略上正确、战术上痛苦——项目值不值，取决于 2028 年投产后能否快速爬坡至「超 $10 亿年收入、30%+ 毛利率」的满产模型。</strong></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>稀释路径直接写进了券商模型：</strong>大摩 FY2027E EPS $2.32 低于 FY2026E 的 $2.58，是唯一把「2027 利润率回落」作为基准情景的主流预测；瑞银/摩根大通则给出 FY2027 $3.10-3.47——<strong>两家对 FY2027 的判断相差约 50%，分歧的全部内容就是亚利桑那的稀释幅度 vs 计算业务放量的对冲速度。</strong></p>
+            <p>估值层面：若 2030 年满产模型（公司目标营收 >$110 亿、毛利率 >22%、EPS >$5）被采信，当前股价对应 2030 年约 12x（按估算现价 ~$62），长期回报可观；但这条路径要穿越 2027-2028 连续两年的利润率压制期，市场通常不会为两年后的兑现提前全额付款。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>风险已被客户锁定：<strong>一期产能全额预定 + 英伟达预付款 + 台积电 10 年协议</strong>——这不是建产能等订单，而是订单倒逼建产能</li>
+              <li>美国本土唯一大规模先进封装产能，与台积电亚利桑那晶圆厂形成闭环——<strong>地缘溢价的独占收取者</strong>，竞争对手短期无法复制</li>
+              <li>满产模型清晰：2030 年贡献超 <strong>$10 亿年收入、30%+ 毛利率</strong>——显著高于公司整体毛利中枢，是利润率结构性上移的发动机</li>
+              <li>已额外购入 67 英亩土地为二期留期权；CHIPS 补贴到账是潜在加分项</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>现金流缺口真实存在：H1 FCF <strong>-$3.07 亿</strong>，全年资本开支 25-30 亿 vs FY2025 经营利润仅 $4.67 亿——<strong>靠 11.5 亿零息可转债续命，二期 $35 亿的钱还没着落</strong></li>
+              <li>2027 年稀释 1-2pct 营业利润率 + 2028 年投产初期利用率不足——<strong>利润率压制是 2-3 年的连续过程，不是一次性事件</strong></li>
+              <li>投资者日 2028 目标（营收 85-95 亿、EPS $2.25-2.75）公布当天股价即回调——<strong>公司自己的中期模型都撑不起当前倍数</strong></li>
+              <li>总债务已升至约 $25 亿（现金约 $25 亿），净债务近零的缓冲在一次行业下行中就会耗尽</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（亚利桑那项目要点 · 财务压力测试 · 战略协议清单）</summary>
+          <div class="evidence__body">
+            <h5>亚利桑那项目要点</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>项目</th><th>内容</th></tr></thead><tbody><tr><td>总投资</td><td><strong>$70 亿</strong>，分两期；一期约 $35 亿</td></tr><tr><td>时间表</td><td>一期 2027 年底完工，2028 年投产</td></tr><tr><td>需求锁定</td><td>一期产能<strong>已获客户全额预定</strong>；额外购入 67 英亩土地为扩建留灵活性</td></tr><tr><td>稀释路径</td><td>2027 年起启动费用 + 折旧，预计稀释营业利润率 <strong>1-2pct</strong>；2028 年投产初期利用率不足继续压制毛利率</td></tr><tr><td>满产模型</td><td>预计 2030 年满产：贡献超 <strong>$10 亿年收入</strong>、<strong>30%+ 毛利率</strong></td></tr><tr><td>战略定位</td><td>美国本土唯一大规模先进封装产能，与台积电亚利桑那晶圆厂形成「制造-封装」闭环</td></tr></tbody></table></div>
+            <h5>财务压力测试</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>数值</th><th>评价</th></tr></thead><tbody><tr><td>2026 资本开支指引</td><td><strong>$25-30 亿</strong></td><td>约为 FY2025 营收（$67.1 亿）的 40%+，强度罕见</td></tr><tr><td>FY2026 H1 资本开支</td><td>$6.88 亿</td><td>同比大幅抬升</td></tr><tr><td>FY2026 H1 自由现金流</td><td><strong>-$3.07 亿</strong></td><td><span class="warn">转负</span>——FY2025 全年尚有 +$1.91 亿</td></tr><tr><td>融资</td><td>2026-05 发行 <strong>$11.5 亿</strong>零息可转债</td><td>补充流动性支持资本开支</td></tr><tr><td>债务 vs 现金</td><td>各约 <strong>$25 亿</strong></td><td>净债务近零，缓冲有限但可控</td></tr></tbody></table></div>
+            <h5>战略协议清单（订单可见度的支柱）</h5>
+            <ul>
+              <li><strong>台积电 10 年期</strong>先进封装与测试合作协议（2026-06）：绑定美国本土「制造-封装」闭环的需求底盘</li>
+              <li><strong>英伟达 $15 亿</strong>多年期战略合作（2026-07）：聚焦下一代 AI 基础设施封装测试，<strong>含预付款</strong>支持亚利桑那产能建设——新大客户的重大突破</li>
+              <li>存量客户：2025 年苹果 <strong>29.8%</strong>、Qualcomm <strong>11.1%</strong>，前十大客户合计 72%——深度绑定但集中度极高</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">估值：目标价分歧 70-90 美元隐含了什么？20-30 倍 PE 买「AI 封装龙头」贵不贵？</h2>
+        <span class="qa__impact-tag">→ 期望值约 +6% · 赔率约 1.4:1</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>按 FY2026E 共识 EPS $2.30-2.58 与市场给予的 20-30x 区间反推，现价约在 <strong>$55-70 区间（中值 ~$62，估算）</strong>。三情景测算期望值约 +6%、赔率约 1.4:1——<strong>方向正确、赔率平庸：市场已经按「AI 先进封装龙头」给了高于传统 OSAT 中枢的 20-30x，但 EPS 兑现要穿越 2027 年的稀释低谷，时间站在空方一边。</strong>给「持有」：Q3 计算业务 +30% 兑现且 Q4 毛利率守住 18%+ 是上调为买入的入场券。<em>保留判断：现价为估算值；若英伟达协议的收入确认节奏超预期，乐观情景概率应上调。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>估值的分水岭在 FY2027：</strong>瑞银 $3.10 / 摩根大通 $3.47 vs 大摩 $2.32——现价 ~$62 对乐观口径约 18-20x FY2027E，对悲观口径约 27x。同一只股票，信瑞银就是合理偏便宜，信大摩就是明显偏贵。<strong>当前定价大致落在两种叙事正中间，没有明显的预期差红利。</strong></p>
+            <p>长期锚是 2030 年目标（EPS >$5）：现价对应约 12x 2030 目标，看似便宜，但 4 年路径中要穿越 FCF 为负、利润率稀释、二期融资三个关口——<strong>折价的本质是执行风险的定价，不是市场的错误。</strong></p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>先进封装市场到 2033 年预计增长八倍至 <strong>$805 亿</strong>——赛道增速足以消化估值，龙头理应享受溢价</li>
+              <li>Q3 毛利率指引已提前两年触及 2028 目标——<strong>公司自己的中期模型可能被证伪为过于保守</strong>（投资者日目标公布时股价回调，如今正在被实际业绩反超）</li>
+              <li>英伟达 $15 亿协议的收入确认尚未充分进入券商模型，<strong>是已签约但未定价的上修期权</strong></li>
+              <li>瑞银 FY2028E EPS $4.00 对现价仅约 15x——若 AI 封装放量兑现，估值并不贵</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>20-30x PE vs 传统 OSAT 估值中枢——<strong>「AI 封装龙头」的叙事溢价已经付过了</strong>，剩下的要靠 EPS 逐年兑现</li>
+              <li>管理层自己的 2028 目标 EPS $2.25-2.75，现价对应 22-27x <strong>两年后</strong>的公司目标口径——这在制造业里谈不上便宜</li>
+              <li>大摩 FY2027E EPS 同比下滑的预测若应验，市场会经历一次「增长股变周期股」的估值切换</li>
+              <li>苹果单客户占 29.8% + 通信占 42%——<strong>AI 叙事之外，公司近一半收入仍在智能手机的旧世界里</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（当前定价测算 · 三情景表 · 券商预测与管理层目标）</summary>
+          <div class="evidence__body">
+            <h5>当前定价（2026-08 上旬，估算）</h5>
+            <ul>
+              <li>一页通载市场给予公司 <strong>20-30 倍</strong>估值倍数（高于传统 OSAT 中枢）；按 FY2026E 共识 EPS $2.30-2.58 反推，现价大致在 <strong>$55-70 区间，中值约 $62（估算，精确值以行情为准）</strong></li>
+              <li>券商目标价：瑞银 <strong>$90</strong>（买入，07-28）、摩根大通 <strong>$85</strong>（超配，07-28）、摩根士丹利 <strong>$70</strong>（均配，07-28）——区间中值约 $82，高于估算现价约 30%</li>
+            </ul>
+            <h5>三情景假设（以估算现价约 $62 为基准）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>EPS 依据</th><th>合理 PE</th><th>隐含股价</th><th>vs 当前</th></tr></thead><tbody><tr><td>乐观（30%）</td><td>HDFO 放量超预期 + 英伟达协议收入加速确认 + 亚利桑那稀释被计算业务完全对冲，市场按 AI 龙头定价</td><td>FY2028E $4.00（瑞银）</td><td>25x</td><td>~$100</td><td>+61%</td></tr><tr><td>中性（45%）</td><td>计算业务放量与亚利桑那稀释大致对冲，EPS 沿管理层目标与瑞银之间爬坡</td><td>FY2028E ~$3.00（大摩 3.01）</td><td>20x</td><td>~$60</td><td>-3%</td></tr><tr><td>悲观（25%）</td><td>2027 稀释超指引 + AI 订单降速 + 通信拖累延长，「增长股」估值切换为周期股</td><td>FY2027E $2.32（大摩）</td><td>15x</td><td>~$35</td><td>-44%</td></tr></tbody></table></div>
+            <p><strong>期望值约 $66，较估算现价约 +6%；赔率约 1.4:1（+61% / -44%）。</strong>结论：故事是真的，价格也基本到位。当前位置的风险回报不足以「买入」，但亚利桑那的需求锁定（一期全额预定）又使悲观情景的概率低于一般重资产扩产案例——持有并等两个信号：Q3 计算业务 +30% 兑现度、英伟达协议的收入确认节奏。两者齐亮绿灯再谈加仓。</p>
+            <h5>券商盈利预测（Q2 财报后更新）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级 / 目标价</th><th>FY2025A EPS</th><th>FY2026E EPS</th><th>FY2027E EPS</th><th>FY2028E EPS</th></tr></thead><tbody><tr><td>瑞银（2026-07-28）</td><td>买入 / $90</td><td>$1.51</td><td>$2.30</td><td>$3.10</td><td>$4.00</td></tr><tr><td>摩根大通（2026-07-28）</td><td>超配 / $85</td><td>—</td><td>—</td><td>$3.47</td><td>—</td></tr><tr><td>摩根士丹利（2026-07-28）</td><td>均配 / $70</td><td>$1.51</td><td>$2.58</td><td><strong>$2.32</strong></td><td>$3.01</td></tr></tbody></table></div>
+            <h5>管理层长期目标（2026-05 投资者日）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>年份</th><th>营收</th><th>毛利率</th><th>EPS</th></tr></thead><tbody><tr><td>2028</td><td>$85-95 亿</td><td>16.5-18.5%</td><td>$2.25-2.75</td></tr><tr><td>2030</td><td>> $110 亿</td><td>> 22%</td><td>> $5.00</td></tr></tbody></table></div>
+            <p>注：Q3 毛利率指引 18.5-19.5% 已触及 2028 目标上沿——管理层目标口径 vs 实际业绩节奏的错位，本身就是多空分歧的量化呈现。2026 全年资本开支指引 $25-30 亿，实际税率约 20%。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>：公司概况、近况跟踪、业务拆分、催化剂（见同目录《安靠科技_一页通.md》，亦见本站「一页通」标签页）</li>
+        <li><strong>财务数据</strong>：FY2023-FY2026H1 利润表与现金流、2026 Q2 财报要点与管理层指引（正文数据均来自公开财报整理）</li>
+        <li><strong>局限</strong>：未读财报原文与电话会纪要（建议下一步补读 Q2 earnings call 中关于 HDFO CPU 项目客户构成与英伟达预付款条款的表述）；现价与估值倍数为按券商盈利预测反推的估算值；三情景概率为主观判断；未对 CHIPS 补贴到账节奏做独立测算</li>
+        <li><strong>管理层评估（一句话版）</strong>：管理层把「美国本土先进封装」从叙事变成了合同——台积电 10 年协议、英伟达 15 亿美元订单与预付款、一期产能全额预定，执行的确定性显著高于同行；真正的考验是 2027-2028 年亚利桑那爬坡期的成本纪律</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>安靠科技（Amkor Technology）是全球最大的美国总部外包半导体封装与测试服务商（OSAT），定位为先进封装技术领导者。公司提供从晶圆凸块、封装设计、组装到最终测试的全套交钥匙解决方案，核心产品线包括倒装芯片、2.5D集成、高密度扇出（HDFO）及系统级封装（SiP）。其终端应用覆盖通信（智能手机）、计算（数据中心/AI）、汽车及消费电子，客户囊括苹果、英伟达、高通等全球主要半导体公司。公司正通过在美国亚利桑那州建设先进封装工厂，强化其在美国本土半导体供应链中的战略卡位。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul>
+<li><strong>业绩超预期，毛利率显著扩张</strong>：2026年Q2实现创纪录营收<strong>18.98亿美元</strong>，同比增长<strong>25.6%</strong>，毛利率<strong>16.8%</strong>，同环比均大幅提升。增长主要由计算和汽车/工业市场的创纪录营收驱动，毛利率提升的<strong>三分之二归因于产能利用率提高，三分之一归因于有利的产品组合</strong>。</li>
+<li><strong>AI/计算业务进入高速增长期</strong>：Q2计算业务营收环比增长<strong>20%</strong>，主要受AI数据中心需求驱动。管理层指引Q3计算业务环比增长近<strong>30%</strong>，驱动力来自HDFO数据中心CPU项目的规模爬坡。公司预计2026全年先进封装业务收入将实现<strong>同比约三倍增长</strong>。</li>
+<li><strong>战略性SiP产能迁移</strong>：公司正将系统级封装（SiP）产能从韩国转移至越南，旨在优化成本结构并为韩国工厂腾出空间以支持高价值的先进封装（如HDFO）项目。此举导致Q3通信业务指引出现<strong>高个位数的环比下滑</strong>，该影响预计持续至2027年上半年。</li>
+<li><strong>重大战略合作落地</strong>：公司与台积电（TSMC）签订了<strong>10年期</strong>的先进封装与测试合作协议，并与英伟达（NVIDIA）达成了价值<strong>15亿美元</strong>的多年期战略合作，后者包含一笔客户预付款，用于支持亚利桑那工厂的产能建设。</li>
+<li><strong>亚利桑那项目一期产能已全部预定</strong>：管理层表示，亚利桑那州先进封装工厂一期产能已获客户全额预定，并已额外购入67英亩土地，为未来扩建提供灵活性。该项目一期总投资约35亿美元，预计2027年底完工，2028年投产。</li>
+</ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol>
+<li><strong>AI数据中心CPU项目爬坡驱动业绩与利润率超预期</strong>：公司最核心的短期催化剂是HDFO数据中心CPU项目在Q3的规模放量。该项目已于Q2启动爬坡，管理层指引Q3计算业务环比增长近<strong>30%</strong>，并带动整体毛利率指引跃升至<strong>18.5%-19.5%</strong>。这一利润率水平已触及公司投资者日给出的2028年目标模型，表明AI驱动的先进封装业务正在加速公司的盈利改善节奏。营收结构上，计算业务占比将从Q2的<strong>22%</strong>快速提升，高利润产品组合的改善是Q3毛利率环比大幅扩张的主要驱动力。</li>
+<li><strong>战略客户合作实质性落地，订单可见度增强</strong>：近期与台积电和英伟达签署的长期协议，为市场提供了关于亚利桑那工厂未来装载率和投资回报的更清晰图景。特别是与英伟达的<strong>15亿美元</strong>合作协议，不仅包含预付款以缓解资本开支压力，更锁定了下一代AI基础设施的先进封装需求。这些协议将市场对公司"故事"的关注，转向对具体订单和长期收入可见度的验证，有助于支撑估值。</li>
+<li><strong>SiP产能迁移造成的短期业绩扰动与预期差</strong>：公司主动将SiP产能从韩国迁往越南，导致Q3通信业务出现反季节性下滑（环比下降高个位数），营收指引中点<strong>20亿美元</strong>低于市场一致预期的<strong>21.2亿美元</strong>。这一战略性调整虽有益于长期成本结构和产能规划，但短期内造成了营收端的"空气口袋"，且影响可能持续至2027年上半年。市场对这一短期逆风的消化程度，以及Q3实际毛利率能否达到指引上限，将是影响股价短期表现的关键预期差。</li>
+</ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol>
+<li><strong>先进封装正从"后端工序"升级为系统性能的"关键路径"</strong>：随着摩尔定律放缓，AI和高性能计算（HPC）系统的性能提升越来越依赖Chiplet架构、2.5D/3D堆叠等先进封装技术来实现高带宽、低延迟的芯片间互连。封装决策已提前至芯片和系统设计阶段，封装供应商的角色从"交易型代工厂"转变为"深度战略合作伙伴"。这一行业结构性转变，使得技术领先的OSAT龙头（如Amkor）在半导体价值链中的地位和议价能力得到根本性提升。</li>
+<li><strong>亚利桑那工厂卡位美国本土半导体供应链，构筑长期地域壁垒</strong>：公司投资<strong>70亿美元</strong>分两期建设的亚利桑那工厂，是美国本土唯一大规模先进封装产能。该工厂与台积电的晶圆厂形成"制造-封装"闭环，服务于美国本土芯片制造需求，具备极高的战略价值。尽管短期会带来折旧和爬坡成本（预计2027年稀释营业利润率<strong>1-2个百分点</strong>），但满产后（预计2030年）预计贡献超<strong>10亿美元</strong>年收入和<strong>30%以上</strong>的毛利率，将成为公司长期盈利增长和估值重估的重要驱动力。</li>
+<li><strong>客户关系深化与长期订单可见度提升</strong>：公司正与核心客户（如苹果、英伟达、AMD）建立多年期、多代产品的联合开发协议。这种早期、深度的合作模式不仅锁定了未来市场份额，还通过客户预付款、产能预留协议等方式，平滑了半导体周期的波动，提高了资本开支的回报确定性。公司目标到2030年，计算业务收入占比从2025年的<strong>20%</strong>提升至<strong>35%</strong>，成为最大的收入来源，这将从根本上改善公司的增长质量和盈利结构。</li>
+</ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul>
+<li><strong>亚利桑那工厂产能爬坡与盈利稀释风险</strong>：该项目总投资巨大，2026年资本开支指引高达<strong>25-30亿美元</strong>。从2027年开始，项目将产生持续的启动费用和折旧成本，预计对营业利润率造成<strong>1-2个百分点</strong>的拖累，并在2028年投产后因产能利用率不足继续压制毛利率。若客户订单导入或产能爬坡不及预期，回报周期将被拉长，对公司自由现金流和盈利能力构成持续压力。</li>
+<li><strong>客户集中度与单一市场依赖风险</strong>：公司对少数关键客户依赖度极高，2025年苹果和Qualcomm分别贡献了<strong>29.8%</strong>和<strong>11.1%</strong>的营收。通信市场（以智能手机为主）仍占2026年Q2营收的<strong>42%</strong>。任何大客户订单流失、产品周期切换或智能手机市场需求疲软，都可能对公司营收和产能利用率造成显著冲击。SiP产能迁移对通信业务的短期扰动即是例证。</li>
+<li><strong>地缘政治与供应链风险</strong>：公司大部分生产设施位于亚洲（韩国、越南、台湾等），易受地区冲突、贸易摩擦和自然灾害影响。近期中东局势紧张已推高材料和物流成本。此外，美国出口管制政策的变化可能影响公司向特定中国客户销售AI相关先进封装产品，构成业务不确定性。</li>
+</ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul>
+<li><strong>2026年5月</strong>：公司举办投资者日，公布长期财务目标：2028年营收<strong>85-95亿美元</strong>，毛利率<strong>16.5-18.5%</strong>；2030年营收超<strong>110亿美元</strong>，毛利率超<strong>22%</strong>。目标公布后股价因2028年指引低于部分买方预期而出现回调。</li>
+<li><strong>2026年5月</strong>：公司发行<strong>11.5亿美元</strong>的零息可转换债券，用于补充流动性和支持资本开支计划。</li>
+<li><strong>2026年6月</strong>：公司宣布与台积电（TSMC）签署<strong>10年期</strong>先进封装与测试合作协议，旨在加强美国半导体供应链。</li>
+<li><strong>2026年7月</strong>：公司宣布与英伟达（NVIDIA）达成价值<strong>15亿美元</strong>的多年期战略合作，聚焦下一代AI基础设施的先进封装和测试。英伟达将提供一笔预付款。</li>
+<li><strong>2026年7月</strong>：公司位于日本熊本的工厂因地震导致运营中断，公司已启动应急响应程序，正在评估损失。</li>
+</ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul>
+<li><strong>2026年8月-10月</strong>：<strong>HDFO数据中心CPU项目规模放量</strong>。公司Q2业绩会指引，新的HDFO CPU项目将在Q3产生显著收入贡献，并持续增长至2027年。该项目的实际放量速度和毛利率贡献，将是验证公司AI/计算业务增长逻辑的关键。</li>
+<li><strong>2026年8月-10月</strong>：<strong>英伟达合作细节及预付款入账</strong>。市场将关注公司与英伟达<strong>15亿美元</strong>合作协议的更多细节，包括预付款的具体到账时间、收入确认方式以及对财务报表的影响，这将直接影响对公司现金流和资本开支压力的评估。</li>
+<li><strong>2026年下半年</strong>：<strong>亚利桑那工厂建设进度及二期规划更新</strong>。随着一期工程推进，市场将关注项目是否按计划在2027年完工，以及公司是否会基于客户需求启动二期建设。任何关于政府补贴（CHIPS Act）到账或新客户签约的消息，都将成为积极催化。</li>
+<li><strong>2026年下半年</strong>：<strong>SiP迁移影响消退与通信业务恢复</strong>。公司指引SiP产能迁移对通信业务的拖累将持续至2027年上半年。市场将密切关注Q4及后续季度的通信业务指引，寻找影响消退、业务恢复增长的迹象。</li>
+</ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<p><strong>业务边际变化</strong>：公司近年业务重心显著向高价值的先进封装倾斜。先进产品（Advanced Products）收入占比从2023年的<strong>77.4%</strong>提升至2025年的<strong>82.8%</strong>，并在2026年H1进一步提升。核心驱动力来自AI数据中心相关的2.5D和HDFO封装项目。同时，公司正主动将低毛利的SiP业务从韩国转移至越南，以释放韩国产能用于承接高价值的计算类先进封装订单。</p>
+<p><strong>盈利模式</strong>：公司依靠其在先进封装领域的技术领先地位、与核心客户的深度绑定关系以及全球化的产能布局来获取订单。其盈利模式的核心是"产能利用率×技术溢价"。由于折旧等固定成本占比高，营收规模和产能利用率是毛利率的关键决定因素。公司正通过提升高价值先进封装（如HDFO、2.5D）的业务占比，来驱动产品组合升级和利润率结构性改善。</p>
+<p><strong>业务拆分</strong>：公司业务按产品技术分为"先进产品"和"主流产品"两大类。近年来，先进产品是公司增长的核心引擎，其增速和收入占比持续提升。公司当前处于由AI和HPC需求驱动的<strong>业绩兑现期</strong>，先进封装产能紧张，利用率高企。</p>
+<p><strong>细分业务拆分（按产品技术，百万美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td><strong>先进产品 · 收入</strong></td><td>5,032.86</td><td>5,174.46</td><td>5,555.56</td><td>2,928.68</td></tr><tr><td>先进产品 · 同比</td><td>-</td><td>+2.8%</td><td>+7.4%</td><td><strong>+27.8%</strong></td></tr><tr><td>先进产品 · 收入占比</td><td>77.4%</td><td>81.9%</td><td>82.8%</td><td>81.7%</td></tr><tr><td><strong>主流产品 · 收入</strong></td><td>1,470.21</td><td>1,143.23</td><td>1,152.43</td><td>653.99</td></tr><tr><td>主流产品 · 同比</td><td>-</td><td>-22.2%</td><td>+0.8%</td><td>+21.0%</td></tr><tr><td>主流产品 · 收入占比</td><td>22.6%</td><td>18.1%</td><td>17.2%</td><td>18.3%</td></tr><tr><td><strong>总计</strong></td><td><strong>6,503.07</strong></td><td><strong>6,317.69</strong></td><td><strong>6,707.98</strong></td><td><strong>3,582.67</strong></td></tr></tbody></table></div>
+<p>（注：公司未披露分产品毛利率。先进产品包含倒装芯片、存储和晶圆级加工及测试服务；主流产品包含引线键合封装及测试服务。）</p>
+<p><strong>细分业务描述（2026年H1）</strong>：</p>
+<ul>
+<li><strong>先进产品</strong>：2026年上半年实现营收<strong>29.29亿美元</strong>，同比增长<strong>27.8%</strong>，是公司增长的核心驱动力。增长主要来自AI数据中心应用的2.5D和HDFO封装项目。公司正将更多资源（资本开支和工厂空间）投向该领域，以满足强劲的客户需求。</li>
+<li><strong>主流产品</strong>：2026年上半年实现营收<strong>6.54亿美元</strong>，同比增长<strong>21.0%</strong>，实现连续第五个季度的同比增长。增长主要得益于汽车和工业市场的温和复苏，以及整体需求的改善。该业务是公司的"现金牛"业务，但增长性和利润率低于先进产品。</li>
+</ul>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托技术领先与早期客户合作构筑的先发优势</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：属于<strong>行业阶段性红利与结构性护城河的交汇期</strong>。先进封装技术（如HDFO、2.5D）复杂度高，需要与客户在芯片设计早期进行长达数年的联合开发，这构成了较高的客户转换成本和合作粘性。目前AI需求爆发导致先进封装产能供不应求，强化了公司的先发优势。但该优势能否转化为长期结构性护城河，取决于技术迭代速度和竞争对手的追赶情况。</li>
+<li><strong>数据验证</strong>：公司先进产品收入占比从2023年的<strong>77.4%</strong>持续提升至2025年的<strong>82.8%</strong>。2026年Q2，计算业务营收环比增长<strong>20%</strong>，并指引Q3环比增长近<strong>30%</strong>，显示出强大的增长动能。公司披露其HDFO平台已与<strong>超过5家客户</strong>在不同阶段展开合作，2.5D技术客户超过<strong>6家</strong>，表明其技术平台获得了广泛的客户认可。</li>
+<li><strong>动态演变</strong>：<strong>护城河变宽（巩固）</strong>。随着公司与英伟达、台积电等巨头签订长期战略合作协议，并锁定亚利桑那工厂一期全部产能，其在新一代AI芯片封装领域的卡位得到巩固。客户关系的深度和广度正在加强，从单一项目合作转向多代产品路线图的共同开发。</li>
+</ul>
+<p><strong>竞争要素 2：全球化产能布局带来的供应链弹性</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：属于<strong>结构性护城河</strong>。Amkor在韩国、越南、台湾、葡萄牙、美国等8个国家拥有生产基地，这种地理多元性使其能够满足客户对供应链韧性和区域化生产的需求。尤其是在中美贸易摩擦背景下，其美国本土产能（亚利桑那工厂）具有独特的战略价值，竞争对手难以在短期内复制。</li>
+<li><strong>数据验证</strong>：公司正在将SiP产能从韩国迁往越南，同时在美国建设投资<strong>70亿美元</strong>的先进封装工厂，并在韩国、台湾等地持续扩张。这种全球化的产能调配能力，使其能够优化成本结构并抓住不同区域的增长机会。亚利桑那工厂一期产能已被<strong>全部预定</strong>，验证了其战略价值。</li>
+<li><strong>动态演变</strong>：<strong>护城河变宽（巩固）</strong>。随着亚利桑那工厂的建设和投产，公司将成为美国本土唯一具备大规模先进封装能力的OSAT，这一独特地位将构成强大的竞争壁垒，并可能获得政策层面的持续支持。</li>
+</ul>
+<p><strong>现阶段核心驱动力总结</strong>：公司的Alpha来自其在AI驱动的先进封装技术上的领先地位和执行力，这使其能够获得超越行业平均水平的增长和利润率。公司的Beta则与全球半导体周期、尤其是AI基础设施投资周期紧密相关。当前，强劲的AI需求（Beta）与公司自身的技术和产能卡位（Alpha）形成共振，驱动业绩高速增长。</p>
+<p><strong>竞争格局传导逻辑</strong>：与核心客户早期深度合作及先进技术平台（HDFO/2.5D）→ 锁定高价值、长周期订单（如英伟达、台积电协议）→ 营收结构中高毛利的计算业务占比快速提升 → 公司整体毛利率和营业利润率显著扩张；同时，全球化产能布局（亚洲多国+美国本土）→ 满足客户供应链韧性与区域化需求 → 获得独特的战略卡位（如亚利桑那工厂）→ 共同支撑利润率扩张。</p>
+<h3 class="doc-h2">产销链</h3>
+<ul>
+<li><strong>客户情况</strong>：公司客户集中度较高。2025年，前两大客户苹果和Qualcomm分别贡献了<strong>29.8%</strong>和<strong>11.1%</strong>的营收，前十大客户合计占比<strong>72%</strong>。这表明公司对核心大客户存在显著依赖，但也反映出其与行业龙头的深度绑定关系。新客户方面，公司正积极拓展与英伟达、AMD等公司在AI/HPC领域的合作，其中与英伟达的<strong>15亿美元</strong>战略协议标志着新大客户的重大突破，目前处于大规模交货和联合开发阶段。</li>
+<li><strong>供应商情况</strong>：公司主要采购封装材料（基板、引线框架、金线等）和制造设备。材料成本是营业成本的主要构成，2025年材料成本占营收比重高达<strong>55.2%</strong>。公司从有限数量的供应商处采购关键材料，存在供应链集中风险。近期因地缘政治和通胀因素，材料和贵金属价格面临上涨压力，公司正通过与客户协商调价机制来传导成本。</li>
+<li><strong>成本传导能力定性</strong>：公司赚取的是"技术加工费+规模效应"。其成本结构中，固定成本（折旧、人工）占比高，材料成本受大宗商品价格影响大。当上游原材料涨价时，公司具备一定的成本转嫁能力，尤其是在当前产能紧张、其技术不可替代性增强的环境下，与客户的议价能力有所提升。管理层表示，当前定价环境积极，正与客户合作以抵消成本上涨。</li>
+</ul>
+<h3 class="doc-h2">财务数据</h3>
+<div class="tbl-wrap"><table><thead><tr><th>项目（百万美元）</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2023-12-31</td><td>2024-12-31</td><td>2025-12-31</td><td>2026-06-30</td></tr><tr><td><strong>营业总收入</strong></td><td>6,503.07</td><td>6,317.69</td><td>6,707.98</td><td>3,582.67</td></tr><tr><td>收入同比</td><td>-8.30%</td><td>-2.85%</td><td>+6.18%</td><td><strong>+26.46%</strong></td></tr><tr><td><strong>营业成本</strong></td><td>5,559.91</td><td>5,384.48</td><td>5,769.38</td><td>3,025.04</td></tr><tr><td><strong>毛利润</strong></td><td>943.15</td><td>933.21</td><td>938.60</td><td>557.62</td></tr><tr><td><strong>毛利率</strong></td><td>14.50%</td><td>14.77%</td><td>13.99%</td><td><strong>15.56%</strong></td></tr><tr><td><strong>营业利润</strong></td><td>470.29</td><td>438.46</td><td>467.38</td><td>300.14</td></tr><tr><td>营业利润率</td><td>7.23%</td><td>6.94%</td><td>6.97%</td><td>8.38%</td></tr><tr><td><strong>归母净利润</strong></td><td>359.81</td><td>354.01</td><td>373.90</td><td>257.10</td></tr><tr><td>归母净利同比</td><td>-53.02%</td><td>-1.61%</td><td>+5.62%</td><td><strong>+240.33%</strong></td></tr><tr><td><strong>稀释EPS（美元）</strong></td><td>1.46</td><td>1.43</td><td>1.50</td><td>1.03</td></tr><tr><td><strong>自由现金流</strong></td><td>520.55</td><td>345.07</td><td>190.99</td><td><strong>-306.85</strong></td></tr></tbody></table></div>
+<p>（注：自由现金流 = 经营活动现金流量净额 - 资本性支出。FY2026 H1自由现金流为负，主要因资本开支大幅增加至<strong>6.88亿美元</strong>。）</p>
+<p><strong>财务分析</strong>：</p>
+<ul>
+<li><strong>成长能力</strong>：公司营收在经历2023年的下滑后，于2025年恢复增长，并在2026年上半年实现<strong>26.46%</strong>的强劲同比增长，主要受AI和高端智能手机需求驱动。归母净利润在2026年上半年同比增长<strong>240.33%</strong>，显示出极高的盈利弹性。</li>
+<li><strong>盈利能力</strong>：毛利率从2023年的<strong>14.50%</strong>小幅下降至2025年的<strong>13.99%</strong>，主要受越南工厂爬坡和产品结构影响。但2026年上半年毛利率回升至<strong>15.56%</strong>，Q2单季更达到<strong>16.8%</strong>，盈利能力进入上升通道。营业利润率在2026年上半年提升至<strong>8.38%</strong>，显示出强劲的经营杠杆效应。</li>
+<li><strong>运营能力</strong>：公司处于重资产运营模式，产能利用率是盈利关键。2026年上半年产能利用率从50%区间提升至70%高位，是利润率改善的核心驱动力。</li>
+<li><strong>偿债能力与现金流</strong>：公司于2026年5月发行<strong>11.5亿美元</strong>可转债后，总债务升至约<strong>25亿美元</strong>，但现金及短期投资亦高达<strong>25亿美元</strong>，净债务接近于零。2026年因巨额资本开支（全年指引<strong>25-30亿美元</strong>），自由现金流出现大幅负值，这是公司当前财务上面临的主要压力。</li>
+</ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p><strong>行业分析</strong>：公司所处的半导体封装与测试（OSAT）行业正经历结构性变革。随着摩尔定律放缓，<strong>先进封装</strong>（Advanced Packaging）成为超越晶体管缩放、提升芯片性能的关键路径，尤其在AI/HPC领域，2.5D/3D封装、Chiplet等技术的需求爆发式增长。据市场机构预测，先进封装市场规模到2033年可能增长八倍至<strong>805亿美元</strong>。行业趋势正从"成本驱动"转向"技术驱动"，封装环节在半导体价值链中的地位显著提升。</p>
+<p><strong>竞争格局</strong>：OSAT市场高度集中且竞争激烈，主要参与者为亚洲厂商。Amkor作为全球第二大、美国第一大OSAT，直接与行业龙头日月光（ASE）竞争。此外，晶圆代工厂（如台积电）和电子制造服务商（EMS）也在向先进封装领域渗透。</p>
+<p><strong>可比公司</strong>：</p>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>竞争定位与差异分析</th></tr></thead><tbody><tr><td>日月光投控 (ASE)</td><td>ASX</td><td>全球OSAT龙头，规模最大。在先进封装（尤其是CoWoS的oS环节）上与台积电深度绑定，AI相关收入规模远超Amkor。Amkor的差异化在于其美国本土产能布局和更纯粹的先进封装技术平台（如HDFO）。</td></tr><tr><td>台积电 (TSMC)</td><td>TSM</td><td>晶圆代工龙头，在先进封装领域（CoWoS）拥有技术和产能的绝对优势，是行业标准的制定者。Amkor与其是竞合关系，既是其封装产能的补充和合作伙伴（如2.5D封装），也在部分领域（如HDFO）存在竞争。</td></tr><tr><td>长电科技 (JCET)</td><td>600584.SS</td><td>中国最大的OSAT，在中国市场拥有强大份额和政府支持。但在全球范围内的先进封装技术广度和高端客户关系上，与Amkor存在差距。</td></tr></tbody></table></div>
+<p><strong>总结分析</strong>：Amkor在先进封装技术上的布局（特别是HDFO）和其作为美国本土唯一先进OSAT产能的战略地位，使其在AI时代具备了独特的竞争优势。尽管在规模上不及ASE，且面临台积电的竞争，但Amkor通过深化与英伟达、AMD等关键客户的合作，成功卡位了AI CPU/GPU封装这一高增长细分市场，形成了差异化竞争。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<p><strong>议题1：亚利桑那工厂的投资回报与盈利稀释路径</strong></p>
+<ul>
+<li><strong>背景</strong>：公司计划投资<strong>70亿美元</strong>建设亚利桑那工厂，2026年资本开支指引高达<strong>25-30亿美元</strong>，导致自由现金流大幅转负。市场担忧巨额投资将长期拖累财务报表。</li>
+<li><strong>问题列表</strong>：2027-2028年，工厂启动和爬坡成本对毛利率和营业利润率的具体量化影响是多少？一期项目<strong>10亿美元</strong>年收入、<strong>30%+</strong>毛利率的目标何时能实现？客户订单的确定性如何？二期<strong>35亿美元</strong>投资何时启动？资金如何筹措，是否会进一步稀释股东权益？</li>
+</ul>
+<p><strong>议题2：SiP产能迁移对营收和利润率的影响</strong></p>
+<ul>
+<li><strong>背景</strong>：公司将SiP业务从韩国迁往越南，导致Q3通信业务出现反季节性下滑，营收指引低于市场预期。市场担心这一战略调整的负面影响被低估。</li>
+<li><strong>问题列表</strong>：此次迁移对营收的拖累将持续多久？是否会引发主要客户（如苹果）的订单流失？迁移完成后，对成本结构的改善和毛利率的提升幅度有多大？腾出的韩国产能，能否被高价值的计算类业务完全填补，并实现更高的利润率？</li>
+</ul>
+<p><strong>议题3：AI相关业务的增长质量和可持续性</strong></p>
+<ul>
+<li><strong>背景</strong>：公司先进封装业务预计2026年增长<strong>三倍</strong>，是股价的核心驱动力。但市场对AI芯片需求的持续性存在分歧。</li>
+<li><strong>问题列表</strong>：当前AI封装业务的增长，有多少来自真实终端需求，多少来自客户的过度囤货或重复下单？公司HDFO CPU项目的客户单一，未来能否拓展至更多客户和GPU/ASIC等其他芯片品类？若AI资本开支周期出现放缓，公司有何应对预案？</li>
+</ul>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧：当前强劲的业绩和利润率改善是结构性拐点，还是周期性高峰？</strong></p>
+<p><strong>乐观方观点</strong>：认为公司正站在结构性增长的起点。AI驱动的先进封装需求是一个长达数年的趋势，公司凭借技术领先性和美国本土产能的独特卡位，已经深度嵌入英伟达、AMD等核心客户的供应链。2026年Q2毛利率<strong>16.8%</strong>及Q3指引<strong>18.5%-19.5%</strong>，标志着公司盈利能力的根本性提升。随着计算业务占比在2030年提升至<strong>35%</strong>，公司整体利润率中枢将系统性上移，当前估值并未充分反映其长期成长性。</p>
+<p><strong>谨慎方观点</strong>：认为当前业绩爆发具有显著的周期性和事件驱动特征。Q3毛利率的跃升，很大程度上是一次性的产品组合优化（计算业务占比提升）和SiP迁移造成的低毛利业务减少所致。亚利桑那工厂从2027年开始的巨额折旧和启动成本，将对利润率形成持续压制，使2026年的高利润率不可持续。此外，公司对苹果等少数客户的依赖度依然过高，通信业务的疲软可能在下半年和2027年持续拖累整体表现。</p>
+<p><strong>总结分析</strong>：公司正处于一个关键的转型期。乐观方看到的"结构性改善"（产品组合升级、客户关系深化）和谨慎方担忧的"周期性扰动"（SiP迁移、工厂折旧）同时存在。2026年Q3的业绩将是检验双方逻辑的关键窗口。如果公司在计算业务大幅增长的同时，能有效控制亚利桑那工厂的启动成本，并证明通信业务的疲软是暂时的，那么结构性改善的逻辑将得到强化。反之，若毛利率在Q4或2027年因折旧和通信业务拖累而显著回落，则周期性高峰的担忧将占据上风。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>管理层最新指引</strong>：根据2026年5月投资者日及Q2业绩会，公司管理层给出的长期财务目标为：</p>
+<ul>
+<li><strong>2028年</strong>：营收<strong>85-95亿美元</strong>，毛利率<strong>16.5-18.5%</strong>，EPS <strong>2.25-2.75美元</strong>。</li>
+<li><strong>2030年</strong>：营收超<strong>110亿美元</strong>，毛利率超<strong>22%</strong>，EPS超<strong>5.00美元</strong>。</li>
+<li><strong>2026全年</strong>：资本开支预计<strong>25-30亿美元</strong>，实际税率约<strong>20%</strong>。</li>
+</ul>
+<p><strong>券商盈利预测与估值</strong>：</p>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价（美元）</th><th>财务指标</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>瑞银 (2026-07-28)</td><td>买入</td><td>90.00</td><td>营收(百万美元)<br>EPS(美元)</td><td>6,708<br>1.51</td><td>7,842<br>2.30</td><td>9,502<br>3.10</td><td>10,404<br>4.00</td></tr><tr><td>摩根大通 (2026-07-28)</td><td>超配</td><td>85.00</td><td>营收(百万美元)<br>EPS(美元)</td><td>-<br>-</td><td>-<br>-</td><td>-<br>3.47</td><td>-<br>-</td></tr><tr><td>摩根士丹利 (2026-07-28)</td><td>均配</td><td>70.00</td><td>营收(百万美元)<br>EPS(美元)</td><td>6,708<br>1.51</td><td>7,599<br>2.58</td><td>8,421<br>2.32</td><td>9,236<br>3.01</td></tr></tbody></table></div>
+<p><strong>盈利预期与估值分析</strong>：市场对公司的盈利预期存在一定分歧。乐观方（如瑞银、摩根大通）基于AI/计算业务的强劲增长，给出了远高于管理层2028年目标的EPS预测，并以此给予较高估值。而谨慎方（如摩根士丹利）则更强调亚利桑那工厂的盈利稀释效应，其FY2027 EPS预测（<strong>2.32美元</strong>）显著低于乐观方，反映了对2027年利润率承压的担忧。估值方法上，市场普遍采用市盈率（P/E），并基于未来几年的高增长预期，给予公司<strong>20-30倍</strong>的估值倍数，高于传统OSAT的估值中枢，体现了市场对其AI先进封装龙头的定位。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/AMKR · 生成于 2026-08-06</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-06';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'hit',     text: '<strong>2026 Q2 营收创纪录 +25.6%、毛利率 16.8%</strong>；Q3 毛利率指引 18.5-19.5% 触及 2028 目标模型', note: '2026-07 下旬兑现' },
+  { kind: 'cat', status: 'active',  text: '<strong>HDFO 数据中心 CPU 项目 Q3 规模放量</strong>：计算业务环比指引 +~30%，放量持续至 2027 年', note: 'Q3 财报（2026-10）验证' },
+  { kind: 'cat', status: 'active',  text: '<strong>英伟达 $15 亿协议细节与预付款入账</strong>：到账时间与收入确认方式直接影响现金流评估', note: '2026-08~10 披露窗口' },
+  { kind: 'cat', status: 'pending', text: '<strong>亚利桑那一期 2027 底完工 / CHIPS 补贴到账 / 二期规划</strong>：一期产能已全额预定', note: '2026 下半年跟踪' },
+  { kind: 'cat', status: 'pending', text: '<strong>SiP 迁移影响消退、通信业务恢复</strong>：拖累预计持续至 2027 上半年，关注 Q4 起指引边际变化', note: '' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>亚利桑那稀释超预期</strong>：2027 年起指引稀释营业利润率 1-2pct，爬坡不及预期则回报周期拉长', note: '2027 年起每季核对' },
+  { kind: 'risk', status: 'clear', text: '<strong>「增长股变周期股」估值切换</strong>：大摩口径 FY2027E EPS $2.32 同比下滑——若 Q4/2027 毛利率显著回落即应验', note: '当前 Q3 指引强劲，未触发' },
+  { kind: 'risk', status: 'clear', text: '<strong>客户集中 + 通信依赖</strong>：苹果占 29.8%、通信占 Q2 营收 42%，SiP 迁移拖累或苹果订单波动', note: '迁移影响持续至 2027H1' },
+  { kind: 'risk', status: 'clear', text: '<strong>HDFO CPU 项目客户单一</strong>：放量集中于单客户，未扩展至 GPU/ASIC 品类前集中度风险高', note: 'HDFO 平台总客户 5+，CPU 项目待多元化' },
+  { kind: 'risk', status: 'clear', text: '<strong>地缘与供应链</strong>：出口管制影响中国客户 AI 封装销售；熊本厂 2026-07 地震中断评估中；材料/贵金属涨价', note: '常态跟踪' },
+  { kind: 'risk', status: 'clear', text: '<strong>现金流压力</strong>：H1 FCF -$3.07 亿、全年资本开支 $25-30 亿，依赖可转债与预付款，二期 $35 亿融资未落实', note: '债务≈现金≈$25 亿' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

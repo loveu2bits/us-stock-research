@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数字房地产（DLR.N）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--policy-red); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">DLR</span>
+    <span class="site-mark__text">数字房地产 公司研究<span>Digital Realty · DLR.N</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>数字房地产<span class="en">Digital Realty · DLR.N · 美股研究</span></h1>
+        <p class="sub">全球最大的运营商中立数据中心 REIT 之一：Q2 核心 FFO 超预期、全年指引再上调，19 亿美元积压订单给出两年收入能见度，续租利差 66.7% 印证供需失衡下的定价权——核心矛盾是 AI 租约潮的持续性 vs 高资本开支 REIT 的利率与稀释敏感性。约 22x FY2026E P/FFO 定价合理但不便宜，赔率一般，先持有。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-06</span>
+          <span>下次更新：Q3 财报（2026-10 下旬）/ 下半年积压租金启动确认（45% 在 Q3）</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>约 22x FY2026E / 20x FY2027E 核心 P/FFO，三情景期望值约 +11%、赔率约 1.6:1；重检条件：积压转化不及预期、超大规模客户砍资本开支，或回落至 17x FY2027E（约 $150）以下。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">营收 +29%</strong><span>26Q2 $19.24亿·核心FFO/股 $2.13 超预期</span></div>
+      <div class="summary-rail__item"><strong>$19亿</strong><span>积压订单（100%份额）·较年初 +75%</span></div>
+      <div class="summary-rail__item"><strong>66.7%</strong><span>&gt;1MW 续租现金利差·全年指引上调至 9-11%</span></div>
+      <div class="summary-rail__item"><strong>1.4GW</strong><span>在建容量·预租率 63%·收益率 11.5%</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">Q2 财报：创纪录租赁 + 19 亿美元积压订单，「未来多年双位数核心 FFO 增长」承诺的成色几何？</h2>
+        <span class="qa__impact-tag">→ 全年核心 FFO 指引上调至 $8.15-8.20 · 积压较年初 +75%</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>成色是高的：Q2 核心每股 FFO $2.13（剔除一次性附带权益，+14%）超预期，全年指引上调至 <strong>$8.15-8.20</strong>（中点隐含约 +11%）。更关键的是能见度——积压订单（DLR 份额）$14 亿 ≈ 存量数据中心租金的 30%，且管理层给出了明确的确认时间表：2026 下半年 $6.35 亿、2027 年 $4.8 亿。<em>保留判断：Q2 费用收入含约 $2 亿一次性附带权益（黑石交易相关），+402% 的增速不可年化；7 月又签 $4.1 亿超大规模租约未入积压，需求仍在加速，但也抬高了同比基数。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>REIT 看 FFO 不看 EPS。</strong>FY2026 核心 FFO/股指引 $8.15-8.20 已基本被券商消化（花旗 8.15 / 瑞银 8.17 / 美银 8.19，摩根大通 8.72 偏高）；真正的分歧在 FY2027-2028：摩根大通/花旗/瑞银看到 $9.0 → $10.0（双位数增长延续），<strong>美银只看到 $8.35 → $8.41（隐含 2027 后增长近乎停滞）</strong>——这正是「双位数增长承诺」多空分歧的量化呈现。</p>
+            <p>积压订单的时间表把 2026H2-2027 年的增长变成了「已签约、待确认」的低不确定性事件，支撑倍数维持 20x 以上；若确认节奏或续租利差任何一环掉链子，市场会立即按美银剧本重定价。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>积压订单（100% 份额）<strong>$19 亿创纪录、较年初 +75%</strong>，7 月财报外又签 $4.1 亿——需求曲线仍在加速而非见顶</li>
+              <li>收入确认时间表白纸黑字：2026H2 $6.35 亿（45% Q3 / 55% Q4）、2027 年 $4.8 亿——<strong>增长是「已签约」而非「靠预测」</strong></li>
+              <li>0-1MW 及互联订单 <strong>$1.08 亿连续第三个季度创纪录</strong>、首次破亿，零售互联第二引擎成型</li>
+              <li>续租现金利差 25.4%、&gt;1MW 达 66.7%，全年利差指引上调 250bp 至 9-11%——量价齐升</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>Q2 费用收入含约 <strong>$2 亿一次性附带权益</strong>，表面 +29% 的营收增速有水分，核心增速要看剔除口径</li>
+              <li>前五大客户占年化租金约 <strong>33%</strong>（微软 11.6%、甲骨文 9.0%）——超大规模租约潮本质是押注少数 CSP 的资本开支周期</li>
+              <li>2026 年有一次性项目和有利汇率的额外提振，<strong>2027 年有机增长能否维持双位数没有先例背书</strong></li>
+              <li>为黑石/Columbia/Teraco 交易大量增发股票（合计约 $30 亿股票对价），<strong>份额稀释会吃掉一部分每股 FFO 增长</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（Q2 财报速览 · 积压订单转化时间表 · 业务拆分）</summary>
+          <div class="evidence__body">
+            <h5>2026 Q2 财报速览</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>实际</th><th>同比/对比</th><th>评价</th></tr></thead><tbody><tr><td>总营收</td><td><strong>$19.24 亿</strong></td><td>+29%</td><td>beat；含约 $2 亿一次性附带权益收入</td></tr><tr><td>调整后 EBITDA</td><td><strong>$9.78 亿</strong></td><td>+19%</td><td>beat</td></tr><tr><td>核心每股 FFO（剔除附带权益）</td><td><strong>$2.13</strong></td><td>+14%</td><td>超出市场一致预期</td></tr><tr><td>FY2026 核心 FFO/股指引</td><td><strong>$8.15-8.20</strong></td><td>中点约 +11%</td><td><strong>再度上调</strong></td></tr><tr><td>新签租赁年化租金（100% 份额）</td><td>$3.07 亿（DLR 份额 $2.08 亿）</td><td>—</td><td>0-1MW 及互联 $1.08 亿，连续三季创纪录</td></tr><tr><td>积压订单（100% 份额）</td><td><strong>$19 亿</strong>（DLR 份额 $14 亿）</td><td>较年初 +75%</td><td>创纪录；约等于存量租金的 30%</td></tr><tr><td>续租现金利差</td><td>整体 <strong>25.4%</strong>；&gt;1MW <strong>66.7%</strong></td><td>—</td><td>新加坡 + 北弗吉尼亚供需失衡驱动；全年指引上调 250bp 至 9-11%</td></tr><tr><td>FY2026 开发资本开支指引</td><td><strong>$42.5-47.5 亿</strong></td><td>上调 $7.5 亿</td><td><span class="warn">⚠️</span> 资本强度继续上升</td></tr></tbody></table></div>
+            <h5>积压订单 → 收入确认时间表（管理层指引）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>期间</th><th>开始确认的年化租金</th><th>备注</th></tr></thead><tbody><tr><td>2026 下半年</td><td><strong>$6.35 亿</strong></td><td>45% 在 Q3、55% 在 Q4——未来两个季度最直接的业绩催化</td></tr><tr><td>2027 年</td><td><strong>$4.8 亿</strong></td><td>支撑 2027 年双位数 FFO 增长叙事</td></tr><tr><td>7 月新签（未入积压）</td><td>$4.1 亿（100% 份额）</td><td>两份超大规模租约，确认时间待定</td></tr></tbody></table></div>
+            <h5>业务拆分（单位：百万美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>1H2026</th></tr></thead><tbody><tr><td>租赁及相关服务收入</td><td>5,430</td><td>5,482</td><td>5,969</td><td>3,275（+15.1%）</td></tr><tr><td>费用收入及其他</td><td>47</td><td>73</td><td>144</td><td>284（+402.7%，含一次性附带权益）</td></tr><tr><td><strong>总营收</strong></td><td><strong>5,477</strong></td><td><strong>5,555</strong></td><td><strong>6,113</strong></td><td><strong>3,559（+22.7%）</strong></td></tr><tr><td>营业利润率</td><td>9.6%</td><td>8.5%</td><td>10.8%</td><td><strong>20.4%</strong></td></tr></tbody></table></div>
+            <p>解读：租赁主业上半年 +15% 是真实加速（前期开发项目完工启动 + 续租利差），营业利润率从 8.5% 抬到 20.4% 显示经营杠杆；但费用收入的爆发主要是一次性项目，经常性费用收入约每季度 $4,500 万——评估「双位数增长」时应以租赁主业为锚。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">续租利差 66.7%：供需失衡给的定价权能持续多久？1.4GW 在建会不会变成自我供给冲击？</h2>
+        <span class="qa__impact-tag">→ 全年利差指引 9-11% · 2028 到期租约 mark-to-market 空间约 +38%</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>定价权是真的，且有结构性支撑：北弗吉尼亚空置率仅 <strong>0.3%</strong>（历史最低），电力成为行业最大供给瓶颈，而 DLR 手握 9GW 锁定的电力跑道。2028 年到期租约租金约 $130/kW、近期新签约 $180/kW——<strong>续租「市场化定价」空间约 +38%，是未来 2-3 年利差的基本盘</strong>。在建 1.4GW 预租率 63%、平均预期收益率 11.5%，是「先卖后建」而非投机性建设。<em>保留判断：行业库存一年 +33%，若 AI 需求减速，2028-2029 年的交付潮会同时压低空置率红利和自身利差。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>续租利差是 2026-2027 年利润超预期的主要来源。</strong>全年现金续租利差指引从约 6.5-8.5% 上调 250bp 至 <strong>9-11%</strong>，直接抬升存量租金的内生增速；叠加大批低于市价的租约在 2028 年前后到期（$130/kW → $180/kW），存量资产的 FFO 增长具备罕见的「内生性」——不依赖新开发也能涨。</p>
+            <p>若供需失衡延续，利差持续超预期 → FY2027-2028 FFO 向摩根大通/花旗的 $9.0-10.0 靠拢，20x 倍数坐稳；若行业供给潮导致利差回落至低个位数，增长故事退化为「靠开发管线堆量」，美银 $8.35-8.41 的保守预测就会成为新锚，倍数随之下修。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>CBRE：北美库存一年 +33% 但<strong>空置率降至历史最低</strong>，北弗吉尼亚仅 0.3%——供给被需求完全吸收</li>
+              <li>电力是硬瓶颈：公司已锁定 <strong>9GW</strong> 增长跑道，其中约 1.5GW（2027-2028 交付）正与客户积极洽谈——稀缺资源的拥有者收租</li>
+              <li>在建 1.4GW 预租率 63%、预期稳定收益率 <strong>11.5%</strong>——管线不是供给风险，是已锁定的利润</li>
+              <li>IEA 预测 2030 年全球数据中心用电量约 950TWh、AI 相关电力消耗增长两倍——<strong>需求是多年期结构而非单季脉冲</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>66.7% 的极端利差集中在新加坡和北弗吉尼亚两个最紧的市场，<strong>是周期峰值信号而非常态</strong>，全年指引 9-11% 已隐含回落</li>
+              <li>行业库存一年 +33%：所有人都在抢建，2028-2029 交付潮遇上 AI 资本开支放缓就是经典的供给过剩剧本</li>
+              <li>公司自身开发资本开支上调至 $42.5-47.5 亿、上半年在建容量翻倍——<strong>自己就是供给潮的一部分</strong></li>
+              <li>建设成本约 $1,400 万/MW 且面临劳动力短缺、电力交付延迟，成本超支会直接侵蚀 11.5% 的开发收益率</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（供需数据 · 租约到期价差 · 开发管线 economics）</summary>
+          <div class="evidence__body">
+            <h5>供需与定价权关键数据</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>数值</th><th>含义</th></tr></thead><tbody><tr><td>北弗吉尼亚空置率</td><td><strong>0.3%</strong>（历史最低）</td><td>全球最大数据枢纽供给枯竭</td></tr><tr><td>北美库存同比</td><td>+33%</td><td><span class="warn">供给潮正在进行</span>——但被需求完全吸收</td></tr><tr><td>Q2 整体续租现金利差</td><td><strong>+25.4%</strong></td><td>续约即涨租，定价权直接兑现</td></tr><tr><td>&gt;1MW 续租现金利差</td><td><strong>+66.7%</strong></td><td>超大规模议价能力极值，新加坡/北弗吉尼亚驱动</td></tr><tr><td>2028 到期租约租金 vs 新签</td><td>约 $130/kW vs 约 $180/kW</td><td>mark-to-market 空间约 <strong>+38%</strong></td></tr><tr><td>FY2026 现金续租利差指引</td><td>9-11%（上调 250bp）</td><td>公司自认全年口径低于 Q2 极值——极值不可线性外推</td></tr></tbody></table></div>
+            <h5>开发管线 economics（截至 2026 Q2 末）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>数值</th><th>评价</th></tr></thead><tbody><tr><td>在建容量</td><td><strong>1.4GW</strong>（上半年 +100%）</td><td>扩张激进</td></tr><tr><td>总开发成本</td><td>约 $200 亿</td><td>建设成本约 $1,400 万/MW</td></tr><tr><td>预租率（含 7 月新签）</td><td><strong>63%</strong></td><td>「先卖后建」，投机性建设占比可控</td></tr><tr><td>平均预期稳定收益率</td><td><strong>11.5%</strong></td><td>远高于新发债成本 4.5-5.5%，利差丰厚</td></tr><tr><td>电力跑道</td><td>总计 <strong>9GW</strong>；堪萨斯城新增 600MW（2028 初交付，长期 2GW）</td><td>稀缺资源锁定，护城河的核心</td></tr></tbody></table></div>
+            <h5>解读：一句话</h5>
+            <p>定价权的底层是「电力 + 土地」的物理稀缺，而非单纯的行业景气：0.3% 的空置率和 9GW 锁定电力给了 DLR 在供给受限市场里的收租权。<strong>真正要跟踪的不是利差绝对值（峰值已过），而是交付潮与 AI 需求的相对速度</strong>——预租率 63% 是当前的保险单，若后续季度预租率下滑或利差跌破指引下限，就是供给冲击开始自我反噬的信号。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">估值：约 22 倍 P/FFO 隐含了什么预期？高资本开支 + 高利率下赔率如何？</h2>
+        <span class="qa__impact-tag">→ 期望值约 +11% · 赔率约 1.6:1</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>当前约 $179 的股价对应 <strong>22x FY2026E / 20x FY2027E 核心 P/FFO</strong>：低于最可比公司 Equinix（约 24-25x P/AFFO），高于传统 REIT，市场给了一部分 AI 溢价但没有透支。三情景测算期望值约较现价 +11%、赔率约 1.6:1——<strong>质量配得上价格，但安全边际不足以支撑「买入」，给「持有」</strong>。<em>融资账算得过来：净债务/EBITDA 4.7x（低于 5.5x 目标）、93% 固定利率、覆盖倍数 5.2x，且私募资本模式分担资本强度；但新发债 4.5-5.5% vs 存量 2.85% 是持续的每股 FFO 逆风。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这个问题本身就是估值问题。</strong>机构目标价中位数约 $222（较现价 +24%），但目标价分布本身就透露分歧：摩根大通 $235 / 花旗 $226 / 瑞银 $227 vs 美银 $215（中性）/ 汇丰 $210（持有）——看多者按「双位数 FFO 增长延续到 2028」定价，中性者按「2027 后增长失速」定价。</p>
+            <p>悲观情景的杀伤力来自 REIT 的双重敏感：<strong>增长证伪 + 利率高企同时发生</strong>时，FFO 增速与估值倍数一起下修（戴维斯双杀）；当前的低杠杆（4.7x）和 93% 固定利率债务是下行保护，但无法对冲倍数压缩。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>20x FY2027E 对一家<strong>积压订单覆盖未来两年增长、续租利差内生抬升存量租金</strong>的公司，确定性溢价尚未充分定价</li>
+              <li>较 Equinix 折价而增长动能更强（DLR 在超大规模 AI 租约上的敞口更大）——<strong>相对估值有收敛空间</strong></li>
+              <li>私募资本业务（Columbia 收购带来 $90 亿+ 基金承诺）创造管理费收入并降低表内资本占用——<strong>资本密集度有结构性改善路径</strong></li>
+              <li>资产负债表处于多年最健康状态（4.7x、5.2x 覆盖），11.5% 开发收益率 vs 4.5-5.5% 融资成本，正利差明确</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>REIT 对利率天然敏感：新发长期债定价 <strong>4.5-5.5% vs 存量 2.85%</strong>，债务重置是多年期的 FFO 拖累</li>
+              <li>为增长持续发股：黑石交易 $23 亿股票 + Teraco $6.5 亿股票 + Columbia $4.85 亿——<strong>每股口径的增长被稀释打折</strong></li>
+              <li>估值已处历史较高水平，若增长稍有放缓即面临「戴维斯双杀」（一页通原文分歧）</li>
+              <li>约 40% 收入来自美国以外，汇率波动直接扰动报告的 FFO</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（当前定价测算 · 三情景表 · 券商预测 · 资产负债表）</summary>
+          <div class="evidence__body">
+            <h5>当前定价（2026-08 上旬）</h5>
+            <ul>
+              <li>股价约 <strong>$179</strong>（一页通口径），对应 FY2026E 核心 FFO $8.15 约 <strong>22x</strong>、FY2027E 约 $9.0 约 <strong>20x</strong></li>
+              <li>可比估值（P/AFFO 2026E，市场一致预期估算）：Equinix 约 24-25x、Iron Mountain 约 21x、American Tower 约 15x</li>
+              <li>机构目标价中位数约 <strong>$222</strong>（+24%）；区间 $210-235</li>
+            </ul>
+            <h5>三情景假设（FY2027 视角，以现价约 $179 为基准）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>FY2027 核心 FFO/股</th><th>合理 P/FFO</th><th>隐含股价</th><th>vs 当前</th></tr></thead><tbody><tr><td>乐观（25%）</td><td>AI 需求持续超预期，积压确认 + 续租利差双双高于指引，双位数增长延续至 2028</td><td>~$9.07（券商上沿）</td><td>26x</td><td>~$236</td><td>+32%</td></tr><tr><td>中性（50%）</td><td>积压按计划转化，利差回落至指引区间 9-11%，增长兑现但不再超预期</td><td>~$9.0（共识中枢）</td><td>23x</td><td>~$207</td><td>+16%</td></tr><tr><td>悲观（25%）</td><td>超大规模客户资本开支放缓 + 利率维持高位，2027 增长失速，按美银剧本重定价</td><td>~$8.4（美银口径）</td><td>17x</td><td>~$143</td><td>-20%</td></tr></tbody></table></div>
+            <p><strong>期望值约 $198，较现价约 +11%；赔率约 1.6:1（+32% / -20%）。</strong>与台积电式的「低估值 + 盈利上修」不同，DLR 是「合理估值 + 高能见度兑现」——赚的是增长兑现的钱，不是预期差的钱，因此评级停留在持有；若回调至 17x FY2027E（约 $150）附近或 FY2027 预测集体上修，赔率会显著改善。</p>
+            <h5>券商盈利预测（核心 FFO/股，美元；德银为 AFFO 口径）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级 / 目标价</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>摩根大通（2026-07-24）</td><td>超配 / $235</td><td>7.39</td><td>8.72</td><td>9.07</td><td>10.05</td></tr><tr><td>花旗（2026-07-24）</td><td>买入 / $226</td><td>7.39</td><td>8.15</td><td>9.03</td><td>10.06</td></tr><tr><td>瑞银（2026-07-28）</td><td>买入 / $227</td><td>7.39</td><td>8.17</td><td>9.04</td><td>10.03</td></tr><tr><td>德意志银行（2026-05-19）</td><td>买入 / $220</td><td>6.55</td><td>7.08</td><td>8.01</td><td>8.82</td></tr><tr><td>美银（2026-07-30）</td><td>中性 / $215</td><td>7.39</td><td>8.19</td><td>8.35</td><td>8.41</td></tr><tr><td>汇丰（2026-07-24）</td><td>持有 / $210</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div>
+            <p>注：德银为 AFFO 口径且发布于 Q2 财报前，与核心 FFO 不可直接横比。关键观察点：花旗/瑞银 FY2026E 直接落在管理层指引 $8.15-8.20 上，说明指引已被消化；<strong>美银 FY2028E 仅 $8.41（隐含 2027 后增长近乎停滞）与三家多头 $10.0+ 的差距，就是本页核心问题 1 的分歧所在</strong>。</p>
+            <h5>资产负债表与融资要点（2026 Q2 末）</h5>
+            <ul>
+              <li>净债务 / 调整后 EBITDA <strong>4.7x</strong>（多年低位，长期目标 5.5x 以下）；固定费用覆盖 <strong>5.2x</strong>；<strong>93%</strong> 债务为固定利率</li>
+              <li>新发长期债务定价指引 <strong>4.5-5.5%</strong>，高于存量平均成本 2.85%——债务重置是渐进式 FFO 逆风</li>
+              <li>私募资本：32.5 亿美元美国超大规模基金 + 收购 Columbia Capital（$90 亿+ 基金承诺）——表外融资 + 管理费收入，降低每股稀释压力</li>
+              <li>约 90% 公用事业费用可通过合同转嫁客户，电力通胀风险大部分对冲</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>：公司概况、近况跟踪、业务拆分、催化剂（见同目录《数字房地产_一页通.md》，亦见本站「一页通」标签页）</li>
+        <li><strong>财务数据</strong>：FY2023-FY2026H1 营收/利润/现金流、2026 Q2 财报要点与管理层指引（正文数据均来自公开财报整理）</li>
+        <li><strong>局限</strong>：未读财报原文与电话会纪要（建议下一步补读 Q2 earnings call 中关于积压订单确认节奏与堪萨斯城客户签约的表述）；现价约 $179 取自一页通口径，未独立核对行情；三情景的倍数与概率为主观设定；未对利率路径做独立假设</li>
+        <li><strong>管理层评估（一句话版）</strong>：Q2 敢于在超预期基础上再度上调全年指引、同时给出积压订单的明确确认时间表，并以私募资本模式管理融资强度而非纯靠发股发债——执行力与资本运作纪律当前在线，兑现度待 2026 下半年租金确认验证</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>数字房地产（Digital Realty Trust, Inc.）是全球最大的云及运营商中立数据中心解决方案提供商之一，业务覆盖主机托管（Colocation）、互联（Interconnection）及超大规模（Hyperscale）定制化数据中心。公司采用房地产投资信托（REIT）架构运营，通过其运营合伙企业持有并运营资产。截至2026年6月30日，公司在全球六大洲超过55个都会区运营超过300座数据中心，服务逾6000家客户，横跨云计算、信息技术、社交媒体、金融、制造及能源等多个垂直行业。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul>
+<li><strong>业绩超预期并再度上调全年指引</strong>：2026年第二季度，公司实现总营收19.24亿美元，同比增长29%；调整后EBITDA为9.78亿美元，同比增长19%。剔除一次性附带权益收入（promote income）后，核心每股FFO达到2.13美元，同比增长14%，超出市场一致预期。基于强劲的业绩和对未来的信心，管理层将2026年全年核心每股FFO指引上调至8.15至8.20美元，中点上调后隐含约11%的同比增长。</li>
+<li><strong>租赁活动创纪录，积压订单激增</strong>：第二季度新签租赁年化租金（含合资企业，100%份额）达3.07亿美元，其中DLR份额为2.08亿美元。0-1兆瓦及互联业务订单额达到创纪录的1.08亿美元，连续第三个季度刷新纪录。季末，已签未启动的积压订单总额（100%份额）达到创纪录的19亿美元（DLR份额为14亿美元），较年初增长75%。7月初，公司又签署了两份超大规模租赁，年化租金达4.1亿美元（100%份额），未被计入二季度积压订单。</li>
+<li><strong>续租租金利差显著扩大</strong>：第二季度续租表现强劲，签署了超过2.61亿美元的续租合同，整体现金释放利差高达25.4%。其中，大于1兆瓦类别的现金利差达到66.7%，主要由新加坡和北弗吉尼亚市场的供需失衡驱动。管理层因此将2026年全年现金续租利差指引大幅上调250个基点至9%-11%。</li>
+<li><strong>战略交易密集推进，扩张增长跑道</strong>：公司完成了对黑石集团（Blackstone）在北弗吉尼亚州三个超大规模数据中心合资企业中64%权益的收购，交易对价包括12亿美元现金和约23亿美元的DLR普通股。同时，公司宣布进入堪萨斯城市场，已锁定600兆瓦公用事业电力，预计2028年初开始交付，长期电力跑道可达2吉瓦。此外，公司还宣布将100%收购资产管理平台Columbia Capital，此举将增加超过90亿美元的基金承诺，显著扩大其私募资本业务。</li>
+<li><strong>开发管线大幅扩容</strong>：截至季末，公司在建容量达1.4吉瓦，总开发成本约200亿美元，上半年增幅达100%。若包含7月新签的超大规模租赁，管线预租率达63%，平均预期稳定收益率为11.5%。为支持增长，公司将2026年开发资本开支指引上调7.5亿美元至42.5亿至47.5亿美元。</li>
+</ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol>
+<li><strong>积压订单加速转化为收入，业绩高增确定性强化</strong>：截至2026年第二季度末，公司已签未启动的积压订单（DLR份额）高达14亿美元，约占存量数据中心租金收入的30%。管理层给出了明确的收入确认时间表：2026年下半年将有6.35亿美元年化租金开始确认，2027年将有4.8亿美元开始确认。这一高可见度的收入管道为未来几个季度的业绩提供了强有力的支撑，有望持续驱动营收和FFO超预期增长。随着这些高利润率租约的逐步启动，公司有望在2026年下半年和2027年实现加速增长。</li>
+<li><strong>供需失衡驱动定价权显著提升，续租利差成为利润超预期的主要来源</strong>：全球核心数据中心市场正面临严重的供需失衡。以北美为例，CBRE报告显示，尽管库存同比增长33%，但空置率却降至历史最低点，北弗吉尼亚州空置率仅为0.3%。在此背景下，DLR的定价权显著增强。第二季度大于1兆瓦租约的现金续租利差高达66.7%，管理层因此将全年现金续租利差指引大幅上调至9%-11%。未来几年，随着大量低于市场价的租约到期（例如2028年到期的租约租金约为130美元/千瓦，而近期新签租金约为180美元/千瓦），续租的"市场化定价"机会将持续释放，为利润增长提供超预期的动力。</li>
+<li><strong>堪萨斯城新市场启动，打开中长期成长想象空间</strong>：公司宣布进入堪萨斯城市场，已锁定600兆瓦的公用事业电力，将于2028年初开始逐步交付，长期电力跑道可达2吉瓦。该市场具备低延迟连接（至美国50%以上人口的延迟低于10毫秒）、中心区位及充足电力供应等优势，正迅速成为AI和云工作负载的重要枢纽。这一布局标志着公司开始将业务版图从传统核心市场向外扩张，以捕捉更广泛的AI需求。尽管收入贡献尚需时日，但该项目的启动有望在短期内提升市场对公司长期增长跑道和可寻址市场规模的预期，从而对估值形成支撑。</li>
+</ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol>
+<li><strong>AI驱动的数据中心需求结构性增长，公司作为核心基础设施提供商将持续受益</strong>：AI正从训练阶段向推理阶段过渡，并逐步渗透至企业级应用和消费端。国际能源署（IEA）预测，到2030年，全球数据中心用电量将增至约950太瓦时，其中AI相关设施的电力消耗将增长两倍。这一长期、结构性的需求增长为DLR提供了广阔的市场空间。公司凭借其遍布全球的稀缺互联园区、已锁定的电力容量以及与超大规模客户的深厚关系，有望在未来数年持续获取市场份额，将行业顺风转化为持续的盈利增长。管理层已明确表示，预计未来多年将实现双位数的核心每股FFO增长。</li>
+<li><strong>"土地+电力"构筑稀缺性护城河，私募资本模式放大增长能力</strong>：在全球主要市场获取充足的电力供应已成为数据中心行业最大的进入壁垒。DLR通过前瞻性的土地收购和与公用事业公司的紧密合作，锁定了总计9吉瓦的未来增长跑道，其中近期（2027-2028年交付）正与客户积极洽谈的容量约1.5吉瓦。这种对稀缺资源的掌控构成了强大的结构性护城河。同时，公司通过设立基金（如32.5亿美元的美国超大规模数据中心基金）和收购Columbia Capital等举措，大力发展私募资本业务。这不仅为公司提供了表外融资渠道以支持资本密集型增长，还创造了持续增长的管理费收入，优化了资本回报率。</li>
+<li><strong>平台化战略深化客户粘性，互联生态价值持续提升</strong>：DLR正通过PlatformDIGITAL®平台，将业务从单纯的"空间和电力"提供商向"互联生态"平台升级。其0-1兆瓦及互联业务已连续三个季度创下订单记录，互联业务订单同比增长18%。随着AI推理和代理AI（Agentic AI）的发展，数据需要在网络边缘、云平台和终端用户之间高效流动，这使得高互联性的数据中心变得愈发重要。DLR在全球拥有超过6000家客户和约6000家云、网络及服务提供商构成的生态系统，这种网络效应一旦形成便极难复制。随着客户在平台上的部署越多，其转换成本越高，从而带来更高的客户留存率和定价能力。</li>
+</ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul>
+<li><strong>客户集中度风险</strong>：尽管公司客户基础广泛，但其前五大客户约占年化租金收入的33%。超大规模业务尤其依赖于少数几家大型云服务提供商和科技巨头。如果其中任何一家大幅削减资本开支、改变采购策略（如转向自建）或因财务压力而违约，将对公司的租赁业务和开发管线产生重大不利影响。公司虽在纪要中强调其超大规模客户均为投资级且业务多元，但集中度风险依然存在。</li>
+<li><strong>电力供应与开发执行风险</strong>：公司的长期增长高度依赖于能否按时、按预算获取电力并完成项目建设。全球供应链紧张、熟练劳动力短缺、社区反对（NIMBYism）以及公用事业电力交付延迟等因素，都可能导致项目延期、成本超支，从而侵蚀开发收益率。尽管公司凭借其规模和经验在应对这些挑战方面具备优势，但任何重大的执行失误都可能影响其增长轨迹和财务表现。</li>
+<li><strong>利率与汇率风险</strong>：作为资本密集型的REIT，公司依赖外部融资（债务和股权）来支持其大规模的开发计划。当前利率环境仍处高位，公司新发长期债务的定价指引在4.5%至5.5%之间，远高于其存量债务2.85%的平均成本。未来若利率持续高企或进一步上升，将增加公司的融资成本，压缩利润空间。此外，公司有超过40%的收入来自美国以外地区，汇率波动可能对其报告的财务业绩产生显著影响。</li>
+</ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul>
+<li><strong>2026年5月</strong>：公司宣布与黑石集团达成协议，以约35亿美元的总对价（包括12亿美元现金和约23亿美元的DLR普通股）收购后者在双方合资企业中64%的权益。该合资企业持有位于北弗吉尼亚州的三座完全租赁的超大规模数据中心，合计IT容量288兆瓦。</li>
+<li><strong>2026年6月</strong>：公司宣布签订协议，将100%收购资产管理平台Columbia Capital，该平台在数字基础设施领域管理着超过90亿美元的基金承诺。此交易旨在显著扩大公司的私募资本业务，并增加机构投资者关系网络。</li>
+<li><strong>2026年7月</strong>：公司宣布在第二季度财报之外，又签署了两份新的超大规模租赁协议，年化租金总额达4.1亿美元（100%份额），进一步扩大了本已创纪录的积压订单。</li>
+</ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul>
+<li><strong>2026年8月至10月</strong>：公司预计将在下半年完成对Teraco剩余16%权益的收购（以约6.5亿美元DLR普通股支付）以及对Columbia Capital的收购（以约4.85亿美元支付）。这些交易的完成将增厚公司盈利，并可能成为股价的正面催化剂。</li>
+<li><strong>2026年下半年</strong>：公司预计将有6.35亿美元的年化租金开始确认收入，其中45%在第三季度，55%在第四季度。大规模的租赁启动将直接转化为收入和利润的快速增长，是未来两个季度最直接的业绩催化剂。</li>
+<li><strong>2026年第三季度</strong>：堪萨斯城新项目预计将在下半年开工建设。关于该项目的更多细节，如客户签约情况、具体投资回报预期等，可能成为市场关注焦点，并影响对公司长期增长前景的评估。</li>
+</ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<p><strong>业务边际变化</strong></p>
+<p>公司近年业务重心从传统上偏重超大规模批发租赁，转向更为均衡的"全频谱"产品策略，在巩固超大规模业务的同时，大力发展零售型主机托管与互联业务。这一转变已取得显著成效，0-1兆瓦及互联业务订单额连续三个季度创下纪录，2026年第二季度首次突破1亿美元大关。同时，公司正通过收购Columbia Capital，将战略私募资本业务打造为第三大增长支柱，以管理费和附带权益的形式创造新的收入来源，并拓宽融资渠道。</p>
+<p><strong>盈利模式</strong></p>
+<p>公司核心盈利模式是通过在全球核心市场拥有、开发和运营数据中心，向客户出租"空间、电力及冷却能力"，并在此基础上提供高附加值的互联服务。其盈利来源主要包括：1）<strong>长期租赁收入</strong>：与超大规模及大型企业客户签订5-10年以上的租约，提供稳定且可预测的现金流；2）<strong>零售型主机托管与互联收入</strong>：为0-1兆瓦客户提供灵活的部署方案和连接服务，此类业务租金单价更高，客户粘性更强；3）<strong>费用收入</strong>：通过为合资企业和基金提供资产管理、开发和建设服务，获取经常性的管理费和一次性的附带权益收入。公司赚取的是基于稀缺资产和互联生态的"基础设施服务费"及"品牌溢价"。</p>
+<p><strong>业务拆分</strong></p>
+<p>公司业务主要按客户部署规模划分为两大类：0-1兆瓦（零售型主机托管与互联）和大于1兆瓦（超大规模与批发）。近年来，公司持续加大对0-1兆瓦业务的投入，该业务已成为重要的增长引擎，其占总租赁预订的比例和收入贡献均在提升。公司目前处于<strong>业绩兑现期</strong>，前期大规模的开发投资正逐步转化为租赁收入和利润，积压订单的释放和强劲的续租定价为未来增长提供了高可见度。</p>
+<p><strong>细分业务拆分</strong></p>
+<p><em>注：公司未按0-1MW和&gt;1MW口径分别披露历史收入及毛利率，下表基于公开披露的总量数据。</em></p>
+<div class="tbl-wrap"><table><thead><tr><th>项目 (单位：百万美元)</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>1H2026</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2023-12-31</td><td>2024-12-31</td><td>2025-12-31</td><td>2026-06-30</td></tr><tr><td><strong>租赁及相关服务收入</strong></td><td>5,430.17</td><td>5,482.47</td><td>5,968.92</td><td>3,274.86</td></tr><tr><td>同比</td><td>-</td><td>0.96%</td><td>8.87%</td><td>15.14%</td></tr><tr><td>占总营收比例</td><td>99.14%</td><td>98.70%</td><td>97.65%</td><td>92.01%</td></tr><tr><td><strong>费用收入及其他</strong></td><td>46.89</td><td>72.50</td><td>143.77</td><td>284.35</td></tr><tr><td>同比</td><td>-</td><td>54.62%</td><td>98.32%</td><td>402.69%</td></tr><tr><td>占总营收比例</td><td>0.86%</td><td>1.30%</td><td>2.35%</td><td>7.99%</td></tr><tr><td><strong>总营收</strong></td><td><strong>5,477.06</strong></td><td><strong>5,554.97</strong></td><td><strong>6,112.69</strong></td><td><strong>3,559.21</strong></td></tr><tr><td>同比</td><td>-</td><td>1.42%</td><td>10.04%</td><td>22.70%</td></tr><tr><td><strong>总营业支出</strong></td><td>4,952.60</td><td>5,083.10</td><td>5,454.20</td><td>2,833.02</td></tr><tr><td><strong>营业利润</strong></td><td>524.46</td><td>471.87</td><td>658.49</td><td>726.19</td></tr><tr><td>营业利润率</td><td>9.58%</td><td>8.49%</td><td>10.77%</td><td>20.40%</td></tr></tbody></table></div>
+<p><strong>租赁及相关服务收入</strong>：这是公司的核心收入来源，2026年上半年实现收入32.75亿美元，同比增长15.14%。增长主要得益于：1）前期开发项目的完工和租赁启动；2）强劲的续租租金利差；3）0-1兆瓦及互联业务的创纪录增长。该业务的增长是公司整体业绩的核心驱动力。</p>
+<p><strong>费用收入及其他</strong>：2026年上半年实现收入2.84亿美元，同比增长402.69%。该科目的爆发式增长主要源于第二季度确认了约2亿美元的附带权益收入，这与公司收购黑石集团在合资企业中的权益有关。剔除该一次性项目后，经常性费用收入约为每季度4500万美元，主要由资产管理费和开发管理费构成，随着私募资本业务的扩张，这部分收入有望持续增长。</p>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托稀缺电力资源与全球互联园区形成的结构性护城河</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：构成了<strong>结构性护城河</strong>。在全球核心数据中心市场，获取充足的电力供应已成为最大的进入壁垒。DLR通过多年积累，在全球55个都会区锁定了总计9吉瓦的未来增长跑道，并与当地公用事业公司建立了紧密的合作关系。同时，其全球超过300座数据中心形成的互联园区，聚集了超过6000家客户和约6000家服务提供商，产生了强大的网络效应。这种对稀缺物理资源和网络生态的双重掌控，是竞争对手难以在短期内复制的。</li>
+<li><strong>数据验证</strong>：截至2026年第二季度，公司在建容量达1.4吉瓦，总开发成本约200亿美元，预租率达63%。在电力最紧张的北弗吉尼亚市场，行业空置率仅为0.3%，而DLR在该市场拥有最大的容量储备之一。其0-1兆瓦及互联业务订单连续三个季度创纪录，互联业务订单同比增长18%，证明了其生态系统的吸引力。</li>
+<li><strong>动态演变</strong>：<strong>护城河变宽（巩固）</strong>。随着AI需求的爆发，对电力和低延迟互联的需求更加迫切，这使得DLR已锁定的电力和园区资产价值进一步凸显。公司通过收购Columbia Capital，进一步增强了其获取和部署资本以抢占稀缺资源的能力，从而巩固并扩大了其竞争优势。</li>
+</ul>
+<p><strong>竞争要素 2：全频谱产品平台带来的高客户粘性与定价权</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：构成了<strong>结构性护城河</strong>。DLR的PlatformDIGITAL®平台能够为从单一机柜到数百兆瓦的所有规模客户提供一致的全球部署体验，并集成互联服务。这种"一站式"解决方案极大地降低了客户的交易成本和运营复杂性。一旦客户在一个互联园区内部署，其与园区内其他网络、云和SaaS提供商的连接便形成了深度绑定，转换成本极高。这种粘性赋予了公司强大的定价权，尤其是在续租谈判中。</li>
+<li><strong>数据验证</strong>：第二季度续租表现提供了有力证据，整体现金释放利差高达25.4%，其中大于1兆瓦类别达到66.7%。公司前20大客户的加权平均租期约为6.1年，显示出客户的长期承诺。0-1兆瓦类别中，AI相关订单贡献了约20%，表明新锐的AI企业也正被吸引进入其生态系统。</li>
+<li><strong>动态演变</strong>：<strong>护城河变宽（巩固）</strong>。随着AI推理和代理AI的发展，数据需要在网络边缘、云平台和终端用户之间高效流动，这使得高互联性的数据中心变得愈发重要。DLR的平台战略恰好契合了这一趋势，其作为"数据交汇中心"的价值将持续提升，从而进一步增强客户粘性和定价权。</li>
+</ul>
+<p><strong>现阶段核心驱动力总结</strong>：公司的Alpha来源于其在全球核心市场对稀缺电力和互联生态的掌控，以及由此带来的强大定价能力。其Beta则与云计算和AI基础设施的整体资本开支周期紧密相关。当前，AI驱动的需求爆发为Beta提供了强劲顺风，而公司自身的战略执行（如平台化、私募资本扩张）则持续强化其Alpha。</p>
+<p><strong>竞争格局传导逻辑</strong>：</p>
+<ul>
+<li>锁定稀缺电力与全球互联园区 → 极高的供给壁垒与网络效应 → 强大的定价权与高客户粘性 → 高续租利差与低客户流失率 → 营收与利润持续增长</li>
+<li>全频谱产品平台 → 一站式服务降低客户成本 → 强化定价权与客户粘性；同时吸引多元客户、扩大生态系统 → 反哺供给壁垒与网络效应</li>
+</ul>
+<h3 class="doc-h2">产销链</h3>
+<ul>
+<li><strong>客户情况</strong>：公司客户群高度多元化，超过6000家，覆盖云计算、IT服务、社交媒体、金融、制造等多个行业。然而，收入集中度较高，前五大客户约占年化租金收入的33%，前20大客户约占51%。最大客户（微软）占比约11.6%，第二大客户（甲骨文）占比约9.0%。这种对超大规模客户的依赖是潜在风险，但公司通过签订5-15年的长期租约来锁定未来现金流。新客户拓展方面，公司季度新增客户约130-150家，渠道销售贡献了近40%的订单，显示出其市场拓展能力。</li>
+<li><strong>供应商情况</strong>：公司的核心供应商包括公用事业公司（电力）、建筑承包商、以及冷却和电气设备制造商。电力成本是最大的运营支出项，但约90%的公用事业费用可通过合同条款直接转嫁给客户，有效对冲了能源价格波动风险。在建筑和供应链方面，公司面临熟练劳动力短缺和设备供应紧张等挑战，但凭借其超过20年的行业经验和规模优势，能够通过与全球供应商的战略合作关系来管理成本和交付时间。</li>
+<li><strong>经销商情况</strong>：公司采用直销模式，未通过经销商网络进行销售。</li>
+<li><strong>成本传导能力</strong>：公司具备较强的成本传导能力。对于占运营成本大头的电力费用，大部分合同允许直接向客户报销。对于其他运营成本和资本成本，公司通过新签和续租租约中的价格调整条款（通常为3%或更高，或与CPI挂钩）来转嫁通胀压力。公司赚取的是基于稀缺资产和互联生态的"基础设施服务费"及"品牌溢价"，而非单纯的"加工费"。</li>
+</ul>
+<h3 class="doc-h2">财务数据</h3>
+<div class="tbl-wrap"><table><thead><tr><th>项目 (单位：百万美元)</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>1H2026</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2023-12-31</td><td>2024-12-31</td><td>2025-12-31</td><td>2026-06-30</td></tr><tr><td>营业总收入</td><td>5,477.06</td><td>5,554.97</td><td>6,112.69</td><td>3,559.21</td></tr><tr><td>同比</td><td>16.74%</td><td>1.42%</td><td>10.04%</td><td>22.70%</td></tr><tr><td>营业总支出</td><td>4,952.60</td><td>5,083.10</td><td>5,454.20</td><td>2,833.02</td></tr><tr><td>营业利润</td><td>524.46</td><td>471.87</td><td>658.49</td><td>726.19</td></tr><tr><td>营业利润率</td><td>9.58%</td><td>8.49%</td><td>10.77%</td><td>20.40%</td></tr><tr><td>归母净利润</td><td>908.11</td><td>561.77</td><td>1,267.87</td><td>612.20</td></tr><tr><td>同比</td><td>169.50%</td><td>-38.14%</td><td>125.69%</td><td>-45.43%</td></tr><tr><td>稀释每股收益（美元）</td><td>2.88</td><td>1.61</td><td>3.58</td><td>1.68</td></tr><tr><td>经营活动现金流净额</td><td>1,634.78</td><td>2,261.48</td><td>2,412.14</td><td>1,595.23</td></tr><tr><td>投资活动现金流净额</td><td>-1,115.11</td><td>-1,906.16</td><td>-2,230.47</td><td>-4,246.55</td></tr><tr><td>筹资活动现金流净额</td><td>963.47</td><td>2,063.43</td><td>-486.74</td><td>980.24</td></tr></tbody></table></div>
+<p><em>注：归母净利润同比大幅波动主要受资产处置收益、减值损失等非经常性项目影响。1H2026数据为截至2026年6月30日的6个月累计数据，同比对比基数为1H2025。</em></p>
+<p><strong>财务分析</strong>：</p>
+<ul>
+<li><strong>成长能力</strong>：公司营收增长在2026年上半年显著加速，同比增长22.70%，主要得益于前期大规模开发项目完工后租赁的启动，以及强劲的续租租金增长。这标志着公司进入了一轮由供给交付驱动的业绩兑现期。</li>
+<li><strong>盈利能力</strong>：营业利润率从2024年的8.49%提升至2026年上半年的20.40%，显示出显著的经营杠杆效应。这主要得益于收入增长快于运营支出的增长。作为REIT，归母净利润受折旧、摊销及资产处置损益等非现金项目影响较大，波动剧烈，因此市场更关注运营现金流（FFO）指标。2026年上半年，公司核心每股FFO（剔除一次性项目）同比增长14%，反映了强劲的盈利增长势头。</li>
+<li><strong>运营能力与偿债能力</strong>：公司资产负债表健康。截至2026年第二季度末，净债务与调整后EBITDA之比为4.7倍，处于多年低位，远低于5.5倍的长期目标。固定费用覆盖倍数高达5.2倍，表明其有充足的利润来覆盖利息和优先股股息。约93%的债务为固定利率，有效管理了利率风险。</li>
+<li><strong>杜邦分析（ROE拆分）</strong>：公司2025年ROE为5.7%（归母净利润/平均股东权益），处于较低水平，这主要是由于作为REIT，其资产基础庞大且包含大量折旧，同时杠杆率相对保守。其盈利模式的核心在于产生稳定且不断增长的每股FFO，而非追求高ROE。</li>
+</ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p><strong>行业分析</strong>：公司所处的全球数据中心行业正经历由云计算和人工智能（AI）驱动的结构性需求爆发。国际能源署（IEA）预测，到2030年，全球数据中心用电量将增至约950太瓦时，其中AI相关设施的电力消耗将增长两倍。CBRE数据显示，尽管2026年北美主要市场的数据中心库存在一年内增长了33%，但空置率却降至历史最低点，北弗吉尼亚州空置率仅为0.3%。这揭示了行业的核心矛盾：需求远超供给，而电力供应已成为限制供给扩张的最大瓶颈。在此背景下，拥有已锁定电力和可开发土地的运营商获得了强大的定价权和增长确定性。行业趋势正从传统的"空间租赁"向"高密度电力+互联生态"平台演进，AI推理和代理AI的兴起将进一步推动对低延迟、分布式互联的需求。</p>
+<p><strong>竞争格局</strong>：市场由少数几家全球性平台和众多区域性运营商构成，竞争激烈。DLR的主要竞争对手包括Equinix（EQIX）、NTT等。竞争维度主要集中在：1）全球核心市场的覆盖范围和电力获取能力；2）互联生态的广度和深度；3）服务全频谱客户需求的能力；4）资本获取能力和成本。</p>
+<p><strong>可比公司</strong>：</p>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>业务模式侧重</th><th>全球布局</th><th>互联生态强度</th><th>估值水平 (P/AFFO, 2026E)</th></tr></thead><tbody><tr><td><strong>Digital Realty Trust</strong></td><td>DLR</td><td>均衡（超大规模+零售互联）</td><td>极强（六大洲）</td><td>强</td><td>约24-25x</td></tr><tr><td>Equinix</td><td>EQIX</td><td>零售互联为主</td><td>强（五大洲）</td><td>极强</td><td>约24-25x</td></tr><tr><td>Iron Mountain</td><td>IRM</td><td>多元化（存储+数据中心）</td><td>强</td><td>较弱</td><td>约21x</td></tr><tr><td>American Tower</td><td>AMT</td><td>通信基础设施为主</td><td>极强</td><td>较弱</td><td>约15x</td></tr></tbody></table></div>
+<p><em>注：估值数据为基于市场一致预期的估算。</em></p>
+<p><strong>总结分析</strong>：与最接近的竞争对手Equinix相比，DLR的估值倍数相近，但业务结构更为均衡，在超大规模领域拥有更强的存在感，这使其能更全面地捕捉AI基础设施投资的机会。与Iron Mountain和American Tower等多元化基础设施公司相比，DLR作为更纯粹的数据中心标的，享有更高的估值溢价，反映了市场对其更高增长前景的认可。DLR的核心竞争优势在于其全球化的互联园区平台和已锁定的巨大电力容量储备，这使其在供给受限的市场中占据了有利位置。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<p><strong>议题一：业绩可持续性与双位数增长承诺</strong></p>
+<ul>
+<li><strong>背景</strong>：公司管理层在第二季度财报中明确表示，预计未来多年将实现双位数的核心每股FFO增长。这一乐观指引基于创纪录的积压订单、强劲的续租定价和庞大的开发管线。市场关注这一高增长能否持续，尤其是在2026年因一次性项目（如保险赔偿）和有利汇率而获得额外提振之后。</li>
+<li><strong>问题列表</strong>：剔除2026年的一次性项目后，2027年及以后的有机增长驱动力是否足够维持双位数增长？14亿美元的积压订单将在未来几年如何逐步转化为收入和利润？在资本开支和股份稀释增加的背景下，每股FFO的增长目标如何实现？</li>
+</ul>
+<p><strong>议题二：超大规模业务客户集中度与信用风险</strong></p>
+<ul>
+<li><strong>背景</strong>：DLR的前五大客户占其年化租金收入约33%，且超大规模业务通常涉及与单一客户签订巨额租赁合同。尽管这些客户多为投资级科技巨头，但市场对其资本开支的可持续性以及潜在的单点风险仍存疑虑。</li>
+<li><strong>问题列表</strong>：公司如何管理与主要超大规模客户的关系，以降低客户集中度风险？在与信用评级较弱的AI新贵（如Neocloud）合作时，公司的信用审核标准和风险控制措施是什么？如果主要超大规模客户因宏观环境或战略调整而削减资本开支，对公司已签租约和开发管线的影响有多大？</li>
+</ul>
+<p><strong>议题三：大规模资本开支的融资与执行风险</strong></p>
+<ul>
+<li><strong>背景</strong>：为抓住AI需求机遇，公司大幅上调了2026年开发资本开支指引至42.5亿至47.5亿美元。如此庞大的投资计划需要大量外部融资，并面临建设成本超支和工期延误的风险。</li>
+<li><strong>问题列表</strong>：公司将如何平衡债务、股权和私募资本等多种融资工具，以最低成本满足资本开支需求？当前的建设成本（约1400万美元/兆瓦）是否可持续？供应链和劳动力短缺对项目回报率的影响如何？公司如何确保9吉瓦未来增长跑道中的项目能够按时、按预算交付？</li>
+</ul>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧：当前的高增长是行业顺风下的周期性繁荣，还是公司结构性优势驱动的可持续增长？</strong></p>
+<ul>
+<li><strong>乐观方观点</strong>：认为DLR的增长具有高度可持续性。其逻辑支撑在于：1）<strong>需求的结构性</strong>：AI驱动的算力需求增长才刚开始，远未见顶，这是一个长达数年的建设周期。2）<strong>供给的稀缺性</strong>：电力和土地已成为核心市场最大的进入壁垒，DLR已锁定的9吉瓦增长跑道构成了强大的结构性护城河，使其能在更长时期内受益于供需失衡。3）<strong>模式的升级</strong>：公司正从简单的"房东"向"平台"转型，互联和私募资本业务创造了新的价值增长点和更高的客户粘性，这将驱动长期Alpha。4）<strong>业绩的高可见度</strong>：创纪录的积压订单和明确的收入确认时间表为未来2-3年的增长提供了清晰的能见度。</li>
+<li><strong>谨慎方观点</strong>：担忧当前的高增长可能部分透支了未来，并伴随高风险。其逻辑支撑在于：1）<strong>客户集中风险</strong>：过度依赖少数超大规模客户，这些客户的资本开支具有周期性，任何削减都可能导致需求"真空"。2）<strong>资本开支陷阱</strong>：为满足需求而进行的大规模资本开支，可能导致未来供给过剩，或使公司在需求放缓时背负沉重的债务和折旧负担。3）<strong>稀释效应</strong>：为融资而持续进行的股权融资（ATM发行）会稀释现有股东的权益，若增长不能持续超预期，每股价值的增长将受限。4）<strong>估值已反映乐观预期</strong>：当前股价对应的估值倍数已处于历史较高水平，若未来增长稍有放缓，可能面临"戴维斯双杀"的风险。</li>
+</ul>
+<p><strong>总结分析</strong>：乐观方和谨慎方的分歧本质在于对行业周期位置和公司护城河深度的不同判断。从当前时点看，AI驱动的需求浪潮和核心市场电力供给的刚性约束，为乐观方提供了强有力的现实支撑。DLR已锁定的电力和土地资源，以及其不断扩大的互联生态系统，确实构成了比以往周期更坚固的壁垒。然而，谨慎方提出的风险亦不容忽视，尤其是客户集中度和资本开支的纪律性，将是决定公司能否跨越周期、实现可持续增长的关键。公司管理层在纪要中强调其超大规模客户均为投资级且业务多元，并正通过私募资本模式来管理融资压力，这些举措旨在缓解上述风险。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>管理层最新指引（2026财年）</strong>：</p>
+<ul>
+<li><strong>核心每股FFO（剔除净附带权益）</strong>：8.15 - 8.20美元</li>
+<li><strong>总收入（剔除附带权益）</strong>：68.5亿 - 69.5亿美元</li>
+<li><strong>调整后EBITDA</strong>：37.5亿 - 38.5亿美元</li>
+<li><strong>现金续租租金利差</strong>：9.0% - 11.0%</li>
+<li><strong>开发资本开支（扣除合作伙伴出资后）</strong>：42.5亿 - 47.5亿美元</li>
+</ul>
+<p><strong>机构盈利预测与估值</strong>：</p>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价(美元)</th><th>财务指标</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>摩根大通 (2026-07-24)</td><td>超配</td><td>235.00</td><td>核心FFO/股(美元)</td><td>7.39</td><td>8.72</td><td>9.07</td><td>10.05</td></tr><tr><td>花旗 (2026-07-24)</td><td>买入</td><td>226.00</td><td>核心FFO/股(美元)</td><td>7.39</td><td>8.15</td><td>9.03</td><td>10.06</td></tr><tr><td>瑞银 (2026-07-28)</td><td>买入</td><td>227.00</td><td>核心FFO/股(美元)</td><td>7.39</td><td>8.17</td><td>9.04</td><td>10.03</td></tr><tr><td>德意志银行 (2026-05-19)</td><td>买入</td><td>220.00</td><td>AFFO/股(美元)</td><td>6.55</td><td>7.08</td><td>8.01</td><td>8.82</td></tr><tr><td>美银 (2026-07-30)</td><td>中性</td><td>215.00</td><td>核心FFO/股(美元)</td><td>7.39</td><td>8.19</td><td>8.35</td><td>8.41</td></tr><tr><td>汇丰 (2026-07-24)</td><td>持有</td><td>210.00</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr></tbody></table></div>
+<p><em>注：预测数据均为各机构在最新报告中的财年预测。目标价和评级截止报告发布日。</em></p>
+<p><strong>盈利预测与估值分析</strong>：市场对DLR的盈利预测整体偏向乐观，多数机构预计公司2026年核心每股FFO将落在管理层指引的8.15-8.20美元区间内或略高，并将在2027年和2028年延续双位数增长。估值方法上，由于REIT的净利润受折旧影响大，市场普遍采用P/FFO或P/AFFO进行估值。当前股价（约179美元）对应2026年一致预期核心每股FFO（约8.15美元）的倍数约为22倍，对应2027年一致预期（约9.0美元）的倍数约为20倍。这一估值水平低于其最接近的竞争对手Equinix，但高于传统REIT，反映了市场对其AI驱动的增长前景给予了一定的溢价，但并未过度透支。机构目标价中位数约为222美元，较当前股价有约24%的上行空间，显示出市场整体仍看好其投资价值。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/DLR · 生成于 2026-08-06</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-06';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'hit',     text: '<strong>2026 Q2 财报超预期 + 全年核心 FFO 指引上调至 $8.15-8.20</strong>：核心 FFO/股 $2.13（+14%）超预期，积压订单创纪录 $19 亿', note: '2026-07 兑现' },
+  { kind: 'cat', status: 'active',  text: '<strong>积压订单转化为收入</strong>：2026 下半年 $6.35 亿年化租金开始确认（45% Q3 / 55% Q4），2027 年 $4.8 亿', note: '未来两季最直接的业绩催化，逐季核对' },
+  { kind: 'cat', status: 'pending', text: '<strong>Teraco 16% + Columbia Capital 收购完成</strong>（2026 下半年）：$6.5 亿股票 + $4.85 亿对价，增厚盈利并扩大私募资本业务', note: '预计 2026-08 至 10 月完成' },
+  { kind: 'cat', status: 'pending', text: '<strong>堪萨斯城新项目开工与客户签约</strong>（2026 Q3 起）：600MW 已锁定电力，2028 初交付，长期跑道 2GW', note: '签约与回报预期是关注点' },
+  { kind: 'cat', status: 'pending', text: '<strong>2028 年到期低价租约（约 $130/kW）续租市场化定价</strong>：近期新签约 $180/kW，mark-to-market 空间约 +38%', note: '中期利差基本盘' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>超大规模客户集体削减资本开支</strong>：前五大客户占年化租金约 33%（微软 11.6%、甲骨文 9.0%），砍单即需求真空', note: '每季度 CSP 财报季核对，当前仍在扩张' },
+  { kind: 'risk', status: 'clear', text: '<strong>利率持续高企加剧融资成本</strong>：新发长期债 4.5-5.5% vs 存量平均 2.85%，债务重置拖累每股 FFO', note: '93% 固定利率 + 4.7x 净债务/EBITDA 提供缓冲' },
+  { kind: 'risk', status: 'clear', text: '<strong>开发执行风险</strong>：建设成本约 $1,400 万/MW，劳动力短缺/电力交付延迟/成本超支侵蚀 11.5% 开发收益率', note: '跟踪管线预租率（当前 63%）与收益率' },
+  { kind: 'risk', status: 'clear', text: '<strong>股权稀释超预期</strong>：黑石 $23 亿 + Teraco $6.5 亿 + Columbia $4.85 亿股票对价 + 持续 ATM 发行，份额增长吃掉每股 FFO 增速', note: '逐季核对流通股本变化' },
+  { kind: 'risk', status: 'clear', text: '<strong>行业供给潮导致空置率回升、续租利差跌破指引下限</strong>（&lt;9%）：北美库存一年 +33%，2028-2029 交付潮是观察窗口', note: '当前空置率历史最低、利差 25.4%，距离证伪尚远' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

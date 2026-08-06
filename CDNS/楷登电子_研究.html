@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>楷登电子（CDNS.O）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--policy-red); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">CDNS</span>
+    <span class="site-mark__text">楷登电子 公司研究<span>Cadence · CDNS.O</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>楷登电子<span class="en">Cadence Design Systems · CDNS.O · 美股研究</span></h1>
+        <p class="sub">EDA 双寡头之一：Q2 营收 +24% 全面超预期、全年指引「史上最大幅度」上调，积压订单 81 亿美元创新高，Agentic AI 从叙事走向早期变现（ChipStack 已 20+ 客户量产使用、尚未计入指引）。但约 42 倍前瞻 PE 已计入大部分好消息，出口管制与开源 AI 颠覆论是两条清晰的证伪路径——核心矛盾是量价齐升的确定性 vs 高估值下的赔率。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-06</span>
+          <span>下次更新：Q3 财报（2026-10 前后）/ 2026-11-09 BIS「50% 所有权规则」暂停期到期</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>估算现价约 350 美元 ≈ 42x FY2026E PE，处券商 40-45x 区间中枢；三情景期望值约 +12%、赔率约 1.7:1，不足以买入。重检条件：Agentic AI 贡献量化进指引且 IP 环比持续（上调）；出口管制收紧或倍数跌破 35x（下调）。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">营收 +24%</strong><span>26Q2 $15.84亿·超指引上限</span></div>
+      <div class="summary-rail__item"><strong>45.5%</strong><span>26Q2 非GAAP营业利润率</span></div>
+      <div class="summary-rail__item"><strong>$81亿</strong><span>积压订单·同比 +27% 创新高</span></div>
+      <div class="summary-rail__item"><strong>$63亿</strong><span>FY26 营收指引中值·约 +19%</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">Q2 财报：「史上最大幅度」的指引上调靠什么支撑？增长的广度与能见度够吗？</h2>
+        <span class="qa__impact-tag">→ FY26 营收指引中值 +19% · 积压订单 $81亿 创新高</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>超预期含金量高：营收 +24%、非 GAAP 营业利润率 45.5%、EPS 2.11 美元全部打到指引上限之上，管理层称此次指引上调为「<strong>历史上幅度最大的一次</strong>」，且强调增长具有全业务、全区域的广泛性。能见度有硬指标支撑：积压订单 <strong>81 亿美元（+27%）覆盖未来约 1.5 年营收</strong>，IP 业务 +40%、Intel 全栈合作 100% 增量、硬件仿真系统创纪录且供应受限。<em>保留判断：2026 年是三年续约周期的「小年」，高增部分依赖追加销售（add-on）；下半年利润率指引低于上半年（Hexagon 整合 + Intel 投入），增长质量要在 Q3 继续核对。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>FY2026E EPS 共识收敛至 8.10-8.31 美元</strong>（公司指引 8.05-8.15，券商预测上沿 8.31），相比 FY2025 的 7.14 美元增长约 13-16%——盈利上修周期确认，但注意增速低于营收增速（+19%），下半年利润率指引偏低已在预期内。</p>
+            <p>真正的弹性在 FY2027E：券商预测分歧 9.15-10.00 美元，差距主要在 Agentic AI 贡献与 IP 增速假设。<strong>EPS 每差 0.5 美元，在 42x 倍数下 ≈ 21 美元股价（约 6%）</strong>——Q3/Q4 管理层是否开始量化 Agentic AI 贡献，是 FY2027E 向区间上沿收敛的触发器。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>指引上调为「历史上幅度最大的一次」，且增长<strong>全业务、全区域</strong>广泛——不是单一客户或单一产品的脉冲</li>
+              <li>积压订单 <strong>81 亿美元、同比 +27%</strong>，覆盖约 1.5 年营收；经常性收入占比约 80%，营收可见性在软件公司里也是顶级</li>
+              <li>IP 业务 +40%（接口 IP PCIe/UCIe、内存 IP HBM/DDR 受 AI/HPC 驱动），且大部分来自<strong>有机增长</strong>；与 Intel、三星的新签 IP 协议 2027 年放量</li>
+              <li>硬件仿真（Palladium Z3/Protium X3）再创纪录、新增 12 个客户、仍处供应受限——验证需求是真实的设计活动而非库存</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>2026 是三年续约周期「小年」，积压订单高增靠 add-on 追加销售——<strong>续约大年的基数效应能否延续待验证</strong></li>
+              <li>管理层明确下半年利润率低于上半年：Hexagon 整合成本 + Intel 合作投入，<strong>增长是以利润率换的</strong></li>
+              <li>管理层自己提示 IP 单季 +40% 不宜年化，存在一次性项目交付和集中确认成分</li>
+              <li>EDA 工具占客户芯片研发预算已从 ~7% 升至 ~11-12%——既是潜力也是<strong>预算份额继续提升的难度在加大</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（Q2 财报速览 · 业务板块拆解 · 券商预测）</summary>
+          <div class="evidence__body">
+            <h5>2026 Q2 财报速览（2026-07 下旬发布）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>实际</th><th>预期/指引</th><th>评价</th></tr></thead><tbody><tr><td>总营收</td><td><strong>$15.84 亿</strong>（同比 +24%）</td><td>指引上限之下</td><td><strong>超出指引上限</strong>，beat</td></tr><tr><td>非 GAAP 营业利润率</td><td><strong>45.5%</strong></td><td>指引上限之下</td><td>超出指引上限，beat</td></tr><tr><td>非 GAAP EPS</td><td><strong>$2.11</strong></td><td>指引上限之下</td><td>超出指引上限，beat</td></tr><tr><td>积压订单（Backlog）</td><td><strong>$81 亿</strong>（同比 +27%）</td><td>—</td><td>创历史新高，覆盖约 1.5 年营收</td></tr><tr><td>核心 EDA</td><td>$10.77 亿（+18%，占比 68%）</td><td>—</td><td>数字全流程渗透 + 硬件创纪录、供应受限</td></tr><tr><td>半导体 IP</td><td><strong>$2.38 亿（+40%+，占比 15%）</strong></td><td>—</td><td>本季最大亮点；管理层提示不宜年化</td></tr><tr><td>系统设计与分析</td><td>$2.69 亿（+37%，占比 17%）</td><td>—</td><td>含 Hexagon 并表贡献</td></tr><tr><td>FY2026 全年指引</td><td>营收 <strong>$62.6-63.4 亿</strong>（中值 +19%）；非 GAAP EPS <strong>$8.05-8.15</strong>；经营现金流约 $20 亿</td><td>此前更低</td><td><strong>「历史上幅度最大的一次」上调</strong></td></tr><tr><td>下半年利润率</td><td>指引略低于上半年</td><td>—</td><td><span class="warn">⚠️</span> Hexagon 整合 + Intel 合作投入</td></tr></tbody></table></div>
+            <h5>增长的三个结构性支点</h5>
+            <ul>
+              <li><strong>IP 业务</strong>：AI/HPC 拉动接口 IP（PCIe、UCIe）与内存 IP（HBM、DDR）需求；Chiplet/3D-IC 趋势放大单芯片 IP 用量；代工生态从台积电向 Intel、三星、Rapidus 多元化，扩大可及市场</li>
+              <li><strong>Intel 多年期战略合作</strong>：聚焦 14A 制程，覆盖设计 IP、DTCO 与 Agentic AI EDA；管理层定性为「关系正常化」+「<strong>100% 增量业务</strong>」，已计入 Q2 积压订单——Cadence 历史上在 Intel/三星生态份额远低于台积电生态，这是份额叙事的实质突破</li>
+              <li><strong>客户结构分散</strong>：无单一客户占营收超 10%，前 60-70 家半导体及系统公司贡献约 60-70% 营收——单客户砍单风险低</li>
+            </ul>
+            <h5>券商盈利预测（Q2 财报后更新）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级 / 目标价</th><th>FY2026E EPS</th><th>FY2027E EPS</th><th>FY2028E EPS</th></tr></thead><tbody><tr><td>高盛（2026-07-27）</td><td>买入 / $470</td><td>8.20</td><td>10.00</td><td>11.50</td></tr><tr><td>摩根大通（2026-07-28）</td><td>超配 / $405</td><td>8.31</td><td>9.15</td><td>—</td></tr><tr><td>摩根士丹利（2026-07-28）</td><td>超配 / $400</td><td>8.31</td><td>9.81</td><td>11.43</td></tr><tr><td>花旗（2026-07-28）</td><td>买入 / $420</td><td>8.10</td><td>—</td><td>—</td></tr></tbody></table></div>
+            <p>注：以上均为非 GAAP 口径。FY2026E 高度共识（8.10-8.31），FY2027E 分歧（9.15-10.00）主要在 Agentic AI 贡献与 IP 增速假设——这正是核心问题 2 的定价含义。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">Agentic AI 是颠覆者还是第二增长曲线？Kimi K3 冲击与「三层蛋糕」防御谁对谁错？</h2>
+        <span class="qa__impact-tag">→ TAM 从百亿级 EDA 扩至千亿级研发人力市场 · 尚未计入指引</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>现有证据站在「变现」一边：ChipStack 已有 <strong>20+ 客户投入生产</strong>，英伟达工程师用其将 RTL 验证提速 <strong>40 倍</strong>，Computex 上与英伟达联合发布全自主虚拟 AI 设计工程师（五周验证周期压缩到一天以内）；「三层蛋糕」架构（专用硬件 → 物理精确引擎 → AI 编排层）使 AI 代理<strong>增加而非减少</strong>对底层工具的调用。Kimi K3 用的是落后领先制程约 20 年的 45nm 工艺，且仍依赖底层 EDA 工具——恰好验证了架构而非颠覆。<em>保留判断：变现收入目前量级小、未计入指引，「订阅+消费」模式的 ARPU 提升尚无量化案例；颠覆论逻辑上成立、只是缺乏先进制程上的可行性证据，这条证伪路径要一直开着。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>短期是估值问题，不是 EPS 问题。</strong>Agentic AI 未计入指引，对 FY2026-2027 EPS 几乎无直接影响；它决定的是倍数——「AI 颠覆 EDA」叙事曾在 7 月 18 日单日砸出 12% 的跌幅，叙事反转则支撑 42x 以上的溢价。</p>
+            <p>中期是 TAM 问题：「订阅+消费」混合定价（基础订阅对标工程师年薪、额外使用按量计费）把收费基础从「工具席位」扩展到「设计活动量」，管理层剑指千亿美元级的芯片研发人力预算。若 2027 年起贡献几个点的营收增量并抬升增速中枢，FY2027E EPS 推向 10 美元以上、45x+ 倍数就有了基本面支撑；反之若客户自研替代出现真实案例，压缩的是倍数——<strong>40x+ 回到 30x 即约 -25% 股价</strong>。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>AI 代理探索更大设计空间时<strong>更多次调用底层物理引擎</strong>——需求叠加而非替代，英伟达 40 倍提速案例即建立在 Cadence 现有工具之上</li>
+              <li>Kimi K3 演示的技术落后领先制程约 20 年，且流程中仍需依赖底层 EDA 工具——管理层称其实际验证了「三层蛋糕」的正确性</li>
+              <li>代理与底层引擎深度耦合 + 客户积累的专有知识图谱和强化学习数据，<strong>把转换成本从「工具使用」深化到「数据与工作流」</strong>，护城河变宽</li>
+              <li>黄仁勋公开表示愿将工程师成本的 50% 用于购买 AI 设计工具——价值量天花板远未触及；台积电预计未来五年晶体管密度增长 48-50 倍，设计复杂度指数级上升</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>「未计入指引」的另一面是<strong>收入贡献至今无法量化</strong>——20+ 客户、40 倍提速是案例不是数字，从试点到规模化的转化周期未知</li>
+              <li>Kimi K3 证明了端到端 AI 设计的<strong>技术可行性</strong>：模型能力在快速进步，45nm 到先进制程的距离是时间问题而非原理问题</li>
+              <li>拥有强 AI 能力的云厂商和大型芯片公司有动机用开源模型 + 内部数据自研特定环节工具，即便不能替代全栈，也可能<strong>在部分节点削弱议价力</strong></li>
+              <li>7 月 18 日单日 -12% 说明市场对这条证伪路径极度敏感——叙事风险会反复回来，每次都要用真金白银的变现数据去压</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（Kimi K3 事件时间线 · 「三层蛋糕」架构 · 价值量数据）</summary>
+          <div class="evidence__body">
+            <h5>Kimi K3 事件与管理层回应（2026-07）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>时间</th><th>事件</th><th>市场反应 / 解读</th></tr></thead><tbody><tr><td>2026-07-18</td><td>中国 AI 模型 Kimi K3 被报道 48 小时内基于开源 EDA 工具和 45nm 工艺库跑通完整芯片设计流程</td><td>Cadence 与 Synopsys 盘中一度大跌超 12%</td></tr><tr><td>Q2 业绩会</td><td>管理层系统性回应：该演示所用技术落后领先制程约 20 年，仍需依赖底层 EDA 工具，实际验证了「三层蛋糕」架构</td><td>叠加财报超预期，叙事阶段性反转</td></tr></tbody></table></div>
+            <h5>「三层蛋糕」防御架构</h5>
+            <ul>
+              <li><strong>底层</strong>：专用计算硬件（Palladium 仿真加速平台，基于自研 ASIC）——物理仿真的算力底座</li>
+              <li><strong>中层</strong>：物理精确的仿真/求解引擎——管理层强调其不可替代性，AI 代理越活跃，调用越频繁</li>
+              <li><strong>顶层</strong>：AI 代理编排层（ChipStack、ViraStack、AuraStack 等「超级代理」）——定位「虚拟设计工程师」，切入客户人力成本预算</li>
+            </ul>
+            <h5>价值量与 TAM 的关键数字</h5>
+            <ul>
+              <li>EDA 工具在客户芯片研发预算中的占比已从约 <strong>7% 升至约 11-12%</strong>；英伟达 CEO 曾表示愿将工程师成本的 <strong>50%</strong> 用于购买 AI 设计工具</li>
+              <li>变现路径：「新工作流产品 + 底层引擎使用量增加」；定价为「订阅 + 消费」混合模式（基础订阅对标工程师年薪，额外使用按量计费）——TAM 从百亿美元级 EDA/IP 市场扩展至千亿美元级芯片研发人力市场</li>
+              <li>管理层明确：<strong>当前指引尚未包含 Agentic AI 带来的阶跃式增长</strong>——若 Q3/Q4 开始量化贡献，构成未来 2-3 个季度的业绩上调期权</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">估值：约 42 倍前瞻 PE 隐含了什么预期？赔率如何？</h2>
+        <span class="qa__impact-tag">→ 期望值约 +12% · 赔率约 1.7:1</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>按券商预测反推，估算现价约 350 美元 ≈ <strong>42x FY2026E PE、36x FY2027E PE</strong>，正处券商给的 40-45x 目标区间中枢——市场已经把「指引大上调 + Agentic AI 叙事反转」定价了大半。三情景期望值约较现价 +12%、赔率约 1.7:1，对应「持有」而非「买入」。<em>保留判断：现价为按券商盈利预测与目标价反推的估算值；若 Kimi K3 类事件再度砸出情绪坑（7 月 18 日那种 -12%），赔率结构会显著改善，那时的买点比现在好。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这个问题本身就是估值问题。</strong>EDA 双寡头的稀缺性 + 80% 经常性收入 + 约 1.5 年积压订单，配得上软件行业的高倍数；但 42x 前瞻 PE 对应 FY2026E EPS 仅 13-16% 的增速，<strong>PEG 约 2.5-3</strong>，已不便宜——后续的回报主要靠 FY2027-2028 年 EPS 兑现（共识 CAGR 约 17-18%）和 Agentic AI 的期权价值，倍数扩张空间有限。</p>
+            <p>悲观情景的杀伤力主要在倍数而非 EPS：出口管制收紧打击中国区 14-15% 营收 + AI 颠覆叙事重演，即便 EPS 只是零增长，倍数从 42x 压到 32x 就是约 -24%。<strong>上行靠期权兑现、下行有真实路径，1.7:1 的赔率不足以重仓。</strong></p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>约 80% 经常性收入 + 81 亿美元积压订单（约 1.5 年营收）+ 无单一客户超 10%——<strong>这种确定性在软件行业值溢价</strong></li>
+              <li>Agentic AI 是<strong>免费的期权</strong>：指引未包含，量化之日就是上修之时；「订阅+消费」模式打开千亿美元级 TAM</li>
+              <li>竞争对手 Synopsys 正陷在 Ansys 整合的财务压力中，Cadence 作为「清洁」运营主体处于<strong>历史最强竞争位置</strong>（Intel/三星份额提升）</li>
+              <li>券商目标价 400-470 美元，最低目标价也高于估算现价 14% 以上</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>42x FY2026E PE 对应 13-16% 的 EPS 增速，<strong>PEG 约 2.5-3</strong>，任何增长瑕疵都会被倍数压缩放大</li>
+              <li>中国区 14-15% 营收悬在出口管制上：2025 年 5-7 月已有 BIS 临时许可要求的先例，2026-11-09「50% 所有权规则」暂停期到期是明确的日历风险</li>
+              <li>下半年利润率指引偏低：Hexagon 整合 + Intel 投入，若协同释放滞后，<strong>「增长加速、利润率停滞」组合最伤高倍数股</strong></li>
+              <li>7 月 18 日已演示过一次：AI 颠覆叙事反复出现时，42x 的股价没有缓冲垫</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（当前定价测算 · 三情景表 · 财务趋势）</summary>
+          <div class="evidence__body">
+            <h5>当前定价（2026-08 上旬，估算）</h5>
+            <ul>
+              <li>一页通未含现价。按券商口径（40-45x 未来 12 个月 EPS）与目标价结构反推：FY2026E EPS 共识约 8.2 美元，42x ≈ <strong>345-355 美元</strong>（精确值以行情为准）——约 36x FY2027E 共识（9.6 美元）</li>
+              <li>券商目标价：高盛 $470（07-27）、花旗 $420（07-28）、摩根大通 $405（07-28）、摩根士丹利 $400（07-28）——财报后集体上调，全部高于估算现价</li>
+              <li>估值方法：各机构一致采用 P/E，目标倍数 <strong>40-45x</strong>，与其历史区间及可比公司（如 ARM）一致</li>
+            </ul>
+            <h5>三情景假设（FY2027 视角，以估算现价约 350 美元为基准）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>FY2027 EPS</th><th>合理 PE</th><th>隐含股价</th><th>vs 当前</th></tr></thead><tbody><tr><td>乐观（25%）</td><td>Agentic AI 贡献量化进指引 + IP 维持 25%+ + Intel 合作扩展至 EDA 软硬件，出口管制维持现状</td><td>~10.2 美元（券商上沿上修）</td><td>48x</td><td>~490 美元</td><td>+40%</td></tr><tr><td>中性（50%）</td><td>营收增速回落至 15-16%，Agentic AI 有收入但不改曲线，下半年利润率压力如期消化</td><td>~9.6 美元（券商中枢）</td><td>42x</td><td>~403 美元</td><td>+15%</td></tr><tr><td>悲观（25%）</td><td>「50% 规则」生效冲击中国区 14-15% 营收 + AI 颠覆叙事重演压倍数，FY2027 增长停滞</td><td>~8.3 美元（与 FY2026 持平）</td><td>32x</td><td>~266 美元</td><td>-24%</td></tr></tbody></table></div>
+            <p><strong>期望值约 390 美元，较估算现价约 +12%；赔率约 1.7:1（+40% / -24%）。</strong>这个赔率结构的意思是：基本面没有问题，但价格已经先走了一步——好公司不等于好买点。买入的触发条件有两个：股价因情绪事件（而非基本面恶化）回到 35x 以下，或 Agentic AI 量化贡献把 FY2027E EPS 推上 10 美元从而被动压低倍数。</p>
+            <h5>财务趋势（单位：亿美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>财年</th><th>营收</th><th>YoY</th><th>毛利率</th><th>营业利润率(GAAP)</th><th>归母净利润</th><th>稀释 EPS（美元，GAAP）</th><th>自由现金流</th></tr></thead><tbody><tr><td>FY2023</td><td>40.90</td><td>+14.8%</td><td>89.4%</td><td>30.9%</td><td>10.41</td><td>3.82</td><td>12.46</td></tr><tr><td>FY2024</td><td>46.41</td><td>+13.5%</td><td>86.0%</td><td>29.8%</td><td>10.55</td><td>3.85</td><td>11.18</td></tr><tr><td>FY2025</td><td>52.97</td><td>+14.1%</td><td>86.4%</td><td>31.2%</td><td>11.09</td><td>4.06</td><td>15.87</td></tr><tr><td><strong>FY2026 H1</strong></td><td>30.59</td><td><strong>+21.5%</strong></td><td>85.2%</td><td>28.8%</td><td>7.03（+62.1%）</td><td>2.56</td><td>8.83</td></tr></tbody></table></div>
+            <p>注：GAAP 口径受收购摊销与一次性项目（如 FY2025 的 1.28 亿美元出口管制罚款）扰动，市场定价用非 GAAP 口径（FY2025 EPS 7.14 美元 → FY2026E 8.10-8.31）。研发费用率常年 33-35%（FY2025 研发费用 17.69 亿美元），FY2025 回购 9.25 亿美元、FY2026 计划以约 50% 自由现金流回购——高研发 + 高回购的组合，财务策略积极但现金流足以支撑。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>：公司概况、近况跟踪、业务拆分、催化剂（见同目录《楷登电子_一页通.md》，亦见本站「一页通」标签页）</li>
+        <li><strong>财务数据</strong>：FY2023-FY2026H1 利润表、2026 Q2 财报要点与管理层指引（正文数据均来自公开财报整理）；估值测算中非 GAAP 口径以券商预测为准</li>
+        <li><strong>局限</strong>：未读财报原文与电话会纪要（建议下一步补读 Q2 earnings call 中关于 Agentic AI 变现节奏与 Intel 合作投入规模的表述）；现价与前瞻 PE 为按券商盈利预测反推的估算值；Agentic AI 收入贡献缺乏量化数据，三情景中该项假设主观成分较高</li>
+        <li><strong>管理层评估（一句话版）</strong>：敢于给出「历史上幅度最大」的指引上调、并在 Kimi K3 冲击后以「三层蛋糕」框架系统回应而非回避，沟通质量与战略清晰度俱佳；接下来的兑现度检验点是 Hexagon 整合协同与 Agentic AI 的量化披露</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>楷登电子（Cadence Design Systems, Inc.）是全球电子设计自动化（EDA）领域的核心供应商，与Synopsys、Siemens EDA共同构成寡头格局。公司提供AI驱动的计算软件、加速硬件及硅知识产权（IP），覆盖从芯片设计、验证到电子系统分析的全流程。其客户包括全球主要的半导体公司（如英伟达、博通）及系统厂商（如超大规模数据中心运营商），在模拟和混合信号设计领域占据市场领导地位，并在数字设计、IP及系统分析领域持续扩大份额。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul>
+<li><strong>2026年Q2业绩全面超预期，全年指引大幅上调</strong>：Q2总营收15.84亿美元，同比增长24%，非GAAP营业利润率45.5%，非GAAP每股收益2.11美元，均超出指引上限。管理层将2026年全年营收指引中点上调至63亿美元，对应约19%的同比增长，非GAAP每股收益指引上调至8.10美元。此次上调被管理层称为“历史上幅度最大的一次”，且强调增长具有全业务、全区域的广泛性。</li>
+<li><strong>订单积压创历史新高</strong>：季度末订单积压（Backlog）达到81亿美元，同比增长27%。尽管2026年是三年续约周期中的“小年”，但追加销售（Add-on）业务表现强劲，推动积压订单持续增长。</li>
+<li><strong>Agentic AI战略进入早期变现阶段</strong>：公司发布并推广其“超级代理”产品组合（ChipStack、ViraStack、AuraStack等），其中ChipStack已有超过20个客户投入生产，英伟达工程师利用该工具将RTL验证速度提升超过40倍。管理层明确变现路径为“新工作流产品+底层引擎使用量增加”，并指出当前指引尚未包含Agentic AI带来的阶跃式增长。</li>
+<li><strong>与Intel达成多年期战略合作</strong>：双方合作聚焦于Intel 14A制程，涵盖设计IP、设计工艺协同优化（DTCO）及Agentic AI EDA解决方案。管理层强调此为100%增量业务，预计将在未来数年成为有意义的增长驱动力，标志着Cadence在Intel生态中的竞争地位显著改善。</li>
+<li><strong>IP业务爆发式增长</strong>：Q2 IP营收同比增长超过40%，主要由AI/HPC驱动的接口IP（PCIe、UCIe）、内存IP（HBM、DDR）需求以及先进封装和Chiplet趋势推动。管理层指出，增长主要来自有机业务，并受益于代工生态系统从台积电向Intel、三星、Rapidus的多元化扩展。</li>
+</ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol>
+<li><strong>Agentic AI从概念走向变现的预期差修复</strong>：市场对AI大模型可能颠覆传统EDA工具的担忧（如Kimi K3事件）一度压制估值，但Cadence在Q2业绩会上系统性地阐述了其“三层蛋糕”防御架构——底层为专用计算硬件（Palladium），中层为物理精确的仿真引擎，顶层为AI代理编排层。管理层指出，AI代理在探索更大设计空间时会更多地调用中层核心工具，从而形成需求叠加而非替代。目前ChipStack等产品已进入生产环境并产生收入，但尚未被纳入业绩指引，构成未来2-3个季度潜在的业绩上调期权。若Q3或Q4管理层开始量化Agentic AI的贡献，可能触发市场对公司长期增长曲线的重估。</li>
+<li><strong>IP业务高增长的持续性验证</strong>：Q2 IP业务超40%的增速远超市场预期，但管理层提示不宜将单季增速年化。短期焦点在于，Q3 IP营收能否维持环比增长，以验证增长是由结构性需求（AI芯片架构碎片化、Chiplet普及）而非一次性项目交付驱动。公司与Intel、三星新签的IP合作协议预计在2027年放量，但2026年下半年的订单和设计活动（Design Activity）数据将是判断IP业务能否在2027年维持20%以上增速的先行指标。</li>
+<li><strong>Intel合作带来的份额增长叙事强化</strong>：Cadence历史上在Intel和三星的份额远低于在台积电生态中的份额。此次与Intel达成的多年期、全栈式合作（覆盖EDA、IP、DTCO），被管理层定性为“关系正常化”和“100%增量”。尽管2026年收入贡献有限，但该合作在Q2计入积压订单，并可能在未来几个季度持续带来追加订单。这为Cadence在数字设计和签核（Signoff）领域持续从竞争对手处获取份额提供了有力证据，有望驱动营收增速持续高于行业平均。</li>
+</ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol>
+<li><strong>AI驱动的设计复杂度指数级增长，奠定长期量价齐升基础</strong>：AI训练和推理芯片的晶体管数量、异构集成（Chiplet/3D-IC）复杂度以及系统级协同设计需求正呈指数级增长。台积电预计未来五年晶体管密度将增长48-50倍。这种复杂度使得芯片设计对EDA工具的依赖度和消耗量持续提升。Cadence指出，其工具在客户芯片研发预算中的占比已从过去的~7%上升至~11-12%，而英伟达CEO黄仁勋曾表示愿意将工程师成本的50%用于购买AI设计工具，显示EDA的价值量天花板远未触及。这一趋势将在未来3-5年持续推动公司营收以高于半导体行业平均增速的水平增长。</li>
+<li><strong>Agentic AI开辟全新可寻址市场（TAM），并强化客户粘性</strong>：Cadence的“超级代理”产品不仅是现有工具的插件，而是定位为“虚拟设计工程师”，直接切入客户的人力成本预算。其“订阅+消费”的混合定价模式（基础订阅对标工程师年薪，额外使用按Token计费）有望将公司TAM从百亿美元级的EDA/IP市场，扩展至千亿美元级的芯片研发人力市场。更重要的是，代理与底层物理引擎的深度耦合，以及客户在使用过程中积累的专有知识图谱和强化学习数据，将构筑极高的转换成本和数据护城河，使客户关系从“工具供应商”升级为“设计能力合作伙伴”。</li>
+<li><strong>系统设计与分析（SD&amp;A）业务构建第二增长曲线</strong>：通过收购BETA CAE和Hexagon D&amp;E业务，Cadence已构建起覆盖电磁、热、结构、流体等多物理场的完整系统仿真能力。随着AI芯片功耗和散热挑战加剧，以及自动驾驶、机器人等“物理AI”的兴起，多物理场仿真正成为芯片和系统设计的刚需。管理层预计SD&amp;A的TAM规模有望与硅设计市场相当，使公司总TAM翻倍。该业务目前处于整合和早期渗透阶段，预计将在未来3-5年成为公司营收增长的重要贡献者，并提升整体营收增速的可持续性。</li>
+</ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul>
+<li><strong>地缘政治与出口管制风险</strong>：公司约14-15%的营收来自中国。美国对华技术出口管制政策存在高度不确定性，历史上曾出现BIS临时要求Cadence对华出口EDA软件申请许可的情况（2025年5-7月）。若未来出口管制进一步收紧，或“50%所有权规则”在2026年11月暂停期结束后重新生效，可能对公司中国区业务造成实质性冲击，并影响其在中国市场的长期竞争地位。</li>
+<li><strong>AI技术路线的不确定性与竞争风险</strong>：尽管管理层有力反驳了开源大模型（如Kimi K3）颠覆其业务的论调，但AI技术在芯片设计自动化领域的渗透速度和路径仍存在变数。若大型云厂商或客户内部团队利用开源模型和强化学习，在特定设计环节开发出替代性自动化方案，虽短期内难以撼动Cadence的全栈优势，但可能在部分节点上削弱其议价能力或压缩其TAM扩张空间。</li>
+<li><strong>收购整合与利润率承压风险</strong>：公司近期完成了对Hexagon D&amp;E等大规模收购，导致无形资产摊销增加、债务上升，并对短期利润率造成压力。管理层指引2026年下半年利润率将略低于上半年，以消化整合成本和投资Intel合作。若整合进度不及预期，或协同效应释放滞后，可能导致公司整体盈利能力改善慢于市场预期。</li>
+</ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul>
+<li><strong>2026年7月18日</strong>：中国AI模型Kimi K3被报道在48小时内基于开源EDA工具和45nm工艺库跑通完整芯片设计流程。该消息引发市场对传统EDA巨头护城河的担忧，导致Cadence和Synopsys股价当日一度大跌超12%。随后，Cadence管理层在业绩会上回应称，该演示验证了其“三层蛋糕”架构的正确性，且所用技术落后当前领先制程约20年，仍需依赖底层EDA工具。</li>
+<li><strong>2026年6月8-9日</strong>：在Jefferies投资者大会上，Cadence管理层详细阐述了Agentic AI的商业化路径，提出“订阅+消费”的混合定价模式，并透露英伟达工程师使用ChipStack工具实现了40倍的生产力提升。同时，公司确认与Intel在14A工艺上达成合作。</li>
+<li><strong>2026年6月初（Computex 2026）</strong>：Cadence与英伟达联合发布业界首个全自主虚拟AI设计工程师，基于ChipStack AI超级代理，可将典型的五周验证周期缩短至不到一天。</li>
+</ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul>
+<li><strong>2026年8月-9月</strong>：公司预计在Q3财报中更新积压订单和各大业务板块增长数据。若IP业务能维持环比增长，且管理层对Agentic AI的贡献给出更具体的量化指引，将构成显著正面催化。</li>
+<li><strong>2026年9月-10月</strong>：Intel 14A工艺开发进展及双方合作的进一步细节披露。若合作范围从IP和DTCO扩展至EDA软件和硬件（如Palladium仿真器），将打开更大的增量空间，并强化Cadence在Intel生态中的份额提升叙事。</li>
+<li><strong>2026年11月9日</strong>：美国BIS关于“50%所有权规则”的暂停期到期。该规则若重新生效，将扩大对华出口管制范围。最终的政策落地情况将消除市场对中国区业务的一个重大不确定性。</li>
+</ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<p><strong>业务边际变化</strong>：公司近年通过内生发展与外延并购，将业务从传统的芯片设计自动化（EDA）和IP，拓展至覆盖芯片、封装、PCB乃至完整电子系统的多物理场仿真与分析领域。核心战略是“智能系统设计（ISD）”，旨在将AI技术（Agentic AI）深度整合进设计流程，实现从“辅助工具”到“自主设计代理”的升级。2026年2月完成对Hexagon D&amp;E业务的收购，显著增强了在结构仿真和多体动力学领域的能力，补全了系统分析板块。同时，公司正将业务重心从单一的芯片设计，扩展至为超大规模客户和系统厂商提供覆盖“设计AI芯片”和“用AI做设计”的全栈解决方案。</p>
+<p><strong>盈利模式</strong>：公司盈利模式的核心是<strong>技术壁垒+高转换成本+生态锁定</strong>。其软件产品深度嵌入客户的设计流程，与代工厂（台积电、三星、Intel）的工艺制程强绑定，客户替换成本极高。收入模式以时间为基础的订阅式License为主，辅以硬件销售和IP授权，其中经常性收入占比约80%，提供了高度的营收可见性。近期，公司正通过Agentic AI产品引入“订阅+消费”的混合定价模式，旨在将收费基础从“工具席位”扩展至“设计成果/计算消耗”，从而打开更大的价值捕获空间。</p>
+<p><strong>业务拆分</strong>：公司近年业务结构保持稳定，主要由三大板块构成：核心EDA、半导体IP、系统设计与分析（SD&amp;A）。核心EDA是公司的基本盘，贡献约70%的营收，增长稳健。半导体IP是近期增速最快的板块，受益于AI芯片的定制化需求。SD&amp;A是公司重点扩张的战略方向，通过并购实现了高速增长，但包含较多一次性硬件收入和并购贡献。公司当前处于<strong>业绩兑现期</strong>，各业务板块均受益于AI驱动的半导体设计活动景气度。</p>
+<p><strong>细分业务拆分（按产品类别）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>业务板块</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2023-12-31</td><td>2024-12-31</td><td>2025-12-31</td><td>2026-06-30</td></tr><tr><td><strong>核心EDA</strong></td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>收入(亿美元)</td><td>-</td><td>-</td><td>-</td><td>21.10</td></tr><tr><td>收入占比</td><td>-</td><td>-</td><td>70%</td><td>69%</td></tr><tr><td>收入同比</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td><strong>半导体IP</strong></td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>收入(亿美元)</td><td>-</td><td>-</td><td>-</td><td>4.59</td></tr><tr><td>收入占比</td><td>-</td><td>-</td><td>14%</td><td>15%</td></tr><tr><td>收入同比</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td><strong>系统设计与分析</strong></td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>收入(亿美元)</td><td>-</td><td>-</td><td>-</td><td>4.89</td></tr><tr><td>收入占比</td><td>-</td><td>-</td><td>16%</td><td>16%</td></tr><tr><td>收入同比</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td><strong>总计</strong></td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>收入(亿美元)</td><td>40.90</td><td>46.41</td><td>52.97</td><td>30.59</td></tr><tr><td>收入同比</td><td>14.83%</td><td>13.48%</td><td>14.12%</td><td>21.48%</td></tr></tbody></table></div>
+<p>（注：公司未在年报中披露各业务板块的具体收入绝对值，仅披露占比。上表历史数据缺失项以“-”填充。）</p>
+<p><strong>核心EDA（2026年Q2）</strong>：该板块Q2营收约10.77亿美元，同比增长18%，占总营收68%。增长动力来自数字全流程解决方案的持续渗透、AI驱动工具（如Verisium）的采用，以及新一代硬件仿真平台Palladium Z3和Protium X3的强劲需求。硬件业务再创纪录，新增12个客户，并仍处于供应受限状态。公司在模拟和数字签核（Signoff）领域的竞争地位持续增强。</p>
+<p><strong>半导体IP（2026年Q2）</strong>：该板块Q2营收约2.38亿美元，同比暴增超过40%，占总营收15%。增长主要由AI/HPC应用驱动，对接口IP（PCIe、UCIe）、内存IP（HBM、DDR）和基础IP的需求极为旺盛。增长大部分来自有机业务，且受益于与Intel、三星、Rapidus等新代工生态的合作拓展。管理层提示IP收入存在季度间波动性。</p>
+<p><strong>系统设计与分析（2026年Q2）</strong>：该板块Q2营收约2.69亿美元，同比增长37%，占总营收17%。增长包含Hexagon D&amp;E业务的贡献。Allegro X AI在PCB设计领域获得多家客户采用，多物理场仿真平台（如Clarity、Celsius）需求强劲。随着AI系统复杂度增加，客户对3D-IC、先进封装和系统级热分析的需求成为核心驱动力。</p>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托极高转换成本与生态锁定构筑的客户粘性</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。Cadence的工具链深度嵌入全球顶级半导体公司和代工厂的研发与生产流程中，与台积电、三星、Intel等厂商的先进工艺（如3nm、2nm、14A）强耦合。客户一旦采用其全流程解决方案，进行工具替换将导致巨大的设计中断成本、工程师再培训成本以及与代工厂工艺认证的失效风险。这种“设计-工具-工艺”三位一体的生态绑定，构成了极高的转换壁垒。</li>
+<li><strong>数据验证</strong>：公司经常性收入占比长期稳定在约80%，2026年Q2经常性收入同比增长约24%（剔除收购影响后仍为高双位数至20%）。积压订单（Backlog）连续创历史新高，2026年Q2末达到81亿美元，同比增长27%，覆盖未来约1.5年的营收，显示出极高的客户粘性和营收可见性。</li>
+<li><strong>动态演变</strong>：<strong>护城河变宽（巩固）</strong>。Agentic AI的引入正在将这种粘性从“工具使用”层面深化至“数据与工作流”层面。客户在使用AI代理过程中积累的专有设计知识图谱和强化学习数据，将使其更加难以脱离Cadence的生态系统。</li>
+</ul>
+<p><strong>竞争要素 2：依托持续高研发投入和并购形成的全栈技术领先优势</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。公司是业内唯一能提供覆盖从模拟/数字设计、验证、IP到多物理场系统分析全栈Agentic AI解决方案的供应商。其硬件仿真器Palladium基于自研ASIC芯片，构成了差异化的竞争壁垒。通过持续的高强度研发投入和精准的并购（如BETA CAE、Hexagon），公司在传统EDA和新兴的系统分析领域均保持了技术领先性。</li>
+<li><strong>数据验证</strong>：公司研发费用率长期维持在33%-35%的高位，FY2025研发费用达17.69亿美元。在模拟设计领域，其Virtuoso平台为行业标准；在验证领域，Palladium平台被管理层称为“黄金标准”。IP业务近年的高速增长（FY2026 H1同比增长超30%）也验证了其产品在PPA（功耗、性能、面积）上的竞争力提升。</li>
+<li><strong>动态演变</strong>：<strong>护城河变宽（巩固）</strong>。公司正将AI能力系统性地注入其全栈产品线，推出覆盖数字、模拟、封装、PCB的“超级代理”产品矩阵。这种将AI与底层物理引擎深度融合的能力，进一步拉大了与仅提供单点工具或仅依赖通用大模型的潜在竞争者的差距。</li>
+</ul>
+<p><strong>现阶段核心驱动力总结</strong>：公司的Alpha来源于其在寡头市场中的份额扩张（尤其是在Intel和三星生态中）以及通过Agentic AI实现的价值量提升（从工具收费向成果/消耗收费模式升级）。其Beta则高度挂钩于全球半导体设计活动的景气度，特别是AI和HPC领域的资本开支强度。</p>
+<p><strong>竞争格局传导逻辑</strong>：高研发投入与精准并购 → 全栈技术领先（EDA/IP/硬件/系统分析）→ 深度嵌入客户设计流程、与代工厂工艺强绑定 → 极高转换成本与生态锁定 → 高经常性收入占比（约80%）与创纪录积压订单。同时，AI驱动的设计复杂度激增 → 对全栈Agentic AI解决方案的需求 → 一方面进一步强化客户流程绑定，另一方面开辟新TAM（从工具预算扩展到人力成本预算）→ 营收增速中枢上移与定价能力增强。</p>
+<h3 class="doc-h2">产销链</h3>
+<ul>
+<li><strong>客户情况</strong>：公司客户结构较为分散，没有单一客户占营收比例超过10%。主要客户群体为全球前60-70家半导体及系统公司，贡献约60-70%的营收。客户类型覆盖IDM、Fabless、Hyperscaler和汽车/航空系统厂商。近期，公司与Intel和三星的合作关系显著深化，从次要供应商升级为全栈战略合作伙伴，显示出其在这些关键客户处的份额正在快速提升。</li>
+<li><strong>供应商情况</strong>：公司的硬件产品（如Palladium仿真器）采用Fabless模式，由第三方供应商负责制造、组装和测试。软件和文档主要通过电子方式交付。资料中未披露具体供应商名称及集中度。</li>
+<li><strong>成本传导能力定性</strong>：公司赚取的是<strong>技术壁垒溢价</strong>，而非单纯的加工费或资源差价。其软件产品的核心成本是研发人员薪酬，而非原材料。因此，公司受上游原材料价格波动的影响极小。其定价权主要取决于其工具为客户创造的价值（提升设计效率、缩短上市时间），在AI设计复杂度激增的背景下，其价值量持续提升，具备较强的定价能力。</li>
+</ul>
+<h3 class="doc-h2">财务数据</h3>
+<div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2023-12-31</td><td>2024-12-31</td><td>2025-12-31</td><td>2026-06-30</td></tr><tr><td>营业总收入(亿美元)</td><td>40.90</td><td>46.41</td><td>52.97</td><td>30.59</td></tr><tr><td>营收同比</td><td>14.83%</td><td>13.48%</td><td>14.12%</td><td>21.48%</td></tr><tr><td>营业成本(亿美元)</td><td>4.35</td><td>6.48</td><td>7.22</td><td>4.54</td></tr><tr><td>毛利润(亿美元)</td><td>36.55</td><td>39.93</td><td>45.75</td><td>26.05</td></tr><tr><td>毛利率</td><td>89.36%</td><td>86.04%</td><td>86.37%</td><td>85.16%</td></tr><tr><td>研发费用(亿美元)</td><td>14.42</td><td>15.49</td><td>17.69</td><td>10.40</td></tr><tr><td>营业利润(亿美元)</td><td>12.62</td><td>13.83</td><td>16.50</td><td>8.81</td></tr><tr><td>营业利润率</td><td>30.86%</td><td>29.80%</td><td>31.15%</td><td>28.80%</td></tr><tr><td>归母净利润(亿美元)</td><td>10.41</td><td>10.55</td><td>11.09</td><td>7.03</td></tr><tr><td>归母净利润同比</td><td>22.64%</td><td>1.38%</td><td>5.06%</td><td>62.06%</td></tr><tr><td>稀释每股收益(美元)</td><td>3.82</td><td>3.85</td><td>4.06</td><td>2.56</td></tr><tr><td>经营活动现金流净额(亿美元)</td><td>13.49</td><td>12.61</td><td>17.29</td><td>9.91</td></tr><tr><td>自由现金流(亿美元)</td><td>12.46</td><td>11.18</td><td>15.87</td><td>8.83</td></tr></tbody></table></div>
+<p>（注：自由现金流 = 经营活动现金流净额 - 资本性支出。FY2026 H1数据为截至2026年6月30日的6个月累计数据。）</p>
+<p><strong>财务分析</strong>：</p>
+<ul>
+<li><strong>成长能力</strong>：公司营收增速在FY2025-FY2026 H1呈现加速态势，FY2026 H1同比增速达到21.48%，主要受益于AI驱动的全行业设计活动景气度提升。归母净利润在FY2024和FY2025年受收购相关摊销及一次性支出（如出口管制罚款）影响，增速低于营收，但FY2026 H1已恢复至62%的高速增长，显示出强劲的盈利弹性。</li>
+<li><strong>盈利能力</strong>：公司毛利率稳定在85%以上，FY2023一度接近90%，属于典型的软件公司高毛利特征。FY2024-FY2025年毛利率略有下降，主要因收购BETA CAE和Hexagon后，硬件和服务的收入占比提升所致。营业利润率在FY2025年受1.28亿美元出口管制罚款的暂时性影响，Non-GAAP口径下则持续改善，FY2026 Q2 Non-GAAP营业利润率已达45.5%。</li>
+<li><strong>运营能力</strong>：公司资产结构以轻资产为主，但FY2026 H1因收购Hexagon，商誉和无形资产大幅增加，导致总资产和负债均显著膨胀。应收账款和存货随业务规模扩大而增长，但整体运营效率指标需结合其混合业务模式（软件+硬件+服务）综合评估。</li>
+<li><strong>现金流与资本配置</strong>：公司经营活动现金流强劲，FY2025达到17.29亿美元，自由现金流为15.87亿美元，现金流转化能力优异。公司持续通过大规模股票回购（FY2025回购9.25亿美元）来回馈股东，FY2026年计划将约50%的自由现金流用于回购。同时，公司通过发行长期债券和利用信贷额度来支持并购活动，财务策略较为积极。</li>
+</ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p><strong>行业分析</strong>：公司所处的核心行业是<strong>电子设计自动化（EDA）</strong>，并正将其边界扩展至<strong>半导体IP</strong>和<strong>多物理场系统仿真分析</strong>。</p>
+<ul>
+<li><strong>EDA行业</strong>：这是一个典型的寡头垄断市场，Cadence与Synopsys合计占据约70%以上的份额，Siemens EDA位居第三。行业增长由半导体设计复杂度提升（摩尔定律放缓背景下，对设计工具依赖度更高）、AI芯片定制化需求爆发、以及先进工艺节点（3nm及以下）的巨额研发投入驱动。行业增速长期稳定在10-15%的区间，具有抗周期属性。</li>
+<li><strong>半导体IP行业</strong>：市场更为分散，但Cadence通过聚焦接口IP、内存IP等高价值、高增长领域，市场份额正在快速提升。AI芯片向Chiplet和3D-IC架构的迁移，极大地拉动了对UCIe、HBM等高速互联IP的需求，为该业务提供了超越行业平均的增速。</li>
+<li><strong>系统仿真分析行业</strong>：这是一个规模更大的市场，传统上由Ansys（已被Synopsys收购）、达索系统等公司主导。Cadence通过收购切入该市场，聚焦于电子系统相关的电磁、热、结构仿真，与传统巨头的业务重心形成差异化。随着“物理AI”（自动驾驶、机器人）的兴起，该市场的战略重要性日益凸显。</li>
+</ul>
+<p><strong>可比公司</strong>：</p>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>对标维度</th><th>分析</th></tr></thead><tbody><tr><td>Synopsys</td><td>SNPS</td><td>核心EDA/IP</td><td>最直接竞争对手，同样受益于AI设计浪潮。但SNPS近期因整合Ansys面临较大的财务压力和执行风险，而CDNS作为“清洁”的运营主体，在增长和盈利的确定性上更具优势。</td></tr><tr><td>ARM Holdings</td><td>ARM</td><td>半导体IP</td><td>同为IP供应商，但ARM提供的是CPU/GPU等处理器架构IP，而CDNS提供的是接口、内存等基础IP，双方互补性大于竞争性。ARM的营收增速亦可作为IP行业景气度的参考。</td></tr></tbody></table></div>
+<p><strong>总结分析</strong>：Cadence在稳固的EDA寡头格局中，凭借全栈技术优势和深化的生态绑定，正持续从主要竞争对手处获取份额，尤其是在Intel和三星等关键客户处。其IP业务抓住了AI芯片架构变革的窗口期，实现了远超行业平均的增长。通过并购布局的系统仿真业务，则打开了长期TAM扩张的想象空间。当前，公司在AI浪潮中的定位已从“卖铲人”升级为“设计能力赋能者”，竞争地位处于历史最强时期。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<ul>
+<li><strong>议题一：Agentic AI的变现路径与量化贡献</strong>——背景：市场对AI大模型的关注已从“是否构成威胁”转向“如何实现商业变现”。Cadence已推出多款AI超级代理产品，但尚未量化其收入贡献。关键问题：1）Agentic AI产品当前的客户采用率和留存率如何？从试点到规模化部署的转化周期有多长？2）“订阅+消费”的混合定价模式在初期对营收的拉升作用有多大？能否提供每客户平均收入（ARPU）提升的量化案例？3）管理层何时会将Agentic AI的贡献明确纳入业绩指引？</li>
+<li><strong>议题二：IP业务高增长的可持续性</strong>——背景：IP业务在Q2录得超40%的同比增长，远超公司和市场预期，引发了对其可持续性的讨论。关键问题：1）Q2的超高增长中有多大比例来自一次性项目交付或积压订单的集中确认？未来几个季度的环比趋势如何？2）来自Intel、三星、Rapidus等新代工生态的IP需求，何时能规模化地转化为收入？其对2027年增长的贡献预期是多少？3）随着IP业务规模扩大，其毛利率和经营利润率能否向公司平均水平靠拢？</li>
+<li><strong>议题三：与Intel合作的战略意义与财务影响</strong>——背景：Cadence历史上在Intel的份额较低，此次宣布的多年期、全栈式合作被视为重大突破。关键问题：1）该合作在2026年预计贡献多少收入？其对2027年及以后的营收增长曲线有何影响？2）合作范围未来从IP和DTCO扩展至EDA软件和硬件（Palladium）的可能性有多大？这是否意味着Cadence在Intel生态中正逐步替代竞争对手？3）为支持该合作，公司计划投入多少资源？这是否是导致下半年利润率指引偏低的主要原因？</li>
+</ul>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧点：AI对Cadence是长期价值创造者还是潜在的颠覆者？</strong></p>
+<p><strong>乐观方观点：AI是需求加速器和TAM扩张器</strong>。逻辑：AI代理（如ChipStack）并非替代Cadence的工具，而是作为一个“编排层”，通过探索更大的设计空间，更频繁、更大量地调用底层的物理仿真引擎。这直接增加了对Cadence核心产品的消耗。依据：管理层提出的“三层蛋糕”架构，强调其中层“物理精确的求解器”的不可替代性。英伟达工程师使用ChipStack实现40倍效率提升的案例，证明了AI工具的价值是建立在Cadence现有工具基础之上的。公司提出的“订阅+消费”模式，旨在将收费基础从工具席位扩展到设计活动量，打开了数倍于现有EDA市场的TAM。</p>
+<p><strong>谨慎方观点：开源模型和客户自研可能侵蚀护城河</strong>。逻辑：Kimi K3等开源大模型展示了AI在自动化芯片设计流程上的潜力。长期来看，拥有强大AI能力的云厂商或大型芯片公司，可能利用开源模型和内部数据，在特定设计环节开发出自有的自动化工具，从而降低对商业EDA工具的依赖，或削弱其议价能力。依据：Kimi K3在48小时内基于开源工具跑通RTL-to-GDSII流程的事件，尽管目前仅限于45nm落后工艺，但证明了AI端到端设计芯片的技术可行性。市场担忧随着模型能力提升，这种模式可能向更先进制程渗透，从而动摇传统EDA厂商的护城河。</p>
+<p><strong>总结分析</strong>：当前，乐观方的逻辑在业绩会上得到了管理层的强力支持，并获得了更多事实证据（如创纪录的积压订单、IP业务的爆发、与Intel的合作）。谨慎方的担忧虽然逻辑上成立，但缺乏在先进制程和真实商业环境中可行的证据。Cadence的“三层蛋糕”架构有效地将AI的进步转化为对其核心引擎的增量需求，其通过Agentic AI实现的“设计即服务”模式，有望将行业从零和博弈的“工具预算”争夺，转向共同做大“自动化设计价值”蛋糕的正和博弈。公司在AI时代的竞争优势，短期内看并未被削弱，反而在加强。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价(美元)</th><th>财务指标</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>高盛 (2026-07-27)</td><td>买入</td><td>470</td><td>营业收入(百万美元)<br>Non-GAAP EPS(美元)</td><td>5,297<br>7.14</td><td>6,382<br>8.20</td><td>7,401<br>10.00</td><td>8,372<br>11.50</td></tr><tr><td>摩根大通 (2026-07-28)</td><td>超配</td><td>405</td><td>营业收入(百万美元)<br>Non-GAAP EPS(美元)</td><td>5,297<br>7.14</td><td>6,005<br>8.31</td><td>-<br>9.15</td><td>-<br>-</td></tr><tr><td>摩根士丹利 (2026-07-28)</td><td>超配</td><td>400</td><td>营业收入(百万美元)<br>Non-GAAP EPS(美元)</td><td>5,297<br>7.14</td><td>6,324<br>8.31</td><td>7,366<br>9.81</td><td>8,323<br>11.43</td></tr><tr><td>花旗 (2026-07-28)</td><td>买入</td><td>420</td><td>营业收入(百万美元)<br>Non-GAAP EPS(美元)</td><td>-<br>-</td><td>6,300<br>8.10</td><td>-<br>-</td><td>-<br>-</td></tr></tbody></table></div>
+<p>（注：表中预测数据均为各机构在2026年Q2财报后更新的预测。花旗报告仅提供了部分更新数据。）</p>
+<p><strong>盈利预测与估值分析</strong>：主流券商在Q2财报后普遍上调了盈利预测，对FY2026的营收增速预期集中在19%左右，Non-GAAP EPS预期在8.10-8.31美元之间，显示出市场对公司短期业绩的高度共识。对于FY2027年，各机构预测的EPS在9.15至10.00美元之间，分歧主要在于对Agentic AI贡献和IP业务增速的假设不同。估值方法上，各机构均采用市盈率（P/E）估值法，基于未来12个月的盈利预测，给予40-45倍的估值倍数，与其历史估值区间和可比公司（如ARM）的估值水平一致。</p>
+<p><strong>管理层最新指引</strong>：公司预计FY2026全年营收在62.6亿至63.4亿美元之间（中值63亿美元，同比增长约19%），Non-GAAP营业利润率在43.75%至44.75%之间，Non-GAAP每股收益在8.05至8.15美元之间，经营现金流约为20亿美元。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/CDNS · 生成于 2026-08-06</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-06';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'hit',     text: '<strong>2026 Q2 财报全面超预期 + 「史上最大幅度」指引上调</strong>：营收/利润率/EPS 三超指引上限，FY26 营收指引中值 $63 亿（+19%）', note: '2026-07 下旬兑现' },
+  { kind: 'cat', status: 'active',  text: '<strong>Agentic AI 贡献量化进入指引</strong>：ChipStack 已 20+ 客户量产使用，指引尚未包含——Q3/Q4 若量化即上修期权', note: '未来 2-3 个季度关键观察点' },
+  { kind: 'cat', status: 'active',  text: '<strong>Intel 14A 全栈合作推进</strong>（2026-09/10 细节披露）：若从 IP/DTCO 扩展至 EDA 软硬件（Palladium），打开更大增量', note: '已计入 Q2 积压订单，100% 增量业务' },
+  { kind: 'cat', status: 'pending', text: '<strong>IP 业务环比持续性</strong>：Q3 能否维持环比增长，验证 +40% 是结构性需求而非一次性交付——2027 年 +20% 增速的先行指标', note: '' },
+  { kind: 'cat', status: 'pending', text: '<strong>Hexagon 整合协同释放 + SD&A 第二曲线</strong>：下半年利润率压力消化后，2027 年利润率重回扩张', note: '' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>出口管制收紧</strong>：「50% 所有权规则」2026-11-09 暂停期到期若重新生效，冲击中国区 14-15% 营收', note: '2025 年 5-7 月有 BIS 临时许可要求先例；日历风险明确' },
+  { kind: 'risk', status: 'clear', text: '<strong>开源 AI 颠覆叙事重演</strong>：Kimi K3 类事件或客户自研工具出现先进制程上的可行案例——压缩估值倍数', note: '7-18 曾单日 -12%；当前无先进制程可行证据' },
+  { kind: 'risk', status: 'clear', text: '<strong>下半年利润率恶化超预期</strong>：Hexagon 整合 + Intel 投入若拖累利润率超指引下限（43.75%）', note: '指引已预期 H2 低于 H1，目前在预期内' },
+  { kind: 'risk', status: 'clear', text: '<strong>续约小年积压订单增速失速</strong>：add-on 驱动的 +27% 若大幅放缓，削弱营收能见度叙事', note: '最新积压订单 $81 亿创新高' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

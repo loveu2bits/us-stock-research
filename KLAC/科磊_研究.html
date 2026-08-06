@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>科磊（KLAC.O）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--policy-red); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">KLAC</span>
+    <span class="site-mark__text">科磊 公司研究<span>KLA Corp. · KLAC.O</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>科磊<span class="en">KLA Corp. · KLAC.O · 美股研究</span></h1>
+        <p class="sub">半导体过程控制（量检测）的绝对垄断者：约 58% 份额、是第二名的 6 倍，FY26Q4 营收创历史新高、积压订单 125 亿美元（+60%），WFE 展望年内第四次上修至约 1,500 亿美元。核心矛盾是「2027 年过程控制强度提升能否重新跑赢 WFE」——2026 年因支出结构偏向 DRAM 而增长持平，这直接决定 Alpha 逻辑的成色；而约 38-42 倍前瞻估值（估算）已部分透支了乐观预期，财报超预期当日盘后反而下跌。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-06</span>
+          <span>下次更新：FY27Q1 财报（2026-10）/ 客户 2027 资本开支计划公布</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>约 38-42x FY2027E PE（估算），处历史区间上沿之上，三情景期望值约 +6%、赔率约 1:1；重检条件：2027 年明显跑赢 WFE 得到验证（上调）或 WFE 周期见顶 / 中国敞口再收缩（下调）。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">营收 $36.58亿</strong><span>FY26Q4·创历史新高 +15%</span></div>
+      <div class="summary-rail__item"><strong>62.4%</strong><span>FY26Q4 Non-GAAP 毛利率·指引上沿</span></div>
+      <div class="summary-rail__item"><strong>$125亿</strong><span>积压订单·同比 +60%</span></div>
+      <div class="summary-rail__item"><strong>$1,500亿</strong><span>2026 WFE 展望·年内第四次上修</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">FY26Q4 财报：营收创新高、WFE 第四次上修，为什么盘后股价反而下跌？</h2>
+        <span class="qa__impact-tag">→ FY27Q1 指引 $40亿（环比 +9.4%）· 2H26 营收环比 +20%</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>基本面是实打实的强：营收 36.58 亿美元创新高、毛利率打到指引上沿、积压订单 125 亿美元（+60%）、WFE 展望年内第四次上修至约 1,500 亿美元，FY27Q1 指引 40 亿美元隐含下半年加速。盘后下跌不是基本面问题，而是<strong>预期问题</strong>——指引仅「略超」市场预期、DRAM 成本逆风（毛利率 -100bp 以上）确认持续到 2027 年，在高估值位置「没有惊喜就是失望」。<em>保留判断：2H26 加速部分由长交期零部件供应缓解驱动（递延收入兑现），不全是新增需求。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>指引路径直接决定 FY2027 EPS 落点。</strong>FY27Q1 指引 40 亿（环比 +9.4%）+ 管理层「2H26 营收较 1H26 增长约 20%」隐含 12 月季度约 44-45 亿美元——按此年化，FY2027 营收约 178-184 亿美元，与券商 FY2027E 区间（167.9-184.3 亿）一致；Non-GAAP EPS 共识约 <strong>5.4-5.6 美元</strong>（拆分后口径），较 FY2026 的 3.77 美元增长约 45%。</p>
+            <p>毛利率逆风的影响可量化：DRAM 成本拖累超过 100bp 且持续至 2027，意味着 FY2027 毛利率大概率停在 62-63% 区间、难以快速靠拢 63.5% 的长期目标——<strong>EPS 增长更多靠量（营收 +40% 区间）而非利润率扩张</strong>，估值倍数因此缺乏进一步上修的由头。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>积压订单 <strong>125 亿美元、同比 +60%</strong>，整体交期约 12 个月、部分产品 18-24 个月——2026 下半年与 2027 年的营收能见度极高</li>
+              <li>WFE 展望从「1,400 亿以上」上修至「约 1,500 亿低位」，是<strong>年内第四次上修</strong>；2027 年共识约 1,900 亿（+25%），公司正按更乐观情景储备产能</li>
+              <li>服务营收 8.20 亿美元（+17%）、连续 17 年同比增长，约 80% 来自长期合同——<strong>穿越周期的稳定现金流</strong></li>
+              <li>股东回报激进：10 比 1 拆股 + 股息上调 21% + 新增 70 亿美元回购授权（FY26 已回购 22.9 亿、分红 10.6 亿）</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>指引仅<strong>略超</strong>市场预期即遭盘后抛售，说明当前估值已经计入大量好消息，边际惊喜门槛很高</li>
+              <li>DRAM 成本逆风对毛利率拖累 <strong>超 100bp</strong>，管理层确认至少持续至 2027 年，已签订单无法提价、只能靠新品重新定价，<strong>对冲有时滞</strong></li>
+              <li>2H26 加速的重要驱动是「长交期零部件供应缓解」——部分是前期积压交付的兑现，<strong>不代表终端需求同步加速</strong></li>
+              <li>存货 36.49 亿美元（+13.6%）、周转天数约 236 天，若需求判断失误，高库存会放大下行</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（FY26Q4 财报速览 · FY2027 指引路径拆解）</summary>
+          <div class="evidence__body">
+            <h5>FY26Q4 财报速览（2026-07-28 发布，财年截至 2026-06-30）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>实际</th><th>指引/预期</th><th>评价</th></tr></thead><tbody><tr><td>营收</td><td><strong>$36.58 亿</strong>（同比 +15%，环比 +7%）</td><td>指引中值 $35.75 亿</td><td>创历史新高，beat</td></tr><tr><td>Non-GAAP 毛利率</td><td><strong>62.4%</strong></td><td>指引区间</td><td>位于指引上沿，beat</td></tr><tr><td>Non-GAAP 摊薄 EPS</td><td><strong>$1.05</strong>（拆分后口径）</td><td>指引中值 $0.99</td><td>beat</td></tr><tr><td>积压订单（RPO/Backlog）</td><td>约 <strong>$125 亿</strong>，同比 +60%</td><td>—</td><td>交期 12 个月，部分产品 18-24 个月</td></tr><tr><td>服务营收</td><td><strong>$8.20 亿</strong>，同比 +17%</td><td>—</td><td>连续 17 年同比增长，80% 长期合同</td></tr><tr><td>2026 WFE 展望</td><td>约 <strong>$1,500 亿低位</strong>（较 2025 年约 1,200 亿 +25%）</td><td>此前「1,400 亿以上」</td><td><strong>年内第四次上修</strong>；首给 2027 展望：共识约 1,900 亿合理</td></tr><tr><td>FY27Q1 指引</td><td>营收 <strong>$40 亿 ±2 亿</strong>；毛利率 62.5% ±1pct；EPS $1.16 ±0.10</td><td>—</td><td>环比 +9.4%，仅略超市场预期，<span class="warn">盘后股价下跌</span></td></tr><tr><td>DRAM 成本逆风</td><td>毛利率负面影响 <strong>超 100bp</strong></td><td>—</td><td><span class="warn">⚠️</span> 管理层预计至少持续至 2027 年</td></tr></tbody></table></div>
+            <h5>FY2027 指引路径拆解（拆分后口径，估算）</h5>
+            <ul>
+              <li>FY27Q1（9 月季度）指引 <strong>40 亿美元</strong>；管理层称 2026 日历年下半年营收较上半年增长约 20% → 12 月季度约 <strong>44-45 亿美元</strong>（估算）</li>
+              <li>按 40 + 44.5 + 后续季度企稳外推，FY2027 营收约 <strong>178-184 亿美元</strong>，对应券商预测区间（摩根大通 180.3 / 花旗 178.4 / 高盛 184.3 / 瑞银 181.4 亿）的中枢</li>
+              <li>Non-GAAP EPS：FY2026 实际 3.77 美元 → FY2027E 共识 <strong>5.36-5.58 美元</strong>（+42%~48%）→ FY2028E 6.59-7.63 美元，增速约 20-37%</li>
+              <li>CY2026 全年指引：营收增长「中 20% 区间」，Non-GAAP 毛利率约 62.5%</li>
+            </ul>
+            <h5>解读：一句话</h5>
+            <p>这份财报的量（订单 +60%、指引下修风险低）与价（毛利率上沿）都过硬，盘后下跌定价的是「<strong>高预期 × 无惊喜 × 毛利率逆风确认延长</strong>」的组合，而非基本面恶化——这正是本页给出「持有」而非「买入」的微观依据。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">2027 年能否重新跑赢 WFE？「过程控制强度提升」的 Alpha 逻辑是否被 2026 年的持平打破？</h2>
+        <span class="qa__impact-tag">→ 决定估值中枢 · 先进封装 +70% 是关键证据</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>2026 年的「与 WFE 持平」更可能是支出结构造成的暂时换挡（WFE 增量偏向 DRAM/HBM，而 KLA 在存储的过程控制强度低于先进逻辑），不是趋势逆转。<strong>2027 年的结构性证据在变好</strong>：英特尔/三星/Rapidus/TeraFab 等更多玩家进入先进制程大规模投资、新建晶圆厂（Greenfield）爬坡初期对过程控制依赖更高、先进封装过程控制营收预期上调至 11 亿美元（+70% 以上）。<em>但这仍是「待验证」而非「已兑现」——若 2027 年继续跑不赢，「结构性超越 WFE」的定价基础将被抽掉。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这是 KLA 估值中枢的根基问题。</strong>公司预计 2025-2030 年 WFE 份额再提升超 150bp——若兑现，营收增速 = WFE 增速 + Alpha，FY2027-2028 EPS 落在券商区间上沿（7 美元以上），当前高倍数有支撑；若证伪，KLA 退化为「随 WFE 周期波动的设备股」，倍数向行业均值回归，双杀空间可观。</p>
+            <p>先进封装是最重要的可观测证据：2026 年预期 11 亿美元（+70%+），增速接近先进封装市场整体增速的两倍——<strong>份额提升在封装环节已被证明</strong>；若 2027 年延续，将把「强度提升」从叙事变成连续两年的财务事实。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>制程向 2nm/GAA 演进 + EUV 层数增加 + 3D 堆叠，<strong>致命缺陷的概率与成本指数级上升</strong>，检测/量测步骤与采样率只能增不能减</li>
+              <li>客户群从台积电一家独大扩散到英特尔、三星、Rapidus、TeraFab——<strong>新玩家爬坡初期对过程控制的依赖度最高</strong>，Greenfield 晶圆厂是增量强度</li>
+              <li>先进封装（混合键合、SoIC）把前道量检测引入封装产线，2026 年预期 +70% 且<strong>增速是市场整体的近两倍</strong>——份额在抢</li>
+              <li>125 亿美元积压订单 + 客户就 2027 年交付的积极沟通，是「2027 显著增长」信心的真金白银背书</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>本轮 WFE 增长可能更多是「量」（建产能）而非「质」（复杂度）——产能扩张期刻蚀/沉积支出占比更高，<strong>过程控制强度反而被稀释</strong></li>
+              <li>DRAM/HBM 在 WFE 中占比提升对 KLA 相对不利：存储领域的过程控制强度低于先进逻辑，<strong>且这一结构 2027 年未必逆转</strong></li>
+              <li>2026 年 +70% 的先进封装高增可能由台积电 CoWoS 等头部客户一次性扩产驱动，<strong>基数抬高后的持续性存疑</strong></li>
+              <li>若 2027 年 WFE 增速放缓（1,900 亿共识若不兑现），没有 Alpha 的对冲，营收与倍数将同时承压</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（业务拆分 · 过程控制强度逻辑 · 先进封装拆解）</summary>
+          <div class="evidence__body">
+            <h5>分部营收（单位：亿美元，财年截至 6 月 30 日）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>报告分部</th><th>FY2024</th><th>FY2025</th><th>FY2026</th><th>FY26Q4 占比</th></tr></thead><tbody><tr><td>半导体过程控制（SPC）</td><td>87.34</td><td>109.47（+25.3%）</td><td>121.61（+11.1%）</td><td>89%</td></tr><tr><td>特种半导体工艺</td><td>5.29</td><td>5.87（+11.0%）</td><td>5.85（-0.3%）</td><td>4%</td></tr><tr><td>PCB 和元件检测</td><td>5.52</td><td>6.22（+12.7%）</td><td>8.33（+33.9%）</td><td>7%</td></tr><tr><td><strong>总计</strong></td><td><strong>98.12</strong></td><td><strong>121.56（+23.9%）</strong></td><td><strong>135.79（+11.7%）</strong></td><td><strong>100%</strong></td></tr></tbody></table></div>
+            <p>注：历史财年分部数据未在资料中完整披露，FY2024-FY2026 数据根据财报及研报信息整理，FY26Q4 占比为近似值。FY2026 营收 +11.7% 对比 WFE +25%（1,200→1,500 亿），即是「2026 年未跑赢」的量化呈现；FY26Q4 单季 SPC 营收 32.57 亿美元（+13%），其中代工/逻辑客户约 79%、存储约 21%（存储中 DRAM 占 90%）。</p>
+            <h5>过程控制强度：为什么长期向上</h5>
+            <ul>
+              <li><strong>技术端</strong>：2nm 及以下制程 + EUV 层数增加 + 大尺寸 Die/3D 堆叠 → 缺陷成本指数级上升 → 检测步骤与采样率提升；公司预计 2025-2030 年 WFE 份额再提升 <strong>超 150bp</strong></li>
+              <li><strong>封装端</strong>：先进封装精度从微米级走向纳米级，前道量检测设备（激光扫描、宽带等离子体检测）大规模进入封装产线；2026 年先进封装过程控制营收预期上调至 <strong>11 亿美元（+70%+）</strong>，约为市场整体增速的两倍</li>
+              <li><strong>PCB 检测端</strong>：FY26Q4 营收 2.41 亿美元（同比 +56%），AI 芯片 HDI PCB 与 IC 基板检测需求拉动，成为新增量极</li>
+              <li><strong>对冲项</strong>：2026 年 WFE 支出结构偏向 DRAM/HBM，KLA 在存储的强度低于先进逻辑——这是「持平」的主因，也是 2027 年最需要跟踪的变量</li>
+            </ul>
+            <h5>先进封装业务的成色</h5>
+            <p>增长来源二合一：先进封装市场本身爆发（TAM 扩张）+ 前道设计系统向封装环节导入带来的<strong>份额提升</strong>；交期较短、对 2H26 营收拉动更直接。尚未拆分的疑点：11 亿美元中有多少来自台积电 CoWoS 等单一大客户的集中扩产、该业务毛利率与公司均值（系统毛利率 70%+）的差距——两项都未见公开拆分，列为待验证项。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">估值：约 38-42 倍前瞻 PE（估算）隐含了什么预期？赔率如何？</h2>
+        <span class="qa__impact-tag">→ 期望值约 +6% · 赔率约 1:1</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>按两家「中性」评级券商的目标价（高盛 210 / 瑞银 215 美元）锚定，现价大致在 <strong>210-230 美元区间（估算）</strong>，对应 FY2027E 共识 EPS 约 5.4-5.6 美元的 <strong>38-42 倍前瞻 PE</strong>——已站在历史区间上沿之上，定价的是「2027 年 Alpha 兑现 + WFE 超级周期延续」的乐观组合。三情景期望值约 +6%、赔率约 1:1，对应「持有」。<em>保留判断：现价为按券商目标价反推的估算值，未取实时行情；若实际价格显著低于 210 美元，观点可向「买入」修正。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这个问题本身就是估值问题。</strong>KLA 的 EPS 能见度其实很好（订单 +60%、服务合同制收入），问题全部出在倍数：38-42x FY2027E 意味着市场已经把「过程控制强度提升」当成既成事实来付费——一旦 2027 年只是「随 WFE 增长」，倍数压缩的杀伤力会盖过 EPS 增长。</p>
+            <p>与台积电（约 17-19x 前瞻、PEG&lt;1）相比，KLA 是<strong>「确定性更强但价格更贵」</strong>的资产：FY2027E EPS 增速约 45% 对应 38-42x，PEG 接近 1，没有明显的预期差红利，只能赚 EPS 兑现的钱。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>近乎垄断的份额（58%、第二名的 6 倍）+ 高转换成本，<strong>盈利质量配得上溢价</strong>：毛利率 62%+、营业利润率 43.7%、FCF 利润率 28%</li>
+              <li>FY2027E EPS 增速约 <strong>45%</strong>（3.77 → 5.4-5.6 美元），FY2028E 仍有 20-37% 增长——高倍数被高增长快速消化</li>
+              <li>服务收入 80% 长期合同 + 连续 17 年增长，<strong>周期性弱于其他设备股</strong>，理应享受倍数溢价</li>
+              <li>70 亿美元回购 + 股息 +21%，股东回报为估值托底</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>38-42x 前瞻 PE（估算）已超历史区间上沿，<strong>「利好出尽」的盘后下跌就是市场对倍数的投票</strong></li>
+              <li>WFE 是强周期行业：1,900 亿的 2027 共识若因 CSP/存储客户资本开支节奏放缓而下修，EPS 与倍数将双杀</li>
+              <li><strong>26% 营收来自中国大陆</strong>，出口管制收紧（已波及华虹等）是持续的折价项，且中国本土替代在受限市场加速</li>
+              <li>DRAM 成本逆风确认到 2027、毛利率冲 63.5% 的路径延长，<strong>利润率端没有上修期权</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（当前定价测算 · 三情景表 · 券商预测）</summary>
+          <div class="evidence__body">
+            <h5>当前定价（2026-08 上旬，估算）</h5>
+            <ul>
+              <li>一页通未含实时现价；以两家「中性」评级券商目标价（高盛 210、瑞银 215 美元，2026-08-04 / 07-30）锚定，现价大致 <strong>210-230 美元</strong>（拆分后口径，估算）</li>
+              <li>对应 FY2027E 共识 EPS 5.4-5.6 美元 → 前瞻 PE 约 <strong>38-42x</strong>；对 FY2028E（6.59-7.63 美元）约 28-35x</li>
+              <li>券商目标价区间 210-290 美元，均值约 <strong>239 美元</strong>（美银 2,100 为拆分前口径，折合 210）——相对反推现价的上行空间仅约 4-14%</li>
+            </ul>
+            <h5>三情景假设（FY2028 视角，以反推现价约 220 美元为基准）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>FY2028 EPS</th><th>合理 PE</th><th>隐含股价</th><th>vs 当前</th></tr></thead><tbody><tr><td>乐观（25%）</td><td>2027 显著跑赢 WFE，先进封装持续 +50%+，DRAM 逆风 2027 下半年消退，毛利率回 63.5%</td><td>~7.6 美元（券商上沿）</td><td>40x</td><td>~304 美元</td><td>+38%</td></tr><tr><td>中性（50%）</td><td>2027 随 WFE 增长、2028 Alpha 温和回归，毛利率 62-63% 徘徊</td><td>~6.6 美元（券商中枢）</td><td>38x</td><td>~251 美元</td><td>+14%</td></tr><tr><td>悲观（25%）</td><td>WFE 2027 见顶回落 + Alpha 证伪 + 中国敞口再收缩，EPS 下修、倍数向行业回归</td><td>~4.8 美元（FY2027E 下修）</td><td>28x</td><td>~134 美元</td><td>-39%</td></tr></tbody></table></div>
+            <p><strong>期望值约 226 美元，较反推现价约 +6%；赔率约 1:1（+38% / -39%）。</strong>这是典型的「好公司、贵价格」：结构性逻辑（垄断份额 + 强度提升 + 服务现金流）没有破绽，但 38-42x 的入场价格不给犯错空间。持有的含义是——已持有者可以靠 EPS 高增长消化估值，新资金应等待「2027 跑赢 WFE」被验证或估值回落后再介入。</p>
+            <h5>券商盈利预测（拆分后口径；财年截至 6 月 30 日）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级 / 目标价</th><th>FY2026A</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>摩根大通（2026-07-29）</td><td>超配 / 238 美元</td><td>营收 135.79 亿 · EPS 3.77</td><td>营收 180.30 亿 · EPS 5.47</td><td>—</td></tr><tr><td>花旗（2026-07-29）</td><td>买入 / 290 美元</td><td>营收 135.79 亿 · EPS 3.76</td><td>营收 178.37 亿 · EPS 5.36</td><td>营收 211.15 亿 · EPS 6.59</td></tr><tr><td>高盛（2026-08-04）</td><td>中性 / 210 美元</td><td>营收 135.80 亿 · EPS 3.76</td><td>营收 184.25 亿 · EPS 5.58</td><td>营收 214.72 亿 · EPS 6.61</td></tr><tr><td>瑞银（2026-07-30）</td><td>中性 / 215 美元</td><td>营收 135.79 亿 · EPS 3.77</td><td>营收 181.35 亿 · EPS 5.47</td><td>营收 234.75 亿 · EPS 7.63</td></tr><tr><td>美国银行（2026-05-06）</td><td>买入 / 2,100 美元（拆分前）</td><td>营收 134.97 亿 · EPS 36.93（拆分前）</td><td>营收 167.85 亿 · EPS 49.04（拆分前）</td><td>营收 193.55 亿 · EPS 57.56（拆分前）</td></tr></tbody></table></div>
+            <p>注：美银预测发布于 FY26Q4 财报前且为拆分前口径（折合目标价约 210 美元、FY2027E EPS 约 4.90），属旧口径；财报后四家 FY2027E EPS 落在 5.36-5.58 美元的窄区间，分歧主要在 FY2028（6.59-7.63 美元）——即「2027 之后的 Alpha 持续性」，与核心问题 2 互为表里。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>：公司概况、近况跟踪、业务拆分、催化剂（见同目录《科磊_一页通.md》，亦见本站「一页通」标签页）</li>
+        <li><strong>财务数据</strong>：FY2024-FY2026 利润表、FY26Q4 财报要点与管理层指引（正文数据均来自公开财报整理）</li>
+        <li><strong>局限</strong>：未读财报原文与电话会纪要（建议下一步补读 FY26Q4 earnings call 中关于 2027 年客户订单结构与先进封装毛利率的表述）；现价与前瞻 PE 为按券商目标价反推的估算值，未取实时行情；分部历史数据与先进封装业务明细拆分有限</li>
+        <li><strong>管理层评估（一句话版）</strong>：管理层在 WFE 展望上连续四次上修、首给 2027 年初步展望并按更乐观情景储备产能，同时以拆股 + 股息 +21% + 70 亿美元回购回馈股东，传递出对订单能见度的高度自信；对 DRAM 成本逆风的坦率披露（持续至 2027）也体现了沟通的可信度，兑现度待 FY27Q1 验证</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>科磊是全球半导体过程控制（量检测）领域的绝对龙头，主要提供晶圆检测、量测、数据分析和相关服务，帮助芯片制造商在研发到量产的整个过程中提升良率、降低成本。公司在光学检测、电子束检测、掩模检测等核心环节拥有<strong>约58%的市场份额</strong>，是第二名竞争对手的<strong>约6倍</strong>。其业务高度集中于半导体过程控制（营收占比约89%），并延伸至先进封装、特种半导体工艺和PCB检测。公司客户覆盖全球所有主要逻辑代工、存储IDM及先进封装厂商，深度嵌入AI基础设施扩张的关键路径。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul>
+<li><strong>FY26Q4业绩超预期</strong>：FY26Q4（截至2026年6月30日）营收<strong>36.58亿美元</strong>，同比增长<strong>15%</strong>，环比增长<strong>7%</strong>，创历史新高，高于指引中值（35.75亿美元）。Non-GAAP毛利率<strong>62.4%</strong>，位于指引区间上沿。Non-GAAP摊薄EPS <strong>1.05美元</strong>，高于指引中值（0.99美元）。</li>
+<li><strong>WFE展望年内第四次上修</strong>：公司将2026年晶圆设备（WFE，含先进封装）市场规模预期从<strong>1400亿美元以上</strong>上调至<strong>约1500亿美元的低位</strong>，较2025年约1200亿美元增长<strong>约25%</strong>。同时，公司首次给出2027年WFE初步展望，认为市场共识约<strong>1900亿美元</strong>（增长约25%）是合理的，并正按更乐观情景储备产能。</li>
+<li><strong>先进封装业务指引大幅上调</strong>：公司将2026年先进封装过程控制营收预期从<strong>约10亿美元</strong>上调至<strong>约11亿美元</strong>，同比增长超过<strong>70%</strong>，增速接近先进封装市场整体增速的两倍。增长主要来自前道设计系统向封装环节的加速导入和份额提升。</li>
+<li><strong>订单积压强劲</strong>：截至FY26Q4末，公司未交付订单（RPO/Backlog）约<strong>125亿美元</strong>，同比增长约<strong>60%</strong>，为2026年下半年及2027年的增长提供较强可见性。公司整体平均交期约<strong>12个月</strong>，部分高需求产品交期达<strong>18-24个月</strong>。</li>
+<li><strong>存储成本逆风持续</strong>：公司用于图像处理计算机的DRAM芯片成本持续上涨，对毛利率的负面影响超过<strong>100个基点</strong>，管理层预计该逆风将至少持续至2027年。公司正通过新产品重新定价和设计优化（如转向DDR5）来应对。</li>
+</ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol>
+<li><strong>2H26营收加速兑现与CY27增长预期强化</strong>：公司指引FY27Q1（9月季度）营收<strong>40亿美元</strong>（环比+9.4%），并预计2026年下半年营收较上半年增长<strong>约20%</strong>，隐含12月季度营收约<strong>44-45亿美元</strong>。这一加速主要由长交期零部件供应缓解驱动。更重要的是，公司基于约125亿美元的积压订单和对客户投资的可见度，表达了对2027年"显著增长"的信心。若后续季度指引持续上修，将推动市场对CY27的盈利预期上调，构成股价上行催化。</li>
+<li><strong>先进封装业务超预期增长</strong>：公司将2026年先进封装过程控制营收预期上调至<strong>11亿美元</strong>（同比增长超70%），增速远超市场整体。这一上调主要源于前道量检测设备在先进封装环节的加速渗透和份额提升，尤其是混合键合（Hybrid Bonding）和SoIC等新技术对更高精度检测的需求。该业务交期较短，对营收的拉动效应在2026年下半年将更为显著，且市场一致预期其2027年有望延续强劲增长，成为公司超越WFE增速的关键结构性驱动力。</li>
+<li><strong>WFE市场展望上修与客户群扩大</strong>：公司年内第四次上修2026年WFE展望至<strong>约1500亿美元</strong>，并指出2027年有望达到<strong>1900亿美元</strong>。增长动力正从过去集中于台积电等少数领先厂商，扩散至英特尔、三星、Rapidus、TeraFab等更多参与者，同时DRAM（尤其是HBM）和NAND的投资也在增加。这种客户和终端市场的广度，增强了KLA在2027年跑赢WFE市场增长的可能性，尤其是当更多新进入者在先进制程爬坡初期对过程控制有更高依赖度时。</li>
+</ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol>
+<li><strong>过程控制强度结构性提升</strong>：随着芯片制程向2nm及以下演进、EUV光刻层数增加、芯片设计复杂度（如大尺寸Die、3D堆叠）提升，制造过程中产生致命缺陷的概率和成本急剧上升。这推动芯片制造商在研发和量产阶段增加检测和量测的步骤与采样率，使得过程控制支出占WFE的比例（过程控制强度）持续提升。公司预计2025-2030年其WFE份额将再提升<strong>超过150个基点</strong>，这是其长期营收增速超越WFE市场增速的核心逻辑。</li>
+<li><strong>AI驱动的先进封装新赛道</strong>：AI芯片对高带宽内存（HBM）和异构集成的需求，推动了2.5D/3D先进封装技术的爆发。封装环节的精度要求正从微米级向纳米级演进，使得原本用于前道晶圆制造的检测和量测设备（如激光扫描、宽带等离子体检测）被大量引入封装产线。KLA凭借在前道过程控制的绝对优势，在这一新兴市场占据了领先份额，并有望在未来数年持续受益于SoIC、混合键合等技术的渗透率提升，开辟出可观的增量市场。</li>
+<li><strong>高粘性服务业务构建稳定现金流</strong>：公司的服务业务营收约<strong>80%</strong> 基于长期合同，随着累计装机设备基数的扩大和系统复杂度的提升，客户对KLA服务的依赖度日益增强。FY26Q4服务营收<strong>8.20亿美元</strong>，同比增长<strong>17%</strong>。管理层预计服务业务的长期增速将维持在<strong>13%-15%</strong> 的区间，且随着2026-2027年大量新设备出货，未来增速有望向区间上沿靠拢。这种"剃须刀+刀片"的商业模式为公司提供了穿越周期的稳定现金流和较高的盈利可预测性。</li>
+</ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul>
+<li><strong>存储芯片成本逆风与毛利率压力</strong>：公司产品中大量使用DRAM芯片，当前存储芯片价格持续上涨，对毛利率造成超过<strong>100个基点</strong>的负面影响，且管理层预计将持续至2027年。尽管公司尝试通过新产品重新定价和设计优化来应对，但短期内难以完全对冲，可能压制毛利率的扩张速度，使公司长期毛利率目标（63.5%±500bps）的实现路径延长。</li>
+<li><strong>2026年WFE份额增长乏力</strong>：由于2026年WFE支出结构偏向DRAM（尤其是HBM）和特定逻辑客户的产能扩张，而KLA在这些领域的相对过程控制强度低于其在先进逻辑节点的水平，导致其2026年营收增速可能仅与WFE市场持平或略高，未能显著跑赢。若2027年这一趋势延续，将动摇市场对其"结构性跑赢WFE"的核心投资逻辑。</li>
+<li><strong>地缘政治与出口管制风险</strong>：公司约<strong>26%</strong> 的营收来自中国大陆，且美国对华半导体出口管制政策持续收紧。近期对华虹等特定晶圆厂的限制已产生一定影响。若未来管制范围进一步扩大至更多中国客户或更广泛的设备类型，可能导致公司损失部分市场，并面临中国本土竞争对手在受限市场加速替代的风险。</li>
+</ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul>
+<li><strong>2026年6月11日</strong>：公司完成<strong>10比1</strong>的股票拆分，并宣布将季度股息上调<strong>21%</strong> 至每股0.23美元（拆分后），同时新增<strong>70亿美元</strong>的股票回购授权。</li>
+<li><strong>2026年7月28日</strong>：公司发布FY26Q4财报，营收创历史新高，同时将2026年WFE展望上调至约1500亿美元，并给出强劲的FY27Q1指引。但由于指引仅略超市场预期，且毛利率逆风持续，股价在盘后交易中下跌。</li>
+</ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul>
+<li><strong>2026年10月（预计）</strong>：公司发布FY27Q1（9月季度）财报。若实际营收和毛利率达到或超过指引中值（40亿美元/62.5%），并进一步上调2027年WFE或公司自身增长展望，将有望提振市场信心。</li>
+<li><strong>2026年下半年</strong>：主要客户（如英特尔、三星、台积电）可能公布更详细的2027年资本开支计划。若其资本开支指引显著高于市场预期，尤其是对先进逻辑和先进封装的投资，将直接催化KLA股价。</li>
+<li><strong>2026年9月-11月</strong>：行业峰会（如SEMICON Taiwan）期间，公司管理层或产业链其他环节可能透露更乐观的2027年需求信号和订单能见度，强化市场对半导体设备行业超级周期的预期。</li>
+</ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<p><strong>业务边际变化</strong>：公司近年业务重心持续向半导体过程控制（SPC）集中，该板块营收占比已提升至约<strong>89%</strong>。增长驱动力从传统的逻辑代工，扩展至AI驱动的HBM存储和先进封装。先进封装过程控制成为增长最快的新兴业务，公司预计2026年该业务营收将达<strong>11亿美元</strong>（同比增长超70%）。同时，公司于2024年退出了平板显示业务，并持续优化PCB和特种半导体业务的结构，聚焦于受高性能计算和先进封装拉动的高价值领域。</p>
+<p><strong>盈利模式</strong>：公司盈利模式的核心是基于<strong>技术壁垒和客户粘性</strong>的"剃须刀+刀片"模式。一方面，公司通过销售高精度、高价值的检测和量测系统获取一次性收入，其技术领先地位和接近垄断的市场份额赋予了较强的定价权。另一方面，随着设备装机量的累积，公司通过提供长期的维护、维修、咨询和软件升级服务，获得稳定且持续增长的经常性收入。这种模式使得公司营收和利润的可预测性高于多数半导体设备同行。</p>
+<p><strong>业务拆分</strong>：公司业务主要按三个报告分部划分：半导体过程控制（SPC）、特种半导体工艺、以及PCB和元件检测。SPC是公司的绝对核心，营收占比约90%，其增长态势决定了公司的整体业绩走向。PCB和元件检测业务在FY26Q4因AI芯片封装检测需求拉动而同比大增<strong>56%</strong>，成为重要的增量贡献者。公司当前处于<strong>业绩兑现期</strong>，受益于前期大量订单的交付和AI需求的持续落地。</p>
+<p><strong>细分业务拆分（按报告分部，含服务）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>报告分部 (单位：亿美元)</th><th>FY2024</th><th>FY2025</th><th>FY2026</th><th>FY26Q4 占比</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td><strong>2024-06-30</strong></td><td><strong>2025-06-30</strong></td><td><strong>2026-06-30</strong></td><td><strong>2026-06-30</strong></td></tr><tr><td><strong>半导体过程控制 · 收入</strong></td><td>87.34</td><td>109.47</td><td>121.61</td><td>89%</td></tr><tr><td>同比</td><td>-</td><td>25.3%</td><td>11.1%</td><td>-</td></tr><tr><td><strong>特种半导体工艺 · 收入</strong></td><td>5.29</td><td>5.87</td><td>5.85</td><td>4%</td></tr><tr><td>同比</td><td>-</td><td>11.0%</td><td>-0.3%</td><td>-</td></tr><tr><td><strong>PCB和元件检测 · 收入</strong></td><td>5.52</td><td>6.22</td><td>8.33</td><td>7%</td></tr><tr><td>同比</td><td>-</td><td>12.7%</td><td>33.9%</td><td>-</td></tr><tr><td><strong>总计</strong></td><td><strong>98.12</strong></td><td><strong>121.56</strong></td><td><strong>135.79</strong></td><td><strong>100%</strong></td></tr></tbody></table></div>
+<p><em>注：历史财年分部数据未在资料中完整披露，此处FY2024-FY2026数据根据财报及研报信息整理，FY26Q4占比为近似值。</em></p>
+<p><strong>半导体过程控制（SPC）</strong>：FY26Q4（即2026年4-6月季度）该分部营收<strong>32.57亿美元</strong>，同比增长<strong>13%</strong>，环比增长<strong>6%</strong>。增长主要来自AI驱动的先进逻辑代工和HBM存储客户的持续投资。其中，来自代工/逻辑客户的系统收入占比约<strong>79%</strong>，存储客户占比约<strong>21%</strong>（存储中DRAM占90%）。该业务是公司高毛利率的核心来源，系统毛利率通常在<strong>70%以上</strong>。</p>
+<p><strong>特种半导体工艺</strong>：FY26Q4营收<strong>1.60亿美元</strong>，同比增长<strong>13%</strong>，环比下降<strong>3%</strong>。该业务主要为MEMS、射频、功率半导体等提供真空沉积和刻蚀设备，市场相对稳定，增长受特定客户项目周期影响。</p>
+<p><strong>PCB和元件检测</strong>：FY26Q4营收<strong>2.41亿美元</strong>，同比大增<strong>56%</strong>，环比增长<strong>44%</strong>。强劲增长主要受AI芯片所使用的高性能计算封装和IC基板检测需求拉动，尤其是高密度PCB（HDI PCB）转型带来的增量机会。该业务已成为公司重要的增长极。</p>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托极高转换成本与技术领先构筑的结构性护城河</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。过程控制设备需深度嵌入客户的制造流程，其算法和模型需与客户特定工艺长期磨合和校准。一旦客户在某个技术节点采用了KLA的检测方案，其良率学习曲线便与KLA设备深度绑定。更换供应商意味着需要重新进行耗时长、成本高的数据积累和模型训练，并承担巨大的良率损失风险。同时，KLA在光学检测、电子束检测等核心技术上的持续高研发投入，使其产品性能始终保持行业领先。</li>
+<li><strong>数据验证</strong>：公司过程控制市场份额高达<strong>约58%</strong>，是第二名竞争对手的<strong>约6倍</strong>。公司FY2026的Non-GAAP毛利率高达<strong>62.4%</strong>，FY26Q4的Non-GAAP营业利润率为<strong>43.7%</strong>，均显著高于半导体设备行业平均水平，体现了强大的定价能力和规模效应。</li>
+<li><strong>动态演变</strong>：<strong>护城河变宽（巩固）</strong>。随着芯片制程向2nm及以下演进、芯片结构从单芯片向3D异构集成发展，制造过程的复杂度和对缺陷的敏感度呈指数级上升。这进一步提升了过程控制的重要性，并加大了客户更换供应商的风险和成本，从而巩固了KLA的市场地位。</li>
+</ul>
+<p><strong>竞争要素 2：以"剃须刀+刀片"模式构建的客户粘性与经常性收入</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。公司的服务业务并非简单的维修保养，而是涵盖设备性能优化、良率管理咨询和软件升级的高价值服务。随着KLA设备装机量的累积和系统复杂度的提升，客户对KLA服务的依赖度日益增强。服务合同续约率高，为公司提供了高度可预测的经常性收入流，平滑了设备销售的周期性波动。</li>
+<li><strong>数据验证</strong>：FY26Q4服务业务营收<strong>8.20亿美元</strong>，同比增长<strong>17%</strong>，已连续<strong>17年</strong>实现同比增长。服务业务约<strong>80%</strong> 的收入来自长期合同，为公司贡献了稳定的现金流。过去12个月（LTM）自由现金流达<strong>40亿美元</strong>，自由现金流利润率<strong>28%</strong>。</li>
+<li><strong>动态演变</strong>：<strong>护城河变宽（巩固）</strong>。随着2026-2027年大量新系统出货，公司的设备装机基数将进一步扩大，为未来数年的服务业务增长奠定基础。管理层预计服务业务的长期增速将维持在<strong>13%-15%</strong>，且有望向区间上沿靠拢。</li>
+</ul>
+<p><strong>现阶段核心驱动力总结</strong>：公司的Alpha来源于其在过程控制领域近乎垄断的市场地位和由技术复杂性带来的高转换成本，这使其能够持续获得超越行业平均的盈利能力和增长。其Beta则与全球半导体资本开支周期，尤其是先进逻辑和存储的资本开支强度密切相关。当前，AI驱动的技术升级周期为KLA提供了强劲的Beta，而先进封装和过程控制强度的提升则构成了其独特的Alpha来源。</p>
+<p><strong>竞争格局传导逻辑（文字版）</strong>：极高的技术壁垒与客户转换成本 → 近乎垄断的市场份额（约58%）和强大的定价权 → 高且稳定的毛利率（&gt;60%）和高自由现金流利润率（约28%）；同时，持续扩大的设备装机量 → 高粘性、合同制的服务业务模式 → 稳定且持续增长的经常性收入。两条链路共同构成公司的财务结果。</p>
+<h3 class="doc-h2">产销链</h3>
+<ul>
+<li><strong>客户情况</strong>：公司客户高度集中，主要为全球领先的逻辑代工厂（如台积电、英特尔、三星）和存储IDM（如三星、SK海力士、美光）。FY26Q4，<strong>两个客户</strong>各自贡献了超过10%的营收。公司对头部客户的依赖度较高，但客户结构正从过去集中于台积电，向英特尔、三星、Rapidus等更多参与者扩散，这在一定程度上有助于分散风险。公司正与多家客户就2027年及以后的产能需求进行积极沟通。</li>
+<li><strong>供应商情况</strong>：公司采用外包制造策略，依赖众多供应商提供零部件和子系统。部分关键零部件（如高端光学元件、特定DRAM芯片）存在单一或有限来源风险。近期，用于图像处理计算机的DRAM芯片因供应商停产和行业需求激增而出现短缺和大幅涨价，对公司的成本结构构成了显著压力。公司正通过重新设计系统以兼容新一代内存（DDR5）来缓解长期供应风险。</li>
+<li><strong>成本传导能力</strong>：当上游原材料（如DRAM芯片）涨价时，公司短期内难以将成本完全转嫁给客户，尤其是在已签订单上。公司赚取的是<strong>技术溢价</strong>，而非简单的加工费。其应对策略是通过推出新一代产品，在提升性能的同时重新定价，以反映新的成本结构并获取新增价值。因此，成本传导存在一定的时滞，短期毛利率会承压，但长期可通过产品迭代修复。</li>
+</ul>
+<h3 class="doc-h2">财务数据</h3>
+<div class="tbl-wrap"><table><thead><tr><th>项目 (单位：亿美元)</th><th>FY2024</th><th>FY2025</th><th>FY2026</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td><strong>2024-06-30</strong></td><td><strong>2025-06-30</strong></td><td><strong>2026-06-30</strong></td></tr><tr><td>营业总收入</td><td>98.12</td><td>121.56</td><td>135.79</td></tr><tr><td>收入同比</td><td>-6.51%</td><td>23.89%</td><td>11.71%</td></tr><tr><td>营业成本</td><td>39.28</td><td>47.52</td><td>52.55</td></tr><tr><td><strong>毛利润</strong></td><td><strong>58.84</strong></td><td><strong>74.04</strong></td><td><strong>83.24</strong></td></tr><tr><td><strong>毛利率</strong></td><td><strong>60.0%</strong></td><td><strong>60.9%</strong></td><td><strong>61.3%</strong></td></tr><tr><td>研发费用</td><td>12.79</td><td>13.60</td><td>15.32</td></tr><tr><td>销售及管理费用</td><td>9.70</td><td>10.30</td><td>11.32</td></tr><tr><td><strong>营业利润</strong></td><td><strong>36.36</strong></td><td><strong>50.14</strong></td><td><strong>56.61</strong></td></tr><tr><td><strong>营业利润率</strong></td><td><strong>37.1%</strong></td><td><strong>41.2%</strong></td><td><strong>41.7%</strong></td></tr><tr><td>归母净利润</td><td>27.62</td><td>40.62</td><td>48.31</td></tr><tr><td><strong>归母净利润率</strong></td><td><strong>28.1%</strong></td><td><strong>33.4%</strong></td><td><strong>35.6%</strong></td></tr><tr><td>稀释每股收益 (美元)</td><td>20.28</td><td>30.38</td><td>36.60</td></tr><tr><td>经营活动现金流净额</td><td>33.09</td><td>40.82</td><td>41.43</td></tr><tr><td>自由现金流</td><td>30.31</td><td>37.47</td><td>37.67</td></tr></tbody></table></div>
+<p><em>注：自由现金流根据财报数据计算（经营活动现金流净额 - 资本性支出）。FY2026资本性支出为3.76亿美元。</em></p>
+<ul>
+<li><strong>成长能力</strong>：公司FY2026营收同比增长<strong>11.71%</strong>，较FY2025的<strong>23.89%</strong> 有所放缓，但仍处于稳健增长区间。归母净利润同比增长<strong>18.94%</strong>，高于营收增速，显示出盈利能力的持续改善。增长主要由AI驱动的先进逻辑和HBM投资，以及服务业务的持续扩张推动。</li>
+<li><strong>盈利能力</strong>：公司FY2026毛利率为<strong>61.3%</strong>，同比提升0.4个百分点；营业利润率为<strong>41.7%</strong>，同比提升0.5个百分点；归母净利润率为<strong>35.6%</strong>，同比提升2.2个百分点。利润率提升主要得益于服务业务占比增加、产品组合优化和规模效应，部分被存储芯片成本上涨和关税所抵消。公司盈利能力在半导体设备行业中处于顶尖水平。</li>
+<li><strong>运营能力</strong>：FY2026末存货为<strong>36.49亿美元</strong>，同比增加<strong>13.6%</strong>，存货周转天数约为<strong>236天</strong>，维持在较高水平，这与公司为支持未来数个季度的营收增长而主动增加库存的策略一致。应收账款为<strong>28.89亿美元</strong>，同比增加<strong>27.6%</strong>，应收账款周转天数约为<strong>61天</strong>，处于合理范围。</li>
+<li><strong>偿债能力与股东回报</strong>：FY2026末，公司总债务为<strong>58.87亿美元</strong>，现金及现金等价物和有价证券合计<strong>49.03亿美元</strong>，净债务约为<strong>9.84亿美元</strong>。公司现金流强劲，FY2026自由现金流为<strong>37.67亿美元</strong>。公司持续通过大规模回购（FY26回购<strong>22.90亿美元</strong>）和分红（FY26分红<strong>10.58亿美元</strong>）回报股东，显示出管理层对业务前景的信心和优秀的资本配置能力。</li>
+</ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p>科磊所处的核心赛道是<strong>半导体过程控制（量检测）</strong>，这是一个高度专业化、技术壁垒极高的细分市场。该市场是半导体制造过程中不可或缺的一环，其需求与芯片设计复杂度、制造工艺难度和良率要求直接相关。</p>
+<ul>
+<li><strong>市场规模与增速</strong>：过程控制市场是WFE市场的重要组成部分。随着AI芯片对先进制程和先进封装的需求激增，过程控制强度持续提升，其市场增速有望持续高于整体WFE市场。公司预计其2025-2030年的WFE份额将提升超过150个基点。</li>
+<li><strong>行业发展趋势</strong>：1）<strong>检测精度向纳米级迈进</strong>：随着制程微缩和3D堆叠技术（如GAA、HBM）的应用，对纳米级缺陷的检测需求急剧增加，推动了更高精度光学和电子束检测设备的应用。2）<strong>过程控制从晶圆厂延伸至封装厂</strong>：先进封装（如CoWoS、SoIC）的精度要求已接近前道工艺，使得原本用于晶圆制造的量检测设备开始在封装环节大规模应用，开辟了全新的增量市场。3）<strong>AI赋能数据分析</strong>：KLA等公司正将AI算法集成到检测设备中，以加速缺陷识别、分类和根本原因分析，提升设备效率和客户良率。</li>
+<li><strong>竞争格局</strong>：KLA在该市场占据<strong>约58%</strong> 的份额，处于绝对主导地位，其规模是第二名竞争对手的<strong>约6倍</strong>。主要竞争对手包括应用材料（AMAT）、ASML、日立高新（Hitachi High-Tech）、Lasertec和Onto Innovation等。竞争格局相对稳定，KLA凭借其完整的产品组合、深厚的技术积累和与头部客户的深度绑定，持续巩固其护城河。在中国市场，由于出口管制，部分本土竞争对手获得了一些份额，但在全球范围内的公平竞争环境下，KLA的领先地位难以撼动。</li>
+</ul>
+<p><strong>可比公司</strong>：</p>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>主要竞争领域</th><th>与科磊的差异</th></tr></thead><tbody><tr><td><strong>应用材料 (Applied Materials)</strong></td><td>AMAT</td><td>过程控制、薄膜沉积、刻蚀等</td><td>平台型公司，业务线更广，但在过程控制领域份额远低于KLA。</td></tr><tr><td><strong>ASML Holding</strong></td><td>ASML</td><td>光刻、电子束检测</td><td>在光刻领域垄断，但在过程控制领域仅涉及部分电子束检测，与KLA形成互补而非全面竞争。</td></tr><tr><td><strong>泛林半导体 (Lam Research)</strong></td><td>LRCX</td><td>刻蚀、薄膜沉积</td><td>以刻蚀见长，不直接参与过程控制市场的竞争。</td></tr><tr><td><strong>Lasertec Corporation</strong></td><td>6920.T</td><td>掩模检测、晶圆检测</td><td>在EUV掩模检测等特定细分市场是KLA的直接竞争对手，但规模和产品线广度远不及KLA。</td></tr></tbody></table></div>
+<p>总结来看，科磊在其核心的过程控制市场中，凭借技术、产品组合和客户粘性构建了强大的竞争壁垒，其市场地位短期内难以被撼动。AI驱动的技术升级和先进封装市场的爆发，为公司的长期增长提供了广阔空间。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<p><strong>议题一：2026年WFE份额增长停滞，过程控制强度提升逻辑是否被打破？</strong></p>
+<ul>
+<li><strong>背景</strong>：公司长期的核心投资逻辑是过程控制强度提升将使其营收增速持续超越WFE市场增速。然而，2026年由于WFE支出结构偏向DRAM和特定逻辑客户，KLA的营收增速与WFE市场增速的差距并不显著，引发市场对其长期Alpha的质疑。</li>
+<li><strong>问题列表</strong>：
+<ul>
+<li>2026年KLA的WFE份额是否仅能持平或微增？这是短期供应限制还是结构性变化？</li>
+<li>2027年随着更多先进逻辑客户（如英特尔、Rapidus）和新建晶圆厂（Greenfield）的加入，过程控制强度能否显著提升并驱动KLA跑赢WFE？</li>
+<li>在DRAM（尤其是HBM）领域，KLA的过程控制强度提升空间有多大？能否复制其在先进逻辑领域的优势？</li>
+</ul></li>
+</ul>
+<p><strong>议题二：存储芯片成本逆风对毛利率的压制何时缓解？</strong></p>
+<ul>
+<li><strong>背景</strong>：公司产品中大量使用的DRAM芯片价格持续上涨，对毛利率造成了超过100个基点的负面影响，且管理层预计将持续至2027年。这直接压制了公司毛利率向长期目标（63.5%）迈进的步伐。</li>
+<li><strong>问题列表</strong>：
+<ul>
+<li>公司能否通过向客户提价来完全对冲存储芯片成本的上涨？提价策略的执行难度和时滞如何？</li>
+<li>转向DDR5等新一代内存的设计优化何时能完成，并在多大程度上缓解成本压力？</li>
+<li>存储芯片价格何时能迎来拐点？若价格回落，是否能迅速转化为毛利率的显著提升？</li>
+</ul></li>
+</ul>
+<p><strong>议题三：先进封装业务的增长质量和可持续性</strong></p>
+<ul>
+<li><strong>背景</strong>：先进封装过程控制是公司增长最快的新兴业务，2026年营收预期已上调至11亿美元。市场关注这一高增长是否主要由头部客户（如台积电CoWoS）的一次性大规模扩产驱动，以及其长期增长潜力。</li>
+<li><strong>问题列表</strong>：
+<ul>
+<li>2026年先进封装业务超70%的增长中，有多少来自市场总规模（TAM）的扩张，多少来自KLA的份额提升？</li>
+<li>先进封装业务的毛利率水平如何？随着规模扩大，其盈利能力能否向公司平均水平靠拢？</li>
+<li>混合键合、SoIC等新技术的渗透率提升，将为KLA带来多大的增量市场空间？</li>
+</ul></li>
+</ul>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧：KLA在2027年及以后能否持续跑赢WFE市场增长？</strong></p>
+<ul>
+<li><strong>乐观方观点</strong>：认为2026年KLA增长与WFE持平是暂时的，主要受供应限制和特定客户支出节奏影响。2027年，随着英特尔、三星、Rapidus等更多客户进入先进制程大规模投资阶段，以及大量新建晶圆厂（Greenfield）对过程控制设备的初始需求，过程控制强度将显著提升。此外，先进封装和HBM对过程控制的高需求将成为结构性驱动力，使KLA在2027年及以后重新获得显著超越WFE的增长。公司约<strong>125亿美元</strong>的强劲积压订单和客户对2027年交付的积极讨论，为这一观点提供了支撑。</li>
+<li><strong>谨慎方观点</strong>：担忧AI驱动的这轮资本开支周期中，WFE的增长更多来自"量"的扩张（即大量建设产能），而非"质"的提升（即技术复杂度提升）。在产能扩张阶段，刻蚀、沉积等设备的支出比例可能更高，而过程控制强度可能被稀释。此外，存储（尤其是DRAM）在WFE中的占比提升，对KLA相对不利，因为其在存储领域的过程控制强度低于先进逻辑。如果2027年WFE增速放缓，而KLA未能展现出明显的Alpha，其当前较高的估值可能面临下行压力。</li>
+</ul>
+<p><strong>总结分析</strong>：从产业趋势看，过程控制强度提升的逻辑依然稳固。AI芯片的复杂度、先进封装技术的渗透以及更多玩家进入先进制程，都构成了对KLA有利的结构性因素。2026年的增长持平更可能是一次性的"换挡"期，而非趋势的逆转。然而，KLA能否在2027年实现显著的超额增长，将取决于其能否在DRAM和先进封装领域成功复制其在先进逻辑领域的统治力，以及全球半导体资本开支的持续性。当前估值已部分反映了乐观预期，任何低于预期的增长信号都可能导致股价波动。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>管理层最新指引</strong>：</p>
+<ul>
+<li><strong>FY27Q1（2026年9月季度）</strong>：营收预计为<strong>40亿美元</strong>（±2亿美元）；Non-GAAP毛利率预计为<strong>62.5%</strong>（±1个百分点）；Non-GAAP摊薄EPS预计为<strong>1.16美元</strong>（±0.10美元）。</li>
+<li><strong>2026全年（CY2026）</strong>：预计营收将实现<strong>中20%区间</strong>的增长；Non-GAAP毛利率预计约为<strong>62.5%</strong>。</li>
+</ul>
+<p><strong>券商盈利预测与估值</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价(美元)</th><th>财务指标</th><th>FY2026A</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td><strong>美国银行</strong> (2026-05-06)</td><td>买入</td><td>2100</td><td>营业收入(百万美元)<br>Non-GAAP EPS(美元)</td><td>13,497<br>36.93</td><td>16,785<br>49.04</td><td>19,355<br>57.56</td></tr><tr><td><strong>摩根大通</strong> (2026-07-29)</td><td>超配</td><td>238</td><td>营业收入(百万美元)<br>Non-GAAP EPS(美元)</td><td>13,579<br>3.77</td><td>18,030<br>5.47</td><td>-<br>-</td></tr><tr><td><strong>花旗</strong> (2026-07-29)</td><td>买入</td><td>290</td><td>营业收入(百万美元)<br>Non-GAAP EPS(美元)</td><td>13,579<br>3.76</td><td>17,837<br>5.36</td><td>21,115<br>6.59</td></tr><tr><td><strong>高盛</strong> (2026-08-04)</td><td>中性</td><td>210</td><td>营业收入(百万美元)<br>Non-GAAP EPS(美元)</td><td>13,580<br>3.76</td><td>18,425<br>5.58</td><td>21,472<br>6.61</td></tr><tr><td><strong>瑞银</strong> (2026-07-30)</td><td>中性</td><td>215</td><td>营业收入(百万美元)<br>Non-GAAP EPS(美元)</td><td>13,579<br>3.77</td><td>18,135<br>5.47</td><td>23,475<br>7.63</td></tr></tbody></table></div>
+<p><em>注：各机构财年截止日期均为6月30日。美国银行预测数据为拆分前价格，EPS为拆分前数据。</em></p>
+<p><strong>分析</strong>：各机构对KLA的盈利预测存在一定分歧，反映了市场对2027年及以后增长前景的不同看法。乐观方（如花旗、摩根大通）基于WFE市场持续扩张和过程控制强度提升，给出了更高的营收和EPS预测，并使用了较高的市盈率进行估值。谨慎方（如高盛、瑞银）则更关注公司短期增长放缓和毛利率压力，估值倍数相对保守。整体而言，市场对KLA的评级仍以"买入"或"超配"为主，显示出对其长期价值的认可，但对短期催化剂的强度和估值水平存在争议。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/KLAC · 生成于 2026-08-06</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-06';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'hit',     text: '<strong>FY26Q4 营收创历史新高 + WFE 展望年内第四次上修至约 $1,500 亿</strong>：营收/毛利率/EPS 三 beat，积压订单 $125 亿（+60%）', note: '2026-07-28 兑现' },
+  { kind: 'cat', status: 'active',  text: '<strong>2H26 营收加速</strong>：管理层指引 2026 下半年营收较上半年 +20%，隐含 12 月季度约 $44-45 亿', note: 'FY27Q1 指引 $40 亿（环比 +9.4%）已给出' },
+  { kind: 'cat', status: 'active',  text: '<strong>先进封装过程控制营收 2026 年 $11 亿（+70%+）</strong>：增速约市场两倍，份额提升的关键证据', note: '指引从 $10 亿上调，2H26 交付兑现中' },
+  { kind: 'cat', status: 'pending', text: '<strong>FY27Q1 财报（2026-10）</strong>：核对营收 $40 亿 / 毛利率 62.5% 兑现度，以及是否进一步上调 2027 年展望', note: '' },
+  { kind: 'cat', status: 'pending', text: '<strong>客户 2027 资本开支计划</strong>（2026 下半年，英特尔/三星/台积电）+ SEMICON Taiwan（9 月）需求信号：验证 2027 WFE 约 $1,900 亿共识', note: '' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>2027 年继续跑不赢 WFE</strong>：过程控制强度提升逻辑被证伪，估值中枢下移', note: '2026 年因 DRAM 占比高而持平；2027 年为关键验证年' },
+  { kind: 'risk', status: 'clear', text: '<strong>DRAM 成本逆风超预期扩大</strong>：当前拖累毛利率超 100bp、确认持续至 2027；若显著超 100bp 且新品重定价失效 → 触发', note: '逆风已知且在定价中，关注边际变化' },
+  { kind: 'risk', status: 'clear', text: '<strong>对华出口管制扩大</strong>：约 26% 营收来自中国大陆，管制扩至更多客户/设备类型将直接损失市场', note: '已波及华虹等特定晶圆厂，常态跟踪' },
+  { kind: 'risk', status: 'clear', text: '<strong>WFE 周期见顶</strong>：CSP/存储客户资本开支放缓，2027 年 $1,900 亿共识下修', note: '当前共识仍在扩张' },
+  { kind: 'risk', status: 'clear', text: '<strong>关键零部件单一来源断供</strong>（高端光学元件、特定 DRAM）：外包制造模式下供应风险客观存在', note: '正转向 DDR5 设计缓解，常态跟踪' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

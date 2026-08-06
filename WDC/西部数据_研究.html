@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>西部数据（WDC.O）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--policy-red); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">WDC</span>
+    <span class="site-mark__text">西部数据 公司研究<span>Western Digital · WDC.O</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>西部数据<span class="en">Western Digital · WDC.O · 美股研究</span></h1>
+        <p class="sub">分拆闪存业务后的纯 HDD 双寡头：FY2026 Q4 营收 +44%、毛利率 54.4%、EPS +109% 三项齐超预期，LTA 能见度延伸至 2031 年，「不扩产、只提密度」的供给纪律正在重构行业周期属性；但 FY2027 Q1 毛利率指引环比仅 +1.1pct，盘后跌逾 10%，近线 EB 增速放缓至 22%——核心矛盾是「结构性超级周期」叙事 vs 22-28x 远期估值已部分透支的定价现实。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-06</span>
+          <span>下次更新：FY2027 Q1 财报（2026-10 下旬）/ 年度股东大会（2026-11-20）</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>估算现价约 $500，对应约 22-28x FY2027E PE，三情景期望值约 +4%、赔率约 1.3:1；重检条件：Q1 实际毛利率兑现 57-58% 验证指引保守，或 HAMR 延迟 / EB 增速连续两季低于 20%。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">营收 +44%</strong><span>FY26Q4 $37.47亿·超指引上限</span></div>
+      <div class="summary-rail__item"><strong>54.4%</strong><span>FY26Q4 毛利率·同比 +13.1pct</span></div>
+      <div class="summary-rail__item"><strong>+22%</strong><span>Q4 近线 EB 出货增速·环比放缓</span></div>
+      <div class="summary-rail__item"><strong>$35亿</strong><span>FY2026 自由现金流·FCF 利润率 27%</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">FY2026 Q4 财报：三项齐超预期为何盘后大跌？55.5% 的毛利率指引是保守还是定价权见顶？</h2>
+        <span class="qa__impact-tag">→ Q1 指引 55-56% vs 买方预期 57-58% · 盘后跌逾 10%</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>财报本身是真超预期：营收 $37.47 亿（+44%，超指引上限）、毛利率 54.4%（同比 +13.1pct）、Non-GAAP EPS $3.56（+109%）。盘后跌逾 10% 不是因为这一季，而是因为 FY2027 Q1 毛利率指引中点 55.5% 环比仅 +1.1pct——与希捷同期给出的 5-6pct 激进扩张指引形成鲜明反差。<strong>指引保守论有数据支撑：若 Q1 维持 Q4 的定价同比增速（高双位数），隐含的成本/TB 降幅仅约 4%，远低于公司长期 10% 的成本下降目标</strong>，即指引内嵌了一个不合常理的成本假设。<em>保留判断：若连续两个季度毛利率扩张乏力，「保守」将被重新定价为「定价权见顶」，这是本页最重要的一条证伪路径。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>毛利率指引之争直接决定 FY2027 EPS 落点。</strong>FY2027 Q1 指引 EPS $3.85-4.15，年化约 $16；而券商 FY2027E EPS 区间为 18.49-23.50 美元——市场定价明显假设指引会被上修。<strong>若 Q1 实际毛利率兑现 57-58%，FY2027 EPS 向大摩的 $23.50 靠拢；若指引口径就是现实，FY2027 EPS 落向高盛的 $18.49</strong>——两者相差约 27%，对应股价就是高盛目标价 $650 与花旗 $800 之间的距离。</p>
+            <p>对估值倍数的影响更微妙：盘后的大跌说明市场已开始把「指引保守」和「周期见顶」两种解释混在一起定价。在证伪或证实之前，倍数难以进一步扩张，股价进入「等 Q1 验证」的区间博弈。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点（指引保守论）</h4>
+            <ul>
+              <li>算术不支持「见顶」：维持 Q4 的定价同比增速（高双位数）下，指引隐含成本/TB 降幅仅约 4%，<strong>远低于公司长期 10% 的降本目标</strong>——指引内嵌了不合理的成本假设</li>
+              <li>行业基本面同向：<strong>希捷 FY2026 Q2 超预期并给出 5-6pct 的激进毛利率扩张指引</strong>——同一批云客户、同一个紧缺市场，没理由两家定价环境分化</li>
+              <li>定价仍在加速：Q4 混合平均每 TB 价格同比增长<strong>高双位数</strong>，较上季度的高个位数继续上行，LTA 外增量部分享受更高定价</li>
+              <li>管理层有低指引的历史倾向：Q4 营收也打到指引上限之上，指引口径一贯留有余地</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点（见顶预警论）</h4>
+            <ul>
+              <li>EB 增速先行放缓：Q4 近线 EB 出货 +22%，<strong>低于前几季 30%+</strong>——管理层归因于客户采购节奏，但「量在价先」是周期行业的老规律</li>
+              <li>产品过渡期的真实成本扰动：40TB ePMR 切换 + HAMR 认证投入都在 Q1 集中发生，<strong>指引保守可能就是对过渡成本的诚实反映</strong></li>
+              <li>LTA 是双刃剑：基础量锁价在现货价格飙升时<strong>限制利润弹性</strong>，Q4 已体现定价加速，Q1 起 LTA 重签可能摊薄涨幅</li>
+              <li>盘后跌逾 10% + 此前一个月已从约 $800 高点回撤超 30%——<strong>高预期股的边际利空会被杠杆放大</strong>，趋势资金在撤离</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（Q4 财报速览 · 指引保守论交叉验证 · FY2027 Q1 指引）</summary>
+          <div class="evidence__body">
+            <h5>FY2026 Q4 财报速览（2026-08-05 发布，截至 2026-07-03）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>实际</th><th>对比</th><th>评价</th></tr></thead><tbody><tr><td>营收</td><td><strong>$37.47 亿</strong>（同比 +44%，环比 +12%）</td><td>指引上限之上</td><td>beat</td></tr><tr><td>毛利率</td><td><strong>54.4%</strong>（同比 +13.1pct）</td><td>FY2026 全年 49.1%</td><td>beat，扩张仍在加速</td></tr><tr><td>Non-GAAP EPS</td><td><strong>$3.56</strong>（同比 +109%）</td><td>市场一致预期之上</td><td>beat</td></tr><tr><td>近线 EB 出货</td><td>同比 <strong>+22%</strong></td><td>前几季 30%+</td><td><span class="warn">放缓</span>——管理层归因于大客户采购节奏与 CMR/UltraSMR 组合波动</td></tr><tr><td>单 TB 价格</td><td>同比 +<strong>高双位数</strong></td><td>上季为高个位数</td><td>定价在加速</td></tr><tr><td>单 TB 成本</td><td>同比约 <strong>-8%</strong></td><td>长期目标约 -10%</td><td>略低于长期目标（过渡期）</td></tr><tr><td>资本回报</td><td>Q4 回购 <strong>$10 亿</strong>；FY2026 全年回购+股息 <strong>$31 亿</strong></td><td>—</td><td>资产负债表已转净现金；季度股息上调至 $0.15</td></tr></tbody></table></div>
+            <h5>「指引保守」的交叉验证</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>信号</th><th>证据</th><th>方向</th></tr></thead><tbody><tr><td>成本假设</td><td>若 Q1 维持高双位数定价增速，指引 55.5% 隐含成本/TB 降幅仅约 4%，远低于长期 10% 目标</td><td>正——指引偏保守</td></tr><tr><td>同业对照</td><td>希捷给出毛利率环比 +5-6pct 的激进指引（2026-07-29 财报），股价大涨</td><td>正——行业定价环境未变</td></tr><tr><td>需求能见度</td><td>LTA 已签至 2029 年，正讨论覆盖 2029/2030/2031 年的新约</td><td>正——客户在锁长期产能</td></tr><tr><td>量的信号</td><td>近线 EB 增速放缓至 22%</td><td><span class="warn">负</span>——需 Q1 验证是节奏波动还是中枢下移</td></tr><tr><td>产品过渡</td><td>40TB ePMR 刚起量、44TB HAMR 在 4 家客户认证中，过渡期成本与良率扰动集中</td><td><span class="warn">负</span>——保守或有真实成本原因</td></tr></tbody></table></div>
+            <h5>FY2027 Q1 指引（截至 2026 年 9 月季度）</h5>
+            <ul>
+              <li>营收 <strong>$40-42 亿</strong>；毛利率 <strong>55%-56%</strong>；Non-GAAP EPS <strong>$3.85-4.15</strong></li>
+              <li>解读：营收指引中值 $41 亿环比 +9.4%，量价的组合依然强劲；争议全部集中在毛利率环比 +1.1pct 的「克制」上</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">近线 EB 增速放缓至 22%：云厂商 HDD 需求是节奏波动还是中枢下移？供给纪律 + LTA 能否改写周期律？</h2>
+        <span class="qa__impact-tag">→ 89% 收入来自云 · LTA 能见度延伸至 2031</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>需求侧的结构性证据明显厚于周期性证据：约 <strong>80% 的超大规模数据中心数据存在 HDD 上</strong>，管理层预计长期 EB 需求增速超过 <strong>25%</strong>，客户正主动把 LTA 签到 2029-2031 年——恐慌的不是需求消失，而是拿不到盘。供给侧「双寡头不扩产、只提密度」+ 52 周交付周期，使本轮周期缺少历史上「产能过剩 → 价格战」的自我毁灭机制。<strong>22% 更可能是大客户采购节奏的非线性波动，而非需求拐点；40TB ePMR 放量（FY2027 Q3 占近线 EB 出货 50%）是增速重新加速的既定路径。</strong><em>保留判断：客户集中度极高（前三大占 43%），单一大客户的消化期就能制造 1-2 个季度的「类衰退」数据。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>EB 增速决定收入弹性，供给纪律决定利润率下限。</strong>FY2026 营收 $129.19 亿（+35.7%），券商对 FY2027 营收预测区间为 $189-203 亿（+46%~57%）、FY2028 为 $235-309 亿——预测隐含了 EB 增速回到 25-30%+ 的假设。<strong>若 EB 增速中枢下移至 15-20%，FY2027-2028 的营收与 EPS 预测（FY2028E $25-45）需整体下修，这是估值模型里最大的单一变量。</strong></p>
+            <p>倍数的想象空间来自「周期股 → AI 基础设施」的范式切换：若市场接受 HDD 是 AI 推理时代的数据底座（推理生成数据必须持久化存储），估值应向成长股迁移；在此之前，市场仍按周期股给峰值盈利打折。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>需求是三层叠加的复合循环：核心云增长 + AI 推理/Agentic 生成数据 + 物理 AI 合成数据——<strong>推理的每一次调用都在创造新的存储需求</strong></li>
+              <li>客户用长约投票：LTA 已覆盖至 2029 年，正在讨论 <strong>2029/2030/2031 年</strong>的新约——这是 HDD 历史上从未有过的需求能见度</li>
+              <li>供给纪律改写周期律：双寡头（合计份额超 80%）明确不增加单位产能，只提面密度——<strong>价格战的最主要引擎被拆除了</strong></li>
+              <li>管理层明确表示随 40TB 放量，EB 增速将重新加速；UltraSMR 渗透率 FY2027 年末达约 60%，额外贡献约 20% 容量而几乎不增成本</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>89% 收入来自云、前三大客户占 17%+15%+11%=<strong>43%</strong>——单一客户资本开支节奏就能制造季度级业绩波动，Q4 已是样本</li>
+              <li>当前需求包含超大规模客户的「恐慌性锁产能」成分——LTA 签得越长，<strong>越说明客户在过度建设，未来消化期越深</strong></li>
+              <li>NAND/QLC 单 TB 成本持续下降，当前 HDD 约 6-8 倍成本优势若显著收窄，<strong>温数据负载会分流</strong></li>
+              <li>HAMR 量产爬坡落后希捷（对方已批量交付）——若 2027H1 延迟，高容量窗口期的份额和定价权都要让渡</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（终端市场拆分 · 需求/供给信号 · FY2024-2026 财务趋势）</summary>
+          <div class="evidence__body">
+            <h5>细分业务拆分（按终端市场）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2025</th><th>占比</th><th>FY2026 Q4</th><th>占比</th><th>Q4 同比</th></tr></thead><tbody><tr><td><strong>云</strong></td><td>$83.41 亿</td><td>88%</td><td>$33.00 亿</td><td><strong>89%</strong></td><td>+43%</td></tr><tr><td><strong>客户端</strong></td><td>$5.56 亿</td><td>6%</td><td>$2.25 亿</td><td>6%</td><td>+61%</td></tr><tr><td><strong>消费者</strong></td><td>$6.23 亿</td><td>7%</td><td>$1.87 亿</td><td>5%</td><td>+38%</td></tr><tr><td><strong>合计</strong></td><td><strong>$95.20 亿</strong></td><td>100%</td><td><strong>$37.47 亿</strong></td><td>100%</td><td><strong>+44%</strong></td></tr></tbody></table></div>
+            <p>云业务是绝对核心且集中度仍在提升；客户端/消费者占比小，但受益现货定价机制，价格弹性更高（Q4 同比 +61%/+38%）。</p>
+            <h5>需求与供给信号</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>信号</th><th>证据</th><th>方向</th></tr></thead><tbody><tr><td>AI 存储叙事</td><td>约 <strong>80%</strong> 超大规模数据中心数据存于 HDD；推理生成数据必须持久化存储</td><td>正——结构性需求</td></tr><tr><td>长约能见度</td><td>LTA 已至 2029 年，商讨覆盖 <strong>2029/2030/2031</strong></td><td>正——客户担忧供应安全</td></tr><tr><td>供给纪律</td><td>双寡头合计份额超 80%，均承诺不增加单位产能；交付周期 52 周</td><td>正——供需结构根本性改变</td></tr><tr><td>技术路线图</td><td>40TB ePMR 已出货（FY27Q3 占近线 EB 50%）；44TB HAMR 4 家客户认证、2027H1 出货；UltraSMR FY27 末渗透约 60%</td><td>正——容量与成本双驱动</td></tr><tr><td>量的短期信号</td><td>Q4 近线 EB 出货 +22%，低于前几季 30%+</td><td><span class="warn">负</span>——待验证是节奏还是中枢</td></tr><tr><td>竞争执行</td><td>希捷已批量交付 HAMR，FY2026 Q2 毛利率与 EB 增速均优于西数</td><td><span class="warn">负</span>——短期执行落后</td></tr></tbody></table></div>
+            <h5>FY2024-FY2026 财务趋势（亿美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>FY2024</th><th>FY2025</th><th>FY2026</th></tr></thead><tbody><tr><td>营业总收入</td><td>63.17</td><td>95.20</td><td><strong>129.19</strong></td></tr><tr><td>收入同比</td><td>+1.0%</td><td>+50.7%</td><td><strong>+35.7%</strong></td></tr><tr><td>毛利率</td><td>28.1%</td><td>38.8%</td><td><strong>49.1%</strong></td></tr><tr><td>营业利润率</td><td>1.5%</td><td>22.4%</td><td><strong>37.3%</strong></td></tr><tr><td>归母净利润</td><td>-8.52</td><td>18.40</td><td>94.24（含闪迪股权收益等非经常项）</td></tr><tr><td>基本 EPS（美元）</td><td>-2.61</td><td>5.31</td><td>24.67</td></tr><tr><td>自由现金流</td><td>-7.81</td><td>12.84</td><td><strong>35.11</strong>（FCF 利润率 27%）</td></tr></tbody></table></div>
+            <p>两年间毛利率 +21pct、营业利润率 +36pct，经营杠杆极强；Non-GAAP EPS 从 FY2025 的 $4.97 升至 FY2026 的 $10.24，翻倍以上。FY2026 偿还大量债务后转为净现金，同年返还股东 $31 亿——分拆后的盈利机器已经成型。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">估值：22-28 倍 FY2027E PE 隐含了什么预期？回撤 30% 之后赔率够吗？</h2>
+        <span class="qa__impact-tag">→ 期望值约 +4% · 赔率约 1.3:1</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>按券商目标价 650-800 美元与 FY2027E 一致预期 $18-23 反推，现价约在 <strong>$500 上下（估算）</strong>，对应约 22-28x FY2027E PE——市场已经给了「周期成长」的一半估值，但还没给「AI 基础设施」的估值。三情景测算期望值约 +4%、赔率约 1.3:1：<strong>上行需要「Q1 毛利率验证保守 + EB 增速回 30%」同时兑现，下行则是 HDD 周期股熟悉的深坑——赔率不够补偿周期尾部风险，给「持有」而非「买入」。</strong><em>保留判断：现价为估算值；若 Q1 验证指引保守（毛利率 57-58%），悲观情景概率显著下降，届时可上调至买入。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>当前估值的核心矛盾在 FY2028 的分歧上：</strong>券商 FY2028E EPS 从 $25.38（高盛）到 $45.36（大摩），相差近一倍——这不是预测误差，而是对「本轮周期峰值盈利是多少、持续多久」的根本分歧。现价对 FY2028E 中枢（约 $33）约 15x，不算贵；但对悲观情景（盈利腰斩）只有约 12x 的周期底部倍数可守。</p>
+            <p>倍数扩张的触发器是「估值范式切换」：当市场把 HDD 从周期性硬件重新归类为 AI 数据底座，20x+ 的峰值盈利倍数才立得住。Q4 财报后管理层的 AI 推理叙事 + LTA 2031 能见度是迄今最强的论据，但市场用盘后 -10% 表明：先要看到 Q1 的毛利率数字。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>从约 $800 高点回撤超 30% + 财报后再跌 10%，<strong>估值已从「定价完美」回到「定价分歧」</strong>，卖方目标价 650-800 全部高于现价</li>
+              <li>FY2026 FCF $35 亿、FCF 利润率 27%，净现金 + 每年 $31 亿级别股东回报——<strong>下行有现金流的底</strong>，不是纯叙事股</li>
+              <li>供给纪律 + LTA 锁量锁价使本轮周期的盈利下限远高于历史周期，悲观情景的发生概率低于历史经验</li>
+              <li>大摩 FY2028E EPS $45.36 对现价仅约 11x——<strong>若超级周期成立，当前是被显著低估的</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>22-28x FY2027E PE 本身就不是周期股底部的定价——<strong>「回撤 30%」之后依然不便宜</strong>，便宜是相对于自己的高点，不是相对于历史</li>
+              <li>FY2028E 券商预测相差近一倍，说明远期能见度是伪命题；<strong>低 PE 是市场对峰值盈利的折价，周期股的老套路</strong></li>
+              <li>历史周期里 HDD 股从峰值盈利的回撤幅度可达 50-70%——悲观情景 -64% 并非耸人听闻</li>
+              <li>股价的边际买家是 AI 动量资金，<strong>6-7 月的平仓式下跌已经演示过这类资金撤离时的流动性</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（当前定价测算 · 三情景表 · 券商预测）</summary>
+          <div class="evidence__body">
+            <h5>当前定价（2026-08 上旬，估算）</h5>
+            <ul>
+              <li>一页通载「当前市场对 FY2027 年 EPS 一致预期约 18-23 美元，对应约 22-28 倍远期 P/E」——反推现价大致在 <strong>$450-575 区间，中值约 $500（估算，精确值以行情为准）</strong>；与 7 月下旬自约 $800 高点回撤超 30% 后再经财报后跌逾 10% 的路径自洽</li>
+              <li>券商目标价：花旗 <strong>$800</strong>（买入，08-06）、美银 <strong>$732</strong>（买入，07-02）、大摩 <strong>$676</strong>（超配，08-06）、高盛 <strong>$650</strong>（中性，08-06）——全部显著高于估算现价</li>
+            </ul>
+            <h5>三情景假设（FY2028 视角，以估算现价约 $500 为基准）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>EPS 依据</th><th>合理 PE</th><th>隐含股价</th><th>vs 当前</th></tr></thead><tbody><tr><td>乐观（25%）</td><td>近线超级周期延续：EB 增速回 30%+、Q1 毛利率验证 57-58%、HAMR 如期，估值范式切换至「AI 基础设施」</td><td>FY2028E ~$45（大摩）</td><td>20x</td><td>~$900</td><td>+80%</td></tr><tr><td>中性（50%）</td><td>周期正常化：EB 增速 20-25%，毛利率 55% 附近企稳，市场按周期成长给峰值盈利中枢倍数</td><td>FY2028E ~$33（共识中枢）</td><td>15x</td><td>~$495</td><td>-1%</td></tr><tr><td>悲观（25%）</td><td>云厂商进入资本开支消化期，锁量后的采购暂停，定价走平，盈利向 FY2026 前水平回落</td><td>FY2027E ~$15（下修后）</td><td>12x</td><td>~$180</td><td>-64%</td></tr></tbody></table></div>
+            <p><strong>期望值约 $518，较估算现价约 +4%；赔率约 1.3:1（+80% / -64%）。</strong>结论：方向看多、赔率不够。这不是基本面看空——双寡头供给纪律 + LTA 使本轮周期的下行概率低于历史，但一旦发生，HDD 周期股的尾部深度没有任何改变。正确的姿势是持有并等 Q1 毛利率验证：57-58% 兑现则悲观概率大降、可上调；连续两季扩张乏力则果断降仓。</p>
+            <h5>券商盈利预测（财报后更新）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级 / 目标价</th><th>FY2026E EPS</th><th>FY2027E EPS</th><th>FY2028E EPS</th></tr></thead><tbody><tr><td>摩根士丹利（2026-08-06）</td><td>超配 / $676</td><td>$10.24</td><td>$23.50</td><td>$45.36</td></tr><tr><td>高盛（2026-08-06）</td><td>中性 / $650</td><td>$9.50</td><td>$18.49</td><td>$25.38</td></tr><tr><td>花旗（2026-08-06）</td><td>买入 / $800</td><td>$10.10</td><td>$21.04</td><td>$33.28</td></tr><tr><td>美银（2026-07-02）</td><td>买入 / $732</td><td>$9.95</td><td>$18.72</td><td>$32.89</td></tr></tbody></table></div>
+            <p>注：FY2026E 已实际兑现 $10.24（Non-GAAP）；分歧集中在 FY2027-2028——FY2028E 从 $25.38 到 $45.36 相差近一倍，大摩的 $45.36 隐含「超级周期延续三年」，高盛的 $25.38 隐含「2027 后增长大幅降速」。管理层 FY2027 Q1 指引：营收 $40-42 亿、毛利率 55-56%、Non-GAAP EPS $3.85-4.15。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>：公司概况、近况跟踪、业务拆分、催化剂（见同目录《西部数据_一页通.md》，亦见本站「一页通」标签页）</li>
+        <li><strong>财务数据</strong>：FY2024-FY2026 利润表与现金流、FY2026 Q4 财报要点与管理层指引（正文数据均来自公开财报整理）</li>
+        <li><strong>局限</strong>：未读财报原文与电话会纪要（建议下一步补读 Q4 earnings call 中关于 LTA 定价机制与 HAMR 爬坡良率的表述）；现价与远期 PE 为按券商盈利预测与目标价反推的估算值；三情景概率为主观判断；未对 NAND 替代做独立技术测算</li>
+        <li><strong>管理层评估（一句话版）</strong>：分拆完成后管理层以「不扩产、只提密度」的供给纪律和 LTA 长协议重塑了 HDD 的商业模式，FY2026 用 31 亿美元股东回报和净现金资产负债表兑现了承诺——Q1 毛利率指引的保守口径是预期管理还是执行力裂缝，下一次财报见分晓</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>西部数据是全球领先的HDD（机械硬盘）开发商、制造商和供应商，总部位于美国加州圣何塞。公司于2025年2月完成与闪存业务（现闪迪公司）的拆分，转型为纯HDD企业。HDD是数据中心存储海量数据的核心基础设施，凭借其低成本、高容量的特性，在AI驱动的数据爆炸时代占据不可替代的位置。公司产品覆盖云（Cloud）、客户端（Client）和消费者（Consumer）三大终端市场，其中云业务收入占比已达89%，客户高度集中于全球头部超大规模云服务商。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul>
+<li><strong>FY2026 Q4财报发布（2026年8月5日）</strong>：公司发布FY2026 Q4（截至2026年7月3日）财报，营收<strong>37.47亿美元</strong>，同比增长44%，高于指引上限；毛利率<strong>54.4%</strong>，同比扩张13.1个百分点；Non-GAAP EPS <strong>3.56美元</strong>，同比增长109%。三项核心指标均超市场一致预期。但FY2027 Q1毛利率指引中点为<strong>55.5%</strong>，环比仅扩张1.1个百分点，低于部分买方预期的环比大幅跃升，引发盘后股价下跌。</li>
+<li><strong>产品技术路线图加速落地</strong>：公司已开始出货<strong>40TB ePMR</strong>近线硬盘，并预计到FY2027 Q3，该产品将占近线EB出货量的<strong>50%</strong>。<strong>44TB HAMR</strong>产品目前在四家客户处进行认证，计划于<strong>2027日历年上半年</strong>出货，客户反馈在容量、性能和可靠性方面超出预期。UltraSMR技术渗透率持续提升，预计到FY2027年末将占近线EB出货量的约<strong>60%</strong>。</li>
+<li><strong>长期协议（LTA）能见度延伸至2031年</strong>：管理层在Q4业绩电话会上透露，客户对LTA的需求强劲，正在与客户讨论建立覆盖<strong>2029、2030、2031年</strong>的LTA。此前已有一份与大型客户的LTA覆盖至2029年。这表明客户对HDD供应安全的担忧加剧，愿意以更长周期的承诺来锁定未来产能。</li>
+<li><strong>资本回报力度加大</strong>：Q4单季回购<strong>10亿美元</strong>股票，FY2026全年通过回购和股息向股东返还<strong>31亿美元</strong>。公司已完成剩余闪迪股份的货币化，资产负债表转为净现金头寸。董事会宣布季度股息上调至每股<strong>0.15美元</strong>。</li>
+<li><strong>近线EB出货增速短期放缓</strong>：Q4近线EB出货同比增长<strong>22%</strong>，低于前几个季度30%以上的增速。管理层解释主要由于大客户采购节奏的非线性和产品组合（CMR vs UltraSMR）的季度间波动所致，并预计随着40TB产品放量，增速将重新加速。</li>
+</ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol>
+<li><strong>FY2027 Q1毛利率指引的预期差博弈</strong>：公司给出的FY2027 Q1毛利率指引中点为55.5%，环比仅扩张1.1个百分点。这与主要竞争对手希捷在同期给出的激进毛利率扩张指引形成鲜明对比。部分买方分析师认为该指引存在显著保守倾向，其依据是：若维持Q4的定价同比增速（高双位数），隐含的Q1成本/TB降幅仅为4%，远低于公司长期10%的成本下降目标。若实际毛利率在3个月后兑现为57%-58%，将构成重要的业绩超预期催化剂。但若连续两个季度毛利率扩张乏力，市场可能开始质疑其成本控制能力和定价权。</li>
+<li><strong>40TB ePMR产品放量节奏</strong>：公司已开始出货40TB ePMR产品，并计划在FY2027 Q3实现近线EB出货占比50%。该产品较当前32TB产品容量提升25%，将直接驱动单TB成本下降和平均售价提升。Q3将是验证该产品能否如期大规模放量的关键观察窗口。若进展顺利，将显著改善公司的EB增速和毛利率结构，弥合与竞争对手之间的增速差距。</li>
+<li><strong>AI推理与Agentic AI主题催化</strong>：市场对AI投资回报率的焦虑正在上升，而公司管理层在电话会上清晰阐述了HDD在AI推理和Agentic AI时代的核心定位——推理生成的数据必须被持久化存储，且约<strong>80%</strong>的超大规模数据中心数据存储在HDD上。这一叙事若被更广泛的市场接受，将有助于HDD板块从"周期性硬件"向"AI基础设施受益者"的估值范式切换。</li>
+</ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol>
+<li><strong>AI驱动的数据存储需求结构性增长</strong>：管理层预计长期EB需求增速将超过<strong>25%</strong>。增长驱动力来自三个层面：1）核心云服务（视频、协作工具）的持续增长；2）AI工作负载从训练向推理和Agentic AI的转变，每次推理都生成需要存储的新数据；3）物理AI（自动驾驶、机器人）需要生成和存储海量合成数据来训练模型。这些驱动力并非简单叠加，而是形成"推理生成数据→Agentic系统消耗并生成更多数据→物理AI生成合成数据"的复合增长循环。HDD凭借其在规模、经济性和能效方面的优势，是承载这一数据洪流的核心基础设施。</li>
+<li><strong>寡头垄断格局下的供给纪律</strong>：全球HDD市场由西部数据、希捷和东芝三家主导，其中西部数据和希捷合计占据超过80%的市场份额。与历史上HDD行业周期性产能过剩不同，当前行业龙头均明确表态<strong>不增加单位产能</strong>，而是通过提升单盘面密度（areal density）来增加单盘容量。这种"不扩产、只提密度"的供给策略，从根本上改变了行业的供需结构，使定价权和利润率得以长期维持在较高水平。</li>
+<li><strong>技术路线图支撑长期成本下降与容量增长</strong>：公司采用ePMR和HAMR双轨技术策略。ePMR可支撑至60TB容量，而HAMR是实现100TB以上容量的关键技术路径。公司计划在2027年上半年出货44TB HAMR产品，2027年下半年推出50TB产品，远期规划超过100TB。随着面密度的持续提升，每TB成本有望以年均约<strong>10%</strong>的速度下降，这将在维持高毛利率的同时，持续扩大HDD相对于SSD的TCO（总拥有成本）优势，巩固其在近线存储领域的不可替代性。</li>
+</ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul>
+<li><strong>HAMR量产爬坡不及预期的风险</strong>：HAMR是公司实现100TB以上容量目标的关键技术，但其制造工艺复杂，涉及全新的磁头、介质和激光加热组件。管理层坦承，从ePMR向HAMR过渡的良率学习曲线将比ePMR代际升级更具挑战性。若HAMR在2027年上半年的量产爬坡进度、良率或可靠性方面出现显著延迟，可能导致公司错失向客户交付更高容量产品的时间窗口，从而在与希捷（已批量交付HAMR产品）的竞争中处于不利地位，影响市场份额和定价能力。</li>
+<li><strong>客户集中度与需求波动风险</strong>：公司云业务收入占比高达89%，前三大客户合计贡献超过40%的收入。尽管LTA提供了中长期的需求可见性，但客户采购节奏的非线性（如Q4所呈现的EB增速放缓）仍可能导致季度间业绩出现较大波动。若个别超大规模客户因宏观经济、自身资本开支节奏或技术架构调整等原因，削减或推迟存储采购，将对公司短期业绩产生显著冲击。</li>
+<li><strong>NAND/SSD技术替代的长期风险</strong>：尽管当前HDD在近线存储领域拥有显著的TCO优势，但NAND闪存的价格持续下降和QLC/PLC等更高密度技术的成熟，可能在长期内侵蚀HDD的市场空间。若未来SSD与HDD的单TB成本差距从当前的约6-8倍显著缩小，部分对性能有更高要求的温数据存储工作负载可能转向SSD，从而压缩HDD的潜在市场空间。</li>
+</ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul>
+<li><strong>2026年5月1日</strong>：公司发布FY2026 Q3财报，营收33.37亿美元，毛利率首次突破50%大关至50.5%，并宣布与客户的LTA期限已延伸至2028和2029年。</li>
+<li><strong>2026年5月-6月</strong>：多家华尔街投行（摩根士丹利、花旗、美银等）密集上调公司目标价，主要基于AI驱动的HDD需求强劲、定价环境改善以及LTA能见度提升。</li>
+<li><strong>2026年6月中旬至7月</strong>：受AI板块整体回调、杠杆资金平仓等因素影响，公司股价从约800美元的高点持续回落，至7月下旬累计跌幅超过30%。</li>
+<li><strong>2026年7月29日</strong>：主要竞争对手希捷公布超预期的FY2026 Q2财报，并给出激进的毛利率环比扩张指引（约5-6个百分点），股价大涨。市场对西部数据即将发布的财报预期随之升温。</li>
+<li><strong>2026年8月5日</strong>：公司发布FY2026 Q4财报，营收和EPS均超预期，但FY2027 Q1毛利率指引环比扩张幅度低于部分买方预期，盘后股价一度下跌超过10%。</li>
+</ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul>
+<li><strong>2026年8月-10月</strong>：FY2027 Q1（9月季度）实际业绩公布。若实际毛利率兑现为57%-58%（高于指引中点的55.5%），将验证市场对其指引保守的判断，并可能触发股价修复。</li>
+<li><strong>2026年下半年</strong>：40TB ePMR产品大规模放量。该产品的出货量爬坡速度和客户采纳情况，将是验证公司EB增速能否重新加速至30%以上的关键。</li>
+<li><strong>2027年上半年</strong>：44TB HAMR产品开始出货。这是公司技术路线图上的里程碑事件，其量产进度和客户反馈将直接影响市场对其长期技术竞争力的评估。</li>
+<li><strong>2026年11月20日-24日</strong>：公司年度股东大会。管理层可能更新长期财务目标、资本配置计划以及对行业供需格局的最新判断。</li>
+</ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<p><strong>业务边际变化</strong>：公司于2025年2月完成与闪存业务的拆分，转型为纯HDD企业。这一战略举措使公司业务结构发生根本性简化，从同时经营HDD和NAND闪存两大周期性业务，转变为专注于HDD这一核心能力。拆分后，公司资源更加聚焦于HDD的技术创新（ePMR、UltraSMR、HAMR）和产能优化，客户结构也进一步向云服务商集中。</p>
+<p><strong>盈利模式</strong>：公司依靠技术壁垒和规模垄断盈利。HDD行业是高度资本和技术密集型行业，涉及材料科学、纳米技术、精密机械和固件开发等多个尖端领域，新进入者极难在短期内复制。公司通过垂直整合（自研磁头、介质和控制器）和持续的面密度提升，实现单TB成本的持续下降，同时通过向云客户提供高容量、高可靠性的产品来获取定价权。当前，公司盈利模式正从历史上的"周期性成本竞争"向"结构性价值创造"转变，即通过为客户提供更优的TCO来分享价值。</p>
+<p><strong>业务拆分</strong>：公司业务按终端市场划分为云（Cloud）、客户端（Client）和消费者（Consumer）三大板块。云业务是绝对核心，收入占比从FY2025的88%进一步提升至FY2026 Q4的89%，是公司增长和盈利的主要驱动力。客户端和消费者业务虽然占比较小，但在当前供应紧张的环境下，受益于更接近现货市场的定价机制，呈现出更高的价格弹性。公司当前处于<strong>业绩兑现期</strong>，前期投入的技术和产能正在转化为强劲的财务回报。</p>
+<p><strong>细分业务拆分（按终端市场）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2025</th><th>FY2025占比</th><th>FY2026 Q4</th><th>FY2026 Q4占比</th><th>FY2026 Q4同比</th></tr></thead><tbody><tr><td><strong>云</strong></td><td>83.41亿美元</td><td>88%</td><td>33.00亿美元</td><td>89%</td><td>+43%</td></tr><tr><td><strong>客户端</strong></td><td>5.56亿美元</td><td>6%</td><td>2.25亿美元</td><td>6%</td><td>+61%</td></tr><tr><td><strong>消费者</strong></td><td>6.23亿美元</td><td>7%</td><td>1.87亿美元</td><td>5%</td><td>+38%</td></tr><tr><td><strong>合计</strong></td><td>95.20亿美元</td><td>100%</td><td>37.47亿美元</td><td>100%</td><td>+44%</td></tr></tbody></table></div>
+<p>（注：公司未单独披露各终端市场的毛利率。）</p>
+<p><strong>云业务</strong>：FY2026 Q4收入33.00亿美元，同比增长43%，环比增长12%。增长主要来自高容量近线企业级HDD的强劲需求，以及有利的定价环境。云业务是公司收入和利润的基石，其增长由超大规模数据中心的容量扩展和AI数据存储需求驱动。</p>
+<p><strong>客户端业务</strong>：FY2026 Q4收入2.25亿美元，同比增长61%，环比增长26%。该业务主要为PC OEM和渠道客户提供高性能HDD。增长受益于定价改善，以及PC市场对更大容量存储的需求。</p>
+<p><strong>消费者业务</strong>：FY2026 Q4收入1.87亿美元，同比增长38%，环比持平。该业务包括外置HDD和零售产品，受益于公司品牌认知度和全球渠道布局。定价改善是收入增长的主要驱动力。</p>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托寡头垄断格局与供给纪律构筑的定价权</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。全球HDD市场由西部数据和希捷双寡头主导，合计份额超过80%。与历史上行业频繁的产能扩张和价格战不同，当前双寡头均明确承诺不增加单位产能，仅通过提升单盘面密度来增加容量供给。这种"不扩产、只提密度"的供给纪律，从根本上改变了行业的供需结构，使定价权得以长期维持在有利于供应商的水平。HDD制造长达52周的交付周期，进一步强化了供应端的刚性。</li>
+<li><strong>数据验证</strong>：公司FY2026 Q4混合平均每TB价格同比增长<strong>高双位数</strong>（上季度为高个位数），定价增速正在加速。FY2026全年毛利率<strong>49.1%</strong>，同比扩张9.7个百分点；Q4毛利率<strong>54.4%</strong>，同比扩张13.1个百分点。FY2026全年自由现金流<strong>35亿美元</strong>，自由现金流利润率<strong>27%</strong>。</li>
+<li><strong>动态演变</strong>：<strong>护城河变宽</strong>。客户对供应安全的担忧加剧，正主动寻求签订覆盖至2029、2030、2031年的长期协议（LTA），以锁定未来产能。这表明供给侧的约束正在转化为更长期、更稳固的定价框架，而非短期的供需错配。</li>
+</ul>
+<p><strong>竞争要素 2：垂直整合与技术路线图构筑的成本优势</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。公司是HDD行业垂直整合程度最高的厂商之一，自研并制造绝大部分的磁头和介质。这种整合模式使其能够更紧密地控制核心组件的技术迭代、质量和成本，减少对外部供应商的依赖。公司通过ePMR和HAMR双轨技术策略，持续推动面密度提升，这是降低单TB成本最有效的途径。</li>
+<li><strong>数据验证</strong>：公司长期每TB成本下降目标约为<strong>10%</strong>。FY2026 Q4每TB成本同比下降约<strong>8%</strong>。公司已开始出货40TB ePMR产品（较32TB容量提升25%），并计划在2027年上半年出货44TB HAMR产品。UltraSMR技术通过固件优化可额外提供约20%的容量提升，且几乎不增加成本，预计到FY2027年末将占近线EB出货量的约60%。</li>
+<li><strong>动态演变</strong>：<strong>护城河变宽</strong>。公司正持续投资于磁头、介质和自动化，以提升生产效率和产品性能。随着HAMR技术在2027年进入量产，面密度提升将进入新的加速阶段，进一步拉大与潜在竞争对手的技术差距，并巩固成本优势。</li>
+</ul>
+<p><strong>现阶段核心驱动力总结</strong>：公司的Alpha来源于其在寡头垄断市场中的定价权和通过技术领先实现的成本控制能力。Beta则来源于AI驱动的全球数据量爆炸式增长，这是整个HDD行业的需求顺风。当前阶段，Alpha和Beta形成共振，推动公司进入历史性的盈利扩张周期。</p>
+<p><strong>竞争格局传导逻辑</strong>：双寡头格局与供给纪律 → 供应持续紧张 → 客户签订长期协议锁定产能 → 定价权增强（ASP/TB 持续提升）→ 毛利率扩张至 50% 以上；同时，垂直整合与技术路线图 → 面密度持续提升 → 单 TB 成本年均下降约 10% → 共同支撑毛利率扩张。</p>
+<h3 class="doc-h2">产销链</h3>
+<ul>
+<li><strong>客户情况</strong>：公司客户高度集中于全球头部超大规模云服务商。FY2026 Q4，前十大客户贡献了<strong>71%</strong>的收入，其中前三大客户分别占<strong>17%、15%和11%</strong>。这种高集中度是行业特性，一方面为公司提供了强劲且持续的需求，另一方面也带来了客户采购节奏波动和潜在的议价压力风险。为管理这一风险，公司与客户签订的LTA期限已延伸至2029年，并正在商讨覆盖至2031年的协议。LTA通常约定基础EB量和对应定价，超出基础量的部分适用不同的定价机制，为公司提供了增量收益机会。</li>
+<li><strong>供应商情况</strong>：公司是垂直整合程度最高的HDD厂商，自研并制造绝大部分的磁头和介质，这降低了对核心组件外部供应商的依赖。对于其他组件和材料，公司通常维持多个供应商，但对于某些业务或技术原因必需的组件，也存在单一或少数来源供应商。公司位于亚洲（泰国、马来西亚、菲律宾、中国）的工厂负责组装和测试。</li>
+<li><strong>成本传导能力</strong>：公司赚取的是<strong>技术壁垒和规模垄断带来的品牌溢价</strong>。当上游原材料或制造成本上升时，公司具备较强的成本转嫁能力。这体现在其定价策略上：公司通过为客户提供更高容量、更优TCO的产品，以可预测的方式持续提升单TB价格，从而覆盖成本上升并实现利润率扩张。FY2026 Q4，单TB价格同比上涨高双位数，而单TB成本同比下降约8%，共同驱动了毛利率的显著扩张。</li>
+</ul>
+<h3 class="doc-h2">财务数据</h3>
+<div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2024</th><th>FY2025</th><th>FY2026</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2024-06-28</td><td>2025-06-27</td><td>2026-07-03</td></tr><tr><td><strong>营业总收入（亿美元）</strong></td><td>63.17</td><td>95.20</td><td>129.19</td></tr><tr><td>收入同比</td><td>0.99%</td><td>50.70%</td><td>35.70%</td></tr><tr><td><strong>营业成本（亿美元）</strong></td><td>45.44</td><td>58.28</td><td>65.70</td></tr><tr><td><strong>毛利润（亿美元）</strong></td><td>17.73</td><td>36.92</td><td>63.49</td></tr><tr><td><strong>毛利率</strong></td><td>28.07%</td><td>38.78%</td><td>49.14%</td></tr><tr><td><strong>营业利润（亿美元）</strong></td><td>0.97</td><td>21.30</td><td>48.17</td></tr><tr><td>营业利润率</td><td>1.54%</td><td>22.37%</td><td>37.29%</td></tr><tr><td><strong>归母净利润（亿美元）</strong></td><td>-8.52</td><td>18.40</td><td>94.24</td></tr><tr><td><strong>基本每股收益（美元）</strong></td><td>-2.61</td><td>5.31</td><td>24.67</td></tr><tr><td><strong>经营活动现金流净额（亿美元）</strong></td><td>-2.94</td><td>16.91</td><td>39.29</td></tr><tr><td><strong>自由现金流（亿美元）</strong></td><td>-7.81</td><td>12.84</td><td>35.11</td></tr></tbody></table></div>
+<p>（注：自由现金流 = 经营活动现金流净额 - 资本性支出。FY2026归母净利润包含闪迪股权投资收益等非经常性项目。）</p>
+<p><strong>财务分析</strong>：</p>
+<ul>
+<li><strong>成长能力</strong>：公司FY2026营收同比增长35.7%至129.19亿美元，较FY2024的63.17亿美元已实现翻倍。增长主要由云业务驱动，该业务受益于AI数据中心的容量扩张和有利的定价环境。Non-GAAP EPS从FY2025的4.97美元增长至FY2026的10.24美元，增幅超过100%。</li>
+<li><strong>盈利能力</strong>：公司盈利能力正处于历史性扩张通道。毛利率从FY2024的28.07%跃升至FY2026的49.14%，累计提升超过21个百分点。营业利润率从1.54%飙升至37.29%，体现了显著的经营杠杆效应。盈利能力的核心驱动力是：1）向高容量驱动器的产品结构迁移；2）全产品组合的有利定价；3）严格的成本控制和制造效率提升。</li>
+<li><strong>运营能力与现金流</strong>：公司FY2026经营活动现金流净额为39.29亿美元，自由现金流为35.11亿美元，自由现金流利润率高达27%。强劲的现金流生成能力使公司在FY2026年偿还了大量债务，资产负债表转为净现金头寸，同时通过回购和股息向股东返还了31亿美元。</li>
+</ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p><strong>行业分析</strong>：公司处于HDD（机械硬盘）行业，该行业是数据中心存储基础设施的核心组成部分。HDD通过磁记录技术在旋转盘片上存储数据，其核心竞争力在于以最低的单TB成本提供海量存储容量。</p>
+<ul>
+<li><strong>需求端</strong>：需求正经历由AI驱动的结构性爆发。传统云服务（视频、协作工具）的数据量持续增长，而AI工作负载从训练向推理和Agentic AI的转变，正在创造全新的、持续的数据存储需求。每一次AI推理都会生成需要持久化存储的新数据。此外，物理AI（自动驾驶、机器人）需要生成和存储海量合成数据来训练模型。管理层预计，长期数据存储容量（EB）需求的复合年增长率将超过<strong>25%</strong>。</li>
+<li><strong>供给端</strong>：行业供给呈现刚性特征。HDD制造是一个高度复杂、资本密集且交付周期长达52周的过程。当前，全球HDD市场由西部数据和希捷两家主导，两者均明确表态不增加单位产能，仅通过提升单盘面密度来增加单盘容量。这种供给纪律从根本上改变了行业的供需结构。</li>
+<li><strong>技术趋势</strong>：行业正处在从传统PMR（垂直磁记录）向HAMR（热辅助磁记录）和MAMR（微波辅助磁记录）等能量辅助记录技术过渡的关键时期。这些新技术能够实现更高的面密度，是未来实现100TB以上单盘容量的关键技术路径。</li>
+</ul>
+<p><strong>竞争格局</strong>：全球HDD市场呈现高度集中的寡头垄断格局。西部数据和希捷是两大主导厂商，合计占据超过80%的市场份额，东芝占据剩余份额。</p>
+<p><strong>可比公司</strong>：</p>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>对标维度</th><th>分析</th></tr></thead><tbody><tr><td>希捷科技</td><td>STX</td><td>直接竞争对手</td><td>在HAMR技术商业化上领先，已批量交付44TB HAMR产品。FY2026 Q2毛利率和EB增速均优于西部数据，显示出更强的短期执行力和成本控制能力。</td></tr><tr><td>东芝</td><td>-</td><td>次要竞争对手</td><td>市场份额较小，在近线企业级HDD领域的技术和规模与两大龙头存在差距。主要聚焦于MAMR技术路线。</td></tr></tbody></table></div>
+<p><strong>总结分析</strong>：西部数据与希捷共同构成了HDD行业的双寡头。当前，两者均受益于AI驱动的强劲需求，但希捷在HAMR技术商业化和近期的财务指标（EB增速、毛利率扩张速度）上展现出一定的领先优势。西部数据的差异化优势在于其更高的垂直整合程度和UltraSMR技术带来的成本效益。两者之间的竞争焦点在于技术路线图的执行速度和成本控制能力。由于市场需求远超供给，当前阶段的竞争更多体现在谁能更快地提升容量和获取增量利润，而非传统的价格战。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<p><strong>1. 毛利率扩张的持续性与节奏</strong></p>
+<ul>
+<li><strong>背景</strong>：公司FY2026 Q4毛利率54.4%，但FY2027 Q1指引中点为55.5%，环比仅扩张1.1个百分点。这与主要竞争对手希捷在同期给出的激进扩张指引形成鲜明对比，引发了市场对公司成本控制能力和定价权持续性的担忧。历史上，HDD行业的利润率具有强周期性，市场对当前高利润率的可持续性存在天然质疑。</li>
+<li><strong>问题列表</strong>：FY2027 Q1毛利率指引是否过于保守？实际毛利率能否兑现为57%-58%？随着HAMR产品在2027年上半年开始出货，其对毛利率的影响是正面还是负面（管理层表示HAMR初期将是毛利率中性的）？长期协议（LTA）的定价机制是否限制了公司在现货市场价格飙升时的利润弹性？</li>
+</ul>
+<p><strong>2. 近线EB出货增速放缓的原因与前景</strong></p>
+<ul>
+<li><strong>背景</strong>：FY2026 Q4近线EB出货同比增长22%，低于前几个季度30%以上的增速。管理层解释为季度间客户采购节奏和产品组合波动所致，但市场担心这是否是需求增速放缓的早期信号。</li>
+<li><strong>问题列表</strong>：22%的EB增速是一次性的季度波动，还是增速中枢下移的开始？40TB ePMR产品在FY2027 Q3能否如期实现近线EB出货占比50%的目标，从而重新加速EB增长？客户采购的非线性波动是否会对公司产能规划和业绩可预测性构成持续挑战？</li>
+</ul>
+<p><strong>3. HAMR技术商业化的执行风险</strong></p>
+<ul>
+<li><strong>背景</strong>：HAMR是实现100TB以上容量的关键技术，也是公司长期竞争力的核心。公司计划在2027年上半年出货44TB HAMR产品，而竞争对手希捷已批量交付HAMR产品。市场高度关注公司能否如期、高质量地完成这一技术跨越。</li>
+<li><strong>问题列表</strong>：HAMR产品在2027年上半年的量产爬坡能否按计划进行？良率和可靠性是否能达到目标水平？与希捷相比，公司的HAMR产品在性能、成本和客户认证进度上处于什么位置？在HAMR大规模量产前，ePMR和UltraSMR技术路线能否有效支撑公司的市场竞争力和财务表现？</li>
+</ul>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧：当前的高毛利率和强劲需求是结构性的新常态，还是周期性顶峰？</strong></p>
+<p><strong>乐观方（结构性观点）</strong>：认为AI驱动的数据爆炸是长期结构性趋势，HDD作为存储海量数据最具成本效益的解决方案，其需求将多年保持25%以上的增速。同时，行业双寡头明确的供给纪律（不增加单位产能）从根本上改变了历史上的产能过剩和价格战问题。长期协议（LTA）的签订和延长，为未来的收入和定价提供了前所未有的可见性。因此，当前的高毛利率具备可持续性，公司应享受更高的估值倍数。</p>
+<p><strong>谨慎方（周期性观点）</strong>：认为当前的需求繁荣部分源于超大规模客户对AI的恐慌性投资和过度建设，未来存在资本开支消化期或需求不及预期的风险。HDD技术最终可能面临NAND闪存或其他新型存储技术的替代威胁。尽管当前供给紧张，但高利润率最终会刺激新的投资或竞争，历史上的周期规律难以被彻底打破。当前股价和估值已充分反映了乐观预期，任何需求或定价的边际走弱都可能导致股价大幅回调。</p>
+<p><strong>分析视角</strong>：从FY2026 Q4财报来看，乐观方的核心论据——强劲需求和有利定价——得到了进一步验证，单TB价格同比增速从高个位数加速至高双位数。但谨慎方的担忧也找到了新的论据：近线EB出货增速放缓至22%，以及毛利率指引的环比扩张幅度低于预期。这表明，即使在强劲的需求环境下，季度间的业绩波动依然存在，且公司的成本控制和利润释放节奏可能受到产品过渡（向40TB和HAMR切换）和客户采购节奏的扰动。当前阶段，需求端的结构性叙事依然强劲，但供给端（公司自身的执行）和估值端（高预期）的风险正在累积。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价</th><th>财务指标</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>摩根士丹利 (2026-08-06)</td><td>超配</td><td>676美元</td><td>营业收入(百万美元)<br>EPS(美元)</td><td>12,919<br>10.24</td><td>20,305<br>23.50</td><td>30,892<br>45.36</td></tr><tr><td>高盛 (2026-08-06)</td><td>中性</td><td>650美元</td><td>营业收入(百万美元)<br>EPS(美元)</td><td>12,935<br>9.50</td><td>18,894<br>18.49</td><td>23,483<br>25.38</td></tr><tr><td>花旗 (2026-08-06)</td><td>买入</td><td>800美元</td><td>营业收入(百万美元)<br>EPS(美元)</td><td>-<br>10.10</td><td>-<br>21.04</td><td>-<br>33.28</td></tr><tr><td>美银 (2026-07-02)</td><td>买入</td><td>732美元</td><td>营业收入(百万美元)<br>EPS(美元)</td><td>12,917<br>9.95</td><td>18,763<br>18.72</td><td>28,655<br>32.89</td></tr></tbody></table></div>
+<p><strong>管理层最新指引</strong>：FY2027 Q1（截至2026年9月）营收预计为<strong>40亿至42亿美元</strong>，毛利率<strong>55%-56%</strong>，Non-GAAP EPS为<strong>3.85至4.15美元</strong>。</p>
+<p><strong>分析</strong>：主流券商对公司的评级普遍为"买入"或"超配"，目标价在650至800美元之间，显示出市场对公司长期前景的普遍看好。盈利预测方面，机构间对FY2027和FY2028的EPS预测存在较大分歧，例如FY2028 EPS预测范围从25.38美元到45.36美元，差异接近一倍。这反映了市场对HDD行业本轮上行周期的持续性和盈利峰值的高度不确定性。估值方法上，机构普遍采用市盈率（P/E）估值法，基于未来2-3年的盈利预期进行定价。当前市场对公司FY2027年EPS的一致预期约为18-23美元，对应约22-28倍远期P/E。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/WDC · 生成于 2026-08-06</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-06';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'hit',     text: '<strong>FY2026 Q4 财报三项齐超预期</strong>：营收 $37.47 亿（+44%，超指引上限）、毛利率 54.4%（+13.1pct）、Non-GAAP EPS $3.56（+109%）', note: '2026-08-05 兑现；但 Q1 毛利率指引引发盘后跌逾 10%' },
+  { kind: 'cat', status: 'active',  text: '<strong>FY2027 Q1 实际毛利率能否兑现 57-58%</strong>（指引中点仅 55.5%）：验证「指引保守论」的关键，2026-10 财报见分晓', note: '指引：营收 $40-42 亿 / 毛利率 55-56% / EPS $3.85-4.15' },
+  { kind: 'cat', status: 'active',  text: '<strong>40TB ePMR 放量</strong>：计划 FY2027 Q3 占近线 EB 出货 50%，驱动 EB 增速重回 30%+', note: '已出货，爬坡中' },
+  { kind: 'cat', status: 'pending', text: '<strong>44TB HAMR 出货</strong>（2027 日历上半年）：4 家客户认证中，反馈超预期；追赶希捷的关键节点', note: '' },
+  { kind: 'cat', status: 'pending', text: '<strong>LTA 延伸至 2029/2030/2031 年签订落地</strong>：需求能见度的进一步实证', note: '电话会披露讨论中' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>毛利率扩张连续两季乏力</strong>：若 Q1 实际毛利率仍停在 55-56%，「指引保守」将被重定价为「定价权见顶」', note: '最新 54.4%；Q1 指引 55-56%' },
+  { kind: 'risk', status: 'clear', text: '<strong>近线 EB 增速中枢下移</strong>：Q4 +22% 低于前几季 30%+，若连续两季低于 20% 即需求减速信号', note: '管理层归因于客户采购节奏波动' },
+  { kind: 'risk', status: 'clear', text: '<strong>HAMR 爬坡延迟或良率不及预期</strong>：落后于已批量交付的希捷，让渡高容量窗口期份额', note: '2027H1 出货计划不变' },
+  { kind: 'risk', status: 'clear', text: '<strong>NAND/QLC 成本差距收窄侵蚀近线市场</strong>：当前 HDD 单 TB 成本优势约 6-8 倍', note: '长期风险，常态跟踪' },
+  { kind: 'risk', status: 'clear', text: '<strong>客户集中度风险</strong>：云占比 89%、前三大客户合计 43%，单一大客户消化期即制造季度级波动', note: 'Q4 EB 放缓已是样本' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
