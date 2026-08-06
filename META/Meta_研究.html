@@ -149,6 +149,18 @@ tr:hover td { background: #f8fafc; }
 #tab-onepager li { margin-bottom: 6px; }
 #tab-onepager strong { color: var(--ink); }
 
+
+/* 券商研报标签页 */
+#tab-broker .doc-h1 { margin: 0 0 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line-strong); font-family: var(--font-display); font-size: 26px; font-weight: 650; }
+#tab-broker .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-broker .doc-hr { margin: 30px 0; border: 0; border-top: 1px solid var(--line); }
+#tab-broker .doc-quote { margin: 18px 0; padding: 16px 20px; border-left: 3px solid var(--amber); background: #faf6ec; color: var(--ink-soft); font-size: 14px; }
+#tab-broker p, #tab-broker li { color: var(--ink-soft); font-size: 15px; }
+#tab-broker p { margin: 0 0 14px; }
+#tab-broker ul, #tab-broker ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-broker li { margin-bottom: 6px; }
+#tab-broker strong { color: var(--ink); }
+
 /* 附录 */
 .appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
 .appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
@@ -189,6 +201,7 @@ tr:hover td { background: #f8fafc; }
   </a>
   <nav class="site-nav">
     <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="broker">券商研报</button>
     <button data-tab="onepager">一页通</button>
   </nav>
 </header>
@@ -512,6 +525,34 @@ tr:hover td { background: #f8fafc; }
 
   </article>
 
+  <article class="doc" id="tab-broker" hidden>
+<h2 class="doc-h1">Meta · 券商研报解读（买方视角）</h2>
+<blockquote class="doc-quote"><strong>解读日期</strong>：2026-07-31 ｜ <strong>研报</strong>：1 份（高盛 Q2'26 First Take，财报当晚发布） <strong>方法</strong>：提取事实与预期，不采纳结论。卖方评级普遍通胀——分歧和边际变化才是信号，一致乐观本身也是信号。</blockquote>
+<hr class="doc-hr">
+<h3 class="doc-h2">〇、一句话结论</h3>
+<p><strong>高盛维持 Buy、目标价 $815（财报前收盘价隐含 +37%，盘后 -7.5% 后隐含约 +50%）——但这份报告最有价值的不是评级，而是它开头第一句话就预判了"市场会负面反应"：它知道买方 whisper number 比卖方一致预期高，说明财报前预期已经打满。这次下跌不是基本面恶化，是一次"预期校准"。</strong></p>
+<hr class="doc-hr">
+<h3 class="doc-h2">一、预期地图</h3>
+<p>现价 <strong>$593.41</strong>（2026-07-28 收盘）｜ 盘后 <strong>约 $542</strong>（-7.5%）</p>
+<div class="tbl-wrap"><table><thead><tr><th>券商</th><th>评级</th><th>目标价</th><th>隐含空间</th><th>估值锚</th><th>核心论点</th></tr></thead><tbody><tr><td>高盛</td><td>Buy</td><td>$815</td><td>+37%（盘后口径约 +50%）</td><td>EV/GAAP EBIT 与修正 DCF（EV/FCF-SBC）等权；2026E P/E 17.8x</td><td>AI 投入在核心广告业务有回报（+27%），只是没有市场近几周期待的"超额回报"</td></tr></tbody></table></div>
+<p><span class="warn">⚠️</span> 利益披露：高盛披露与 Meta 存在投行业务关系（过去 12 个月收费、未来 3 个月预期收费）——Buy 评级的独立性打折，但其数据拆解不受影响。</p>
+<hr class="doc-hr">
+<h3 class="doc-h2">二、增量信息：beat 的成色被精确校准</h3>
+<p>我们研究报告写"营收略超预期"，高盛把这句话精确化了——<strong>参照系不同，结论不同</strong>：</p>
+<div class="tbl-wrap"><table><thead><tr><th>指标</th><th>实际</th><th>vs 卖方一致预期</th><th>vs 高盛/买方预期</th></tr></thead><tbody><tr><td>Q2 营收</td><td>$608 亿（+28%）</td><td>+0.7% 微 beat</td><td>"大致 inline"</td></tr><tr><td>广告收入</td><td>+27%（FXN +26%）</td><td>—</td><td>低于高盛 +26.4% 预期，微 miss</td></tr><tr><td>Q3 营收指引</td><td>$610-640 亿</td><td>中值 miss</td><td><strong>上限才刚够到高盛预期 $640.6 亿</strong></td></tr><tr><td>Q2 GAAP OI</td><td>$187.8 亿</td><td><strong>miss $27 亿</strong>（街 $215 亿）</td><td>含 $24 亿一次性法律费用</td></tr></tbody></table></div>
+<p><strong>读法</strong>：市场盘后砸 -7.5% 不是砸数字，是砸"预期差归零"——财报前买方把 whisper number 抬到了卖方一致预期之上，而 Meta 交出的只是一份"符合卖方预期"的答卷。对买方来说，miss 的不是财报，是期待。</p>
+<hr class="doc-hr">
+<h3 class="doc-h2">三、高盛框架里的四个真问题（电话会市场关切清单）</h3>
+<p>高盛列出电话会四大追问，这基本就是当前市场对 Meta 的核心分歧清单，可直接并入我们的跟踪计划：</p>
+<ol><li><strong>capex 的变化率与持续时间</strong>——$1,300-1,450 亿的高位还要持续多久？（我们跟踪计划已有：2027 年买方预期 $2,000-2,250 亿）</li><li><strong>opex 重组能否对冲</strong>——裁员/提效能不能撑住 EPS 增长？（本季已有 $11.8 亿遣散费）</li><li><strong>盈利、FCF 与融资方式</strong>——FCF $7.8 亿之后，要不要发债/发股？资本结构怎么安排？</li><li><strong>非核心变现的产出</strong>——agentic 产品、算力出租（Meta Compute）什么时候有收入产出和回报轮廓？</li></ol>
+<hr class="doc-hr">
+<h3 class="doc-h2">四、与我们研究报告的交叉验证</h3>
+<ul><li><strong>一致</strong>：Q3 指引偏软、FCF 暴跌、一次性费用拆解（高盛也点破 $24 亿法律费用），我们报告与高盛口径完全吻合</li><li><strong>精确化</strong>：我们写"营收 ✅ 略超预期"——这个 ✅ 应该降级：对卖方微 beat，对买方 inline。财报 beat 的成色永远要看参照系，这是本次最值钱的一课</li><li><strong>capex"区间收窄"的正确读法</strong>：$125-145B → $130-145B 不是放缓信号，是<strong>把不确定性收窄到高端</strong>（下限抬 $50 亿）——我们报告"capex 维持高位"的判断应强化为"高位且下限上移"</li><li><strong>新增跟踪点</strong>：融资方式（债/股）首次进入卖方关切清单——我们反证条件 #2 关注 FCF 与 capex，建议加一条：若启动大规模发债/发股，说明广告现金流已盖不住熔炉，耐心叙事受考验</li></ul>
+<hr class="doc-hr">
+<h3 class="doc-h2">五、评级解码（卖方语言翻译）</h3>
+<div class="tbl-wrap"><table><thead><tr><th>卖方行为</th><th>翻译</th></tr></thead><tbody><tr><td>财报当晚维持 Buy $815，开头却预判"市场会负面反应"</td><td>"跌的是预期不是公司"——高盛选择站在价值一侧接飞刀，17.8x 2026E P/E 是它的底气</td></tr><tr><td>把"算力出租收入产出"写进电话会必问清单</td><td>卖方对 Meta Compute 的态度从"听故事"转向"要数字"——我们反证条件 #3（一年内无实质收入=证伪）与卖方的耐心刻度一致</td></tr></tbody></table></div>
+<p><strong>买方用法</strong>：盘后 -7.5% 后，高盛目标价隐含约 +50% 空间——但这个空间的前提是"广告现金流持续 + capex 不再上台阶"。我们的反证条件 #1（广告增速 &lt;15%）和 #2（FCF 连续两季归零 + 2027 capex &gt;$2,000 亿）就是这个前提的量化版本，比卖方评级更值得盯。</p>
+  </article>
   <article class="doc" id="tab-onepager" hidden>
 <h3 class="doc-h2">公司概况</h3>
 <p>Meta Platforms 是全球最大的社交网络公司，旗下拥有 Facebook、Instagram、WhatsApp、Messenger 和 Threads 等产品，构成覆盖即时通讯、综合社交、视觉内容与文字社交的完整产品矩阵。公司几乎全部收入来自广告，2025 年广告收入占比约 97.6%，是全球第二大数字广告平台。公司同时通过 Reality Labs 部门布局 VR/MR 头显和 AI 智能眼镜等下一代计算平台，目前该部门仍处于战略性亏损阶段。</p>
@@ -667,8 +708,7 @@ for (const item of TRACKING) {
 document.querySelectorAll('.site-nav button').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
-    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
-    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    ['report','broker','onepager'].forEach(t => { const el = document.getElementById('tab-' + t); if (el) el.hidden = btn.dataset.tab !== t; });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 });

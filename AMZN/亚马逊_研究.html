@@ -150,6 +150,18 @@ tr:hover td { background: #f8fafc; }
 #tab-onepager li { margin-bottom: 6px; }
 #tab-onepager strong { color: var(--ink); }
 
+
+/* 券商研报标签页 */
+#tab-broker .doc-h1 { margin: 0 0 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line-strong); font-family: var(--font-display); font-size: 26px; font-weight: 650; }
+#tab-broker .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-broker .doc-hr { margin: 30px 0; border: 0; border-top: 1px solid var(--line); }
+#tab-broker .doc-quote { margin: 18px 0; padding: 16px 20px; border-left: 3px solid var(--amber); background: #faf6ec; color: var(--ink-soft); font-size: 14px; }
+#tab-broker p, #tab-broker li { color: var(--ink-soft); font-size: 15px; }
+#tab-broker p { margin: 0 0 14px; }
+#tab-broker ul, #tab-broker ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-broker li { margin-bottom: 6px; }
+#tab-broker strong { color: var(--ink); }
+
 /* 附录 */
 .appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
 .appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
@@ -190,6 +202,7 @@ tr:hover td { background: #f8fafc; }
   </a>
   <nav class="site-nav">
     <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="broker">券商研报</button>
     <button data-tab="onepager">一页通</button>
   </nav>
 </header>
@@ -452,6 +465,36 @@ tr:hover td { background: #f8fafc; }
 
   </article>
 
+  <article class="doc" id="tab-broker" hidden>
+<h2 class="doc-h1">亚马逊 · 券商研报解读（买方视角）</h2>
+<blockquote class="doc-quote"><strong>解读日期</strong>：2026-07-31 ｜ <strong>研报</strong>：3 份（汇丰 / 花旗 / 摩根大通，均为 2Q26 财报点评） <strong>方法</strong>：提取事实与预期，不采纳结论。卖方评级普遍通胀——分歧和边际变化才是信号，一致乐观本身也是信号。</blockquote>
+<hr class="doc-hr">
+<h3 class="doc-h2">〇、一句话结论</h3>
+<p><strong>三家全 Buy、目标价 $310–365（隐含 +32%~+55%），彭博口径 79 买 4 持 0 卖——卖方层面已经没有异议，"AI 兑现"叙事在卖方端打得很满。真正的分歧不在"买不买"，而在 2027 年资本开支有多深：摩根大通预测 2027 capex $3,650 亿（+65%），汇丰只温和上调——这个分歧决定 FCF 负值窗口的长度，也是这只股票接下来唯一的胜负手。</strong></p>
+<hr class="doc-hr">
+<h3 class="doc-h2">一、预期地图</h3>
+<p>现价 <strong>$235.50</strong>（2026-07-30 收盘，财报发布前）</p>
+<div class="tbl-wrap"><table><thead><tr><th>券商</th><th>评级</th><th>目标价</th><th>隐含空间</th><th>估值锚</th><th>核心论点</th></tr></thead><tbody><tr><td>摩根大通</td><td>Overweight · <strong>Best Idea</strong></td><td>$330 → <strong>$365</strong> ⬆</td><td>+55%</td><td>28x 2028E GAAP EPS $13.0（GOOGL 18.5x / META 13.5x，溢价理由是盈利增速更快）</td><td>AWS 加速 + ROIC 框架清晰，管理层称 AI 回报轨迹好于核心云同期</td></tr><tr><td>花旗</td><td>Buy</td><td>$325</td><td>+38%</td><td>30x 2027E P/E、11x 2027E EV/EBITDA（<strong>亚马逊十年估值区间低端</strong>）</td><td>收入/OI 全面超预期；3Q 指引剔除 Prime Day 错期其实不差</td></tr><tr><td>汇丰</td><td>Buy（维持）</td><td>$310（不变）</td><td>+32%</td><td>DCF</td><td>OI 上调 4/7/11%（26/27/28 年），但被 capex 上调 10/8/26% 抵消，目标价不动</td></tr></tbody></table></div>
+<hr class="doc-hr">
+<h3 class="doc-h2">二、卖方一致预期（≈ 股价已经定价的东西）</h3>
+<ol><li>AWS 30%+ 增速可持续：摩通预测 2026 全年 +38%、2027 年 +33%，且自认"按 backlog 看可能偏保守"</li><li>AI 与自研芯片 ARR 均超 $250 亿、三位数增长，backlog 继续扩张</li><li>capex 上行有订单支撑，"不到 3 年回本"的 ROIC 叙事成立——<strong>没有一家把 FCF 为负当成问题</strong></li><li>评级零分歧（79 买 0 卖）。<span class="warn">⚠️</span> <strong>这意味着"超预期"的门槛在抬高</strong>：本季 AWS +37% 已经 beat 了买方 35–36% 的预期，下一季买方预期会自动上移到 37%+——财报 beat 将越来越变成"理所当然"，直到某次不 beat</li></ol>
+<hr class="doc-hr">
+<h3 class="doc-h2">三、分歧在哪：2027 年 capex 的深度</h3>
+<p>这是三份报告唯一实质性的分歧，也是我们研究报告"FCF 时间错配 vs 常态化"分歧的卖方版本：</p>
+<div class="tbl-wrap"><table><thead><tr><th></th><th>摩根大通（最激进）</th><th>汇丰（最谨慎）</th></tr></thead><tbody><tr><td>2027 capex</td><td><strong>$3,650 亿（+65%）</strong>，2028 年 $4,450 亿（+22%）</td><td>温和上调（26/27/28 年 +10/8/26%）</td></tr><tr><td>对应 FCF</td><td>FCFF 2026 <strong>-$377 亿</strong> → 2027 <strong>-$1,211 亿</strong> → 2028 -$952 亿——负值贯穿 2028</td><td>DCF 目标价 $310 不动，等于说"OI 上调被投入吃掉"</td></tr><tr><td>言下之意</td><td>负 FCF 没关系，ROIC 会兑现，市场会继续容忍</td><td>增长的代价在变大，估值给不了更高</td></tr></tbody></table></div>
+<p>花旗居中：没给 capex 点预测，但特意用"十年估值区间低端"的倍数——留了安全边际叙事。</p>
+<p><strong>买方用法</strong>：把摩通的 $3,650 亿当作市场对 2027 capex 预期的"最激进锚"。公司实际给 2027 指引时，低于此 = FCF 叙事利好；达到或超出 = 考验市场容忍度的极限。</p>
+<hr class="doc-hr">
+<h3 class="doc-h2">四、增量信息（事实层，吸收进我们的框架）</h3>
+<ol><li><span class="warn">⚠️</span> <strong>利润率超预期的成色要打折</strong>：AWS OPM 39.4% 里有 $6 亿能源合约公允价值一次性收益（剔除后 <strong>37.9%</strong>）；北美零售 OPM 7.9% 里有 $6 亿关税退款（剔除后 7.3%，仅符合预期）。我们的反证条件 #3「AWS OPM 跌破 35%」的基线应按 37.9% 校准，而非 39.4%</li><li>backlog $4,960 亿（环比 +36%）<strong>主要由 Anthropic 驱动</strong>；Graviton 收入承诺环比增约 3 倍——客户希望推理负载贴近自己的数据，自研芯片在被外部验证</li><li>摩通记录的管理层口径：AI 投资的回报与利润率轨迹<strong>好于核心 AWS 发展同期</strong>——这是"烧钱 vs 筑墙"之争中管理层给出的最强背书</li><li>花旗点出：2Q 是 GPT 模型上架 Bedrock 的<strong>首个完整季度</strong>；电话会焦点之一是重组后的前沿模型（FM）战略——2027 年 capex 里有多少是给自研模型的，值得追问</li><li>Amazon Leo 约 400 颗卫星在轨、今年启动服务，<strong>3Q 起约 $10 亿/季增量成本</strong>进 OI 指引（3Q 指引中值偏低的解释之一），企业和政府客户已有收入承诺</li><li>GAAP EPS $5.75 vs 一致预期 $1.81 的"惊天 beat"全部来自 Anthropic $530 亿账面收益——三家卖方都主动点破了一次性，没拿来忽悠，可信度 +1</li></ol>
+<hr class="doc-hr">
+<h3 class="doc-h2">五、与我们研究报告的交叉验证</h3>
+<ul><li><strong>一致</strong>：AI 兑现叙事、订单能见度、3Q 指引剔除 Prime Day 错期后实际 +13~17%（三家口径与我们完全一致）</li><li><strong>修正</strong>：反证条件 #3 的 AWS OPM 基线从 39.4% 改为 <strong>37.9%</strong>（剔除一次性）；跟踪计划加入「2027 capex 指引」（对照摩通 $3,650 亿的锚）</li><li><strong>值得警惕的分歧</strong>：卖方无人对赌 FCF——摩通自己预测 FCF 负到 2028 年，仍给 Best Idea。我们报告里"FCF 窗口"的谨慎在卖方层面<strong>没有对手盘</strong>：没有空头可杀意味着利空出现时，里面全是多头。这不改变公司质地，但会放大波动</li></ul>
+<hr class="doc-hr">
+<h3 class="doc-h2">六、评级解码（卖方语言翻译）</h3>
+<div class="tbl-wrap"><table><thead><tr><th>卖方行为</th><th>翻译</th></tr></thead><tbody><tr><td>摩通：Overweight + Best Idea + 目标价上调 $35</td><td>卖方最强背书。但它同时预测最深的 FCF 负值——赌的是"市场继续容忍"，这是趋势判断不是价值判断</td></tr><tr><td>花旗：$325 用十年区间低端倍数</td><td>保守的乐观：故事讲满，倍数留余地</td></tr><tr><td>汇丰：OI 上调但目标价纹丝不动</td><td>卖方语言里的谨慎，最接近"持有"——投入吞掉了盈利上调</td></tr></tbody></table></div>
+<p><strong>三家放在一起读：对公司的判断高度一致，对"市场愿意付多少钱"的判断拉开了 18%（$310 vs $365）——这正是预期差该待的地方。</strong></p>
+  </article>
   <article class="doc" id="tab-onepager" hidden>
 <h3 class="doc-h2">公司概况</h3>
 <p>亚马逊是全球最大的电商平台和公有云服务商，业务按<strong>北美、国际、AWS</strong>三大分部运营。公司以电商零售为基石，通过Prime会员体系、FBA物流网络和第三方卖家服务构建了深厚的消费者生态；AWS则是全球市场份额领先的云计算平台，近年正通过自研AI芯片（Trainium）和战略绑定头部大模型公司（Anthropic、OpenAI）向AI基础设施层延伸。亚马逊已于2025年超越沃尔玛，成为全美销售额最大的零售商。</p>
@@ -571,8 +614,7 @@ for (const item of TRACKING) {
 document.querySelectorAll('.site-nav button').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
-    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
-    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    ['report','broker','onepager'].forEach(t => { const el = document.getElementById('tab-' + t); if (el) el.hidden = btn.dataset.tab !== t; });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 });

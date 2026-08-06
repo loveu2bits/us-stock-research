@@ -149,6 +149,18 @@ tr:hover td { background: #f8fafc; }
 #tab-onepager li { margin-bottom: 6px; }
 #tab-onepager strong { color: var(--ink); }
 
+
+/* 券商研报标签页 */
+#tab-broker .doc-h1 { margin: 0 0 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line-strong); font-family: var(--font-display); font-size: 26px; font-weight: 650; }
+#tab-broker .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-broker .doc-hr { margin: 30px 0; border: 0; border-top: 1px solid var(--line); }
+#tab-broker .doc-quote { margin: 18px 0; padding: 16px 20px; border-left: 3px solid var(--amber); background: #faf6ec; color: var(--ink-soft); font-size: 14px; }
+#tab-broker p, #tab-broker li { color: var(--ink-soft); font-size: 15px; }
+#tab-broker p { margin: 0 0 14px; }
+#tab-broker ul, #tab-broker ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-broker li { margin-bottom: 6px; }
+#tab-broker strong { color: var(--ink); }
+
 /* 附录 */
 .appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
 .appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
@@ -189,6 +201,7 @@ tr:hover td { background: #f8fafc; }
   </a>
   <nav class="site-nav">
     <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="broker">券商研报</button>
     <button data-tab="onepager">一页通</button>
   </nav>
 </header>
@@ -495,6 +508,36 @@ tr:hover td { background: #f8fafc; }
 
   </article>
 
+  <article class="doc" id="tab-broker" hidden>
+<h2 class="doc-h1">苹果 · 券商研报解读（买方视角）</h2>
+<blockquote class="doc-quote"><strong>解读日期</strong>：2026-07-31 ｜ <strong>研报</strong>：3 份（摩根大通 1 份 + 花旗 2 份，均为 FQ3 财报点评） <strong>方法</strong>：提取事实与预期，不采纳结论。卖方评级普遍通胀——分歧和边际变化才是信号，一致乐观本身也是信号。</blockquote>
+<hr class="doc-hr">
+<h3 class="doc-h2">〇、一句话结论</h3>
+<p><strong>36 买 18 持 4 卖——苹果是本周覆盖中卖方分歧最大的标的（对比 AMZN 的 79 买 0 卖）。最耐读的是摩根大通：一边维持 Overweight，一边把目标价从 $345 下调到 $340（隐含仅 +2%）、FY27 EPS 下调 4.6%——评级与目标价明显背离，翻译成买方语言就是"看多公司，不看多股价"。分歧核心不在基本面（两家都承认需求强劲、供应是递延），而在 33x 这个倍数该不该给。</strong></p>
+<hr class="doc-hr">
+<h3 class="doc-h2">一、预期地图</h3>
+<p>现价 <strong>$333.43</strong>（2026-07-30 收盘）｜ 盘后 <strong>$312.33</strong>（-6.3%）</p>
+<div class="tbl-wrap"><table><thead><tr><th>券商</th><th>评级</th><th>目标价</th><th>隐含空间（收盘/盘后）</th><th>估值锚</th><th>核心论点</th></tr></thead><tbody><tr><td>摩根大通</td><td>Overweight</td><td>$345 → <strong>$340</strong> ⬇</td><td>+2% / +9%</td><td>33x CY28 P/E，自认处于"近几年交易区间高端"</td><td>需求势头强于预期，但供应限制 + 存储成本压近期盈利；供应是"收入递延非丢失"</td></tr><tr><td>花旗</td><td>Buy（维持）</td><td>$365</td><td>+9.5% / +17%</td><td>33x FY28 EPS，<strong>较苹果历史水平溢价 ~20%</strong></td><td>Mag7 中的防御性标的（ROIC 与 P/FCF 有吸引力）；聚焦 9 月发布会与 Siri AI</td></tr><tr><td>高盛（一页通，财报前）</td><td>Buy</td><td>$370</td><td>+11% / —</td><td>35-37x FY27</td><td>iPhone 需求 + AI 换机周期 + 提价逻辑</td></tr><tr><td>大摩（一页通，财报前）</td><td>增持</td><td>$364</td><td>+9% / —</td><td>35-37x FY27</td><td>同上；曾预警 FQ4 毛利率 46.8% 低于共识——<strong>被验证</strong></td></tr><tr><td>瑞银（一页通，财报前）</td><td><strong>中性</strong></td><td>$296</td><td><strong>-11%</strong> / —</td><td>30x CY27</td><td>存储成本挤压 + 服务放缓 + 高估值——财报后看是最准的一家</td></tr></tbody></table></div>
+<hr class="doc-hr">
+<h3 class="doc-h2">二、卖方一致预期（≈ 股价已经定价的东西）</h3>
+<ol><li>iPhone 17 周期需求真实且强于预期（Pro 系列 + 全球份额 17%→20%）</li><li>供应限制是"递延非丢失"：先进制程产能会缓解，FX 逆风 12 月季度起转温和</li><li>存储成本是周期逆风，提价（Mac/iPad 已 +20%、iPhone 18 传 +$200）+ 产品组合可部分对冲</li><li>9 月发布会（折叠屏 + Siri AI 正式版）是下一个催化剂，中国 AI 落地扫清监管障碍</li></ol>
+<p><span class="warn">⚠️</span> 注意：这四条全部建立在"递延论"上——而"递延论"目前只有管理层的口头保证，没有产能长协之类的硬证据。这是整个卖方共识最薄弱的支点。</p>
+<hr class="doc-hr">
+<h3 class="doc-h2">三、分歧在哪：33x 该不该给</h3>
+<p>基本面判断两家几乎一致，分歧全部集中在估值锚，而且各自写得都很"诚实"：</p>
+<div class="tbl-wrap"><table><thead><tr><th></th><th>摩根大通（33x CY28）</th><th>花旗（33x FY28）</th><th>瑞银（30x CY27，财报前）</th></tr></thead><tbody><tr><td>姿态</td><td>倍数已在"交易区间高端"，盈利又下修——目标价只能到 $340</td><td>承认比历史溢价 20%，用毛利率扩张 + 服务 mix + AI 采纳 + 资产负债表四条理由辩护</td><td>直接说"不值"，$296</td></tr><tr><td>翻译</td><td>"我给不了更高了"</td><td>"我努力说服自己它值"</td><td>"等回调"</td></tr></tbody></table></div>
+<p><strong>买方用法</strong>：盘后 $312 正处于瑞银（$296）和摩通（$340）之间——市场已经在按"谨慎方剧本"定价。如果你认可递延论，盘后价对应 FY27E EPS ~$9.4 约 33x 下移为 ~30x，恰是瑞银的锚——估值风险已经释放大半；如果你不认可递延论，$296 也守不住。</p>
+<hr class="doc-hr">
+<h3 class="doc-h2">四、增量信息（事实层，吸收进我们的框架）</h3>
+<ol><li><span class="warn">⚠️</span> <strong>EPS beat 的成色</strong>：$2.02 里 $0.11 是关税退款（剔除后 $1.91 vs 街 $1.89，仅微 beat）；毛利率 50.1% 含 200bps 退款，FQ4 指引里只剩 ~100bps——<strong>退款红利正在消失，真实毛利率 46.5% 环比 -160bps</strong></li><li><strong>存储逆风的量化</strong>：FQ3 已超 120bps，被结转库存（carry-in inventory）部分对冲；9 月后库存红利递减——毛利率压力才刚开始，不是已经结束</li><li><strong>供应限制的扩散路径</strong>：FQ3 主要影响 Mac → FQ4 扩散到 iPhone/iPad（先进制程产能 + 供应链灵活性不足）——递延论的反面是"扩散论"，下季度见分晓</li><li><strong>服务 miss 的结构</strong>：手游疲软 + link-out 外链支付分流；但云服务、视频、支付、广告仍双位数增长，Apple Pay 用户创新高——引擎没熄火，是 App Store 这一个气缸在漏</li><li><strong>花旗风险清单里的大实话</strong>：「苹果在指数中权重太大，机构投资者对继续加仓持谨慎态度」——卖方罕见讨论买盘结构而非基本面。这解释了"利好出尽"的资金面机制：最大的边际买家已经满仓</li><li>花旗电话会 7 问可直接作跟踪清单：提价策略、芯片长期供应战略、iPhone 需求/份额、Siri 反馈、服务动力、关税、秋季新品</li></ol>
+<hr class="doc-hr">
+<h3 class="doc-h2">五、与我们研究报告的交叉验证</h3>
+<ul><li><strong>一致</strong>：关税退款拆解（摩通/花旗口径与我们完全一致）、供应限制递延论、服务减速的结构分析</li><li><strong>被验证的外部预测</strong>：大摩财报前预警"FQ4 毛利率 46.8% 低于共识 47.4%"——实际指引剔除退款后 ~46.5%，比大摩预警还低。<strong>大摩是本轮预期管理最准的一家，其后续报告值得优先读</strong></li><li><strong>强化</strong>：我们"本周 beat 含水量普遍偏高"的判断被逐家证实（AMZN 的 Anthropic 收益、AAPL 的关税退款）——这个方法论资产沉淀下来了</li><li><strong>我们比卖方多一分警惕的地方</strong>：卖方把供应限制一致当"递延"，我们把它列为反证条件 #1——因为 iPad -6% 已经演示过"涨价压制需求"的实际形态，而卖方报告里没有一家认真讨论这个样本</li></ul>
+<hr class="doc-hr">
+<h3 class="doc-h2">六、评级解码（卖方语言翻译）</h3>
+<div class="tbl-wrap"><table><thead><tr><th>卖方行为</th><th>翻译</th></tr></thead><tbody><tr><td>摩通：OW 维持 + 目标价下调 $5 + FY27 EPS 砍 4.6% + 隐含空间仅 +2%</td><td>"我不好意思降级，但你别指望涨"——卖方语言里的<strong>事实持有</strong>。下调目标价（哪怕只 $5）是卖方稀缺的真实信号</td></tr><tr><td>花旗：Buy 维持 $365 + 四条理由为 20% 估值溢价辩护</td><td>盘后 -6% 给了它维持评级的空间；<strong>倍数辩护篇幅越长的报告，信心越弱</strong></td></tr><tr><td>花旗把"指数权重太大"写进风险提示</td><td>罕见的资金面警告：边际买家已满仓，利好出尽是结构性的</td></tr><tr><td>瑞银（财报前）：中性 $296</td><td>本轮唯一明确说"不值"的大行，财报后看判断最准——其后续跟踪权重应上调</td></tr></tbody></table></div>
+<p><strong>三家放在一起读：苹果的多空分水岭不在 iPhone 销量，在"33x"——而决定 33x 能不能站稳的，是 9 月发布会上折叠屏和 Siri AI 能不能给出"AI 入口"的实证。估值问题最终要靠叙事兑现来解。</strong></p>
+  </article>
   <article class="doc" id="tab-onepager" hidden>
 <h3 class="doc-h2">公司概况</h3>
 <p>苹果公司是全球最大的消费电子企业之一，核心业务围绕<strong>iPhone（FY2025收入占比50.4%）</strong>、Mac、iPad、可穿戴设备及服务生态构建。公司通过自研芯片、操作系统与硬件一体化设计，在全球超25亿台活跃设备基础上，形成了“硬件引流→生态绑定→服务变现→反哺硬件粘性”的正循环。其服务业务毛利率高达75.4%，贡献集团毛利比重达42%，是利润质量的核心引擎。当前公司正处于AI功能深度集成与硬件形态创新（折叠屏）的关键周期。</p>
@@ -618,8 +661,7 @@ for (const item of TRACKING) {
 document.querySelectorAll('.site-nav button').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
-    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
-    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    ['report','broker','onepager'].forEach(t => { const el = document.getElementById('tab-' + t); if (el) el.hidden = btn.dataset.tab !== t; });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 });

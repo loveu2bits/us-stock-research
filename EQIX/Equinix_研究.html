@@ -149,6 +149,18 @@ tr:hover td { background: #f8fafc; }
 #tab-onepager li { margin-bottom: 6px; }
 #tab-onepager strong { color: var(--ink); }
 
+
+/* 券商研报标签页 */
+#tab-broker .doc-h1 { margin: 0 0 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line-strong); font-family: var(--font-display); font-size: 26px; font-weight: 650; }
+#tab-broker .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-broker .doc-hr { margin: 30px 0; border: 0; border-top: 1px solid var(--line); }
+#tab-broker .doc-quote { margin: 18px 0; padding: 16px 20px; border-left: 3px solid var(--amber); background: #faf6ec; color: var(--ink-soft); font-size: 14px; }
+#tab-broker p, #tab-broker li { color: var(--ink-soft); font-size: 15px; }
+#tab-broker p { margin: 0 0 14px; }
+#tab-broker ul, #tab-broker ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-broker li { margin-bottom: 6px; }
+#tab-broker strong { color: var(--ink); }
+
 /* 附录 */
 .appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
 .appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
@@ -189,6 +201,7 @@ tr:hover td { background: #f8fafc; }
   </a>
   <nav class="site-nav">
     <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="broker">券商研报</button>
     <button data-tab="onepager">一页通</button>
   </nav>
 </header>
@@ -445,6 +458,35 @@ tr:hover td { background: #f8fafc; }
 
   </article>
 
+  <article class="doc" id="tab-broker" hidden>
+<h2 class="doc-h1">Equinix · 券商研报解读（买方视角）</h2>
+<blockquote class="doc-quote"><strong>解读日期</strong>：2026-07-31 ｜ <strong>研报</strong>：1 份（高盛 2Q26 First Take） <strong>方法</strong>：提取事实与预期，不采纳结论。卖方评级普遍通胀——分歧和边际变化才是信号，一致乐观本身也是信号。</blockquote>
+<hr class="doc-hr">
+<h3 class="doc-h2">〇、一句话结论</h3>
+<p><strong>这份是卖方里的稀有物种：财报 beat and raise、长期指引大幅上调——评级却是 Neutral，目标价 $1,015 比现价还低 1.9%。翻译过来就一句话："公司很好，但价格到头了。"这是「知道公司好不好 ≠ 股价还能不能涨」最标准的活教材：基本面验证多方，估值约束股价。</strong></p>
+<hr class="doc-hr">
+<h3 class="doc-h2">一、预期地图</h3>
+<p>现价 <strong>$1,034.86</strong>（2026-07-28 收盘，财报前）</p>
+<div class="tbl-wrap"><table><thead><tr><th>券商</th><th>评级</th><th>目标价</th><th>隐含空间</th><th>估值锚</th><th>核心论点</th></tr></thead><tbody><tr><td>高盛</td><td><strong>Neutral</strong></td><td>$1,015</td><td><strong>-1.9%</strong></td><td>21.0x NTM+1Y P/AFFO</td><td>Beat and raise + 长期指引上调都认可，但 21x 已充分定价，不愿多给</td></tr></tbody></table></div>
+<p>单份报告的局限：没有对手盘可读。但 Neutral + 目标价低于现价的组合本身信息量足够——高盛承认基本面全部向好，只是拒绝为"AI 推理枢纽"的叙事付第 22 倍。</p>
+<hr class="doc-hr">
+<h3 class="doc-h2">二、Beat 的成色：拆开看没表面那么亮</h3>
+<p>高盛自己的 variance 表把"beat and raise"的成色拆得很清楚：</p>
+<div class="tbl-wrap"><table><thead><tr><th>指标</th><th>实际</th><th>vs 高盛预期</th><th>评价</th></tr></thead><tbody><tr><td>EBITDA</td><td>$13.96 亿</td><td>+2.2%</td><td>✅ beat</td></tr><tr><td>AFFO/share</td><td>$11.78</td><td>+2.8%</td><td>✅ beat</td></tr><tr><td><strong>经常性收入</strong></td><td>$23.77 亿</td><td><strong>-1.2%（miss）</strong></td><td><span class="warn">⚠️</span> 总收入 beat 全靠非经常收入拉动</td></tr><tr><td>年化 bookings</td><td>$4.24 亿</td><td><strong>-6.6%（miss 高盛，beat 街）</strong></td><td><span class="warn">⚠️</span> 喜忧参半</td></tr><tr><td><strong>机柜计费净增</strong></td><td>4,200</td><td><strong>-22%（大 miss）</strong></td><td><span class="warn">⚠️</span> 高盛/街预期 5,400/5,389，同比 +250% 掩盖了环比乏力</td></tr></tbody></table></div>
+<p><strong>读法</strong>：利润表 beat、先行指标（经常性收入、bookings、机柜净增）全部 miss——这是"当下好、下一步存疑"的组合。3Q26 指引随即验证：收入 $25.25-25.75 亿和 EBITDA 均低于高盛预期。<strong>短期催化剂偏负面。</strong></p>
+<hr class="doc-hr">
+<h3 class="doc-h2">三、真正的增量：长期指引大幅上调，capex 翻倍</h3>
+<p>被市场忽略的头条在这里——2027-29 长期指引全面上调，幅度远超我们研究报告里记录的花旗预期（7-10% → 8-11%）：</p>
+<div class="tbl-wrap"><table><thead><tr><th>长期目标</th><th>旧指引</th><th>新指引</th><th>变化</th></tr></thead><tbody><tr><td>收入 CAGR（2027-29）</td><td>7-10%</td><td><strong>10-13%</strong></td><td>中枢 +3pt</td></tr><tr><td>EBITDA 利润率</td><td>52%+</td><td>53%+</td><td>+1pt</td></tr><tr><td>AFFO/share 年增速</td><td>5-9%</td><td><strong>9-12%</strong></td><td>中枢 +3pt</td></tr><tr><td>年 capex</td><td>$30-40 亿</td><td><strong>$50-70 亿</strong></td><td><strong>+67%</strong></td></tr></tbody></table></div>
+<p>隐含 2029E AFFO $58，高于高盛/一致预期的 $56.47/$56.20。<strong>管理层用 capex 翻倍投票：AI 数据中心需求是结构性的，不是周期脉冲。</strong>这与我们研究报告"AI 推理主场"的多方逻辑互相印证。</p>
+<hr class="doc-hr">
+<h3 class="doc-h2">四、与我们研究报告的交叉验证</h3>
+<ul><li><strong>验证多方</strong>：我们反证条件 #3「长期指引上调落空或下调」——不但上调且大超预期，此条警报解除；核心分歧表里"花旗预期收入目标 7-10%→8-11%"，实际给到 10-13%，比最乐观预期还高</li><li><strong>验证谨慎方</strong>：我们核心分歧表的估值行「P/AFFO 已高于历史均值和同行（~19x）」——高盛 21x 封顶正是这个逻辑的卖方表达；年 capex 从 $30-40 亿抬到 $50-70 亿，我们报告"FCF 为负、投入换未来"的裂缝加深</li><li><strong>新增裂缝信号</strong>：机柜净增 -22% miss + 经常性收入 miss——我们报告里"建设速度落后于行业（份额 8%→5%）"的老裂缝，在本季先行指标上又看到了影子。建议把「机柜计费净增」加入跟踪计划，它是比 bookings 更硬的产能去化指标</li><li><strong>待补</strong>：高盛 First Take 未覆盖 Fabric/互联业务增速（我们的核心验证抓手）——等完整报告或电话会纪要补充</li></ul>
+<hr class="doc-hr">
+<h3 class="doc-h2">五、评级解码（卖方语言翻译）</h3>
+<div class="tbl-wrap"><table><thead><tr><th>卖方行为</th><th>翻译</th></tr></thead><tbody><tr><td>Neutral + 目标价低于现价，同时全文认可 beat and raise</td><td>"基本面我全认，但这个价我不让你追"——卖方最诚实的形态之一（它本可以随大流上调目标价）</td></tr><tr><td>长期指引大超预期，目标价却不动</td><td>高盛认为市场已经在按上调后的剧本定价（21x），指引上调只是"兑现"不是"惊喜"</td></tr></tbody></table></div>
+<p><strong>买方用法</strong>：这份报告的正确读法不是"卖出"，而是"这家公司的预期差已经不在基本面，在估值"——如果股价因 3Q 指引 miss 或先行指标走弱而回调，长期指引上调的基本面反而提供了接的底气。好公司，等好价格。</p>
+  </article>
   <article class="doc" id="tab-onepager" hidden>
 <h3 class="doc-h2">公司概况</h3>
 <p>易昆尼克斯（Equinix）是全球最大的零售型数据中心运营商，定位为全球数字基础设施公司。公司提供运营商中立的托管（Colocation）、互联（Interconnection）及边缘解决方案，其核心价值在于构建了一个汇聚超过10,500家企业、云服务商、网络服务商及AI参与者的全球性数字生态系统。截至2026年Q1，公司在全球36个国家的77个市场运营着281个数据中心，拥有超过50万个互联节点，是数字经济的核心物理枢纽。</p>
@@ -560,8 +602,7 @@ for (const item of TRACKING) {
 document.querySelectorAll('.site-nav button').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
-    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
-    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    ['report','broker','onepager'].forEach(t => { const el = document.getElementById('tab-' + t); if (el) el.hidden = btn.dataset.tab !== t; });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 });

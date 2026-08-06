@@ -99,6 +99,7 @@ a.co:hover { background: color-mix(in srgb, var(--accent) 5%, white); }
 .badge { padding: 1px 8px; border-radius: 999px; font-size: 10.5px; font-weight: 700; white-space: nowrap; }
 .badge.leader { border: 1px solid color-mix(in srgb, var(--gold) 55%, white); background: color-mix(in srgb, var(--gold) 9%, white); color: var(--gold); }
 .badge.done { border: 1px solid color-mix(in srgb, var(--accent) 45%, white); color: var(--accent); }
+.badge.broker { border: 1px solid color-mix(in srgb, var(--amber) 45%, white); color: var(--amber); }
 .badge.todo { border: 1px solid var(--line); color: var(--ink-faint); font-weight: 600; }
 .co__cn { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; min-width: 0; font-size: 11.5px; color: var(--ink-faint); }
 .co__cn .map { padding: 1px 7px; border: 1px solid var(--line); border-radius: 3px; color: var(--ink-soft); white-space: nowrap; }
@@ -178,7 +179,7 @@ a.co:hover { background: color-mix(in srgb, var(--accent) 5%, white); }
     <div class="overview__heading">
       <div class="overview__copy">
         <h1>公司研究 · 产业链视角<span class="en">以美股科技大厂为主线的产业链拆解 · 点开环节看公司 · 👑 为该环节市占率龙头</span></h1>
-        <p class="sub">每家已研究公司两页：研究报告 + 一页通（环节内「已研究 →」可点开）。每家美股公司附国内对标（A 股 / 港股，仅列名字与代码）。市占率为约数，仅作研究参考。</p>
+        <p class="sub">每家已研究公司两页：核心问题 + 一页通（环节内「已研究 →」可点开；微软/Meta/亚马逊/Equinix/苹果 5 家另附券商研报解读）。每家美股公司附国内对标（A 股 / 港股，仅列名字与代码）。市占率为约数，仅作研究参考。</p>
       </div>
       <div class="overview__date">
         <span>最近更新</span>
@@ -229,6 +230,9 @@ const REPORTS = {
   ISRG:'../ISRG/直觉外科_研究.html', V:'../V/维萨_研究.html', CEG:'../CEG/星座能源_研究.html',
   AAPL:'../AAPL/苹果_研究.html',
 };
+
+// 含「券商研报」tab 的公司
+const BROKER = new Set(['MSFT','META','AMZN','EQIX','AAPL']);
 
 // ================= 产业链数据 =================
 // 字段：t=ticker, cn=中文名, share=市占率/地位（约数）, leader=该环节市占率最高,
@@ -457,6 +461,7 @@ function companyHTML(c, color){
   const badges = [
     c.leader ? '<span class="badge leader">👑 龙头</span>' : '',
     href ? '<span class="badge done">已研究 →</span>' : '<span class="badge todo">待研究</span>',
+    href && BROKER.has(c.t) ? '<span class="badge broker">研报解读</span>' : '',
   ].join('');
   const cn2 = (c.cn2||[]).map(m => `<span class="map">${m.n}<code>${m.c}</code></span>`).join('');
   const cnLine = cn2 ? `<div class="co__cn">国内对标 ${cn2}</div>` : '<div class="co__cn"></div>';
