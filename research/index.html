@@ -159,6 +159,40 @@ a.co:hover { background: color-mix(in srgb, var(--accent) 5%, white); }
   .site-nav a { min-width: 72px; padding: 0 8px; font-size: 12px; }
   .site-mark__text span { display: none; }
 }
+
+/* ===== 公司搜索 ===== */
+.search { position: relative; margin-bottom: 18px; }
+.search input { width: 100%; padding: 11px 16px 11px 40px; border: 1px solid var(--line-strong); border-radius: 6px; background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="%2377838e" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>') no-repeat 14px center; color: var(--ink); font-size: 14.5px; font-family: inherit; outline: none; }
+.search input:focus { border-color: var(--federal-blue); box-shadow: 0 0 0 3px rgba(22,75,122,.12); }
+.search input::-webkit-search-cancel-button { cursor: pointer; }
+.search-results { position: absolute; top: calc(100% + 6px); left: 0; right: 0; z-index: 60; max-height: 340px; overflow-y: auto; border: 1px solid var(--line-strong); border-radius: 6px; background: #fff; box-shadow: 0 12px 32px rgba(23,32,43,.14); }
+.sr-row { display: flex; align-items: baseline; gap: 10px; padding: 10px 16px; border-bottom: 1px solid var(--line); color: var(--ink-soft); font-size: 13.5px; text-decoration: none; }
+.sr-row:last-child { border-bottom: 0; }
+a.sr-row:hover { background: var(--paper-cool); }
+.sr-row__name { color: var(--ink); font-weight: 700; font-size: 14.5px; }
+.sr-row__ticker { color: var(--ink-faint); font-size: 12px; font-weight: 600; letter-spacing: .03em; }
+.sr-row__seg { margin-left: auto; color: var(--ink-faint); font-size: 12px; text-align: right; }
+.sr-row .badge { flex: none; }
+.sr-empty { padding: 14px 16px; color: var(--ink-faint); font-size: 13px; }
+.sr-mark { color: var(--policy-red); font-weight: 700; }
+
+/* ===== 观点速览（折叠） ===== */
+.ratings { margin-top: 14px; border: 1px solid var(--line-strong); border-radius: 6px; background: var(--paper-cool); }
+.ratings summary { display: flex; align-items: center; gap: 10px; padding: 11px 16px; color: var(--ink); font-size: 13.5px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+.ratings summary::-webkit-details-marker { display: none; }
+.ratings summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.ratings[open] summary::after { content: "收起 ▴"; }
+.ratings summary .cnt-buy { color: var(--policy-red); }
+.ratings summary .cnt-sell { color: var(--teal); }
+.ratings__body { padding: 4px 16px 14px; }
+.ratings__grp { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; margin-top: 8px; }
+.ratings__label { flex: none; font-size: 13px; font-weight: 750; }
+.ratings__label.buy { color: var(--policy-red); }
+.ratings__label.sell { color: var(--teal); }
+.ratings__body a, .ratings__body span.plain { padding: 2px 10px; border: 1px solid var(--line-strong); border-radius: 3px; background: #fff; color: var(--ink); font-size: 12.5px; font-weight: 600; text-decoration: none; }
+.ratings__body a:hover { border-color: var(--federal-blue); color: var(--federal-blue); }
+.ratings__none { color: var(--ink-faint); font-size: 12.5px; }
+.ratings__date { margin-left: auto; color: var(--ink-faint); font-size: 11px; font-weight: 500; }
 </style>
 </head>
 <body>
@@ -178,8 +212,15 @@ a.co:hover { background: color-mix(in srgb, var(--accent) 5%, white); }
   <div class="shell">
     <div class="overview__heading">
       <div class="overview__copy">
+        <div class="search">
+          <input id="co-search" type="search" placeholder="搜索公司：中文名 / 英文 / 代码，如 台积电 · TSMC · TSM" autocomplete="off">
+          <div class="search-results" id="search-results" hidden></div>
+        </div>
         <h1>公司研究 · 产业链视角<span class="en">以美股科技大厂为主线的产业链拆解 · 点开环节看公司 · 👑 为该环节市占率龙头</span></h1>
-        <p class="sub">每家已研究公司两页：核心问题 + 一页通（环节内「已研究 →」可点开；微软/Meta/亚马逊/Equinix/苹果 5 家另附券商研报解读）。每家美股公司附国内对标（A 股 / 港股，仅列名字与代码）。市占率为约数，仅作研究参考。</p>
+        <details class="ratings" id="ratings">
+          <summary id="ratings-summary">观点速览</summary>
+          <div class="ratings__body" id="ratings-body"></div>
+        </details>
       </div>
       <div class="overview__date">
         <span>最近更新</span>
@@ -600,6 +641,93 @@ renderNav();
 $('nav-others').addEventListener('click', () => toggleOthers(true));
 renderChains();
 renderOthers();
+
+// ================= 公司搜索 =================
+// 英文名/别名补充表（中文名与代码自动取自 CHAINS/OTHERS，国内对标名也可搜）
+const ALIAS = {
+  SNPS:'synopsys', CDNS:'cadence', ARM:'arm holdings 安谋', ASML:'asml', AMAT:'applied materials',
+  LRCX:'lam research', KLAC:'kla', NVDA:'nvidia', AMD:'超威', AVGO:'broadcom',
+  MRVL:'marvell', MU:'micron', SNDK:'sandisk', WDC:'western digital', TSM:'tsmc',
+  GFS:'globalfoundries', INTC:'intel', AMKR:'amkor', DELL:'dell', SMCI:'supermicro super micro',
+  HPE:'hewlett packard', ANET:'arista networks', CSCO:'cisco', AMZN:'amazon', MSFT:'microsoft',
+  GOOGL:'google alphabet', ORCL:'oracle', META:'facebook', PLTR:'palantir', EQIX:'equinix',
+  DLR:'digital realty', CEG:'constellation energy', VST:'vistra', ETN:'eaton', CRM:'salesforce',
+  NOW:'servicenow', ADBE:'adobe', QCOM:'qualcomm', SWKS:'skyworks', QRVO:'qorvo',
+  TXN:'texas instruments', ON:'onsemi', AAPL:'apple', APP:'applovin', NFLX:'netflix',
+  DIS:'disney', WBD:'warner bros', SPOT:'spotify', RBLX:'roblox', EA:'electronic arts',
+  TTWO:'take-two', MBLY:'mobileye', TSLA:'tesla', GM:'general motors', F:'ford',
+  RIVN:'rivian', UBER:'uber 优步', LYFT:'lyft', WMT:'walmart', COST:'costco',
+  LLY:'eli lilly', ISRG:'intuitive surgical', V:'visa', PLD:'prologis',
+};
+
+// 按 ticker 聚合索引（一家可能出现在多个环节，如 NVDA/GOOGL/QCOM）
+const SEARCH_INDEX = {};
+CHAINS.forEach(ch => ch.tiers.forEach(tier => tier.segs.forEach(seg => {
+  seg.companies.forEach(c => {
+    const e = SEARCH_INDEX[c.t] || (SEARCH_INDEX[c.t] = { t: c.t, cn: c.cn, segs: [], hay: '' });
+    e.segs.push(ch.name + ' · ' + seg.name);
+  });
+})));
+OTHERS.forEach(g => g.items.forEach(c => {
+  const e = SEARCH_INDEX[c.t] || (SEARCH_INDEX[c.t] = { t: c.t, cn: c.cn, segs: [], hay: '' });
+  e.segs.push('其他行业 · ' + g.grp);
+}));
+CHAINS.forEach(ch => ch.tiers.forEach(tier => tier.segs.forEach(seg => {
+  seg.companies.forEach(c => {
+    const e = SEARCH_INDEX[c.t];
+    // 同一家公司出现在多个环节时 hay 要累积，不能覆盖
+    e.hay = (e.hay + ' ' + [c.t, c.cn, ALIAS[c.t] || '', ...(c.cn2||[]).map(m => m.n)].join(' ')).trim().toLowerCase();
+  });
+})));
+Object.values(SEARCH_INDEX).forEach(e => { if (!e.hay) e.hay = [e.t, e.cn, ALIAS[e.t] || ''].join(' ').toLowerCase(); });
+
+const escRe = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const mark = (text, q) => q ? text.replace(new RegExp(escRe(q), 'ig'), m => '<span class="sr-mark">' + m + '</span>') : text;
+
+function renderSearch(qRaw){
+  const box = $('search-results');
+  const q = qRaw.trim().toLowerCase();
+  if (!q) { box.hidden = true; box.innerHTML = ''; return; }
+  const hits = Object.values(SEARCH_INDEX).filter(e => e.hay.includes(q))
+    .sort((a, b) => (REPORTS[b.t] ? 1 : 0) - (REPORTS[a.t] ? 1 : 0) || a.t.localeCompare(b.t));
+  box.hidden = false;
+  if (!hits.length) { box.innerHTML = '<div class="sr-empty">没有匹配的公司</div>'; return; }
+  box.innerHTML = hits.map(e => {
+    const href = REPORTS[e.t];
+    const badge = href ? '<span class="badge done">已研究 →</span>' : '<span class="badge todo">待研究</span>';
+    const inner = `<span class="sr-row__name">${mark(e.cn, qRaw.trim())}</span>
+      <span class="sr-row__ticker">${mark(e.t, qRaw.trim())}</span>${badge}
+      <span class="sr-row__seg">${e.segs.join(' / ')}</span>`;
+    return href ? `<a class="sr-row" href="${href}">${inner}</a>` : `<div class="sr-row">${inner}</div>`;
+  }).join('');
+}
+$('co-search').addEventListener('input', ev => renderSearch(ev.target.value));
+$('co-search').addEventListener('focus', ev => renderSearch(ev.target.value));
+document.addEventListener('click', ev => {
+  if (!ev.target.closest('.search')) $('search-results').hidden = true;
+});
+
+// ================= 观点速览（只列买入/看空；持有的不列） =================
+// 更新研究观点时只改这两个数组（ticker），链接与中文名自动带出
+const RATINGS = {
+  date: '2026-08-06',
+  buy:  ['TSM','MU','ANET','AMD','UBER','AMZN','V','PLD'],
+  sell: [],
+};
+function renderRatings(){
+  const chip = t => {
+    const e = SEARCH_INDEX[t];
+    const label = (e ? e.cn : t) + ' ' + t;
+    return REPORTS[t] ? `<a href="${REPORTS[t]}">${label}</a>` : `<span class="plain">${label}</span>`;
+  };
+  $('ratings-summary').innerHTML =
+    `📈 买入 <span class="cnt-buy">${RATINGS.buy.length} 家</span> · 📉 看空 <span class="cnt-sell">${RATINGS.sell.length} 家</span>` +
+    `<span class="ratings__date">${RATINGS.date}</span>`;
+  $('ratings-body').innerHTML =
+    `<div class="ratings__grp"><span class="ratings__label buy">买入</span>${RATINGS.buy.map(chip).join('')}</div>` +
+    `<div class="ratings__grp"><span class="ratings__label sell">看空</span>${RATINGS.sell.length ? RATINGS.sell.map(chip).join('') : '<span class="ratings__none">暂无——估值下不了手的集中在持有档</span>'}</div>`;
+}
+renderRatings();
 </script>
 </body>
 </html>
