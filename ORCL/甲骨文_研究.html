@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>甲骨文（ORCL.N）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--policy-red); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">ORCL</span>
+    <span class="site-mark__text">甲骨文 公司研究<span>Oracle · ORCL.N</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>甲骨文<span class="en">Oracle · ORCL.N · 美股研究</span></h1>
+        <p class="sub">全球最大的企业级数据库厂商正在变成最激进的 AI 基建赌徒：RPO 膨胀至 6,380 亿美元、OCI 增速 93%，但 FY2027 资本开支 900-950 亿美元将把自由现金流打到约 -420 亿，标普评级已压至距垃圾级仅一档的 BBB-。核心矛盾是「长期合同锁定的算力需求」 vs 「OpenAI 集中度 + 融资螺旋」的资产负债表风险——卖方一致看多的目标价（240-330 美元）与历史新高的 CDS 利差并存，我们选择在信用风险证伪前持有观望。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-06</span>
+          <span>下次更新：FY2027 Q1 财报（2026-09 中旬）/ ATM 股权融资进展</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>卖方目标价 240-330 美元一致指向显著上行，但 FY2027E FCF -420 亿、RPO 近半系于 OpenAI；三情景期望值约 218 美元（FY2028 视角，估算）。重检条件：Q1 财报 OCI 兑现 + 融资落地 → 上调买入；评级再下调或 OpenAI 生变 → 回避。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">营收 +17.4%</strong><span>FY2026 $673.6亿·云占比首破 50%</span></div>
+      <div class="summary-rail__item"><strong class="up">OCI +76.9%</strong><span>FY2026 $181亿·Q4 同比 +93%</span></div>
+      <div class="summary-rail__item"><strong>$6,380亿</strong><span>RPO·近半来自 OpenAI（标普估计）</span></div>
+      <div class="summary-rail__item"><strong>-$420亿</strong><span>FY2027E 自由现金流·capex $900-950亿</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">RPO 6,380 亿 vs 自由现金流 -420 亿：订单爆炸能否覆盖烧钱风险？</h2>
+        <span class="qa__impact-tag">→ FY2027 营收指引 $900亿(+34%) · capex $900-950亿</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>需求是真的：FY2026 Q4 OCI 收入同比 +93%（固定汇率）且较 Q3 的 +81% 继续加速，RPO 达 6,380 亿美元，管理层称一份典型 6 年期 AI 基建合同在 35% 稳态毛利率下税前 IRR 约 19.5%——<strong>这不是口头意向，而是签约合同驱动的扩产</strong>。但代价同样真实：FY2026 自由现金流 -236.86 亿美元，FY2027 指引资本开支 900-950 亿、FCF 预计约 -420 亿，公司已从「软件现金牛」切换为「重资产建设期公司」。<em>保留判断：合同 IRR 是管理层模型，算力租赁价格若下行，实际回报可能远低于此。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>短期 EPS 靠 SaaS + 裁员撑着，估值靠 FY2028-2030 的远期兑现。</strong>FY2026 归母净利润 +36.5%（含出售 Ampere 股权等一次性收益）、裁员 2.1 万人（-13%）压出运营杠杆，营业利润率反而升至 33.3%；管理层指引 FY2027 Non-GAAP EPS 约 8.05 美元（+18%）、FY2030 约 21 美元——<strong>市场要为三年后的 EPS 提前定价，这正是估值波动剧烈的根源</strong>。</p>
+            <p>现金流缺口靠外部融资填：200 亿美元 ATM 股权融资 + 50 亿美元强制可转换优先股已启动。融资顺利则稀释有限、信用利差收窄（10 年期/30 年期已分别走阔至约 184/240bp，存在修复空间）；融资受阻则触发「评级下调—融资成本上升—现金流恶化」的负反馈，EPS 与倍数双杀。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>RPO <strong>6,380 亿美元</strong>且合同具有法律约束力、期限 5-10 年——收入能见度是卖方给「买入」的底气</li>
+              <li>OCI 增速逐季加速（Q3 +81% → Q4 <strong>+93%</strong>），管理层指引 FY2027 总营收约 900 亿（+34%）、Q1 云收入 +57-63%</li>
+              <li>已交付 AI 算力毛利率 <strong>32%</strong>，高于 30% 指引下限；AI 基建交付时间缩短 60%——执行力在兑现</li>
+              <li>电力瓶颈有解：已获超 <strong>10GW</strong> 电力容量，其中 90%+ 由合作伙伴出资——资本开支压力有人分担</li>
+              <li>标普下调评级但给「稳定」展望而非「负面」，为情绪托底</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>FY2026 FCF <strong>-236.86 亿</strong>、FY2027 预计约 <strong>-420 亿</strong>——现金流已完全依赖外部融资，这是「庞氏融资」质疑的实证基础</li>
+              <li>BBB- 距垃圾级仅一档：若落入垃圾级将引发投资级债基强制抛售 + 数据中心合作方提高现金抵押要求，<strong>负反馈螺旋</strong></li>
+              <li>对上游议价力弱：为锁定英伟达 GPU 供应，已承诺更高采购量、更长付款周期并接受部分不利条款</li>
+              <li>ATM 股权融资意味着<strong>股本稀释</strong>；FY2026 净利高增还含出售 Ampere 股权的一次性收益，成色需打折</li>
+              <li>基建物理瓶颈已现：Project Jupiter 天然气管道申请<strong>第二次被拒</strong>（2026-07-21）</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（FY2026 财报速览 · 资本开支与融资拆解 · 现金流趋势）</summary>
+          <div class="evidence__body">
+            <h5>FY2026 年报 / Q4 财报速览（2026-06-11 发布，财年截止 2026-05-31）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>实际</th><th>对比/指引</th><th>评价</th></tr></thead><tbody><tr><td>FY2026 营收</td><td><strong>$673.57 亿</strong>（同比 +17.35%）</td><td>FY2025 $573.99 亿</td><td>加速增长，beat</td></tr><tr><td>OCI（云基础设施）</td><td>全年 <strong>$181.01 亿</strong>（+76.9%）；Q4 同比 <strong>+93%</strong>（固定汇率）</td><td>Q3 为 +81%</td><td><strong>逐季加速</strong>，核心引擎</td></tr><tr><td>RPO（剩余履约义务）</td><td><strong>$6,380 亿</strong></td><td>—</td><td>订单爆炸；标普估计近半来自 OpenAI</td></tr><tr><td>FY2026 资本开支</td><td><strong>$556.63 亿</strong>（同比 +162%）</td><td>FY2025 $212.15 亿</td><td><span class="warn">⚠️</span> 史无前例</td></tr><tr><td>FY2026 自由现金流</td><td><strong>-$236.86 亿</strong></td><td>FY2024 为 +$118.07 亿</td><td><span class="warn">⚠️</span> 深度转负</td></tr><tr><td>FY2027 指引</td><td>营收约 <strong>$900 亿</strong>（+34%）；Non-GAAP EPS 约 <strong>$8.05</strong>（+18%）；Q1 云收入 +57-63%</td><td>—</td><td>营收指引强劲，beat</td></tr><tr><td>FY2027 资本开支指引</td><td><strong>$900-950 亿</strong>（含融资租赁）</td><td>远超市场预期</td><td><span class="warn">⚠️</span> FCF 预计约 -$420 亿，本季最大争议</td></tr><tr><td>长期目标</td><td>FY2029 收入超 <strong>$1,660 亿</strong>；FY2030 Non-GAAP EPS 约 <strong>$21</strong></td><td>—</td><td>三年再造两个甲骨文，兑现度待验证</td></tr></tbody></table></div>
+            <h5>资本开支怎么填：融资工具箱拆解</h5>
+            <ul>
+              <li><strong>经营现金流</strong>：FY2026 为 319.77 亿美元（同比大增）——软件支持（毛利率约 95%）+ SaaS 仍是造血底盘，但远不够覆盖 900-950 亿 capex</li>
+              <li><strong>股权</strong>：已注册最高 <strong>200 亿美元 ATM</strong> 计划（截至 FY2026 末尚未出售任何股份）+ 发行 <strong>50 亿美元</strong>强制可转换优先股——稀释在即</li>
+              <li><strong>债权</strong>：BBB- 评级下 10 年期/30 年期利差约 184/240bp，远高于同评级债券——融资成本已显著抬升，利差修复取决于融资执行与 FCF 路径</li>
+              <li><strong>表外</strong>：超 10GW 电力容量中 90%+ 由合作伙伴出资；数据中心采用长期租赁模式——部分资本压力转移至资产负债表外，但也形成「若客户违约则剩巨额租约」的沉没成本敞口</li>
+            </ul>
+            <h5>现金流趋势（单位：亿美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>财年</th><th>营收</th><th>YoY</th><th>毛利率</th><th>营业利润率</th><th>归母净利润</th><th>经营现金流</th><th>资本开支</th><th>自由现金流</th></tr></thead><tbody><tr><td>FY2024</td><td>529.61</td><td>+6.0%</td><td>71.4%</td><td>30.3%</td><td>104.67</td><td>186.73</td><td>-68.66</td><td><strong>+118.07</strong></td></tr><tr><td>FY2025</td><td>573.99</td><td>+8.4%</td><td>70.5%</td><td>31.5%</td><td>124.43</td><td>208.21</td><td>-212.15</td><td>-3.94</td></tr><tr><td>FY2026</td><td>673.57</td><td><strong>+17.4%</strong></td><td>65.8%</td><td><strong>33.3%</strong></td><td>169.84</td><td>319.77</td><td><strong>-556.63</strong></td><td><strong>-236.86</strong></td></tr></tbody></table></div>
+            <p>解读：利润表（营业利润率逆势升至 33.3%）与现金流量表（FCF 深度为负）讲的是两个故事——前者靠裁员 2.1 万人和 SaaS 运营杠杆，后者靠融资市场。多方买的是前者指向的 FY2029-2030，空方卖的是后者指向的下一个季度。跟踪面板的催化剂与风险点正是沿这条裂缝设置。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">OpenAI 依赖症：RPO 近半系于一家未盈利的 AI 初创，是确定性还是单点故障？</h2>
+        <span class="qa__impact-tag">→ CR1&gt;50% · CDS 利差创历史新高</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>这是空方最硬的一张牌，也是当前折价的核心来源。据标普估计，OpenAI 合同约占 6,380 亿 RPO 的<strong>一半</strong>——甲骨文事实上成了「OpenAI 的影子资产」。<em>但有两点被低估：一是合同具有法律约束力、期限 5-10 年，与「口头意向」有本质区别；二是公司正通过主权 AI 云（美国国防部 70 亿美元、日本政府机密云竞标）和 Meta/NVIDIA 等客户主动稀释集中度。判断：集中度是真实的下行风险，但「OpenAI 违约」是低概率高杀伤事件，应对方式是跟踪而非预设。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>OpenAI 的信用质量直接决定 RPO 的「成色」，从而决定市场愿意给多少倍估值。</strong>若 OpenAI 成功 IPO 并获得充足融资（2026 下半年关键观察点），RPO 质量叙事修复，倍数向卖方目标价（240-330 美元）隐含的水平回归；反之，OpenAI 融资受阻的任何信号都会同时打击收入预期（EPS）与合同可信度（倍数），双杀弹性极大。</p>
+            <p>客户多元化的每一个增量（主权云、Meta、NVIDIA、企业客户）都在降低这条裂缝的权重——国防部 70 亿美元合同的象征意义大于金额：它证明甲骨文不只是「OpenAI 的房东」，而是有气隙隔离云（air-gapped cloud）能力的战略级供应商。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>合同有法律约束力、期限 5-10 年；且甲骨文为 OpenAI 建的数据中心若规格通用，<strong>极端情况下可转租</strong>——当前全行业算力供不应求，转租市场存在</li>
+              <li>OpenAI 本身在持续刷新融资纪录，若 2026 下半年 IPO 落地，<strong>履约能力反而增强</strong>——这是催化剂而非纯粹风险</li>
+              <li>客户多元化在推进：Meta、NVIDIA 已是重要 AI 客户；国防部 70 亿美元（最长 10 年）+ 日本政府机密云竞标打开主权 AI 市场</li>
+              <li>「AI 循环融资」质疑忽视了终端需求：OCI Q4 +93% 的加速说明推理/训练需求是真实的，不只是资金空转</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>CR1&gt;50%：OpenAI 尚未盈利、面临激烈竞争，其商业化前景<strong>直接决定甲骨文命运</strong>——业务韧性远弱于客户分散的三大云</li>
+              <li>「英伟达投 OpenAI → OpenAI 买甲骨文算力 → 甲骨文买英伟达芯片」的循环链条，一旦终端收入不及预期将整体崩塌，<strong>重资产中间商承担最大减值</strong></li>
+              <li>合同条款不透明：是否存在缩减/提前终止条款、数据中心能否转租，市场无从验证——<strong>RPO 可能是「纸面富贵」</strong></li>
+              <li>CDS 利差创历史新高、股价自高点回撤超 60%——信用市场已经在为这条裂缝定价，股市的多头叙事并未说服债市</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（客户结构拆解 · 主权云进展 · 对冲集中度的时间表）</summary>
+          <div class="evidence__body">
+            <h5>客户结构与集中度</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>客户/类别</th><th>规模与性质</th><th>评价</th></tr></thead><tbody><tr><td>OpenAI</td><td>最大单一客户，据标普估计约占 RPO（6,380 亿美元）的<strong>一半</strong>；长期 AI 算力合同</td><td><span class="warn">单点故障源</span>——其 IPO/融资进展是最关键的间接验证指标</td></tr><tr><td>Meta / NVIDIA</td><td>重要 AI 基础设施客户</td><td>正——头部科技公司背书，但规模远小于 OpenAI</td></tr><tr><td>美国国防部</td><td>2026-07-24 签署，约 <strong>70 亿美元</strong>、最长 10 年的企业级软件协议</td><td>正——主权云背书 + 传统软件基本盘加固</td></tr><tr><td>日本政府</td><td>机密云项目有力竞争者（未签约）</td><td>待验证——主权 AI 叙事的下一落点</td></tr></tbody></table></div>
+            <h5>对冲集中度的时间表</h5>
+            <ul>
+              <li><strong>2026 年 8-9 月</strong>：ATM 股权融资执行进展——融资顺利 = 管理层对 RPO 兑现有信心，同时缓解评级压力</li>
+              <li><strong>2026 下半年</strong>：OpenAI IPO 进展——直接重估 RPO 质量</li>
+              <li><strong>每个季度</strong>：RPO 增量中非 OpenAI 客户的占比（公司未直接披露，需从管理层表态与客户公告交叉验证）</li>
+              <li><strong>持续</strong>：主权 AI 云订单落地节奏（气隙隔离云是高壁垒细分市场，竞争者为微软/亚马逊的政府云部门）</li>
+            </ul>
+            <h5>解读：一句话</h5>
+            <p>把甲骨文理解为「一张以 OpenAI 信用为底层资产的长期债券 + 一份企业软件现金牛期权」更接近市场定价现实。债券部分看 OpenAI 融资与履约，期权部分看多云数据库（FY2026 消费增长超 1500%）和 Fusion 应用 AI 化能否让 PaaS/SaaS 在 OCI 客户中渗透——后者才是把「算力房东」升级为「企业 AI 操作系统」的真正的船票。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">估值：卖方一致「买入」（240-330 美元） vs 债市按信用风险定价——谁对？赔率如何？</h2>
+        <span class="qa__impact-tag">→ 三情景期望值约 $218 · 现价为缺失数据</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>两个市场在讲相反的故事：股市卖方一致「买入/增持」，目标价 240-330 美元，隐含「RPO 会兑现、融资会完成」；债市则把 CDS 利差打到历史新高、债券利差 184/240bp 远超同评级，隐含「违约概率真实上升」。<strong>三情景测算期望值约 218 美元（FY2028 视角），低于卖方目标价中枢 280 美元——我们认为卖方系统性低估了悲观情景的概率与杀伤力。</strong>在 FY2027 Q1 财报验证 OCI 增速与融资进展之前，赔率不足以支持买入。<em>保留判断：本次数据源未含当前股价，情景表为框架性测算，投资者可按现价对照隐含区间自行计算赔率。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>估值的分歧本质是「FY2030 EPS 21 美元该打几折」。</strong>若完全兑现管理层长期目标，当前任何价格都便宜；若 OpenAI 履约生变或评级落入垃圾级，FY2027E EPS 8.05 美元都守不住。卖方目标价隐含约 30-41x FY2027E EPS（以目标价 240-330 ÷ FY2027E EPS 7.83-8.10 估算）——这个倍数本身已经定价了「信用风险会化解」。</p>
+            <p>我们的处理：悲观情景给 25% 概率（OpenAI 生变 / 评级螺旋 / 算力租赁价格战），其杀伤力（-60% 以上）远超中性情景的上行空间——<strong>只有当股价跌到悲观情景贡献显著为正、或融资与 OpenAI 风险证伪后，买入的赔率才成立</strong>。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>四家券商（花旗/德银/巴克莱/国泰海通）全部「买入/增持」，目标价 240-330 美元，「较当前股价有显著上行空间」</li>
+              <li>「周期底部」论：财务数据最差的时点恰是重资产公司的黄金买点——FY2029 前后 FCF 拐点将驱动估值从「烧钱模式」切换到「现金牛模式」</li>
+              <li>多云数据库消费增长超 <strong>1500%</strong>：第二增长曲线几乎未被定价，高毛利 PaaS 收入可结构性抬升估值</li>
+              <li>利差修复是免费期权：10Y/30Y 利差 184/240bp 远高于同评级，融资落地即收窄，股债双赢</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>卖方目标价全部发布于 2026 年 3-6 月，<strong>早于标普下调评级（7-09）与 Project Jupiter 受挫（7-21）</strong>——可能未反映最新的信用恶化</li>
+              <li>目标价隐含 30-41x FY2027E PE，对一家 FCF -420 亿、BBB- 的公司而言，<strong>这个倍数假设了所有问题都会解决</strong></li>
+              <li>ATM 稀释 + 强制可转换优先股：即使经营兑现，EPS 也要被股本扩张打折</li>
+              <li>若 AI 算力走向商品化（AWS/Azure/Neocloud 产能 1-3 年内释放），30-40% 的稳态毛利率指引本身可能过于乐观</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（三情景测算 · 券商预测表 · 管理层指引对照）</summary>
+          <div class="evidence__body">
+            <h5>三情景假设（FY2028 视角，估算）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>FY2028E EPS</th><th>合理 PE</th><th>隐含股价</th></tr></thead><tbody><tr><td>乐观（25%）</td><td>OCI 兑现 FY2027 +34% 指引并延续高增，OpenAI IPO 落地履约无忧，ATM 足额完成、利差收窄，FCF 拐点路径清晰</td><td>~$10.8（券商上沿）</td><td>30x</td><td>~$325</td></tr><tr><td>中性（50%）</td><td>营收兑现但 OCI 毛利率仅守 30% 下限，融资成本抬升吃掉部分利润，稀释后 EPS 增长打折</td><td>~$10.5（券商中枢）</td><td>22x</td><td>~$230</td></tr><tr><td>悲观（25%）</td><td>OpenAI 履约生变或评级落入垃圾级触发融资螺旋，RPO 减值 + 资产减值，算力租赁价格战</td><td>~$7（FY2027E 都无法兑现）</td><td>12x</td><td>~$85</td></tr></tbody></table></div>
+            <p><strong>期望值 ≈ 0.25×325 + 0.50×230 + 0.25×85 ≈ $218（估算）。</strong>注意：本次数据源（一页通）未含当前股价，无法直接计算期望值相对现价的赔率；但期望值 218 美元<strong>低于卖方目标价区间下沿（240）</strong>这一事实本身，说明在给予悲观情景 25% 权重后，卖方的一致乐观并不稳健。若读者观测到的现价显著低于 218 美元（即市场已按接近悲观情景定价），买入赔率反而成立——这正是「持有、等验证」而非「卖出」的原因。</p>
+            <h5>券商盈利预测（单位：美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级 / 目标价</th><th>FY2026A EPS</th><th>FY2027E EPS</th><th>FY2028E EPS</th><th>FY2027E 营收（亿）</th><th>FY2028E 营收（亿）</th></tr></thead><tbody><tr><td>花旗（2026-06-04）</td><td>买入 / 330</td><td>7.50</td><td>8.10</td><td>10.84</td><td>885.14</td><td>1,271.20</td></tr><tr><td>巴克莱（2026-06-12）</td><td>增持 / 240</td><td>7.49</td><td>7.83</td><td>10.62</td><td>879.84</td><td>1,275.80</td></tr><tr><td>德意志银行（2026-06-02）</td><td>买入 / 300</td><td>—</td><td>—</td><td>—</td><td>858.00</td><td>1,283.06</td></tr><tr><td>国泰海通（2026-03-13）</td><td>增持 / 242</td><td>7.47</td><td>8.09</td><td>10.53</td><td>892.57</td><td>1,301.68</td></tr></tbody></table></div>
+            <p>注：EPS 为 Non-GAAP 口径；花旗和巴克莱为调整后口径，与公司指引（FY2027 EPS 约 8.05）基本一致。FY2028 收入预测高度一致（1,270-1,300 亿）——<strong>分歧不在需求，在利润率与信用</strong>。</p>
+            <h5>管理层指引对照</h5>
+            <ul>
+              <li><strong>FY2027 Q1</strong>：总收入 +27-29%，云收入 +57-63%，Non-GAAP EPS 1.72-1.76 美元</li>
+              <li><strong>FY2027 全年</strong>：总收入约 900 亿美元，Non-GAAP EPS 约 8.05 美元（+18%）</li>
+              <li><strong>长期</strong>：FY2029 收入超 1,660 亿美元（隐含 FY2027-2029 收入 CAGR 约 36%，估算），FY2030 Non-GAAP EPS 约 21 美元——三情景乐观/中性的 EPS 路径均低于管理层叙事，差异即「执行风险折价」</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>：公司概况、近况跟踪、业务拆分、催化剂（见同目录《甲骨文_一页通.md》，亦见本站「一页通」标签页）</li>
+        <li><strong>财务数据</strong>：FY2024-FY2026 利润表与现金流、FY2026 Q4 财报要点与管理层指引（正文数据均来自公开财报整理）</li>
+        <li><strong>局限</strong>：未读财报原文与电话会纪要（建议补读 Q4 earnings call 中关于 RPO 客户构成与 900-950 亿资本开支弹性的表述）；当前股价未包含在本次数据源中，估值情景为框架性测算，隐含股价与期望值为估算值；OpenAI 合同条款（缩减/终止/转租安排）不可得，集中度分析依赖标普估计口径</li>
+        <li><strong>管理层评估（一句话版）</strong>：以 Larry Ellison 为首的管理层敢于用深度负自由现金流押注 AI 基建「第四极」，战略魄力罕见，且通过披露合同 IRR（19.5%）与同步启动 200 亿 ATM 展现了一定透明度——但这场豪赌的兑现度取决于融资节奏与资本开支纪律，需在 FY2027 各季度持续验证</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>甲骨文是全球最大的企业级数据库与中间件供应商，正经历从传统本地部署软件许可商向AI云基础设施（OCI）与云应用（SaaS）提供商的战略转型。公司核心业务分为三大板块：云与软件（占总收入87%）、硬件（5%）及服务（8%）。FY2026公司总营收673.57亿美元，同比增长17.35%，其中云收入占比首次突破50%，OCI（IaaS/PaaS）收入同比增速高达77%，是当前核心增长引擎。公司凭借其在高性能数据库、并行计算及企业级客户关系上的深厚积累，正大规模投资AI算力基础设施，试图在由微软、亚马逊、谷歌主导的云计算市场中，以“AI基础设施+企业数据引力”的差异化定位争夺第四极席位。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul>
+<li><strong>OCI收入加速增长，AI基础设施需求强劲</strong>：FY2026 Q4，云基础设施（OCI）收入同比增速达93%（固定汇率），较Q3的81%显著加速，全年OCI收入达181.01亿美元。管理层指引FY2027总收入约900亿美元，隐含约34%的同比增长，主要由OCI驱动。</li>
+<li><strong>资本开支指引大幅上调，自由现金流深度为负</strong>：FY2026全年资本开支达556.63亿美元，同比增162%。管理层指引FY2027资本开支将达900-950亿美元（含融资租赁），导致自由现金流预计为-420亿美元。巨额资本开支主要用于满足以OpenAI为首的大客户AI算力需求。</li>
+<li><strong>信用评级遭下调，融资压力凸显</strong>：2026年7月，标普将甲骨文长期信用评级从BBB下调至BBB-（仅比垃圾级高一档），展望稳定。下调主因为巨额资本开支导致自由现金流深度为负，且杠杆率攀升。公司已启动200亿美元ATM股权融资计划，并发行了50亿美元强制可转换优先股。</li>
+<li><strong>大规模裁员以优化成本结构</strong>：FY2026公司总员工数减少2.1万人（-13%）至14.1万人，其中研发和销售部门裁员比例最高。此举旨在将资源重新集中于云与AI业务，并利用AI提升内部效率，以对冲基础设施投资带来的利润压力。</li>
+<li><strong>斩获美国国防部70亿美元大单</strong>：2026年7月，甲骨文与美国国防部签署了一份为期最长10年、总价值约70亿美元的企业级软件协议，整合国防部各部门的甲骨文软件许可。此订单为传统软件业务提供了重要支撑，并强化了其在政府领域的背书。</li>
+</ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol>
+<li><strong>FY2027 Q1财报（9月中旬）的“预期差”博弈</strong>：当前市场对甲骨文的悲观情绪已达极致，股价自高点回撤超60%，信用违约互换（CDS）利差创历史新高。市场核心担忧在于巨额资本开支对现金流的侵蚀和信用风险。然而，FY2027 Q1（6-8月）业绩大概率将延续OCI收入加速增长的趋势（管理层指引云收入增速57%-63%）。若财报能展示OCI收入超预期增长、或剩余履约义务（RPO）持续强劲，可能触发空头回补和估值修复。需重点关注管理层对FY2027全年资本开支和融资计划的更新，任何资本开支节奏放缓或融资进展顺利的信号，都将被市场视为重大利好。</li>
+<li><strong>信用评级“稳定展望”下的利差修复窗口</strong>：标普将甲骨文评级下调至BBB-的同时，给出了“稳定”展望，而非“负面”，这为市场情绪提供了一定的底部支撑。当前甲骨文10年期和30年期债券信用利差已分别走阔至约184和240个基点，远高于同评级债券。若公司能按计划推进股权融资、或通过资产出售（如已出售的Ampere股权）改善资产负债表，其信用利差存在显著的收窄空间。利差修复将直接降低其未来的债务融资成本，并提振股权投资者信心。</li>
+<li><strong>主权AI云与国防订单带来的“叙事升级”催化剂</strong>：甲骨文近期获得美国国防部70亿美元合同，并成为日本政府机密云的有力竞争者。这些项目标志着甲骨文在“主权AI”和“气隙隔离云”（air-gapped cloud）这一高壁垒细分市场的领先地位。此类合同的签订，不仅提供了长期、稳定的收入来源，更重要的是，它向市场传递了甲骨文不仅仅是“OpenAI的房东”，更是具备独特安全与合规能力的战略级AI基础设施提供商的信号，有助于改善其客户集中度风险叙事。</li>
+</ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol>
+<li><strong>从“OpenAI房东”到“企业AI操作系统”的生态位升级</strong>：市场过度关注甲骨文与OpenAI的租赁关系，而忽视了其更深层的战略——将AI能力原生集成至其企业应用生态。甲骨文正将AI代理（Agentic AI）直接嵌入Fusion ERP、HCM、SCM等核心应用，使其从被动记录系统升级为主动决策与执行的“企业AI操作系统”。由于这些应用承载着企业最核心的交易、人事和供应链数据，外部AI难以绕过其既有的治理与安全框架。这种“数据引力+原生AI”的组合，构成了极高的客户转换成本，有望在AI应用层构建起比纯粹IaaS租赁更深厚的护城河。</li>
+<li><strong>多云数据库战略的潜在价值重估</strong>：甲骨文正积极推动其旗舰数据库产品（Oracle AI Database）在多云环境（如Azure、Google Cloud）中的部署。FY2026，多云数据库消费增长超过1500%。这一战略旨在打破云厂商的锁定效应，让客户可以在任意云上使用甲骨文的高性能数据库服务。若此战略成功，甲骨文数据库将从“本地部署时代的王者”转变为“多云时代的标准”，其可寻址市场将从自建数据中心扩展至整个公有云生态，并带来高利润率的PaaS收入，成为OCI之外的第二增长曲线。</li>
+<li><strong>资本开支周期后的自由现金流爆发潜力</strong>：当前甲骨文的财务模型类似于一家处于建设期的重资产公用事业公司，巨额前置投入导致自由现金流深度为负。然而，其AI基础设施投资主要由长达5-10年的长期合同（RPO达6380亿美元）所支撑。根据管理层提供的合同经济模型，一份典型的6年期AI基础设施合同，在35%的稳态毛利率下，可实现约19.5%的税前内部收益率（IRR）。随着2027-2028年大规模资本开支高峰过去，前期投入的算力容量将进入收入确认和现金回收期，自由现金流有望在FY2029前后迎来拐点，驱动公司估值从“烧钱模式”向“现金牛模式”切换。</li>
+</ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul>
+<li><strong>信用评级进一步下调与融资螺旋风险</strong>：公司目前BBB-的评级仅比垃圾级高一档。若FY2027自由现金流表现不及预期，或股权融资受阻，穆迪可能跟随标普下调其评级至垃圾级。这将引发投资级债券基金的强制抛售，大幅推高融资成本，并触发公用事业公司对数据中心项目更高额的现金抵押要求，形成“评级下调-融资成本上升-现金流恶化-评级再下调”的负反馈螺旋。</li>
+<li><strong>对OpenAI的单一客户集中度风险</strong>：市场普遍估计，甲骨文约6380亿美元的RPO中，近一半来自OpenAI。尽管合同具有法律约束力，但若OpenAI因商业化受阻、融资困难或技术路线变更而无法履约，甲骨文将面临巨额沉没成本（已签署的长期数据中心租赁协议）和资产减值风险。这种高度依赖单一客户的模式，使其业务韧性显著弱于拥有广泛客户群的其他云厂商。</li>
+<li><strong>AI基础设施投资回报不及预期风险</strong>：公司大规模资本开支的回报高度依赖于AI算力需求的持续高景气度、以及GPU租赁价格的稳定。若未来AI模型训练和推理的硬件效率大幅提升，或出现需求降温，可能导致算力租赁价格下行，使公司前期投资的实际回报率远低于管理层预测的模型，导致资产回报周期拉长甚至出现资产减值。</li>
+</ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul>
+<li><strong>2026年6月11日</strong>：甲骨文发布FY2026 Q4财报，营收和EPS均超市场预期。公司同时提供了强劲的FY2027 Q1及全年业绩指引，但FY2027资本开支指引高达900-950亿美元，远超市场预期，引发市场对现金流和杠杆率的担忧。</li>
+<li><strong>2026年7月9日</strong>：标普全球评级将甲骨文的长期信用评级从BBB下调至BBB-，展望稳定。标普指出，尽管AI需求强劲，但巨额资本开支将导致公司在FY2027产生巨额负自由现金流，杠杆率将维持在高位。</li>
+<li><strong>2026年7月21日</strong>：甲骨文在新墨西哥州的“木星项目”（Project Jupiter）大型AI数据中心建设遭遇监管挫折，其天然气管道建设申请第二次被拒。该项目是甲骨文为OpenAI托管AI基础设施的关键园区之一，凸显了AI基础设施扩张面临的现实物理瓶颈和监管风险。</li>
+<li><strong>2026年7月24日</strong>：美国国防部宣布与甲骨文签署一份价值约70亿美元、为期最长10年的企业级软件协议。此消息一度提振股价，但未能扭转市场对公司的整体悲观情绪。</li>
+</ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul>
+<li><strong>2026年9月中旬（预计）</strong>：甲骨文将公布FY2027 Q1财报。市场将高度关注OCI收入增速能否继续加速、RPO增长情况、以及管理层是否会调整FY2027的资本开支和融资计划。任何超预期的业绩表现或资本开支节奏放缓的信号，都可能成为股价反弹的催化剂。</li>
+<li><strong>2026年8月-9月</strong>：甲骨文ATM股权融资计划的执行进展。公司已注册最高200亿美元的ATM计划，但截至FY2026末尚未出售任何股份。若公司开始并顺利推进该计划，将有助于缓解市场对其资产负债表和信用评级的担忧。</li>
+<li><strong>2026年下半年</strong>：OpenAI的IPO进展。作为甲骨文最大的客户，OpenAI的估值、融资能力和财务状况直接影响市场对甲骨文RPO质量的判断。若OpenAI成功以高估值上市并获得充足融资，将极大缓解市场对甲骨文客户集中度风险的担忧。</li>
+</ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<p><strong>业务边际变化</strong>：甲骨文正经历一场根本性的业务模式转型，从销售本地部署的软件许可证和硬件，转向提供云基础设施（IaaS/PaaS）和云应用（SaaS）订阅服务。这一转型在FY2026显著加速，云收入占比首次超过50%。公司投入了史无前例的资本开支（FY2026为556.63亿美元）来建设AI算力中心，以满足以OpenAI为代表的大模型训练和推理需求。同时，公司通过大规模裁员（-13% YoY）来优化成本结构，将节省的资源重新投向云和AI领域。传统软件许可证收入持续萎缩（FY2026同比-9%），而软件支持收入保持稳定，为公司转型提供了关键的现金流支撑。</p>
+<p><strong>盈利模式</strong>：甲骨文的盈利模式正从高利润率的“软件许可+维护费”模式，向“云订阅+消费”模式转变。传统软件业务依靠其数据库和ERP产品的市场垄断地位，享有极高的毛利率（软件支持业务毛利率稳定在95%左右）。云业务则分为两类：云应用（SaaS）毛利率约70%，而云基础设施（OCI）业务，尤其是AI基础设施部分，毛利率较低（管理层指引稳态30-40%），但合同金额巨大且期限长。公司当前赚的是“算力基础设施投资回报”的钱，其盈利能力高度依赖于规模效应、运营效率以及能否在长期合同中锁定合理的投资回报率。</p>
+<p><strong>业务拆分</strong>：公司近年业务结构发生根本性变化，增长引擎已完全切换至云业务，尤其是云基础设施（OCI）。FY2026，云与软件业务占总收入87%，其中云收入占总收入51%，首次超过传统软件业务。云基础设施（OCI）是增长最快的板块，收入占比从FY2025的18%跃升至27%。传统软件许可证收入占比则持续萎缩。公司当前处于“产能爬坡期”和“业绩兑现期”的叠加状态，大量已签署的长期合同（RPO）尚未转化为收入，而前置的巨额资本开支已开始对利润表和现金流量表产生显著压力。</p>
+<p><strong>细分业务拆分（单位：亿美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>业务板块</th><th>FY2024 收入</th><th>FY2024 占比</th><th>FY2025 收入</th><th>FY2025 占比</th><th>FY2025 同比</th><th>FY2026 收入</th><th>FY2026 占比</th><th>FY2026 同比</th></tr></thead><tbody><tr><td><strong>云与软件</strong></td><td><strong>444.64</strong></td><td><strong>84%</strong></td><td><strong>492.31</strong></td><td><strong>86%</strong></td><td><strong>10.7%</strong></td><td><strong>585.30</strong></td><td><strong>87%</strong></td><td><strong>18.9%</strong></td></tr><tr><td>云应用 (SaaS)</td><td>129.43</td><td>24%</td><td>142.72</td><td>25%</td><td>10.3%</td><td>158.88</td><td>24%</td><td>11.3%</td></tr><tr><td>云基础设施 (OCI)</td><td>68.32</td><td>13%</td><td>102.35</td><td>18%</td><td>49.8%</td><td>181.01</td><td>27%</td><td>76.9%</td></tr><tr><td>软件许可证</td><td>50.81</td><td>10%</td><td>52.01</td><td>9%</td><td>2.4%</td><td>47.37</td><td>7%</td><td>-8.9%</td></tr><tr><td>软件支持</td><td>196.08</td><td>37%</td><td>195.23</td><td>34%</td><td>-0.4%</td><td>198.04</td><td>29%</td><td>1.4%</td></tr><tr><td><strong>硬件</strong></td><td><strong>30.66</strong></td><td><strong>6%</strong></td><td><strong>29.36</strong></td><td><strong>5%</strong></td><td><strong>-4.2%</strong></td><td><strong>30.84</strong></td><td><strong>5%</strong></td><td><strong>5.0%</strong></td></tr><tr><td><strong>服务</strong></td><td><strong>54.31</strong></td><td><strong>10%</strong></td><td><strong>52.32</strong></td><td><strong>9%</strong></td><td><strong>-3.7%</strong></td><td><strong>57.43</strong></td><td><strong>8%</strong></td><td><strong>9.8%</strong></td></tr><tr><td><strong>总收入</strong></td><td><strong>529.61</strong></td><td><strong>100%</strong></td><td><strong>573.99</strong></td><td><strong>100%</strong></td><td><strong>8.4%</strong></td><td><strong>673.57</strong></td><td><strong>100%</strong></td><td><strong>17.4%</strong></td></tr></tbody></table></div>
+<p><em>注：云与软件业务毛利率 FY2024为80.0%，FY2025为77.7%，FY2026为70.8%。</em></p>
+<p><strong>云基础设施（OCI）</strong>：FY2026收入181.01亿美元，同比+76.9%，是公司最核心的增长引擎。该业务通过提供裸金属服务器、GPU算力集群、存储和网络服务，满足客户对AI训练和推理、以及传统企业工作负载迁移的需求。其收入增长由AI基础设施合同驱动，客户包括OpenAI、Meta、NVIDIA等。该业务毛利率较低，FY2026估计在36%左右，主要受前置的折旧、数据中心租赁和电力成本影响。管理层指引稳态毛利率为30-40%。</p>
+<p><strong>云应用（SaaS）</strong>：FY2026收入158.88亿美元，同比+11.3%，保持稳定增长。该业务包括Fusion ERP、NetSuite、HCM、CX等应用套件，通过订阅模式交付。其增长受益于企业将核心业务流程迁移至云端，以及甲骨文在ERP领域的领先地位。该业务毛利率较高，估计在70%左右，是公司重要的利润来源。</p>
+<p><strong>软件支持</strong>：FY2026收入198.04亿美元，同比+1.4%，是公司的“现金牛”业务。该业务为购买了本地部署软件许可证的客户提供技术支持和版本更新服务，客户续约率极高，毛利率稳定在95%左右。它为公司的云转型提供了稳定的现金流。</p>
+<p><strong>软件许可证</strong>：FY2026收入47.37亿美元，同比-8.9%，持续萎缩。该业务是公司传统的一次性软件授权销售模式，正被云订阅模式所取代。</p>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托极高转换成本与数据引力构筑的企业级应用护城河</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。甲骨文的核心竞争力并非来自单一产品，而是其数据库和ERP应用在企业关键任务中的深度嵌入。全球众多大型企业、银行、政府机构的核心交易系统、人事财务数据均运行在甲骨文的数据库和Fusion应用之上。这些系统承载着数十年的业务流程和数据，迁移成本极高，且存在巨大的业务中断风险。这种“数据引力”构成了强大的客户粘性。</li>
+<li><strong>数据验证</strong>：软件支持业务的续约率极高，且毛利率稳定在<strong>95%</strong>左右，这是强客户粘性和高转换成本在财务上的直接体现。FY2026，尽管许可证收入下滑，但软件支持收入仍维持在<strong>198.04亿美元</strong>，几乎无衰减。</li>
+<li><strong>动态演变</strong>：<strong>维持</strong>。随着公司将AI代理原生集成到Fusion应用中，其ERP系统正从“记录系统”升级为“智能决策与执行系统”，这将进一步巩固其作为企业核心操作系统的地位，使得替换它不仅意味着数据迁移，更意味着业务逻辑和流程的重构，护城河有望加深。</li>
+</ul>
+<p><strong>竞争要素 2：在AI基础设施领域，依托先发规模与全栈集成形成的阶段性成本优势</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：<strong>行业阶段性红利</strong>。甲骨文在AI基础设施市场并非先行者，但其通过激进的资本开支和与OpenAI的绑定，迅速获得了规模优势。其差异化在于提供从底层RDMA网络、裸金属GPU算力到上层数据库和AI服务的全栈集成，并通过标准化的数据中心设计（如Stargate项目）来优化交付速度和成本。然而，这种优势是阶段性的，主要源于当前AI算力的供需错配。</li>
+<li><strong>数据验证</strong>：OCI收入在FY2026实现了<strong>76.9%</strong>的同比增长，RPO飙升至<strong>6380亿美元</strong>，证明了其获取大规模订单的能力。管理层披露，其AI基础设施的交付时间缩短了<strong>60%</strong>，且已交付的AI算力毛利率达到<strong>32%</strong>，高于30%的指引下限。</li>
+<li><strong>动态演变</strong>：<strong>收缩（面临被侵蚀的风险）</strong>。随着亚马逊、微软、谷歌等竞争对手以及新兴Neocloud厂商的产能逐步释放，AI算力的供需紧张格局可能在未来1-3年缓解。届时，价格竞争将加剧，甲骨文在AI IaaS层的先发规模和成本优势可能被削弱，利润率面临下行压力。其长期竞争力将取决于能否将客户从纯粹的算力租赁，引导至使用其更高利润率的PaaS和SaaS服务。</li>
+</ul>
+<p><strong>现阶段核心驱动力总结</strong>：甲骨文的Alpha在于其独一无二的企业级软件生态（数据库+ERP）所构筑的深厚护城河，这为其提供了稳定的现金流和庞大的客户基础。其Beta则高度依赖于AI资本开支周期。当前，公司正将Beta的弹性发挥到极致，以换取在AI时代的入场券，但这伴随着巨大的财务风险。长期来看，其Alpha能否成功延伸至AI时代，取决于其能否将OCI的算力客户转化为其更高利润率的数据库和AI应用服务的用户。</p>
+<p><strong>竞争格局传导逻辑</strong>：极高的企业级软件转换成本与数据引力 → 软件支持收入稳定、毛利率高达95% → 为公司转型提供稳定现金流支撑；AI算力供需错配与全栈集成能力 → OCI收入爆发式增长（RPO达6380亿美元）→ 短期利润率承压、但合同IRR约19.5% → 长期价值取决于PaaS/SaaS转化率；同时，算力供需错配红利随未来竞争加剧存在收窄风险。</p>
+<h3 class="doc-h2">产销链</h3>
+<ul>
+<li><strong>客户情况</strong>：甲骨文的客户群正从广泛分布的企业，转向高度集中于少数AI巨头。<strong>主要客户</strong>：OpenAI是公司最大的单一客户，据标普估计，其合同约占甲骨文6380亿美元RPO的<strong>一半</strong>。其他重要AI客户包括Meta和NVIDIA。这种高集中度（CR1&gt;50%）带来了显著的“砍单”风险。<strong>新客户</strong>：公司正积极拓展主权AI云市场，已获得美国国防部70亿美元合同，并有望赢得日本政府机密云项目。这些客户处于合同签署的早期阶段，其长期价值有待验证。</li>
+<li><strong>供应商情况</strong>：甲骨文的主要供应商包括数据中心建设方、电力公司、以及以NVIDIA为首的GPU和网络设备供应商。公司对NVIDIA的AI芯片存在高度依赖。为应对供应链紧张，甲骨文已承诺了更高的采购量和更长的付款周期，并接受了部分不利的供应条款，这增加了其库存和成本风险。公司披露，已获得超过10GW的电力容量，其中超过90%由合作伙伴提供资金。</li>
+<li><strong>成本传导能力</strong>：甲骨文在产业链中处于“夹心层”。上游，它面对NVIDIA等具有极强定价权的芯片巨头，以及因AI需求而紧张的电力与土地资源，成本压力巨大。下游，它面对OpenAI等融资能力极强、但自身商业化前景尚不明朗的大客户，其算力租赁合同价格在签订时已基本锁定。因此，当上游硬件或电力成本上涨时，甲骨文难以迅速将其完全转嫁给下游客户，自身毛利率将受到挤压。公司赚取的是“算力基础设施投资与运营”的钱，其回报率高度依赖于初期的成本控制和长期的运营效率。</li>
+</ul>
+<h3 class="doc-h2">财务数据</h3>
+<p><strong>关键财务数据（单位：亿美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2024<br>截止2024-05-31</th><th>FY2025<br>截止2025-05-31</th><th>FY2026<br>截止2026-05-31</th></tr></thead><tbody><tr><td><strong>营业总收入</strong></td><td>529.61</td><td>573.99</td><td>673.57</td></tr><tr><td>收入同比</td><td>6.02%</td><td>8.38%</td><td>17.35%</td></tr><tr><td>营业成本</td><td>151.43</td><td>169.27</td><td>230.21</td></tr><tr><td><strong>毛利润</strong></td><td>378.18</td><td>404.72</td><td>443.36</td></tr><tr><td>毛利率</td><td>71.41%</td><td>70.51%</td><td>65.82%</td></tr><tr><td>营业开支</td><td>217.47</td><td>224.20</td><td>218.92</td></tr><tr><td><strong>营业利润</strong></td><td>160.71</td><td>180.52</td><td>224.44</td></tr><tr><td>营业利润率</td><td>30.34%</td><td>31.45%</td><td>33.32%</td></tr><tr><td><strong>归母净利润</strong></td><td>104.67</td><td>124.43</td><td>169.84</td></tr><tr><td>归母净利润同比</td><td>23.10%</td><td>18.88%</td><td>36.49%</td></tr><tr><td><strong>稀释每股收益（美元）</strong></td><td>3.71</td><td>4.34</td><td>5.83</td></tr><tr><td><strong>经营活动现金流</strong></td><td>186.73</td><td>208.21</td><td>319.77</td></tr><tr><td><strong>资本性支出</strong></td><td>-68.66</td><td>-212.15</td><td>-556.63</td></tr><tr><td><strong>自由现金流</strong></td><td>118.07</td><td>-3.94</td><td>-236.86</td></tr></tbody></table></div>
+<p><strong>财务分析</strong></p>
+<ul>
+<li><strong>成长能力</strong>：公司营收增速在FY2026显著提升至<strong>17.35%</strong>，主要由云基础设施（OCI）业务驱动。剔除一次性投资出售收益（如出售Ampere股权）的影响，归母净利润同比增长<strong>36.49%</strong>，同样呈现加速增长态势。这表明公司的云转型战略在收入端已取得明显成效。</li>
+<li><strong>盈利能力</strong>：公司毛利率从FY2024的<strong>71.41%</strong>持续下滑至FY2026的<strong>65.82%</strong>，主要原因是低毛利率的OCI业务（尤其是AI基础设施）占比快速提升。然而，得益于销售与行政费用的有效控制（FY2026同比下降<strong>7.5%</strong>），以及研发费用增速放缓，公司营业利润率反而从FY2024的<strong>30.34%</strong>提升至FY2026的<strong>33.32%</strong>。这显示出公司在主动进行业务结构转型时，通过运营杠杆维持了整体盈利能力的稳定。</li>
+<li><strong>现金流状况</strong>：这是公司当前财务状况中最薄弱的环节。尽管经营活动现金流在FY2026大幅增长至<strong>319.77亿美元</strong>，但资本开支飙升至<strong>556.63亿美元</strong>，导致自由现金流为-<strong>236.86亿美元</strong>。这反映了公司为抓住AI机遇而进行的激进投资策略，其现金流已高度依赖外部融资。</li>
+</ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p>甲骨文主要参与两个细分市场：<strong>企业应用软件（SaaS）</strong> 和<strong>云基础设施（IaaS/PaaS）</strong>，后者是其当前战略重心。</p>
+<ul>
+<li><strong>云基础设施（IaaS/PaaS）市场</strong>：这是一个由亚马逊AWS、微软Azure和谷歌云主导的寡头市场，但AI的爆发式增长为甲骨文和新兴Neocloud厂商提供了“破坏性创新”的窗口。市场对大规模、高性能、低延迟的GPU算力需求激增，导致短期内供不应求。甲骨文凭借其在高性能计算和数据库领域的技术积累，以及激进的资本投入，迅速切入市场，成为重要的“AI云”提供商。行业趋势显示，AI算力需求正从模型训练向推理倾斜，这对云厂商的网络延迟和成本控制提出了更高要求。甲骨文的RDMA网络和全栈集成策略在此方面具备一定优势。</li>
+<li><strong>企业应用软件（SaaS）市场</strong>：这是一个相对成熟的市场，甲骨文与SAP、Workday、Salesforce等厂商展开竞争。甲骨文的优势在于其ERP产品的深度和广度，以及庞大的现有客户基础。AI的融入正成为该市场新的竞争焦点，甲骨文通过将AI代理原生嵌入Fusion应用，试图构建差异化的竞争优势。</li>
+</ul>
+<p><strong>可比公司分析</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>核心对标维度</th><th>分析</th></tr></thead><tbody><tr><td>微软</td><td>MSFT</td><td>云平台（Azure）+ 企业应用（Dynamics 365）+ AI（Copilot）</td><td>最全面的竞争对手。Azure是OCI的直接对手，Dynamics 365与Fusion竞争。微软拥有更庞大的生态系统和更强的AI模型能力（与OpenAI合作），但甲骨文在数据库和ERP的深度上更胜一筹。</td></tr><tr><td>亚马逊</td><td>AMZN</td><td>云平台（AWS）</td><td>公有云市场的绝对领导者。AWS拥有最广泛的云服务和最大的规模优势。甲骨文OCI的差异化在于其高性能计算、数据库集成以及对大型单一客户（如OpenAI）的定制化服务能力。</td></tr><tr><td>谷歌</td><td>GOOGL</td><td>云平台（Google Cloud）+ AI模型（Gemini）</td><td>在AI和数据分析领域技术领先，其TPU和AI平台对AI初创公司有吸引力。甲骨文OCI则更侧重于企业级工作负载迁移和主权云。</td></tr><tr><td>SAP</td><td>SAP</td><td>企业应用软件（S/4HANA）</td><td>在企业ERP市场的传统竞争对手。甲骨文的优势在于其云转型（Fusion）更为彻底，且拥有自己的IaaS层（OCI），能提供从基础设施到应用的全栈解决方案。</td></tr></tbody></table></div>
+<p><strong>总结分析</strong>：甲骨文在云基础设施市场采取的是“集中兵力打歼灭战”的策略，聚焦于服务少数对算力有极致需求的大型AI客户，而非与三大云厂商在通用计算领域全面竞争。在企业应用市场，它则利用“数据引力”和“全栈集成”的优势，抵御SaaS新贵的挑战。其最大的竞争风险在于，AI算力供需失衡缓解后，其OCI业务的差异化优势能否持续。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<p><strong>议题一：资本开支狂潮下的现金流与信用风险</strong></p>
+<ul>
+<li><strong>背景</strong>：甲骨文FY2026自由现金流为-236.86亿美元，并指引FY2027资本开支高达900-950亿美元，这将导致自由现金流缺口进一步扩大。市场担忧公司过度杠杆化，其信用评级已被标普下调至BBB-，CDS利差创历史新高。</li>
+<li><strong>关键问题</strong>：甲骨文FY2027的900-950亿美元资本开支计划中，有多少是已签约客户的刚性需求，多少是前瞻性投资？公司计划如何填补FY2027预计高达420亿美元的自由现金流缺口？200亿美元的ATM股权融资计划何时启动，能否足额完成？若AI算力需求或融资环境出现不利变化，公司是否有削减或推迟资本开支的灵活性和预案？</li>
+</ul>
+<p><strong>议题二：OpenAI依赖症与RPO质量</strong></p>
+<ul>
+<li><strong>背景</strong>：市场普遍估计，甲骨文约6380亿美元的RPO中，近一半来自OpenAI。这使得甲骨文的未来收入高度绑定于一家尚未盈利、且面临激烈竞争的AI初创公司。</li>
+<li><strong>关键问题</strong>：OpenAI的合同条款中，是否存在允许其缩减订单或提前终止的条款？甲骨文为OpenAI建设的数据中心，在设计和规格上是否具有通用性，能否在必要时转租给其他客户？除OpenAI外，甲骨文OCI业务的其他客户（如Meta、NVIDIA）的合同规模和期限如何？客户多元化进展是否符合预期？甲骨文如何向市场证明，其RPO不仅仅是“纸面富贵”，而是能最终转化为收入和现金流的优质资产？</li>
+</ul>
+<p><strong>议题三：AI IaaS业务的长期利润率中枢</strong></p>
+<ul>
+<li><strong>背景</strong>：OCI业务的毛利率（估计36%）远低于公司传统软件业务。市场对于AI IaaS业务在度过产能爬坡期后，能否达到管理层指引的30-40%稳态毛利率，以及其长期竞争壁垒存有疑虑。</li>
+<li><strong>关键问题</strong>：随着AI芯片代际更新（如从Blackwell到Rubin），单位算力的资本开支和租赁价格将如何变化？这对OCI的毛利率和投资回报率有何影响？在AWS、Azure等巨头和新兴Neocloud的竞争下，AI算力租赁是否会走向商品化，导致价格战和利润率压缩？公司如何通过提升PaaS（如数据库）和SaaS服务在OCI客户中的渗透率，来结构性提升OCI的整体利润率？</li>
+</ul>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧：甲骨文的AI基础设施投资，是“泡沫巅峰的疯狂”，还是“周期底部的理性豪赌”？</strong></p>
+<p><strong>看空方逻辑与依据</strong>：</p>
+<ol>
+<li><strong>“庞氏融资”论</strong>：认为甲骨文、英伟达、OpenAI之间形成了“AI循环融资”链条。英伟达投资OpenAI，OpenAI用这笔钱向甲骨文购买算力，甲骨文再向英伟达购买芯片。这种模式在需求高涨时看似完美，但一旦终端应用收入不及预期，整个链条将崩溃。甲骨文作为重资产中间商，将承担最大的资产减值风险。</li>
+<li><strong>“无护城河的资本消耗”论</strong>：认为AI IaaS业务本质上是大宗商品业务，缺乏长期护城河。甲骨文当前的规模优势是暂时的，其资本回报率将随着竞争加剧而持续下降。巨额资本开支最终将摧毁股东价值，而非创造价值。</li>
+<li><strong>“客户集中”风险论</strong>：将甲骨文视为“OpenAI的影子”。认为其命运已完全系于OpenAI一家的成败，风险极高。一旦OpenAI有任何风吹草动，甲骨文的RPO和收入预期将瞬间崩塌。</li>
+</ol>
+<p><strong>看多方逻辑与依据</strong>：</p>
+<ol>
+<li><strong>“需求真实且可持续”论</strong>：认为AI是新一轮科技革命，对算力的需求是真实且长期的。甲骨文签署的是具有法律约束力的长期合同，且客户多为行业巨头，违约风险低。RPO的快速增长就是需求真实性的最好证明。</li>
+<li><strong>“全栈差异化”论</strong>：认为甲骨文并非纯粹的算力“房东”。其核心竞争力在于“硬件+数据库+应用”的全栈集成能力，以及由此带来的性能优势和数据引力。客户一旦将核心数据和工作流部署在OCI上，并深度使用其PaaS和SaaS服务，迁移成本将非常高。</li>
+<li><strong>“周期底部”论</strong>：认为市场情绪已过度悲观，股价已充分反映了所有已知风险。公司正处于大规模投资周期的前期，财务数据最差的时候，恰恰是投资的黄金窗口期。随着资本开支高峰过去，自由现金流将迎来拐点，届时市场将重新定价其价值。</li>
+</ol>
+<p><strong>总结分析</strong>：看空方的逻辑在短期财务数据和信用指标上得到了充分验证，其担忧是合理且现实的。看多方的逻辑则更侧重于长期战略和产业趋势，其能否兑现高度依赖于公司未来的执行力以及AI产业本身的发展轨迹。当前，甲骨文在产业链中的议价能力相对较弱，其投资回报高度受制于上游芯片价格和下游大客户的议价能力。公司能否通过技术差异化（如数据库、AI代理）来摆脱单纯的“算力中间商”角色，是决定其长期投资价值的关键。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>管理层最新指引</strong>：</p>
+<ul>
+<li><strong>FY2027 Q1</strong>：总收入增长27-29%，云收入增长57-63%，Non-GAAP EPS为1.72-1.76美元。</li>
+<li><strong>FY2027全年</strong>：总收入约900亿美元，Non-GAAP EPS约8.05美元（+18% YoY）。</li>
+<li><strong>长期目标（FY2029/FY2030）</strong>：FY2029收入超过1660亿美元，FY2030 Non-GAAP EPS约21美元。</li>
+</ul>
+<p><strong>券商盈利预测与估值</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价(美元)</th><th>财务指标</th><th>FY2026A</th><th>FY2027E</th><th>FY2028E</th><th>FY2029E</th></tr></thead><tbody><tr><td>花旗 (2026-06-04)</td><td>买入</td><td>330</td><td>营业收入(百万美元)<br>Non-GAAP EPS(美元)</td><td>67,257<br>7.50</td><td>88,514<br>8.10</td><td>127,120<br>10.84</td><td>-<br>-</td></tr><tr><td>巴克莱 (2026-06-12)</td><td>增持</td><td>240</td><td>营业收入(百万美元)<br>Non-GAAP EPS(美元)</td><td>67,211<br>7.49</td><td>87,984<br>7.83</td><td>127,580<br>10.62</td><td>-<br>-</td></tr><tr><td>德意志银行 (2026-06-02)</td><td>买入</td><td>300</td><td>营业收入(百万美元)<br>Non-GAAP EPS(美元)</td><td>67,263<br>-</td><td>85,800<br>-</td><td>128,306<br>-</td><td>180,330<br>-</td></tr><tr><td>国泰海通 (2026-03-13)</td><td>增持</td><td>242</td><td>营业收入(百万美元)<br>Non-GAAP EPS(美元)</td><td>67,542<br>7.47</td><td>89,257<br>8.09</td><td>130,168<br>10.53</td><td>-<br>-</td></tr></tbody></table></div>
+<p><em>注：花旗和巴克莱的预测数据为调整后口径，与公司官方指引可能存在差异。</em></p>
+<p><strong>盈利预期与估值分析</strong>：各机构对甲骨文FY2027和FY2028的收入预测较为一致，但对EPS的预测存在分歧，反映了市场对公司在激进投资周期中利润率变化的不同假设。花旗和巴克莱均采用了市盈率（P/E）估值法，基于各自对未来12个月盈利的预测。尽管公司短期自由现金流为负，但卖方分析师普遍基于其长期盈利增长潜力给予“买入”评级，目标价较当前股价有显著的上行空间。这种分歧恰恰体现了市场对甲骨文“短期风险巨大”与“长期回报诱人”并存的核心矛盾。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/ORCL · 生成于 2026-08-06</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-06';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'hit',     text: '<strong>FY2026 Q4 财报超预期 + FY2027 指引 $900亿</strong>：OCI Q4 +93% 加速，营收/EPS 双 beat', note: '2026-06-11 兑现' },
+  { kind: 'cat', status: 'pending', text: '<strong>FY2027 Q1 财报</strong>（2026-09 中旬）：指引云收入 +57-63%、总营收 +27-29%——OCI 能否继续加速 + 资本开支/融资计划更新', note: '「预期差」博弈主战场' },
+  { kind: 'cat', status: 'pending', text: '<strong>200 亿美元 ATM 股权融资执行</strong>（2026-08/09）：足额推进 = 缓解评级压力 + 利差收窄（10Y/30Y 约 184/240bp）', note: '截至 FY2026 末尚未出售股份' },
+  { kind: 'cat', status: 'pending', text: '<strong>OpenAI IPO 进展</strong>（2026 下半年）：RPO 质量（近半系于 OpenAI）的最关键间接验证', note: '' },
+  { kind: 'cat', status: 'active',  text: '<strong>主权 AI 云订单扩张</strong>：国防部 $70 亿已签（2026-07-24），日本政府机密云竞标中——稀释客户集中度叙事', note: '气隙隔离云高壁垒市场' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>评级进一步下调至垃圾级</strong>：BBB- 仅高一档，穆迪若跟随将触发债基强制抛售与融资螺旋', note: '标普展望「稳定」；每季财报后核对' },
+  { kind: 'risk', status: 'clear', text: '<strong>OpenAI 履约/融资生变</strong>：RPO 近半集中（标普估计），违约 = 减值 + 收入预期崩塌', note: '跟踪 OpenAI 融资与 IPO 动态' },
+  { kind: 'risk', status: 'clear', text: '<strong>资本开支超指引或 FCF 缺口扩大</strong>（FY2027E 已指引 capex $900-950亿 / FCF 约 -$420亿）', note: 'Q1 财报核对指引是否上调' },
+  { kind: 'risk', status: 'clear', text: '<strong>AI 算力租赁价格下行</strong>：AWS/Azure/Neocloud 产能释放 → OCI 毛利率跌破 30% 指引下限、合同 IRR 低于 19.5%', note: '已交付算力毛利率 32%，缓冲仅 2pct' },
+  { kind: 'risk', status: 'clear', text: '<strong>基建物理/监管瓶颈</strong>：Project Jupiter 天然气管道申请已二次被拒（2026-07-21），电力与审批拖慢交付', note: '10GW 电力 90%+ 由合作伙伴出资' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

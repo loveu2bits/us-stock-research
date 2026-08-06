@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vistra（VST.N）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--policy-red); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">VST</span>
+    <span class="site-mark__text">Vistra 公司研究<span>Vistra Corp. · VST.N</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>Vistra<span class="en">Vistra Corp. · VST.N · 美股研究</span></h1>
+        <p class="sub">美国最大竞争性发电商之一、第二大核电组合持有者：Q1 2026 调整后 EBITDA +20% 创同期新高，而当前约 $144-152 的股价对应 2028 年 11%-14% 的 FCF 收益率——市场在为 PJM 容量改革与 ERCOT 电价下行定价，却几乎没给核电 PPA 的合同现金流和 30GW 天然气资产的实物期权任何溢价。核心矛盾：官方指引尚未纳入 Cogentrix 收购与 Meta 核电 PPA，下半年交割后的指引上修是确定性较高的预期差。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-06</span>
+          <span>下次更新：PJM RBP 拍卖（2026-09）/ Cogentrix 交割后指引更新（2026 下半年）</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="buy">买入</strong>
+        <em>现价约 $144-152 vs 券商目标价 $190-233；三情景期望值约 +31%、赔率约 3:1。重检条件：PJM 容量改革细则力度超预期（压向 $175/MW-day 以下）或 Beaver Valley 签约明确落空。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">EBITDA +20%</strong><span>Q1 2026 $14.75亿·同期新高</span></div>
+      <div class="summary-rail__item"><strong>$72亿</strong><span>2026 指引中点·未含两项增量</span></div>
+      <div class="summary-rail__item"><strong>6,448MW</strong><span>核电装机·全美第二</span></div>
+      <div class="summary-rail__item"><strong>~30%</strong><span>流通股已回购·授权 $77.5亿</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">Cogentrix 收购 + Meta 核电 PPA：指引之外的确定性增量有多大？</h2>
+        <span class="qa__impact-tag">→ 2027 FCFbG/股 +$3.5 · 收购倍数 7.25x vs 自身 ~10x</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>这是当前美股电力板块里少见的<strong>「已签约、未入指引」的确定性预期差</strong>：2026/2027 官方指引均未包含 Cogentrix（机构测算 2027 年贡献 5.5-6 亿美元 EBITDA）与 Meta PPA，公司自己测算两者合计将为 2027 年 FCFbG/股提供约 <strong>$3.5</strong> 增量（基于 2026 指引中点）。下半年交割完成即触发指引上修——催化剂的时间和内容都已知，只差兑现。<em>保留判断：交割仍需监管审批，且 PPA 现有容量 2027 年底才全面交付，增量是渐进而非一次到位。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>直接影响 2027 年盈利落点。</strong>官方 2027 年 EBITDA 中点机会区间为 76 亿美元，而纳入两项增量的券商预测（Jefferies 92.4 亿、瑞银 84.8 亿）显著更高——指引上修将强制市场把盈利预测向区间上沿收敛。以 2026 指引中点 43.25 亿美元 FCFbG 为基数，$3.5/股的增量对应约 <strong>8% 的每股现金流上修</strong>，且基本无执行风险（资产已收购、合同已签署）。</p>
+            <p>对估值倍数：Meta PPA 把约 2,609MW 核电从商品化资产转为 20 年期合同现金流，机构对这类现金流给 12x EV/EBITDA（vs 商品化部分 7x）——<strong>合同化占比每提升一分，混合倍数就应上移一分</strong>。当前约 7.3-8.1x FY28 的交易倍数尚未反映这个结构变化。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>Cogentrix 对价隐含 <strong>7.25x EV/EBITDA（净额）</strong>，显著低于 Vistra 自身约 10x 的交易倍数——买入即增值，是教科书式的套利并购</li>
+              <li>Meta PPA 隐含电价约 <strong>$89/MWh（现有容量）/$118/MWh（扩容）</strong>，较 PJM 市场电价+容量组合明显溢价，且虚拟 PPA 的 <strong>FCF 转换率接近 100%</strong></li>
+              <li>「收购-优化-签约」模式已被反复验证：Energy Harbor（2024）→ Lotus（2025）→ Cogentrix（2026），均以低于重置成本成交后纳入一体化平台增值</li>
+              <li>投资级评级全面达成（S&P + Fitch BBB-），40 亿美元无担保票据完成再融资，<strong>财务灵活性与融资成本同步改善</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>收购的 5,500MW 全是<strong>天然气资产</strong>——恰恰加大了对 PJM/ERCOT 电价和容量改革的敞口，与「合同化」方向相悖</li>
+              <li>Meta PPA 现有容量要到 <strong>2027 年底才全面交付</strong>，扩容容量更晚至 2034 年——2026 年内报表增量有限</li>
+              <li>指引上修是「公开的秘密」，券商乐观预测（Jefferies/瑞银）<strong>已经提前纳入</strong>，兑现时的边际惊喜有限</li>
+              <li>连续并购推高杠杆：净债务/EBITDA 约 <strong>3.1x</strong>，处于目标区间上沿，容错空间不大</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（两项增量明细 · 盈利预测对照 · 资产负债表变化）</summary>
+          <div class="evidence__body">
+            <h5>两项指引外增量一览</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>项目</th><th>内容</th><th>盈利贡献</th><th>时间线</th></tr></thead><tbody><tr><td>Cogentrix 收购</td><td>约 5,500MW 天然气（PJM/ISO-NE/ERCOT），对价约 $38 亿（现金 23 亿 + 承担债务 15 亿 + 500 万股股票）</td><td>机构测算 2027 年 EBITDA +$5.5-6 亿；对价隐含 7.25x EV/EBITDA</td><td>2025-12 签署，<strong>2026 下半年交割</strong></td></tr><tr><td>Meta 核电 PPA</td><td>20 年期虚拟 PPA，合计 2,609MW（Perry 1,268 + Davis-Besse 908 + 三座 PJM 核电站扩容 433）</td><td>隐含电价约 $89/MWh（现有）/$118/MWh（扩容）；FCF 转换率近 100%</td><td>2026 年底部分交付，现有容量 <strong>2027 年底全面运行</strong>，扩容 2034 年底前</td></tr><tr><td><strong>合计</strong></td><td>—</td><td><strong>2027 年 FCFbG/股 +$3.5</strong>（公司测算，基于 2026 指引中点）</td><td>官方 2026/2027 指引均未包含</td></tr></tbody></table></div>
+            <h5>券商 EBITDA 预测：纳入口径的差异（单位：百万美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级 / 目标价</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th><th>口径备注</th></tr></thead><tbody><tr><td>Jefferies（2026-05-21）</td><td>Buy / $190</td><td>7,311</td><td>9,242</td><td>9,318</td><td>已纳入 Cogentrix + 核电 PPA</td></tr><tr><td>摩根大通（2026-07-29）</td><td>Overweight / $231</td><td>7,124</td><td>8,000</td><td>8,769</td><td>相对保守，或未完全纳入</td></tr><tr><td>瑞银（2026-03-27）</td><td>Buy / $233</td><td>7,260</td><td>8,478</td><td>9,285</td><td>已纳入</td></tr></tbody></table></div>
+            <p>官方指引对照：2026 年 EBITDA 68-76 亿（中点 72 亿）、FCFbG 39.25-47.25 亿（中点 43.25 亿）；2027 年 EBITDA 中点机会区间 74-78 亿。<strong>Jefferies 与 JPM 的 2027E 差距达 12 亿美元，基本就是 Cogentrix + PPA 的口径之争</strong>——交割后官方指引上修将直接裁决这场分歧。</p>
+            <h5>解读：一句话</h5>
+            <p>这项催化剂的特别之处在于<strong>低风险、高可见度</strong>：不是赌需求、赌电价，而是等两份已签署的合同并表。真正的分歧不在「会不会上修」，而在「市场已提前定价了多少」——这指向核心问题 3 的估值测算。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">PJM 容量改革 + ERCOT 电价下行：两个电价风险的真实杀伤力</h2>
+        <span class="qa__impact-tag">→ 容量价降至 $200 ≈ EBITDA -$4-6亿 · 80% EBITDA 仍为商品化敞口</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>两个风险都是真的，但<strong>杀伤力有限且部分已被定价</strong>。PJM 容量收入约占 EBITDA 的 14%-15%，机构测算容量价从 $333 降到 $200/MW-day 对应 EBITDA -4~6 亿美元（约 6%）——是「盈利下修」而非「逻辑破坏」；且公司 2026-2027 发电量已高度对冲，风险敞口集中在 2028 年以后。<em>关键观察点是 9 月 RBP 拍卖：PJM 董事会已主动缩小采购规模至「仅覆盖 2028/29 缺口」，这是在给新增供给泄压，方向对现有机组有利。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>量化上界清晰。</strong>悲观情形下（容量价压向 $200 + ERCOT 远期继续下行 $1-3/MWh），2028 年 EBITDA 从约 88-93 亿下修至 82-88 亿区间——对应盈利下修约 6-10%，而非崩塌。公司约 80% 的 EBITDA 仍是商品化敞口，所以倍数天然受限；但 2026 年 Texas 发电 100% 对冲、East 分部核/煤/可再生 98-100% 对冲，<strong>近两年的盈利底已被锁定</strong>。</p>
+            <p>估值层面，当前约 7.3-8.1x FY28 EV/EBITDA 已接近机构测算的「谷底估值」（商品化 7x + 合同化 12x 的混合约 8x）——<strong>说明市场已经在按改革利空定价</strong>，继续恶化的边际空间有限，而温和落地的修复空间未被计入。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>PJM 董事会主动将 RBP 拍卖提前至 2026-09 并<strong>缩小采购规模</strong>——监管方在平衡可靠性，而非一味打压现有电厂</li>
+              <li>供给瓶颈是物理性的：气电建设 3-5 年、核电 10 年以上，<strong>新增供给无法快速冲击电价</strong>，现有可调度资产的稀缺性只会上升</li>
+              <li>ERCOT 远期曲线 4 月下旬起已反弹；公司维持年负荷增长 <strong>5-6%</strong> 的判断，且该预测比第三方更保守、更贴近物理开发节奏</li>
+              <li>核电 PTC（2024-2032，最高 $15/MWh）为电价下行提供政策性缓冲垫</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>$333/MW-day 的容量价在政治层面<strong>不可持续</strong>（可负担性压力），白皮书 + FERC 治理改革双轨推进，方向是降低对现有机组的补偿</li>
+              <li>ERCOT 光伏+储能爆发式并网，供给增速可能阶段性超过需求增速，<strong>2028 年远期电价已较高点回落 $1-3/MWh 且可能继续</strong></li>
+              <li>大型负荷互联进度慢于预期（「批次零」流程拥堵），负荷增长的兑现节奏存在下修风险</li>
+              <li>储能对天然气调峰利润的<strong>结构性压制</strong>才刚开始，调峰机组是 Vistra 组合的重要组成</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（风险敏感性测算 · 分部敞口与对冲比例 · 容量市场价格轨迹）</summary>
+          <div class="evidence__body">
+            <h5>电价风险敏感性（据公开研究整理）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>风险项</th><th>现状</th><th>悲观情形</th><th>EBITDA 影响</th></tr></thead><tbody><tr><td>PJM 容量价格</td><td>2027/28 拍卖清算价 $333/MW-day</td><td>改革压向 $200/MW-day</td><td>约 <strong>-$4~6 亿/年</strong>（约占 2028E EBITDA 的 6%）</td></tr><tr><td>ERCOT 远期电价</td><td>较 2025 高点回落 $1-3/MWh，4 月下旬起反弹</td><td>负荷增长不及 5-6%，曲线继续下移</td><td>影响 2028+ 未对冲部分（2027 年气电对冲约 59%）</td></tr><tr><td>合计敞口</td><td colspan="2">约 80% EBITDA 为商品化敞口（未通过长期 PPA 锁定）</td><td>约 20% 已由核电 PPA + PTC 合同化</td></tr></tbody></table></div>
+            <h5>分部对冲比例（2026 / 2027）</h5>
+            <ul>
+              <li><strong>Texas（ERCOT，Q1 EBITDA $5.86 亿）</strong>：2026 年发电量 100% 对冲；2027 年天然气约 59%、核/煤/可再生 100%</li>
+              <li><strong>East（PJM 等，Q1 EBITDA $8.01 亿，最大利润中心）</strong>：2026 年核/煤/可再生 98-100%、天然气 99%；2027 年约 65-90%</li>
+              <li>PJM 容量收入约占公司总 EBITDA 的 <strong>14%-15%</strong>（含 Cogentrix 后）——这是改革风险的量化敞口</li>
+            </ul>
+            <h5>PJM 容量价格轨迹</h5>
+            <p>两年内从约 $30/MW-day 飙升至 $269.92（2025/26 规划年）→ $329.17（2026/27）→ $333（2027/28 拍卖）。<strong>这既是 Q1 业绩超预期的主因之一，也是政治压力的来源</strong>——改革的方向不是「是否降」，而是「降到哪里、以什么机制降」。9 月 RBP 拍卖的规模与价格信号，是判断改革温度的第一个硬数据。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">估值：$144-152 隐含了什么预期？赔率如何？</h2>
+        <span class="qa__impact-tag">→ 期望值约 +31% · 赔率约 3:1</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>当前定价隐含的是「PJM 改革显著利空 + ERCOT 电价持续下行 + 大型负荷签约落空」的组合——而过去半年实际发生的是：Q1 超预期、Meta PPA 落地、RBP 拍卖规模缩小、投资级评级达成、回购加速。<strong>定价与基本面轨迹的方向相反，这就是预期差。</strong>三情景期望值约较现价 +31%，赔率约 3:1，对应「买入」。<em>保留判断：现价 $144-152 与倍数区间取自公开研究整理（估算）；高杠杆（3.1x）会放大悲观情景的股权冲击。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这个问题本身就是估值问题。</strong>机构普遍用 SOTP：核电合同化现金流按 7.0% FCF 收益率（约 14x EV/EBITDA）、商品化气电 10-11%（约 9x）、零售 12-13%（约 8x）。混合「谷底」约 8x，而当前交易在约 7.3-8.1x FY28——<strong>意味着市场没给任何未来数据中心签约的期权价值</strong>，而 Beaver Valley（1,872MW）与 Comanche Peak 2 号机组（1,200MW）两张彩票是免费附赠的。</p>
+            <p>回购是另一层每股价值引擎：累计回购约 30% 流通股、授权 77.5 亿美元，2026 年前四个月回购约 5.25 亿美元节奏加快——即便 EBITDA 零增长，<strong>每股现金流也在以高个位数速度收缩分母</strong>。机构测算 2028 年 FCF 收益率 11-14%（不含未宣布交易与回购），含回购可达 16% 以上。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>11-14% 的 2028E FCF 收益率（含回购 16%+）在美股大盘股中极为罕见——<strong>现金流维度已是深度价值定价</strong></li>
+              <li>核电 PPA 锁定约 20% EBITDA 为 20 年期合同现金流，<strong>债券属性的现金流应享更高倍数</strong>，SOTP 下混合倍数理应上移</li>
+              <li>30GW+ 天然气装机在新电厂建设周期 3-5 年的环境下具备「速度优势」——<strong>过渡电源/共址/双边合同的实物期权，当前估值为零</strong></li>
+              <li>管理层用真金白银表态：累计回购 30% 流通股且 2026 年加速，是最直接的低估信号</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>电力股历来「便宜」：高 FCF 收益率是<strong>商品化盈利波动的补偿</strong>，不是错杀的证据</li>
+              <li>若剔除一次性因素与未实现收益，经常性盈利倍数并不低；净债务/EBITDA <strong>3.1x</strong> 在高利率环境下放大股权下行</li>
+              <li>大型负荷签约可能持续落空：PJM 监管不确定 + FERC 共址规则缓慢 + 部分州本地反对，<strong>Constellation 也提到客户在观望</strong></li>
+              <li>目标价 $190-233 全部来自卖方——<strong>电力板块牛市中卖方目标价的滞后性</strong>需要打折看待</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（当前定价测算 · 三情景表 · 券商预测）</summary>
+          <div class="evidence__body">
+            <h5>当前定价（2026-08 上旬，估算）</h5>
+            <ul>
+              <li>现价约 <strong>$144-152</strong>（公开研究整理口径），对应约 <strong>7.3-8.1x FY2028E EV/EBITDA</strong>、2028E FCF 收益率 11-14%</li>
+              <li>券商目标价 $190-233，较现价隐含 <strong>25%-53%</strong> 上行空间</li>
+              <li>估值方法：SOTP 分类加总（核电合同化 ~14x / 商品化气电 ~9x / 零售 ~8x EV/EBITDA）</li>
+            </ul>
+            <h5>三情景假设（FY2028 视角，以现价约 $148 为基准）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>FY2028 EBITDA</th><th>隐含股价</th><th>vs 当前</th></tr></thead><tbody><tr><td>乐观（25%）</td><td>PJM 改革温和（容量价守住 $250+），Cogentrix 顺利并表，Beaver Valley 或 Comanche Peak 2 号签约落地，ERCOT 夏季高温兑现</td><td>~$93 亿（Jefferies/瑞银上沿）</td><td>~$233（目标价上沿）</td><td>+57%</td></tr><tr><td>中性（50%）</td><td>改革温和落地（容量价 $200-250），PPA 如期交付，无新增签约，回购持续</td><td>~$87 亿（券商中枢）</td><td>~$210（目标价中枢）</td><td>+42%</td></tr><tr><td>悲观（25%）</td><td>容量价压向 $175-200（EBITDA -$4-6亿），ERCOT 远期继续下行，签约持续落空，杠杆放大股权冲击</td><td>~$82 亿</td><td>~$121（倍数压向 7x 下沿，估算）</td><td>-18%</td></tr></tbody></table></div>
+            <p><strong>期望值约 $193，较现价约 +31%；赔率约 3.2:1（+57% / -18%）。</strong>估值拆出来看：现价隐含的是空方剧本的完整兑现，而过去半年的实际轨迹（Meta PPA、RBP 缩规模、投资级、回购加速）一直在向多方剧本移动。下行被合同化现金流 + 回购 + 已定价的改革利空缓冲，上行被指引上修与潜在签约放大——赔率站在多方一边。</p>
+            <h5>券商盈利预测与目标价（单位：美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级 / 目标价</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>Jefferies（2026-05-21）</td><td>Buy / $190</td><td>EBITDA 73.1亿 · 调整后EPS 8.15 · FCFbG 43.2亿</td><td>EBITDA 92.4亿 · EPS 12.21</td><td>EBITDA 93.2亿 · EPS 12.99</td></tr><tr><td>摩根大通（2026-07-29）</td><td>Overweight / $231</td><td>EBITDA 71.2亿 · DCF/股 12.92</td><td>EBITDA 80.0亿 · DCF/股 16.13</td><td>EBITDA 87.7亿 · DCF/股 19.29</td></tr><tr><td>瑞银（2026-03-27）</td><td>Buy / $233</td><td>EBITDA 72.6亿 · 调整后EPS 9.89</td><td>EBITDA 84.8亿 · EPS 13.00</td><td>EBITDA 92.9亿 · EPS 16.14</td></tr><tr><td>摩根士丹利（2026-06-12）</td><td>Overweight / $212</td><td>调整后EPS 8.60</td><td>EPS 9.44</td><td>EPS 10.05</td></tr></tbody></table></div>
+            <p>注：四家评级全部为 Buy/Overweight，目标价 $190-233；FY2027-2028 EBITDA 预测区间 80-93 亿的分歧主要来自 Cogentrix 并表时间、Meta PPA 贡献节奏与 PJM 容量价假设——分歧的裁决者就是下半年的交割与指引更新。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>：公司概况、近况跟踪、业务拆分、催化剂（见同目录《Vistra_一页通.md》，亦见本站「一页通」标签页）</li>
+        <li><strong>财务数据</strong>：FY2023-Q1 2026 利润表与分部数据、公司指引与券商预测（正文数据均来自公开财报及公开研究整理）</li>
+        <li><strong>局限</strong>：未读 10-K/10-Q 原文与电话会纪要（建议下一步补读 Q1 电话会中关于大型负荷签约管线与 PJM 改革立场的表述）；现价与 EV/EBITDA 区间取自公开研究整理、为估算值；未对 PJM 容量改革做细则级情景定价（白皮书与 FERC 进程未落地）</li>
+        <li><strong>管理层评估（一句话版）</strong>：管理层自 2021 年以来持续以低于重置成本的价格收购资产、累计回购约 30% 流通股，「收购-优化-签约」模式的兑现记录完整且节奏纪律性强——资本配置能力是这家公司看多逻辑中与核电资产同等重要的支柱</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>Vistra Corp. 是一家总部位于美国德州的综合电力公司，业务覆盖从加州到缅因州的18个州及哥伦比亚特区。公司采用"发电+零售"一体化模式，拥有约44GW的多元化发电组合（天然气62%、煤20%、核能15%、光储3%），同时通过TXU Energy、Ambit Energy等品牌服务约500万居民、商业及工业零售客户。Vistra是美国最大的竞争性电力零售商和最大的竞争性发电商之一，其一体化结构使其能够通过对冲和零售渠道稳定现金流，区别于纯发电或纯零售的竞争对手。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul>
+<li><strong>Q1 2026业绩超预期</strong>：公司实现调整后EBITDA 14.75亿美元，同比增长约20%，创历年同期新高。发电业务贡献14.26亿美元，主要受PJM市场容量收入增加及2025年底收购的Lotus资产贡献驱动；零售业务贡献6800万美元，受ERCOT极端温和天气部分抵消。</li>
+<li><strong>Cogentrix收购推进中</strong>：2025年12月签署协议收购Cogentrix Energy（约5,500MW天然气发电资产，分布于PJM、ISO-NE和ERCOT），总对价约38亿美元（含现金23亿、承担债务15亿、发行500万股Vistra普通股），预计2026年下半年完成交割。该交易将进一步扩大公司在PJM和东北部市场的天然气发电份额。</li>
+<li><strong>Meta核电PPA落地</strong>：2026年1月，公司与Meta签署20年期虚拟购电协议，供应总计2,609MW的零碳电力和容量，来自Perry（1,268MW）、Davis-Besse（908MW）核电站的现有容量，以及三座PJM核电站合计433MW的扩容容量。现有容量预计2027年底前全面交付，扩容容量预计2034年底前全面交付。</li>
+<li><strong>投资级评级全面达成</strong>：继2025年12月S&P上调至投资级后，2026年3月Fitch亦将Vistra Operations评级上调至BBB-，触发高级担保债务协议的抵押品自动释放条款，显著提升财务灵活性。2026年4月，公司发行40亿美元高级无担保票据用于债务再融资。</li>
+<li><strong>Helix数字基础设施平台启动</strong>：2026年6月，Vistra与KKR、科威特投资局、NVIDIA联合发起Helix Digital Infrastructure，初始资本承诺超100亿美元，Vistra作为创始投资者和优先电力供应商，初始出资约10亿美元。该平台旨在为超大规模客户提供数据中心、电力、连接等一站式基础设施解决方案。</li>
+</ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol>
+<li><strong>Cogentrix收购完成与指引上修</strong>：Cogentrix交易预计2026年下半年完成，机构测算其2027年可贡献约5.5-6亿美元调整后EBITDA。当前公司2026-2027年官方指引均未包含Cogentrix及Meta PPA的贡献，收购完成后大概率触发指引上修，构成明确的业绩预期差催化剂。以收购对价隐含的7.25x EV/EBITDA（净额）来看，交易价格显著低于Vistra当前约10x的交易倍数，具备明显的价值增厚效应。</li>
+<li><strong>PJM核电PPA开始贡献现金流</strong>：与Meta的Perry和Davis-Besse虚拟PPA预计2026年底开始部分交付，2027年底前全面运行。机构测算PPA价格约$89/MWh，较当前PJM市场电价和容量收入组合存在溢价，且虚拟PPA的FCF转换率接近100%。该部分收入将从2026年下半年起逐步体现在报表中，为2027年业绩提供确定性增量。</li>
+<li><strong>PJM备用采购拍卖落地消除不确定性</strong>：PJM的可靠性备用采购（RBP）拍卖预计2026年9月举行，初始目标约14.9GW（UCAP），但PJM董事会已表示将缩小采购规模至仅覆盖即将到来的2028/29拍卖的缺口。拍卖落地将消除市场对PJM新增供给规模和节奏的最大不确定性，有利于IPPs估值修复。Vistra在PJM拥有超12GW天然气装机，具备参与备用采购和双边合同的灵活性。</li>
+<li><strong>ERCOT远期曲线修复</strong>：2026年Q1 ERCOT经历1950年以来第二暖的一季度，叠加储能大量并网，导致ERCOT远期电价自2025年高点大幅回落。但公司维持ERCOT年负荷增长5%-6%的判断，且4月下旬以来ERCOT夏冬两季远期价格已开始反弹。若夏季高温兑现或大型负荷互联进度超预期，远期曲线存在进一步上行空间，直接利好Vistra在ERCOT的约20GW发电资产的未对冲部分估值。</li>
+</ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol>
+<li><strong>AI/数据中心驱动的结构性电力需求增长</strong>：Vistra服务区域（ERCOT和PJM）正处于电力需求的结构性上行周期。公司预计ERCOT至2030年年负荷增长5%-6%（其中大型数据中心贡献10-15GW），PJM年增长2%-3%。尽管这一预测低于部分第三方机构，但更贴近实际物理开发节奏。Vistra拥有约44GW的多元化发电组合，且大量天然气机组当前利用率仅50%-60%，具备以较低边际成本承接增量负荷的能力。公司已通过Comanche Peak（与AWS，1,200MW）和PJM核电站（与Meta，2,609MW）的长期PPA锁定了部分增量需求，剩余约3.2GW核电容量及大量天然气机组仍具备签约潜力。</li>
+<li><strong>"收购-优化-签约"的复合价值创造模式</strong>：Vistra持续通过并购扩大发电组合规模，并利用其一体化平台的商业优化能力和客户关系为收购资产增值。2024年收购Energy Harbor（4,048MW核电），2025年收购Lotus（2,600MW天然气），2026年收购Cogentrix（5,500MW天然气），均以低于重置成本的价格成交。收购后，公司通过将资产纳入其综合对冲和零售体系，提升利用率并稳定现金流，再通过与大客户签订长期PPA进一步提升盈利可见性。这一模式在行业碎片化（前15大IPPs仅占天然气发电装机约46%）的背景下仍有较大空间。</li>
+<li><strong>核电资产的稀缺性和溢价能力</strong>：Vistra拥有美国第二大的核电组合（6,448MW），仅次于Constellation Energy。核电因其24/7零碳特性，成为超大规模客户（Hyperscalers）最青睐的电源类型。已签署的Comanche Peak和PJM核电PPA均体现了显著高于市场电价的溢价水平（机构测算约$89-$95/MWh）。公司还在推进PJM核电站433MW扩容项目（获Meta PPA支持），以及Comanche Peak 200MW潜在扩容。核电资产在AI时代的稀缺价值有望持续转化为长期、高信用质量的合同现金流。</li>
+<li><strong>强劲的自由现金流与股东回报能力</strong>：公司预计2026-2027年累计产生超100亿美元现金流，扣除约30亿美元股东回报（回购+股息）和40亿美元增长投资后，仍有约30亿美元灵活资金。机构测算2028年FCF收益率（不含未宣布的数据中心交易和回购）约11%-14%，含回购后可达16%以上。公司自2021年启动回购计划以来已累计授权77.5亿美元，截至2026年5月1日已回购约1.67亿股（约占流通股的30%），持续的大规模回购为每股价值增长提供了稳定支撑。</li>
+</ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul>
+<li><strong>PJM容量市场改革风险</strong>：PJM当前容量价格处于历史高位（2027/28拍卖清算价$333/MW-day），但面临来自政治层面（可负担性担忧）和监管层面（FERC对PJM治理的改革压力）的双重压力。PJM已发布白皮书探讨长期容量市场改革路径，方向大概率是降低对现有机组的补偿水平。机构测算若PJM容量价格从当前水平降至$200/MW-day，Vistra的EBITDA将减少约4-6亿美元（约占2028年预计EBITDA的6%）。公司约14%-15%的EBITDA来自PJM容量收入（含Cogentrix后），这一风险虽已部分反映在估值中，但改革细节的不确定性仍是主要悬置因素。</li>
+<li><strong>ERCOT电价下行风险</strong>：ERCOT远期电价自2025年高点显著回落，2028年远期电价较2025年5月下降约$1-$3/MWh。驱动因素包括：储能和光伏持续大量并网、大型负荷互联进度慢于预期、以及温和天气压制现货价格。尽管公司2026-2027年发电量已基本完成对冲，但2028年及以后的未对冲部分面临电价假设下调的风险。若ERCOT负荷增长不及公司预期的5%-6%，远期曲线可能进一步承压。</li>
+<li><strong>大型负荷签约节奏放缓</strong>：尽管公司管理层表示客户参与度未下降，但PJM备用采购规则的不确定性、FERC共址规则细化进程、以及部分州对数据中心的本地反对声浪，均可能导致超大规模客户推迟签约决策。Constellation Energy近期亦提及客户存在一定观望情绪。若Beaver Valley核电站（1,872MW，Vistra在PJM最后一座未签约核电站）和Comanche Peak 2号机组的签约进度显著慢于市场预期，将削弱公司的长期增长叙事。</li>
+</ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul>
+<li><strong>2026年4月</strong>：Vistra Operations发行40亿美元高级无担保票据（2028、2031、2033、2036年到期），用于偿还2027年到期的5.625%优先票据和Term Loan B-3贷款，并释放了全部抵押品留置权，标志着公司正式进入投资级融资时代。</li>
+<li><strong>2026年5月7日</strong>：公司发布Q1 2026业绩，调整后EBITDA 14.75亿美元超市场预期，重申2026年全年指引，并维持2027年调整后EBITDA中点机会区间。</li>
+<li><strong>2026年5月19日</strong>：PJM董事会致函利益相关方，表示计划将可靠性备用采购拍卖加速至2026年9月，而非原计划的2027年3月，并缩小采购规模至仅覆盖即将到来的2028/29拍卖缺口。</li>
+<li><strong>2026年6月11日</strong>：Vistra与KKR、科威特投资局、NVIDIA联合宣布发起Helix Digital Infrastructure平台，初始资本承诺超100亿美元，Vistra作为创始投资者和优先电力提供商参与。</li>
+</ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul>
+<li><strong>2026年下半年</strong>：Cogentrix收购预计完成交割，届时公司将更新2026-2027年财务指引，纳入Cogentrix和Meta PPA的贡献。</li>
+<li><strong>2026年9月</strong>：PJM可靠性备用采购拍卖预计举行，拍卖结果将明确新增供给的规模、类型和价格，消除市场对PJM供需平衡的最大不确定性。</li>
+<li><strong>2026年Q3-Q4</strong>：与Meta的Perry和Davis-Besse虚拟PPA预计开始部分交付，首次在报表中体现核电PPA的增量现金流贡献。</li>
+<li><strong>2026年下半年</strong>：Beaver Valley核电站或Comanche Peak 2号机组的潜在签约进展。管理层在Q1电话会和6月J.P. Morgan会议上均表示客户讨论持续进行，FERC共址规则和PJM大负荷互联改革的推进可能加速谈判进程。</li>
+</ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<p><strong>业务边际变化</strong>：Vistra近年经历了从以煤电和天然气为主的传统IPP向"核电+天然气+零售"综合平台的战略转型。2024年收购Energy Harbor（4,048MW核电及零售业务），2025年收购Lotus（2,600MW天然气），2026年宣布收购Cogentrix（5,500MW天然气），使公司天然气装机从2023年底约22GW增至收购完成后的约33GW，核电装机从2,400MW增至6,448MW。同时，公司加速淘汰煤电资产（计划2027-2028年退役约4.6GW煤电），并将部分煤电厂址改造为天然气发电或光储项目。在收入端，公司通过Comanche Peak（AWS）和PJM核电站（Meta）的长期PPA，将部分核电资产从纯商品化发电转化为合同化现金流，显著提升了盈利稳定性。</p>
+<p><strong>盈利模式</strong>：Vistra的核心盈利模式是通过"发电-零售"一体化平台赚取电力和容量的价差。公司利用其多元化发电组合（核电、天然气、煤电、光储）生产电力，通过自有零售品牌（TXU Energy等）向终端用户销售，同时在批发市场进行电力和燃料的对冲交易，锁定利润率。这一模式的关键优势在于：零售端提供稳定的负荷需求，发电端提供成本可控的电力供给，两者结合可降低对单一市场电价的依赖。近年来，公司通过与大客户签订长期PPA（如AWS、Meta），将部分发电资产的收入从商品化转向合同化，进一步提升了现金流的可预测性。公司还通过核电厂的生产税收抵免（PTC，2024-2032年有效，最高$15/MWh）获得额外收入支持。</p>
+<p><strong>业务拆分</strong>：Vistra的业务按运营性质分为五个报告分部：<strong>零售（Retail）</strong>、<strong>德州发电（Texas）</strong>、<strong>东部发电（East）</strong>、<strong>西部发电（West）</strong>和<strong>资产关闭（Asset Closure）</strong>。其中，零售分部负责向终端用户销售电力和天然气；Texas、East、West分部按地理区域划分发电业务；Asset Closure分部负责退役电厂的环境修复和拆除。</p>
+<p>从近年业务结构看，East分部受益于Energy Harbor和Lotus收购，收入和利润占比大幅提升，已成为公司最大的利润中心。Texas分部仍是最重要的发电基地之一，但受ERCOT电价波动影响较大。零售分部提供稳定的利润贡献，但2025年因供应链优化带来的一次性收益不可持续，2026年预计回落至正常水平。公司当前处于<strong>业绩兑现期</strong>：前期大规模并购带来的产能和协同效应正在逐步释放，同时核电PPA开始贡献增量现金流。</p>
+<p><strong>细分业务拆分</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>业务分部</th><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>Q1 2026</th></tr></thead><tbody><tr><td><strong>Retail</strong></td><td>收入（亿美元）<br>同比（%）<br>调整后EBITDA（亿美元）</td><td>105.72<br>-<br>-</td><td>127.97<br>+21.0%<br>14.63</td><td>143.40<br>+12.1%<br>16.22</td><td>36.89<br>+16.4%<br>0.68</td></tr><tr><td><strong>Texas</strong></td><td>收入（亿美元）<br>同比（%）<br>调整后EBITDA（亿美元）</td><td>39.79<br>-<br>-</td><td>53.94<br>+35.6%<br>20.32</td><td>53.53<br>-0.8%<br>18.34</td><td>29.87<br>+1322.4%<br>5.86</td></tr><tr><td><strong>East</strong></td><td>收入（亿美元）<br>同比（%）<br>调整后EBITDA（亿美元）</td><td>58.90<br>-<br>-</td><td>56.61<br>-3.9%<br>20.17</td><td>61.74<br>+9.1%<br>22.82</td><td>22.60<br>+63.8%<br>8.01</td></tr><tr><td><strong>West</strong></td><td>收入（亿美元）<br>同比（%）<br>调整后EBITDA（亿美元）</td><td>8.66<br>-<br>-</td><td>8.39<br>-3.1%<br>2.25</td><td>3.25<br>-61.3%<br>2.44</td><td>0.89<br>-43.3%<br>0.56</td></tr><tr><td><strong>Asset Closure</strong></td><td>调整后EBITDA（亿美元）</td><td>-</td><td>-1.04</td><td>-0.74</td><td>-0.19</td></tr></tbody></table></div>
+<p>注：收入为各分部运营收入（含分部间销售），调整后EBITDA为公司披露口径。FY2023分部调整后EBITDA未在资料中完整披露。</p>
+<p><strong>Retail（零售）</strong>：零售分部通过TXU Energy、Ambit Energy、Dynegy Energy Services等多个品牌，在16个州和哥伦比亚特区向约500万居民、商业和工业客户销售电力和天然气。收入主要来自客户按用电量支付的电费，利润取决于零售电价与采购成本之间的价差。Q1 2026零售调整后EBITDA为6800万美元，同比下降63%，主要受ERCOT经历1950年以来第二暖的一季度影响，取暖需求大幅减少，客户用电量下降。公司预计2026年全年零售EBITDA将较2025年的创纪录水平（16.22亿美元）有所回落，但仍有望维持在14亿美元左右的中期目标区间。2025年零售表现强劲部分得益于供应链优化带来的一次性收益，该因素在2026年不可持续。</p>
+<p><strong>Texas（德州发电）</strong>：Texas分部涵盖公司在ERCOT市场的所有发电资产（不含已退役或计划退役的资产），包括Comanche Peak核电站（2,400MW）、约8.4GW天然气联合循环机组、约4.2GW天然气调峰机组、约3.9GW煤电机组及约538MW光伏。Q1 2026该分部调整后EBITDA为5.86亿美元，同比增长约20%，主要受益于更高的对冲电价实现和Martin Lake 1号机组恢复运行（该机组2024年11月发生火灾后于2026年2月恢复）。ERCOT市场没有容量市场机制，收入完全依赖电能量和辅助服务市场，因此电价波动对该分部影响较大。公司已对2026年Texas发电量进行100%对冲，2027年对冲比例约59%（天然气）至100%（核/煤/可再生能源）。</p>
+<p><strong>East（东部发电）</strong>：East分部涵盖PJM、MISO、ISO-NE和NYISO市场的发电资产，是公司最大的利润中心。资产包括Beaver Valley、Perry、Davis-Besse三座核电站（合计约4,048MW）、约9.8GW天然气联合循环机组、约2.3GW天然气调峰机组、约4.6GW煤电机组及少量光伏。Q1 2026调整后EBITDA为8.01亿美元，同比增长约56%，主要驱动力包括：PJM容量市场价格大幅上涨（2025/26规划年RTO区域清算价$269.92/MW-day，2026/27年$329.17/MW-day）、2025年底收购的Lotus资产贡献（约6800万美元）、以及更高的发电量和对冲电价实现。PJM容量收入是该分部的重要利润来源，机构测算约占公司总EBITDA的14%-15%（含Cogentrix后）。East分部2026年发电量已基本完成对冲（核/煤/可再生能源98%-100%，天然气99%），2027年对冲比例约65%-90%。</p>
+<p><strong>West（西部发电）</strong>：West分部涵盖CAISO市场的资产，主要包括Moss Landing天然气电厂和电池储能系统。受2025年1月Moss Landing 300MW电池火灾事件影响，该电站和Moss Landing 100MW电池已永久关闭并转入Asset Closure分部，Moss Landing 350MW电池预计2026年中恢复运行（但存在不确定性）。Q1 2026调整后EBITDA为5600万美元，同比下降约10%。该分部在公司整体利润中占比较小。</p>
+<p><strong>Asset Closure（资产关闭）</strong>：该分部负责退役电厂的环境修复、拆除和矿地复垦，不产生经营收入。Q1 2026调整后EBITDA为-1900万美元，主要反映Moss Landing电池火灾后的修复成本和环境责任应计。</p>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托"发电-零售"一体化平台的综合运营优势</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：Vistra的"发电+零售"一体化模式属于<strong>结构性护城河</strong>。该模式使公司能够在内部实现发电和负荷的匹配，通过零售端锁定终端客户需求，通过发电端控制供给成本，并通过跨板块的对冲交易管理商品价格风险。这种垂直整合在竞争性电力市场中较为稀缺，新进入者难以在短期内同时建立大规模发电组合和数百万零售客户基础。</li>
+<li><strong>数据验证</strong>：Q1 2026，尽管ERCOT经历极端温和天气导致零售用电量下降，但发电业务的强劲表现（Texas和East分部合计调整后EBITDA 13.87亿美元）有效对冲了零售端的疲软，使公司整体调整后EBITDA仍实现20%的同比增长。公司2026年调整后EBITDA指引中点为72亿美元，较2025年增长约22%，体现了综合模式在应对单一业务波动时的韧性。相比之下，纯发电或纯零售的竞争对手在面临类似市场条件时，盈利波动性通常更大。</li>
+<li><strong>动态演变</strong>：护城河正在<strong>变宽</strong>。随着公司通过收购持续扩大发电组合规模（2024-2026年新增约12GW），并通过与Meta、AWS等超大规模客户签订长期PPA，一体化平台的规模效应和客户锁定能力进一步增强。更大的发电组合为零售业务提供了更灵活的采购选择，而更多的零售客户则为发电资产提供了更稳定的负荷出口。</li>
+</ul>
+<p><strong>竞争要素 2：核电资产的稀缺性和长期合同锁定</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：Vistra拥有的6,448MW核电组合构成<strong>结构性护城河</strong>。美国现有核电机组是稀缺资产（新建核电面临极高的资本门槛、漫长的建设周期和严格的监管审批），而核电因其24/7零碳特性，在AI和数据中心驱动的电力需求增长背景下，成为超大规模客户最青睐的电源类型。Vistra已通过20年期PPA锁定了部分核电资产（Comanche Peak 1,200MW与AWS，PJM核电站2,176MW与Meta），这些合同的定价显著高于当前市场电价，为相关资产提供了长期、高信用质量的现金流。</li>
+<li><strong>数据验证</strong>：机构测算Meta PPA的隐含电价约$89/MWh（现有容量）和$118/MWh（扩容容量），较PJM当前市场电价和容量收入组合存在明显溢价。Comanche Peak PPA的隐含电价估计在$90-$100/MWh区间。公司预计Meta PPA和Cogentrix收购合计将为2027年FCFbG/股提供约$3.5的增量（基于2026年指引中点）。此外，核电厂还享有联邦PTC支持（2024-2032年，最高$15/MWh），在电价下行时提供额外缓冲。</li>
+<li><strong>动态演变</strong>：护城河<strong>维持</strong>。公司剩余未签约的核电容量（Beaver Valley约1,872MW和Comanche Peak 2号机组1,200MW）仍具备签约潜力，但签约节奏受PJM监管改革、共址规则和客户决策进度的影响，存在不确定性。若这些资产成功签约，护城河将进一步拓宽；若签约进度显著慢于预期，则核电资产的溢价能力可能受到市场质疑。</li>
+</ul>
+<p><strong>现阶段核心驱动力总结</strong>：Vistra的Alpha来源于其一体化平台在商品化电力市场中实现超额利润的能力，以及通过大规模回购持续提升每股价值的资本配置纪律。Beta则来源于AI/数据中心驱动的电力需求增长这一行业顺风，以及ERCOT和PJM市场电价和容量价格的波动。公司约80%的EBITDA仍为商品化敞口（未通过长期PPA锁定），因此其盈利对市场电价的敏感度仍然较高。</p>
+<p><strong>竞争格局传导逻辑</strong>：大规模多元化发电组合 + 数百万零售客户 → 内部化发电与负荷匹配、降低单一市场敞口 → 稳定的综合利润率和现金流生成能力；同时：稀缺核电资产 + 长期PPA锁定 → 高信用质量合同现金流 + PTC下行保护 → 同样汇入稳定现金流 → 充裕的自由现金流支撑大规模回购和并购 → 每股价值持续增长。</p>
+<h3 class="doc-h2">产销链</h3>
+<p><strong>客户情况</strong>：Vistra的客户结构分为两类：<strong>零售客户</strong>和<strong>批发/大客户</strong>。</p>
+<ul>
+<li><strong>零售客户</strong>：公司通过TXU Energy、Ambit Energy等品牌服务约500万居民、商业和工业用户，主要集中在德州（约260万）。零售客户提供稳定的负荷基础，是公司一体化模式的重要组成部分。零售业务的客户获取成本（佣金和营销）和坏账费用是主要成本项，Q1 2026坏账费用为4200万美元。零售客户集中度极低，不存在单一客户依赖风险。</li>
+<li><strong>批发/大客户</strong>：近年来，超大规模客户（Hyperscalers）成为公司日益重要的客户群体。已签约的AWS（Comanche Peak 1,200MW）和Meta（PJM核电站2,609MW）代表了这一趋势。这些合同期限长达20年，定价高于市场电价，显著提升了相关资产的盈利可见性。公司正在就剩余核电容量（Beaver Valley、Comanche Peak 2号机组）和天然气资产与潜在客户进行讨论，但签约节奏受监管环境和客户决策进度影响。</li>
+</ul>
+<p><strong>供应商情况</strong>：</p>
+<ul>
+<li><strong>天然气</strong>：天然气是公司最大的燃料成本项（约62%的装机容量为天然气机组）。公司通过现货市场和短期合同采购天然气，并辅以管道运输和储气协议确保供应可靠性。美国天然气供应充足（尤其是Permian盆地伴生气），价格总体维持在低位（2026年Q1 Henry Hub均价约$4.90/MMBtu，Houston Ship Channel约$3.26/MMBtu），对公司的天然气发电利润构成支撑。</li>
+<li><strong>核燃料</strong>：公司通过全球多元化供应商采购铀及转换、浓缩和制造服务，核燃料合同已覆盖至2030年的所有换料需求。2024年《禁止俄罗斯铀进口法》生效后，公司已建立战略库存并部署缓解策略，2026-2027年换料计划未受影响。</li>
+<li><strong>煤炭</strong>：公司通过不同期限的合同从多个供应商采购煤炭，通过铁路或驳船运输至电厂。随着煤电机组计划退役（2027-2028年约4.6GW），煤炭采购量将逐步减少。</li>
+</ul>
+<p><strong>经销商情况</strong>：公司零售业务不依赖第三方经销商，而是通过自有品牌和内部销售团队直接获取客户。零售电费收入直接来自终端用户，无中间经销商环节。</p>
+<p><strong>成本传导能力定性</strong>：Vistra赚取的主要是"一体化平台优化收益"和"核电稀缺溢价"，而非单纯的"加工费"或"周期资源钱"。当上游燃料（天然气）价格上涨时，公司可通过零售端调价和对冲交易将部分成本传导至下游；当电价上涨时，发电端受益，零售端承压，但一体化结构可内部对冲。核电PPA的固定价格条款则为相关资产提供了独立于燃料价格波动的稳定收益。</p>
+<h3 class="doc-h2">财务数据</h3>
+<div class="tbl-wrap"><table><thead><tr><th>财务指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>Q1 2026</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2023-12-31</td><td>2024-12-31</td><td>2025-12-31</td><td>2026-03-31</td></tr><tr><td>营业收入（亿美元）</td><td>147.79</td><td>172.24</td><td>177.38</td><td>56.40</td></tr><tr><td>同比（%）</td><td>+7.66%</td><td>+16.54%</td><td>+2.98%</td><td>+43.40%</td></tr><tr><td>营业成本（亿美元）</td><td>92.59</td><td>96.99</td><td>119.04</td><td>32.30</td></tr><tr><td>毛利率（%）</td><td>37.35%</td><td>43.69%</td><td>32.89%</td><td>42.73%</td></tr><tr><td>营业利润（亿美元）</td><td>27.10</td><td>40.81</td><td>21.34</td><td>14.99</td></tr><tr><td>归母净利润（亿美元）</td><td>13.43</td><td>24.67</td><td>7.52</td><td>9.80</td></tr><tr><td>同比（%）</td><td>+197.53%</td><td>+83.69%</td><td>-69.52%</td><td>+409.15%</td></tr><tr><td>稀释EPS（美元）</td><td>3.58</td><td>7.00</td><td>2.18</td><td>2.87</td></tr><tr><td>经营活动现金流（亿美元）</td><td>54.53</td><td>45.63</td><td>40.70</td><td>11.99</td></tr><tr><td>资本支出（亿美元）</td><td>27.47</td><td>33.04</td><td>39.41</td><td>8.83</td></tr><tr><td>自由现金流（亿美元）</td><td>27.06</td><td>12.59</td><td>1.29</td><td>3.16</td></tr></tbody></table></div>
+<p>注：自由现金流 = 经营活动现金流 - 资本支出。毛利率 = (营业收入 - 营业成本) / 营业收入。</p>
+<p><strong>成长能力</strong>：公司营收在FY2024受益于Energy Harbor并表实现16.54%的增长，FY2025增速放缓至2.98%主要受Moss Landing火灾导致的West分部收入下降和ERCOT电价回落影响。Q1 2026营收同比增长43.40%，主要受PJM容量收入增加、Lotus资产贡献以及未实现对冲收益的波动影响。归母净利润波动较大，FY2025同比下降69.52%主要因未实现商品衍生品损失和Moss Landing资产减值，Q1 2026同比增长409.15%则受益于未实现商品衍生品收益的逆转。<strong>投资者应关注调整后EBITDA而非GAAP净利润来评估公司的经营趋势</strong>，因为未实现对冲损益会显著扭曲净利润。FY2025调整后EBITDA为58.38亿美元（同比+5.4%），Q1 2026为14.75亿美元（同比+20%）。</p>
+<p><strong>盈利能力</strong>：毛利率在FY2025下降至32.89%，主要因燃料和购电成本上升（同比+22.7%），部分被零售电价上涨所抵消。Q1 2026毛利率回升至42.73%，反映PJM容量收入增加和发电利润率改善。公司调整后EBITDA利润率在FY2025约为32.9%，处于健康水平。</p>
+<p><strong>运营能力</strong>：应收账款周转天数在Q1 2026约为32天（年化），较FY2025的48天有所改善。存货周转天数约为29天（年化），与FY2025基本持平。公司运营资金管理总体稳定。</p>
+<p><strong>偿债能力</strong>：截至Q1 2026，公司总债务约191.63亿美元（含短期债务、长期债务和应收账款融资），现金及等价物6.34亿美元，净债务约185.29亿美元。净债务/调整后EBITDA（年化Q1）约为3.1x，处于公司目标区间（&lt;3.0x）的上沿。2026年4月完成40亿美元票据发行和债务再融资后，公司获得投资级评级，融资成本有望进一步下降。Q1 2026利息支出2.63亿美元，利息覆盖倍数（调整后EBITDA/利息支出）约5.6x，处于健康水平。</p>
+<p><strong>杜邦分析（FY2025）</strong>：ROE = 净利润率（4.24%）× 资产周转率（0.43x）× 权益乘数（8.13x）= 14.8%。权益乘数较高反映了公司较高的财务杠杆，但这是资本密集型电力行业的普遍特征。净利润率受未实现对冲损失和资产减值拖累，调整后净利润率约为32.9%。</p>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p><strong>行业赛道：美国竞争性电力市场</strong>。Vistra主要在美国的竞争性电力批发市场和零售市场运营，核心市场为ERCOT（德州）和PJM（东部13个州及哥伦比亚特区），次要市场包括ISO-NE、NYISO、MISO和CAISO。这些市场采用边际定价机制，电价由满足需求的最后一单位电力的成本决定（通常为天然气机组），因此天然气价格是影响批发电价的关键变量。</p>
+<p><strong>需求端</strong>：AI/数据中心的快速发展正在根本性改变美国电力需求的增长轨迹。据公司估计，ERCOT至2030年年负荷增长5%-6%，PJM年增长2%-3%，远高于此前约0.5%的长期年均增速。EIA和第三方咨询机构的预测更为激进。数据中心不仅增加总用电量，且其24/7的负荷特性对电网的可靠性和可调度电源提出了更高要求。</p>
+<p><strong>供给端</strong>：新增发电容量面临多重瓶颈：天然气电厂建设周期3-5年，核电新建周期10年以上，且均面临供应链约束、劳动力短缺和监管审批延迟。可再生能源（风光）虽然建设周期较短，但其间歇性无法独立满足数据中心的24/7需求。因此，现有可调度发电资产（尤其是天然气和核电）的稀缺性价值显著提升。PJM的备用采购拍卖（RBP）正是为了应对这一供给缺口而设立。</p>
+<p><strong>竞争格局</strong>：竞争性电力市场高度碎片化。Vistra的主要竞争对手包括其他独立发电商（IPP）如Constellation Energy（核电为主）、NRG Energy（天然气和零售为主）、Talen Energy（核电和天然气），以及受监管的公用事业公司的竞争性子公司和金融投资者持有的发电资产。竞争维度包括：发电成本、燃料获取、商业优化能力、客户关系、以及获取新项目开发所需土地和电网互联的能力。</p>
+<p><strong>可比公司</strong>：</p>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>主要发电类型</th><th>装机容量（约）</th><th>核心市场</th><th>差异化特征</th></tr></thead><tbody><tr><td>Constellation Energy</td><td>CEG</td><td>核电为主</td><td>~32GW</td><td>PJM, NYISO等</td><td>美国最大核电运营商，核电PPA签约领先</td></tr><tr><td>NRG Energy</td><td>NRG</td><td>天然气为主</td><td>~25GW</td><td>ERCOT, PJM</td><td>强零售平台，德州新增天然气项目布局积极</td></tr><tr><td>Talen Energy</td><td>TLN</td><td>核电+天然气</td><td>~10GW</td><td>PJM为主</td><td>高PJM敞口，Susquehanna核电站与AWS共址</td></tr><tr><td>Vistra Corp.</td><td>VST</td><td>多元化（气/核/煤/光储）</td><td>~44GW</td><td>ERCOT, PJM</td><td>最大竞争性发电商之一，一体化零售平台，核电组合第二</td></tr></tbody></table></div>
+<p><strong>总结分析</strong>：Vistra在竞争性电力行业中处于领先地位，其核心竞争优势在于：1）规模最大的多元化发电组合之一，可在不同市场条件下灵活调配；2）独特的"发电+零售"一体化模式，提供内在的盈利稳定性；3）第二大的核电组合，在AI时代具备稀缺性溢价能力；4）强大的商业优化和风险管理能力。与Constellation相比，Vistra的核电敞口较小但天然气和零售敞口更大，盈利来源更分散；与NRG相比，Vistra的核电资产提供了差异化优势；与Talen相比，Vistra的规模和多元化程度更高，PJM容量市场的集中风险相对较低。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<ul>
+<li><strong>议题一：PJM容量市场改革的路径与影响</strong>——PJM容量市场价格在过去两年从约$30/MW-day飙升至$333/MW-day，引发政治层面的可负担性担忧。PJM已发布白皮书探讨长期改革方案，FERC也启动了PJM治理改革的技术会议。同时，PJM的可靠性备用采购（RBP）拍卖预计2026年9月举行。关键问题：长期改革最可能的结果是什么，现有机组的容量收入是否会大幅下降？RBP拍卖将引入多少新供给、以何种电源类型为主？Vistra在PJM的约12GW天然气资产中，有多少可能通过RBP或双边合同获得增量收入？</li>
+<li><strong>议题二：大型负荷签约的节奏和定价趋势</strong>——Vistra已与AWS和Meta签署了合计约3,800MW的核电PPA，但剩余约3,200MW核电容量及大量天然气资产尚未签约。关键问题：Beaver Valley核电站（1,872MW）的签约前景与预期定价区间？天然气资产签约会以"过渡电源"、"共址"还是"虚拟PPA"的形式？在PJM备用采购和FERC共址规则明确之前，超大规模客户是否愿意继续签署长期合同？</li>
+<li><strong>议题三：ERCOT远期电价与负荷增长的预期差</strong>——ERCOT远期电价自2025年高点显著回落，而公司维持5%-6%的年负荷增长预测。关键问题：远期曲线是否低估了未来的负荷增长和电价上涨潜力？储能大量并网是否会对天然气调峰机组利润产生结构性压制？5%-6%的负荷增长预测中有多少已反映在当前远期电价中？</li>
+</ul>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧：Vistra当前估值是否已充分反映PJM容量市场改革和ERCOT电价下行的风险，还是过度悲观地忽视了核电PPA和天然气资产的价值？</strong></p>
+<p><strong>看多方的逻辑与依据</strong>：1）估值已反映悲观情景——以FY2028预计FCF计算，当前价格对应约11%-14%的FCF收益率（含回购后可达16%以上）；机构测算混合"谷底"估值约8.0x，而当前交易于约7.3x-8.1x FY28 EV/EBITDA，未给予任何未来数据中心交易的期权价值。2）核电PPA提供下行保护——已签署的PPA锁定约20%的EBITDA，定价显著高于市场电价，合同期限长达20年。3）天然气资产存在实物期权价值——超30GW天然气装机可通过"过渡电源"、"共址"或双边合同为大型客户提供解决方案。4）管理层持续回购彰显信心——自2021年以来已回购约30%的流通股，2026年节奏加快。</p>
+<p><strong>看空方的逻辑与依据</strong>：1）PJM容量市场改革是结构性利空——容量价格可能向$175-$200/MW-day的"固定运营成本"水平回归，直接减少约4-6亿美元年度EBITDA。2）ERCOT电价面临结构性下行压力——光伏和储能爆发式增长，供给增速可能阶段性超过需求增速。3）大型负荷签约故事可能落空——监管不确定性可能使客户推迟或放弃签约，Beaver Valley前景存在重大不确定性。4）估值并非如看多方所言便宜——剔除一次性因素后经常性盈利倍数不低，且净债务/EBITDA约3.1x的高杠杆会放大盈利下滑对股权的冲击。</p>
+<p><strong>综合分析</strong>：当前市场对Vistra的定价似乎更接近看空方的逻辑，即给予PJM容量改革和ERCOT电价下行较高的权重，而对核电PPA的稳定现金流和天然气资产的实物期权价值给予较低权重。从风险收益比角度看，若PJM容量改革最终温和落地（如容量价格维持在$200/MW-day以上）且ERCOT负荷增长兑现，当前估值水平提供了较有吸引力的买入机会。但若改革力度超预期或大型负荷签约持续落空，股价可能进一步承压。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价（美元）</th><th>财务指标</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>Jefferies (2026-05-21)</td><td>Buy</td><td>190.00</td><td>调整后EBITDA(百万美元)<br>调整后EPS(美元)<br>FCFbG(百万美元)</td><td>5,912<br>5.63<br>3,592</td><td>7,311<br>8.15<br>4,316</td><td>9,242<br>12.21<br>6,182</td><td>9,318<br>12.99<br>6,416</td></tr><tr><td>摩根大通 (2026-07-29)</td><td>Overweight</td><td>231.00</td><td>调整后EBITDA(百万美元)<br>DCF/股(美元)</td><td>5,838<br>8.97</td><td>7,124<br>12.92</td><td>8,000<br>16.13</td><td>8,769<br>19.29</td></tr><tr><td>瑞银 (2026-03-27)</td><td>Buy</td><td>233.00</td><td>调整后EBITDA(百万美元)<br>调整后EPS(美元)</td><td>-<br>4.93</td><td>7,260<br>9.89</td><td>8,478<br>13.00</td><td>9,285<br>16.14</td></tr><tr><td>摩根士丹利 (2026-06-12)</td><td>Overweight</td><td>212.00</td><td>调整后EPS(美元)</td><td>2.18</td><td>8.60</td><td>9.44</td><td>10.05</td></tr></tbody></table></div>
+<p>注：各机构对调整后EBITDA和FCF的定义可能存在口径差异。Jefferies的FCFbG为"增长前自由现金流"。</p>
+<p><strong>盈利预测与估值分析</strong>：机构间对Vistra的盈利预测存在一定分歧，尤其是FY2027-FY2028的调整后EBITDA预测范围较宽（80亿至92亿美元），主要源于对Cogentrix收购完成时间、Meta PPA贡献节奏、以及PJM容量价格假设的不同处理。Jefferies和瑞银的预测相对乐观，已纳入Cogentrix和核电PPA的贡献；摩根大通的预测相对保守，可能未完全纳入上述因素。</p>
+<p>估值方法上，各机构普遍采用<strong>分类加总估值法（SOTP）</strong>，将核电合同化现金流、核电商品化现金流、天然气发电、零售等不同业务分别赋予不同的FCF收益率或EV/EBITDA倍数。核电PPA部分通常采用7.0%的FCF收益率（约14x EV/EBITDA），商品化天然气发电采用10%-11%的FCF收益率（约9x EV/EBITDA），零售采用12%-13%的FCF收益率（约8x EV/EBITDA）。目标价范围在$190-$233之间，较当前股价（约$144-$152）存在25%-53%的上行空间。</p>
+<p><strong>管理层指引</strong>：公司2026年调整后EBITDA正式指引为68亿-76亿美元（中点72亿美元），调整后FCFbG指引为39.25亿-47.25亿美元（中点43.25亿美元）。2027年调整后EBITDA中点机会区间为74亿-78亿美元（中点76亿美元）。上述指引均<strong>未包含</strong>Cogentrix收购和Meta PPA的潜在贡献。公司预计Cogentrix和Meta PPA现有容量部分合计将为2027年FCFbG/股提供约$3.5的增量（基于2026年指引中点）。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/VST · 生成于 2026-08-06</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-06';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'hit',     text: '<strong>Q1 2026 业绩超预期</strong>：调整后 EBITDA $14.75 亿、同比 +20% 创同期新高，重申全年指引', note: '2026-05-07 兑现' },
+  { kind: 'cat', status: 'active',  text: '<strong>Cogentrix 收购交割（2026 下半年）</strong>：交割后指引纳入约 $5.5-6 亿 EBITDA 增量，触发上修', note: '对价隐含 7.25x EV/EBITDA，低于自身 ~10x' },
+  { kind: 'cat', status: 'pending', text: '<strong>PJM 可靠性备用采购（RBP）拍卖（2026-09）</strong>：规模已缩小至仅覆盖 2028/29 缺口，落地即消除最大政策不确定性', note: '' },
+  { kind: 'cat', status: 'pending', text: '<strong>Meta 核电 PPA 部分交付（Q3-Q4）</strong>：Perry/Davis-Besse 首次在报表体现合同化现金流', note: '现有容量 2027 年底全面运行' },
+  { kind: 'cat', status: 'pending', text: '<strong>Beaver Valley（1,872MW）/ Comanche Peak 2 号签约进展</strong>：核电溢价叙事的下一张牌', note: '管理层称客户讨论持续进行' },
+  { kind: 'cat', status: 'active',  text: '<strong>ERCOT 远期曲线修复</strong>：4 月下旬起夏冬两季远期价格反弹，夏季高温/负荷互联超预期则进一步上行', note: '公司维持年负荷增长 5-6% 判断' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>PJM 容量改革力度超预期</strong>：容量价压向 $175-200/MW-day 以下 → EBITDA -$4-6 亿且估值倍数下修', note: '白皮书 + FERC 进程跟踪中，9 月 RBP 为首个硬信号' },
+  { kind: 'risk', status: 'clear', text: '<strong>ERCOT 远期电价继续下行</strong>：储能/光伏并网超需求增速，2028+ 未对冲部分假设下修', note: '2026-2027 已高度对冲，风险在远期' },
+  { kind: 'risk', status: 'clear', text: '<strong>大型负荷签约持续落空</strong>：监管不确定 + 本地反对使客户观望，核电溢价叙事被证伪', note: 'Constellation 亦提及客户观望情绪' },
+  { kind: 'risk', status: 'clear', text: '<strong>高杠杆放大下行</strong>：净债务/EBITDA 约 3.1x 处于目标上沿，利率高位 + 盈利下滑组合不利股权', note: '投资级评级达成后融资成本改善中' },
+  { kind: 'risk', status: 'clear', text: '<strong>运营事故</strong>：Moss Landing 火灾类事件重演（资产减值 + 修复成本）', note: '350MW 电池预计 2026 年中恢复，存不确定性' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

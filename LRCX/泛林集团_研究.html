@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>泛林集团（LRCX.O）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--policy-red); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">LRCX</span>
+    <span class="site-mark__text">泛林集团 公司研究<span>Lam Research · LRCX.O</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>泛林集团<span class="en">Lam Research · LRCX.O · 美股研究</span></h1>
+        <p class="sub">刻蚀/沉积设备龙头正迎来「NAND 升级 + HBM/DRAM 扩产 + GAA 逻辑」三重共振：FY2026Q4 营收、毛利率、EPS 全面创纪录，9 月季度指引大幅超预期，2026 年 WFE 展望上修至 1,500 亿美元低位区间。核心矛盾是「AI 驱动的设备超级周期」与「约 30 倍 FY2027E 的估值已先行计入」之间的张力——盈利动能极强，但赔率已被市场预支，中国占比下滑与 2027 年 NAND 供需是两条清晰的证伪路径。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-06</span>
+          <span>下次更新：FY2027Q1 财报（2026-10）/ FY2026 10-K 发布（2026-08）</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>约 30x FY2027E PE，高于 5 年均值 24x，三情景期望值约持平、赔率不足 1:1；重检条件：FY27Q1 再超预期且中国占比企稳（上调），或毛利率回落至 50% 以下 / 中国占比跌破 20%（下调）。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">营收 +30%</strong><span>FY26Q4 $67.2亿·创纪录</span></div>
+      <div class="summary-rail__item"><strong>52.0%</strong><span>FY26Q4 毛利率·近20年最高</span></div>
+      <div class="summary-rail__item"><strong>23%</strong><span>NAND 占系统收入·环比翻倍</span></div>
+      <div class="summary-rail__item"><strong>$81亿</strong><span>FY27Q1 指引中值·QoQ +20.5%</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">创纪录财报 + 9 月季度超强指引：增长的成色与能见度如何？</h2>
+        <span class="qa__impact-tag">→ FY27Q1 指引 QoQ +20.5% · WFE 展望上修至 $1,500亿低位</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>成色极高且不是单点爆发：FY2026Q4 营收 $67.2 亿（QoQ +15%）、毛利率 52.0%（近 20 年最高）、EPS $1.82 全部超出指引上限，<strong>NAND 环比翻倍、CSBG 连续三季新高、代工/DRAM 维持高位</strong>三条线同时成立。9 月季度指引 $81 亿（QoQ +20.5%）大幅超越一致预期，在 CSBG 环比持平的假设下隐含系统收入环比 +30% 以上——管理层敢给这样的指引，靠的是在手订单与客户提前锁产能的行为。<em>保留判断：财报当日股价仍随板块抛售下跌 7%，说明市场对「利好出尽」的警惕已在定价中，指引兑现是必要条件而非充分条件。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>直接决定 FY2027 EPS 上修幅度。</strong>FY27Q1 指引 EPS $2.15 单季已接近 FY2026 全年 $5.82 的 37%；券商 FY2027E EPS 区间 9.40-10.45 美元，较 FY2026 的 5.82 美元增长 62-80%——<strong>盈利翻倍式上修是当前股价的核心支撑</strong>，若 9 月季度实际再超指引上限（公司历史上有此记录），FY2027E 将向区间上沿收敛。</p>
+            <p>指引强度对估值倍数是双向的：兑现则「超级周期」叙事强化、30x 得以维持甚至扩张；若 2027 年 NAND 供过于求的第三方预测开始兑现，倍数将直接向 5 年均值 24x 甚至周期底部回归，EPS 与倍数双杀。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>2026 年 WFE 展望一年内从 ~$1,350 亿上修至 <strong>$1,500 亿低位区间</strong>，管理层形容 2027 年增长前景为「非凡」，DRAM 将领涨</li>
+              <li>NAND 升级周期加速：约 <strong>$400 亿升级机会</strong>大部分在 2027 年底前兑现，NAND 收入单季环比翻倍只是开端</li>
+              <li>CSBG（备件/服务/升级）收入 $24.7 亿连续三季新高、占比超三分之一——<strong>经常性收入底座在加厚</strong>，盈利可预测性提升</li>
+              <li>客户行为验证需求：递延收入环比 +$2.13 亿、客户预付款回升，且客户公布多年期建厂计划并提前锁定设备订单</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>设备行业强周期：<strong>高增长部分源于过去几年投资不足后的补偿性需求</strong>，新增洁净室产能 2027 年释放后增速必然回落</li>
+              <li>第三方机构预测 <strong>2027 年下半年 NAND 市场可能供过于求</strong>——公司短期增量恰恰最依赖 NAND 升级</li>
+              <li>财报超预期当日股价反跌 7%：资金面抛售之外，也反映市场对「周期顶点给高倍数」的本能警惕</li>
+              <li>9 月季度指引隐含系统收入环比 +30%+，<strong>基数迅速抬高后，超预期的门槛会越来越高</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（FY2026Q4 财报速览 · 业务拆分 · 三年财务趋势）</summary>
+          <div class="evidence__body">
+            <h5>FY2026Q4 财报速览（2026-07-29 发布，公司财年为 6 月制）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>实际</th><th>对比</th><th>评价</th></tr></thead><tbody><tr><td>营收</td><td><strong>$67.2 亿</strong>（QoQ +15%，YoY +30%）</td><td>指引上限</td><td>创纪录，beat</td></tr><tr><td>Non-GAAP 毛利率</td><td><strong>52.0%</strong></td><td>指引上限</td><td>近 20 年最高，beat</td></tr><tr><td>营业利润率</td><td><strong>38.4%</strong></td><td>—</td><td>创纪录</td></tr><tr><td>Non-GAAP EPS</td><td><strong>$1.82</strong></td><td>指引上限</td><td>beat；FY2026 全年 $5.82（YoY +41%）</td></tr><tr><td>NAND 占系统收入</td><td><strong>23%</strong>（上季 12%）</td><td>—</td><td>环比翻倍，256 层以上转换驱动</td></tr><tr><td>CSBG 收入</td><td><strong>$24.7 亿</strong>（QoQ +17%，YoY +43%）</td><td>—</td><td>连续三季新高，升级收入创纪录</td></tr><tr><td>2026 WFE 展望</td><td><strong>$1,500 亿低位区间</strong></td><td>此前约 $1,400 亿</td><td>年内第二次上修；2027 定性「非凡」</td></tr><tr><td>FY27Q1 指引</td><td>营收 <strong>$81 亿</strong>±4 亿；EPS <strong>$2.15</strong>±0.15；毛利率 52%±1pct</td><td>大幅超越一致预期</td><td>隐含系统收入 QoQ +30% 以上</td></tr></tbody></table></div>
+            <h5>系统收入按下游拆分（FY2026Q4）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>下游</th><th>占系统收入</th><th>边际变化</th></tr></thead><tbody><tr><td>代工（Foundry）</td><td><strong>44%</strong></td><td>成熟制程投资回落，被先进制程 + 先进封装抵消；先进封装 2026 年收入预计同比 +70%</td></tr><tr><td>DRAM</td><td><strong>23%</strong></td><td>维持历史高位；HBM 与 1c/1γ 节点迁移驱动，管理层预计 2027 年 DRAM 为增长最快领域</td></tr><tr><td>NAND</td><td><strong>23%</strong>（上季 12%）</td><td>环比翻倍，客户加速向 256 层及以上转换；高层数方向每片晶圆 SAM 有望翻倍</td></tr><tr><td>逻辑/其他</td><td>约 10%</td><td>Akara 平台从 2nm 以下 GAA 拓展至先进 DRAM，安装基数每年翻倍</td></tr></tbody></table></div>
+            <h5>三年财务趋势（GAAP，百万美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>财年（6 月止）</th><th>营收</th><th>YoY</th><th>毛利率</th><th>营业利润率</th><th>归母净利润</th><th>稀释 EPS</th><th>自由现金流</th></tr></thead><tbody><tr><td>FY2024</td><td>14,905</td><td>-14.5%</td><td>47.3%</td><td>28.7%</td><td>3,828</td><td>2.90</td><td>4,255</td></tr><tr><td>FY2025</td><td>18,436</td><td>+23.7%</td><td>48.7%</td><td>32.0%</td><td>5,358</td><td>4.15</td><td>5,414</td></tr><tr><td><strong>FY2026</strong></td><td><strong>23,233</strong></td><td><strong>+26.0%</strong></td><td><strong>50.5%</strong></td><td><strong>35.3%</strong></td><td><strong>7,265</strong></td><td><strong>5.76</strong></td><td><strong>4,892</strong></td></tr></tbody></table></div>
+            <p>毛利率三年 +3.2pct、营业利润率 +6.6pct，公司同步把长期目标从「50%+/35%+」上修至「<strong>55% / 45% 左右</strong>」。FY2026 回购 $38.5 亿 + 股息 $12.7 亿，期末现金 $55.8 亿 &gt; 长期债务 $37.3 亿，净现金头寸充裕。需要注意 FY2026 经营现金流（$58.6 亿）同比略降、应收账款周转天数 72 天环比上升——增长质量整体健康但非无瑕。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">中国市场占比 34%→26%：出口管制下是短期波动还是长期趋势？</h2>
+        <span class="qa__impact-tag">→ 中国区收入占比单季 -8pct · 结构性逆风难逆转</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>是<strong>结构性趋势而非短期波动</strong>：FY2026Q4 中国大陆收入占比从 34% 降至 26%，且内部已分化——在华跨国客户收入环比增长、本土客户收入下降，管理层明确预计该分化「将持续」。在美国出口管制持续收紧的方向下，中国占比大概率继续缓慢下行。<em>保留判断：本季总营收 QoQ +15% 证明其他地区（台湾 27%、韩国 20%）的 AI 扩产足以对冲中国下滑，中国目前更像「增长的拖累项」而非「盈利的威胁项」，但管制若升级到存量设备的备件/服务领域，CSBG 的高利润底座将直接受损。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>静态测算（估算）：中国占比每降 5pct，在 FY2027E 约 $350 亿营收基数上 ≈ $17 亿营收缺口</strong>，按 52% 毛利率、约 13 亿股本折算，对 EPS 的影响约 $0.5-0.7——可以被一个季度的 NAND 升级增量覆盖，但这正是「中国下滑、其他地区必须跑得更快」的数学约束。</p>
+            <p>对倍数的影响大于对 EPS 的影响：中国敞口是市场给设备股估值折价的主要来源之一，管制每收紧一轮，板块估值中枢就下移一次；反之，若占比降至 15-20% 后企稳，「去中国化」完成反而可能解除折价。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>占比降、总额升：Q4 总营收 QoQ +15% 创纪录，<strong>AI 资本开支的地域分布（台湾/韩国/美国）恰好是公司的强势区</strong></li>
+              <li>在华跨国客户收入环比增长——受冲击的主要是受管制约束的本土先进产能，并非全面退出</li>
+              <li>存储（HBM/DRAM）与代工/逻辑的 2027 年增长引擎均不在中国大陆，<strong>需求结构天然降低对华依赖</strong></li>
+              <li>占比下降已持续多个季度，市场部分消化；继续下行的边际冲击递减</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>26% 仍是四分之一左右的收入：若管制升级至<strong>存量设备的备件与服务</strong>，高利润的 CSBG（占收入 1/3+）将受直接冲击</li>
+              <li>中国本土设备厂商在成熟制程刻蚀/清洗环节持续替代，<strong>丢失的份额即使管制放松也难收回</strong></li>
+              <li>中国对镓、锗等关键原材料的出口管制反制，可能抬升供应链成本</li>
+              <li>地缘政治是<strong>无法定价只能折价</strong>的变量：任何台海/中美摩擦升级都会同时打击估值倍数与订单节奏</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（区域收入结构 · 中国业务边际变化）</summary>
+          <div class="evidence__body">
+            <h5>FY2026Q4 区域收入结构</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>区域</th><th>收入占比</th><th>边际变化 / 备注</th></tr></thead><tbody><tr><td>中国台湾</td><td><strong>27%</strong></td><td>第一大市场；台积电 2nm/先进封装扩产直接受益</td></tr><tr><td>中国大陆</td><td><strong>26%</strong>（上季 34%）</td><td><span class="warn">环比 -8pct</span>；在华跨国客户环比 +、本土客户 -，分化预计持续</td></tr><tr><td>韩国</td><td><strong>20%</strong></td><td>HBM/DRAM 扩产主战场，2027 年 DRAM 领涨的直接受益区</td></tr><tr><td>其他（美国/日本/东南亚等）</td><td>约 27%</td><td>新增美国逻辑客户接洽中，为潜在增量</td></tr></tbody></table></div>
+            <h5>解读</h5>
+            <ul>
+              <li>中国占比下降的节奏（单季 -8pct）快于预期，但因 AI 驱动的美/台/韩扩产同步放量，<strong>总量完全对冲了结构恶化</strong>——这是本季财报最容易被忽略的一条暗线。</li>
+              <li>跟踪重点不是占比本身，而是<strong>管制清单的边界</strong>：只要不触及存量装机（40,000+ 反应腔）的备件与服务，CSBG 的利润底座就安全；10-K（2026-08）中关于中国敞口与递延收入的披露值得细读。</li>
+              <li>长期目标毛利率 55% 隐含了对高毛利中国成熟制程业务的可替代性假设——若中国占比下降快于新产品（Akara/VECTOR/先进封装）放量，55% 目标的实现路径会更陡。</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">估值：约 30 倍 FY2027E PE 隐含了什么预期？赔率如何？</h2>
+        <span class="qa__impact-tag">→ 期望值约持平 · 赔率不足 1:1</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>当前约 30x FY2027E PE 高于 5 年均值（约 24x），市场已经把「超级周期」计入大半——这是典型的「<strong>对的公司、满的定价</strong>」。三情景测算期望值约较现价持平（+1%），赔率约 0.7:1，对应「持有」而非买入。<em>保留判断：现价为按券商预测与约 30x 倍数反推的估算值；若 FY27Q1 再超预期驱动 FY2027E 向 10.45 美元上沿收敛、或股价回调至 24x 以下，赔率结构会明显改善，届时是更好的介入点。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这个问题本身就是估值问题。</strong>FY2027E EPS 一致预期约 9.4-10.5 美元（FY2026 为 5.82），盈利翻倍已被共识；分歧在倍数——乐观方按「周期拉长 + 经常性收入占比提升」给 30-43x（券商目标价 $325-450 的隐含区间），谨慎方（汇丰，持有/$325）认为增长前景已大部分计价。</p>
+            <p>赔率结构：悲观情景（2027H2 NAND 供过于求 + 周期逆转）下行约 -46%，乐观情景（DRAM 领涨 + 55% 毛利率路径兑现）上行约 +33%——<strong>下行空间大于上行空间，这在 EPS 翻倍上修的年份里出现，本身就说明定价的拥挤程度。</strong></p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>盈利动能罕见：FY2027E EPS 较 FY2026 <strong>+62-80%</strong>，30x 对 60%+ 增速 PEG &lt; 0.5，比下游多数 AI 标的便宜</li>
+              <li>CSBG 占比 1/3+ 且长期低双位数增长——<strong>经常性收入理应降低周期性折价</strong>，5 年均值 24x 是旧业务结构下的锚</li>
+              <li>SAM 占 WFE 比重从低 30% 区间迈向高 30% 区间，<strong>份额扩张意味着增速可以跑赢 WFE 本身</strong></li>
+              <li>财报后花旗（$450）、瑞银（$435）、高盛（$380）集体上调目标价，卖方共识仍在抬升</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>30x 已高于 5 年均值 24x：<strong>估值处于历史高位，容错空间小</strong>，任何证伪信号都会先杀倍数</li>
+              <li>设备股的宿命是「业绩最好的时候倍数见顶」——FY2028E 增速已降至 +30% 左右，倍数扩张缺乏下一棒</li>
+              <li>NAND 升级 $400 亿机会大部分 2027 年底前完成，<strong>2028 年的接续需求（新建产能）尚无能见度</strong></li>
+              <li>汇丰「持有」评级的逻辑值得重视：强劲增长前景已大部分在股价中体现</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（当前定价测算 · 三情景表 · 券商预测）</summary>
+          <div class="evidence__body">
+            <h5>当前定价（2026-08 上旬，估算）</h5>
+            <ul>
+              <li>一页通口径：当前股价对应 FY2027 一致预期盈利约 <strong>30x PE</strong>；按 FY2027E EPS 共识约 9.4-10.5 美元反推，现价大致在 <strong>$290-310</strong> 区间（估算，精确值以行情为准）</li>
+              <li>5 年平均 PE 约 <strong>24x</strong>；券商目标价 $325-450，对应 FY2027E 约 30-43x</li>
+              <li>财报后股价先跌 7% 再盘后反弹 5%+，多空在 $300 附近激烈换手</li>
+            </ul>
+            <h5>三情景假设（FY2028 视角，以反推现价约 $300 为基准）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>FY2028E EPS</th><th>合理 PE</th><th>隐含股价</th><th>vs 当前</th></tr></thead><tbody><tr><td>乐观（25%）</td><td>DRAM 领涨 2027 年 WFE「非凡」增长，NAND 升级顺利接续新建产能，毛利率沿 55% 目标推进</td><td>~14.3 美元（瑞银上沿）</td><td>28x</td><td>~$400</td><td>+33%</td></tr><tr><td>中性（50%）</td><td>盈利兑现但周期正常化，FY2028 增速回落至 +30%，倍数回归 5 年均值</td><td>~13.6 美元（券商中枢）</td><td>24x</td><td>~$326</td><td>+9%</td></tr><tr><td>悲观（25%）</td><td>2027H2 NAND 供过于求 + 中国管制升级，WFE 周期逆转，EPS 下修、倍数向周期底部回归</td><td>~9.0 美元（FY2027 下沿之下）</td><td>18x</td><td>~$162</td><td>-46%</td></tr></tbody></table></div>
+            <p><strong>期望值约 $304，较反推现价约 +1%；赔率约 0.7:1（+33% / -46%）。</strong>这不是做空信号——盈利上修周期仍在进行中，做空强动能股代价高昂；但赔率也不支持在 30x 的位置追高。持有的含义是：让 FY27Q1（10 月）财报来验证指引成色，若倍数随回调压缩而 EPS 继续上修，再重新评估。</p>
+            <h5>券商盈利预测（财报后更新，Non-GAAP EPS 美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级 / 目标价</th><th>FY2026A</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>瑞银（2026-08-03）</td><td>买入 / $435</td><td>5.82</td><td>10.34</td><td>14.26</td></tr><tr><td>汇丰（2026-07-31）</td><td>持有 / $325</td><td>5.82</td><td>10.45</td><td>13.41</td></tr><tr><td>摩根大通（2026-07-30）</td><td>超配 / $340</td><td>5.82</td><td>9.40</td><td>—</td></tr><tr><td>花旗（2026-07-30）</td><td>买入 / $450</td><td>—</td><td>—</td><td>—</td></tr><tr><td>高盛（2026-07-31）</td><td>买入 / $380</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div>
+            <p>注：FY2027E 营收共识约 $346-373 亿（较 FY2026 的 $232 亿 +49-61%），瑞银与汇丰的 FY2028E 营收 $454-465 亿。目标价最高（花旗 $450）与最谨慎（汇丰 $325）之间的落差，本质上就是「超级周期 vs 周期顶点」分歧的量化。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>：公司概况、近况跟踪、业务拆分、催化剂（见同目录《泛林集团_一页通.md》，亦见本站「一页通」标签页）</li>
+        <li><strong>财务数据</strong>：FY2024-FY2026 利润表与现金流、FY2026Q4 财报要点与管理层指引（正文数据均来自公开财报整理）</li>
+        <li><strong>局限</strong>：未读财报原文与电话会纪要（建议下一步补读 FY26Q4 earnings call 中关于 2027 年 NAND 升级/新建拆分与中国展望的表述）；现价与前瞻 PE 为按券商盈利预测反推的估算值；三情景的概率与倍数为研究判断，非精确预测</li>
+        <li><strong>管理层评估（一句话版）</strong>：管理层在周期高位敢于上修 WFE 展望与长期盈利目标（毛利率 55%/营业利润率 45%），且 NAND 升级与 CSBG 的兑现节奏目前支持其自信，但 55% 毛利率路径对中国敞口与产品组合的假设需要在后续季度持续验证</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>泛林集团是全球领先的半导体晶圆制造设备（WFE）供应商，核心能力集中在<strong>刻蚀（Etch）、薄膜沉积（Deposition）和清洗（Clean）</strong>三大工艺环节。公司产品是制造逻辑芯片、存储芯片（DRAM/NAND）和先进封装的关键设备，客户涵盖台积电、三星、英特尔等全球头部半导体制造商。其市场地位稳固，尤其在<strong>导体刻蚀领域拥有全球超过40,000个反应腔的安装基数</strong>，并在3D NAND高深宽比刻蚀和先进封装电镀领域占据领导地位。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul>
+<li><strong>FY2026Q4（CY26Q2）业绩全面超预期</strong>：公司实现<strong>创纪录的营收67.2亿美元</strong>（QoQ+15%，YoY+30%），Non-GAAP毛利率<strong>52.0%</strong>（近20年最高），营业利润率<strong>38.4%</strong>，Non-GAAP每股收益<strong>1.82美元</strong>，均超出指引上限。FY2026全年营收<strong>232.3亿美元</strong>（YoY+26%），Non-GAAP每股收益<strong>5.82美元</strong>（YoY+41%）。</li>
+<li><strong>NAND业务环比翻倍增长</strong>：NAND收入占系统收入比重从上季度的12%跃升至<strong>23%</strong>，主要驱动力来自客户加速向<strong>256层及以上器件</strong>的转换，以满足AI驱动的企业级SSD需求。</li>
+<li><strong>客户支持业务（CSBG）连续三季度创新高</strong>：CSBG收入达<strong>24.7亿美元</strong>（QoQ+17%，YoY+43%），主要由创纪录的升级收入驱动，备件和服务需求维持强劲。</li>
+<li><strong>上调2026年WFE展望并给出积极的2027年定性判断</strong>：公司将2026年全球WFE支出预期从约1400亿美元上调至<strong>1500亿美元低位区间</strong>。管理层形容2027年WFE增长前景为“非凡”，预计DRAM将成为增长最快的领域，其次是代工/逻辑，最后是NAND。</li>
+<li><strong>上修长期盈利目标</strong>：公司更新了多年盈利框架，计划在未来数年内将毛利率提升至<strong>55%左右</strong>，营业利润率提升至<strong>45%左右</strong>，显著高于此前50%+/35%+的目标。</li>
+</ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol>
+<li><strong>FY2027Q1（9月季度）指引强劲，业绩有望继续超预期</strong>：公司指引9月季度营收<strong>81亿美元</strong>（中值QoQ+20.5%），毛利率<strong>52%</strong>，每股收益<strong>2.15美元</strong>，均大幅超越市场一致预期。管理层暗示CSBG收入将环比持平，意味着系统收入需实现<strong>超过30%的环比增长</strong>。考虑到公司在手订单和客户提前锁定产能的意愿，该指引具备较高确定性，实际业绩有望再次超出指引上限。</li>
+<li><strong>NAND升级周期加速，成为短期业绩核心增量</strong>：公司此前提出的约<strong>400亿美元NAND升级机会</strong>，大部分预计在2027年底前通过升级方式实现。管理层在业绩会上表示，客户正专注于向200层以上设备升级，今年已有少量新建产能，升级需求正在提前释放。NAND收入在6月季度环比翻倍，且9月季度指引强劲，表明该升级周期正在加速，为未来2-3个季度提供清晰的增长动力。</li>
+<li><strong>AI资本开支叙事强化，板块情绪修复带来估值弹性</strong>：尽管公司基本面强劲，但股价在7月29日财报发布后仍下跌7%，主要受整个半导体板块因资金面因素被抛售的拖累。然而，财报后盘后股价已反弹超5%，且多家买方机构（如对冲基金）在7月31日重新开始买入半导体设备股。随着公司业绩持续兑现，市场将重新聚焦于其强劲的基本面和AI驱动的长期增长逻辑，估值修复空间显著。</li>
+</ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol>
+<li><strong>AI驱动的技术升级周期具有多年持续性，公司可服务市场（SAM）持续扩大</strong>：AI正从训练向推理、Agentic乃至Physical AI逐波推进，推动对先进逻辑（GAA架构）、DRAM（HBM堆叠）和NAND（高层数）的需求。这些技术转型显著提升了刻蚀和沉积工艺的强度。公司预计其SAM占WFE的比例将从2025年初的<strong>低30%区间</strong>，在2026年达到<strong>约36%-36.5%</strong>，并最终迈向<strong>高30%区间</strong>。随着NAND从128层向500层以上演进，<strong>每片晶圆的SAM有望翻倍</strong>，为长期增长提供结构性支撑。</li>
+<li><strong>产品组合扩展与份额提升，构筑超越行业周期的增长能力</strong>：公司不仅在传统优势领域（NAND）保持领先，更在DRAM和代工/逻辑领域实现突破。新一代导体刻蚀平台<strong>Akara</strong>已从2nm及以下的GAA逻辑应用拓展至先进DRAM，安装基数自推出以来<strong>每年翻倍</strong>。在DRAM领域，公司凭借<strong>VECTOR硬掩膜沉积</strong>和<strong>扩散阻挡层系统</strong>等差异化产品，正将已验证的代工逻辑技术迁移至存储领域，有望持续获得份额。先进封装业务2026年收入预计同比增长<strong>超过70%</strong>，受益于公司在TSV刻蚀和铜电镀领域的领导地位。</li>
+<li><strong>经常性收入（CSBG）占比提升，增强盈利稳定性和可预测性</strong>：CSBG业务（包括备件、服务和升级）已占公司总收入的<strong>三分之一以上</strong>，且连续三个季度创下收入新高。随着全球设备安装基数持续扩大，以及公司推出的<strong>Dextro协作机器人</strong>和<strong>设备智能（Equipment Intelligence）</strong>等增值服务逐步渗透，该部分收入有望在未来数年维持低双位数的长期增速。这种“剃须刀+刀片”的商业模式，有助于平滑设备销售的周期性波动，提升公司整体估值中枢。</li>
+</ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul>
+<li><strong>WFE周期性风险与估值压力</strong>：半导体设备行业具有强周期性。尽管当前AI驱动的需求强劲，但若未来宏观经济下行、AI资本开支回报不及预期或存储芯片价格大幅下跌，客户可能削减或推迟设备订单。公司当前股价对应FY2027年一致预期盈利约<strong>30倍市盈率</strong>，虽较前期高点有所回落，但仍高于其5年平均约24倍的水平。若行业周期逆转，估值和盈利可能面临双杀。</li>
+<li><strong>地缘政治与出口管制风险</strong>：中国大陆是公司重要市场，FY2026Q4收入占比为<strong>26%</strong>（上季度为34%）。美国对华半导体出口管制政策持续收紧，可能进一步限制公司向中国客户销售先进设备。此外，中国对镓、锗等关键原材料的出口管制，也可能对公司的供应链成本和稳定性构成潜在威胁。</li>
+<li><strong>NAND市场供需失衡风险</strong>：公司短期业绩高度依赖NAND升级周期的强度。有第三方机构预测，随着产能释放，2027年下半年NAND市场可能出现供过于求。尽管管理层表示当前客户讨论仍集中在升级现有产能，但若NAND价格松动，客户可能迅速放缓投资节奏，对公司营收和利润率造成冲击。</li>
+</ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul>
+<li><strong>2026年7月29日</strong>：公司发布FY2026Q4财报，营收、毛利率、营业利润率和每股收益均创纪录，并大幅上调9月季度指引。同时，公司将2026年WFE展望上调至1500亿美元低位区间，并给出积极的2027年定性展望。</li>
+<li><strong>2026年7月29日</strong>：尽管财报表现强劲，公司股价在当日常规交易时段下跌<strong>7.04%</strong>，主要受整个半导体板块因资金面因素被抛售的拖累。但在盘后交易时段，股价反弹<strong>5.31%</strong>。</li>
+<li><strong>2026年7月30日</strong>：多家华尔街投行（如花旗、摩根大通、伯恩斯坦）发布报告，维持或上调公司评级，并大幅上调目标价，普遍认为业绩和指引验证了AI驱动的设备超级周期逻辑。</li>
+</ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul>
+<li><strong>2026年8月中下旬</strong>：主要云计算厂商（Hyperscaler）如微软、亚马逊、谷歌等将发布季度财报，其资本开支指引是判断AI基础设施投资持续性的关键先行指标。若资本开支指引继续上调，将直接强化对泛林集团等设备公司的需求预期。</li>
+<li><strong>2026年8月-9月</strong>：公司FY2026全年10-K报告预计将在8月发布，其中将披露更详细的财务数据和业务信息，包括日本地区“已发货待验收”的库存金额。该数据是判断下游客户设备接受意愿和未来收入转化效率的重要微观指标。</li>
+<li><strong>2026年9月-10月</strong>：公司预计将在10月发布FY2027Q1（9月季度）财报。鉴于公司给出了极为强劲的指引，若实际业绩能再次超出预期，将进一步提升市场对其全年及2027年增长前景的信心，有望成为股价向上突破的关键催化剂。</li>
+</ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<p><strong>业务边际变化</strong>：公司近年业务重心正从传统的NAND存储设备，向<strong>DRAM和代工/逻辑</strong>领域显著扩展。FY2026Q4，代工业务占系统收入的44%，DRAM占23%，两者合计占比已超过三分之二。这一变化源于AI推动的GAA晶体管架构转型、HBM内存堆叠和先进封装等新技术对刻蚀和沉积设备的需求强度大幅提升。公司正将3D NAND领域的垂直扩展经验成功迁移至DRAM和逻辑领域。</p>
+<p><strong>盈利模式</strong>：公司依靠<strong>技术壁垒和客户粘性</strong>盈利。半导体制造商一旦将特定设备集成到生产线中，通常会长期依赖该供应商的设备，因为更换成本极高。公司通过销售高价值的半导体制造设备（系统收入）获取一次性收入，并通过提供备件、服务和升级（CSBG收入）获得贯穿设备全生命周期的经常性收入。近期，公司正通过提价和推出高价值的新产品（如Akara、VECTOR）来提升盈利能力。</p>
+<p><strong>业务拆分</strong>：公司业务主要按产品类型分为<strong>系统收入</strong>和<strong>客户支持相关收入（CSBG）</strong>两大类别。系统收入又可进一步按下游应用分为代工、DRAM、NAND和逻辑/其他。当前公司处于<strong>AI驱动的技术升级超级周期</strong>中，各业务板块均呈现强劲增长态势。</p>
+<p><strong>细分业务拆分（按产品类型）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>项目 (百万美元)</th><th>FY2024</th><th>FY2025</th><th>FY2026</th><th>FY2026Q4</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2024-06-30</td><td>2025-06-29</td><td>2026-06-28</td><td>2026-06-28</td></tr><tr><td><strong>系统收入</strong></td><td>8,921.64</td><td>11,491.28</td><td>-</td><td>4,250.00</td></tr><tr><td>同比</td><td>-</td><td>28.8%</td><td>-</td><td>23.6%</td></tr><tr><td>占比</td><td>59.9%</td><td>62.3%</td><td>-</td><td>63.2%</td></tr><tr><td><strong>客户支持相关收入(CSBG)</strong></td><td>5,983.74</td><td>6,944.31</td><td>-</td><td>2,472.00</td></tr><tr><td>同比</td><td>-</td><td>16.1%</td><td>-</td><td>42.6%</td></tr><tr><td>占比</td><td>40.1%</td><td>37.7%</td><td>-</td><td>36.8%</td></tr><tr><td><strong>总收入</strong></td><td>14,905.39</td><td>18,435.59</td><td>23,233.00</td><td>6,722.00</td></tr></tbody></table></div>
+<p>（注：FY2026全年细分数据未在资料中完整披露，此处仅展示季度数据。）</p>
+<p><strong>系统收入（Systems Revenue）</strong>：该业务在FY2026Q4实现收入<strong>42.50亿美元</strong>（QoQ+13.9%，YoY+23.6%），占总收入的63.2%。增长主要由NAND业务环比翻倍驱动，DRAM收入维持历史高位，代工业务中成熟制程投资回落被先进制程和先进封装投资所抵消。公司通过提供刻蚀、沉积、清洗等设备，满足客户在先进制程上的关键工艺需求。近期，公司凭借<strong>Akara导体刻蚀平台</strong>和<strong>VECTOR沉积系统</strong>等新产品，在DRAM和代工/逻辑领域持续获得市场份额。</p>
+<p><strong>客户支持业务（CSBG）</strong>：该业务在FY2026Q4实现收入<strong>24.72亿美元</strong>（QoQ+17.1%，YoY+42.6%），连续第三个季度创下历史新高，占总收入的36.8%。增长主要由<strong>创纪录的升级收入</strong>驱动，这得益于NAND客户加速向200层以上技术转换。此外，行业整体高利用率支撑了备件和服务的强劲需求。公司正通过推广<strong>Dextro协作机器人</strong>和<strong>设备智能（Equipment Intelligence）</strong>等增值服务，提升该业务的长期增长潜力和盈利稳定性。</p>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托极高技术壁垒和客户转换成本构筑的结构性护城河</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。半导体制造工艺极度复杂，设备性能直接影响芯片的良率和性能。一旦设备被验证并集成到生产线中，客户更换供应商的成本和风险极高，因此倾向于与现有供应商长期合作。泛林集团在<strong>导体刻蚀领域拥有全球超过40,000个反应腔的安装基数</strong>，这构成了强大的客户粘性和竞争壁垒。</li>
+<li><strong>数据验证</strong>：公司FY2026Q4的Non-GAAP毛利率高达<strong>52.0%</strong>，为近20年最高，FY2026全年毛利率为<strong>50.6%</strong>。显著高于行业平均水平的盈利能力，是其技术壁垒和客户粘性的直接财务体现。公司研发投入占营收比重持续维持在<strong>10%以上</strong>（FY2026Q4为10.0%），持续巩固技术领先地位。</li>
+<li><strong>动态演变</strong>：<strong>护城河变宽（巩固）</strong>。随着半导体制造向3D架构（GAA、CFET）和更复杂材料演进，刻蚀和沉积工艺的难度和重要性持续提升。公司凭借其深厚的技术积累和与头部客户的紧密合作，在新一轮技术升级周期中正获得更多市场份额，其可服务市场（SAM）占WFE的比例正从30%中段向高段迈进。</li>
+</ul>
+<p><strong>竞争要素 2：从“卖设备”向“卖服务”转型，构建高粘性、高利润的经常性收入模式</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。公司的客户支持业务（CSBG）不仅提供备件，更通过升级服务和设备智能解决方案，深度嵌入客户的运营流程。这种“剃须刀+刀片”模式，使得公司在设备销售后仍能持续创造价值，并与客户保持高频互动，进一步巩固了客户关系。</li>
+<li><strong>数据验证</strong>：CSBG业务在FY2026Q4实现收入<strong>24.72亿美元</strong>，占总收入的<strong>36.8%</strong>，且连续三个季度创下新高。该业务的增长不仅来自安装基数的扩大，更来自<strong>创纪录的升级收入</strong>和增值服务的渗透。这部分收入具有高利润率和强周期性的特点，能有效平滑设备销售波动。</li>
+<li><strong>动态演变</strong>：<strong>护城河变宽（巩固）</strong>。公司正将Dextro协作机器人和设备智能服务从NAND领域拓展至DRAM，并计划在未来数年持续推出新的增值服务。随着全球设备安装基数持续增长，CSBG业务有望维持低双位数的长期增速，其“服务化”转型将显著提升公司整体盈利的稳定性和可预测性。</li>
+</ul>
+<p><strong>现阶段核心驱动力总结</strong>：公司的Alpha来自其在<strong>刻蚀和沉积领域的技术领导地位</strong>，以及通过新产品（Akara、VECTOR）和增值服务（CSBG）持续扩大市场份额和提升盈利能力的能力。公司的Beta则紧密挂钩于<strong>全球半导体资本开支周期</strong>，尤其是AI驱动的先进制程和存储芯片投资。当前，公司正处于Alpha和Beta共振的有利阶段。</p>
+<p><strong>竞争格局传导逻辑</strong></p>
+<ul>
+<li>极高的研发投入与工艺复杂性 → 设备性能决定客户良率与产出 → 客户转换成本极高、粘性强 → 高且稳定的市场份额 → 强定价权与高毛利率（52%）</li>
+<li>庞大的设备安装基数 → 对备件、服务和升级的持续需求 → 高利润的经常性收入（CSBG） → 盈利稳定性增强、周期性减弱</li>
+</ul>
+<h3 class="doc-h2">产销链</h3>
+<ul>
+<li><strong>客户情况</strong>：公司客户集中度较高，主要客户包括<strong>三星电子、台积电、英特尔</strong>等全球头部半导体制造商。FY2026Q4，来自代工客户的系统收入占比为<strong>44%</strong>，存储客户（DRAM+NAND）占比为<strong>46%</strong>。公司正积极与一家<strong>新的美国逻辑客户</strong>接洽，这有望成为未来的增量来源。从区域看，<strong>中国台湾（27%）</strong>、<strong>中国大陆（26%）</strong>和<strong>韩国（20%）</strong>是前三大收入来源地。中国大陆收入占比环比下降8个百分点，其中在华跨国客户收入环比增长，而本土客户收入下降，该分化趋势预计将持续。</li>
+<li><strong>供应商情况</strong>：资料中未提供关于公司供应商集中度、成本结构的具体数据。</li>
+<li><strong>经销商情况</strong>：公司采用直销模式，未提及经销商网络。</li>
+<li><strong>成本传导能力定性</strong>：公司凭借其技术壁垒和关键设备地位，具备较强的定价权。管理层明确表示，公司始终致力于<strong>为所交付的价值获得合理报酬</strong>，FY2026Q4毛利率的提升部分即来自定价措施。这表明公司有能力将上游成本压力或自身价值提升向下游传导，赚取的是<strong>技术溢价和品牌溢价</strong>。</li>
+</ul>
+<h3 class="doc-h2">财务数据</h3>
+<div class="tbl-wrap"><table><thead><tr><th>项目 (百万美元)</th><th>FY2024</th><th>FY2025</th><th>FY2026</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2024-06-30</td><td>2025-06-29</td><td>2026-06-28</td></tr><tr><td><strong>营业总收入</strong></td><td>14,905.39</td><td>18,435.59</td><td>23,233.00</td></tr><tr><td>同比</td><td>-14.48%</td><td>23.68%</td><td>26.02%</td></tr><tr><td><strong>营业成本</strong></td><td>7,853.00</td><td>9,457.00</td><td>11,507.00</td></tr><tr><td><strong>毛利润</strong></td><td>7,052.39</td><td>8,978.59</td><td>11,726.00</td></tr><tr><td><strong>毛利率</strong></td><td><strong>47.32%</strong></td><td><strong>48.70%</strong></td><td><strong>50.47%</strong></td></tr><tr><td><strong>营业利润</strong></td><td>4,282.00</td><td>5,901.00</td><td>8,200.00</td></tr><tr><td><strong>营业利润率</strong></td><td><strong>28.73%</strong></td><td><strong>32.01%</strong></td><td><strong>35.29%</strong></td></tr><tr><td><strong>归母净利润</strong></td><td>3,827.77</td><td>5,358.22</td><td>7,265.00</td></tr><tr><td>同比</td><td>-15.14%</td><td>39.98%</td><td>35.59%</td></tr><tr><td><strong>稀释每股收益 (美元)</strong></td><td>2.90</td><td>4.15</td><td>5.76</td></tr><tr><td><strong>经营活动现金流净额</strong></td><td>4,652.00</td><td>6,173.00</td><td>5,858.00</td></tr><tr><td><strong>资本性支出</strong></td><td>-397.00</td><td>-759.00</td><td>-966.00</td></tr><tr><td><strong>自由现金流</strong></td><td>4,255.00</td><td>5,414.00</td><td>4,892.00</td></tr></tbody></table></div>
+<ul>
+<li><strong>成长能力</strong>：公司FY2026营收同比增长<strong>26.02%</strong>，较FY2025的23.68%进一步加速，显示出强劲的增长势头。归母净利润同比增长<strong>35.59%</strong>，虽略低于FY2025的39.98%，但仍维持高位，表明公司在扩大规模的同时保持了优异的盈利增长。</li>
+<li><strong>盈利能力</strong>：公司毛利率从FY2024的47.32%持续提升至FY2026的<strong>50.47%</strong>，营业利润率从28.73%提升至<strong>35.29%</strong>，改善趋势显著。这主要得益于有利的产品组合、运营效率提升和定价策略。FY2026Q4单季毛利率更是达到<strong>52.0%</strong>，为近20年最高，验证了其盈利能力的持续提升。</li>
+<li><strong>运营能力</strong>：FY2026Q4存货周转率改善至<strong>3.0次</strong>，为近五年最高水平，表明公司在营收快速增长的同时，供应链管理效率也在提升。应收账款周转天数为72天，环比有所增加，需关注后续回款情况。</li>
+<li><strong>偿债能力与资本配置</strong>：公司财务结构稳健，FY2026年末现金及现金等价物为<strong>55.79亿美元</strong>，长期债务为<strong>37.30亿美元</strong>，净现金头寸充裕。公司持续通过股票回购（FY2026全年回购约<strong>38.51亿美元</strong>）和支付股息（FY2026全年约<strong>12.71亿美元</strong>）回报股东，资本配置策略对股东友好。</li>
+</ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p><strong>行业分析</strong>：公司所处的半导体设备行业，尤其是<strong>晶圆制造设备（WFE）</strong>市场，正经历由AI驱动的强劲扩张周期。2026年全球WFE市场规模预期已被公司上调至<strong>1500亿美元低位区间</strong>，较年初预期增长超10%。增长动力主要来自：1）<strong>DRAM</strong>：HBM需求激增和制程升级（向1c/1γ节点迁移）推动资本开支；2）<strong>代工/逻辑</strong>：GAA晶体管架构转型和先进封装投资；3）<strong>NAND</strong>：向200层以上器件的升级周期加速。展望2027年，随着新增洁净室产能逐步释放，WFE市场有望实现更大幅度的增长。</p>
+<p><strong>竞争格局</strong>：公司在刻蚀和沉积领域面临的主要竞争对手是<strong>应用材料（Applied Materials）</strong>和<strong>东京电子（Tokyo Electron）</strong>。在清洗领域，主要竞争对手包括<strong>Screen Holdings</strong>和<strong>东京电子</strong>。泛林集团的差异化优势在于其在<strong>导体刻蚀</strong>和<strong>3D NAND高深宽比刻蚀</strong>领域的领导地位，以及在<strong>先进封装电镀</strong>市场的强势份额。公司正通过新产品（Akara、VECTOR）将其技术优势扩展至DRAM和代工/逻辑领域，从而在更广阔的市场中获取份额。</p>
+<p><strong>可比公司</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>对标维度</th></tr></thead><tbody><tr><td><strong>应用材料 (Applied Materials)</strong></td><td>AMAT</td><td>产品线最全面的WFE供应商，在沉积、刻蚀、检测等多个领域与LRCX直接竞争。</td></tr><tr><td><strong>东京电子 (Tokyo Electron)</strong></td><td>-</td><td>在刻蚀和沉积领域与LRCX形成竞争，尤其在介质刻蚀方面。</td></tr><tr><td><strong>科磊 (KLA Corporation)</strong></td><td>KLAC</td><td>半导体过程控制和良率管理领域的领导者，与LRCX同属WFE核心供应商，但产品侧重点不同。</td></tr></tbody></table></div>
+<p><strong>总结分析</strong>：与应用材料相比，泛林集团的产品线更为聚焦，但在其核心的刻蚀和特定沉积领域拥有更深的技术护城河。与东京电子相比，泛林集团在导体刻蚀和3D NAND相关工艺上优势明显。当前，AI驱动的技术升级周期对刻蚀和沉积工艺的强度要求显著提升，这为泛林集团创造了超越行业平均增速的结构性机遇。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<p><strong>背景</strong>：公司股价在FY2026Q4财报发布后出现大幅波动，反映出市场对AI驱动的设备支出周期能否持续存在分歧。尽管公司业绩和指引均超预期，但投资者对估值、地缘政治风险和周期持续性等问题高度关注。</p>
+<ol>
+<li><strong>毛利率的可持续性与长期目标的可实现性</strong>——公司FY2026Q4毛利率达到<strong>52.0%</strong>，并提出了<strong>55%左右</strong>的长期目标。市场关注这一高利润率水平是否由短期供需紧张和一次性定价措施驱动，还是由产品组合升级和运营效率提升等结构性因素支撑。关键问题：52%的毛利率中，有多少来自不可持续的一次性因素（如短期提价），有多少来自结构性改善？公司计划如何将毛利率从52%提升至55%？具体的时间表和驱动因素是什么？随着新增产能释放和供应紧张缓解，公司能否维持当前的定价能力？</li>
+<li><strong>NAND升级周期的节奏与2027年后的需求持续性</strong>——NAND业务是公司短期业绩的核心增量，但市场对其持续性存疑。公司提出的约400亿美元升级机会大部分将在2027年底前完成，之后的需求能否由新建产能接续，是市场关注的焦点。关键问题：如何量化2027年NAND WFE中，升级需求和新建产能需求各自的贡献？在400亿美元升级机会基本兑现后，2028年及以后的NAND设备需求增长点在哪里？如何评估第三方机构关于2027年下半年NAND市场可能供过于求的预测？</li>
+<li><strong>中国大陆业务的未来走向与地缘政治风险</strong>——中国大陆是公司重要市场，但收入占比已从FY2026Q3的34%下降至FY2026Q4的<strong>26%</strong>。美国出口管制政策持续收紧，给公司在中国大陆的业务带来不确定性。关键问题：中国大陆收入占比下降是短期波动还是长期趋势？公司对中国市场2027年的展望如何？美国对华出口管制政策的最新动态和潜在影响是什么？中国本土半导体设备厂商的崛起是否对公司在华业务构成实质性竞争威胁？</li>
+</ol>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p>市场对泛林集团的核心分歧在于：<strong>当前强劲的业绩增长是AI驱动的多年超级周期的开端，还是一个即将见顶的周期性高点？</strong></p>
+<p><strong>乐观方观点：AI超级周期论，业绩高增具备多年持续性</strong>。AI发展正从训练转向推理，应用端（如Agentic AI、Physical AI）的爆发将驱动对算力、存储（HBM、NAND）和先进封装的海量需求。这并非短期炒作，而是一个长达数年的技术基础设施投资周期。支撑依据：<strong>WFE市场持续上修</strong>——公司已将2026年WFE展望从年初的1350亿美元上调至1500亿美元，并认为2027年增长前景“非凡”；<strong>技术升级驱动含量提升</strong>——GAA、HBM、3D NAND等新技术对刻蚀和沉积工艺的强度要求倍增，公司SAM持续扩大，有望实现超越WFE市场的增长；<strong>客户行为验证</strong>——客户已公布多年期新厂建设计划，并提前锁定设备订单，显示出对长期需求的信心，公司递延收入在FY2026Q4环比增加2.13亿美元，客户预付款回升，是需求强劲的佐证。</p>
+<p><strong>谨慎方观点：周期见顶论，高增长难以持续，估值已提前反应</strong>。半导体设备行业具有强周期性，当前的高增长部分源于过去几年投资不足后的补偿性需求。随着新增产能逐步释放，2027年下半年后市场可能面临供过于求的风险，导致资本开支放缓。支撑依据：<strong>估值处于历史高位</strong>——尽管股价有所回调，但公司FY2027年预期市盈率仍在<strong>30倍左右</strong>，高于其5年平均约24倍的水平，估值已计入较多乐观预期；<strong>NAND周期风险</strong>——公司短期业绩高度依赖NAND升级，而该升级周期的大部分将在2027年底前完成，有第三方机构预测2027年下半年NAND市场可能供过于求；<strong>地缘政治不确定性</strong>——中国大陆市场收入占比已开始下滑，出口管制风险是悬而未决的长期威胁。</p>
+<p><strong>总结分析</strong>：从FY2026Q4的业绩和指引来看，乐观方的逻辑得到了更强有力的数据支撑。公司不仅交出了创纪录的业绩，更在NAND、DRAM、代工/逻辑和CSBG等所有业务板块均展现出强劲的增长势头。管理层对2027年的定性判断极为积极，且客户行为（提前锁定订单）也验证了需求的可持续性。谨慎方关于周期见顶的担忧，目前缺乏来自公司层面或客户层面的微观证据。然而，其关于估值偏高和地缘政治风险的提示，是投资中需要持续关注和评估的因素。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>管理层最新指引</strong>：</p>
+<ul>
+<li><strong>FY2027Q1（2026年9月季度）</strong>：营收<strong>81亿美元</strong>（±4亿美元），Non-GAAP毛利率<strong>52%</strong>（±1pct），Non-GAAP营业利润率<strong>39.5%</strong>（±1pct），Non-GAAP每股收益<strong>2.15美元</strong>（±0.15美元）。</li>
+<li><strong>长期盈利框架</strong>：计划在未来数年内将毛利率提升至<strong>55%左右</strong>，营业利润率提升至<strong>45%左右</strong>。</li>
+</ul>
+<p><strong>券商盈利预测与估值</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价(美元)</th><th>财务指标</th><th>FY2026A</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>瑞银 (2026-08-03)</td><td>买入</td><td>435</td><td>营业收入(百万美元)<br>Non-GAAP EPS(美元)</td><td>23,233<br>5.82</td><td>36,475<br>10.34</td><td>46,450<br>14.26</td></tr><tr><td>汇丰 (2026-07-31)</td><td>持有</td><td>325</td><td>营业收入(百万美元)<br>Non-GAAP EPS(美元)</td><td>23,233<br>5.82</td><td>37,314<br>10.45</td><td>45,374<br>13.41</td></tr><tr><td>摩根大通 (2026-07-30)</td><td>超配</td><td>340</td><td>营业收入(百万美元)<br>Non-GAAP EPS(美元)</td><td>23,233<br>5.82</td><td>34,634<br>9.40</td><td>-<br>-</td></tr><tr><td>花旗 (2026-07-30)</td><td>买入</td><td>450</td><td>Non-GAAP EPS(美元)</td><td>-</td><td>-</td><td>-</td></tr><tr><td>高盛 (2026-07-31)</td><td>买入</td><td>380</td><td>Non-GAAP EPS(美元)</td><td>-</td><td>-</td><td>-</td></tr></tbody></table></div>
+<p>主流券商对公司的盈利预测存在一定分歧，FY2027年Non-GAAP每股收益预测区间在<strong>9.40美元至10.45美元</strong>之间，但均显著高于FY2026年的5.82美元，反映出市场对FY2027年业绩高增的共识。估值方法上，各机构普遍采用<strong>市盈率（P/E）估值法</strong>，基于FY2027或FY2028年的盈利预期进行定价。目标价区间为<strong>325-450美元</strong>，对应FY2027年预期市盈率约<strong>30-43倍</strong>。瑞银和花旗的目标价最为乐观，主要基于对公司WFE份额持续扩大和利润率提升的更高预期。汇丰则相对谨慎，给予“持有”评级，认为强劲的增长前景已大部分在股价中得到体现。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/LRCX · 生成于 2026-08-06</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-06';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'hit',     text: '<strong>FY2026Q4 财报全面超预期 + 9 月季度指引大幅上调</strong>：营收/毛利率/EPS 创纪录，2026 WFE 展望上修至 $1,500 亿低位区间', note: '2026-07-29 兑现' },
+  { kind: 'cat', status: 'active',  text: '<strong>Hyperscaler 财报季资本开支指引</strong>（2026-08 中下旬）：微软/亚马逊/谷歌 capex 直接验证 AI 设备需求持续性', note: '逐项核对中' },
+  { kind: 'cat', status: 'pending', text: '<strong>FY2026 10-K 发布</strong>（2026-08）：关注日本「已发货待验收」库存与递延收入细节', note: '' },
+  { kind: 'cat', status: 'pending', text: '<strong>FY2027Q1 财报</strong>（2026-10）：$81 亿指引能否再超预期——验证超级周期的关键节点', note: '指引隐含系统收入 QoQ +30%+' },
+  { kind: 'cat', status: 'pending', text: '<strong>约 $400 亿 NAND 升级机会兑现</strong>：大部分预计 2027 年底前完成，跟踪升级节奏与新建产能接续', note: 'NAND 收入 6 月季度已环比翻倍' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>2027 下半年 NAND 供过于求</strong>（第三方预测）：价格松动 → 客户放缓升级节奏', note: '当前客户讨论仍集中在升级现有产能' },
+  { kind: 'risk', status: 'clear', text: '<strong>对华出口管制升级至存量设备备件/服务</strong>：直接冲击 CSBG 高利润底座', note: '中国占比已 34%→26%，需每季跟踪' },
+  { kind: 'risk', status: 'clear', text: '<strong>CSP 集体下修资本开支</strong>：AI ROI 证伪 → WFE 订单砍单', note: '当前仍在扩张，财报季核对' },
+  { kind: 'risk', status: 'clear', text: '<strong>毛利率回落至 50% 以下</strong>：55% 长期目标路径证伪，定价权叙事受损', note: '最新 52.0%，近 20 年最高' },
+  { kind: 'risk', status: 'clear', text: '<strong>应收账款回款恶化</strong>：周转天数 72 天环比上升，若持续拉长提示客户资金链压力', note: '单季数据，待 10-K 复核' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

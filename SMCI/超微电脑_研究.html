@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>超微电脑（SMCI.O）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--policy-red); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">SMCI</span>
+    <span class="site-mark__text">超微电脑 公司研究<span>Super Micro · SMCI.O</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>超微电脑<span class="en">Super Micro Computer · SMCI.O · 美股研究</span></h1>
+        <p class="sub">AI 服务器第一梯队的高 Beta 标的：FY26 前三季度营收 +72%，但毛利率从 18% 一路滑到 8.2%——「增收不增利」是产业链中游集成商议价权缺失的直接写照。FY26Q4 初步业绩把毛利率指引一口气提到 15%-17%、并披露单季新增订单超 600 亿美元，市场分歧随之达到顶点。核心矛盾：这是 DCBBS 转型带来的结构性拐点，还是组件短缺 + 订单递延拼出来的一次性高点？8 月 11 日财报前，证据不足以下重注。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-06</span>
+          <span>下次更新：FY26Q4 财报电话会（2026-08-11）后</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>券商目标价 28-38 美元隐含约 9-10x FY2027E EPS，四家机构无一买入；三情景期望值与当前共识定价几乎重合，8月11日财报是二元事件。重检条件：FY27 毛利率指引落在双位数以上且无需再融资 → 转买入；回落至个位数 → 回避。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">营收 +72.3%</strong><span>FY26 Q1-Q3 $279.4亿</span></div>
+      <div class="summary-rail__item"><strong>8.2%→15-17%</strong><span>毛利率·Q4 指引跳升</span></div>
+      <div class="summary-rail__item"><strong>&gt;$600亿</strong><span>单季新增订单·可取消</span></div>
+      <div class="summary-rail__item"><strong>$70亿 / 27%</strong><span>股权融资·稀释幅度</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">毛利率从 8.2% 跳到 15%-17%：DCBBS 转型的结构拐点，还是一次性因素拼出来的高点？</h2>
+        <span class="qa__impact-tag">→ FY2026E EPS 分歧 $2.59-3.56 · 8月11日见分晓</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>方向正确的初步信号，但<strong>一个季度不足以定调「结构性拐点」</strong>。公司归因于高毛利 DCBBS 与企业客户占比提升（结构性），但改善幅度之大（近乎翻倍）必然包含显著的一次性成分：组件短缺带来的稀缺性溢价、低毛利订单因客户数据中心延迟而递延。<em>判断标准很简单：8月11日管理层对 FY27 的毛利率指引落在双位数以上，结构改善才算开始被证实；若闪烁其词，按一次性事件处理。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这是当前 EPS 预测分歧的唯一主轴。</strong>券商 FY2026E EPS 区间 $2.59-3.56、FY2027E 区间 $3.12-4.23，分歧的本质就是毛利率假设：高盛/BofA 按「回落至个位数」建模，Barclays 按「部分可持续」建模。毛利率每守住 1pct，在约 400 亿美元的营收基数上 ≈ 4 亿美元毛利——对一家 FY2025 全年毛利仅 24.3 亿的公司，这是决定性的变量。</p>
+            <p>对估值倍数的影响同样直接：若毛利率被验证为结构性双位数，公司从「低毛利组装商」重估为「解决方案商」，治理折价之外的盈利质量折价可以部分修复；若证伪，7-9 倍的低倍数将被证明是价值陷阱而非机会。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>DCBBS（数据中心全栈方案）毛利率可达 <strong>20% 以上</strong>，管理层预计未来将贡献超过 <strong>25%</strong> 的公司总利润——结构性占比提升正在发生</li>
+              <li>客户结构实质改善：最大客户收入占比从 FY26Q2 的 <strong>62.6%</strong> 降至 FY26Q3 的 <strong>27.0%</strong>，企业客户占比升至 <strong>28%</strong>——对低毛利大客户的依赖在下降</li>
+              <li>液冷从可选变为必选，公司具备冷板到 CDU 的全套自研能力，是获取大型 AI 集群订单的差异化优势</li>
+              <li>企业级与主权 AI（西班牙加泰罗尼亚、韩国等）打开第二增长曲线，这类客户对定制化方案的付费意愿远高于比价型云厂商</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>毛利率轨迹是 <strong>18.0% → 13.8% → 11.1% → 8.2%</strong> 的单边下滑，公司自己解释为「有竞争力的定价以获取市场份额」——一个季度的反弹对抗不了三年趋势</li>
+              <li>组件（GPU/内存）短缺带来的<strong>稀缺性溢价是暂时的</strong>，供应链恢复后提价能力随之消失</li>
+              <li>低毛利订单只是<strong>递延而非消失</strong>——后续季度确认时会重新压低毛利率</li>
+              <li>戴尔、HPE 补齐液冷能力、ODM（广达/富士康）直供云厂商，<strong>先发优势正在被双向挤压</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（盈利能力趋势 · 毛利率驱动因素拆解 · 多空分歧量化）</summary>
+          <div class="evidence__body">
+            <h5>盈利能力趋势（单位：亿美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>财年</th><th>营收</th><th>YoY</th><th>毛利率</th><th>营业利润率</th><th>归母净利率</th><th>稀释 EPS（美元）</th></tr></thead><tbody><tr><td>FY2023</td><td>71.23</td><td>+37.1%</td><td>18.01%</td><td>10.68%</td><td>8.98%</td><td>1.14</td></tr><tr><td>FY2024</td><td>149.89</td><td>+110.4%</td><td>13.75%</td><td>8.08%</td><td>7.69%</td><td>1.92</td></tr><tr><td>FY2025</td><td>219.72</td><td>+46.6%</td><td>11.06%</td><td>5.70%</td><td>4.77%</td><td>1.68</td></tr><tr><td><strong>FY2026 Q1-Q3</strong></td><td>279.43</td><td><strong>+72.3%</strong></td><td><strong>8.18%</strong></td><td>4.59%</td><td>3.76%</td><td>1.59</td></tr></tbody></table></div>
+            <p>营收三年增长近 4 倍，但 FY2025 归母净利润<strong>同比下降 9.0%</strong>——「增收不增利」是产业链中游集成商的典型困境：上游是英伟达等掌握核心芯片的巨头，下游是议价能力极强的云厂商，大部分价值由上游创造、利润空间被下游挤压。这正是 Q4 毛利率跳升引发如此大关注的原因：它直接挑战了这个叙事。</p>
+            <h5>FY26Q4 毛利率跳升的驱动因素拆解</h5>
+            <ul>
+              <li><strong>结构性因素（多方依据）</strong>：高毛利 DCBBS 业务收入占比提升；企业客户收入占比升至 28%；软件与服务收入增长</li>
+              <li><strong>一次性因素（空方依据）</strong>：关键组件短缺带来的稀缺性溢价（可临时提价）；低毛利订单因客户数据中心准备延迟而递延，意外优化当季组合；关税、加急费等一次性成本减少</li>
+              <li><strong>验证点</strong>：8月11日电话会——FY27 毛利率指引、DCBBS 利润贡献的量化拆分、递延订单的确认节奏</li>
+            </ul>
+            <h5>解读：一句话</h5>
+            <p>改善幅度之大难以完全用结构性因素解释，但完全否认结构改善也忽视了客户集中度和企业占比的实质变化。<strong>真相比两个极端都无聊：大概是「结构性双位数下限 + 一次性冲高」的组合</strong>——这意味着 FY27 毛利率可能落在 10-13% 之间，既好于空方模型，也低于多方的 15%+ 外推。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">600 亿美元订单 + 70 亿美元融资：创纪录增长的质量与代价</h2>
+        <span class="qa__impact-tag">→ 稀释约 27% · 经营现金流 -$75.6亿</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>订单彰显的需求是真实的（AI 服务器需求景气毋庸置疑），但<strong>这笔增长的融资结构对股东极不友好</strong>：订单注明「可能不构成坚定承诺且可被取消」，为交付而做的 70 亿美元股权融资稀释约 27%，而 FY26 前三季度经营现金流已是 <strong>-75.57 亿美元</strong>。<em>本质问题：公司是在用股东的钱为「先囤货、后交付、再收款」的营运资本黑洞垫资。订单转化顺利则一切值得；转化不及预期，稀释和债务已成事实。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>27% 的稀释直接压低了所有每股指标的天花板。</strong>即便订单全部转化、营收按券商预期冲向 FY2027 的 496-636 亿美元，EPS 的增长也要先填平股本扩张的坑。这是券商 FY2027E EPS 仅 $3.12-4.23（对应 FY2026E $2.59-3.56）的重要原因之一。</p>
+            <p>财务结构恶化影响估值倍数：FY25 末还是净现金，FY26Q3 末已是<strong>总债务 87.73 亿 vs 现金 12.90 亿、净债务 74.83 亿美元</strong>。杠杆上升 + 治理疑虑 + 盈利波动，三者共同决定了市场只愿意给 7-10 倍 PE——倍数修复的前提是「订单转化 + 无需再融资」同时被证明。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>单季新增订单超 <strong>600 亿美元</strong>、期末在手订单历史新高，而 FY26 全年营收指引仅 389-404 亿——<strong>未来多个季度的交付已被锁定</strong></li>
+              <li>融资是为了采购约 390 亿美元订单的关键组件：先有订单、后有融资，<strong>是需求驱动的主动扩张而非资金链救急</strong></li>
+              <li>强劲订单数据带动戴尔、HPE 同行股价上涨，公司被视为 AI 基建需求的风向标——行业 Beta 仍在上行</li>
+              <li>英伟达新平台（Vera Rubin）出货在即，核心合作伙伴地位保障了下一代产品的订单优先权</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>公司自己脚注承认订单<strong>「可能不构成坚定承诺且可被取消」</strong>——600 亿里有多少是法律约束性承诺，无人知晓</li>
+              <li>营运资本失控：存货 <strong>111.03 亿美元（+137%）</strong>、应收账款 <strong>84.13 亿美元（+282%）</strong>，现金转换周期急剧拉长</li>
+              <li>经营现金流 <strong>-75.57 亿美元</strong>：增长本身在吞噬现金，订单越大、融资需求越大——若在手订单再膨胀，<strong>再次稀释只是时间问题</strong></li>
+              <li>与关联方 Ablecom（机箱）/Compuware（电源）的大量采购既是定制能力来源，也是治理疑虑的长期出处</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（财务数据速览 · 营运资本与杠杆恶化轨迹 · 业务拆分）</summary>
+          <div class="evidence__body">
+            <h5>关键财务数据（单位：亿美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 Q1-Q3</th></tr></thead><tbody><tr><td>营业总收入</td><td>71.23</td><td>149.89</td><td>219.72</td><td>279.43</td></tr><tr><td>毛利</td><td>12.83</td><td>20.61</td><td>24.30</td><td>22.85</td></tr><tr><td>归母净利润</td><td>6.40</td><td>11.53</td><td>10.49（-9.0%）</td><td>10.52</td></tr><tr><td>经营活动现金流</td><td>—</td><td>—</td><td>—</td><td><span class="warn">-75.57</span></td></tr><tr><td>存货</td><td>—</td><td>—</td><td>—</td><td>111.03（较 FY25 末 +137%）</td></tr><tr><td>应收账款</td><td>—</td><td>—</td><td>—</td><td>84.13（+282%）</td></tr><tr><td>总债务（含可转债）</td><td>—</td><td>—</td><td>净现金状态</td><td>87.73（现金仅 12.90）</td></tr></tbody></table></div>
+            <h5>业务拆分（单位：亿美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2023</th><th>FY2024</th><th>FY2025</th></tr></thead><tbody><tr><td>服务器和存储系统收入（占比）</td><td>65.70（92.2%）</td><td>141.85（94.6%）</td><td>213.12（97.0%）</td></tr><tr><td>子系统和附件收入（占比）</td><td>5.54（7.8%）</td><td>8.04（5.4%）</td><td>6.60（3.0%）</td></tr><tr><td><strong>总收入</strong></td><td><strong>71.23</strong></td><td><strong>149.89</strong></td><td><strong>219.72</strong></td></tr></tbody></table></div>
+            <p>服务器与存储系统占比已达 97%（FY2025 同比 +50.2%，AI GPU 服务器与机架级方案驱动），业务高度单一——这放大了订单质量问题的杀伤力：没有第二条业务线可以对冲订单取消。</p>
+            <h5>解读：一句话</h5>
+            <p>这套「订单-融资-囤货-交付」的飞轮，本质上是把云厂商资本开支的信用风险转移到了自己的资产负债表上。景气上行期它是增长放大器；一旦 CSP 砍单或订单取消，存货、应收和债务会同时变成减值压力。<strong>跟踪存货与经营现金流，比跟踪订单 headline 数字重要得多。</strong></p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">估值：7-10 倍的低倍数是治理折价的机会，还是价值陷阱？</h2>
+        <span class="qa__impact-tag">→ 三情景期望值 ≈ 共识定价 · 无明显预期差</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>四家主流券商（高盛 Sell $30 / BofA Underperform $28 / 花旗 Neutral $33 / Barclays Equal Weight $38）<strong>无一给出买入</strong>——这本身就是定价信息：折价的核心不是盈利能力，而是治理（财务造假前科 + 出口管制调查 + 内控「重大缺陷」未修复）与盈利质量的信任赤字。三情景测算的期望值约 $31，与券商目标价中枢几乎重合——<strong>当前定价没有提供明显的预期差</strong>。<em>保留判断：一页通未含最新现价，情景测算以券商盈利预测与目标价为锚，隐含股价区间供与市价对照。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这个问题本身就是估值问题。</strong>券商目标价 28-38 美元，按各自 FY2027E EPS 反推隐含约 9-10 倍 PE——市场已经按「毛利率部分改善但需打折 + 治理折价持续」定价。这意味着：毛利率验证成功是<strong>双击</strong>（EPS 上修 + 倍数修复至 11x+），验证失败是<strong>双杀</strong>（EPS 下修 + 倍数压向 7x），赔率结构围绕 8月11日高度二元化。</p>
+            <p>在二元事件前建仓，赌的是信息优势而非赔率优势——而我们对「DCBBS 利润贡献占比」这一关键变量并不比市场知道得更多。<strong>持有，等财报把概率分布收窄后再定价。</strong></p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>若 FY27 毛利率守住双位数，EPS 向 Barclays 的 <strong>$4.23</strong> 靠拢，叠加倍数修复至 11-12x，隐含股价 $46-50——较目标价上沿仍有空间</li>
+              <li>AI 服务器市场规模未来 2-3 年可达 <strong>2-4 万亿美元</strong>（管理层引述），行业 Beta 足以托起多家赢家</li>
+              <li>治理问题已被充分定价：Sell 评级 + 7-10x 倍数意味着<strong>坏消息的边际冲击力有限</strong></li>
+              <li>客户集中度从 62.6% 降至 27%、企业占比 28%——折价的两项主要依据正在客观改善</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>财务造假前科（曾被 SEC 处罚）+ 出口管制调查（独立董事会调查中）+ 内控重大缺陷——<strong>治理折价是长期结构性的，不会因一个季度的好数据消失</strong></li>
+              <li>低倍数在硬件集成行业是常态而非错杀：戴尔、HPE 长期低倍数交易，<strong>「便宜」是这个商业模式的属性</strong></li>
+              <li>27% 稀释后 EPS 天花板下移，若毛利率回落个位数，$2.6 × 7x ≈ $18 的悲观情景并不极端</li>
+              <li>作为高 Beta 标的，CSP 资本开支指引一旦波动，<strong>股价调整幅度会大于基本面变化</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（当前定价 · 三情景测算 · 券商预测分歧）</summary>
+          <div class="evidence__body">
+            <h5>当前定价锚（估算）</h5>
+            <ul>
+              <li>一页通未含最新现价；以四家券商目标价 <strong>$28-38</strong>（中约 $32）为市场共识定价的代理锚</li>
+              <li>目标价 / 各自 FY2027E EPS ≈ <strong>9-10x</strong>；估值方法均为市盈率，倍数差异反映对治理风险、盈利波动与订单质量的不同折价</li>
+              <li>FY26Q4 初步业绩（7月21日）披露后股价当日大涨——市场对「毛利率拐点」叙事已有初步反应</li>
+            </ul>
+            <h5>三情景假设（FY2027 视角，隐含股价供与市价对照）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>FY2027 EPS</th><th>合理 PE</th><th>隐含股价</th></tr></thead><tbody><tr><td>乐观（25%）</td><td>FY27 毛利率指引守住双位数，订单转化顺利、无再融资，治理折价部分修复</td><td>~$4.23（Barclays 口径）</td><td>11x</td><td>~$46</td></tr><tr><td>中性（50%）</td><td>毛利率回落至 10-13% 区间企稳（结构性下限 + 一次性消退），订单大体转化</td><td>~$3.40</td><td>9x</td><td>~$31</td></tr><tr><td>悲观（25%）</td><td>毛利率重回个位数，部分订单取消/延迟，再次股权融资</td><td>~$2.60（高盛/BofA 口径下沿）</td><td>7x</td><td>~$18</td></tr></tbody></table></div>
+            <p><strong>概率加权期望值约 $31，与券商目标价中枢（~$32）几乎重合。</strong>这恰恰说明当前市场定价是「有效」的：多空证据大体对称，8月11日财报才是收窄概率分布的事件。在二元事件前给「买入」需要的是赔率或信息优势，目前两者都不具备——故观点为「持有」，财报后按 FY27 毛利率指引重检。</p>
+            <h5>券商盈利预测（财报后更新，单位：美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级 / 目标价</th><th>FY2026E EPS</th><th>FY2027E EPS</th><th>FY2028E EPS</th></tr></thead><tbody><tr><td>Barclays（2026-07-21）</td><td>Equal Weight / $38</td><td>3.56</td><td>4.23</td><td>6.75</td></tr><tr><td>高盛（2026-07-21）</td><td>Sell / $30</td><td>2.63</td><td>3.12</td><td>3.44</td></tr><tr><td>花旗（2026-07-21）</td><td>Neutral/High Risk / $33</td><td>2.61</td><td>3.15</td><td>4.10</td></tr><tr><td>BofA（2026-05-08）</td><td>Underperform / $28</td><td>2.59</td><td>3.15</td><td>4.34</td></tr></tbody></table></div>
+            <p>注：四家预测的分歧核心在毛利率假设——高盛/BofA 按「Q4 高毛利不可持续」建模，Barclays 按「部分可持续」建模。营收预测分歧同样巨大（FY2027E 496-636 亿美元），反映对订单转化率的不同判断。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>：公司概况、近况跟踪、业务拆分、催化剂（见同目录《超微电脑_一页通.md》，亦见本站「一页通」标签页）</li>
+        <li><strong>财务数据</strong>：FY2023-FY2026Q3 利润表要点、FY26Q4 初步业绩预告与管理层指引（正文数据均来自公开财报整理）</li>
+        <li><strong>局限</strong>：未读 10-Q 原文与电话会纪要（建议下一步补读 FY26Q3 10-Q 中关于客户集中度与内控缺陷的表述）；一页通未含最新现价，估值测算以券商目标价为锚、隐含股价仅供对照；出口管制调查结果未定，未做情景定价</li>
+        <li><strong>管理层评估（一句话版）</strong>：管理层敢于在初步业绩中大幅上调毛利率指引、并以激进融资锁定创纪录订单的交付能力，执行力不容置疑；但订单「可取消」的脚注、关联采购与内控缺陷的持续存在，说明信息披露与治理文化的修复仍在半途——信任重建需要连续多个季度的干净兑现</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>超微电脑是全球领先的AI服务器与数据中心全栈解决方案提供商，其核心业务是为企业、云服务商及AI实验室提供高度定制化的高性能服务器、存储系统及机架级解决方案。公司凭借模块化架构和直接液冷技术，在AI基础设施领域占据关键位置，是英伟达等GPU厂商的核心合作伙伴。其市场地位处于第一梯队，与戴尔、HPE等巨头直接竞争，尤其在新兴云服务商和主权AI领域具备较强影响力。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul>
+<li><strong>FY26Q4毛利率指引大幅上调</strong>：公司于2026年7月21日发布初步业绩，预计FY26Q4（截至2026年6月30日）GAAP及Non-GAAP毛利率将达到<strong>15%-17%</strong>，较此前<strong>8.2%-8.4%</strong>的指引近乎翻倍。公司将这一改善归因于有利的客户与产品组合，包括高毛利的DCBBS业务及企业客户收入占比提升。</li>
+<li><strong>新增订单量创纪录</strong>：公司披露FY26Q4单季新增订单超过<strong>600亿美元</strong>，推动期末在手订单达到历史新高。这些订单预计将在未来多个季度交付。作为对比，公司FY26全年营收指引为389-404亿美元。</li>
+<li><strong>大规模股权融资</strong>：为满足订单交付所需的营运资金，公司于2026年6月宣布一项总额<strong>70亿美元</strong>的股权及股权挂钩融资计划，包括普通股、强制可转换优先股及市场发售计划，用以采购约390亿美元订单所需的关键组件。此举导致约27%的稀释。</li>
+<li><strong>客户集中度显著改善</strong>：根据FY26Q3的10-Q文件，公司最大客户收入占比已从FY26Q2的<strong>62.6%</strong>（约79亿美元）降至<strong>27.0%</strong>（约28亿美元），同时企业客户收入占比提升至<strong>28%</strong>，显示客户结构多元化取得进展。</li>
+<li><strong>出口管制调查持续</strong>：公司前员工因涉嫌违反出口管制被起诉，公司已启动由独立董事会领导的调查，并强调自身并非调查目标。该事件及公司长期存在的财务内控问题仍是市场对公司治理的主要担忧。</li>
+</ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol>
+<li><strong>毛利率可持续性验证</strong>：FY26Q4的15%-17%毛利率远超市场预期，但市场对其可持续性存在巨大分歧。看多方认为这是DCBBS、软件和服务等高毛利业务结构性占比提升的结果；看空方则认为主要源于特定季度有利的一次性产品组合或组件短缺带来的稀缺性溢价。<strong>8月11日的财报电话会将是关键验证点</strong>，管理层对FY27的毛利率指引及对DCBBS利润贡献的量化说明，将决定市场是否会对公司进行价值重估。</li>
+<li><strong>创纪录订单的转化与融资压力</strong>：超过600亿美元的新增订单彰显了强劲的AI服务器需求，但市场对其质量存疑，因公司承认这些订单"可能不构成坚定承诺且可被取消"。同时，为满足订单交付，公司已进行大规模股权融资，导致显著稀释。<strong>未来几个季度营收能否如期高速增长，以及公司是否会因更大的在手订单而再次启动融资</strong>，是股价的核心驱动因素。若营收兑现且无需再融资，股价有较大上行空间；反之则面临双重压力。</li>
+<li><strong>AI资本开支情绪的放大器</strong>：当前市场对AI资本开支的可持续性高度敏感。作为AI基础设施需求的直接受益者，超微电脑的业绩和订单数据被视为行业风向标。其强劲的订单数据短期内提振了市场情绪，并带动戴尔、HPE等同行股价上涨。然而，一旦后续云厂商资本开支指引出现波动，超微电脑作为高Beta标的，其股价也将面临剧烈调整的风险。</li>
+</ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol>
+<li><strong>从服务器组装商向全栈解决方案提供商的战略升级</strong>：公司正通过DCBBS将业务从低毛利的硬件组装，拓展至集成液冷、网络、软件、服务与部署的全栈解决方案。管理层预计DCBBS毛利率可达<strong>20%</strong>以上，并有望在未来贡献超过<strong>25%</strong>的公司总利润。这一战略升级若能成功，将结构性提升公司的盈利能力和客户粘性，从价格战中抽身，构建更深厚的护城河。</li>
+<li><strong>AI推理与企业级市场的广阔扩张空间</strong>：公司历史上在AI训练领域的新兴云服务商中占据优势，但企业级市场份额较小。随着AI应用向推理阶段过渡，企业客户对定制化、低延迟的本地部署方案需求激增。超微电脑凭借其高度灵活的定制化能力和DCBBS方案，有望在企业级市场（尤其是中大型企业）实现显著渗透，打开第二增长曲线，并改善客户和产品组合，支撑更高的毛利率。</li>
+<li><strong>液冷技术的先发优势与行业标准化趋势</strong>：随着GPU功耗持续攀升，液冷正从可选项变为必选项。超微电脑在直接液冷领域布局较早，具备从冷板到冷却分配单元的全套自研能力，这是其获取大型AI集群订单的关键差异化优势。若液冷技术成为行业主流标准，公司作为先行者有望持续受益于技术升级带来的价值量提升和市场份额集中。</li>
+</ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul>
+<li><strong>公司治理与合规风险</strong>：公司历史上曾因财务造假被SEC处罚，近期又陷入出口管制调查，且财务内控的"重大缺陷"至今未能完全修复。这些持续存在的治理问题严重损害了公司在资本市场的信誉，可能导致客户转向竞争对手、融资成本上升，并构成长期估值折价的核心原因。</li>
+<li><strong>毛利率与订单质量不及预期风险</strong>：市场对FY26Q4的高毛利率和创纪录订单反应积极，但若后续季度毛利率回落至个位数，或大量"订单"因非约束性而被取消或延迟，将证伪当前的乐观预期。特别是，公司为满足订单而大规模融资，若订单转化不及预期，将造成严重的财务资源浪费和股东稀释。</li>
+<li><strong>激烈市场竞争与客户集中风险</strong>：AI服务器市场竞争激烈，公司面临戴尔、HPE等传统OEM厂商和广达、富士康等ODM厂商的双重挤压。尽管FY26Q3客户集中度有所下降，但历史上公司业绩高度依赖少数大客户，任何主要客户的订单流失或采购策略变更，都将对公司营收和利润产生重大冲击。</li>
+</ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul>
+<li><strong>2026年5月11日</strong>：公司发布FY26Q3财报，营收102.4亿美元，同比增长123%，但环比下降19%，低于指引，主要因客户数据中心准备延迟。毛利率10.1%，超预期。同时披露最大客户收入占比降至27%。</li>
+<li><strong>2026年6月9日</strong>：公司宣布一项总额<strong>70亿美元</strong>的股权及股权挂钩融资计划，以支持约390亿美元AI服务器订单的组件采购。消息公布后股价承压。</li>
+<li><strong>2026年7月21日</strong>：公司发布FY26Q4初步业绩预告，预计毛利率将达到<strong>15%-17%</strong>，远超此前指引；同时披露单季新增订单超过<strong>600亿美元</strong>，创历史新高。股价当日大幅上涨。</li>
+</ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul>
+<li><strong>2026年8月11日</strong>：公司计划于该日召开FY26Q4财报电话会。届时管理层对FY27的营收、毛利率指引，以及对DCBBS业务进展、订单转化前景和出口管制调查影响的详细说明，将是决定股价短期走势的最关键事件。</li>
+<li><strong>2026年8月-10月</strong>：主要云厂商（如微软、谷歌、亚马逊）及AI实验室将陆续发布财报并更新资本开支计划。其资本开支指引的增减将直接影响市场对AI服务器需求的预期，从而对超微电脑的估值产生系统性影响。</li>
+<li><strong>2026年8月-10月</strong>：英伟达新一代GPU平台（如Vera Rubin）的出货进展及相关供应链消息。作为英伟达的核心合作伙伴，超微电脑能否率先推出基于新平台的系统并获得客户订单，是验证其技术领先性和市场地位的关键催化。</li>
+</ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<p><strong>业务边际变化</strong>：公司正经历从传统服务器供应商向数据中心全栈解决方案提供商的战略转型。核心变化在于大力推广DCBBS，该方案整合了服务器、液冷、网络、管理软件和部署服务，旨在提升价值量和客户粘性。同时，公司正积极拓展企业级和主权AI客户，以改善过去高度依赖少数大型云服务商的客户结构。</p>
+<p><strong>盈利模式</strong>：公司盈利模式正从赚取硬件组装和集成的"加工费"，向通过提供差异化解决方案（DCBBS）、软件和服务来获取"品牌与技术溢价"转变。其盈利能力高度依赖规模效应、供应链管理效率，以及在液冷等前沿技术上的先发优势。</p>
+<p><strong>业务拆分</strong>：公司业务主要分为"服务器与存储系统"和"子系统与配件"两大类。近年来，服务器与存储系统收入占比持续提升，FY25已占<strong>97%</strong>，是绝对核心。公司当前处于由AI驱动的<strong>产能爬坡与业绩兑现期</strong>，但同时也面临客户集中度高、毛利率波动大的挑战。</p>
+<p><strong>细分业务拆分（单位：亿美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 Q1-Q3</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2023-06-30</td><td>2024-06-30</td><td>2025-06-30</td><td>2026-03-31</td></tr><tr><td><strong>服务器和存储系统</strong> 收入</td><td>65.70</td><td>141.85</td><td>213.12</td><td>-</td></tr><tr><td>同比</td><td>-</td><td>115.9%</td><td>50.2%</td><td>-</td></tr><tr><td>占总收入比例</td><td>92.2%</td><td>94.6%</td><td>97.0%</td><td>-</td></tr><tr><td><strong>子系统和附件</strong> 收入</td><td>5.54</td><td>8.04</td><td>6.60</td><td>-</td></tr><tr><td>同比</td><td>-</td><td>45.2%</td><td>-17.9%</td><td>-</td></tr><tr><td>占总收入比例</td><td>7.8%</td><td>5.4%</td><td>3.0%</td><td>-</td></tr><tr><td><strong>总收入</strong></td><td><strong>71.23</strong></td><td><strong>149.89</strong></td><td><strong>219.72</strong></td><td><strong>279.43</strong></td></tr></tbody></table></div>
+<p><strong>服务器和存储系统业务（FY2025）</strong>：该业务是公司绝对支柱，收入同比增长50.2%，主要受AI GPU服务器和机架级解决方案的强劲需求驱动。AI GPU相关产品收入增长显著，包括液冷和风冷服务器，其平均售价更高。公司特别提到，其DCBBS和软件服务收入正在快速增长，尽管绝对额仍较小，但代表了未来高毛利业务的发展方向。</p>
+<p><strong>子系统和附件业务（FY2025）</strong>：该业务收入同比下降17.9%，主要因公司战略性地将资源优先集中于服务器和存储系统业务。这部分产品多为标准化组件，毛利率相对较低。</p>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托先发规模与全栈集成能力构筑的阶段性解决方案优势</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：属于<strong>行业阶段性红利</strong>，而非结构性护城河。超微电脑凭借与英伟达等GPU厂商的紧密合作关系、早期在液冷领域的投入以及灵活的定制化能力，在AI服务器市场爆发初期快速获取了大型客户订单，形成了规模优势。其DCBBS全栈解决方案通过整合硬件、软件和服务，试图从"卖箱子"升级为"卖方案"，以提升客户粘性和利润率。</li>
+<li><strong>数据验证</strong>：公司营收从FY2023的71.23亿美元暴增至FY2026前三季度的279.43亿美元，证明了其抓住初期市场机遇的能力。然而，FY2025毛利率已从FY2023的18.0%下滑至11.1%，显示其核心硬件业务仍面临激烈的价格竞争，定价权有限。尽管FY26Q4毛利率指引跳升至15%-17%，但其可持续性待考。</li>
+<li><strong>动态演变</strong>：该优势正面临<strong>收缩风险</strong>。随着戴尔、HPE等竞争对手补齐液冷和集成能力，以及ODM厂商直接向大型云客户供货，超微电脑的先发优势正在被侵蚀。其能否通过DCBBS建立真正的客户粘性，是护城河能否巩固的关键。</li>
+</ul>
+<p><strong>竞争要素 2：产业链话语权较弱导致的盈利脆弱性</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：<strong>盈利模式待验证，产业链议价空间受限</strong>。公司处于产业链中游，上游是英伟达等掌握核心芯片的巨头，下游是资本雄厚、议价能力强的云服务商。公司本质上是一个高价值组件的集成商，大部分价值由上游芯片厂商创造，而下游大客户则持续挤压其利润空间。</li>
+<li><strong>数据验证</strong>：FY2025毛利率同比下滑2.7个百分点至11.1%，公司明确解释为"提供有竞争力的定价以获取市场份额"和"产品与客户组合变化"。同时，公司营运资本需求巨大，FY26前三季度经营性现金流为-75.57亿美元，不得不通过大规模股权融资来支撑增长，这反映了其在产业链中的弱势地位。</li>
+<li><strong>动态演变</strong>：该要素面临<strong>持续压力</strong>。只要公司的业务模式仍以硬件集成为主，其毛利率将长期受上下游挤压。向DCBBS和软件服务转型是改善这一状况的核心路径，但转型成功需要时间和持续的客户验证。</li>
+</ul>
+<p><strong>现阶段核心驱动力总结</strong>：公司的Alpha在于能否成功执行从硬件集成商到解决方案提供商的战略转型，从而结构性提升盈利能力和客户粘性。其Beta则高度依赖于AI资本开支的宏观周期，是典型的顺周期高弹性标的。</p>
+<p><strong>竞争格局传导逻辑</strong>：高度依赖上游GPU供应商与下游大型云客户 → 产业链议价能力受限、定价权弱 → 毛利率持续承压（FY25: 11.1%）→ 盈利模式待验证、需向高毛利服务转型。同时：率先布局液冷与全栈集成（DCBBS）→ 获取大型AI集群订单、实现短期规模扩张 → 营收高速增长（FY26 Q1-Q3: 279.43亿美元）→ 先发优势面临竞争侵蚀、需证明客户粘性。</p>
+<h3 class="doc-h2">产销链</h3>
+<ul>
+<li><strong>客户情况</strong>：公司客户集中度极高但正在改善。FY26Q3，最大客户（一家数据中心）收入占比为<strong>27.0%</strong>，第二大客户（一家企业）占比<strong>10.3%</strong>。而在FY26Q2，最大客户占比曾高达<strong>62.6%</strong>。公司正积极拓展企业客户和主权AI客户，以分散风险。新客户拓展方面，公司已宣布与西班牙加泰罗尼亚、韩国等地区的主权云合作，并正与多家企业客户进行项目接洽。</li>
+<li><strong>供应商情况</strong>：公司核心供应商为英伟达、AMD、英特尔等芯片厂商，以及提供内存、SSD等关键组件的厂商。公司与两家关联方——Ablecom（机箱）和Compuware（电源）存在大量关联交易，FY26前三季度向这两家公司采购额占成本约<strong>2.1%</strong>。这种关联关系既是其快速定制能力的保障，也是市场对其治理结构的长期疑虑点。当前，CPU、GPU和内存等关键组件供应紧张，公司通过实时成本传导和客户协助采购来应对。</li>
+<li><strong>成本传导能力</strong>：公司赚取的是"加工费+解决方案溢价"。当上游组件涨价时，公司表示能够将大部分成本增加转嫁给客户，尤其是在供应紧张时期。但其毛利率的历史波动表明，这种传导能力并不稳定，在面对大客户时议价空间有限。</li>
+</ul>
+<h3 class="doc-h2">财务数据</h3>
+<p><strong>关键财务数据（单位：亿美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 Q1-Q3</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2023-06-30</td><td>2024-06-30</td><td>2025-06-30</td><td>2026-03-31</td></tr><tr><td>营业总收入</td><td>71.23</td><td>149.89</td><td>219.72</td><td>279.43</td></tr><tr><td>收入同比</td><td>37.09%</td><td>110.42%</td><td>46.59%</td><td>72.33%</td></tr><tr><td>毛利</td><td>12.83</td><td>20.61</td><td>24.30</td><td>22.85</td></tr><tr><td><strong>毛利率</strong></td><td><strong>18.01%</strong></td><td><strong>13.75%</strong></td><td><strong>11.06%</strong></td><td><strong>8.18%</strong></td></tr><tr><td>营业利润</td><td>7.61</td><td>12.11</td><td>12.53</td><td>12.82</td></tr><tr><td>营业利润率</td><td>10.68%</td><td>8.08%</td><td>5.70%</td><td>4.59%</td></tr><tr><td>归母净利润</td><td>6.40</td><td>11.53</td><td>10.49</td><td>10.52</td></tr><tr><td>归母净利率</td><td>8.98%</td><td>7.69%</td><td>4.77%</td><td>3.76%</td></tr><tr><td>稀释EPS (美元)</td><td>1.14</td><td>1.92</td><td>1.68</td><td>1.59</td></tr></tbody></table></div>
+<p><strong>财务分析</strong>：</p>
+<ul>
+<li><strong>成长能力</strong>：公司营收在AI浪潮驱动下实现爆发式增长，FY2024和FY2025连续两年增速超46%。然而，<strong>增收不增利</strong>的特征明显，FY2025归母净利润同比下降9.01%，显示出高速扩张背后的盈利压力。</li>
+<li><strong>盈利能力</strong>：公司毛利率呈持续下滑趋势，从FY2023的18.01%降至FY2026前三季度的8.18%，反映出AI服务器硬件业务竞争的加剧和客户结构的恶化。尽管FY26Q4毛利率指引大幅反弹，但前三季度的整体表现已揭示其硬件集成业务盈利能力的脆弱性。</li>
+<li><strong>运营能力</strong>：公司营运资本效率恶化。FY26前三季度，存货激增至<strong>111.03亿美元</strong>（较FY25末增长137%），应收账款飙升至<strong>84.13亿美元</strong>（增长282%），导致经营活动现金流净流出<strong>75.57亿美元</strong>。现金转换周期显著拉长，对资金形成巨大压力。</li>
+<li><strong>偿债能力</strong>：为应对营运资金需求，公司杠杆率急剧攀升。截至FY26Q3末，总债务（含可转债）达<strong>87.73亿美元</strong>，而现金仅12.90亿美元，净债务为74.83亿美元。而在FY25末，公司尚处于净现金状态。财务风险显著增加。</li>
+</ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p>公司处于<strong>AI服务器与数据中心基础设施</strong>这一高增长赛道。据管理层引用合作伙伴预测，未来2-3年AI服务器市场规模可达<strong>2-4万亿美元</strong>。需求端由云服务商、AI实验室、主权国家及企业客户的AI训练和推理需求共同驱动，供给端则受限于GPU等关键组件的供应。</p>
+<p>竞争格局激烈，公司面临双重挤压：一是戴尔、HPE等拥有广泛企业客户基础和全面服务能力的传统OEM巨头；二是广达、富士康等具备低成本大规模制造优势的ODM厂商。超微电脑的差异化在于其高度的定制化灵活性、对新兴云服务商的聚焦以及在液冷技术上的先发优势。</p>
+<p><strong>可比公司分析</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>公司</th><th>股票代码</th><th>竞争定位</th><th>与超微电脑的差异</th></tr></thead><tbody><tr><td>Dell Technologies</td><td>DELL</td><td>传统OEM巨头</td><td>拥有庞大的企业客户基础和全面的IT产品线，AI服务器只是其业务一部分。其服务网络和品牌信任度更强，但在针对新兴云厂商的定制化速度和灵活性上可能不及超微电脑。</td></tr><tr><td>Hewlett Packard Enterprise</td><td>HPE</td><td>传统OEM巨头</td><td>与戴尔类似，拥有强大的企业客户关系和混合云解决方案。通过收购Juniper强化了网络能力，但其AI服务器业务增速和市场份额不及超微电脑。</td></tr><tr><td>广达电脑 / 富士康</td><td>-</td><td>ODM厂商</td><td>直接为大型云服务商提供白牌服务器设计制造，成本优势显著。缺乏品牌和直销服务网络，但对超微电脑的目标客户群构成潜在威胁。</td></tr></tbody></table></div>
+<p>总结来看，超微电脑在AI服务器市场的特定细分领域（如新兴云服务商）建立了领先优势，但其竞争地位并不稳固。随着市场竞争加剧，其能否通过DCBBS战略实现差异化，并成功拓展至利润更丰厚的企业级市场，是决定其长期竞争力的关键。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<ul>
+<li><strong>背景</strong>：公司毛利率从FY23的18%一路下滑至FY26Q2的6.4%，FY26Q4初步业绩却跳升至15%-17%，波动巨大。市场对此次改善是结构性拐点还是昙花一现存在根本分歧。关键问题：FY26Q4毛利率大幅提升的具体驱动因素是什么？一次性因素（组件短缺提价、递延收入确认）和可持续因素（DCBBS、企业客户占比提升）分别贡献了多少？管理层对FY27全年的毛利率有何指引，能否维持在双位数水平？随着供应链瓶颈缓解和竞争加剧，公司如何避免毛利率再次回落至个位数？</li>
+<li><strong>背景</strong>：公司宣布单季新增超600亿美元订单，但同时在脚注中声明这些订单可能不构成坚定承诺且可被取消。市场对这种"软性"订单的真实转化率持怀疑态度。关键问题：600亿美元订单中有多少是具备法律约束力的坚定承诺？客户构成如何？订单预计将在多长时间内转化为收入、转化节奏如何？</li>
+<li><strong>背景</strong>：公司历史上存在财务造假前科，近期又陷入出口管制调查，且财务内控的"重大缺陷"持续未修复。关键问题：独立董事会对出口管制事件的调查结果如何？财务内控的"重大缺陷"预计何时能够完全修复？这些治理问题是否已对获取新客户、维持供应商关系或融资能力产生实质性负面影响？</li>
+</ul>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧：FY26Q4的毛利率飙升是结构性盈利能力改善的起点，还是不可持续的一次性事件？</strong></p>
+<p><strong>乐观方观点：战略转型初见成效，盈利拐点已至。</strong>其判断逻辑在于，公司向DCBBS、软件和服务等高价值业务的战略转型已开始兑现。这些业务的毛利率（DCBBS约20%）远高于传统硬件集成。同时，企业级客户收入占比提升至28%，改善了客户结构，降低了对低毛利大客户的依赖。因此，15%-17%的毛利率标志着公司盈利模式的结构性升级，未来有望持续并进一步提升。</p>
+<p><strong>谨慎方观点：一次性因素主导，高毛利不可持续。</strong>其判断逻辑在于，此次毛利率跳升主要由短期因素驱动：一是关键组件（如GPU、内存）短缺带来的"稀缺性溢价"，使公司能临时提价；二是部分低毛利订单因客户数据中心准备延迟而被递延，意外优化了当季产品组合；三是关税、加急费等一次性成本的减少。随着供应链恢复和递延订单在后续季度确认，毛利率大概率将重回个位数水平。公司历史上毛利率的剧烈波动也支持这一判断。</p>
+<p><strong>综合分析</strong>：公司向高价值解决方案转型的战略方向是正确的，FY26Q4的数据也提供了积极的初步信号。然而，仅凭一个季度的数据就断定结构性拐点已至为时过早。该季度毛利率的改善幅度之大，难以完全用结构性因素解释，其中必然包含显著的一次性因素。<strong>8月11日管理层对FY27的量化指引，尤其是对DCBBS利润贡献的拆分和对毛利率可持续性的判断，将是弥合市场分歧的关键。</strong></p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>券商盈利预测与估值</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价(美元)</th><th>财务指标</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>Barclays (2026-07-21)</td><td>Equal Weight</td><td>38.00</td><td>营业收入(百万美元)<br>EPS (美元)</td><td>21,972<br>2.06</td><td>39,072<br>3.56</td><td>56,586<br>4.23</td><td>67,876<br>6.75</td></tr><tr><td>Goldman Sachs (2026-07-21)</td><td>Sell</td><td>30.00</td><td>营业收入(百万美元)<br>EPS (美元)</td><td>21,972<br>2.01</td><td>39,905<br>2.63</td><td>49,577<br>3.12</td><td>54,104<br>3.44</td></tr><tr><td>Citi (2026-07-21)</td><td>Neutral/High Risk</td><td>33.00</td><td>营业收入(百万美元)<br>EPS (美元)</td><td>21,972<br>2.03</td><td>39,693<br>2.61</td><td>63,613<br>3.15</td><td>80,302<br>4.10</td></tr><tr><td>BofA (2026-05-08)</td><td>Underperform</td><td>28.00</td><td>营业收入(百万美元)<br>EPS (美元)</td><td>21,972<br>2.05</td><td>39,710<br>2.59</td><td>50,096<br>3.15</td><td>60,662<br>4.34</td></tr></tbody></table></div>
+<p>主流券商对公司的评级和盈利预测存在显著分歧。高盛和BofA给出Sell/Underperform评级，目标价较低，其FY27 EPS预测在3.12-3.15美元，对公司盈利前景较为悲观。而Barclays和Citi虽为Equal Weight/Neutral，但Barclays的EPS预测（FY27为4.23美元）和目标价（38美元）明显更高，显示其对公司盈利改善的持续性更为乐观。这种分歧的核心在于对未来毛利率走势的判断不同。</p>
+<p>估值方法上，各机构普遍采用市盈率，但倍数差异较大，反映了市场对公司治理风险、盈利波动性和订单质量的不同折价。</p>
+<p><strong>管理层最新指引</strong>：公司于2026年7月21日发布的FY26Q4初步业绩中，预计营收将接近<strong>110亿-125亿美元</strong>指引区间的下限，GAAP及Non-GAAP毛利率预计在<strong>15%-17%</strong>之间。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/SMCI · 生成于 2026-08-06</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-06';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'hit',     text: '<strong>FY26Q4 初步业绩：毛利率指引跳升至 15%-17% + 单季新增订单超 $600 亿</strong>', note: '2026-07-21 兑现，股价当日大涨' },
+  { kind: 'cat', status: 'pending', text: '<strong>FY26Q4 财报电话会（2026-08-11）</strong>：FY27 毛利率指引、DCBBS 利润贡献拆分、订单转化说明——本研究最关键的验证点', note: '' },
+  { kind: 'cat', status: 'active',  text: '<strong>600 亿美元订单转化为营收</strong>：未来几个季度营收兑现且无需再融资，则增长逻辑成立', note: '订单注明「可被取消」，逐季核对' },
+  { kind: 'cat', status: 'pending', text: '<strong>CSP 财报季资本开支指引</strong>（2026-08 至 10 月）：微软/谷歌/亚马逊 capex 直接决定 AI 服务器需求预期', note: '' },
+  { kind: 'cat', status: 'pending', text: '<strong>英伟达 Vera Rubin 平台出货</strong>：能否率先推出新平台系统并获订单，验证技术卡位', note: '' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>FY27 毛利率回落至个位数</strong>：证伪 DCBBS 结构性改善叙事', note: '8月11日指引是第一个检验点' },
+  { kind: 'risk', status: 'clear', text: '<strong>订单大面积取消/延迟</strong>：600 亿「软订单」转化率不及预期，存货与应收减值压力显现', note: '存货 $111 亿、应收 $84 亿，逐季跟踪' },
+  { kind: 'risk', status: 'clear', text: '<strong>再次启动股权融资</strong>：在手订单膨胀 → 营运资金缺口 → 进一步稀释', note: '6月已完成 $70 亿融资、稀释约 27%' },
+  { kind: 'risk', status: 'clear', text: '<strong>出口管制调查结果不利 / 内控重大缺陷长期未修复</strong>：治理折价加深', note: '独立董事会调查中，公司称自身非调查目标' },
+  { kind: 'risk', status: 'clear', text: '<strong>大客户订单流失或采购策略变更</strong>：历史上最大客户占比曾达 62.6%', note: 'FY26Q3 已降至 27.0%，持续改善中' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

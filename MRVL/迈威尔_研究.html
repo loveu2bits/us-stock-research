@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>迈威尔（MRVL.O）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--policy-red); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">MRVL</span>
+    <span class="site-mark__text">迈威尔 公司研究<span>Marvell · MRVL.O</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>迈威尔<span class="en">Marvell Technology · MRVL.O · 美股研究</span></h1>
+        <p class="sub">AI 互连与定制 ASIC 的「二供」锐度标的：FY1Q27 超预期后 FY27 营收指引上调至 +40%（约 115 亿美元）、FY28 再 +45%（约 165 亿），NVIDIA 20 亿美元战投入股背书其连接技术卡位。核心矛盾是增长的高确定性 vs 约 30-35x FY28 前瞻 PE 的满定价——前十大客户占 82% 营收，容错空间有限，当前位置赔率不佳。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-06</span>
+          <span>下次更新：FY2Q27 财报（预计 2026-08 底，营收中点 $27 亿）</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>约 30-35x FY2028E PE 已隐含高增长，三情景期望值约 -10%，赔率约 1:2（上行 +20% / 下行 -45%）。基本面优秀但价格不便宜；重检条件：FY2Q27 指引下修，或股价回落至 25x FY28E 以下。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">营收 +27.6%</strong><span>FY1Q27 $24.18亿·超预期</span></div>
+      <div class="summary-rail__item"><strong>58.9%</strong><span>FY1Q27 Non-GAAP 毛利率</span></div>
+      <div class="summary-rail__item"><strong>76%</strong><span>数据中心营收占比·绝对主力</span></div>
+      <div class="summary-rail__item"><strong>$165亿</strong><span>FY28 营收指引·同比 +45%</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">FY1Q27 与指引大上调：+40% / +45% 的两年指引成色几何？</h2>
+        <span class="qa__impact-tag">→ FY27 指引 $115 亿（+40%） · FY28 指引 $165 亿（+45%）</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>指引上调的成色较足：FY1Q27 营收 24.18 亿美元（+28%）超预期，结构上<strong>互连业务 FY27 指引增长超 70%</strong>（远超云资本开支增速）、定制化 FY28 指引翻倍以上、交换业务 FY27 翻倍至 6 亿美元——三条产品线同时加速，不是单一项目的脉冲。管理层同时给出 FY28 营业利润率 38-40% 区间上限的目标，说明增长伴随经营杠杆释放。<em>保留判断：指引是「管理层目标」而非已签收入，定制 ASIC 大单驱动的属性意味着单项目延迟即可造成季度波动；且 FY1Q27 同比增速（+28%）已低于 FY2026 全年的 +42%，高基数下的加速依赖新项目按期放量。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>两年指引直接锚定券商盈利预测。</strong>FY27 EPS 共识约 4.05 美元（+42% vs FY26A 2.85），FY28 共识约 6.26 美元（+55%）——<strong>EPS 连续两年 40%+ 复合增长是当前估值的全部支撑</strong>。若 FY2Q27（指引中点 27 亿，环比 +12%）兑现且全年再上调，EPS 将向券商上沿（华兴 4.21 / 7.04）靠拢。</p>
+            <p>反之，指引任何下调都会被 30-35x 的高倍数放大——这正是估值容错空间小的含义：增长预期打满时，「符合预期」不涨、「不及预期」大跌。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>增长是全产品线的：互连 <strong>+70%</strong>、定制 FY28 <strong>翻倍</strong>、交换 FY27 翻倍至 <strong>$6 亿</strong>、存储等其他产品 FY27 超 <strong>$10 亿</strong>——多点开花降低单点依赖</li>
+              <li>互连增速长期<strong>超越云资本开支增速</strong>：饼在变大，且迈威尔在饼里的份额也在变大</li>
+              <li>1.6T PAM4 DSP 率先推出并保持<strong>绝大多数市场份额</strong>，光模块市场 2026 翻倍、1.6T 短缺约 30%——量价的顺风都在</li>
+              <li>收购 Celestial AI（CPO）+ XConn（PCIe/CXL）补全 Scale-Up 版图，CPO FY4Q28 指引 <strong>$5 亿</strong> 年化收入——新增曲线已在手</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>业绩与 CSP 资本开支高度绑定：大摩预测云 capex 2024-2028 从 2,610 亿增至 <strong>1.4 万亿美元</strong>——<strong>若这个超级周期证伪，指引只是纸面数字</strong></li>
+              <li>前十大客户占营收 <strong>82%</strong>、单一分销商占 45%（FY1Q27）——任何大客户砍单的冲击都被集中度放大</li>
+              <li>定制化业务「赢者通吃、大单驱动」，项目延迟或需求预测失误会造成<strong>季度间大幅波动</strong>，两年平滑指引掩盖了路径风险</li>
+              <li>FY1Q27 Non-GAAP 毛利率 58.9%，已连续小幅下行——定制化占比提升在稀释盈利质量，+40% 的营收未必换来同比例的利润</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（FY1Q27 财报速览 · 数据中心产品线拆分）</summary>
+          <div class="evidence__body">
+            <h5>FY1Q27 财报速览（截至 2026-05-02，2026-05-28 发布）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>实际</th><th>同比/环比</th><th>评价</th></tr></thead><tbody><tr><td>营收</td><td><strong>$24.18 亿</strong></td><td>+28% / 环比 +9%</td><td>超出市场预期，beat</td></tr><tr><td>数据中心收入</td><td><strong>$18.33 亿</strong>（占 76%）</td><td>+27% / 环比 +11%</td><td>AI 驱动全产品线增长</td></tr><tr><td>通信及其他</td><td>$5.85 亿（占 24%）</td><td>+29% / 环比 +3%</td><td>库存修正结束，FY27 指引仅 +10%</td></tr><tr><td>Non-GAAP 毛利率</td><td><strong>58.9%</strong></td><td>FY2026 为 59.5%</td><td><span class="warn">⚠️</span> 轻微下行——定制化占比提升稀释</td></tr><tr><td>Non-GAAP 营业利润率</td><td><strong>35.0%</strong></td><td>FY2026 为 35.3%</td><td>高位稳定，FY28 目标 38-40% 上限</td></tr><tr><td>Non-GAAP EPS</td><td><strong>$0.80</strong></td><td>—</td><td>超出市场预期</td></tr><tr><td>FY27 全年指引</td><td>营收约 <strong>$115 亿</strong>（+40%）；数据中心 +50%；互连 +70%</td><td>上调</td><td>本季最大预期差</td></tr><tr><td>FY28 指引</td><td>营收约 <strong>$165 亿</strong>（+45%）；数据中心 +55%；<strong>定制化翻倍以上</strong></td><td>大幅上调</td><td>两年高增长路径首次量化</td></tr><tr><td>FY2Q27 指引</td><td>营收中点 <strong>$27 亿</strong>（环比 +12%），各季度环比加速</td><td>—</td><td>8 月底财报直接验证</td></tr></tbody></table></div>
+            <h5>数据中心四大产品线（FY1Q27 口径 + FY27 指引）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>产品线</th><th>内容</th><th>FY27 指引</th><th>逻辑</th></tr></thead><tbody><tr><td><strong>互连（最大 &amp; 最快）</strong></td><td>PAM4 DSP、相干 DSP、DCI 模块、AEC DSP、TIA/Driver</td><td>增长 <strong>超 70%</strong></td><td>AI 集群扩大 → 800G/1.6T 光互连需求爆发；TIA/Driver 年化收入已达 $10 亿级</td></tr><tr><td><strong>定制化计算</strong></td><td>定制 XPU + 附属芯片（CXL、NIC）</td><td>增长超 20%，<strong>FY28 翻倍以上</strong></td><td>旗舰 XPU 放量 + 10 余个附属项目量产 + 微软 Maia 启动；FY29 目标 $100 亿</td></tr><tr><td><strong>交换</strong></td><td>Scale-Out（Teralynx）+ Scale-Up（UALink/PCIe）</td><td>收入超 <strong>$6 亿</strong>，同比翻倍</td><td>FY28 目标 $10 亿年化</td></tr><tr><td><strong>其他</strong></td><td>存储控制器（HDD/SSD）、DPU</td><td>收入超 <strong>$10 亿</strong></td><td>数据中心存储需求增长</td></tr></tbody></table></div>
+            <h5>解读：一句话</h5>
+            <p>这份财报的强度在于「<strong>指引上修的幅度（FY28 +45%）+ 增长的多引擎结构 + NVIDIA 入股背书</strong>」；弱点在于增长引擎全部挂在同一条燃料管线上——CSP 的 AI 资本开支。方向上多方占优，但它是「同一枚硬币的正面」，而非独立证据。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">定制 ASIC 二供地位：15 亿到 100 亿（FY29）的目标可信度有多高？</h2>
+        <span class="qa__impact-tag">→ FY29 定制业务目标 $100 亿 · 近 7 倍增长</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>目标激进但路径有支撑：定制化收入从 FY2026 约 15 亿美元到 FY2029 超 100 亿，靠的是「旗舰 XPU 多代放量 + 10 余个附属项目量产 + 微软 Maia 新 Tier-1 客户」三引擎，且已锁定<strong>超过 25 个 XPU 及附属芯片设计订单</strong>、覆盖所有美国超大规模客户。与博通相比，迈威尔的差异化在全栈互连 IP + 更灵活的合作模式，作为「二供」天然受益于客户分散供应链的动机。<em>保留判断：FY29 目标中来自「潜在新客户」的比例未披露，100 亿里有多少是已签合同、多少是 pipeline，是可信度评估的最大盲区；且二供地位意味着它吃到的往往是客户给的份额而非赢来的份额，博通强势时目标会打折。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这是 FY28-29 EPS 弹性的主要来源（估算）。</strong>定制业务从 15 亿增至 100 亿意味着新增约 85 亿收入；即便按低于公司均值的毛利率（约 50%，估算）和规模后的费用率计算，也足以支撑 FY29 EPS 迈向券商预测的 8.3-10.5 美元区间——<strong>当前 30-35x FY28 估值里已经预付了这条曲线的一大段</strong>。</p>
+            <p>项目制收入的另一面是波动：单个大项目延迟一个季度，按年化折算就是数亿美元的缺口——在指引打满的状态下，这类「技术性 miss」也会触发估值回撤。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li><strong>25+ 个设计订单</strong>覆盖所有美国超大规模客户，旗舰 XPU 已多代量产并锁定下一代——从 FY26 的 15 亿起步的基数是实的</li>
+              <li>微软 Maia 成为新 Tier-1 客户（FY2028 量产）——<strong>客户多元化开始兑现</strong>，降低对现有大客户的依赖</li>
+              <li>管理层预计定制 AI ASIC TAM 到 2028 年达 <strong>550 亿美元</strong>——100 亿目标只需约 18% 份额，与二供定位匹配</li>
+              <li>客户「不想只用博通」是结构性动机：联发科能进 Google，迈威尔就能进更多家——<strong>二供是行业趋势的最大受益者之一</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>竞争对手是<strong>博通（70%+ 份额、客户阵容断层领先）</strong>+ 世芯/创意等台湾设计服务公司——迈威尔夹在中间，高端拼规模、低端拼价格</li>
+              <li>定制化毛利率低于标准产品：该业务占比翻倍意味着<strong>结构性毛利率下移</strong>，100 亿收入的利润含金量要打折</li>
+              <li>大客户同时是博弈对手：超大规模客户有自研和扶持多家的动机，<strong>「二供」份额给得快收得也快</strong></li>
+              <li>为收购与锁产能大量融资：NVIDIA 可转债、FY27 约 <strong>$10 亿</strong> 产能预付款——股权稀释与现金流压力在累积，GAAP 净利润（FY1Q27 仅 3,450 万美元）与 Non-GAAP 差距巨大</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（业务结构变迁 · 竞争格局 · 财务质量）</summary>
+          <div class="evidence__body">
+            <h5>终端市场结构变迁（百万美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>终端市场</th><th>FY2024</th><th>FY2025</th><th>FY2026</th><th>FY1Q27</th></tr></thead><tbody><tr><td>数据中心</td><td>2,216.7（占 40%）</td><td>4,164.2（占 72%，+87.9%）</td><td>6,100.3（占 74%，+46.5%）</td><td>1,832.7（占 76%，+27.2%）</td></tr><tr><td>通信及其他</td><td>3,291.0（占 60%）</td><td>1,603.1（占 28%，-51.3%）</td><td>2,094.3（占 26%，+30.6%）</td><td>585.1（占 24%，+28.7%）</td></tr><tr><td><strong>合计</strong></td><td><strong>5,507.7</strong></td><td><strong>5,767.3（+4.7%）</strong></td><td><strong>8,194.6（+42.1%）</strong></td><td><strong>2,417.8（+27.6%）</strong></td></tr></tbody></table></div>
+            <p>两年内数据中心占比从 40% 升至 76%——公司实质上已重构成一家纯 AI 基建公司，估值对标也随之切换，这是倍数扩张的基本面依据，也是周期暴露度上升的原因。</p>
+            <h5>定制 ASIC 竞争位置</h5>
+            <ul>
+              <li><strong>博通</strong>：70%+ 份额，客户 Google/Anthropic/OpenAI/Meta，规模断层领先——迈威尔在光互连 DSP 与 CPO 上增长锐度更强</li>
+              <li><strong>迈威尔</strong>：优势在全栈互连 IP（高速 SerDes、Die-to-Die、定制 HBM 接口）+ 先进封装 + 更灵活的合作模式；劣势在项目规模与客户深度</li>
+              <li><strong>世芯电子 / 创意电子</strong>：台湾设计服务公司，主要做后端物理设计、缺核心 IP——迈威尔在高端 XPU 差异化明显</li>
+              <li><strong>NVIDIA</strong>：既是战略合作伙伴（20 亿美元入股 + NVLink Fusion）又是潜在竞争者——合作关系本身是对迈威尔连接技术地位的最强背书</li>
+            </ul>
+            <h5>财务质量警示</h5>
+            <ul>
+              <li>FY1Q27 GAAP 净利润仅 <strong>3,450 万美元</strong> vs Non-GAAP EPS 0.80 美元——股权激励与收购摊销的调节项巨大，「真实盈利能力」依赖口径选择</li>
+              <li>Non-GAAP 毛利率 59.5% → 58.9% 缓步下行；存货周转约 110 天（主动备货），DSO 约 70 天——运营质量尚可但需跟踪</li>
+              <li>净债务约 11.17 亿美元（现金 38.44 亿 vs 总债务 49.61 亿），杠杆率健康；FY1Q27 自由现金流 4.83 亿</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">估值：约 30-35 倍 FY28 前瞻 PE 还有多少容错空间？</h2>
+        <span class="qa__impact-tag">→ 期望值约 -10% · 赔率约 1:2</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>基本面优秀与估值偏贵可以同时成立——迈威尔当前就是这种情况。约 30-35x FY2028E PE 隐含的是「两年指引足额兑现 + CPO/微软项目按期落地」，而三情景期望值约 -10%、赔率约 1:2，<strong>符合预期最多小涨、不及预期显著回撤，风险回报不对称地站在空方</strong>。对应「持有」：已有持仓可随基本面兑现继续持有，新建仓位建议等 25x FY28E 以下或 FY2Q27 指引再上修确认。<em>保留判断：现价为按券商预测反推的估算值；若 CSP 资本开支超级周期被持续验证，高倍数可被 EPS 上修消化，悲观情景概率会下修。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这个问题本身就是估值问题。</strong>券商目标价 180-247 美元、FY2028E EPS 共识 6.26 美元、给予 25-35x 倍数——反推现价大致落在 190-220 区间（估算），意味着<strong>现价已贴近券商目标价中枢，卖方视角的「肉」大部分已被吃掉</strong>。与台积电（17-19x 对 57% 增速）、博通（20-26x 对 70%+ 增速）相比，迈威尔为同样的 AI 叙事付了明显更高的 PEG。</p>
+            <p>悲观情景（capex 周期证伪或大单延迟）下估值向半导体设计公司中枢 25x 回归且 EPS 下修，下行约 -45%；乐观情景（指引再上修 + CPO 重估）上行约 +20%。<strong>不对称性清晰，这就是「持有」而非「买入」的全部理由。</strong></p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>FY26→FY29 EPS 从 2.85 美元迈向 8.3-10.5 美元（券商区间），<strong>三年约 3 倍</strong>——30-35x 对 50%+ 的 EPS 复合增速，PEG 小于 1，贵有贵的道理</li>
+              <li>互连业务「增速超越云 capex 增速」+ 1.6T 短缺 30%——<strong>量价齐升阶段给高倍数是行业惯例</strong></li>
+              <li>NVIDIA 20 亿美元入股 + 三大合作支柱，等于产业资本为估值做了背书</li>
+              <li>CPO（Celestial AI）若在 FY28 兑现 5 亿年化收入并验证路线，市场将按「下一个光互连平台」重估，<strong>倍数而非 EPS 成为上行来源</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>现价已贴近券商目标价中枢（180-247），<strong>连最乐观的卖方也只看到约 +20% 空间</strong>——预期打满的信号</li>
+              <li>Non-GAAP 与 GAAP 利润差距巨大（FY1Q27 GAAP 净利仅 3,450 万美元），持续股权融资稀释，<strong>高倍数建立在调节后的盈利口径上</strong></li>
+              <li>客户集中度（前十大 82%）+ 大单驱动的定制业务，<strong>高倍数与业绩高波动并存</strong>，容错空间被双重压缩</li>
+              <li>中国地区收入占比 44%（发货目的地口径）——出口管制升级是悬在估值上的政策风险</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（当前定价测算 · 三情景表 · 券商预测）</summary>
+          <div class="evidence__body">
+            <h5>当前定价（2026-08 上旬，估算）</h5>
+            <ul>
+              <li>市场口径当前估值约 <strong>30-35x FY2028E Non-GAAP PE</strong>；按 FY2028E EPS 共识约 6.26 美元（区间 5.93-7.04）反推，现价大致在 <strong>190-220 美元</strong>区间（估算，精确值以行情为准）</li>
+              <li>券商目标价区间 <strong>180-247 美元</strong>：瑞银 230、美银 240、大摩 195（持有）、高盛 180（中性）、德银 240、摩根大通 240、华兴 247、中金 240——现价已贴近中枢</li>
+              <li>估值方法：基于 FY2028/CY2028 盈利的 P/E，倍数 25-35x，分歧主要在长期增长确定性</li>
+            </ul>
+            <h5>三情景假设（FY2029 视角，以反推现价约 205 美元为基准）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>FY2028 EPS</th><th>合理 PE</th><th>隐含股价</th><th>vs 当前</th></tr></thead><tbody><tr><td>乐观（25%）</td><td>FY27/28 指引再上修，CPO 如期量产获批量订单，微软 Maia 顺利放量</td><td>~7.0 美元（华兴上沿）</td><td>35x</td><td>~246 美元</td><td>+20%</td></tr><tr><td>中性（50%）</td><td>两年指引足额兑现但无进一步上修，毛利率缓降至 57-58%</td><td>~6.26 美元（共识）</td><td>30x</td><td>~188 美元</td><td>-8%</td></tr><tr><td>悲观（25%）</td><td>云 capex 增速证伪或旗舰定制项目延迟，FY28 增长大幅不及指引</td><td>~4.5 美元（FY27 共识上方停滞）</td><td>25x</td><td>~112 美元</td><td>-45%</td></tr></tbody></table></div>
+            <p><strong>期望值约 184 美元，较反推现价约 -10%；赔率约 1:2.2（+20% / -45%）。</strong>估值的含义是：市场已为「两年 +40%/+45%」付足对价，继续上行需要「指引之外的新东西」（CPO 重估、新客户、再上修），而下行只需要「兑现但不出彩」。这不是做空的理由——基本面趋势向上——但也不是在此位置追买的理由。</p>
+            <h5>券商盈利预测（FY1Q27 财报后，Non-GAAP EPS 美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级 / 目标价</th><th>FY2027E</th><th>FY2028E</th><th>FY2029E</th></tr></thead><tbody><tr><td>瑞银（2026-06-02）</td><td>买入 / 230</td><td>3.96</td><td>6.09</td><td>8.60</td></tr><tr><td>美国银行（2026-05-29）</td><td>买入 / 240</td><td>4.06</td><td>6.11</td><td>10.02</td></tr><tr><td>摩根士丹利（2026-06-01）</td><td>持有 / 195</td><td>3.98</td><td>5.93</td><td>8.28</td></tr><tr><td>高盛（2026-05-29）</td><td>中性 / 180</td><td>4.05</td><td>6.15</td><td>9.25</td></tr><tr><td>德意志银行（2026-05-29）</td><td>买入 / 240</td><td>4.06</td><td>6.27</td><td>9.10</td></tr><tr><td>摩根大通（2026-06-01）</td><td>超配 / 240</td><td>4.04</td><td>6.43</td><td>—</td></tr><tr><td>华兴证券（2026-06-03）</td><td>买入 / 247</td><td>4.21</td><td>7.04</td><td>10.46</td></tr><tr><td>中金公司（2026-06-02）</td><td>跑赢行业 / 240</td><td>4.00</td><td>6.07</td><td>—</td></tr></tbody></table></div>
+            <p>注：FY2026A Non-GAAP EPS 2.85-2.86 美元。FY2027E 共识约 4.05 美元、FY2028E 约 6.26 美元；八家中六家买入/超配、两家持有/中性，评级分歧小、倍数分歧大——分歧不在盈利，在「该为这份盈利付多少钱」。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>：公司概况、近况跟踪、业务拆分、催化剂（见同目录《迈威尔_一页通.md》，亦见本站「一页通」标签页）</li>
+        <li><strong>财务数据</strong>：FY2024-FY1Q27 利润表、FY1Q27 财报要点与管理层指引（正文数据均来自公开财报整理）</li>
+        <li><strong>局限</strong>：未读财报原文与电话会纪要（建议下一步补读 FY1Q27 earnings call 中关于 FY29 定制业务 100 亿目标构成与 CPO 客户验证进度的表述）；现价与前瞻 PE 为按券商盈利预测反推的估算值；FY29 定制业务目标中已签约 vs pipeline 的比例未披露，情景测算对此做了保守处理</li>
+        <li><strong>管理层评估（一句话版）</strong>：Matt Murphy 任内通过「自研 + 并购」（Inphi/Innovium/Celestial AI/XConn）完成向数据中心的果断转型并引入 NVIDIA 战投，战略执行力强，CFO 平稳过渡（Dan Durn 接任）降低治理扰动，剩余考验是定制大单的按期交付记录</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>迈威尔科技（Marvell Technology, Inc.）是一家全球领先的数据基础设施半导体解决方案供应商，采用无晶圆厂（Fabless）模式运营。公司核心能力在于开发和规模化复杂的系统级芯片（SoC）架构，集成模拟、混合信号及数字信号处理功能，其产品组合覆盖从数据中心核心到网络边缘的全链路。公司主要服务于<strong>数据中心</strong>和<strong>通信及其他</strong>两大终端市场，其中数据中心业务是绝对主力，贡献了约四分之三的营收。迈威尔凭借其在高速SerDes、光互连DSP、定制化ASIC及以太网交换等领域的深厚知识产权积累，深度嵌入全球超大规模云服务商的AI基础设施供应链。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul>
+<li><strong>FY1Q27业绩超预期，全年及远期指引大幅上调</strong>：公司于2026年5月28日发布FY1Q27（截至2026年5月2日）财报，营收达<strong>24.18亿美元</strong>，同比增长28%，环比增长9%。管理层将FY2027全年营收指引上调至约<strong>115亿美元</strong>（同比增长约40%），并将FY2028营收指引大幅上调至<strong>165亿美元</strong>（同比增长约45%），核心驱动力来自数据中心业务的加速增长，尤其是AI驱动的互连和定制化计算需求。</li>
+<li><strong>与NVIDIA达成深度战略合作，确立生态位优势</strong>：2026年3月，NVIDIA向迈威尔投资<strong>20亿美元</strong>购买可转换优先股。双方合作围绕三大支柱展开：1）深化在Scale-Up光互连（NPO/CPO）领域的技术合作；2）通过NVLink Fusion平台实现定制化XPU与NVIDIA生态的互操作性；3）在AI-RAN（无线接入网）领域整合双方技术。此举验证了迈威尔在AI连接技术领域的核心地位。</li>
+<li><strong>完成关键收购，补全Scale-Up互连版图</strong>：公司于2026年2月完成了对<strong>Celestial AI</strong>（光子 fabric技术）和<strong>XConn</strong>（PCIe/CXL交换技术）的收购。Celestial AI的CPO技术预计在FY4Q28实现<strong>5亿美元</strong>年化收入，FY4Q29达到<strong>10亿美元</strong>。XConn则增强了公司在UALink和PCIe交换领域的实力。</li>
+<li><strong>定制化ASIC业务迎来拐点，多项目驱动增长</strong>：管理层预计定制化业务在FY2027增长超20%，并在FY2028实现<strong>同比翻倍以上</strong>的增长。增长由三大引擎驱动：现有旗舰XPU项目持续放量、超过10个XPU附属项目（如CXL、NIC）进入量产、以及新Tier-1客户（微软Maia）的XPU项目启动。公司重申FY2029定制化业务收入超<strong>100亿美元</strong>的长期目标。</li>
+<li><strong>CFO平稳过渡</strong>：2026年6月，公司宣布任命拥有超过30年半导体行业经验的新任CFO Dan Durn，接替Willem Meintjes。前任CFO将留任至2027年4月以确保平稳交接，公司同时重申了FY2Q27的财务指引。</li>
+</ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol>
+<li><strong>FY2Q27业绩与FY2027全年指引的持续上修预期</strong>：公司预计FY2Q27营收中点为<strong>27亿美元</strong>（环比增长12%），且各季度营收将环比加速增长。考虑到AI网络需求持续强劲，以及定制化芯片新项目开始贡献收入，公司业绩大概率再次超出指引。市场将密切关注FY2Q27的实际业绩及管理层是否在电话会上进一步上调全年展望。任何超出预期的业绩和指引上调，都可能成为股价短期上涨的直接催化剂。</li>
+<li><strong>NVIDIA生态合作的深化与具体产品落地</strong>：NVIDIA的战略投资标志着迈威尔在AI基础设施中的地位从"供应商"升级为"战略合作伙伴"。短期内，市场将高度关注双方合作的具体产品进展，尤其是在<strong>Scale-Up光互连</strong>和<strong>NVLink Fusion平台</strong>上的联合开发成果。任何关于产品送样、客户导入或联合解决方案发布的公告，都将强化市场对迈威尔长期增长逻辑的信心，并可能触发估值重估。</li>
+<li><strong>Celestial AI的CPO技术商业化进展</strong>：Celestial AI的Photonic Fabric技术是公司在Scale-Up互连领域的核心布局。尽管大规模收入贡献预计在FY2028，但短期内任何关于其产品<strong>通过客户验证、进入量产阶段或获得新客户订单</strong>的消息，都将是对该技术路线可行性和市场需求的强有力证明。考虑到CPO技术被市场视为AI网络的下一个重要演进方向，该业务的进展将是影响投资者情绪和估值溢价的关键变量。</li>
+<li><strong>CXL内存扩展与控制器的需求爆发</strong>：随着AI推理和Agentic AI的发展，CPU与GPU的比例发生变化，对高带宽内存的需求激增。在HBM产能紧张和成本高企的背景下，CXL技术作为内存池化和扩展的关键解决方案，其需求有望迎来爆发式增长。迈威尔在该领域布局深厚，其CXL控制器和扩展器产品已获得多个客户设计订单。短期内，若公司披露更多CXL相关的设计订单或收入指引，将成为一个重要的增量催化因素。</li>
+</ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol>
+<li><strong>AI驱动的数据中心资本开支超级周期</strong>：公司长期增长的核心驱动力是全球超大规模云服务商为构建下一代AI基础设施而进行的持续巨额资本开支。摩根士丹利预测，超大规模云服务商的资本开支将从2024年的<strong>2610亿美元</strong>增长至2028年的<strong>1.4万亿美元</strong>，四年增长超5倍。这笔庞大的支出正从计算（GPU）向网络（互连）和存储（HBM/CXL）扩散，而迈威尔的产品组合精准卡位了这三大环节，尤其是其互连业务增速预计将长期<strong>超越云资本开支增速</strong>，显示出强大的结构性增长动力。</li>
+<li><strong>从"连接"到"平台"的战略升维，构建端到端解决方案</strong>：通过有机研发和收购（Inphi、Innovium、Celestial AI、XConn），迈威尔已构建起覆盖数据中心内部（Scale-Out）、数据中心之间（Scale-Across）以及XPU内部（Scale-Up）的全场景互连解决方案。公司不仅提供DSP、TIA/Driver等核心光学组件，还具备定制化XPU、以太网交换芯片、PCIe/CXL交换和CPO光引擎的完整设计能力。这种"计算+网络+光互连"的端到端平台化能力，使其能够为超大规模客户设计和优化整个机架级基础设施，从而大幅提升单客户价值量（"wallet share"）和客户粘性，构筑了强大的竞争壁垒。</li>
+<li><strong>定制化ASIC业务的非线性增长潜力</strong>：随着AI工作负载的多样化和对能效的极致追求，超大规模客户正加速自研定制化芯片（XPU）。迈威尔凭借其丰富的互连IP库（高速SerDes、Die-to-Die接口、定制HBM接口）和先进的封装技术，成为这一趋势的核心受益者。公司已锁定多个旗舰XPU项目，并拥有超过25个XPU及附属芯片的设计订单。管理层预计该业务收入将在FY2029年超过<strong>100亿美元</strong>，这意味着从FY2026的约15亿美元起，将实现近7倍的增长，是公司长期价值创造的最重要引擎。</li>
+</ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul>
+<li><strong>客户集中度风险</strong>：公司业务高度依赖少数几个大型客户。FY2026，前十大客户贡献了<strong>82%</strong> 的总营收，其中两个客户（一个直销客户和一个分销商）各自占比超过10%。任何主要客户因战略调整、自研替代方案或转向竞争对手而导致采购量下降，都将对公司营收和盈利能力产生重大不利影响。</li>
+<li><strong>定制化ASIC业务的竞争与项目波动风险</strong>：尽管公司在定制化芯片领域具备差异化优势，但仍面临来自博通（Broadcom）等传统ASIC巨头以及世芯电子（Alchip）、创意电子（GUC）等台湾设计服务公司的激烈竞争。定制化项目具有"赢者通吃"且收入高度集中的特点，单个大项目的获取或丢失、项目进度延迟或客户需求预测失误，都可能导致公司业绩出现大幅波动。</li>
+<li><strong>供应链与地缘政治风险</strong>：公司依赖台积电等少数第三方晶圆厂进行生产，且大部分产品制造和封装测试集中在亚洲地区。任何地缘政治紧张局势（尤其是台海局势）、自然灾害或供应链中断都可能导致产能受限和交付延迟。此外，美国对华出口管制政策的任何变化，都可能影响公司向中国客户的销售，FY1Q27以发货目的地计，中国地区收入占比高达<strong>44%</strong>。</li>
+</ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul>
+<li><strong>2026年5月28日</strong>：公司发布FY1Q27财报，营收和EPS均超出市场预期。管理层大幅上调了FY2027和FY2028的营收指引，主要受数据中心业务，特别是AI互连和定制化计算需求强劲增长的推动。</li>
+<li><strong>2026年6月11日</strong>：公司宣布CFO过渡计划，任命半导体行业资深人士Dan Durn为新任CFO，接替Willem Meintjes。公司同时重申了FY2Q27的财务指引，表明此次人事变动为有序过渡。</li>
+<li><strong>2026年6月3日</strong>：在2026年Evercore全球TMT会议上，公司管理层详细阐述了与NVIDIA合作的三大支柱、Celestial AI CPO技术的商业化路径，以及定制化ASIC业务的多元化增长驱动因素，进一步增强了市场对其长期战略的信心。</li>
+</ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul>
+<li><strong>2026年8月底（预计）</strong>：公司发布FY2Q27财报。市场将重点关注营收和EPS是否再次超出指引，以及管理层是否会进一步上调FY2027全年业绩展望。这是短期内最直接、最重要的股价催化剂。</li>
+<li><strong>2026年下半年</strong>：NVIDIA Spectrum 6以太网平台（100T）的发布及相关生态合作进展。作为NVIDIA的战略合作伙伴，迈威尔的交换和互连产品在该平台中的集成情况，将是市场评估其技术地位和增长潜力的关键事件。</li>
+<li><strong>2026年下半年至2027年初</strong>：Celestial AI的CPO产品预计将进入量产阶段。任何关于该产品通过最终客户验证、获得批量订单或成功部署的消息，都将标志着公司在下一代光互连技术领域取得实质性突破，并可能开启新的估值空间。</li>
+</ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<p><strong>业务边际变化</strong>：公司近年经历了深刻的业务转型，从一家业务线相对分散的半导体公司，战略性地重组为一家高度聚焦于数据基础设施的领导者。FY2025，公司通过重组计划，将研发资源集中投入数据中心市场，并剥离了汽车以太网业务。随后，公司通过收购Inphi（光互连DSP）、Innovium（数据中心交换）、Celestial AI（CPO）和XConn（PCIe/CXL交换），快速构建起一个覆盖计算、网络、光互连和存储的完整AI基础设施平台。目前，公司正处于由AI驱动的<strong>业绩加速兑现期</strong>，各项业务均呈现强劲增长势头。</p>
+<p><strong>盈利模式</strong>：公司盈利模式的核心是<strong>依托其深厚的技术壁垒和知识产权（IP）组合，通过销售高性能、高壁垒的半导体解决方案来获取收入</strong>。其盈利驱动力主要来自两方面：1）<strong>标准产品销售</strong>：通过销售业界领先的光互连DSP、以太网交换芯片、存储控制器等标准产品，凭借技术代际领先优势获取高市场份额和溢价；2）<strong>定制化解决方案</strong>：为超大规模客户提供深度定制化的ASIC（XPU）及附属芯片，通过提供从前端设计到后端制造的全套服务，深度绑定客户并获取长期、高粘性的收入流。这种"标准品+定制化"的混合模式，既保证了规模效应，又增强了客户粘性。</p>
+<p><strong>业务拆分</strong>：公司近年业务结构发生显著变化，数据中心业务已成为绝对核心。从FY4Q26开始，公司将原先的"企业网络、运营商基础设施、消费、汽车/工业"四个终端市场合并为"通信及其他"市场，与"数据中心"市场并列。这一变化反映了公司战略重心全面转向数据中心。当前公司正处于AI驱动的<strong>业绩加速兑现期</strong>。</p>
+<p><strong>细分业务拆分（按终端市场）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>项目 (百万美元)</th><th>FY2024</th><th>FY2025</th><th>FY2026</th><th>FY1Q27</th></tr></thead><tbody><tr><td><strong>数据中心</strong></td><td></td><td></td><td></td><td></td></tr><tr><td>收入</td><td>2,216.7</td><td>4,164.2</td><td>6,100.3</td><td>1,832.7</td></tr><tr><td>同比</td><td>-</td><td>87.9%</td><td>46.5%</td><td>27.2%</td></tr><tr><td>占总收入比</td><td>40%</td><td>72%</td><td>74%</td><td>76%</td></tr><tr><td><strong>通信及其他</strong></td><td></td><td></td><td></td><td></td></tr><tr><td>收入</td><td>3,291.0</td><td>1,603.1</td><td>2,094.3</td><td>585.1</td></tr><tr><td>同比</td><td>-</td><td>-51.3%</td><td>30.6%</td><td>28.7%</td></tr><tr><td>占总收入比</td><td>60%</td><td>28%</td><td>26%</td><td>24%</td></tr><tr><td><strong>总计</strong></td><td><strong>5,507.7</strong></td><td><strong>5,767.3</strong></td><td><strong>8,194.6</strong></td><td><strong>2,417.8</strong></td></tr></tbody></table></div>
+<p><em>注：公司未按终端市场披露毛利率。</em></p>
+<p><strong>数据中心业务（FY1Q27）</strong>：该业务是公司增长的绝对引擎，FY1Q27收入<strong>18.33亿美元</strong>，同比增长27%，环比增长11%。增长由AI驱动的所有产品线共同推动。</p>
+<ul>
+<li><strong>互连（Interconnect）</strong>：是数据中心业务中最大和增长最快的部分。产品包括PAM4 DSP、相干DSP、DCI模块、AEC DSP、TIA/Driver等。受益于AI集群规模扩大，对高速率（800G/1.6T）、长距离光互连需求激增。管理层预计FY2027该业务收入增长<strong>超70%</strong>。</li>
+<li><strong>定制化计算（Custom Silicon）</strong>：为超大规模客户定制开发XPU（AI加速器）及附属芯片（CXL、NIC）。该业务正处于多项目放量初期，预计FY2027增长超20%，FY2028将<strong>同比翻倍以上</strong>。</li>
+<li><strong>交换（Switching）</strong>：包括Scale-Out（Teralynx系列）和Scale-Up（UALink/PCIe）以太网交换芯片。受益于AI网络对高带宽、低延迟交换的需求，预计FY2027收入超<strong>6亿美元</strong>，同比翻倍。</li>
+<li><strong>其他</strong>：包括存储控制器（HDD/SSD）、处理器（DPU）等传统优势产品，受益于数据中心存储需求增长，预计FY2027收入超<strong>10亿美元</strong>。</li>
+</ul>
+<p><strong>通信及其他业务（FY1Q27）</strong>：该业务FY1Q27收入<strong>5.85亿美元</strong>，同比增长29%，环比增长3%。该市场已基本从客户库存修正中恢复，增长主要反映了企业网络、运营商和消费市场的潜在需求趋势。公司预计FY2027该业务增长约10%，FY2028为低个位数增长，增速远低于数据中心业务。</p>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托全栈互连IP组合构筑的技术平台壁垒</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：公司通过长期研发和一系列并购，构建了从数据中心内部（PAM4 DSP）、数据中心之间（相干DSP/DCI模块）到芯片内部（Die-to-Die SerDes）的全场景、全速率覆盖的互连IP组合。这种<strong>结构性护城河</strong>使得公司能够为超大规模客户提供从"计算"到"连接"的端到端优化方案，竞争对手难以在短期内复制如此完整且经过大规模量产验证的IP库。</li>
+<li><strong>数据验证</strong>：公司互连业务在FY2027预计增长<strong>超70%</strong>，远超云资本开支增速。其TIA和驱动器业务年化收入已达<strong>10亿美元</strong>级别。在关键的1.6T PAM4 DSP市场，公司率先推出产品并保持<strong>绝大多数市场份额</strong>。这些数据证明了其技术领先性已成功转化为市场主导地位。</li>
+<li><strong>动态演变</strong>：随着AI网络向更高带宽（3.2T）和更先进封装（CPO）演进，对互连IP的性能和集成度要求呈指数级上升。公司通过收购Celestial AI和内部研发，已率先布局下一代技术。其护城河有望在技术代际切换中进一步<strong>变宽</strong>，因为新进入者面临更高的技术门槛和客户认证壁垒。</li>
+</ul>
+<p><strong>竞争要素 2：定制化ASIC业务的平台化能力与客户粘性</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：公司的定制化ASIC业务并非简单的设计服务，而是基于其强大的互连IP库、先进封装技术和系统级理解，为客户提供深度差异化的XPU解决方案。这种模式使得公司与客户形成了紧密的"联合研发"关系，客户转换成本极高。这构成了<strong>结构性护城河</strong>。</li>
+<li><strong>数据验证</strong>：公司已获得超过<strong>25个</strong>XPU及附属芯片的设计订单，覆盖所有美国超大规模客户。其旗舰XPU项目已成功实现多代际量产，并锁定了下一代产品的订单。管理层预计该业务收入将从FY2026的约15亿美元增长至FY2029的<strong>超100亿美元</strong>，这种高确定性的长期增长是客户粘性的最佳证明。</li>
+<li><strong>动态演变</strong>：随着AI工作负载日益复杂，超大规模客户对定制化芯片的依赖度将持续加深。公司凭借其平台化能力和成功的交付记录，有望在新项目中继续扩大份额。其护城河将随着与客户合作的代际深入而持续<strong>巩固</strong>。</li>
+</ul>
+<p><strong>现阶段核心驱动力总结</strong>：公司的Alpha在于其通过"自研+并购"构建的、难以复制的全栈互连IP平台，以及在定制化ASIC领域展现出的强客户粘性和项目获取能力。其Beta则高度依赖于AI驱动的数据中心资本开支超级周期。公司当前正处于Alpha与Beta共振的业绩加速兑现期。</p>
+<p><strong>竞争格局传导逻辑</strong>：全栈互连IP组合与定制化平台能力 → 对超大规模客户形成高转换成本和强议价力 → 互连业务增速远超云资本开支增速、定制化ASIC业务锁定长期高增长订单 → 财务结果：营收和利润高速增长。</p>
+<h3 class="doc-h2">产销链</h3>
+<ul>
+<li><strong>客户情况</strong>：公司客户集中度较高。FY2026，前十大客户贡献了<strong>82%</strong> 的总营收。其中，一个直销客户（Customer A）和一个分销商（Distributor A）的营收占比分别达到<strong>14%</strong> 和<strong>37%</strong>。FY1Q27，这两个客户的营收占比分别为<strong>16%</strong> 和<strong>45%</strong>，集中度有进一步上升趋势。这种高度集中的客户结构意味着公司业绩对核心客户的需求波动和资本开支计划高度敏感。在新客户方面，公司已成功获得微软（Microsoft）作为其定制化XPU的新Tier-1客户，该项目正处于开发后期，预计在FY2028开始量产，这有助于未来客户结构的多元化。</li>
+<li><strong>供应商情况</strong>：作为一家Fabless公司，迈威尔主要依赖台积电（TSMC）等少数第三方晶圆厂进行芯片制造，并将封装测试外包给位于亚洲的合作伙伴。为应对AI需求爆发带来的产能紧张，公司采取了积极的供应链管理策略，包括与供应商签订长期产能预留协议并支付预付款。公司计划在FY2027支付约<strong>10亿美元</strong>的预付款以锁定未来产能。这种模式虽然增加了短期现金流压力，但确保了在供应紧张环境下的增长确定性。</li>
+<li><strong>成本传导能力</strong>：当上游晶圆代工或先进封装环节涨价时，公司凭借其产品在性能和功耗上的技术领先性，以及在定制化业务中与客户的深度绑定关系，具备较强的成本转嫁能力。公司赚取的是基于其核心IP和系统级解决方案的"技术溢价"和"平台价值"，而非单纯的"加工费"。</li>
+</ul>
+<h3 class="doc-h2">财务数据</h3>
+<p><strong>关键财务数据</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>项目 (百万美元)</th><th>FY2024</th><th>FY2025</th><th>FY2026</th><th>FY1Q27</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2024-02-03</td><td>2025-02-01</td><td>2026-01-31</td><td>2026-05-02</td></tr><tr><td><strong>营业总收入</strong></td><td>5,507.7</td><td>5,767.3</td><td>8,194.6</td><td>2,417.8</td></tr><tr><td>同比</td><td>-6.96%</td><td>4.71%</td><td>42.09%</td><td>27.57%</td></tr><tr><td><strong>营业成本</strong></td><td>3,214.1</td><td>3,385.1</td><td>4,013.9</td><td>1,157.0</td></tr><tr><td><strong>Non-GAAP毛利润</strong></td><td>-</td><td>3,520.6</td><td>4,871.8</td><td>1,423.8</td></tr><tr><td><strong>Non-GAAP毛利率</strong></td><td>-</td><td>61.0%</td><td>59.5%</td><td>58.9%</td></tr><tr><td><strong>营业利润</strong></td><td>-567.7</td><td>-720.3</td><td>1,322.9</td><td>339.4</td></tr><tr><td><strong>归母净利润 (GAAP)</strong></td><td>-933.4</td><td>-885.0</td><td>2,670.1</td><td>34.5</td></tr><tr><td><strong>Non-GAAP摊薄EPS (美元)</strong></td><td>-</td><td>1.57</td><td>2.85</td><td>0.80</td></tr><tr><td><strong>经营活动现金流</strong></td><td>1,370.5</td><td>1,681.2</td><td>1,750.5</td><td>638.8</td></tr><tr><td><strong>资本性支出</strong></td><td>336.3</td><td>284.6</td><td>354.1</td><td>155.7</td></tr><tr><td><strong>自由现金流</strong></td><td>1,034.2</td><td>1,396.6</td><td>1,396.4</td><td>483.1</td></tr></tbody></table></div>
+<p><em>注：Non-GAAP数据来源于公司财报及研究报告。</em></p>
+<p><strong>财务分析</strong></p>
+<ul>
+<li><strong>成长能力</strong>：公司营收在FY2026重回高速增长轨道，同比增长<strong>42.1%</strong>，FY1Q27增速也达到<strong>27.6%</strong>。增长主要由数据中心业务驱动，该业务FY2026同比增长<strong>46.5%</strong>。Non-GAAP净利润在FY2026同比大增<strong>79.0%</strong>，显示出强劲的盈利增长杠杆效应。</li>
+<li><strong>盈利能力</strong>：公司Non-GAAP毛利率在FY2026和FY1Q27分别为<strong>59.5%</strong>和<strong>58.9%</strong>，保持在较高水平，但呈现轻微下降趋势，主要受定制化ASIC业务（毛利率通常低于标准产品）占比提升的影响。Non-GAAP营业利润率从FY2025的28.9%大幅提升至FY2026的<strong>35.3%</strong>，FY1Q27为<strong>35.0%</strong>，显示出随着营收规模扩大，运营杠杆正在显著改善。</li>
+<li><strong>运营能力</strong>：FY1Q27应收账款为<strong>18.72亿美元</strong>，相较于FY2026年末的21.87亿美元有所下降，DSO（应收账款周转天数）约为70天。存货为<strong>14.01亿美元</strong>，较FY2026年末的13.88亿美元略有增加，存货周转天数约为110天，处于健康水平，反映了为支持未来收入增长而进行的主动备货。</li>
+<li><strong>偿债能力与现金流</strong>：截至FY1Q27末，公司持有现金<strong>38.44亿美元</strong>，总债务为<strong>49.61亿美元</strong>，净债务约为<strong>11.17亿美元</strong>。公司杠杆率健康，净债务与TTM调整后EBITDA的比率远低于1倍。FY1Q27自由现金流为<strong>4.83亿美元</strong>，显示出良好的现金生成能力。公司有充足的财务资源支持其资本开支、收购和股东回报计划。</li>
+</ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p>公司所处的核心赛道是<strong>AI数据中心基础设施半导体</strong>，具体可细分为以下几个高增长市场：</p>
+<ol>
+<li><strong>数据中心互连（DCI）与光通信</strong>：AI集群规模的扩大驱动了对高速率（800G/1.6T/3.2T）、低延迟光互连需求的爆发式增长。Jefferies专家预计，全球光模块市场2026年将翻倍，2027年增至三倍，且1.6T产品面临约<strong>30%</strong> 的短缺。机构预测，到2030年DCI可插拔模块市场规模将增长超5倍。竞争格局上，迈威尔（通过收购Inphi）与博通（Broadcom）是该市场、尤其是PAM4 DSP领域的双寡头。迈威尔凭借率先推出每一代产品，持续保持<strong>绝大多数市场份额</strong>。在TIA/Driver、AEC DSP和相干DSP领域，公司也处于领先地位。主要竞争对手包括博通、Credo、瑞昱等。</li>
+<li><strong>定制化AI ASIC（XPU）</strong>：超大规模客户为寻求差异化、更高能效和更低成本，正加速自研AI芯片。管理层预计其可服务的定制化AI ASIC市场规模（TAM）到2028年将达到<strong>550亿美元</strong>。竞争格局上，市场主要参与者为博通和迈威尔。与博通相比，迈威尔的优势在于其更全面的互连IP组合和更灵活的客户合作模式。来自台湾的设计服务公司（如世芯电子、创意电子）是另一类竞争者，但它们主要提供后端物理设计服务，缺乏核心IP，迈威尔在高端XPU市场的差异化优势明显。</li>
+<li><strong>数据中心交换（Switching）</strong>：AI网络对高带宽、低延迟、大吞吐量交换机的需求驱动市场快速增长。该市场由博通主导，迈威尔通过Innovium的Teralynx系列交换机芯片，凭借其在能效和低延迟方面的优势，正在快速获取市场份额。公司预计其Scale-Out交换业务FY2027收入超<strong>6亿美元</strong>，并有望在FY2028达到<strong>10亿美元</strong>年化收入。</li>
+</ol>
+<p><strong>可比公司</strong>：</p>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>对标维度</th><th>分析</th></tr></thead><tbody><tr><td>博通 (Broadcom)</td><td>AVGO</td><td>AI ASIC、网络交换、光DSP</td><td>在定制化ASIC和交换芯片市场是迈威尔最直接的竞争对手，规模更大，但迈威尔在光互连DSP和CPO等新兴领域展现出更强的增长锐度。</td></tr><tr><td>英伟达 (Nvidia)</td><td>NVDA</td><td>AI计算平台、网络</td><td>是AI计算GPU的绝对领导者，同时也是迈威尔的战略合作伙伴。两者在Scale-Up网络（NVLink）上合作，但在定制化ASIC领域存在间接竞争。</td></tr><tr><td>Credo Technology</td><td>CRDO</td><td>光互连DSP、AEC</td><td>在高速DSP和AEC市场是迈威尔的直接竞争对手，但产品线和IP组合的广度远不及迈威尔。</td></tr><tr><td>Astera Labs</td><td>ALAB</td><td>PCIe/CXL连接</td><td>在PCIe Retimer和CXL内存互连领域是迈威尔（通过XConn）的直接竞争对手。</td></tr></tbody></table></div>
+<p><strong>总结分析</strong>：迈威尔在多个高增长的AI基础设施细分市场均占据领先地位，其独特的竞争优势在于其<strong>跨计算、网络、光互连和存储的全栈IP组合</strong>。这使得公司能够提供端到端的优化解决方案，与博通、英伟达等行业巨头形成既竞争又合作的复杂关系。相较于纯粹的连接芯片公司（如Credo）或设计服务公司，迈威尔的平台化能力是其最深的护城河。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<ul>
+<li><strong>议题一：AI资本开支的可持续性与投资回报率</strong>——公司业绩与超大规模云服务商的资本开支高度相关。尽管当前资本开支强劲，但市场对如此庞大的投资能否带来相应的回报，以及这种支出强度能否持续存在长期疑虑。近期部分科技巨头财报显示自由现金流承压，加剧了这一担忧。关键问题：公司如何评估其客户AI投资的回报率？是否有量化数据支持客户的投资正在产生效益？如果云服务商因宏观环境或投资回报率问题而削减资本开支，公司有何应对预案？公司营收增速远超云资本开支增速的趋势，在FY2028及以后能否持续？驱动力是什么？</li>
+<li><strong>议题二：定制化ASIC业务的客户集中度与项目波动</strong>——定制化ASIC业务具有"大单驱动"的特征，单个项目的成败对公司业绩影响巨大。市场对公司能否持续获得新的大客户订单，以及现有项目的生命周期存在分歧。关键问题：公司FY2029定制化业务超100亿美元的收入目标中，来自已签约客户和潜在新客户的比例分别是多少？微软Maia项目的收入贡献预期和量产时间表是否明确？是否存在项目延迟或规模缩减的风险？面对博通等竞争对手，公司如何确保在下一代XPU项目中继续保持高胜率？</li>
+<li><strong>议题三：毛利率趋势与盈利模型</strong>——随着定制化ASIC（毛利率较低）和CPO等新业务（初期毛利率可能不高）的占比提升，市场关注公司整体毛利率是否存在持续下行的压力，以及运营杠杆能否有效对冲。关键问题：公司对FY2027和FY2028的毛利率指引是什么？定制化业务占比提升对毛利率的稀释效应有多大？Celestial AI的CPO产品在达到5亿美元年化收入时的目标毛利率是多少？长期稳态毛利率水平如何？公司计划通过哪些具体措施（如运营费用控制）来实现FY2028接近<strong>38-40%</strong> 的营业利润率目标？</li>
+</ul>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧：公司当前的高估值是否已充分反映了其长期增长潜力，还是仍被低估？</strong></p>
+<p><strong>乐观方观点</strong>：迈威尔已从一个周期性半导体公司，成功转型为一个拥有独特全栈IP平台的AI基础设施核心供应商。其增长是由AI这一长期结构性趋势驱动，而非短期周期波动。公司在光互连和定制化ASIC领域的技术护城河深厚，与NVIDIA的战略合作进一步打开了其市场空间。FY2029年定制化业务100亿美元的收入目标若能实现，将带来巨大的盈利弹性，当前估值（约30-35倍FY2028 Non-GAAP P/E）相对于其超过50%的EPS增速（PEG小于1）而言，仍然具备吸引力。</p>
+<p><strong>谨慎方观点</strong>：公司当前估值已处于历史高位，充分甚至过度反映了乐观预期。其业绩高度依赖少数超大规模客户的资本开支，而资本开支本身具有周期性。一旦AI投资回报率不及预期，或出现技术路径切换，公司业绩将面临巨大波动。此外，定制化ASIC业务的毛利率较低，其占比提升将结构性拖累公司整体盈利水平。公司通过大量发行股票和可转换优先股进行收购，稀释了现有股东权益，且GAAP净利润与Non-GAAP净利润之间存在巨大差距，真实的盈利能力有待验证。</p>
+<p><strong>总结分析</strong>：公司的长期成长逻辑清晰，技术护城河深厚，短期业绩动能强劲，这是其享受估值溢价的基础。然而，高客户集中度、定制化业务的固有波动性以及因收购带来的股权稀释和GAAP盈利压力，是其不可忽视的风险点。当前估值已隐含了未来几年高增长的预期，容错空间相对有限。任何低于预期的业绩指引或关键项目进展延迟，都可能导致估值出现显著回调。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>管理层最新指引（基于FY1Q27业绩会）</strong>：</p>
+<ul>
+<li><strong>FY2027</strong>：预计总营收约<strong>115亿美元</strong>，同比增长约40%。其中数据中心营收同比增长约50%，互连业务增长超70%。Non-GAAP运营费用约<strong>24.5亿美元</strong>。</li>
+<li><strong>FY2028</strong>：预计总营收约<strong>165亿美元</strong>，同比增长约45%。其中数据中心营收同比增长约55%，定制化计算业务收入同比翻倍以上。Non-GAAP运营费用增长中高双位数百分比，营业利润率有望达到<strong>38-40%</strong> 目标区间的上限。</li>
+</ul>
+<p><strong>券商盈利预测与估值</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价(美元)</th><th>FY2026A</th><th>FY2027E</th><th>FY2028E</th><th>FY2029E</th></tr></thead><tbody><tr><td>瑞银 (2026-06-02)</td><td>买入</td><td>230</td><td>2.85</td><td>3.96</td><td>6.09</td><td>8.60</td></tr><tr><td>美国银行 (2026-05-29)</td><td>买入</td><td>240</td><td>2.85</td><td>4.06</td><td>6.11</td><td>10.02</td></tr><tr><td>摩根士丹利 (2026-06-01)</td><td>持有</td><td>195</td><td>2.85</td><td>3.98</td><td>5.93</td><td>8.28</td></tr><tr><td>高盛 (2026-05-29)</td><td>中性</td><td>180</td><td>2.85</td><td>4.05</td><td>6.15</td><td>9.25</td></tr><tr><td>德意志银行 (2026-05-29)</td><td>买入</td><td>240</td><td>2.85</td><td>4.06</td><td>6.27</td><td>9.10</td></tr><tr><td>摩根大通 (2026-06-01)</td><td>超配</td><td>240</td><td>2.85</td><td>4.04</td><td>6.43</td><td>-</td></tr><tr><td>华兴证券 (2026-06-03)</td><td>买入</td><td>247</td><td>2.86</td><td>4.21</td><td>7.04</td><td>10.46</td></tr><tr><td>中金公司 (2026-06-02)</td><td>跑赢行业</td><td>240</td><td>2.85</td><td>4.00</td><td>6.07</td><td>-</td></tr></tbody></table></div>
+<p><em>注：预测数据来源于各机构研究报告，部分机构预测周期不同，已按财年对齐。</em></p>
+<p><strong>盈利预期与估值分析</strong>：各大券商对迈威尔的盈利预测和评级存在高度共识，均为"买入"或"超配"评级。对FY2027和FY2028的Non-GAAP EPS预测均值分别为<strong>4.05美元</strong>和<strong>6.26美元</strong>，显示出对公司未来两年盈利高速增长的强烈信心。估值方法上，机构普遍采用市盈率（P/E）估值法，基于FY2028或CY2028的盈利预测，给予<strong>25倍至35倍</strong>的估值倍数，目标价集中在<strong>180美元至247美元</strong>之间。估值倍数的差异反映了市场对公司长期增长确定性、竞争格局和宏观风险的不同看法。整体而言，市场对公司的盈利预期较为一致，分歧主要在于对高增长可持续性的判断，从而体现在估值倍数的选择上。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/MRVL · 生成于 2026-08-06</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-06';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'hit',     text: '<strong>FY1Q27 财报超预期 + FY27/FY28 营收指引大上调</strong>（$115 亿 +40% / $165 亿 +45%）', note: '2026-05-28 兑现' },
+  { kind: 'cat', status: 'pending', text: '<strong>FY2Q27 财报</strong>（预计 2026-08 底）：营收中点 $27 亿（环比 +12%）兑现度 + 是否再上修全年', note: '短期最直接催化' },
+  { kind: 'cat', status: 'active',  text: '<strong>NVIDIA 合作产品落地</strong>：Scale-Up 光互连 / NVLink Fusion 联合成果；Spectrum 6（100T）平台集成情况', note: '2026 下半年逐项核对' },
+  { kind: 'cat', status: 'pending', text: '<strong>Celestial AI CPO 量产</strong>（2026 下半年-2027 初）：客户验证 / 批量订单 → FY4Q28 $5 亿年化收入目标', note: '' },
+  { kind: 'cat', status: 'pending', text: '<strong>微软 Maia XPU 量产</strong>（FY2028）：客户结构多元化的关键验证', note: '项目处于开发后期' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>CSP 集体下修资本开支</strong>：业绩与云 capex 超级周期高度绑定，ROI 证伪即全线收缩', note: '每季度财报季核对' },
+  { kind: 'risk', status: 'clear', text: '<strong>定制 ASIC 旗舰项目延迟或丢单</strong>：大单驱动属性下，单项目波动即可击穿季度指引', note: '重点盯 FY2Q27 起各季兑现' },
+  { kind: 'risk', status: 'clear', text: '<strong>客户集中度恶化</strong>：前十大占 82%、单一分销商 FY1Q27 占 45% 且仍在上升', note: '常态跟踪' },
+  { kind: 'risk', status: 'clear', text: '<strong>Non-GAAP 毛利率跌破 55%</strong>：定制化占比提升稀释超预期，38-40% 营业利润率目标存疑', note: '最新 58.9%，缓步下行中' },
+  { kind: 'risk', status: 'clear', text: '<strong>对华出口管制升级</strong>：FY1Q27 中国地区（发货目的地）收入占比 44%', note: '政策跟踪' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

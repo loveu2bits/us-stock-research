@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>博通（AVGO.O）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--policy-red); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">AVGO</span>
+    <span class="site-mark__text">博通 公司研究<span>Broadcom · AVGO.O</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>博通<span class="en">Broadcom · AVGO.O · 美股研究</span></h1>
+        <p class="sub">AI 算力基建的「总承包商」：定制 ASIC 与 AI 网络双料龙头，FY26Q2 AI 收入 +143%、季度订单破 300 亿美元，FY27 AI 收入指引超 1,000 亿。核心矛盾是谷歌 TPU 份额保卫战（联发科切入）vs OpenAI/Anthropic/Meta/苹果等新客户放量的对冲能力；股价自高点回落约 20% 后，约 20-26x FY27 前瞻 PE 对一家 EPS 接近翻倍的公司而言赔率可接受。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-06</span>
+          <span>下次更新：FY26Q3 财报（预计 2026-09 初，AI 收入 $160 亿指引兑现度）</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="buy">买入</strong>
+        <em>约 20-26x FY2027E PE，对应 FY26→27 EPS 增速约 70%+，PEG 远小于 1；三情景期望值约 +24%、赔率约 2:1。重检条件：谷歌 TPU 份额确认跌破 80%，或 CSP 集体下修资本开支。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">AI收入 +143%</strong><span>FY26Q2 $108亿·占比升至 49%</span></div>
+      <div class="summary-rail__item"><strong>68.9%</strong><span>FY26 H1 毛利率·Q3 指引回落</span></div>
+      <div class="summary-rail__item"><strong>$300亿+</strong><span>FY26Q2 AI 订单·能见度至 2028</span></div>
+      <div class="summary-rail__item"><strong>$1,000亿+</strong><span>FY27 AI 收入指引·约同比翻倍</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">FY26Q2：AI 收入 +143%、季度订单破 300 亿——需求是真实部署还是提前拉货？</h2>
+        <span class="qa__impact-tag">→ Q3 AI 收入指引 $160 亿（+200%） · FY27 指引 $1,000 亿+</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>需求的真实性证据明显更厚：300 亿美元订单对应的是 Google、Anthropic、OpenAI、Meta 等头部客户的<strong>多年期、吉瓦级部署承诺</strong>，订单能见度已从 2027 延伸至 2028 年，剩余履约义务高达 1,646 亿美元——这不是渠道压货的形态。下半年 AI 收入环比接近翻倍的指引（Q3 $160 亿）也指向 FY27「超 1,000 亿」偏保守。<em>保留判断：订单→收入的转化依赖台积电/三星 HBM 的供给兑现，且 XPV 融资模式让客户「下单能力」部分由博通自己信用支持，极端情形下存在订单修正风险。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>直接决定 FY27 EPS 落点。</strong>券商 FY2027E Non-GAAP EPS 区间 16.63-21.10 美元，分歧的源头正是「超 1,000 亿」的具体规模：若实际落在 1,100-1,200 亿，EPS 将贴近上沿（约 21 美元），较 FY2026E 的约 11.5 美元增长约 80%——<strong>盈利上修通道是当前股价最核心的驱动</strong>。</p>
+            <p>若订单被证伪含「水分」（重复下单/恐慌性锁产能），则 FY27 指引无法兑现，估值从「成长股定价」切换到「周期顶点定价」，倍数与 EPS 双杀。这是多空分歧的量化原点。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>订单来自全球信用最好的买家（Google/Meta/OpenAI/Anthropic/苹果），且有<strong>多年期不可撤销合同</strong>与吉瓦级部署承诺背书，剩余履约义务 <strong>1,646 亿美元</strong></li>
+              <li>AI 收入占比一年从约 38%（估算）升至 <strong>49%</strong>，Q3 指引 $160 亿（同比 +200%）——<strong>下半年环比翻倍</strong>说明 FY27 目标留有上修空间</li>
+              <li>客户结构快速多元化：从 Google 单一依赖扩展到 Anthropic、OpenAI、Meta MTIA、苹果定制 ASIC，<strong>单点风险被摊薄</strong></li>
+              <li>苹果续约至 2031 年（$300 亿+）、三星五年 $2,000 亿合作备忘录——上下游都在用长约锁定博通</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>超 300 亿季度订单可能包含客户<strong>恐慌性抢购产能的重复下单</strong>，一旦供给缓解存在订单修正风险</li>
+              <li>XPV 平台本质是博通用自己的信用（<strong>290 亿美元残值担保</strong>）帮客户加杠杆买自己的芯片——订单质量含「自催化」成分</li>
+              <li>需求兑现高度依赖台积电产能（约 95% 晶圆）与三星 HBM（75-85%），<strong>供给瓶颈而非需求才是短边</strong>，交付节奏可能低于订单节奏</li>
+              <li>下游 CSP 现金流普遍承压，若 AI ROI 证伪，2028 年后的「能见度」会被重估</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（FY26Q2 财报速览 · 订单与客户结构 · 融资模式拆解）</summary>
+          <div class="evidence__body">
+            <h5>FY26Q2 财报速览（截至 2026-05-03，2026-06-04 发布）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>实际</th><th>同比</th><th>评价</th></tr></thead><tbody><tr><td>AI 半导体收入</td><td><strong>$108 亿</strong>（XPU 约 $65 亿 + AI 网络约 $43 亿）</td><td><strong>+143%</strong></td><td>占总收入比重升至 <strong>49%</strong>，beat</td></tr><tr><td>AI 网络收入</td><td>约 $43 亿，占 AI 收入近 <strong>40%</strong></td><td>—</td><td>Tomahawk 6 / Jericho4 / 光 DSP；管理层预计长期稳定在 30% 左右</td></tr><tr><td>半导体解决方案板块</td><td>$150.09 亿</td><td>+79%</td><td>增长几乎全部由 AI 驱动</td></tr><tr><td>非 AI 半导体</td><td>$42 亿</td><td>+6%</td><td>走出周期底部，订单量超过出货量</td></tr><tr><td>基础设施软件（VMware）</td><td>$71.78 亿</td><td>+9%</td><td>ARR +17%，毛利率 93%，利润稳定器</td></tr><tr><td>AI 订单规模</td><td><strong>$300 亿+</strong></td><td>—</td><td>远超当期 $108 亿出货，能见度延伸至 <strong>2028 年</strong></td></tr><tr><td>FY26Q3 指引</td><td>营收约 $294 亿；AI 收入 <strong>$160 亿</strong>（+200%+）；调整后 EBITDA 利润率约 68%</td><td>—</td><td>AI 环比接近翻倍；<span class="warn">⚠️</span> 毛利率指引下滑至 74%（XPU 占比提升稀释）</td></tr><tr><td>FY26 全年 AI 指引</td><td><strong>$560 亿</strong>（约 +180%）；重申 FY27 AI 收入 <strong>超 $1,000 亿</strong></td><td>—</td><td>市场认为「超 1,000 亿」偏保守，存在预期差</td></tr></tbody></table></div>
+            <h5>交叉验证：订单质量与需求信号</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>信号</th><th>证据</th><th>方向</th></tr></thead><tbody><tr><td>长约锁定</td><td>剩余履约义务 <strong>$1,646 亿</strong>（FY26Q2）；Google 多代 TPU 协议、苹果续约至 2031（$300 亿+）</td><td>正——收入年金化</td></tr><tr><td>客户多元化</td><td>Google TPU、Anthropic TPU、OpenAI Jalapeño XPU、Meta MTIA 多项目并行</td><td>正——不再单吊 Google</td></tr><tr><td>供应链锁产</td><td>三星五年 $2,000 亿备忘录锁定 HBM+2nm 至 2030；2026-2027 晶圆/HBM 供应已锁定</td><td>正——交付确定性高</td></tr><tr><td>融资助销</td><td>联合 Apollo/Blackstone 设 AI XPV 平台，首期 $350 亿，博通提供 <strong>$290 亿残值担保</strong>，目标部署 20GW+</td><td><span class="warn">负</span>——硬件销售金融化，AI 退潮则「卖不动+要兜底」</td></tr><tr><td>客户集中度</td><td>前五大终端客户约 45% 净收入；单一分销商占 42%</td><td><span class="warn">负</span>——Google 策略调整冲击大</td></tr></tbody></table></div>
+            <h5>解读：一句话</h5>
+            <p>这份财报的强度在于「<strong>量（订单 3 倍于出货）+ 价（网络业务垄断定价）+ 能见度（履约义务 1,646 亿）</strong>」三者同时成立；弱点在于 XPV 担保把部分需求建立在自身信用之上、以及 FY26Q3 毛利率指引回落揭示的结构性稀释。多方证据更厚，但空方的证伪路径（份额、担保、毛利率）清晰可跟踪。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">谷歌 TPU 份额保卫战：联发科切入会否动摇 ASIC 护城河？</h2>
+        <span class="qa__impact-tag">→ 当前压制估值的最核心因素 · 份额 80% 是多空分界线</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>份额流失是真实的、但大概率是「有限失血」而非「护城河崩塌」：管理层与部分机构预期博通维持约 <strong>80%</strong> 份额，谷歌引入联发科更接近「备胎式」供应链多元化。更关键的是，<strong>XPU 只是博通的一半故事</strong>——AI 网络（占 AI 收入 40%）的垄断地位与谷歌芯片选型无关，无论谁家的加速器上量，以太网交换/光 DSP 都同步受益。<em>保留判断：若联发科在 3nm/2nm 代际证明设计能力，份额跌破 80% 将触发对全部 ASIC 客户关系的重估，这是本研究的第一证伪信号。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>粗略测算（估算）：</strong>XPU 收入 FY26Q2 约 65 亿美元，其中 Google 系占大头。若博通在 Google 的份额从近垄断降至 80%，丢失部分约占 XPU 收入的一到两成——但同期 Anthropic/OpenAI/Meta 项目的增量足以覆盖，FY27 AI 收入「超 1,000 亿」指引本身已经内含了份额与新增的净额。<strong>真正的 EPS 风险不在份额本身，而在份额下滑引发其他客户效仿压价，侵蚀 ASIC 毛利率。</strong></p>
+            <p>估值层面：这是股价自高点回落约 20% 的主因，市场已部分定价「份额受损」情景。若后续代际确认守住 80%，压制解除，倍数有修复空间——这是当前位置的不对称之处。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>定制 ASIC 的替换成本极高：深入架构定义、多代际路线图、SerDes IP + 先进封装（CoWoS/3D）的系统级能力，<strong>换供应商的周期以年计</strong></li>
+              <li>联发科 ASIC 仍处早期，在复杂度极高的 AI 加速器上持续交付的能力<strong>未经多代验证</strong></li>
+              <li>客户梯队已铺开：OpenAI（2026 年底量产）、Anthropic、Meta、苹果——<strong>Google 占比趋势性下降</strong>，单一客户议价力被稀释</li>
+              <li>AI 网络业务（Tomahawk 6 全球唯一量产百 T 级、市占率 70%+）完全免疫于 XPU 份额之争，<strong>是独立于选型的「卖铲人」收入</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>联发科切入本身证明：<strong>最深的护城河也能被攻破</strong>——客户扶持二供的动机是结构性的，不会止于 Google</li>
+              <li>二供的存在本身就是压价工具：即使份额只丢 20%，<strong>剩余 80% 的定价也会被打折</strong>，ASIC 毛利率承压</li>
+              <li>公司指引 FY26Q3 毛利率降至 74%，XPU 占比提升的稀释已经开始显现——竞争加剧会让稀释更深</li>
+              <li>若 AI 芯片创新放缓，竞争从技术转向成本，设计服务同质化，<strong>定制 ASIC 会重演代工化命运</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（业务拆分 · 竞争格局 · 份额情景）</summary>
+          <div class="evidence__body">
+            <h5>两大板块拆分（百万美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>板块</th><th>FY2023 收入</th><th>FY2024 收入</th><th>FY2025 收入</th><th>FY26 H1 收入</th><th>FY26 H1 运营利润率</th></tr></thead><tbody><tr><td>半导体解决方案</td><td>28,182（占 78.7%）</td><td>30,096（占 58.3%）</td><td>36,858（占 57.7%）</td><td>27,524（占 66.3%，+65.6%）</td><td>61.0%</td></tr><tr><td>基础设施软件</td><td>7,637（占 21.3%）</td><td>21,478（占 41.7%，并表 VMware）</td><td>27,029（占 42.3%）</td><td>13,974（占 33.7%）</td><td>78.5%</td></tr><tr><td><strong>合计</strong></td><td><strong>35,819</strong></td><td><strong>51,574</strong></td><td><strong>63,887</strong></td><td><strong>41,498（+38.7%）</strong></td><td>—</td></tr></tbody></table></div>
+            <h5>定制 ASIC 竞争格局</h5>
+            <ul>
+              <li><strong>博通</strong>：市占率超 <strong>70%</strong>，客户 Google/Anthropic/OpenAI/Meta/苹果，规模与阵容断层领先</li>
+              <li><strong>Marvell</strong>：主要对手，但客户（以 AWS 为主）与项目规模显著小于博通；定制业务收入 FY26 约 15 亿美元量级</li>
+              <li><strong>联发科</strong>：新进入者，已切入 Google TPU 供应链——<span class="warn">直接威胁</span>，但技术与客户关系待验证</li>
+              <li><strong>英伟达 GPU</strong>：是替代方案而非直接竞争者——GPU vs ASIC 之争决定的是饼的切法，博通网络业务两头受益</li>
+            </ul>
+            <h5>份额情景（对 FY27 AI 收入的影响，估算）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>假设</th><th>FY27 AI 收入含义</th><th>市场反应</th></tr></thead><tbody><tr><td>守住 ~80%</td><td>联发科限于少量补位，新客户放量对冲</td><td>1,000-1,200 亿，指引兑现或超预期</td><td>压制解除，倍数修复</td></tr><tr><td>降至 60-70%</td><td>联发科在 v9 代际拿到实质份额</td><td>靠 OpenAI/Anthropic 增量仍有望接近 1,000 亿</td><td>EPS 下修有限，但估值折价延续</td></tr><tr><td>跌破 50%</td><td>二供策略被其他客户效仿</td><td>指引证伪，ASIC 叙事破坏</td><td><span class="warn">双杀</span>——触发本研究观点重检</td></tr></tbody></table></div>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">估值：约 20-26 倍 FY27 前瞻 PE 隐含了什么预期？回落 20% 后赔率如何？</h2>
+        <span class="qa__impact-tag">→ 期望值约 +24% · 赔率约 2:1</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>当前约 20-26x FY2027E PE（机构口径）对应的是 FY26→FY27 EPS 约 70%+ 的增速——<strong>PEG 远小于 1，市场因谷歌份额之忧在给一家订单能见度到 2028 年的公司打折</strong>。三情景期望值约 +24%，赔率约 2:1，叠加股价已从高点回落约 20%、券商目标价（485-580）全部高于现价，对应「买入」。<em>保留判断：现价为按券商预测反推的估算值；悲观情景（份额 + capex 双杀）下行约 -30%，需用跟踪面板的证伪信号严格止损。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这个问题本身就是估值问题。</strong>机构估值框架已从 P/E 转向分部估值（SOTP）+ EV/EBITDA：AI 半导体给约 30x P/E，传统半导体与软件给较低倍数。FY27 EPS 共识约 19.3 美元（五家券商区间 16.63-21.10），当前 20-26x 意味着<strong>市场按「份额受损 + 增速回落」定价，而订单数据指向「增长加速」</strong>——预期差站在多方一边。</p>
+            <p>悲观情景下估值向半导体周期股中枢回归（17x 左右），下行约 -31%；乐观情景（FY27 显著超 1,000 亿 + 份额守住）上行约 +70%。下行被已回调的价格与软件现金流缓冲，上行被 EPS 上修放大。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>20-26x FY27 PE 对一家 <strong>EPS 两年近三倍</strong>（FY25A 6.82 → FY28E 约 25-27）的公司，PEG 显著小于 1</li>
+              <li>「XPU + 网络」全栈卡位：GPU 与 ASIC 之争无论谁赢，<strong>网络 40% 的收入都受益</strong>——确定性应享溢价</li>
+              <li>VMware 毛利率 93%、ARR +17%，是免费附赠的现金流期权；FY26 H1 分红 $61.78 亿 + 回购 $84.5 亿，<strong>股东回报托底</strong></li>
+              <li>五家券商目标价 485-580 全部高于反推现价，评级一致买入/超配</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>机构预测口径分歧大（FY27 EPS 16.63-21.10），<strong>「超 1,000 亿」的具体规模没有共识</strong>，低 PE 可能就是对远期的折价</li>
+              <li>290 亿美元 XPV 残值担保是表外「灰犀牛」：AI 退潮时盈利与资产负债表双受损，<strong>当前估值没有为这层信用风险定价</strong></li>
+              <li>毛利率指引已从 68.9% 滑向 74%（Q3 non-GAAP 口径）以下的 XPU 主导结构，<strong>盈利质量在变差</strong></li>
+              <li>约 95% 晶圆依赖台积电、HBM 依赖三星——供给端任何扰动都直接打在交付上</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（当前定价测算 · 三情景表 · 券商预测）</summary>
+          <div class="evidence__body">
+            <h5>当前定价（2026-08 上旬，估算）</h5>
+            <ul>
+              <li>机构口径当前股价对应 <strong>20-26x FY2027E PE</strong>；按 FY2027E Non-GAAP EPS 共识约 19.3 美元（区间 16.63-21.10）反推，现价大致在 <strong>430-460 美元</strong>区间（估算，精确值以行情为准），已从高点回落约 20%</li>
+              <li>券商目标价：摩根大通 580（06-04）、瑞银 485（06-17）、摩根士丹利 502（07-14）、华泰 550.22（06-08）、中金 525（06-06）——<strong>全部高于反推现价</strong></li>
+              <li>估值框架：SOTP——AI 半导体约 30x P/E + 传统半导体/软件较低倍数</li>
+            </ul>
+            <h5>三情景假设（FY2028 视角，以反推现价约 445 美元为基准）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>FY2028 EPS</th><th>合理 PE</th><th>隐含股价</th><th>vs 当前</th></tr></thead><tbody><tr><td>乐观（25%）</td><td>FY27 AI 显著超 1,000 亿，谷歌份额守 80%，OpenAI XPU 量产超预期</td><td>~27.4 美元（瑞银上沿）</td><td>28x</td><td>~767 美元</td><td>+72%</td></tr><tr><td>中性（50%）</td><td>FY27 AI 约 1,000 亿兑现，份额小幅让渡但被新客户覆盖，毛利率稀释可控</td><td>~25 美元（券商中枢）</td><td>23x</td><td>~575 美元</td><td>+29%</td></tr><tr><td>悲观（25%）</td><td>份额跌破 60% + CSP 资本开支 2027 见顶，EPS 增长停滞</td><td>~17 美元（FY27 下沿水平）</td><td>17x</td><td>~306 美元</td><td>-31%</td></tr></tbody></table></div>
+            <p><strong>期望值约 551 美元，较反推现价约 +24%；赔率约 2.3:1（+72% / -31%）。</strong>估值的含义是：当前价格已内含「谷歌份额受损」的悲观假设，却没有为「FY27 超 1,000 亿偏保守」的多头可能付足对价——除非份额证伪或 CSP 砍单，预期差有利于多方。</p>
+            <h5>券商盈利预测（财报后更新，Non-GAAP EPS 美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级 / 目标价</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>摩根大通（2026-06-04）</td><td>超配 / 580</td><td>11.62</td><td>21.10</td><td>—</td></tr><tr><td>瑞银（2026-06-17）</td><td>买入 / 485</td><td>11.51</td><td>20.83</td><td>27.44</td></tr><tr><td>摩根士丹利（2026-07-14）</td><td>超配 / 502</td><td>9.98（ModelWare）</td><td>16.63</td><td>21.48</td></tr><tr><td>华泰证券（2026-06-08）</td><td>买入 / 550.22</td><td>11.48</td><td>18.04</td><td>25.89</td></tr><tr><td>中金公司（2026-06-06）</td><td>跑赢行业 / 525</td><td>11.60</td><td>20.07</td><td>—</td></tr></tbody></table></div>
+            <p>注：FY2025A Non-GAAP EPS 6.82 美元（华泰口径 6.90）；大摩为 ModelWare 口径，与其他机构不可直接比较。FY2027E 区间 16.63-21.10 的分歧本身就是多空对「超 1,000 亿」规模判断的量化呈现。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>：公司概况、近况跟踪、业务拆分、催化剂（见同目录《博通_一页通.md》，亦见本站「一页通」标签页）</li>
+        <li><strong>财务数据</strong>：FY2023-FY26H1 利润表、FY26Q2 财报要点与管理层指引（正文数据均来自公开财报整理）</li>
+        <li><strong>局限</strong>：未读财报原文与电话会纪要（建议下一步补读 FY26Q2 earnings call 中关于谷歌份额与 XPV 担保条款的表述）；现价与前瞻 PE 为按券商盈利预测反推的估算值；XPV 残值担保的极端损失情景未做定量压力测试</li>
+        <li><strong>管理层评估（一句话版）</strong>：陈福阳（Hock Tan）延续「并购 + 聚焦高毛利核心资产」的一贯打法，VMware 整合兑现、AI 订单能见度和供应链长约管理均显示出强执行力，但 XPV 融资担保是一次超出传统半导体经营范围的风险偏好跳升，兑现度需持续验证</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>博通是全球技术基础设施领域的平台级巨头，业务横跨<strong>半导体解决方案</strong>与<strong>基础设施软件</strong>两大板块。公司凭借在定制AI加速芯片（XPU/ASIC）、AI网络（以太网交换/路由/光互联）以及企业私有云软件（VMware）三大赛道中的领导地位，构建了深度绑定全球头部云计算和AI模型厂商的生态体系。其核心定位已从传统通信芯片供应商，升级为<strong>AI算力基建的核心架构师与关键组件垄断型供应商</strong>。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul>
+<li><strong>AI半导体业务进入加速兑现周期</strong>：FY26Q2（截至2026年5月3日）AI半导体收入达<strong>108亿美元</strong>，同比增长<strong>143%</strong>，占总收入比重提升至<strong>49%</strong>。公司指引FY26Q3 AI收入将达<strong>160亿美元</strong>，同比增长超<strong>200%</strong>，并维持FY27 AI收入超<strong>1000亿美元</strong>的预期。增长核心驱动力来自Google TPU、Anthropic TPU、OpenAI Jalapeño XPU及Meta MTIA等多个定制芯片项目的规模化部署。</li>
+<li><strong>客户与订单能见度大幅延伸</strong>：FY26Q2 AI订单规模突破<strong>300亿美元</strong>，远超当期108亿美元的出货量，显示客户为锁定未来算力而提前大规模下单。管理层表示，订单能见度已从此前的2027年延伸至<strong>2028年</strong>。公司与Google签署了多代TPU长期协议，并为Anthropic、OpenAI、Meta等客户锁定了至2028年及以后的吉瓦级算力部署承诺。</li>
+<li><strong>供应链锁定与战略合作升级</strong>：博通与三星签署了一项为期五年、价值超<strong>2000亿美元</strong>的合作备忘录，锁定HBM内存和2nm先进制程产能至2030年。同时，与苹果的合作延长至<strong>2031年</strong>，覆盖射频、无线连接及定制ASIC芯片，协议价值超<strong>300亿美元</strong>，巩固了其在消费电子供应链中的关键地位。</li>
+<li><strong>创新融资模式落地，加速算力部署</strong>：公司联合Apollo和Blackstone设立了AI XPV平台，首期<strong>350亿美元</strong>融资已落地，旨在通过第三方资本为Anthropic和OpenAI等客户提供算力基础设施融资，博通为此提供上限为<strong>290亿美元</strong>的残值担保。该平台目标部署超<strong>20GW</strong>算力，将公司角色从单纯的芯片供应商延伸至算力生态的信用支持方。</li>
+<li><strong>软件业务出现AI驱动的新增长极</strong>：VMware业务增长加速，FY26Q3指引营收<strong>89亿美元</strong>，同比增长<strong>31%</strong>。增长动力来自AI服务器部署带动的CPU核心数增加，从而拉动了VMware的授权需求。VMware Cloud Foundation 9.1版本强化了对异构AI算力的支持，有望成为企业私有AI的关键软件基础设施。</li>
+</ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol>
+<li><strong>Q3财报（预计9月初）对FY27 AI收入指引的潜在上修</strong>：尽管公司维持FY27 AI收入超1000亿美元的指引，但FY26Q2超300亿美元的订单量、下半年AI收入环比翻倍的指引以及多个吉瓦级项目的明确时间表，均指向实际业绩大概率超出该保守目标。市场对"超1000亿"的具体规模存在较大预期差。若Q3财报中管理层对FY27的展望更为积极，或实际出货数据持续超预期，将触发市场对公司远期盈利能力的重新定价。当前股价已从高点回落约20%，部分消化了"指引未上调"的利空，为博弈预期差提供了窗口。</li>
+<li><strong>CPO（共封装光学）交换机进入量产带来的估值重塑</strong>：博通的51.2T Bailly CPO交换机已进入小批量出货阶段，标志着公司在解决AI集群高功耗互联瓶颈的核心技术上取得商业化突破。CPO技术将光引擎与交换芯片共封装，能大幅降低功耗和延迟，是下一代AI网络的刚需。随着英伟达Spectrum-X CPO交换机也开始交付，2026年下半年CPO产业趋势将显著加速。博通作为以太网交换芯片和光DSP的双重龙头，在CPO价值链中占据核心地位，该业务的放量有望提升公司整体毛利率水平和估值中枢。</li>
+<li><strong>AI网络业务独立于XPU的"卖铲人"逻辑强化</strong>：市场过度聚焦于博通在Google TPU项目上可能面临的份额变化，但忽略了其AI网络业务的平台型价值。FY26Q2 AI网络收入占AI半导体收入的<strong>40%</strong>，主要来自以太网交换芯片（Tomahawk 6）、路由芯片（Jericho4）和光DSP。无论数据中心内部署的是博通XPU、英伟达GPU还是其他ASIC，只要集群规模扩大，对博通网络芯片的需求就同步增长。这种"架构定义者"的商业模式使其能够超越单一客户的芯片选型风险，享受整个AI算力扩张的Beta收益。</li>
+</ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol>
+<li><strong>定制ASIC（XPU）的不可逆趋势与博通的"总承包商"地位</strong>：随着AI工作负载从训练向推理倾斜，大型云厂商和模型公司为追求极致的<strong>单Token成本</strong>和<strong>功耗效率</strong>，正加速从通用GPU转向针对自身业务深度定制的ASIC。博通凭借其业界领先的SerDes IP、先进封装（CoWoS/3D堆叠）设计能力、多代际产品经验以及与头部客户的深度绑定，已成为这一趋势下的首选设计合作伙伴。其客户阵容（Google、Meta、OpenAI、Anthropic、苹果等）几乎囊括了全球最主要的AI算力投资方。这种"为顶级客户盖房子"的商业模式，一旦合作启动，客户替换成本极高，形成了长期的收入年金。</li>
+<li><strong>AI网络业务的"主航道"卡位与全栈价值</strong>：AI集群的规模法则决定了网络性能是比单点算力更关键的瓶颈。博通在AI网络领域拥有近乎垄断的技术优势：其Tomahawk 6（100Tbps）交换芯片是市场上唯一量产的百T级产品，下一代200Tbps芯片即将流片；其400G SerDes和CPO技术定义了下一代互联标准。公司预计AI网络收入将长期稳定在AI总收入的<strong>30%</strong>左右。随着AI集群从万卡向百万卡演进，网络的单GW价值量将持续提升，博通作为以太网事实标准的制定者，将攫取产业链中价值量最高的一环。</li>
+<li><strong>VMware的"AI-on-Prem"平台化转型</strong>：收购VMware的战略价值正从成本削减和现金流优化，转向更具想象空间的<strong>企业级私有AI平台</strong>。VMware Cloud Foundation 9.1已支持跨GPU/CPU的异构算力调度，使企业能在本地数据中心运行AI推理工作负载。随着企业对数据隐私、安全和主权的要求日益增强，以及AI推理成本优化需求的凸显，私有云部署AI的需求有望爆发。VMware凭借其在企业数据中心虚拟化领域的统治地位，有望成为连接底层算力与上层AI应用的核心操作系统，为博通开辟出仅次于AI芯片的第二条高价值、高粘性的增长曲线。</li>
+</ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul>
+<li><strong>谷歌TPU份额流失风险</strong>：公司承认谷歌为保障供应链安全将寻求供应商多元化，联发科已切入谷歌TPU供应链。尽管管理层和部分机构认为博通将维持约<strong>80%</strong>的份额，但若联发科在后续代际（如3nm/2nm）中展现出更强的设计能力和执行力，可能导致博通份额超预期下滑，并引发市场对其ASIC护城河的重新评估。该风险是当前压制公司估值的最核心因素。</li>
+<li><strong>AI XPV平台带来的表外债务与信用风险</strong>：为加速AI芯片部署而设立的AI XPV平台，要求博通为<strong>290亿美元</strong>的债务提供残值担保。若未来AI算力供过于求或客户违约，博通将面临巨大的潜在债务敞口。这种将硬件销售异化为金融信贷的模式，增加了公司资产负债表的复杂性和风险，一旦AI投资热潮降温，可能引发连锁反应。</li>
+<li><strong>供应链集中与地缘政治风险</strong>：公司约<strong>95%</strong>的晶圆制造依赖台积电，同时高度依赖三星的HBM供应。任何地缘政治冲突、自然灾害或供应链中断都可能对公司造成严重影响。此外，美国可能对中国光模块加征关税或实施禁令，将冲击博通AI网络产品的供应链成本和交付节奏，构成短期经营风险。</li>
+</ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul>
+<li><strong>2026年6月4日</strong>：博通发布FY26Q2财报，AI收入108亿美元，同比+143%。同时宣布与Apollo、Blackstone设立AI XPV平台，首期融资350亿美元。</li>
+<li><strong>2026年6月8日</strong>：博通在10-Q文件中披露，为AI XPV平台提供最高<strong>290亿美元</strong>的残值担保。</li>
+<li><strong>2026年7月6日</strong>：博通与苹果宣布达成新的多年期协议，将双方合作延长至<strong>2031年</strong>，博通将为苹果供应射频、无线连接及定制ASIC芯片，协议价值超300亿美元。</li>
+<li><strong>2026年7月25日</strong>：三星电子宣布与博通签署战略合作备忘录，将在HBM、2nm代工和先进封装领域进行合作，预计未来五年合作规模超<strong>2000亿美元</strong>。</li>
+</ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul>
+<li><strong>2026年8月-9月</strong>：博通预计发布FY26Q3财报。市场将重点关注AI收入是否达到160亿美元的指引、整体毛利率趋势，以及管理层是否会就FY27 AI收入给出更积极的展望。</li>
+<li><strong>2026年下半年</strong>：OpenAI首款定制XPU"Jalapeño"预计于2026年底进入量产。其性能、功耗表现以及与英伟达同类产品的竞争力，将成为验证博通ASIC设计能力的关键里程碑。</li>
+<li><strong>2026年下半年</strong>：博通下一代200Tbps Tomahawk交换芯片预计完成流片。该产品的技术指标和客户导入情况将决定公司在AI网络领域的领先优势能否延续。</li>
+<li><strong>2026年下半年</strong>：博通51.2T Bailly CPO交换机的持续出货及客户部署反馈，将推动CPO技术从概念走向主流，可能引发市场对光通信和交换机产业链的价值重估。</li>
+</ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<p><strong>业务边际变化</strong>：公司正经历由AI驱动的根本性业务重塑。AI相关半导体收入占比从FY25的约<strong>38%</strong>（估算）飙升至FY26Q2的<strong>49%</strong>，并预计在FY26Q3进一步提升。公司已从一家业务线庞杂的多元化半导体和软件公司，转变为一家以AI算力基础设施为核心增长极的平台型企业。非AI半导体业务虽已走出周期底部并恢复增长（FY26Q2同比+6%），但其战略重要性已显著下降。软件业务则因VMware的AI化转型而获得新的增长动力。</p>
+<p><strong>盈利模式</strong>：公司盈利模式的核心是<strong>技术壁垒驱动的定价权与客户锁定</strong>。在半导体领域，公司通过提供业界领先的定制ASIC设计、高速SerDes IP和以太网交换芯片，深度嵌入客户下一代AI基础设施的研发和部署周期，形成极高的转换成本。在软件领域，通过VMware的虚拟化平台锁定企业数据中心的核心工作负载，形成稳定的订阅收入流。公司赚取的是"技术架构税"和"生态锁定收益"，而非单纯的商品销售利润。</p>
+<p><strong>业务拆分</strong>：公司业务分为<strong>半导体解决方案</strong>和<strong>基础设施软件</strong>两大板块。当前公司经营周期处于<strong>AI驱动的业绩爆发兑现期</strong>，AI半导体业务贡献主要增量，非AI半导体处于温和复苏阶段，软件业务增长中枢正在抬升。</p>
+<p><strong>细分业务拆分（按财报口径）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>业务板块 (百万美元)</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY26 H1</th></tr></thead><tbody><tr><td><strong>半导体解决方案</strong></td><td></td><td></td><td></td><td></td></tr><tr><td>收入</td><td>28,182</td><td>30,096</td><td>36,858</td><td>27,524</td></tr><tr><td>同比增长</td><td>-</td><td>6.8%</td><td>22.5%</td><td>65.6%</td></tr><tr><td>占总收入比重</td><td>78.7%</td><td>58.3%</td><td>57.7%</td><td>66.3%</td></tr><tr><td>运营利润</td><td>16,486</td><td>16,759</td><td>21,232</td><td>16,784</td></tr><tr><td>运营利润率</td><td>58.5%</td><td>55.7%</td><td>57.6%</td><td>61.0%</td></tr><tr><td><strong>基础设施软件</strong></td><td></td><td></td><td></td><td></td></tr><tr><td>收入</td><td>7,637</td><td>21,478</td><td>27,029</td><td>13,974</td></tr><tr><td>同比增长</td><td>-</td><td>181.2%</td><td>25.8%</td><td>5.1%</td></tr><tr><td>占总收入比重</td><td>21.3%</td><td>41.7%</td><td>42.3%</td><td>33.7%</td></tr><tr><td>运营利润</td><td>5,639</td><td>13,977</td><td>20,765</td><td>10,970</td></tr><tr><td>运营利润率</td><td>73.8%</td><td>65.1%</td><td>76.8%</td><td>78.5%</td></tr><tr><td><strong>总计</strong></td><td></td><td></td><td></td><td></td></tr><tr><td>收入</td><td>35,819</td><td>51,574</td><td>63,887</td><td>41,498</td></tr><tr><td>运营利润</td><td>16,207</td><td>13,463</td><td>25,484</td><td>19,351</td></tr></tbody></table></div>
+<p><em>注：FY2024基础设施软件收入大增因并表VMware。运营利润为分部门数据，未扣除未分配费用。</em></p>
+<p><strong>半导体解决方案（FY26Q2，截至2026年5月3日）</strong>：该板块收入<strong>150.09亿美元</strong>，同比增长<strong>79%</strong>。增长几乎全部由AI相关业务驱动。</p>
+<ul>
+<li><strong>AI半导体</strong>：收入<strong>108亿美元</strong>，同比增长<strong>143%</strong>。其中，<strong>定制AI加速器（XPU）</strong> 贡献约<strong>65亿美元</strong>，主要来自Google TPU和Anthropic TPU的出货。<strong>AI网络</strong>贡献约<strong>43亿美元</strong>，占总AI收入近<strong>40%</strong>，主要产品包括Tomahawk 6交换芯片、Jericho4路由芯片、PCIe交换芯片和光DSP。管理层预计AI网络收入占比将长期稳定在<strong>30%</strong>左右。</li>
+<li><strong>非AI半导体</strong>：收入<strong>42亿美元</strong>，同比增长<strong>6%</strong>。增长主要来自宽带、服务器存储和企业网络业务，部分被无线业务的季节性下滑所抵消。该业务订单量超过出货量，预示复苏将持续。</li>
+</ul>
+<p><strong>基础设施软件（FY26Q2，截至2026年5月3日）</strong>：该板块收入<strong>71.78亿美元</strong>，同比增长<strong>9%</strong>。增长主要由VMware Cloud Foundation（VCF）的强劲需求驱动。本季度ARR同比增长<strong>17%</strong>。该业务毛利率高达<strong>93%</strong>，运营利润率约<strong>79%</strong>，是公司重要的利润和现金流稳定器。新发布的VCF 9.1版本因支持异构AI算力，正成为企业私有云AI部署的关键软件平台，有望驱动该业务进入新一轮增长周期。</p>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托极高转换成本与生态锁定构筑的客户粘性</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。博通与头部客户的合作并非简单的买卖关系，而是深入到芯片架构定义、多代际产品路线图规划、以及系统级（芯片+网络+软件）协同优化的深度绑定。一旦客户选择博通作为其定制ASIC或核心网络芯片的合作伙伴，其后续数代产品的技术路径都将依赖于博通的IP和设计能力，替换成本极高，周期长达数年。</li>
+<li><strong>数据验证</strong>：公司与Google签署了多代TPU长期协议，与苹果的合作延长至2031年，与OpenAI、Meta和Anthropic均有多年期的吉瓦级算力部署协议。这些长期合同的剩余履约义务高达<strong>1646亿美元</strong>（截至FY26Q2），为未来收入提供了极高的可见度。</li>
+<li><strong>动态演变</strong>：<strong>护城河变宽</strong>。随着AI芯片向多晶粒（Multi-die）、3D堆叠、CPO等更复杂的技术方向演进，对设计、IP和系统集成的能力要求呈指数级上升，博通的综合技术优势将进一步拉大与潜在竞争对手的差距，强化其作为"总承包商"的不可替代性。</li>
+</ul>
+<p><strong>竞争要素 2：基于先发规模和技术标准形成的AI网络垄断性优势</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。在AI网络的核心——以太网交换芯片领域，博通凭借Tomahawk系列产品建立了事实上的行业标准。其Tomahawk 6（100Tbps）是市场上唯一量产的百T级产品，领先竞争对手超过一年。同时，公司在高速SerDes、光DSP和CPO等关键互联技术上拥有业界最全面的IP组合，形成了难以逾越的技术和专利壁垒。</li>
+<li><strong>数据验证</strong>：AI网络收入在FY26Q2达到约<strong>43亿美元</strong>，占AI半导体收入的<strong>40%</strong>。Tomahawk 6需求远超供给，已处于"售罄"状态。公司预计AI网络收入将长期稳定在AI总收入的<strong>30%</strong>左右，按FY27 AI收入超1000亿美元计算，仅网络业务就将贡献超<strong>300亿美元</strong>年收入。</li>
+<li><strong>动态演变</strong>：<strong>护城河变宽</strong>。随着AI集群规模从万卡向百万卡演进，网络性能成为比单点算力更关键的瓶颈，其价值量占比将持续提升。博通正在推进的200Tbps交换芯片和CPO技术，将进一步巩固其在下一代AI网络架构中的定义者地位。</li>
+</ul>
+<p><strong>现阶段核心驱动力总结</strong>：公司的Alpha来源于其在<strong>定制AI算力</strong>和<strong>AI网络</strong>两大核心赛道中不可替代的技术领导力和客户锁定效应。其Beta则受益于全球AI基础设施建设的超级资本开支周期。博通已超越单纯的芯片供应商角色，成为AI算力生态的"核心架构师"，其增长具备高确定性、高能见度和长周期的特征。</p>
+<p><strong>竞争格局传导逻辑</strong>：极高的定制化设计与系统集成能力 → 深度绑定头部客户、签订多代际长期协议 → 收入能见度高、客户替换成本极高 → 财务结果：高市场份额与高经常性收入。同时，业界最全的高速互联IP组合与先发规模优势 → 定义AI网络技术标准、产品领先竞争对手一代以上 → 产品供不应求、享有架构定价权 → 财务结果：高毛利率与高运营利润率。</p>
+<h3 class="doc-h2">产销链</h3>
+<ul>
+<li><strong>客户情况</strong>：公司客户集中度较高。FY26Q2，前五大终端客户合计贡献约<strong>45%</strong>的净收入。其中，通过一家分销商实现的销售占总收入的<strong>42%</strong>。核心终端客户包括Google、Meta、OpenAI、Anthropic和苹果等。这些客户多为万亿美元市值的科技巨头，信用风险较低，但单一客户（如Google）的资本开支波动或供应商策略调整可能对公司短期业绩产生影响。公司正通过拓展新客户（如OpenAI、苹果的AI芯片）来分散风险。</li>
+<li><strong>供应商情况</strong>：公司采用Fabless（无晶圆厂）模式，制造环节高度外包。晶圆代工高度集中于<strong>台积电</strong>，FY26H1约<strong>95%</strong>的晶圆由其生产。在HBM内存方面，公司与<strong>三星</strong>签署了长期战略合作协议，预计三星将供应其<strong>75-85%</strong>的HBM需求。这种集中度使公司对核心供应商的议价能力相对有限，但公司通过签订长期协议和预付货款来锁定产能和价格。公司已锁定2026-2027年的晶圆和HBM供应，并正在敲定2028-2029年的供应。</li>
+<li><strong>成本传导能力</strong>：公司赚取的是"技术架构税"。当上游原材料（如HBM、晶圆）涨价时，公司倾向于通过技术迭代和产品价值提升来维持其ASIC业务的毛利率稳定，而非直接向下游客户传导成本。管理层表示将"想方设法"保持ASIC利润率。对于AI网络等标准化程度较高的产品，公司凭借其垄断性市场地位，具备较强的定价权，能更好地对冲成本上涨压力。</li>
+</ul>
+<h3 class="doc-h2">财务数据</h3>
+<p><strong>关键财务数据</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>项目 (百万美元)</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY26 H1</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2023-10-29</td><td>2024-11-03</td><td>2025-11-02</td><td>2026-05-03</td></tr><tr><td><strong>营业总收入</strong></td><td>35,819</td><td>51,574</td><td>63,887</td><td>41,498</td></tr><tr><td>同比增长</td><td>7.9%</td><td>44.0%</td><td>23.9%</td><td>38.7%</td></tr><tr><td><strong>营业成本</strong></td><td>11,129</td><td>19,065</td><td>20,593</td><td>12,926</td></tr><tr><td><strong>毛利润</strong></td><td>24,690</td><td>32,509</td><td>43,294</td><td>28,572</td></tr><tr><td><strong>毛利率</strong></td><td>68.9%</td><td>63.0%</td><td>67.8%</td><td>68.9%</td></tr><tr><td><strong>营业利润</strong></td><td>16,207</td><td>13,463</td><td>25,484</td><td>19,351</td></tr><tr><td>营业利润率</td><td>45.2%</td><td>26.1%</td><td>39.9%</td><td>46.6%</td></tr><tr><td><strong>归母净利润 (GAAP)</strong></td><td>14,082</td><td>5,895</td><td>23,126</td><td>16,659</td></tr><tr><td>同比增长</td><td>25.5%</td><td>-58.1%</td><td>292.3%</td><td>59.1%</td></tr><tr><td><strong>Non-GAAP 净利润</strong></td><td>-</td><td>23,733</td><td>33,728</td><td>-</td></tr><tr><td><strong>稀释EPS (GAAP, 美元)</strong></td><td>3.30</td><td>1.23</td><td>4.77</td><td>3.41</td></tr><tr><td><strong>经营活动现金流</strong></td><td>18,085</td><td>19,962</td><td>27,537</td><td>18,753</td></tr><tr><td><strong>自由现金流</strong></td><td>17,633</td><td>19,414</td><td>26,914</td><td>18,272</td></tr></tbody></table></div>
+<p><em>注：自由现金流 = 经营活动现金流 - 资本性支出。FY26 H1自由现金流为估算值。</em></p>
+<p><strong>财务分析</strong></p>
+<ul>
+<li><strong>成长能力</strong>：公司已进入由AI驱动的超级成长周期。FY26 H1营收同比增长<strong>38.7%</strong>，且增速逐季加快。GAAP净利润在FY25扭亏后，FY26 H1继续保持<strong>59.1%</strong>的高速增长。AI半导体业务是核心增长引擎，其增速远超公司整体水平。</li>
+<li><strong>盈利能力</strong>：公司毛利率在FY24因并表VMware而短暂下滑后，已迅速回升至<strong>68.9%</strong>的高位。尽管AI芯片（尤其是XPU）的毛利率低于软件，但其强劲的增长带来了显著的经营杠杆，使得营业利润率从FY24的<strong>26.1%</strong>大幅提升至FY26 H1的<strong>46.6%</strong>。公司整体盈利能力随着AI业务规模的扩大而显著增强。</li>
+<li><strong>现金流质量</strong>：公司是典型的"现金牛"。FY26 H1经营活动现金流达到<strong>187.53亿美元</strong>，自由现金流充沛。公司将大量现金用于股东回报，FY26 H1支付了<strong>61.78亿美元</strong>的股息，并斥资<strong>84.5亿美元</strong>用于股票回购。同时，公司资产负债表上仍有<strong>196.28亿美元</strong>的现金储备，财务稳健。</li>
+</ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p>公司主要参与<strong>AI定制芯片（ASIC/XPU）</strong> 和<strong>AI网络（以太网交换/路由/光互联）</strong> 两个高度专业化的细分市场。</p>
+<ul>
+<li><strong>AI定制芯片市场</strong>：该市场由头部云厂商和AI模型公司驱动，他们为追求极致的推理成本和能效比，正从通用GPU转向自研或与博通等伙伴合作定制芯片。据机构测算，该市场正处于爆发期，博通预计其FY27 AI收入将超1000亿美元，其中大部分来自定制芯片。竞争格局上，博通凭借其IP库、设计能力和客户关系，占据<strong>超过70%</strong>的市场份额，是该市场的绝对领导者。主要竞争对手包括Marvell（美满电子）和联发科，但它们在客户阵容和项目规模上均落后于博通。英伟达的GPU是该市场的替代方案，而非直接竞争者。</li>
+<li><strong>AI网络市场</strong>：该市场是AI算力扩张的"卖铲人"生意。随着AI集群规模扩大，网络性能成为关键瓶颈，对高速以太网交换芯片、路由芯片和光互联的需求呈指数级增长。博通在该市场拥有近乎垄断的地位，其Tomahawk系列交换芯片是事实上的行业标准，市占率超<strong>70%</strong>。主要竞争对手包括英伟达（通过收购Mellanox）和Intel，但均未对博通的领导地位构成实质性挑战。</li>
+</ul>
+<p><strong>可比公司</strong>：</p>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>对标维度</th><th>分析</th></tr></thead><tbody><tr><td>英伟达 (NVIDIA)</td><td>NVDA</td><td>AI算力芯片</td><td>通用GPU领导者，与博通的定制ASIC形成互补与竞争。英伟达拥有更庞大的软件生态，博通则提供更贴近客户工作负载的定制化方案。两者共同主导AI算力市场。</td></tr><tr><td>Marvell (美满电子)</td><td>MRVL</td><td>定制ASIC</td><td>博通在定制ASIC领域的主要竞争对手，但客户阵容（主要为AWS）和项目规模远小于博通。在AI网络领域，Marvell也是主要参与者，但市场份额落后于博通。</td></tr><tr><td>联发科 (MediaTek)</td><td>2454.TW</td><td>定制ASIC</td><td>新进入者，已切入Google TPU供应链，是博通在该项目上的直接竞争对手。但其ASIC业务仍处于早期阶段，技术能力和客户关系有待验证。</td></tr></tbody></table></div>
+<p><strong>总结分析</strong>：博通在两个关键AI基础设施市场均占据领导地位。其竞争优势不仅在于单一产品的领先，更在于"<strong>计算（XPU）+ 网络（交换/路由/光互联）</strong>"的全栈协同能力，这使其能为客户提供系统级的优化方案，从而构筑了比纯芯片设计公司更深的护城河。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<ul>
+<li><strong>议题一：谷歌TPU项目的份额保卫战</strong>——联发科成功切入谷歌TPU供应链，引发了市场对博通将失去其最大ASIC客户主要份额的担忧，这是导致公司股价从高点回落的主要原因。关键问题：博通在谷歌下一代TPU（v9及以后）中的份额会否从当前的近乎垄断，快速下滑至50%甚至更低？联发科是否具备在复杂度和性能要求极高的AI加速芯片领域，持续交付有竞争力产品的能力？谷歌引入第二供应商，是否会引发其他ASIC客户效仿，从而系统性地削弱博通的议价能力和利润率？</li>
+<li><strong>议题二：AI业务毛利率的稀释效应</strong>——公司指引FY26Q3毛利率将下滑至<strong>74%</strong>，主要原因是毛利率较低的AI半导体（尤其是XPU）收入占比大幅提升。市场担心随着AI业务持续高增，公司整体盈利能力将被结构性拉低。关键问题：公司整体毛利率的下行趋势何时能够触底？长期稳态的毛利率中枢在哪里？AI网络和CPO等高毛利业务的增长，能否有效对冲XPU业务对毛利率的稀释？管理层"维持ASIC利润率稳定"的承诺，在面对HBM等原材料成本上涨时，能否兑现？</li>
+<li><strong>议题三：AI XPV平台的表外风险敞口</strong>——公司为加速AI芯片销售而设立的350亿美元XPV融资平台，提供了高达<strong>290亿美元</strong>的残值担保。这种将产品销售金融化的模式，引发了市场对其潜在债务风险的担忧。关键问题：如果未来AI算力出现供过于求，或Anthropic/OpenAI等客户出现财务问题，博通将面临多大的实际损失？这种担保义务将如何影响公司的信用评级和未来的融资能力？该模式是否会成为行业常态，从而系统性地增加半导体公司的经营风险？</li>
+</ul>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p>市场对博通的核心分歧在于：<strong>其当前的高增长是真实、可持续的需求驱动，还是下游客户在资本狂热下的提前拉货和渠道压货？其高毛利率是结构性优势，还是会被竞争和成本压力所侵蚀？</strong></p>
+<p><strong>乐观方观点</strong>：认为博通的增长是<strong>高质量且可持续的</strong>。依据是：1）订单均来自全球最顶尖的科技巨头，且有多年期、不可撤销的长期合同和吉瓦级算力部署承诺作为背书，并非短期渠道压货。2）博通在定制ASIC和AI网络领域的技术护城河极深，客户替换成本极高，其市场地位难以被撼动。联发科的进入更多是谷歌的"备胎"策略，不会动摇博通的主导地位。3）毛利率的下降是产品组合变化的数学结果，而非竞争加剧。AI业务的经营利润率依然健康，且随着规模扩大，经营杠杆将推动净利润高速增长。</p>
+<p><strong>谨慎方观点</strong>：认为市场对AI投资的回报和可持续性过于乐观，博通面临的风险被低估。依据是：1）谷歌引入联发科已证明，即使是最深的护城河也存在被攻破的可能。一旦AI芯片的技术创新放缓，竞争将迅速从技术转向成本，博通的利润率将承压。2）AI XPV平台的残值担保是巨大的表外风险，一旦AI投资泡沫破裂，博通将面临"芯片卖不动，担保要兜底"的双重打击。3）当前超300亿美元的季度订单量可能包含了客户因恐慌性抢购产能而重复下单的"水分"，未来存在订单修正的风险。</p>
+<p>从中立视角看，博通的长期技术优势和客户锁定能力是真实的，其AI业务的增长具备高确定性。然而，市场对其远期份额和利润率的定价可能过于线性外推，忽略了竞争格局的潜在变化和宏观风险。谷歌TPU的份额变化将是验证其护城河深度的"试金石"，而AI XPV平台的担保风险则是一个需要持续跟踪的"灰犀牛"。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>管理层指引</strong>：</p>
+<ul>
+<li>FY26Q3营收指引约<strong>294亿美元</strong>，调整后EBITDA利润率约<strong>68%</strong>。</li>
+<li>FY26全年AI半导体收入指引<strong>560亿美元</strong>，同比增长约180%。</li>
+<li>重申FY27 AI半导体收入将超过<strong>1000亿美元</strong>。</li>
+</ul>
+<p><strong>券商盈利预测与估值</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价(美元)</th><th>财务指标</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>摩根大通 (2026-06-04)</td><td>超配</td><td>580</td><td>Non-GAAP EPS (美元)</td><td>6.82</td><td>11.62</td><td>21.10</td><td>-</td></tr><tr><td></td><td></td><td></td><td>营收 (百万美元)</td><td>63,887</td><td>105,674</td><td>184,537</td><td>-</td></tr><tr><td>瑞银 (2026-06-17)</td><td>买入</td><td>485</td><td>Non-GAAP EPS (美元)</td><td>6.82</td><td>11.51</td><td>20.83</td><td>27.44</td></tr><tr><td></td><td></td><td></td><td>营收 (百万美元)</td><td>63,887</td><td>105,478</td><td>190,883</td><td>254,075</td></tr><tr><td>摩根士丹利 (2026-07-14)</td><td>超配</td><td>502</td><td>ModelWare EPS (美元)</td><td>5.39</td><td>9.98</td><td>16.63</td><td>21.48</td></tr><tr><td>华泰证券 (2026-06-08)</td><td>买入</td><td>550.22</td><td>Non-GAAP EPS (美元)</td><td>6.90</td><td>11.48</td><td>18.04</td><td>25.89</td></tr><tr><td></td><td></td><td></td><td>营收 (百万美元)</td><td>63,887</td><td>106,830</td><td>175,342</td><td>277,436</td></tr><tr><td>中金公司 (2026-06-06)</td><td>跑赢行业</td><td>525</td><td>Non-GAAP EPS (美元)</td><td>6.82</td><td>11.60</td><td>20.07</td><td>-</td></tr><tr><td></td><td></td><td></td><td>营收 (百万美元)</td><td>63,887</td><td>106,582</td><td>182,400</td><td>-</td></tr></tbody></table></div>
+<p><em>注：各机构预测口径可能存在差异。</em></p>
+<p><strong>估值分析</strong>：市场对博通的估值逻辑已从市盈率（P/E）转向基于未来AI业务潜力的<strong>分部估值法（SOTP）</strong> 和<strong>企业价值倍数（EV/EBITDA）</strong>。机构普遍给予其AI半导体业务30倍左右的P/E，传统半导体和软件业务则给予较低的估值倍数。尽管各机构对FY27的EPS预测存在分歧（从16.63美元到21.10美元不等），但均指向当前股价对应FY27 P/E在<strong>20-26倍</strong>之间，对于一家在AI浪潮中占据核心地位且未来数年增长确定性极高的公司而言，这一估值水平被认为具备吸引力。机构观点普遍偏乐观，分歧点主要在于对FY27 AI收入"超1000亿"的具体规模和毛利率走势的判断上。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/AVGO · 生成于 2026-08-06</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-06';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'hit',     text: '<strong>FY26Q2 财报：AI 收入 $108 亿（+143%）+ 季度订单破 $300 亿</strong>，能见度延伸至 2028', note: '2026-06-04 兑现' },
+  { kind: 'cat', status: 'active',  text: '<strong>FY26Q3 财报</strong>（预计 2026-09 初）：AI 收入 $160 亿指引兑现度 + 是否上调 FY27 展望', note: '市场预期「超 $1,000 亿」偏保守' },
+  { kind: 'cat', status: 'active',  text: '<strong>CPO 交换机放量</strong>：51.2T Bailly 已小批量出货，2026 下半年产业趋势加速', note: '光 DSP + 交换芯片双重受益' },
+  { kind: 'cat', status: 'pending', text: '<strong>OpenAI Jalapeño XPU 量产</strong>（预计 2026 年底）：验证 ASIC 设计能力的关键里程碑', note: '' },
+  { kind: 'cat', status: 'pending', text: '<strong>200Tbps Tomahawk 流片</strong>（2026 下半年）：AI 网络代际领先能否延续', note: '' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>谷歌 TPU 份额确认跌破 80%</strong>：联发科在 3nm/2nm 代际拿到实质份额，并引发其他客户效仿压价', note: '当前压制估值的最核心因素，持续跟踪' },
+  { kind: 'risk', status: 'clear', text: '<strong>AI XPV 残值担保（$290 亿）变成实际损失</strong>：客户违约或算力供过于求导致兜底', note: '灰犀牛，每季 10-Q 核对' },
+  { kind: 'risk', status: 'clear', text: '<strong>毛利率稀释超预期</strong>：XPU 占比提升，FY26Q3 指引已降至 74%；关注长期稳态中枢', note: 'AI 网络/CPO 放量是关键对冲' },
+  { kind: 'risk', status: 'clear', text: '<strong>CSP 集体下修资本开支 / 订单修正</strong>：超 $300 亿季度订单被证伪含重复下单水分', note: '每季度财报季核对' },
+  { kind: 'risk', status: 'clear', text: '<strong>供应链中断</strong>：约 95% 晶圆依赖台积电、HBM 75-85% 依赖三星；含台海地缘尾部风险', note: '常态跟踪' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

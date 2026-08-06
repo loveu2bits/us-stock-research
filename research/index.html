@@ -274,6 +274,10 @@ const REPORTS = {
   MU:'../MU/美光_研究.html', ANET:'../ANET/Arista_研究.html', QCOM:'../QCOM/高通_研究.html',
   ARM:'../ARM/ARM_研究.html', INTC:'../INTC/英特尔_研究.html', PLTR:'../PLTR/Palantir_研究.html',
   UBER:'../UBER/Uber_研究.html',
+  AVGO:'../AVGO/博通_研究.html', ORCL:'../ORCL/甲骨文_研究.html', MRVL:'../MRVL/迈威尔_研究.html',
+  SNPS:'../SNPS/新思科技_研究.html', AMAT:'../AMAT/应用材料_研究.html', LRCX:'../LRCX/泛林集团_研究.html',
+  DELL:'../DELL/戴尔_研究.html', SMCI:'../SMCI/超微电脑_研究.html', SNDK:'../SNDK/闪迪_研究.html',
+  VST:'../VST/Vistra_研究.html',
 };
 
 // 含「券商研报」tab 的公司
@@ -711,7 +715,7 @@ document.addEventListener('click', ev => {
 // 更新研究观点时只改这两个数组（ticker），链接与中文名自动带出
 const RATINGS = {
   date: '2026-08-06',
-  buy:  ['TSM','MU','ANET','AMD','UBER','AMZN','V','PLD'],
+  buy:  ['TSM','MU','ANET','AMD','UBER','AMZN','V','PLD','AVGO','SNPS','SNDK','VST'],
   sell: [],
 };
 function renderRatings(){
