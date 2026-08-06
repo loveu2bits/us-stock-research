@@ -10,10 +10,11 @@
   --paper: #ffffff; --paper-cool: #f3f6f8;
   --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
   --line: #d9e0e6; --line-strong: #b9c4ce;
-  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16; --plum: #72566f;
+  --gold: #b8860b;
   --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
-  --shell: 1080px; --header-height: 68px;
+  --shell: 1280px; --header-height: 68px;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -48,24 +49,77 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 .summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
 .summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
 
-/* ===== 行业筛选栏 ===== */
-.filter-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 32px 0 6px; padding: 14px 0; border-bottom: 1px solid var(--line-strong); }
-.filter-bar__label { margin-right: 6px; color: var(--ink-faint); font-size: 12px; font-weight: 700; }
-.filter-chip { --chip-color: var(--federal-blue); min-height: 34px; padding: 6px 14px; border: 1px solid transparent; border-radius: 4px; background: transparent; color: var(--ink-soft); cursor: pointer; font-size: 12.5px; font-weight: 650; font-family: inherit; transition: all .15s ease; }
-.filter-chip:hover { background: var(--paper-cool); color: var(--ink); }
-.filter-chip[aria-pressed="true"] { border-color: color-mix(in srgb, var(--chip-color) 48%, white); background: color-mix(in srgb, var(--chip-color) 8%, white); color: var(--chip-color); }
-.filter-count { margin-left: auto; color: var(--ink-faint); font-size: 12px; }
+/* ===== 布局：左侧导航 + 主区域 ===== */
+.layout { display: grid; grid-template-columns: 216px minmax(0,1fr); gap: 44px; align-items: start; margin-top: 8px; }
+.chain-nav { position: sticky; top: calc(var(--header-height) + 16px); padding: 6px 0 24px; }
+.chain-nav__label { margin: 14px 0 6px; color: var(--ink-faint); font-size: 11px; font-weight: 700; letter-spacing: .06em; }
+.chain-nav a { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-left: 2px solid var(--line); color: var(--ink-soft); font-size: 12.5px; font-weight: 600; text-decoration: none; transition: all .15s ease; }
+.chain-nav a:hover { color: var(--ink); background: var(--paper-cool); }
+.chain-nav a .dot { flex: none; width: 8px; height: 8px; border-radius: 2px; }
+.chain-nav a small { margin-left: auto; color: var(--ink-faint); font-size: 10.5px; font-weight: 500; }
 
-.company-list { margin-bottom: 60px; border-top: 1px solid transparent; }
-.company-row { --accent: var(--federal-blue); position: relative; display: grid; grid-template-columns: 54px 54px 230px minmax(0,1fr) 118px 28px; gap: 20px; align-items: center; min-height: 108px; padding: 14px 0; border-bottom: 1px solid var(--line); color: inherit; text-decoration: none; transition: background .15s ease; }
+/* ===== 产业链区块 ===== */
+.chain { --accent: var(--federal-blue); margin-bottom: 64px; scroll-margin-top: calc(var(--header-height) + 12px); }
+.chain__head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; padding-bottom: 10px; border-bottom: 2px solid var(--accent); }
+.chain__head h2 { margin: 0; font-family: var(--font-display); font-size: 26px; font-weight: 650; }
+.chain__head .cnt { margin-left: auto; color: var(--ink-faint); font-size: 12px; }
+.chain__desc { margin: 8px 0 18px; color: var(--ink-soft); font-size: 13.5px; }
+
+/* 上/中/下游流程带 */
+.flow { display: grid; grid-template-columns: minmax(0,1fr) 26px minmax(0,1fr) 26px minmax(0,1fr); align-items: stretch; }
+.flow__arrow { display: grid; place-items: center; color: var(--line-strong); font-size: 17px; }
+.tier { border: 1px solid var(--line-strong); border-top: 3px solid var(--accent); background: var(--paper); }
+.tier__label { padding: 8px 12px 6px; border-bottom: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; font-weight: 700; letter-spacing: .08em; }
+.seg { display: flex; align-items: center; gap: 8px; width: 100%; padding: 10px 12px; border: 0; border-bottom: 1px solid var(--line); background: transparent; color: var(--ink); font-size: 13px; font-weight: 650; font-family: inherit; text-align: left; cursor: pointer; transition: background .15s ease; }
+.seg:last-child { border-bottom: 0; }
+.seg:hover { background: color-mix(in srgb, var(--accent) 6%, white); }
+.seg.is-open { background: color-mix(in srgb, var(--accent) 10%, white); box-shadow: inset 3px 0 0 var(--accent); }
+.seg .n { flex: 1; }
+.seg .cnt { color: var(--ink-faint); font-size: 11px; font-weight: 500; }
+.seg .caret { color: var(--ink-faint); font-size: 10px; transition: transform .15s ease; }
+.seg.is-open .caret { transform: rotate(180deg); color: var(--accent); }
+
+/* 环节展开面板 */
+.seg-panel { display: none; margin: 14px 0 4px; border: 1px solid var(--line-strong); border-left: 3px solid var(--accent); background: var(--paper); }
+.seg-panel.is-visible { display: block; }
+.seg-panel__head { display: flex; align-items: baseline; gap: 10px; padding: 12px 18px 10px; border-bottom: 1px solid var(--line); }
+.seg-panel__head strong { font-size: 15px; }
+.seg-panel__head .pos { color: var(--ink-faint); font-size: 11.5px; }
+.seg-panel__head .close { margin-left: auto; border: 0; background: transparent; color: var(--ink-faint); font-size: 16px; cursor: pointer; }
+.seg-panel__head .close:hover { color: var(--ink); }
+.seg-note { margin: 0; padding: 12px 18px; color: var(--ink-soft); font-size: 13px; background: var(--paper-cool); border-bottom: 1px solid var(--line); }
+
+.co { display: grid; grid-template-columns: minmax(0,1.2fr) minmax(0,1fr); gap: 6px 18px; padding: 12px 18px; border-bottom: 1px solid var(--line); color: inherit; text-decoration: none; transition: background .15s ease; }
+.co:last-child { border-bottom: 0; }
+a.co:hover { background: color-mix(in srgb, var(--accent) 5%, white); }
+.co__main { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; min-width: 0; }
+.co__name { font-size: 14.5px; font-weight: 700; }
+.co__ticker { padding: 0 6px; border: 1px solid var(--line); border-radius: 3px; background: var(--paper-cool); color: var(--ink-soft); font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 10.5px; }
+.co__share { color: var(--ink-faint); font-size: 12px; }
+.badge { padding: 1px 8px; border-radius: 999px; font-size: 10.5px; font-weight: 700; white-space: nowrap; }
+.badge.leader { border: 1px solid color-mix(in srgb, var(--gold) 55%, white); background: color-mix(in srgb, var(--gold) 9%, white); color: var(--gold); }
+.badge.done { border: 1px solid color-mix(in srgb, var(--accent) 45%, white); color: var(--accent); }
+.badge.todo { border: 1px solid var(--line); color: var(--ink-faint); font-weight: 600; }
+.co__cn { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; min-width: 0; font-size: 11.5px; color: var(--ink-faint); }
+.co__cn .map { padding: 1px 7px; border: 1px solid var(--line); border-radius: 3px; color: var(--ink-soft); white-space: nowrap; }
+.co__cn .map code { margin-left: 4px; color: var(--ink-faint); font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 10.5px; }
+@media (min-width: 861px) {
+  .co { grid-template-columns: minmax(0,1.15fr) minmax(0,1fr); align-items: center; }
+  .co__cn { justify-content: flex-end; text-align: right; }
+}
+
+/* ===== 其他行业 ===== */
+.others { margin-bottom: 60px; scroll-margin-top: calc(var(--header-height) + 12px); }
+.others__head { display: flex; align-items: baseline; gap: 12px; padding-bottom: 10px; border-bottom: 2px solid var(--ink-soft); }
+.others__head h2 { margin: 0; font-family: var(--font-display); font-size: 26px; font-weight: 650; }
+.others__head .cnt { margin-left: auto; color: var(--ink-faint); font-size: 12px; }
+.oth-grp__title { margin: 22px 0 2px; color: var(--ink-faint); font-size: 12px; font-weight: 700; letter-spacing: .08em; }
+.company-row { --accent: var(--federal-blue); display: grid; grid-template-columns: 54px minmax(0,1fr) 118px 28px; gap: 20px; align-items: center; min-height: 92px; padding: 14px 0; border-bottom: 1px solid var(--line); color: inherit; text-decoration: none; transition: background .15s ease; }
 .company-row:hover { background: color-mix(in srgb, var(--accent) 4%, white); }
-.company-row__num { color: var(--accent); font-family: var(--font-display); font-size: 24px; font-variant-numeric: tabular-nums; }
 .company-row__seal { display: grid; width: 44px; height: 44px; place-items: center; border: 1.5px solid var(--accent); border-radius: 50%; color: var(--accent); font-family: var(--font-display); font-size: 12px; font-weight: 700; letter-spacing: -0.02em; }
-.company-row__name strong { display: block; margin-bottom: 3px; font-size: 17px; }
+.company-row__name strong { display: block; margin-bottom: 3px; font-size: 16px; }
 .company-row__name .role { display: block; color: var(--ink-faint); font-size: 12px; }
-.company-row__name .sector-tag { display: inline-block; margin-top: 5px; padding: 1px 8px; border: 1px solid color-mix(in srgb, var(--accent) 40%, white); border-radius: 999px; color: var(--accent); font-size: 10.5px; font-weight: 700; }
-.company-row__name .broker-tag { display: inline-block; margin-top: 5px; margin-left: 6px; padding: 1px 8px; border: 1px solid color-mix(in srgb, var(--amber) 45%, white); border-radius: 999px; color: var(--amber); font-size: 10.5px; font-weight: 700; }
-.company-row__tag { margin: 0; color: var(--ink-soft); font-size: 13.5px; line-height: 1.6; }
+.company-row__tag { margin: 4px 0 0; color: var(--ink-soft); font-size: 13px; line-height: 1.6; }
 .company-row__metric { text-align: right; }
 .company-row__metric strong { display: block; font-family: var(--font-display); font-size: 19px; font-weight: 650; }
 .company-row__metric strong.up { color: var(--policy-red); }
@@ -73,9 +127,6 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 .company-row__metric span { color: var(--ink-faint); font-size: 11px; }
 .company-row__arrow { color: var(--line-strong); font-size: 18px; transition: transform .15s ease, color .15s ease; }
 .company-row:hover .company-row__arrow { color: var(--accent); transform: translateX(4px); }
-
-.empty-state { display: none; padding: 60px 0; text-align: center; color: var(--ink-faint); font-size: 14px; }
-.empty-state.is-visible { display: block; }
 
 .chain-note { margin: 0 0 70px; padding: 20px 24px; border-left: 3px solid var(--amber); background: #faf6ec; color: var(--ink-soft); font-size: 14px; }
 .chain-note strong { color: var(--ink); }
@@ -86,16 +137,22 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 .site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
 
 @media (max-width: 860px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .layout { grid-template-columns: 1fr; gap: 0; }
+  .chain-nav { position: sticky; top: var(--header-height); z-index: 60; display: flex; gap: 4px; overflow-x: auto; padding: 8px 0; background: rgba(255,255,255,.95); backdrop-filter: blur(10px); }
+  .chain-nav__label { display: none; }
+  .chain-nav a { flex: none; border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; }
+  .chain-nav a small { display: none; }
+  .flow { grid-template-columns: 1fr; }
+  .flow__arrow { padding: 2px 0; transform: rotate(90deg); }
   .company-row { grid-template-columns: 44px minmax(0,1fr) 28px; gap: 10px 14px; align-items: start; }
-  .company-row__num, .company-row__metric { display: none; }
+  .company-row__metric { display: none; }
   .company-row__seal { margin-top: 2px; }
-  .company-row__tag { grid-column: 1 / -1; }
   .company-row__arrow { align-self: center; }
   .overview__heading { grid-template-columns: 1fr; gap: 18px; }
   .overview__copy h1 { font-size: 32px; }
   .overview__date { text-align: left; }
   .summary-rail { grid-template-columns: repeat(2, 1fr); }
-  .filter-count { width: 100%; margin-left: 0; }
   .site-nav a { min-width: 72px; padding: 0 8px; font-size: 12px; }
   .site-mark__text span { display: none; }
 }
@@ -118,12 +175,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   <div class="shell">
     <div class="overview__heading">
       <div class="overview__copy">
-        <h1>公司研究<span class="en">每家两页：研究报告 + Gangtise 一页通 · 按行业筛选</span></h1>
-        <p class="sub">当前主线为 AI 算力产业链（链主 + 下游买家交叉验证），并持续扩展消费、医药、地产等行业覆盖。</p>
+        <h1>公司研究 · 产业链视角<span class="en">以美股科技大厂为主线的产业链拆解 · 点开环节看公司 · 👑 为该环节市占率龙头</span></h1>
+        <p class="sub">每家已研究公司两页：研究报告 + Gangtise 一页通（环节内「已研究 →」可点开）。每家美股公司附国内对标（A 股 / 港股，仅列名字与代码）。市占率为约数，仅作研究参考。</p>
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong id="update-date">2026-07-30</strong>
+        <strong id="update-date">2026-08-06</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -131,177 +188,394 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 </section>
 
 <main class="shell">
-
-  <div class="filter-bar" id="filter-bar">
-    <span class="filter-bar__label">行业筛选</span>
-    <!-- 筛选按钮由 JS 生成 -->
-    <span class="filter-count" id="filter-count"></span>
+  <div class="layout">
+    <nav class="chain-nav" id="chain-nav"></nav>
+    <div id="chains"></div>
   </div>
 
-  <div class="company-list" id="company-list"></div>
-  <div class="empty-state" id="empty-state">该行业暂无已研究公司。</div>
+  <section class="others" id="others">
+    <div class="others__head">
+      <h2>其他行业</h2>
+      <span class="cnt" id="others-cnt"></span>
+    </div>
+    <div id="others-list"></div>
+  </section>
 
   <div class="chain-note">
     <strong>⭐ 产业链交叉验证（2026-07 财报季）：</strong>微软（下季 capex &gt;$500 亿）+ 谷歌（上调至 $2,050 亿）+ Meta（$1,300-1,450 亿）三大下游买家资本开支全部指向"继续加码"——英伟达 8 月下旬财报的需求环境几乎确定强劲，分歧只在 2027 年。待验证：亚马逊（AWS capex，7/30 盘后）。
   </div>
-
 </main>
 
 <section class="sources">
   <div class="shell">
     <h2>数据来源</h2>
-    <p>Gangtise Open API（公司一页通 · stock-one-pager）· 公司财报及公开披露 · 仅作研究学习用途，不构成投资建议。</p>
+    <p>Gangtise Open API（公司一页通 · stock-one-pager）· 公司财报及公开披露 · 市占率为公开资料整理的约数 · 仅作研究学习用途，不构成投资建议。</p>
   </div>
 </section>
-<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究 · 更新于 2026-07-31</div></footer>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究 · 更新于 2026-08-06</div></footer>
 
 <script>
-// ================= 公司库 =================
-// 新增公司：在此数组末尾追加一条即可，行业筛选与统计自动更新。
-// sector 取值建议沿用 GICS 中文板块名：信息技术/通信服务/非必需消费/必需消费/金融/医疗保健/工业/能源/公用事业/原材料/房地产
-const COMPANIES = [
-  { code:'NVDA', seal:'NVDA', cn:'英伟达', en:'NVIDIA', sector:'信息技术',
-    role:'AI 算力链 · 链主 · GPU 约 80% 份额',
-    tag:'AI 时代"收算力税"的公司。$4.7 万亿市值已充分定价，核心问题是高增长能持续几年、什么信号说明逻辑坏了。',
-    metric:'+85%', metricCls:'up', metricNote:'FY27Q1 营收增速',
-    href:'../NVDA/英伟达_研究.html' },
-  { code:'MSFT', seal:'MSFT', cn:'微软', en:'Microsoft', sector:'信息技术',
-    role:'AI 算力链 · 下游 · Azure + Copilot',
-    tag:'AI 应用变现走得最远的巨头。财报全面超预期盘后 +8%——市场不是反对 AI 资本开支，是反对看不到回报的资本开支。',
-    metric:'+8.1%', metricCls:'up', metricNote:'财报后盘后 · Azure +43%',
-    broker:true,
-    href:'../MSFT/微软_研究.html' },
-  { code:'GOOGL', seal:'GOOG', cn:'谷歌', en:'Alphabet', sector:'通信服务',
-    role:'AI 算力链 · 下游 · 全栈 AI（TPU+Gemini）',
-    tag:'唯一"芯片-模型-平台-应用"全栈自研的巨头。云 +82% 爆发，但 2000 亿年度资本开支是"烧钱"还是"筑墙"？',
-    metric:'+82%', metricCls:'up', metricNote:'Q2 云增速',
-    href:'../GOOGL/谷歌_研究.html' },
-  { code:'META', seal:'META', cn:'Meta', en:'Meta Platforms', sector:'通信服务',
-    role:'AI 算力链 · 下游 · AI 广告 + 算力豪赌',
-    tag:'被 AI 重新点火的广告印钞机，正把钱整捆塞进算力熔炉。收入超预期，但自由现金流暴跌 91%，盘后 -7.5%。',
-    metric:'-7.5%', metricCls:'down', metricNote:'财报后盘后 · FCF -91%',
-    broker:true,
-    href:'../META/Meta_研究.html' },
-  { code:'AMZN', seal:'AMZN', cn:'亚马逊', en:'Amazon', sector:'非必需消费',
-    role:'AI 算力链 · 下游 · AWS + 自研芯片 + 电商基本盘',
-    tag:'这份财报把"AI 烧钱"翻转成"AI 兑现"：AWS +37% 五连加速、4,960 亿订单在手，2,200 亿 capex 市场照单全收——拿着订单建产能，不是赌需求。',
-    metric:'+37%', metricCls:'up', metricNote:'Q2 AWS 增速 · 18 季度最快',
-    broker:true,
-    href:'../AMZN/亚马逊_研究.html' },
-  { code:'NFLX', seal:'NFLX', cn:'奈飞', en:'Netflix', sector:'通信服务',
-    role:'对照样本 · 流媒体 · 订阅+广告双轮',
-    tag:'现金流机器，基本面历史最好。Q3 指引 miss 跌 9%——这是内容空档期的暂时波谷，还是注意力被蚕食的结构性拐点？',
-    metric:'-9%', metricCls:'down', metricNote:'财报后盘后 · 指引 miss',
-    href:'../NFLX/奈飞_研究.html' },
-  { code:'TSLA', seal:'TSLA', cn:'特斯拉', en:'Tesla', sector:'非必需消费',
-    role:'对照样本 · 物理 AI 平台 · FSD/Robotaxi/Optimus',
-    tag:'报表是汽车公司，股价是 AI 公司：营业利润率 1.4%，估值 90% 来自尚未规模化的业务——研究"叙事如何定价"的活教材。',
-    metric:'1.4%', metricCls:'down', metricNote:'Q2 营业利润率',
-    href:'../TSLA/特斯拉_研究.html' },
-  { code:'WMT', seal:'WMT', cn:'沃尔玛', en:'Walmart', sector:'必需消费',
-    role:'消费 · 全球最大零售商 · 全渠道平台化转型',
-    tag:'正在发生"身份重估"：广告+会员+3P 高利润业务已贡献 1/3 营业利润——市场按生态平台给 39 倍 PE，配不配得上？',
-    metric:'1/3', metricCls:'up', metricNote:'高利润业务占营业利润比',
-    href:'../WMT/沃尔玛_研究.html' },
-  { code:'COST', seal:'COST', cn:'好市多', en:'Costco', sector:'必需消费',
-    role:'消费 · 会员制仓储 · 商业模式教科书',
-    tag:'商品毛利率压到 11%，利润几乎全来自会员费——92.2% 续卡率的飞轮 vs 46 倍 PE，"好公司"与"好价格"的矛盾最极致。',
-    metric:'92.2%', metricCls:'up', metricNote:'美加会员续卡率',
-    href:'../COST/好市多_研究.html' },
-  { code:'PLD', seal:'PLD', cn:'安博', en:'Prologis', sector:'房地产',
-    role:'地产 · 全球最大物流 REIT · 数据中心新贵',
-    tag:'全球最大仓库房东：空置率 7.2%、17% 租约市价差锁定增长——第二身份是靠土地+电力切入数据中心的"AI 卖铲人"。',
-    metric:'17%', metricCls:'up', metricNote:'租约市价差·锁定增长',
-    href:'../PLD/安博_研究.html' },
-  { code:'EQIX', seal:'EQIX', cn:'Equinix', en:'Equinix', sector:'房地产',
-    role:'地产 · 全球最大数据中心 REIT · AI 推理枢纽',
-    tag:'客户付的不是房租，是接入 50 万互联节点生态的"连接费"——Q1 六成大额交易与 AI 相关，AI 推理时代的中立交通枢纽。',
-    metric:'60%', metricCls:'up', metricNote:'Q1 大额交易 AI 相关占比',
-    broker:true,
-    href:'../EQIX/Equinix_研究.html' },
-  { code:'LLY', seal:'LLY', cn:'礼来', en:'Eli Lilly', sector:'医疗保健',
-    role:'医疗 · GLP-1 药王 · 超级成长周期',
-    tag:'替尔泊肽单季 $128 亿、美国减重处方份额 60%、收入 +56%——研究高增长持续性，与专利到期后接力棒的可信度。',
-    metric:'+55.6%', metricCls:'up', metricNote:'1Q26 收入增速',
-    href:'../LLY/礼来_研究.html' },
-  { code:'ISRG', seal:'ISRG', cn:'直觉外科', en:'Intuitive Surgical', sector:'医疗保健',
-    role:'医疗 · 手术机器人 · 达芬奇生态垄断',
-    tag:'"剃须刀+刀片"的终极形态：85% 经常性收入。财报超预期却大跌——美国手术量 12% 是 ACA 扰动，还是渗透率见顶？',
-    metric:'85%', metricCls:'up', metricNote:'经常性收入占比',
-    href:'../ISRG/直觉外科_研究.html' },
-  { code:'V', seal:'V', cn:'维萨', en:'Visa', sector:'金融',
-    role:'金融 · 支付网络双寡头 · 全球商业收费站',
-    tag:'67% 营业利润率、单季 4 万亿美元支付额。AI 代理与稳定币时代，它的答案不是捍卫卡支付，而是成为所有新支付方式的底层。',
-    metric:'+34%', metricCls:'up', metricNote:'FY26Q3 VAS 增值服务增速',
-    href:'../V/维萨_研究.html' },
-  { code:'CEG', seal:'CEG', cn:'星座能源', en:'Constellation Energy', sector:'公用事业',
-    role:'公用事业 · 全美最大核电舰队 · AI 电力瓶颈受益者',
-    tag:'AI 军备竞赛的最后一环是电。22 GW 核电是数据中心"清洁基荷"唯一成熟答案，微软/Meta/沃尔玛已签 20 年长约——问题只在签约节奏。',
-    metric:'22 GW', metricCls:'up', metricNote:'核电装机 · 全美最大',
-    href:'../CEG/星座能源_研究.html' },
-  { code:'AAPL', seal:'AAPL', cn:'苹果', en:'Apple', sector:'信息技术',
-    role:'消费电子 · 25 亿设备生态 · 轻资产 AI',
-    tag:'iPhone +22% 撞上先进制程产能与存储涨价的墙，盘后 -6%。轻资产 AI 是资本纪律还是落后风险？9 月折叠屏发布会与 CEO 交接同一窗口。',
-    metric:'-6.3%', metricCls:'down', metricNote:'财报后盘后 · FQ4 指引 miss',
-    broker:true,
-    href:'../AAPL/苹果_研究.html' },
+// ================= 已研究公司的报告链接 =================
+const REPORTS = {
+  NVDA:'../NVDA/英伟达_研究.html', MSFT:'../MSFT/微软_研究.html', GOOGL:'../GOOGL/谷歌_研究.html',
+  META:'../META/Meta_研究.html', AMZN:'../AMZN/亚马逊_研究.html', NFLX:'../NFLX/奈飞_研究.html',
+  TSLA:'../TSLA/特斯拉_研究.html', WMT:'../WMT/沃尔玛_研究.html', COST:'../COST/好市多_研究.html',
+  PLD:'../PLD/安博_研究.html', EQIX:'../EQIX/Equinix_研究.html', LLY:'../LLY/礼来_研究.html',
+  ISRG:'../ISRG/直觉外科_研究.html', V:'../V/维萨_研究.html', CEG:'../CEG/星座能源_研究.html',
+  AAPL:'../AAPL/苹果_研究.html',
+};
+
+// ================= 产业链数据 =================
+// 字段：t=ticker, cn=中文名, share=市占率/地位（约数）, leader=该环节市占率最高,
+//       cn2=国内对标 [{n:名字, c:代码}]；href 由 REPORTS 自动带出（有报告即可点）
+const CHAINS = [
+  {
+    key:'ai', name:'AI 算力与半导体', color:'#164b7a',
+    desc:'从 EDA 到云厂商资本开支：AI 基建的完整价值链条，也是当前研究的主线。',
+    tiers:[
+      { pos:'上游', segs:[
+        { name:'EDA 软件', companies:[
+          { t:'SNPS', cn:'新思科技', share:'~35%', leader:true, cn2:[{n:'华大九天',c:'301269.SZ'},{n:'概伦电子',c:'688206.SH'}] },
+          { t:'CDNS', cn:'楷登电子', share:'~30%', cn2:[{n:'广立微',c:'301095.SZ'}] },
+        ]},
+        { name:'芯片 IP 授权', companies:[
+          { t:'ARM', cn:'ARM', share:'移动架构 ~99%', leader:true, cn2:[{n:'芯原股份',c:'688521.SH'}] },
+        ]},
+        { name:'半导体设备', companies:[
+          { t:'ASML', cn:'阿斯麦', share:'EUV 100%', leader:true, cn2:[{n:'北方华创',c:'002371.SZ'},{n:'中微公司',c:'688012.SH'}] },
+          { t:'AMAT', cn:'应用材料', share:'设备整体 ~20%', cn2:[{n:'北方华创',c:'002371.SZ'},{n:'拓荆科技',c:'688072.SH'}] },
+          { t:'LRCX', cn:'泛林集团', share:'刻蚀 ~45%', cn2:[{n:'中微公司',c:'688012.SH'}] },
+          { t:'KLAC', cn:'科磊', share:'量检测 ~55%', cn2:[{n:'中科飞测',c:'688361.SH'}] },
+        ]},
+      ]},
+      { pos:'中游', segs:[
+        { name:'AI 加速器（GPU）', companies:[
+          { t:'NVDA', cn:'英伟达', share:'~80%', leader:true, cn2:[{n:'寒武纪',c:'688256.SH'},{n:'海光信息',c:'688041.SH'}] },
+          { t:'AMD', cn:'AMD', share:'~8%，二供核心', cn2:[{n:'海光信息',c:'688041.SH'}] },
+        ]},
+        { name:'定制 ASIC 与网络芯片', companies:[
+          { t:'AVGO', cn:'博通', share:'定制 ASIC ~70%', leader:true, cn2:[{n:'盛科通信',c:'688702.SH'},{n:'澜起科技',c:'688008.SH'}] },
+          { t:'MRVL', cn:'迈威尔科技', share:'定制 ASIC 第二', cn2:[{n:'裕太微',c:'688515.SH'}] },
+        ]},
+        { name:'存储（HBM / DRAM / NAND）', companies:[
+          { t:'MU', cn:'美光', share:'DRAM ~25%', leader:true, cn2:[{n:'兆易创新',c:'603986.SH'},{n:'澜起科技',c:'688008.SH'}] },
+          { t:'SNDK', cn:'闪迪', share:'NAND ~15%', cn2:[{n:'北京君正',c:'300223.SZ'}] },
+          { t:'WDC', cn:'西部数据', share:'NAND ~12%', cn2:[{n:'江波龙',c:'301308.SZ'}] },
+        ]},
+        { name:'晶圆代工', companies:[
+          { t:'TSM', cn:'台积电', share:'~70%，先进制程近垄断', leader:true, cn2:[{n:'中芯国际',c:'688981.SH / 0981.HK'},{n:'华虹公司',c:'688347.SH / 1347.HK'}] },
+          { t:'GFS', cn:'格芯', share:'成熟制程 ~6%', cn2:[{n:'华虹公司',c:'688347.SH / 1347.HK'}] },
+          { t:'INTC', cn:'英特尔', share:'代工转型中（18A）', cn2:[{n:'中芯国际',c:'688981.SH / 0981.HK'}] },
+        ]},
+        { name:'先进封装与测试', companies:[
+          { t:'AMKR', cn:'安靠科技', share:'全球 OSAT 第二、美股第一', leader:true, cn2:[{n:'长电科技',c:'600584.SH'},{n:'通富微电',c:'002156.SZ'},{n:'华天科技',c:'002185.SZ'}] },
+        ]},
+        { name:'服务器与整机', companies:[
+          { t:'DELL', cn:'戴尔', share:'AI 服务器主力整机厂', leader:true, cn2:[{n:'工业富联',c:'601138.SH'},{n:'浪潮信息',c:'000977.SZ'}] },
+          { t:'SMCI', cn:'超微电脑', share:'AI 服务器高增长二线', cn2:[{n:'中科曙光',c:'603019.SH'}] },
+          { t:'HPE', cn:'慧与', share:'企业服务器与网络', cn2:[{n:'紫光股份',c:'000938.SZ'}] },
+        ]},
+        { name:'数据中心网络', companies:[
+          { t:'ANET', cn:'Arista', share:'数据中心交换机 ~45%', leader:true, cn2:[{n:'紫光股份',c:'000938.SZ'},{n:'锐捷网络',c:'301165.SZ'}] },
+          { t:'CSCO', cn:'思科', share:'企业网络龙头', cn2:[{n:'中际旭创',c:'300308.SZ'},{n:'新易盛',c:'300502.SZ'},{n:'天孚通信',c:'300394.SZ'}] },
+        ]},
+      ]},
+      { pos:'下游', segs:[
+        { name:'云计算 IaaS', companies:[
+          { t:'AMZN', cn:'亚马逊', share:'AWS ~30%', leader:true, cn2:[{n:'阿里巴巴',c:'9988.HK'},{n:'腾讯控股',c:'0700.HK'}] },
+          { t:'MSFT', cn:'微软', share:'Azure ~25%', cn2:[{n:'阿里巴巴',c:'9988.HK'}] },
+          { t:'GOOGL', cn:'谷歌', share:'~12%，增速最快', cn2:[{n:'百度集团',c:'9888.HK'}] },
+          { t:'ORCL', cn:'甲骨文', share:'OCI 承接 AI 大单', cn2:[{n:'优刻得',c:'688158.SH'}] },
+        ]},
+        { name:'大模型与 AI 应用', companies:[
+          { t:'GOOGL', cn:'谷歌', share:'芯片-模型-应用全栈自研', leader:true, cn2:[{n:'百度集团',c:'9888.HK'},{n:'科大讯飞',c:'002230.SZ'}] },
+          { t:'MSFT', cn:'微软', share:'Copilot + OpenAI 最大外部股东', cn2:[{n:'金山办公',c:'688111.SH'}] },
+          { t:'META', cn:'Meta', share:'Llama 开源生态', cn2:[{n:'商汤科技',c:'0020.HK'}] },
+          { t:'PLTR', cn:'Palantir', share:'政企 AI 决策平台', cn2:[{n:'第四范式',c:'6682.HK'}] },
+        ]},
+        { name:'数据中心 REIT', companies:[
+          { t:'EQIX', cn:'Equinix', share:'全球数据中心 REIT 第一', leader:true, cn2:[{n:'润泽科技',c:'300442.SZ'},{n:'万国数据',c:'9698.HK'}] },
+          { t:'DLR', cn:'数字房地产', share:'批发型数据中心第二', cn2:[{n:'光环新网',c:'300383.SZ'}] },
+        ]},
+        { name:'电力与能源基建', companies:[
+          { t:'CEG', cn:'星座能源', share:'美国最大核电运营商', leader:true, cn2:[{n:'中国核电',c:'601985.SH'},{n:'中国广核',c:'003816.SZ'}] },
+          { t:'VST', cn:'Vistra', share:'核电+储能独立发电商', cn2:[{n:'浙能电力',c:'600023.SH'}] },
+          { t:'ETN', cn:'伊顿', share:'配电设备龙头', cn2:[{n:'思源电气',c:'002028.SZ'},{n:'金盘科技',c:'688676.SH'}] },
+        ]},
+        { name:'企业软件与 SaaS', companies:[
+          { t:'CRM', cn:'Salesforce', share:'CRM SaaS ~22%', leader:true, cn2:[{n:'用友网络',c:'600588.SH'},{n:'金蝶国际',c:'0268.HK'}] },
+          { t:'NOW', cn:'ServiceNow', share:'企业工作流自动化', cn2:[{n:'泛微网络',c:'603039.SH'}] },
+          { t:'ADBE', cn:'Adobe', share:'创意软件霸主', cn2:[{n:'金山办公',c:'688111.SH'},{n:'万兴科技',c:'300624.SZ'}] },
+        ]},
+      ]},
+    ],
+  },
+  {
+    key:'ce', name:'消费电子与智能终端', color:'#23766f',
+    desc:'以苹果链为核心：芯片与零部件 → 代工组装 → 品牌与生态。',
+    tiers:[
+      { pos:'上游', segs:[
+        { name:'手机 SoC 与射频', companies:[
+          { t:'QCOM', cn:'高通', share:'安卓旗舰 SoC 主导', leader:true, cn2:[{n:'卓胜微',c:'300782.SZ'},{n:'唯捷创芯',c:'688153.SH'}] },
+          { t:'SWKS', cn:'思佳讯', share:'射频前端大厂', cn2:[{n:'卓胜微',c:'300782.SZ'}] },
+          { t:'QRVO', cn:'Qorvo', share:'射频前端大厂', cn2:[{n:'唯捷创芯',c:'688153.SH'}] },
+        ]},
+        { name:'模拟与传感器芯片', companies:[
+          { t:'TXN', cn:'德州仪器', share:'模拟芯片 ~20%', leader:true, cn2:[{n:'圣邦股份',c:'300661.SZ'},{n:'纳芯微',c:'688052.SH'}] },
+          { t:'ON', cn:'安森美', share:'车用图像传感器领先', cn2:[{n:'韦尔股份',c:'603501.SH'}] },
+        ]},
+      ]},
+      { pos:'中游', segs:[
+        { name:'代工与组装', note:'美股无直接标的——代工组装环节集中在台系（富士康/和硕）与 A 股，国内公司即主要投资通道。',
+          cn2:[{n:'工业富联',c:'601138.SH'},{n:'立讯精密',c:'002475.SZ'},{n:'歌尔股份',c:'002241.SZ'},{n:'蓝思科技',c:'300433.SZ'}],
+          companies:[] },
+      ]},
+      { pos:'下游', segs:[
+        { name:'终端品牌与生态', companies:[
+          { t:'AAPL', cn:'苹果', share:'高端手机利润 ~60%', leader:true, cn2:[{n:'小米集团',c:'1810.HK'},{n:'传音控股',c:'688036.SH'}] },
+        ]},
+        { name:'AR / VR 新终端', companies:[
+          { t:'META', cn:'Meta', share:'Quest 头显 ~60%', leader:true, cn2:[{n:'歌尔股份',c:'002241.SZ'},{n:'水晶光电',c:'002273.SZ'}] },
+          { t:'AAPL', cn:'苹果', share:'Vision Pro 高端试水', cn2:[{n:'立讯精密',c:'002475.SZ'}] },
+        ]},
+      ]},
+    ],
+  },
+  {
+    key:'net', name:'互联网、广告与流媒体', color:'#72566f',
+    desc:'流量入口 → 广告变现 → 内容与订阅：注意力经济的上中下游。',
+    tiers:[
+      { pos:'上游', segs:[
+        { name:'流量入口（搜索 / 浏览器 / 移动生态）', companies:[
+          { t:'GOOGL', cn:'谷歌', share:'全球搜索 ~90%', leader:true, cn2:[{n:'百度集团',c:'9888.HK'}] },
+          { t:'META', cn:'Meta', share:'全球社交用户 ~40 亿', cn2:[{n:'腾讯控股',c:'0700.HK'}] },
+        ]},
+      ]},
+      { pos:'中游', segs:[
+        { name:'数字广告平台', companies:[
+          { t:'GOOGL', cn:'谷歌', share:'全球数字广告 ~28%', leader:true, cn2:[{n:'百度集团',c:'9888.HK'}] },
+          { t:'META', cn:'Meta', share:'社交广告 ~22%', cn2:[{n:'腾讯控股',c:'0700.HK'},{n:'快手',c:'1024.HK'}] },
+          { t:'AMZN', cn:'亚马逊', share:'零售媒体第三极', cn2:[{n:'阿里巴巴',c:'9988.HK'}] },
+          { t:'APP', cn:'AppLovin', share:'移动广告技术新贵', cn2:[{n:'汇量科技',c:'1860.HK'}] },
+        ]},
+      ]},
+      { pos:'下游', segs:[
+        { name:'流媒体视频', companies:[
+          { t:'NFLX', cn:'奈飞', share:'付费订阅 ~3 亿，全球第一', leader:true, cn2:[{n:'芒果超媒',c:'300413.SZ'},{n:'哔哩哔哩',c:'9626.HK'}] },
+          { t:'DIS', cn:'迪士尼', share:'IP + 乐园 + Disney+', cn2:[{n:'上海电影',c:'601595.SH'}] },
+          { t:'WBD', cn:'华纳兄弟探索', share:'HBO Max 整合中', cn2:[{n:'光线传媒',c:'300251.SZ'}] },
+        ]},
+        { name:'音乐与音频', companies:[
+          { t:'SPOT', cn:'Spotify', share:'全球音乐流媒体 ~30%', leader:true, cn2:[{n:'腾讯音乐',c:'1698.HK'},{n:'网易云音乐',c:'9899.HK'}] },
+        ]},
+        { name:'游戏与 UGC', companies:[
+          { t:'RBLX', cn:'Roblox', share:'UGC 游戏平台第一', leader:true, cn2:[{n:'网易',c:'9999.HK'},{n:'腾讯控股',c:'0700.HK'}] },
+          { t:'EA', cn:'艺电', share:'体育游戏年货龙头', cn2:[{n:'三七互娱',c:'002555.SZ'}] },
+          { t:'TTWO', cn:'Take-Two', share:'GTA / NBA 2K', cn2:[{n:'米哈游（未上市）',c:'—'},{n:'吉比特',c:'603444.SH'}] },
+        ]},
+      ]},
+    ],
+  },
+  {
+    key:'ev', name:'智能电动车与自动驾驶', color:'#9a6a16',
+    desc:'自动驾驶芯片 → 整车 → Robotaxi 运营：物理 AI 的落地链。',
+    tiers:[
+      { pos:'上游', segs:[
+        { name:'自动驾驶芯片', companies:[
+          { t:'NVDA', cn:'英伟达', share:'Drive 平台高阶智驾主导', leader:true, cn2:[{n:'地平线机器人',c:'9660.HK'},{n:'黑芝麻智能',c:'2533.HK'}] },
+          { t:'MBLY', cn:'Mobileye', share:'ADAS 前装存量大', cn2:[{n:'经纬恒润',c:'688326.SH'}] },
+          { t:'QCOM', cn:'高通', share:'骁龙座舱领先', cn2:[{n:'中科创达',c:'300496.SZ'}] },
+        ]},
+        { name:'动力电池', note:'美股无直接标的——电池环节由中日韩主导，A 股是最直接的映射。',
+          cn2:[{n:'宁德时代',c:'300750.SZ'},{n:'比亚迪',c:'002594.SZ'},{n:'亿纬锂能',c:'300014.SZ'}],
+          companies:[] },
+      ]},
+      { pos:'中游', segs:[
+        { name:'整车制造', companies:[
+          { t:'TSLA', cn:'特斯拉', share:'全球纯电 ~18%', leader:true, cn2:[{n:'比亚迪',c:'002594.SZ / 1211.HK'},{n:'理想汽车',c:'2015.HK'}] },
+          { t:'GM', cn:'通用汽车', share:'美国最大车企', cn2:[{n:'上汽集团',c:'600104.SH'}] },
+          { t:'F', cn:'福特', share:'皮卡基本盘', cn2:[{n:'长安汽车',c:'000625.SZ'}] },
+          { t:'RIVN', cn:'Rivian', share:'电动皮卡 / 滑板底盘', cn2:[{n:'小鹏汽车',c:'9868.HK'}] },
+        ]},
+      ]},
+      { pos:'下游', segs:[
+        { name:'Robotaxi 与自动驾驶运营', companies:[
+          { t:'GOOGL', cn:'谷歌（Waymo）', share:'商业化单量领先', leader:true, cn2:[{n:'百度集团（萝卜快跑）',c:'9888.HK'}] },
+          { t:'TSLA', cn:'特斯拉', share:'FSD 订阅 + Robotaxi 起步', cn2:[{n:'小马智行',c:'PONY.O（美股）'}] },
+        ]},
+        { name:'出行平台', companies:[
+          { t:'UBER', cn:'Uber', share:'全球网约车第一', leader:true, cn2:[{n:'曹操出行',c:'2643.HK'}] },
+          { t:'LYFT', cn:'Lyft', share:'美国第二', cn2:[{n:'嘀嗒出行',c:'2559.HK'}] },
+        ]},
+      ]},
+    ],
+  },
 ];
 
-// 行业配色（新行业自动轮换取色）
-const PALETTE = ['#164b7a', '#b64045', '#23766f', '#9a6a16', '#72566f', '#3d6b35', '#8a4b2d'];
-const sectorColor = {};
-[...new Set(COMPANIES.map(c => c.sector))].forEach((s, i) => sectorColor[s] = PALETTE[i % PALETTE.length]);
+// ================= 其他行业（非科技，全部已研究） =================
+const OTHERS = [
+  { grp:'消费', items:[
+    { t:'WMT', cn:'沃尔玛', role:'全球最大零售商 · 全渠道平台化转型',
+      tag:'广告+会员+3P 高利润业务已贡献 1/3 营业利润——市场按生态平台给 39 倍 PE，配不配得上？',
+      metric:'1/3', metricCls:'up', metricNote:'高利润业务占营业利润比' },
+    { t:'COST', cn:'好市多', role:'会员制仓储 · 商业模式教科书',
+      tag:'商品毛利率压到 11%，利润几乎全来自会员费——92.2% 续卡率的飞轮 vs 46 倍 PE。',
+      metric:'92.2%', metricCls:'up', metricNote:'美加会员续卡率' },
+  ]},
+  { grp:'医疗', items:[
+    { t:'LLY', cn:'礼来', role:'GLP-1 药王 · 超级成长周期',
+      tag:'替尔泊肽单季 $128 亿、美国减重处方份额 60%——研究高增长持续性与专利到期后的接力棒。',
+      metric:'+55.6%', metricCls:'up', metricNote:'1Q26 收入增速' },
+    { t:'ISRG', cn:'直觉外科', role:'手术机器人 · 达芬奇生态垄断',
+      tag:'"剃须刀+刀片"的终极形态：85% 经常性收入。美国手术量 12% 是 ACA 扰动还是渗透率见顶？',
+      metric:'85%', metricCls:'up', metricNote:'经常性收入占比' },
+  ]},
+  { grp:'金融', items:[
+    { t:'V', cn:'维萨', role:'支付网络双寡头 · 全球商业收费站',
+      tag:'67% 营业利润率、单季 4 万亿美元支付额。AI 代理与稳定币时代，它要成为所有新支付方式的底层。',
+      metric:'+34%', metricCls:'up', metricNote:'FY26Q3 VAS 增值服务增速' },
+  ]},
+  { grp:'地产', items:[
+    { t:'PLD', cn:'安博', role:'全球最大物流 REIT · 数据中心新贵',
+      tag:'全球最大仓库房东：17% 租约市价差锁定增长——第二身份是靠土地+电力切入数据中心的"AI 卖铲人"。',
+      metric:'17%', metricCls:'up', metricNote:'租约市价差·锁定增长' },
+  ]},
+];
 
-// ================= 统计栏 =================
-const sectors = [...new Set(COMPANIES.map(c => c.sector))];
-document.getElementById('summary-rail').innerHTML = `
-  <div class="summary-rail__item"><strong>${COMPANIES.length}</strong><span>已覆盖公司</span></div>
-  <div class="summary-rail__item"><strong>${sectors.length}</strong><span>行业板块</span></div>
-  <div class="summary-rail__item"><strong>3</strong><span>研究范式（验证投入 / 周期结构 / 叙事定价）</span></div>
-  <div class="summary-rail__item"><strong>1</strong><span>主线：AI 算力产业链</span></div>`;
+// ================= 渲染 =================
+const $ = id => document.getElementById(id);
 
-// ================= 筛选按钮 =================
-let activeSector = '全部';
-const filterBar = document.getElementById('filter-bar');
-const countEl = document.getElementById('filter-count');
-const sectorsWithAll = ['全部', ...sectors];
+function companyHTML(c, color){
+  const href = REPORTS[c.t];
+  const tag = href ? 'a' : 'div';
+  const hrefAttr = href ? ` href="${href}"` : '';
+  const badges = [
+    c.leader ? '<span class="badge leader">👑 龙头</span>' : '',
+    href ? '<span class="badge done">已研究 →</span>' : '<span class="badge todo">待研究</span>',
+  ].join('');
+  const cn2 = (c.cn2||[]).map(m => `<span class="map">${m.n}<code>${m.c}</code></span>`).join('');
+  const cnLine = cn2 ? `<div class="co__cn">国内对标 ${cn2}</div>` : '<div class="co__cn"></div>';
+  return `<${tag} class="co"${hrefAttr}>
+    <div class="co__main">
+      <span class="co__name">${c.cn}</span>
+      <span class="co__ticker">${c.t}</span>
+      ${c.share ? `<span class="co__share">${c.share}</span>` : ''}
+      ${badges}
+    </div>
+    ${cnLine}
+  </${tag}>`;
+}
 
-function renderChips() {
-  filterBar.querySelectorAll('.filter-chip').forEach(el => el.remove());
-  sectorsWithAll.forEach(s => {
-    const b = document.createElement('button');
-    b.className = 'filter-chip';
-    b.textContent = s === '全部' ? `全部 ${COMPANIES.length}` : `${s} ${COMPANIES.filter(c => c.sector === s).length}`;
-    b.setAttribute('aria-pressed', activeSector === s ? 'true' : 'false');
-    if (s !== '全部') b.style.setProperty('--chip-color', sectorColor[s]);
-    b.onclick = () => { activeSector = s; renderChips(); renderList(); };
-    filterBar.insertBefore(b, countEl);
+// 每条链当前展开的环节：open[key] = 'tierIdx-segIdx'
+const open = {};
+
+function renderChains(){
+  $('chains').innerHTML = CHAINS.map((ch) => {
+    const flowCols = ch.tiers.map((tier, ti) => `
+      <div class="tier">
+        <div class="tier__label">${tier.pos}</div>
+        ${tier.segs.map((seg, si) => {
+          const id = ti + '-' + si;
+          const isOpen = open[ch.key] === id;
+          const n = seg.companies.length;
+          return `<button class="seg ${isOpen?'is-open':''}" data-chain="${ch.key}" data-seg="${id}">
+            <span class="n">${seg.name}</span>
+            <span class="cnt">${n ? n + ' 家' : '无美股'}</span>
+            <span class="caret">▼</span>
+          </button>`;
+        }).join('')}
+      </div>`).join('<div class="flow__arrow">→</div>');
+
+    // 展开面板
+    let panel = '';
+    if (open[ch.key]) {
+      const [ti, si] = open[ch.key].split('-').map(Number);
+      const tier = ch.tiers[ti], seg = tier.segs[si];
+      const segCn2 = seg.companies.length ? '' :
+        `<div class="co"><div class="co__cn" style="justify-content:flex-start">国内对标 ${(seg.cn2||[]).map(m => `<span class="map">${m.n}<code>${m.c}</code></span>`).join('')}</div></div>`;
+      panel = `<div class="seg-panel is-visible" style="--accent:${ch.color}">
+        <div class="seg-panel__head">
+          <strong>${seg.name}</strong><span class="pos">${ch.name} · ${tier.pos}</span>
+          <button class="close" data-chain="${ch.key}" title="收起">✕</button>
+        </div>
+        ${seg.note ? `<p class="seg-note">${seg.note}</p>` : ''}
+        ${seg.companies.map(c => companyHTML(c, ch.color)).join('')}
+        ${segCn2}
+      </div>`;
+    }
+
+    let cntCo = 0, cntCn = new Set(), cntSeg = 0;
+    ch.tiers.forEach(t => t.segs.forEach(s => {
+      cntSeg++;
+      s.companies.forEach(c => { cntCo++; (c.cn2||[]).forEach(m => cntCn.add(m.n)); });
+      (s.cn2||[]).forEach(m => cntCn.add(m.n));
+    }));
+
+    return `<section class="chain" id="chain-${ch.key}" style="--accent:${ch.color}">
+      <div class="chain__head"><h2>${ch.name}</h2><span class="cnt">${cntSeg} 个环节 · ${cntCo} 家公司（含待研究）</span></div>
+      <p class="chain__desc">${ch.desc}</p>
+      <div class="flow">${flowCols}</div>
+      ${panel}
+    </section>`;
+  }).join('');
+
+  // 绑定交互
+  document.querySelectorAll('.seg').forEach(b => b.onclick = () => {
+    const k = b.dataset.chain, id = b.dataset.seg;
+    open[k] = (open[k] === id) ? null : id;
+    renderChains();
+    if (open[k]) document.getElementById('chain-' + k).querySelector('.seg-panel').scrollIntoView({behavior:'smooth', block:'nearest'});
   });
+  document.querySelectorAll('.seg-panel .close').forEach(b => b.onclick = () => { open[b.dataset.chain] = null; renderChains(); });
 }
 
-// ================= 公司列表 =================
-function renderList() {
-  const list = COMPANIES.filter(c => activeSector === '全部' || c.sector === activeSector);
-  const el = document.getElementById('company-list');
-  el.innerHTML = list.map((c, i) => `
-    <a class="company-row" href="${c.href}" style="--accent:${sectorColor[c.sector]}">
-      <span class="company-row__num">${String(COMPANIES.indexOf(c) + 1).padStart(2, '0')}</span>
-      <span class="company-row__seal">${c.seal}</span>
-      <div class="company-row__name">
-        <strong>${c.cn}</strong>
-        <span class="role">${c.en} · ${c.role}</span>
-        <span class="sector-tag">${c.sector}</span>${c.broker ? '<span class="broker-tag">研报解读</span>' : ''}
-      </div>
-      <p class="company-row__tag">${c.tag}</p>
-      <div class="company-row__metric"><strong class="${c.metricCls}">${c.metric}</strong><span>${c.metricNote}</span></div>
-      <span class="company-row__arrow">→</span>
-    </a>`).join('');
-  countEl.textContent = `显示 ${list.length} / ${COMPANIES.length} 家`;
-  document.getElementById('empty-state').classList.toggle('is-visible', list.length === 0);
+function renderNav(){
+  const othersCnt = OTHERS.reduce((s,g) => s + g.items.length, 0);
+  $('chain-nav').innerHTML =
+    `<div class="chain-nav__label">产业链</div>` +
+    CHAINS.map(ch => `<a href="#chain-${ch.key}"><span class="dot" style="background:${ch.color}"></span>${ch.name}<small>${ch.tiers.reduce((s,t)=>s+t.segs.length,0)} 环节</small></a>`).join('') +
+    `<div class="chain-nav__label">非科技</div>` +
+    `<a href="#others"><span class="dot" style="background:var(--ink-soft)"></span>其他行业<small>${othersCnt} 家</small></a>`;
 }
 
-renderChips();
-renderList();
+function renderOthers(){
+  let n = 0;
+  $('others-list').innerHTML = OTHERS.map(g => `
+    <div class="oth-grp__title">${g.grp}</div>
+    ${g.items.map(c => { n++; return `
+      <a class="company-row" href="${REPORTS[c.t]}">
+        <span class="company-row__seal">${c.t}</span>
+        <div class="company-row__name">
+          <strong>${c.cn}</strong>
+          <span class="role">${c.t} · ${c.role}</span>
+          <p class="company-row__tag">${c.tag}</p>
+        </div>
+        <div class="company-row__metric"><strong class="${c.metricCls}">${c.metric}</strong><span>${c.metricNote}</span></div>
+        <span class="company-row__arrow">→</span>
+      </a>`; }).join('')}`).join('');
+  $('others-cnt').textContent = `${n} 家 · 全部已研究`;
+}
+
+function renderStats(){
+  const tickers = new Set(), cnSet = new Set(), researchedSet = new Set();
+  let segs = 0;
+  CHAINS.forEach(ch => ch.tiers.forEach(t => t.segs.forEach(s => {
+    segs++;
+    s.companies.forEach(c => { tickers.add(c.t); if (REPORTS[c.t]) researchedSet.add(c.t); (c.cn2||[]).forEach(m => cnSet.add(m.n)); });
+    (s.cn2||[]).forEach(m => cnSet.add(m.n));
+  })));
+  const others = OTHERS.reduce((s,g) => s + g.items.length, 0);
+  $('summary-rail').innerHTML = `
+    <div class="summary-rail__item"><strong>${CHAINS.length}</strong><span>科技产业链 · ${segs} 个细分环节</span></div>
+    <div class="summary-rail__item"><strong>${tickers.size}</strong><span>产业链覆盖公司（含待研究）</span></div>
+    <div class="summary-rail__item"><strong>${researchedSet.size + others}</strong><span>已研究公司（含其他行业）</span></div>
+    <div class="summary-rail__item"><strong>${cnSet.size}</strong><span>国内对标公司（A 股 / 港股）</span></div>`;
+}
+
+renderStats();
+renderNav();
+renderChains();
+renderOthers();
 </script>
 </body>
 </html>
