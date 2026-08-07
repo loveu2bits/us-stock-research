@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>美股公司整体概况 · 2026年7月</title>
+<title>美股公司概况 · 深度研究公司</title>
 <link rel="icon" type="image/svg+xml" href="./favicon.svg">
 <style>
 :root {
@@ -83,8 +83,10 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 
 /* ===== 公司卡片 ===== */
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(285px, 1fr)); gap: 0; border-left: 1px solid var(--line); margin-top: 14px; }
-.card { --accent: var(--federal-blue); display: flex; flex-direction: column; gap: 9px; padding: 18px 20px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--paper); transition: background .15s ease; }
+.card { --accent: var(--federal-blue); display: flex; flex-direction: column; gap: 9px; padding: 18px 20px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--paper); color: inherit; text-decoration: none; transition: background .15s ease; }
 .card:hover { background: color-mix(in srgb, var(--accent) 4%, white); }
+.card .go { margin-top: auto; color: var(--accent); font-size: 12px; font-weight: 700; opacity: .5; transition: opacity .15s ease; }
+.card:hover .go { opacity: 1; }
 .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
 .card .name { font-size: 15.5px; font-weight: 700; }
 .card .en { margin-top: 1px; color: var(--ink-faint); font-size: 12px; }
@@ -143,12 +145,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   <div class="shell">
     <div class="overview__heading">
       <div class="overview__copy">
-        <h1>美股公司整体概况<span class="en">122 家代表公司 · GICS 11 大板块全覆盖 · 数据约为 2026 年 7 月</span></h1>
-        <p class="sub">标普 500 前十大权重股合计占比约 42%，为历史最高集中度。</p>
+        <h1>美股公司概况<span class="en">46 家深度研究公司 · 点击卡片直达对应研究报告 · 数据约为 2026 年 7 月</span></h1>
+        <p class="sub">与「深度研究」板块一一对应：这里汇总每家公司的市值、行业与定位速览，点击卡片进入该公司的完整研究报告。</p>
       </div>
       <div class="overview__date">
         <span>数据更新</span>
-        <strong>2026-07-29</strong>
+        <strong>2026-08-06</strong>
       </div>
     </div>
     <div class="summary-rail" id="stats"></div>
@@ -187,7 +189,7 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
     <a href="https://www.seattletimes.com/business/how-major-us-stock-indexes-fared-tuesday-7-28-2026/" target="_blank">AP / Seattle Times</a></p>
   </div>
 </section>
-<footer class="site-footer"><div class="shell">美股研究 · 美股公司概况 · 整理于 2026-07-29</div></footer>
+<footer class="site-footer"><div class="shell">美股研究 · 公司概况（与深度研究一一对应）· 更新于 2026-08-07</div></footer>
 
 <script>
 // ================= 市值分层 =================
@@ -196,7 +198,7 @@ const TIERS = [
   { key:'t2', name:'超级大盘股',     range:'$5000 亿 – $1 万亿',    color:'var(--t2)', min:500 },
   { key:'t3', name:'大盘股',         range:'$2000 – $5000 亿',      color:'var(--t3)', min:200 },
   { key:'t4', name:'中大盘股',       range:'$1000 – $2000 亿',      color:'var(--t4)', min:100 },
-  { key:'t5', name:'中盘股',         range:'$300 – $1000 亿',       color:'var(--t5)', min:30 },
+  { key:'t5', name:'中小盘股',       range:'市值 < $300 亿',        color:'var(--t5)', min:0 },
 ];
 
 // ================= 主题产业链 =================
@@ -210,159 +212,100 @@ const THEMES = [
   { key:'consumer', name:'消费与品牌',       desc:'零售、餐饮、日用品与烟草' },
   { key:'media',    name:'流媒体与娱乐',     desc:'视频、音乐、游戏与社交平台' },
   { key:'auto',     name:'汽车与未来出行',   desc:'电动车、Robotaxi 与出行平台' },
-  { key:'defense',  name:'国防与航空航天',   desc:'军工、民机、航空发动机与太空' },
 ];
 
-// ================= 公司数据（122 家） =================
+// ================= 公司数据（46 家 · 与深度研究一一对应） =================
 const COMPANIES = [
   // ===== 信息技术 =====
-  {t:'NVDA', cn:'英伟达', en:'NVIDIA', sector:'信息技术', ind:'半导体', cap:4598, th:['ai-chip'], d:'AI GPU 与加速计算霸主，数据中心芯片市占率遥遥领先'},
-  {t:'AAPL', cn:'苹果', en:'Apple', sector:'信息技术', ind:'消费电子', cap:4967, th:['consumer'], d:'iPhone 硬件生态 + 高毛利服务业务'},
-  {t:'MSFT', cn:'微软', en:'Microsoft', sector:'信息技术', ind:'软件 / 云计算', cap:2901, th:['ai-sw','cloud'], d:'Office、Azure 云与 Copilot AI 企业级落地'},
-  {t:'TSM', cn:'台积电', en:'TSMC', sector:'信息技术', ind:'半导体代工', cap:1943, th:['ai-chip'], d:'全球最大晶圆代工厂，先进制程近乎垄断'},
-  {t:'AVGO', cn:'博通', en:'Broadcom', sector:'信息技术', ind:'半导体', cap:1762, th:['ai-chip'], d:'网络芯片与定制 AI 芯片（ASIC）核心供应商'},
-  {t:'ORCL', cn:'甲骨文', en:'Oracle', sector:'信息技术', ind:'软件 / 云', cap:339, th:['ai-sw','cloud'], d:'数据库龙头，OCI 云承接 AI 算力大单'},
-  {t:'AMD', cn:'AMD', en:'AMD', sector:'信息技术', ind:'半导体', cap:700, th:['ai-chip'], d:'CPU 与 Instinct AI 加速卡，算力二供核心'},
-  {t:'PLTR', cn:'Palantir', en:'Palantir', sector:'信息技术', ind:'大数据 / AI', cap:295, th:['ai-sw'], d:'政企大数据与 AI 决策平台，AIP 高增长'},
-  {t:'MU', cn:'美光', en:'Micron', sector:'信息技术', ind:'存储芯片', cap:835, th:['ai-chip'], d:'HBM 高带宽内存，AI 服务器存储核心受益'},
-  {t:'CRM', cn:'Salesforce', en:'Salesforce', sector:'信息技术', ind:'SaaS 软件', cap:154, th:['ai-sw'], d:'CRM SaaS 龙头，Agentforce AI 代理平台'},
-  {t:'CSCO', cn:'思科', en:'Cisco', sector:'信息技术', ind:'网络设备', cap:443, th:['ai-chip','cloud'], d:'网络设备龙头，受益 AI 数据中心组网'},
-  {t:'IBM', cn:'IBM', en:'IBM', sector:'信息技术', ind:'IT 服务 / 云', cap:213, th:['ai-sw','cloud'], d:'混合云 + watsonx 企业 AI 与咨询'},
-  {t:'NOW', cn:'ServiceNow', en:'ServiceNow', sector:'信息技术', ind:'SaaS 软件', cap:120, th:['ai-sw'], d:'企业工作流自动化平台'},
-  {t:'AMAT', cn:'应用材料', en:'Applied Materials', sector:'信息技术', ind:'半导体设备', cap:347, th:['ai-chip'], d:'全球最大半导体设备商，薄膜沉积龙头'},
-  {t:'ARM', cn:'ARM', en:'Arm Holdings', sector:'信息技术', ind:'芯片 IP', cap:239, th:['ai-chip'], d:'芯片架构 IP 授权霸主，移动端近乎垄断'},
-  {t:'QCOM', cn:'高通', en:'Qualcomm', sector:'信息技术', ind:'半导体', cap:164, th:['ai-chip'], d:'手机 SoC 与射频龙头，拓展汽车/PC 芯片'},
-  {t:'TXN', cn:'德州仪器', en:'Texas Instruments', sector:'信息技术', ind:'半导体', cap:248, th:['ai-chip'], d:'模拟芯片龙头，工业与汽车为主'},
-  {t:'ADBE', cn:'Adobe', en:'Adobe', sector:'信息技术', ind:'软件', cap:105, th:['ai-sw'], d:'创意软件霸主，Firefly 生成式 AI'},
-  {t:'LRCX', cn:'泛林集团', en:'Lam Research', sector:'信息技术', ind:'半导体设备', cap:316, th:['ai-chip'], d:'刻蚀设备龙头，受益存储扩产'},
-  {t:'INTC', cn:'英特尔', en:'Intel', sector:'信息技术', ind:'半导体', cap:413, th:['ai-chip'], d:'x86 CPU 老牌霸主，代工转型关键期'},
-  {t:'PANW', cn:'派拓网络', en:'Palo Alto Networks', sector:'信息技术', ind:'网络安全', cap:256, th:['ai-sw'], d:'网络安全平台化龙头'},
-  {t:'KLAC', cn:'科磊', en:'KLA', sector:'信息技术', ind:'半导体设备', cap:222, th:['ai-chip'], d:'半导体制程检测与量测设备龙头'},
-  {t:'CRWD', cn:'CrowdStrike', en:'CrowdStrike', sector:'信息技术', ind:'网络安全', cap:183, th:['ai-sw'], d:'云端端点安全龙头，Falcon 平台'},
-  {t:'DELL', cn:'戴尔', en:'Dell', sector:'信息技术', ind:'服务器 / PC', cap:240, th:['ai-chip','cloud'], d:'AI 服务器主力整机厂'},
-  {t:'SNPS', cn:'新思科技', en:'Synopsys', sector:'信息技术', ind:'EDA 软件', cap:72, th:['ai-sw'], d:'芯片设计 EDA 双寡头之一'},
-  {t:'CDNS', cn:'楷登电子', en:'Cadence', sector:'信息技术', ind:'EDA 软件', cap:92, th:['ai-sw'], d:'EDA 双寡头之一，仿真验证见长'},
+  {t:'NVDA', cn:'英伟达', en:'NVIDIA', sector:'信息技术', ind:'半导体', cap:5300, th:['ai-chip'], d:'AI GPU 与加速计算霸主，数据中心芯片市占率遥遥领先'},
+  {t:'AAPL', cn:'苹果', en:'Apple', sector:'信息技术', ind:'消费电子', cap:4559, th:['consumer'], d:'iPhone 硬件生态 + 高毛利服务业务'},
+  {t:'MSFT', cn:'微软', en:'Microsoft', sector:'信息技术', ind:'软件 / 云计算', cap:3712, th:['ai-sw','cloud'], d:'Office、Azure 云与 Copilot AI 企业级落地'},
+  {t:'TSM', cn:'台积电', en:'TSMC', sector:'信息技术', ind:'半导体代工', cap:2169, th:['ai-chip'], d:'全球最大晶圆代工厂，先进制程近乎垄断'},
+  {t:'AVGO', cn:'博通', en:'Broadcom', sector:'信息技术', ind:'半导体', cap:2001, th:['ai-chip'], d:'网络芯片与定制 AI 芯片（ASIC）核心供应商'},
+  {t:'ORCL', cn:'甲骨文', en:'Oracle', sector:'信息技术', ind:'软件 / 云', cap:413, th:['ai-sw','cloud'], d:'数据库龙头，OCI 云承接 AI 算力大单'},
+  {t:'AMD', cn:'AMD', en:'AMD', sector:'信息技术', ind:'半导体', cap:799, th:['ai-chip'], d:'CPU 与 Instinct AI 加速卡，算力二供核心'},
+  {t:'PLTR', cn:'Palantir', en:'Palantir', sector:'信息技术', ind:'大数据 / AI', cap:375, th:['ai-sw'], d:'政企大数据与 AI 决策平台，AIP 高增长'},
+  {t:'MU', cn:'美光', en:'Micron', sector:'信息技术', ind:'存储芯片', cap:996, th:['ai-chip'], d:'HBM 高带宽内存，AI 服务器存储核心受益'},
+  {t:'CRM', cn:'Salesforce', en:'Salesforce', sector:'信息技术', ind:'SaaS 软件', cap:153, th:['ai-sw'], d:'CRM SaaS 龙头，Agentforce AI 代理平台'},
+  {t:'CSCO', cn:'思科', en:'Cisco', sector:'信息技术', ind:'网络设备', cap:476, th:['ai-chip','cloud'], d:'网络设备龙头，受益 AI 数据中心组网'},
+  {t:'NOW', cn:'ServiceNow', en:'ServiceNow', sector:'信息技术', ind:'SaaS 软件', cap:121, th:['ai-sw'], d:'企业工作流自动化平台'},
+  {t:'AMAT', cn:'应用材料', en:'Applied Materials', sector:'信息技术', ind:'半导体设备', cap:419, th:['ai-chip'], d:'全球最大半导体设备商，薄膜沉积龙头'},
+  {t:'ASML', cn:'阿斯麦', en:'ASML', sector:'信息技术', ind:'半导体设备', cap:671, th:['ai-chip'], d:'EUV 光刻机独家供应商，先进制程命门'},
+  {t:'ARM', cn:'ARM', en:'Arm Holdings', sector:'信息技术', ind:'芯片 IP', cap:306, th:['ai-chip'], d:'芯片架构 IP 授权霸主，移动端近乎垄断'},
+  {t:'QCOM', cn:'高通', en:'Qualcomm', sector:'信息技术', ind:'半导体', cap:168, th:['ai-chip'], d:'手机 SoC 与射频龙头，拓展汽车/PC 芯片'},
+  {t:'ADBE', cn:'Adobe', en:'Adobe', sector:'信息技术', ind:'软件', cap:103, th:['ai-sw'], d:'创意软件霸主，Firefly 生成式 AI'},
+  {t:'LRCX', cn:'泛林集团', en:'Lam Research', sector:'信息技术', ind:'半导体设备', cap:383, th:['ai-chip'], d:'刻蚀设备龙头，受益存储扩产'},
+  {t:'INTC', cn:'英特尔', en:'Intel', sector:'信息技术', ind:'半导体', cap:503, th:['ai-chip'], d:'x86 CPU 老牌霸主，代工转型关键期'},
+  {t:'KLAC', cn:'科磊', en:'KLA', sector:'信息技术', ind:'半导体设备', cap:252, th:['ai-chip'], d:'半导体制程检测与量测设备龙头'},
+  {t:'DELL', cn:'戴尔', en:'Dell', sector:'信息技术', ind:'服务器 / PC', cap:284, th:['ai-chip','cloud'], d:'AI 服务器主力整机厂'},
+  {t:'SMCI', cn:'超微电脑', en:'Super Micro', sector:'信息技术', ind:'服务器', cap:19, th:['ai-chip','cloud'], d:'AI 服务器整机组装，液冷方案先行者'},
+  {t:'ANET', cn:'Arista', en:'Arista Networks', sector:'信息技术', ind:'网络设备', cap:243, th:['ai-chip','cloud'], d:'AI 数据中心高速以太网交换机龙头'},
+  {t:'SNPS', cn:'新思科技', en:'Synopsys', sector:'信息技术', ind:'EDA 软件', cap:78, th:['ai-sw'], d:'芯片设计 EDA 双寡头之一'},
+  {t:'CDNS', cn:'楷登电子', en:'Cadence', sector:'信息技术', ind:'EDA 软件', cap:93, th:['ai-sw'], d:'EDA 双寡头之一，仿真验证见长'},
+  {t:'MRVL', cn:'迈威尔', en:'Marvell', sector:'信息技术', ind:'半导体', cap:184, th:['ai-chip'], d:'定制 AI ASIC 与数据中心互连、光模块'},
+  {t:'WDC', cn:'西部数据', en:'Western Digital', sector:'信息技术', ind:'存储', cap:156, th:['ai-chip','cloud'], d:'HDD 机械硬盘龙头，AI 存储需求受益'},
+  {t:'SNDK', cn:'闪迪', en:'SanDisk', sector:'信息技术', ind:'存储芯片', cap:188, th:['ai-chip'], d:'NAND 闪存厂商，自西部数据分拆'},
+  {t:'AMKR', cn:'安靠科技', en:'Amkor', sector:'信息技术', ind:'封装测试', cap:13, th:['ai-chip'], d:'半导体封装测试外包龙头之一'},
 
   // ===== 通信服务 =====
-  {t:'GOOGL', cn:'谷歌', en:'Alphabet', sector:'通信服务', ind:'互联网', cap:4118, th:['ai-sw','cloud','media'], d:'搜索与广告龙头，Gemini AI、云业务与 Waymo'},
-  {t:'META', cn:'Meta', en:'Meta Platforms', sector:'通信服务', ind:'社交媒体', cap:1487, th:['ai-sw','media'], d:'Facebook / Instagram 广告帝国，重注开源大模型'},
+  {t:'GOOGL', cn:'谷歌', en:'Alphabet', sector:'通信服务', ind:'互联网', cap:4375, th:['ai-sw','cloud','media'], d:'搜索与广告龙头，Gemini AI、云业务与 Waymo'},
+  {t:'META', cn:'Meta', en:'Meta Platforms', sector:'通信服务', ind:'社交媒体', cap:1503, th:['ai-sw','media'], d:'Facebook / Instagram 广告帝国，重注开源大模型'},
   {t:'NFLX', cn:'奈飞', en:'Netflix', sector:'通信服务', ind:'流媒体', cap:307, th:['media'], d:'全球流媒体订阅龙头，广告套餐放量'},
-  {t:'TMUS', cn:'T-Mobile', en:'T-Mobile US', sector:'通信服务', ind:'电信运营', cap:195, th:[], d:'美国三大运营商中增长最强者'},
-  {t:'DIS', cn:'迪士尼', en:'Walt Disney', sector:'通信服务', ind:'娱乐传媒', cap:171, th:['media'], d:'影视 IP、主题乐园与 Disney+ 流媒体'},
-  {t:'T', cn:'AT&T', en:'AT&T', sector:'通信服务', ind:'电信运营', cap:164, th:[], d:'美国电信运营商，高分红防御标的'},
-  {t:'VZ', cn:'Verizon', en:'Verizon', sector:'通信服务', ind:'电信运营', cap:196, th:[], d:'美国电信运营商，高股息'},
-  {t:'SPOT', cn:'Spotify', en:'Spotify', sector:'通信服务', ind:'音乐流媒体', cap:108, th:['media'], d:'全球音乐流媒体龙头，播客与有声书扩张'},
-  {t:'RBLX', cn:'Roblox', en:'Roblox', sector:'通信服务', ind:'游戏平台', cap:36, th:['media'], d:'UGC 游戏平台，年轻用户基本盘'},
-  {t:'EA', cn:'艺电', en:'Electronic Arts', sector:'通信服务', ind:'游戏', cap:53, th:['media'], d:'体育游戏年货龙头（FC / Madden）'},
 
   // ===== 非必需消费 =====
-  {t:'AMZN', cn:'亚马逊', en:'Amazon', sector:'非必需消费', ind:'电商 / 云计算', cap:2438, th:['cloud','consumer','ai-sw'], d:'全球电商龙头，AWS 为最大公有云平台'},
-  {t:'TSLA', cn:'特斯拉', en:'Tesla', sector:'非必需消费', ind:'电动汽车', cap:1178, th:['auto'], d:'电动车、储能与 Robotaxi 自动驾驶叙事'},
-  {t:'HD', cn:'家得宝', en:'Home Depot', sector:'非必需消费', ind:'家装零售', cap:337, th:['consumer'], d:'美国最大家装建材零售商'},
-  {t:'MCD', cn:'麦当劳', en:"McDonald's", sector:'非必需消费', ind:'餐饮', cap:193, th:['consumer'], d:'全球连锁餐饮龙头，特许经营地产模式'},
-  {t:'BKNG', cn:'Booking', en:'Booking Holdings', sector:'非必需消费', ind:'在线旅游', cap:156, th:['consumer'], d:'全球最大在线旅游平台'},
-  {t:'TJX', cn:'TJX', en:'TJX Companies', sector:'非必需消费', ind:'折扣零售', cap:179, th:['consumer'], d:'T.J. Maxx 母公司，折扣服饰零售龙头'},
-  {t:'LOW', cn:'劳氏', en:"Lowe's", sector:'非必需消费', ind:'家装零售', cap:121, th:['consumer'], d:'美国第二大家装建材零售商'},
-  {t:'NKE', cn:'耐克', en:'Nike', sector:'非必需消费', ind:'运动服饰', cap:64, th:['consumer'], d:'全球运动品牌龙头，处于复苏周期'},
-  {t:'SBUX', cn:'星巴克', en:'Starbucks', sector:'非必需消费', ind:'餐饮', cap:119, th:['consumer'], d:'全球咖啡连锁龙头，中国市场承压'},
-  {t:'GM', cn:'通用汽车', en:'General Motors', sector:'非必需消费', ind:'汽车', cap:78, th:['auto'], d:'美国最大车企，电动车转型中'},
-  {t:'F', cn:'福特', en:'Ford', sector:'非必需消费', ind:'汽车', cap:61, th:['auto'], d:'皮卡基本盘 + 商用车 Pro 业务'},
+  {t:'AMZN', cn:'亚马逊', en:'Amazon', sector:'非必需消费', ind:'电商 / 云计算', cap:2937, th:['cloud','consumer','ai-sw'], d:'全球电商龙头，AWS 为最大公有云平台'},
+  {t:'TSLA', cn:'特斯拉', en:'Tesla', sector:'非必需消费', ind:'电动汽车', cap:1262, th:['auto'], d:'电动车、储能与 Robotaxi 自动驾驶叙事'},
 
   // ===== 必需消费 =====
-  {t:'WMT', cn:'沃尔玛', en:'Walmart', sector:'必需消费', ind:'零售', cap:909, th:['consumer'], d:'全球最大零售商，电商与会员业务持续扩张'},
-  {t:'COST', cn:'好市多', en:'Costco', sector:'必需消费', ind:'零售', cap:432, th:['consumer'], d:'会员制仓储超市，续费率极高的零售模式'},
-  {t:'PG', cn:'宝洁', en:'Procter & Gamble', sector:'必需消费', ind:'日用品', cap:340, th:['consumer'], d:'全球日化消费品巨头，防御型现金牛'},
-  {t:'KO', cn:'可口可乐', en:'Coca-Cola', sector:'必需消费', ind:'饮料', cap:383, th:['consumer'], d:'全球饮料龙头，60+ 年连续增息'},
-  {t:'PM', cn:'菲利普莫里斯', en:'Philip Morris', sector:'必需消费', ind:'烟草', cap:309, th:['consumer'], d:'IQOS 加热不燃烧烟草转型标杆'},
-  {t:'PEP', cn:'百事', en:'PepsiCo', sector:'必需消费', ind:'饮料食品', cap:196, th:['consumer'], d:'饮料 + 菲多利零食双主业'},
-  {t:'MO', cn:'奥驰亚', en:'Altria', sector:'必需消费', ind:'烟草', cap:125, th:['consumer'], d:'万宝路美国运营商，超高股息'},
-  {t:'MDLZ', cn:'亿滋国际', en:'Mondelez', sector:'必需消费', ind:'零食', cap:83, th:['consumer'], d:'奥利奥母公司，全球零食巨头'},
+  {t:'WMT', cn:'沃尔玛', en:'Walmart', sector:'必需消费', ind:'零售', cap:892, th:['consumer'], d:'全球最大零售商，电商与会员业务持续扩张'},
+  {t:'COST', cn:'好市多', en:'Costco', sector:'必需消费', ind:'零售', cap:421, th:['consumer'], d:'会员制仓储超市，续费率极高的零售模式'},
 
   // ===== 金融 =====
-  {t:'BRK.B', cn:'伯克希尔', en:'Berkshire Hathaway', sector:'金融', ind:'多元控股', cap:1098, th:['fin'], d:'巴菲特旗下的保险 + 投资控股集团'},
-  {t:'JPM', cn:'摩根大通', en:'JPMorgan Chase', sector:'金融', ind:'银行', cap:924, th:['fin'], d:'美国最大银行，全能型金融集团'},
-  {t:'V', cn:'Visa', en:'Visa', sector:'金融', ind:'支付', cap:657, th:['fin'], d:'全球最大银行卡支付网络'},
-  {t:'MA', cn:'万事达', en:'Mastercard', sector:'金融', ind:'支付', cap:498, th:['fin'], d:'全球第二大支付网络'},
-  {t:'BAC', cn:'美国银行', en:'Bank of America', sector:'金融', ind:'银行', cap:429, th:['fin'], d:'美国大型商业银行，利率敏感型标的'},
-  {t:'WFC', cn:'富国银行', en:'Wells Fargo', sector:'金融', ind:'银行', cap:254, th:['fin'], d:'美国四大行之一，监管解除后改善'},
-  {t:'GS', cn:'高盛', en:'Goldman Sachs', sector:'金融', ind:'投行', cap:289, th:['fin'], d:'华尔街投行标杆，交易与并购复苏'},
-  {t:'AXP', cn:'美国运通', en:'American Express', sector:'金融', ind:'支付', cap:224, th:['fin'], d:'高端卡组织 + 发卡闭环模式'},
-  {t:'MS', cn:'摩根士丹利', en:'Morgan Stanley', sector:'金融', ind:'投行 / 财富', cap:319, th:['fin'], d:'财富管理转型最成功的投行'},
-  {t:'BLK', cn:'贝莱德', en:'BlackRock', sector:'金融', ind:'资产管理', cap:175, th:['fin'], d:'全球最大资管公司，iShares ETF 霸主'},
-  {t:'C', cn:'花旗集团', en:'Citigroup', sector:'金融', ind:'银行', cap:217, th:['fin'], d:'国际业务占比高的大型银行'},
-  {t:'SCHW', cn:'嘉信理财', en:'Charles Schwab', sector:'金融', ind:'券商', cap:182, th:['fin'], d:'美国最大零售券商'},
-  {t:'SPGI', cn:'标普全球', en:'S&P Global', sector:'金融', ind:'指数 / 评级', cap:124, th:['fin'], d:'指数编制 + 信用评级双寡头'},
-  {t:'HOOD', cn:'Robinhood', en:'Robinhood', sector:'金融', ind:'互联网券商', cap:81, th:['fin'], d:'零佣金散户券商，加密与预测市场扩张'},
-  {t:'COIN', cn:'Coinbase', en:'Coinbase', sector:'金融', ind:'加密货币', cap:42, th:['fin'], d:'美国最大合规加密交易所'},
+  {t:'V', cn:'Visa', en:'Visa', sector:'金融', ind:'支付', cap:661, th:['fin'], d:'全球最大银行卡支付网络'},
 
   // ===== 医疗保健 =====
-  {t:'LLY', cn:'礼来', en:'Eli Lilly', sector:'医疗保健', ind:'制药', cap:1140, th:['pharma'], d:'GLP-1 减肥药（替尔泊肽）全球爆发式增长'},
-  {t:'UNH', cn:'联合健康', en:'UnitedHealth', sector:'医疗保健', ind:'医疗保险', cap:382, th:['pharma'], d:'美国最大医疗保险与健康管理集团'},
-  {t:'JNJ', cn:'强生', en:'Johnson & Johnson', sector:'医疗保健', ind:'制药 / 器械', cap:640, th:['pharma'], d:'制药与医疗器械双轮驱动的医疗巨头'},
-  {t:'ABBV', cn:'艾伯维', en:'AbbVie', sector:'医疗保健', ind:'制药', cap:465, th:['pharma'], d:'免疫学（Skyrizi/Rinvoq）与肿瘤药物管线'},
-  {t:'NVO', cn:'诺和诺德', en:'Novo Nordisk (ADR)', sector:'医疗保健', ind:'制药', cap:228, th:['pharma'], d:'司美格鲁肽原研，GLP-1 双寡头之一'},
-  {t:'MRK', cn:'默克', en:'Merck', sector:'医疗保健', ind:'制药', cap:322, th:['pharma'], d:'肿瘤药 K 药（Keytruda）为第一大单品'},
-  {t:'ABT', cn:'雅培', en:'Abbott Labs', sector:'医疗保健', ind:'医疗器械', cap:187, th:['pharma'], d:'医疗器械、诊断与营养品多元布局'},
-  {t:'ISRG', cn:'直觉外科', en:'Intuitive Surgical', sector:'医疗保健', ind:'医疗器械', cap:125, th:['pharma'], d:'达芬奇手术机器人绝对霸主'},
-  {t:'TMO', cn:'赛默飞', en:'Thermo Fisher', sector:'医疗保健', ind:'生命科学', cap:214, th:['pharma'], d:'科学服务与实验室仪器龙头'},
-  {t:'AMGN', cn:'安进', en:'Amgen', sector:'医疗保健', ind:'生物科技', cap:209, th:['pharma'], d:'生物制药老牌龙头，布局减重管线'},
-  {t:'PFE', cn:'辉瑞', en:'Pfizer', sector:'医疗保健', ind:'制药', cap:143, th:['pharma'], d:'后新冠时代转型，肿瘤管线为重'},
-  {t:'BSX', cn:'波士顿科学', en:'Boston Scientific', sector:'医疗保健', ind:'医疗器械', cap:68, th:['pharma'], d:'心血管介入器械高增长'},
-  {t:'GILD', cn:'吉利德', en:'Gilead', sector:'医疗保健', ind:'生物科技', cap:165, th:['pharma'], d:'HIV 抗病毒基本盘 + 肿瘤拓展'},
-  {t:'SYK', cn:'史赛克', en:'Stryker', sector:'医疗保健', ind:'医疗器械', cap:135, th:['pharma'], d:'骨科与外科手术器械龙头'},
-  {t:'MDT', cn:'美敦力', en:'Medtronic', sector:'医疗保健', ind:'医疗器械', cap:112, th:['pharma'], d:'全球最大医疗器械公司之一'},
-  {t:'VRTX', cn:'福泰制药', en:'Vertex', sector:'医疗保健', ind:'生物科技', cap:123, th:['pharma'], d:'囊性纤维化垄断 + 非阿片镇痛新药'},
-  {t:'HCA', cn:'HCA 医疗', en:'HCA Healthcare', sector:'医疗保健', ind:'医院运营', cap:88, th:['pharma'], d:'美国最大连锁医院集团'},
-  {t:'ELV', cn:'Elevance', en:'Elevance Health', sector:'医疗保健', ind:'医疗保险', cap:82, th:['pharma'], d:'蓝十字蓝盾系医保巨头'},
+  {t:'LLY', cn:'礼来', en:'Eli Lilly', sector:'医疗保健', ind:'制药', cap:1122, th:['pharma'], d:'GLP-1 减肥药（替尔泊肽）全球爆发式增长'},
+  {t:'ISRG', cn:'直觉外科', en:'Intuitive Surgical', sector:'医疗保健', ind:'医疗器械', cap:132, th:['pharma'], d:'达芬奇手术机器人绝对霸主'},
 
   // ===== 工业 =====
-  {t:'SPCX', cn:'SpaceX', en:'SpaceX', sector:'工业', ind:'航空航天', cap:1472, th:['defense'], d:'火箭发射与星链卫星互联网，2026年6月IPO'},
-  {t:'GE', cn:'GE 航空航天', en:'GE Aerospace', sector:'工业', ind:'航空发动机', cap:364, th:['defense'], d:'航空发动机双寡头之一，售后利润丰厚'},
-  {t:'CAT', cn:'卡特彼勒', en:'Caterpillar', sector:'工业', ind:'工程机械', cap:361, th:[], d:'全球工程机械龙头，基建周期风向标'},
-  {t:'RTX', cn:'RTX', en:'RTX Corp', sector:'工业', ind:'国防军工', cap:290, th:['defense'], d:'雷神 + 普惠发动机，导弹与防空系统'},
-  {t:'UBER', cn:'Uber', en:'Uber', sector:'工业', ind:'出行平台', cap:145, th:['auto'], d:'网约车与外卖双平台，自动驾驶合作方'},
-  {t:'BA', cn:'波音', en:'Boeing', sector:'工业', ind:'民机制造', cap:169, th:['defense'], d:'民机双寡头之一，产能爬坡修复中'},
-  {t:'DE', cn:'迪尔', en:'Deere', sector:'工业', ind:'农业机械', cap:165, th:[], d:'全球农机龙头，精准农业先行者'},
-  {t:'HON', cn:'霍尼韦尔', en:'Honeywell', sector:'工业', ind:'多元工业', cap:76, th:[], d:'航空航天 + 楼宇 + 工业自动化，拆分中'},
-  {t:'LMT', cn:'洛克希德·马丁', en:'Lockheed Martin', sector:'工业', ind:'国防军工', cap:131, th:['defense'], d:'全球最大国防承包商（F-35）'},
-  {t:'ETN', cn:'伊顿', en:'Eaton', sector:'工业', ind:'电气设备', cap:141, th:['power'], d:'配电设备龙头，AI 数据中心电力受益'},
-  {t:'WM', cn:'废物管理', en:'Waste Management', sector:'工业', ind:'环保服务', cap:95, th:[], d:'北美最大固废处理公司，定价权强'},
-  {t:'NOC', cn:'诺斯罗普', en:'Northrop Grumman', sector:'工业', ind:'国防军工', cap:76, th:['defense'], d:'B-21 隐形轰炸机与太空系统'},
-  {t:'UPS', cn:'UPS', en:'UPS', sector:'工业', ind:'物流', cap:89, th:[], d:'全球快递物流巨头，利润修复中'},
-
-  // ===== 能源 =====
-  {t:'XOM', cn:'埃克森美孚', en:'ExxonMobil', sector:'能源', ind:'石油天然气', cap:650, th:['power'], d:'美国最大综合能源公司'},
-  {t:'CVX', cn:'雪佛龙', en:'Chevron', sector:'能源', ind:'石油天然气', cap:380, th:['power'], d:'综合能源巨头，高分红回购'},
-  {t:'COP', cn:'康菲石油', en:'ConocoPhillips', sector:'能源', ind:'油气勘探', cap:144, th:['power'], d:'美国最大独立 E&P 公司'},
-  {t:'EOG', cn:'EOG 资源', en:'EOG Resources', sector:'能源', ind:'油气勘探', cap:78, th:['power'], d:'页岩油优质运营商'},
-  {t:'SLB', cn:'斯伦贝谢', en:'SLB', sector:'能源', ind:'油服', cap:73, th:['power'], d:'全球最大油田服务商'},
-  {t:'KMI', cn:'金德摩根', en:'Kinder Morgan', sector:'能源', ind:'管道', cap:71, th:['power'], d:'天然气管道巨头，AI 电力间接受益'},
-  {t:'MPC', cn:'马拉松石油', en:'Marathon Petroleum', sector:'能源', ind:'炼油', cap:90, th:['power'], d:'美国最大炼油商'},
-  {t:'OXY', cn:'西方石油', en:'Occidental', sector:'能源', ind:'油气勘探', cap:56, th:['power'], d:'巴菲特重仓，碳捕集布局'},
+  {t:'UBER', cn:'Uber', en:'Uber', sector:'工业', ind:'出行平台', cap:144, th:['auto'], d:'网约车与外卖双平台，自动驾驶合作方'},
+  {t:'ETN', cn:'伊顿', en:'Eaton', sector:'工业', ind:'电气设备', cap:174, th:['power'], d:'配电设备龙头，AI 数据中心电力受益'},
 
   // ===== 公用事业 =====
-  {t:'NEE', cn:'新纪元能源', en:'NextEra Energy', sector:'公用事业', ind:'电力', cap:185, th:['power'], d:'全球最大风光发电商，公用事业龙头'},
-  {t:'CEG', cn:'星座能源', en:'Constellation', sector:'公用事业', ind:'核电', cap:93, th:['power'], d:'美国最大核电运营商，AI 数据中心直供电'},
-  {t:'SO', cn:'南方公司', en:'Southern Co', sector:'公用事业', ind:'电力', cap:108, th:['power'], d:'美国东南部电力公用事业'},
-  {t:'DUK', cn:'杜克能源', en:'Duke Energy', sector:'公用事业', ind:'电力', cap:100, th:['power'], d:'美国大型电力公用事业公司'},
+  {t:'CEG', cn:'星座能源', en:'Constellation', sector:'公用事业', ind:'核电', cap:94, th:['power'], d:'美国最大核电运营商，AI 数据中心直供电'},
   {t:'VST', cn:'Vistra', en:'Vistra', sector:'公用事业', ind:'电力', cap:48, th:['power'], d:'独立发电商，核电+储能弹性标的'},
 
-  // ===== 原材料 =====
-  {t:'LIN', cn:'林德', en:'Linde', sector:'原材料', ind:'工业气体', cap:236, th:[], d:'全球最大工业气体公司'},
-  {t:'SHW', cn:'宣伟', en:'Sherwin-Williams', sector:'原材料', ind:'涂料', cap:83, th:[], d:'全球涂料龙头'},
-  {t:'NEM', cn:'纽蒙特', en:'Newmont', sector:'原材料', ind:'黄金', cap:96, th:[], d:'全球最大黄金矿商，避险主线'},
-  {t:'FCX', cn:'自由港', en:'Freeport-McMoRan', sector:'原材料', ind:'铜矿', cap:84, th:[], d:'全球铜矿龙头，电气化受益'},
-
   // ===== 房地产 =====
-  {t:'PLD', cn:'安博', en:'Prologis', sector:'房地产', ind:'物流地产', cap:138, th:[], d:'全球最大物流仓储 REIT'},
-  {t:'AMT', cn:'美国铁塔', en:'American Tower', sector:'房地产', ind:'通信铁塔', cap:84, th:['cloud'], d:'全球通信铁塔 REIT 龙头'},
-  {t:'EQIX', cn:'Equinix', en:'Equinix', sector:'房地产', ind:'数据中心', cap:99, th:['cloud'], d:'全球最大数据中心 REIT，AI 算力地产'},
-  {t:'O', cn:'Realty Income', en:'Realty Income', sector:'房地产', ind:'净租赁', cap:61, th:[], d:'“月度分红公司”，零售净租赁 REIT'},
+  {t:'PLD', cn:'安博', en:'Prologis', sector:'房地产', ind:'物流地产', cap:130, th:[], d:'全球最大物流仓储 REIT'},
+  {t:'EQIX', cn:'Equinix', en:'Equinix', sector:'房地产', ind:'数据中心', cap:104, th:['cloud'], d:'全球最大数据中心 REIT，AI 算力地产'},
+  {t:'DLR', cn:'数字房地产', en:'Digital Realty', sector:'房地产', ind:'数据中心', cap:71, th:['cloud'], d:'全球最大数据中心 REIT 之一'},
 ];
 
 COMPANIES.forEach(c => { c.tier = TIERS.find(t => c.cap >= t.min).key; });
 
-const SECTOR_ORDER = ['信息技术','通信服务','非必需消费','必需消费','金融','医疗保健','工业','能源','公用事业','原材料','房地产'];
+const SECTOR_ORDER = ['信息技术','通信服务','非必需消费','必需消费','金融','医疗保健','工业','公用事业','房地产'];
+
+// ================= 深度研究报告链接（与 research/ 页的 REPORTS 一致） =================
+const REPORTS = {
+  NVDA:'./NVDA/英伟达_研究.html', MSFT:'./MSFT/微软_研究.html', GOOGL:'./GOOGL/谷歌_研究.html',
+  META:'./META/Meta_研究.html', AMZN:'./AMZN/亚马逊_研究.html', NFLX:'./NFLX/奈飞_研究.html',
+  TSLA:'./TSLA/特斯拉_研究.html', WMT:'./WMT/沃尔玛_研究.html', COST:'./COST/好市多_研究.html',
+  PLD:'./PLD/安博_研究.html', EQIX:'./EQIX/Equinix_研究.html', LLY:'./LLY/礼来_研究.html',
+  ISRG:'./ISRG/直觉外科_研究.html', V:'./V/维萨_研究.html', CEG:'./CEG/星座能源_研究.html',
+  AAPL:'./AAPL/苹果_研究.html',
+  TSM:'./TSM/台积电_研究.html', ASML:'./ASML/阿斯麦_研究.html', AMD:'./AMD/AMD_研究.html',
+  MU:'./MU/美光_研究.html', ANET:'./ANET/Arista_研究.html', QCOM:'./QCOM/高通_研究.html',
+  ARM:'./ARM/ARM_研究.html', INTC:'./INTC/英特尔_研究.html', PLTR:'./PLTR/Palantir_研究.html',
+  UBER:'./UBER/Uber_研究.html',
+  AVGO:'./AVGO/博通_研究.html', ORCL:'./ORCL/甲骨文_研究.html', MRVL:'./MRVL/迈威尔_研究.html',
+  SNPS:'./SNPS/新思科技_研究.html', AMAT:'./AMAT/应用材料_研究.html', LRCX:'./LRCX/泛林集团_研究.html',
+  DELL:'./DELL/戴尔_研究.html', SMCI:'./SMCI/超微电脑_研究.html', SNDK:'./SNDK/闪迪_研究.html',
+  VST:'./VST/Vistra_研究.html',
+  CDNS:'./CDNS/楷登电子_研究.html', KLAC:'./KLAC/科磊_研究.html', WDC:'./WDC/西部数据_研究.html',
+  AMKR:'./AMKR/安靠科技_研究.html', CSCO:'./CSCO/思科_研究.html', DLR:'./DLR/数字房地产_研究.html',
+  ETN:'./ETN/伊顿_研究.html', CRM:'./CRM/Salesforce_研究.html', NOW:'./NOW/ServiceNow_研究.html',
+  ADBE:'./ADBE/Adobe_研究.html',
+};
 
 const VIEWS = [
   { key:'tier',   name:'按市值分层' },
@@ -391,12 +334,14 @@ function match(c, q){
 function renderStats(){
   const total = COMPANIES.reduce((s,c)=>s+c.cap,0);
   const t1 = COMPANIES.filter(c=>c.tier==='t1').length;
+  const nSectors = new Set(COMPANIES.map(c=>c.sector)).size;
+  const nThemes = THEMES.filter(th=>COMPANIES.some(c=>c.th.includes(th.key))).length;
   document.getElementById('stats').innerHTML = `
-    <div class="summary-rail__item"><strong>${COMPANIES.length}</strong><span>覆盖公司数</span></div>
+    <div class="summary-rail__item"><strong>${COMPANIES.length}</strong><span>深度研究公司</span></div>
     <div class="summary-rail__item"><strong>$${(total/1000).toFixed(1)} 万亿</strong><span>合计市值（约）</span></div>
     <div class="summary-rail__item"><strong>${t1}</strong><span>万亿美元公司</span></div>
-    <div class="summary-rail__item"><strong>${SECTOR_ORDER.length}</strong><span>GICS 行业板块</span></div>
-    <div class="summary-rail__item"><strong>${THEMES.length}</strong><span>主题产业链</span></div>`;
+    <div class="summary-rail__item"><strong>${nSectors}</strong><span>覆盖 GICS 板块</span></div>
+    <div class="summary-rail__item"><strong>${nThemes}</strong><span>主题产业链</span></div>`;
 }
 
 function renderViewTabs(){
@@ -426,7 +371,8 @@ function renderChips(){
 
 function cardHTML(c, rank){
   const tier = TIERS.find(t=>t.key===c.tier);
-  return `<div class="card" style="--accent:${tier.color}">
+  const href = REPORTS[c.t];
+  return `<a class="card" ${href?`href="${href}"`:''} style="--accent:${tier.color}">
     <div class="card-top">
       <div>
         <div class="name">${c.cn} <span class="ticker">${c.t}</span></div>
@@ -440,7 +386,8 @@ function cardHTML(c, rank){
       <span class="tag sector">${c.sector} · ${c.ind}</span>
     </div>
     <div class="desc">${c.d}</div>
-  </div>`;
+    ${href?'<span class="go">查看深度研究 →</span>':''}
+  </a>`;
 }
 
 function groupHead(title, range, count, color){

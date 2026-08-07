@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""更新概况页（index.html）数据：122 家公司市值。
+"""更新概况页（index.html）数据：公司市值（公司与深度研究一一对应，列表以页面 COMPANIES 为准）。
 优先 WindPy；Wind 取不到的代码会列出来，再用 gangtise 兜底或保留原值。
 用法：python3 tools/update_overview.py [--dry-run]
 """
