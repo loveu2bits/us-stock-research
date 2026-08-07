@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mobileye（MBLY.O）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--policy-red); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">MBLY</span>
+    <span class="site-mark__text">Mobileye 公司研究<span>Mobileye · MBLY.O</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>Mobileye<span class="en">Mobileye Global · MBLY.O · 美股研究</span></h1>
+        <p class="sub">Mobileye 正站在三条叙事的十字路口：2.58 亿辆 EyeQ 存量与 915 亿英里 REM 地图数据是旧时代的护城河，但基础 ADAS 的「黑盒芯片」模式正被英伟达/高通/地平线的开放平台与车企自研侵蚀；公司选择同时押注 Surround/SuperVision 升级周期、自建 Robotaxi 车队与人形机器人三条战线，换取「物理 AI」的新故事——而创始人 CEO 恰好在此时宣布卸任。券商一致中性（目标价 9-10 美元）、瑞银把目标市盈率从 30 倍砍到 17 倍，市场已对「创始人溢价 + 战略可信度」重新定价。核心矛盾：存量升级的真实价值 vs 战略失焦与英特尔控股折价——催化剂明确但未兑现之前，我们给「持有」。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-07</span>
+          <span>下次更新：FY2026 Q3 财报（预计 2026-10 下旬）/ 新任 CEO 公布（2026 Q3-Q4）</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>现价约 $8（估算），约 15x FY2026E 调整后 PE（估算）；但剔除以色列研发激励（1.8-2 亿美元/年）后实际约 23-25x（估算），「便宜」部分靠一次性利润支撑。EyeQ 存量恢复增长 + Surround/SuperVision 升级周期是真实底牌，但 CEO 交接、Robotaxi 重资产转向、英特尔约 88% 持股（估算）三重悬念未落地。重检条件：新 CEO 落定并释放战略聚焦信号，或大众 MOIA 奥兰多 KPI 达标；若 ASP 降幅扩大或 Robotaxi 资本开支计划显著超出现金承受力，下调至卖出。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">营收 +12.9%</strong><span>FY26H1·同比·去库存后重回增长</span></div>
+      <div class="summary-rail__item"><strong>2.58亿辆</strong><span>EyeQ 累计装车·全球最大 ADAS 存量</span></div>
+      <div class="summary-rail__item"><strong>31%</strong><span>Q2 调整后营业利润率·含一次性研发激励</span></div>
+      <div class="summary-rail__item"><strong>$19.7-20.2亿</strong><span>FY2026 营收指引·调整后营业利润 3.65-4.25 亿</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">创始人 CEO 卸任：折价何时消除，三线并举会否收敛？</h2>
+        <span class="qa__impact-tag">→ 倍数折价主源 · 瑞银目标 PE 30x→17x</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>Amnon Shashua 是公司近 30 年技术路线与 OEM 信任关系的化身，他的卸任（2026-07-23 财报电话会宣布，选定继任者后离任）引发单日约 <strong>-15%</strong> 的股价反应，情绪冲击已经兑现；真正悬而未决的是两件事：<strong>继任者画像</strong>（运营型 vs 技术型）与<strong>三线作战是否收敛</strong>（ADAS 升级周期 + Robotaxi 自营 + 人形机器人）。<em>保留判断：交接本身是可消除的折价项，但新 CEO 若延续「三条战线同时烧钱」，折价会固化成基本面问题——观察窗口是未来两个季度的资本配置动作，而非就职演说。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>走的全是倍数渠道。</strong>瑞银将目标 P/E 从 30 倍下调至 <strong>17 倍</strong>、高盛从 18 倍下调至 <strong>12 倍</strong>（目标价均为 9 美元），下调理由直指 CEO 交接、盈利质量（依赖政府激励）与战略不确定性——市场已经把「创始人溢价」整体拿掉。若继任者具备规模化运营与资本配置经验并快速给出聚焦信号，倍数向 15-18x 修复的空间是明确的。</p>
+            <p>盈利端亦有隐忧：瑞银 FY2027E 调整后 EPS <strong>0.50 美元低于 FY2026E 的 0.52</strong>，摩根士丹利 FY2026E 仅给 0.22 美元——卖方预测本身已隐含「转型期增长停滞」，若交接拖累订单执行，EPS 还有下修空间。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>Shashua 并非离场：董事会已邀其出任<strong>董事长</strong>，继续负责技术战略、创新与人形机器人前沿——技术路线连续性有制度保障</li>
+              <li>单日 -15% 已把最坏情绪定价，继任者一旦落定（预期 2026 Q3-Q4），<strong>不确定性消除本身就是催化剂</strong></li>
+              <li>核心 ADAS 业务已进入不依赖创始人的收获期：Surround ADAS 三客户定点、Stellantis 项目落地，量产爬坡按订单表推进</li>
+              <li>若新 CEO 是运营/资本配置型人才，恰能补上 Mobileye 最缺的<strong>商业化与运营短板</strong>（Robotaxi 自营正需要这种能力）</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>创始人是估值的核心资产：技术远见 + 对 OEM 的行业号召力无可替代，<strong>离开时点恰在公司最需要可信度的重资产转型期</strong></li>
+              <li>新 CEO 要同时驾驭 ADAS 升级、Robotaxi 从零到一、人形机器人孵化三线作战——<strong>精力与资源分配是物理约束</strong>，战略失焦风险真实存在</li>
+              <li>瑞银 FY2027E 调整后 EPS 低于 FY2026E（0.50 vs 0.52），摩根士丹利 FY2026E 只给 0.22——<strong>卖方分歧之大本身就是风险</strong></li>
+              <li>交接期漫长或人选不符预期，管理层真空将加剧战略执行不确定性，折价可能长期化</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（事件时间线 · 三线作战结构）</summary>
+          <div class="evidence__body">
+            <h5>2026 年上半年关键事件时间线</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>时间</th><th>事件</th></tr></thead><tbody><tr><td>2026-02</td><td>以 <strong>9 亿美元</strong>收购 CEO Shashua 联合创立的人形机器人公司 Mentee Robotics（支付现金 5.91 亿美元），正式进入机器人领域</td></tr><tr><td>2026-04</td><td>启动 <strong>2.5 亿美元</strong>股票回购，用于抵消股权激励与收购稀释</td></tr><tr><td>2026-06</td><td>宣布自建<strong>完全垂直整合的 Robotaxi 业务</strong>：2027 年在美国至少一个城市启动，初期 100-200 辆，五年扩至约 1.7 万辆</td></tr><tr><td>2026-07-22</td><td>赢得 <strong>Stellantis</strong> Cloud-Enhanced ADAS 高产量项目定点（2027 年量产，高速公路脱手驾驶）</td></tr><tr><td>2026-07-23</td><td>Q2 业绩超预期（SuperVision 交付约 2 万台）；同日宣布 <strong>Shashua 将在选定继任者后卸任 CEO</strong>，股价单日下跌约 <strong>15%</strong></td></tr></tbody></table></div>
+            <h5>三线作战结构</h5>
+            <ul>
+              <li><strong>战线一 · ADAS 升级周期（现金牛）</strong>：Cloud-Enhanced ADAS / Surround ADAS / SuperVision，把存量客户向高价值量产品升级——已见订单（大众、通用、Mahindra、Stellantis、保时捷/奥迪）</li>
+              <li><strong>战线二 · Robotaxi 自营（重资产赌注）</strong>：从供应商延伸到运营商，2027 年起步，100-200 辆→五年约 1.7 万辆，资本消耗与竞争烈度详见核心问题 2</li>
+              <li><strong>战线三 · 人形机器人（早期期权）</strong>：Mentee Robotics 收购而来、尚处孵化期，Shashua 卸任后将专注此方向——公司资源被三条战线同时索取</li>
+            </ul>
+            <h5>解读：一句话</h5>
+            <p>市场给 -15% 的不是「换 CEO」本身，而是「换 CEO × 三线作战 × 重资产转型」的乘积。<strong>继任者的第一个资本配置决策（Robotaxi 融资方案、是否收缩机器人投入）比其履历更能说明问题</strong>——这是跟踪面板把它列为头号催化剂的原因。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">自建 Robotaxi + 人形机器人：第二增长曲线，还是价值毁灭的开始？</h2>
+        <span class="qa__impact-tag">→ 现金消耗担忧 · 1.31 亿美元现金 vs 重资产扩张</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>逻辑方向是对的——供应商模式下单辆 Robotaxi 的价值捕获有限，垂直整合运营下管理层测算<strong>单车年收入可达 12.5 万美元、为纯供应商模式的 5 倍</strong>（公司口径）；但执行条件几乎全部缺位：账面现金仅 <strong>13.11 亿美元</strong>（收购 Mentee 花掉 5.91 亿后），运营经验远逊 Waymo/Tesla/Zoox，且自营车队可能得罪同样布局 Robotaxi 的核心客户（如大众）。<em>判断：未来 12 个月该战略对估值是负贡献（资本消耗恐惧压制倍数），直到商业计划细节（融资方案/车辆平台/资本开支上限）证明它不动用核心业务的弹药；大众 MOIA 奥兰多项目 2026 下半年 KPI 达标是唯一可先行验证的中间里程碑。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>短期对 EPS 影响很小，走的是倍数渠道。</strong>2027 年首发仅 100-200 辆，初始投入有限；真正的资本压力在扩张期——公司自己承认，初期 1-2 万辆车队的资本开支<strong>预计消耗公司大部分现金储备</strong>。市场目前按「烧钱故事」定价（财报日 -15% 的部分原因），瑞银/高盛下调目标倍数的理由之一就是 Robotaxi 投入规模不可测。</p>
+            <p>若 2026 下半年披露的方案显示外部融资/合作伙伴分担资本、且与大众等客户的供应商关系不受损，折价可部分消除；反之，若全靠自有现金硬扛，<strong>FY2027E 自由现金流（FY2025 为 5.23 亿美元）有转负风险</strong>，估值锚将失去支撑。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>垂直整合的经济学成立：单车年收入 <strong>12.5 万美元、成本低于 10 万美元</strong>（公司测算口径），收入是纯供应商模式的 <strong>5 倍</strong>，且真实路况数据反哺技术迭代</li>
+              <li>财务尚能承受：约 <strong>12-13 亿美元</strong>现金 + FY2025 经营现金流 <strong>6.02 亿美元</strong>，足以覆盖 2027 年 100-200 辆的起步规模</li>
+              <li>「卖铲人 + 挖矿者」双卡位：自营车队之外仍通过<strong>大众 MOIA</strong> 等项目维持供应商角色，两种模式都跑通则两头受益</li>
+              <li>战略信号价值：敢于自营，展示管理层对自家 L4 技术（Mobileye Drive）的绝对信心，有助于重塑「物理 AI」形象而非汽车零部件商</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>彻底的后来者：Waymo 已商业运营、Tesla/Zoox 资金与先发优势明显，Mobileye 在<strong>技术成熟度、运营经验、资金规模上均不占优</strong></li>
+              <li>与客户为敌：自建车队与布局 Robotaxi 的核心客户（如大众）形成<strong>潜在竞争关系</strong>，可能危及价值量更高的 ADAS 供应订单——捡芝麻丢西瓜</li>
+              <li>现金不够烧：扩张至 1-2 万辆规模<strong>将消耗大部分现金储备</strong>（公司口径），而 13.11 亿美元现金对 Robotaxi 行业只是入场券</li>
+              <li>重资产 + 长回报周期，恰逢资本市场对烧钱故事最谨慎的时候——<strong>股价 -15% 就是市场投出的反对票</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（Robotaxi 计划参数 · 财务承受力 · 竞争格局）</summary>
+          <div class="evidence__body">
+            <h5>自建 Robotaxi 计划关键参数（2026 年 6 月宣布）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>维度</th><th>内容</th></tr></thead><tbody><tr><td>启动时间 / 地点</td><td>2027 年，美国至少一个城市（首发选址未公布）</td></tr><tr><td>车队规模</td><td>初期 <strong>100-200 辆</strong> → 五年内约 <strong>1.7 万辆</strong></td></tr><tr><td>单车经济学（公司口径）</td><td>年收入约 <strong>12.5 万美元</strong>、成本低于 10 万美元；收入为纯供应商模式 <strong>5 倍</strong></td></tr><tr><td>资本开支</td><td>初期 1-2 万辆车队预计<strong>消耗公司大部分现金储备</strong>（公司风险披露口径）；融资方案未公布</td></tr><tr><td>供应商角色保留</td><td>大众 MOIA 奥兰多项目 2026 下半年预计达 KPI、或启动带安全员商业运营</td></tr></tbody></table></div>
+            <h5>财务承受力（单位：亿美元）</h5>
+            <ul>
+              <li>现金余额：<strong>18.36 → 13.11</strong>（2026 H1 支付 Mentee Robotics 收购款 5.91）</li>
+              <li>经营现金流：FY2023-FY2025 分别 3.94 / 4.00 / 6.02，FY2026 H1 为 2.10</li>
+              <li>自由现金流：FY2025 达 <strong>5.23</strong>（核心 ADAS 业务造血能力真实），但 2.5 亿美元回购 + Robotaxi 资本开支将从两头索取</li>
+            </ul>
+            <h5>竞争格局（Robotaxi 赛道）</h5>
+            <p>Waymo（已商业运营，技术与运营均领先数个身位）、Tesla（车队规模与数据优势）、Zoox（亚马逊资金支持）、Pony.ai 等。Mobileye 的差异化筹码是 REM 地图（915 亿英里道路数据、覆盖欧美 95%+ 主要道路）与 EyeQ 量产经验，但<strong>这些筹码在「运营效率」维度的兑换率尚未被证明</strong>。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">存量护城河保卫战：英伟达/高通/地平线侵蚀 vs Surround/SuperVision 升级周期</h2>
+        <span class="qa__impact-tag">→ 决定 2027+ 的增速与利润率结构</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>基础 ADAS「黑盒芯片」的护城河确实在收缩——Q2 整体 ASP 同比 <strong>-2%</strong>（中国 OEM 低价订单占比上升）、地平线在中国蚕食、英伟达/高通用开放平台迎合 OEM 自研需求。但 Mobileye 手里有一张竞品没有的牌：<strong>2.58 亿辆 EyeQ 存量 + 915 亿英里 REM 地图数据</strong>构成的低成本升级路径——Cloud-Enhanced ADAS 靠软件升级就能让存量车型获得高速脱手（Stellantis 项目单位毛利为基础 ADAS 两倍以上），Surround ADAS（ASP 约 100-150 美元、毛利率约 70%）已获大众/通用/Mahindra 三客户定点，仅现有订单量产后每年可贡献超过 <strong>10%</strong> 的收入增长。<em>判断：存量是「折旧中的资产」，升级周期决定它能否重新增值；验证窗口在 FY2027-28（保时捷/奥迪 SuperVision 2027H2 量产）。在此之前，收入增长质量（中国 OEM 占比上升压低 ASP）会持续被市场挑剔审视。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这是决定 2027 年后 EPS 路径的问题。</strong>若 Surround/SuperVision 按定点节奏爬坡，收入增速可回到 15%+、调整后毛利率守住 66-69%，瑞银口径 FY2028E 收入 24.38 亿美元（+16%）与调整后 EPS 0.57 美元有上修空间；若 OEM 持续转向开放平台，ASP 降幅扩大，公司将退化为低增长汽车芯片商，<strong>高盛给的 12x 目标 PE 不是底</strong>。</p>
+            <p>短期 Q3 指引已给出压力测试：营收同比 <strong>-5%~-6%</strong>、毛利率因中国 OEM 占比提升而环比略降——<strong>量增与价减的赛跑</strong>是未来四个季度财报的主线，Surround ADAS 爬坡前的每个季度都要忍受这种拉扯。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>升级路径是独家优势：OEM 在<strong>现有 EyeQ6 Lite 项目上做软件升级</strong>即可获得脱手能力（Stellantis 案例），投资小、收益快，竞品无法对 2.58 亿辆存量做同样的事</li>
+              <li>Surround ADAS 经济学优秀：ASP 约 <strong>100-150 美元</strong>（基础 ADAS 数倍）、毛利率约 <strong>70%</strong>，三客户定点量产后年贡献收入增长 <strong>10%+</strong></li>
+              <li>REM 数据网络效应：915 亿英里道路数据、覆盖欧美 <strong>95%+</strong> 主要道路，采集边际成本极低——Cloud-Enhanced ADAS 卖的就是这份地图</li>
+              <li>SuperVision 出货在爬坡：H1 出货超 <strong>4 万台</strong>（Q2 约 2 万台超预期），保时捷/奥迪项目 2027H2 量产，脱手方案从定点走向收入</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>ASP 已在下滑：Q2 同比 <strong>-2%</strong>，中国 OEM 低价订单占比上升是结构性趋势，<strong>量增不增收</strong>的风险真实存在</li>
+              <li>「黑盒」模式与时代逆行：OEM 要数据主权与差异化，英伟达 Drive/高通 Snapdragon Ride 的<strong>开放平台正好迎合</strong>，特斯拉/蔚来/小鹏干脆自研</li>
+              <li>SuperVision 出货含水分：H1 出货 4 万台中<strong>终端真实需求约 3 万台</strong>，客户在建库存防缺件，全年指引不敢上调（维持略低于 6 万台）</li>
+              <li>升级周期的收入贡献要等量产爬坡（2027+），<strong>远水解不了近渴</strong>——FY2026/27 增长质量只能靠低 ASP 的中国订单撑</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（分部收入 · 产品升级路径 · 竞争格局）</summary>
+          <div class="evidence__body">
+            <h5>分部收入拆分（单位：百万美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td>EyeQ™ SoC</td><td>1,853.0（89%）</td><td>1,415.0（86%）</td><td>1,731.0（91%）</td><td><strong>1,047.0（98%）·同比 +13%</strong></td></tr><tr><td>SuperVision™</td><td>132.6（6%）</td><td>138.4（8%）</td><td>64.9（3%）</td><td>未单独披露</td></tr><tr><td>其他（Moovit 等）</td><td>93.0（5%）</td><td>101.0（6%）</td><td>99.0（5%）</td><td>19.0（2%）</td></tr><tr><td><strong>总营收</strong></td><td><strong>2,079.0</strong></td><td><strong>1,654.0</strong></td><td><strong>1,894.0</strong></td><td><strong>1,066.0（+12.9%）</strong></td></tr></tbody></table></div>
+            <p>注：FY2024 收入 -20.4% 是客户去库存冲击；FY2025 恢复 +14.5%，FY2026 H1 +12.9%。增长驱动：中国 OEM（比亚迪、奇瑞等）出口、西方核心客户份额提升、新兴市场 ADAS 渗透——但 Q2 整体 ASP 同比 -2%。</p>
+            <h5>产品升级路径（从存量到增量）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>层级</th><th>定位</th><th>价值量</th><th>进展</th></tr></thead><tbody><tr><td>基础 ADAS（EyeQ SoC）</td><td>L2 前装存量</td><td>ASP 承压（Q2 同比 -2%）</td><td>2.58 亿辆累计装车</td></tr><tr><td>Cloud-Enhanced ADAS</td><td>存量项目软件升级 → 高速脱手</td><td>单位毛利与 Surround 相当、<strong>为基础 ADAS 两倍以上</strong></td><td>Stellantis 定点，2027 量产</td></tr><tr><td>Surround ADAS</td><td>环视 L2+</td><td>ASP 约 <strong>100-150 美元</strong>、毛利率约 <strong>70%</strong></td><td>大众、通用（美国头部 OEM）、Mahindra 定点；量产后年贡献收入增长 10%+</td></tr><tr><td>SuperVision™</td><td>L2+ 脱手系统（11 摄像头 + 2 颗 EyeQ + ECU）</td><td>含第三方硬件、毛利率较低但单台毛利额更高</td><td>H1 出货 4 万+（真实需求约 3 万），全年指引略低于 6 万台；保时捷/奥迪 2027H2 量产</td></tr></tbody></table></div>
+            <h5>竞争格局（ADAS 芯片与方案）</h5>
+            <ul>
+              <li><strong>英伟达</strong> Drive 平台：高算力 + 开放软件栈，赋能 OEM 自研，对「黑盒」交付构成正面挑战</li>
+              <li><strong>高通</strong> Snapdragon Ride：开放计算平台 + 与 Wayve AI 合作，高级别 ADAS 势头强劲</li>
+              <li><strong>地平线</strong>：中国市场高性价比 + 本地化服务，蚕食基础 ADAS 份额并向高级别渗透（另有黑芝麻等）</li>
+              <li><strong>OEM 自研</strong>：特斯拉、蔚来、小鹏全栈自研；通用、奔驰重金投入——Mobileye 失去的是增量市场的话语权，守住的是存量升级的入口</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 4 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">4</span>
+        <h2 class="qa__title">估值与股东结构：一致中性 + 英特尔约 88% 持股，定价了多少风险？</h2>
+        <span class="qa__impact-tag">→ 约 15x FY26E 调整后 PE（估算）· 剔除激励后约 23-25x（估算）</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>财报日 -15% 后现价约 <strong>8 美元（估算，按券商目标价与盈利预测反推）</strong>，对应约 <strong>15x FY2026E 调整后 PE</strong>（EPS 0.50-0.52 美元，瑞银/摩根大路口径）；但 FY2026E 调整后营业利润 3.65-4.25 亿美元中含 <strong>1.8-2.0 亿美元</strong>以色列研发激励，剔除后核心调整营业利润约 1.85-2.25 亿美元，对应倍数实际约 <strong>23-25x（估算）</strong>——表面的「便宜」有一半靠政府激励支撑。股东结构上，英特尔持股约 88%（估算），流通盘薄、治理折价与潜在减持压力并存。<em>判断：这不是错杀级别的便宜，而是「合理偏贵 + 催化剂排队」的组合——四家头部券商一致中性（目标价 9-10 美元）与我们的「持有」结论方向一致；上行靠新 CEO 与 Robotaxi 方案落地，下行有 FCF 与存量订单托底。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这个问题本身就是赔率计算。</strong>券商目标价 9-10 美元对应 +13%~+25% 空间，且全部给中性评级——市场认为当前价格已大致反映「坏消息定价、好消息未定价」的状态。瑞银（30x→17x）与高盛（18x→12x）目标倍数的下调幅度，就是「创始人 + 战略可信度」折价的量化。</p>
+            <p>结构上：下行情景（ASP 加速下滑 + Robotaxi 烧钱 + 激励退坡）对应 10-12x 核心调整 PE，约 6-6.5 美元（估算，-20% 左右）；上行情景（新 CEO 聚焦 + MOIA KPI 达标 + Surround 爬坡兑现）对应 18-20x FY2027E，约 11-12 美元（估算，+40% 左右）。<strong>赔率约 2:1，不构成买入的压倒性理由，但也不支持做空——持有。</strong></p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>目标价 9-10 美元全部高于现价（估算约 8 美元），<strong>一致中性本身就说明下行已被定价</strong>——再往下的坏消息需要新素材</li>
+              <li>FY2025 自由现金流 <strong>5.23 亿美元</strong>、调整后毛利率 66-69%，核心业务造血能力真实——<strong>现金牛给转型买单</strong>，不是纯烧钱公司</li>
+              <li>商誉减值（FY2024 26.95 亿 + FY2026 H1 37.88 亿美元）均为非现金项目，GAAP 巨亏不改经营实质，出清后报表反而干净</li>
+              <li>催化日程密集且明确：新 CEO（Q3-Q4）、Robotaxi 方案（H2）、MOIA KPI（H2）、保时捷演示（H2）——<strong>任何一个超预期都能触发重估</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>剔除研发激励后核心调整 PE 约 23-25x（估算），<strong>对一家收入个位数增长、FY27E EPS 可能负增长的公司并不便宜</strong></li>
+              <li>摩根士丹利 FY2026E 调整后 EPS 只给 0.22 美元（瑞银口径的不到一半）——<strong>盈利预测分歧之大说明基本面能见度极低</strong></li>
+              <li>英特尔约 88% 持股（估算）：流通盘薄放大波动，英特尔自身经营承压、2024 年已有减持，<strong>是悬在头上的供给压力</strong></li>
+              <li>四家券商在股价大跌后仍集体维持中性、不下调至买入——<strong>机构对「便宜」的含金量并不认可</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（财务速览 · 券商预测 · 估值测算）</summary>
+          <div class="evidence__body">
+            <h5>关键财务数据（单位：亿美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>报告期</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td>营业总收入</td><td>20.79</td><td>16.54</td><td>18.94</td><td>10.66</td></tr><tr><td>收入同比</td><td>+11.2%</td><td><span class="warn">-20.4%</span></td><td>+14.5%</td><td>+12.9%</td></tr><tr><td>GAAP 毛利率</td><td>50.4%</td><td>44.8%</td><td>47.7%</td><td>47.8%</td></tr><tr><td>研发费用</td><td>8.89</td><td>10.83</td><td>11.51</td><td>5.30（历史上占收入 50%+）</td></tr><tr><td>归母净利润</td><td>-0.27</td><td>-30.90</td><td>-3.92</td><td>-38.39</td></tr><tr><td>自由现金流</td><td>2.96</td><td>3.19</td><td><strong>5.23</strong></td><td>1.59</td></tr></tbody></table></div>
+            <p>注：FY2024 与 FY2026 H1 巨亏主因商誉减值（分别 26.95 亿、37.88 亿美元，非现金）；GAAP 利润还受无形资产摊销拖累。调整后口径：FY2025 调整营业利润率 15%、调整后毛利率 68%；2026 Q2 调整营业利润率 31%（含 9,300 万美元研发激励、含 Q1 追溯）。FY2026 全年指引：营收 19.70-20.20 亿美元、调整后营业利润 3.65-4.25 亿美元（含研发激励 1.8-2.0 亿美元）。</p>
+            <h5>券商盈利预测与目标价（均为 2026-07-24 口径，全部中性）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级 / 目标价</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>瑞银</td><td>中性 / $9</td><td>调整后 EPS 0.35</td><td>0.52</td><td>0.50</td><td>0.57</td></tr><tr><td>高盛</td><td>中性 / $9</td><td>GAAP EPS 0.01</td><td>0.05</td><td>0.05</td><td>0.10</td></tr><tr><td>摩根士丹利</td><td>中性 / $10</td><td>调整后 EPS 0.35</td><td>0.22</td><td>0.25</td><td>0.56</td></tr><tr><td>摩根大通</td><td>中性 / $9</td><td>—</td><td>0.50</td><td>—</td><td>0.78</td></tr></tbody></table></div>
+            <p>瑞银收入预测：FY2026E 20.09 / FY2027E 21.02 / FY2028E 24.38（百万美元）。估值方法上，瑞银目标 P/E 从 30x 下调至 <strong>17x</strong>、高盛从 18x 下调至 <strong>12x</strong>，理由均为 CEO 交接、盈利质量（依赖政府激励）与战略不确定性。</p>
+            <h5>估值测算（均为估算，精确值以行情为准）</h5>
+            <ul>
+              <li>反推现价：约 <strong>8 美元</strong>（瑞银 17x × FY26E 调整后 EPS 0.52 ≈ 8.8 为目标价；7 月 23 日单日 -15% 后估算落于 8 美元附近）；对应市值约 65 亿美元</li>
+              <li>EV ≈ <strong>52 亿美元</strong>（市值 - 现金 13.11 亿美元，假设无重大有息负债），约 <strong>2.6x FY2026E 收入</strong></li>
+              <li>表观倍数：约 <strong>15x FY2026E 调整后 PE</strong>（8 ÷ 0.50-0.52）</li>
+              <li>剔除研发激励：调整后营业利润 3.65-4.25 亿 - 激励 1.8-2.0 亿 → 核心约 1.85-2.25 亿美元，对应<strong>核心调整 PE 约 23-25x</strong></li>
+              <li>股东结构：英特尔持股约 <strong>88%</strong>（估算）——2017 年收购、2022 年分拆上市，2024 年曾部分减持；流通盘薄 + 母公司经营承压 = 治理折价与潜在供给压力</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>：公司概况、近况跟踪、业务拆分、财务数据与券商预测（见同目录《Mobileye_一页通.md》，亦见本站「一页通」标签页；一页通数据截至 2026-07-24）</li>
+        <li><strong>财务数据</strong>：FY2023-FY2026H1 利润表与现金流、FY2026 管理层指引（正文数据均来自公开财报整理）</li>
+        <li><strong>局限</strong>：未读财报原文与电话会纪要（建议下一步补读 2026 Q2 earnings call 中关于 Robotaxi 融资方案与 CEO 搜寻进度的表述）；现价（约 8 美元）与前瞻倍数为按券商目标价及盈利预测反推的估算值，精确值以行情为准；英特尔持股比例（约 88%）为按公开资料估算；一页通对 FY2026 H1 分部收入口径存在矛盾（正文称 EyeQ 占 91%/SuperVision 9%，拆分表为 EyeQ 98%/SuperVision 未单列），本文采用拆分表口径；「剔除研发激励后核心调整 PE 约 23-25x」「三情景隐含股价」等均为粗略估算；Q3 财报披露时间为按惯例预估（2026 年 10 月下旬）</li>
+        <li><strong>管理层评估（一句话版）</strong>：Shashua 是视觉驾驶技术路线的开创者之一，其学术地位与 OEM 信任关系是公司估值的核心资产；转任董事长在名义上保留了技术连续性，但其与新 CEO 的权力划分、以及新 CEO 能否约束三线作战的资本消耗，在落定之前均不可评估——这一「不可评估」本身就是当前 17x 以下目标倍数的一部分</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>Mobileye Global Inc. 是全球领先的先进驾驶辅助系统（ADAS）和自动驾驶技术解决方案开发商与部署商。公司于1999年在以色列成立，开创了ADAS技术，并持续向全自动驾驶演进。其核心产品为EyeQ™系列系统级芯片（SoC），通过向Tier 1汽车供应商销售，已嵌入全球超过<strong>2.58亿辆</strong>汽车。公司正将业务版图从汽车ADAS拓展至Robotaxi服务和通过收购Mentee Robotics进入人形机器人领域，定位为"物理AI"综合供应商。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul>
+<li><strong>创始人兼CEO宣布卸任</strong>：公司创始人Amnon Shashua在2026年7月23日的财报电话会上宣布，将在董事会选定继任者后卸任CEO职务，未来将专注于技术战略、创新及人形机器人等前沿领域，董事会已邀请其担任董事长。此举引发市场对管理层稳定性的担忧，财报发布后股价单日下跌约<strong>15%</strong>。</li>
+<li><strong>获得以色列新R&amp;D激励</strong>：2026年Q2起，以色列新研发激励法案生效，Mobileye在Q2确认了<strong>9300万美元</strong>的研发费用抵免（包含Q1追溯影响），全年预计贡献<strong>1.8-2亿美元</strong>。该政策具有可持续性，无明确终止日期，显著提升了公司账面利润率和盈利能力。</li>
+<li><strong>赢得Stellantis Cloud-Enhanced ADAS项目</strong>：公司近期获得Stellantis集团高产量项目定点，将于<strong>2027年</strong>起基于现有EyeQ6 Lite项目的软件升级，实现高速公路脱手驾驶功能。该升级对OEM投资小、收益显著，单位毛利与Surround ADAS相当，为基础ADAS的两倍以上。</li>
+<li><strong>宣布自建Robotaxi车队</strong>：公司于2026年6月宣布将建立完全垂直整合的Robotaxi业务，计划<strong>2027年</strong>在至少一个美国城市启动，初期部署100-200辆车，五年内扩展至约<strong>1.7万辆</strong>。此举标志着公司战略从单纯的技术供应商向运营服务商延伸。</li>
+<li><strong>SuperVision出货量超预期但全年指引未上调</strong>：Q2 SuperVision交付量约<strong>2万台</strong>，高于预期，上半年累计超<strong>4万台</strong>。但公司认为客户存在主动建立库存以防范零部件短缺的行为，因此维持全年<strong>略低于6万台</strong>的出货指引，预计下半年将消耗库存。</li>
+</ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol>
+<li><strong>CEO交接进程与市场信心重建</strong>：创始人Shashua的卸任决定是未来一个季度最核心的交易变量。市场对继任者的背景（是内部运营型人才还是外部空降兵）以及Shashua作为董事长与技术战略官的参与深度极为敏感。若新任CEO具备规模化运营和资本配置经验，能够清晰阐述Robotaxi和ADAS业务的商业化路径，将有助于重建投资者信心，触发估值修复。反之，若交接过程漫长或人选不符预期，管理层真空可能加剧战略执行的不确定性。</li>
+<li><strong>Robotaxi战略的具体化与预期差博弈</strong>：公司从供应商转向自营Robotaxi车队的战略在6月引发市场分歧。未来三个月，市场将高度关注该计划的落地细节，包括：2027年首发城市的具体选址、车辆平台合作伙伴的确认、初始资本开支的规模与融资方案、以及Moovit子公司重组后如何具体支持车队运营。任何超出或低于市场预期的执行细节披露，都将直接引发股价波动。当前市场对该战略的资本消耗和与现有合作伙伴（如大众）的潜在竞争关系存在疑虑，管理层能否有效沟通并消除这些疑虑是关键。</li>
+<li><strong>Q3业绩指引与"核心业务"盈利能力的重估</strong>：尽管Q2业绩超预期，但主要受一次性R&amp;D激励提振。公司对Q3的指引显示，营收将同比下降<strong>5%-6%</strong>，毛利率因产品组合（中国OEM占比提升）将略低于Q2，且不含Q1追溯影响的R&amp;D激励将显著下降。市场将密切关注Q3实际业绩是否触及"核心业务"（剔除R&amp;D激励后）的盈利底部，以及中国OEM出口高增长与ASP下降之间的平衡能否在Q3后改善。若Q3核心盈利好于悲观预期，可能成为股价阶段性企稳的信号。</li>
+</ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol>
+<li><strong>Surround ADAS升级周期驱动ASP结构性提升</strong>：Mobileye正推动其庞大的基础ADAS客户群向价值量更高的Surround ADAS系统升级。Surround ADAS的ASP约为<strong>100-150美元</strong>，是基础ADAS的数倍，毛利率约<strong>70%</strong>。公司已获得大众、通用（美国头部OEM）和印度Mahindra三家客户的定点，仅现有订单预计在量产后每年可贡献超过<strong>10%</strong>的收入增长。随着全球NCAP安全评级标准趋严，Surround ADAS有望成为中端车型的标配，驱动公司未来3-5年的收入与利润结构性上移。</li>
+<li><strong>Robotaxi市场的"卖铲人"与"挖矿者"双重角色</strong>：公司通过自建车队，从单纯的自动驾驶系统供应商（"卖铲人"）转变为同时运营Robotaxi服务的"挖矿者"。管理层认为，垂直整合模式下单车年收入可达<strong>12.5万美元</strong>，是纯供应商模式的<strong>5倍</strong>，且能加速技术迭代。同时，公司仍通过大众MOIA等项目维持供应商角色。若两种模式均能跑通，Mobileye将拥有独特的市场卡位，既能从行业扩张中受益，又能直接捕获终端服务的高价值利润。</li>
+<li><strong>REM众包地图数据构建的长期网络效应</strong>：Mobileye的REM（Road Experience Management）技术利用全球数百万辆已售车辆采集道路数据，构建高精度地图。截至2025年底，已采集<strong>915亿英里</strong>的道路数据，覆盖欧美<strong>95%</strong>以上的主要道路。这种低成本、高覆盖、实时更新的地图方案是高级别自动驾驶的关键基础设施，其数据规模和更新频率构成了难以复制的竞争壁垒。随着Cloud-Enhanced ADAS和Surround ADAS的渗透率提升，REM的覆盖范围和商业价值将进一步扩大。</li>
+</ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul>
+<li><strong>CEO交接与战略执行风险</strong>：创始人Shashua的卸任是公司近30年来最重大的管理层变动。新任CEO需要同时驾驭核心ADAS业务的升级、Robotaxi自营业务的从零到一、以及人形机器人业务的早期孵化。多重战略并举对管理层的精力和资源分配构成巨大挑战，存在战略失焦或执行不及预期的风险。</li>
+<li><strong>Robotaxi业务的高资本消耗与竞争风险</strong>：自建Robotaxi车队将使公司从轻资产模式转向重资产运营，初期1-2万辆车的资本开支预计将消耗公司大部分现金储备。同时，该市场已存在Waymo（Alphabet）、Tesla、Zoox（Amazon）等资金雄厚且先发优势明显的竞争对手。Mobileye作为后来者，在技术成熟度、运营经验和资金规模上均不占优，存在投资回报不及预期甚至失败的风险。</li>
+<li><strong>客户集中度高与潜在竞争关系</strong>：公司前四大客户收入占比超过<strong>70%</strong>，客户集中度极高。同时，公司自建Robotaxi车队的决策，可能使其与同样布局Robotaxi的客户（如大众）形成潜在的竞争关系，影响未来的合作深度与订单获取。此外，部分核心客户（如大众）自身也面临战略重组和成本削减压力，可能影响对Mobileye产品的采购节奏和定价。</li>
+</ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul>
+<li><strong>2026年4月</strong>：公司宣布启动<strong>2.5亿美元</strong>的股票回购计划，以抵消股权激励和收购Mentee带来的稀释效应。</li>
+<li><strong>2026年6月</strong>：公司正式宣布将利用其Mobileye Drive技术，建立完全垂直整合的Robotaxi业务，计划于2027年在美国启动。</li>
+<li><strong>2026年7月22日</strong>：公司宣布赢得Stellantis的Cloud-Enhanced ADAS项目，为Stellantis提供基于REM地图的高速公路脱手驾驶功能，计划2027年量产。</li>
+<li><strong>2026年7月23日</strong>：公司公布2026年Q2财报，同时宣布创始人兼CEO Amnon Shashua计划在选定继任者后卸任。财报发布后，股价单日下跌约<strong>15%</strong>。</li>
+</ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul>
+<li><strong>2026年Q3-Q4</strong>：新任CEO人选公布。继任者的背景和能力将直接影响市场对公司未来战略执行力的判断。</li>
+<li><strong>2026年下半年</strong>：公司自有Robotaxi业务的具体商业计划发布，包括首发城市、车队规模、车辆平台合作伙伴及资本开支计划。</li>
+<li><strong>2026年下半年</strong>：大众MOIA在奥兰多的Robotaxi项目预计达到关键绩效指标（KPIs），并可能启动带安全员的商业运营，这是验证公司L4级技术成熟度的关键里程碑。</li>
+<li><strong>2026年下半年</strong>：保时捷SuperVision项目量产前进行全球客户演示，若性能表现出色，有望推动更多OEM客户做出采用决策。</li>
+</ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<p><strong>业务边际变化</strong>：公司正经历从单一ADAS芯片供应商向"ADAS+Robotaxi运营+人形机器人"三位一体的"物理AI"公司转型。2026年2月，公司以<strong>9亿美元</strong>收购了由CEO Shashua联合创立的人形机器人公司Mentee Robotics，正式进入机器人领域。同年6月，公司宣布将利用自有技术直接运营Robotaxi车队，标志着商业模式从单纯的B2B向B2C服务延伸。在核心ADAS领域，公司正通过Cloud-Enhanced ADAS和Surround ADAS推动现有客户的价值量升级。</p>
+<p><strong>盈利模式</strong>：公司核心盈利模式是通过销售搭载专有软件算法的EyeQ™ SoC芯片获取收入，具备典型的技术壁垒和规模效应特征。随着业务向Robotaxi运营延伸，未来将增加按里程收费的服务性收入。公司盈利对研发投入依赖度高，历史上研发费用占收入比重超过<strong>50%</strong>。</p>
+<p><strong>业务拆分</strong>：公司近年业务结构以EyeQ™ SoC销售为绝对核心，但正逐步向系统解决方案和运营服务拓展。2026年上半年，EyeQ™ SoC收入占比约<strong>91%</strong>，SuperVision系统收入占比约<strong>9%</strong>。公司当前处于<strong>业绩兑现期与战略转型期</strong>的重叠阶段：核心ADAS业务在经历2024年客户去库存冲击后恢复增长，而高级别自动驾驶和机器人业务仍处于商业化早期，需要大量投入。</p>
+<p><strong>细分业务拆分（单位：百万美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td>截止日期</td><td>2023-12-30</td><td>2024-12-28</td><td>2025-12-27</td><td>2026-06-27</td></tr><tr><td><strong>EyeQ™ SoC 收入</strong></td><td>1,853.0</td><td>1,415.0</td><td>1,731.0</td><td>1,047.0</td></tr><tr><td>收入占比</td><td>89%</td><td>86%</td><td>91%</td><td>98%</td></tr><tr><td><strong>SuperVision™ 收入</strong></td><td>132.6</td><td>138.4</td><td>64.9</td><td>—</td></tr><tr><td>收入占比</td><td>6%</td><td>8%</td><td>3%</td><td>—</td></tr><tr><td><strong>其他（Moovit等）收入</strong></td><td>93.0</td><td>101.0</td><td>99.0</td><td>19.0</td></tr><tr><td>收入占比</td><td>5%</td><td>6%</td><td>5%</td><td>2%</td></tr><tr><td><strong>总营收</strong></td><td><strong>2,079.0</strong></td><td><strong>1,654.0</strong></td><td><strong>1,894.0</strong></td><td><strong>1,066.0</strong></td></tr></tbody></table></div>
+<p>（注：公司未按产品线详细披露利润数据。）</p>
+<ul>
+<li><strong>EyeQ™ SoC业务（2026年上半年）</strong>：该业务是公司的基石，通过向Tier 1供应商销售芯片实现收入。2026年上半年收入为<strong>10.47亿美元</strong>，同比增长<strong>13%</strong>，增长动力主要来自中国OEM（比亚迪、奇瑞等）出口量增加、在核心西方客户中份额提升以及新兴市场ADAS渗透率提高。但中国OEM出口占比提升导致平均售价（ASP）承压，Q2 ASP同比下降约<strong>2%</strong>。该业务毛利率较高，是公司主要的利润和现金流来源。</li>
+<li><strong>SuperVision™业务（2026年上半年）</strong>：该业务是公司目前主推的L2+级"脱手"驾驶系统，包含11个摄像头、2个EyeQ™芯片及ECU。2026年上半年出货量超<strong>4万台</strong>，但终端需求约3万台，存在客户建立库存的情况。全年出货指引维持<strong>略低于6万台</strong>。该业务因包含较多第三方硬件，毛利率低于EyeQ™芯片业务，但因其ASP远高于基础ADAS，单台毛利额更高。保时捷和奥迪的SuperVision项目预计于<strong>2027年下半年</strong>启动量产。</li>
+</ul>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托先发规模与数据积累形成的阶段性成本优势</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：属于<strong>行业阶段性红利</strong>。Mobileye在ADAS视觉芯片领域拥有超过25年的量产经验，其EyeQ™ SoC累计出货量超过<strong>2.58亿片</strong>，庞大的保有量摊薄了研发和制造成本，使其在基础ADAS领域具备显著的成本优势。同时，基于全球数百万辆搭载REM技术的车辆，公司构建了低成本、高覆盖的众包地图数据网络，这是竞争对手短期内难以复制的。</li>
+<li><strong>数据验证</strong>：公司2025财年调整后毛利率为<strong>68%</strong>，2026年Q2调整后毛利率为<strong>66%</strong>，显示出较强的定价能力和成本控制。其REM地图已覆盖欧美<strong>95%</strong>以上的主要道路，数据采集的边际成本极低。</li>
+<li><strong>动态演变</strong>：该优势在基础ADAS领域正面临<strong>收缩</strong>。随着地平线、黑芝麻等中国本土芯片厂商的崛起，以及高通、英伟达等巨头推出集成度更高的解决方案，基础ADAS芯片市场呈现同质化竞争特征，Mobileye的ASP持续承压。但在高级别ADAS和自动驾驶领域，其数据积累和量产经验仍是与OEM合作时的重要信任状，护城河能否拓宽取决于Surround ADAS和SuperVision的推广速度。</li>
+</ul>
+<p><strong>竞争要素 2：产业链话语权较弱导致的盈利模式受挤压</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：属于<strong>生态依存度较高</strong>。Mobileye的商业模式高度依赖Tier 1供应商和OEM的量产决策。公司不直接接触终端用户，其芯片作为二级供应商被集成到Tier 1的系统中，对最终定价和产品定义的话语权有限。同时，公司所有EyeQ™ SoC均由STMicroelectronics独家供应，存在单一供应商依赖风险。</li>
+<li><strong>数据验证</strong>：公司前四大客户收入占比超过<strong>70%</strong>，客户集中度极高。2026年Q2，因中国OEM客户（定价较低）出货量增加，导致整体ASP同比下降<strong>2%</strong>，显示出下游客户结构变化对盈利能力的直接影响。公司研发费用占收入比重长期超过<strong>50%</strong>，高投入并未完全转化为对下游的议价能力。</li>
+<li><strong>动态演变</strong>：该要素正面临<strong>进一步挤压的风险</strong>。部分核心OEM客户（如特斯拉、蔚来、小鹏）选择自研自动驾驶系统，而大众、通用等客户也在引入高通、英伟达等竞争对手的方案。公司自建Robotaxi车队的战略，也可能使其与现有OEM客户形成竞争，进一步复杂化其产业链地位。</li>
+</ul>
+<p><strong>现阶段核心驱动力总结</strong>：公司的Alpha在于能否成功将庞大的基础ADAS客户群升级至价值量更高的Surround ADAS和SuperVision系统，并在Robotaxi运营领域证明其商业模式的可行性。Beta则高度依赖于全球汽车产量、ADAS渗透率提升的行业趋势以及地缘政治风险（特别是以色列地区的稳定）。</p>
+<p><strong>竞争格局传导逻辑</strong>：</p>
+<ul>
+<li>庞大的EyeQ™历史出货量与REM数据积累 → 在基础ADAS领域具备成本优势与规模效应 → 实现高于行业平均的毛利率（~68%）</li>
+<li>对Tier 1和OEM的高度依赖 → 对终端定价和产品定义话语权受限 → ASP承压，高研发投入转化效率低</li>
+<li>OEM自研趋势与芯片巨头入局 → 基础ADAS市场竞争加剧 → 市场份额与毛利率面临长期收缩风险</li>
+</ul>
+<h3 class="doc-h2">产销链</h3>
+<ul>
+<li><strong>客户情况</strong>：公司客户主要为全球大型OEM，但通过Tier 1汽车供应商（如Aptiv、Magna、Valeo）进行销售。客户集中度极高，2026年上半年，前四大客户收入占比分别为<strong>27%</strong>、<strong>16%</strong>、<strong>16%</strong>、<strong>15%</strong>，合计超过<strong>70%</strong>。其中最大客户收入占比达<strong>27%</strong>，存在核心客户依赖风险。新客户方面，公司近期赢得了Stellantis的Cloud-Enhanced ADAS项目，并正与印度Mahindra合作开发Surround ADAS和SuperVision，处于<strong>已进入供应商名录</strong>阶段。</li>
+<li><strong>供应商情况</strong>：公司所有EyeQ™ SoC均由<strong>STMicroelectronics</strong>独家供应，双方已合作开发了六代芯片，存在严重的单一供应商依赖风险。为分散风险，公司已与<strong>台积电（TSMC）</strong>签订协议，未来将由其生产部分成像雷达组件和下一代EyeQ™产品。ECU的开发和组装则依赖<strong>Quanta Computer</strong>等供应商。</li>
+<li><strong>成本传导能力</strong>：当上游原材料（如内存）涨价时，在SuperVision等系统级产品中，公司直接采购并承担成本，但已<strong>将成本上涨完全转嫁给客户</strong>。在基础ADAS芯片业务中，内存等成本由客户间接承担，公司不直接受影响。总体而言，公司赚取的是基于技术壁垒的"技术溢价"，而非单纯的"加工费"，具备一定的成本转嫁能力，但受制于竞争格局，转嫁空间并非无限。</li>
+</ul>
+<h3 class="doc-h2">财务数据</h3>
+<p><strong>关键财务数据（单位：亿美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td>截止日期</td><td>2023-12-30</td><td>2024-12-28</td><td>2025-12-27</td><td>2026-06-27</td></tr><tr><td><strong>营业总收入</strong></td><td>20.79</td><td>16.54</td><td>18.94</td><td>10.66</td></tr><tr><td>收入同比</td><td>11.24%</td><td>-20.44%</td><td>14.51%</td><td>12.92%</td></tr><tr><td>营业成本</td><td>10.32</td><td>9.13</td><td>9.90</td><td>5.56</td></tr><tr><td>毛利</td><td>10.47</td><td>7.41</td><td>9.04</td><td>5.10</td></tr><tr><td><strong>毛利率</strong></td><td><strong>50.36%</strong></td><td><strong>44.80%</strong></td><td><strong>47.73%</strong></td><td><strong>47.84%</strong></td></tr><tr><td>研发费用</td><td>8.89</td><td>10.83</td><td>11.51</td><td>5.30</td></tr><tr><td>营业利润</td><td>-0.33</td><td>-5.30</td><td>-4.40</td><td>-1.38</td></tr><tr><td>归母净利润</td><td>-0.27</td><td>-30.90</td><td>-3.92</td><td>-38.39</td></tr><tr><td>基本每股收益（美元）</td><td>-0.03</td><td>-3.82</td><td>-0.48</td><td>-4.70</td></tr><tr><td>经营活动现金流净额</td><td>3.94</td><td>4.00</td><td>6.02</td><td>2.10</td></tr><tr><td>资本性支出</td><td>0.98</td><td>0.81</td><td>0.79</td><td>0.51</td></tr><tr><td><strong>自由现金流</strong></td><td><strong>2.96</strong></td><td><strong>3.19</strong></td><td><strong>5.23</strong></td><td><strong>1.59</strong></td></tr></tbody></table></div>
+<p>（注：自由现金流 = 经营活动现金流净额 - 资本性支出。FY2024和FY2026 H1的净利润包含巨额商誉减值（分别为26.95亿和37.88亿美元），为非现金项目。）</p>
+<p><strong>财务分析</strong>：</p>
+<ul>
+<li><strong>成长能力</strong>：公司营收在2024年因下游客户去库存出现<strong>20.44%</strong>的下滑后，2025年恢复增长<strong>14.51%</strong>，2026年上半年同比增长<strong>12.92%</strong>，显示出核心ADAS业务的韧性。增长主要受中国OEM出口和新兴市场ADAS渗透率提升驱动。</li>
+<li><strong>盈利能力</strong>：公司GAAP口径下持续亏损，主要受巨额无形资产摊销和商誉减值拖累。剔除这些非现金项目后，2025年调整后营业利润率为<strong>15%</strong>，2026年Q2因R&amp;D激励提振，调整后营业利润率升至<strong>31%</strong>。调整后毛利率稳定在<strong>66%-69%</strong>的高位，表明核心产品盈利能力强健。</li>
+<li><strong>现金流与运营能力</strong>：公司经营活动现金流健康，2025年自由现金流达<strong>5.23亿美元</strong>，显示出良好的盈余质量。但需注意，2026年上半年因收购Mentee Robotics支付<strong>5.91亿美元</strong>现金，导致现金余额从18.36亿美元降至13.11亿美元。</li>
+</ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p><strong>行业赛道</strong>：公司横跨汽车ADAS/自动驾驶和新兴的人形机器人两个赛道。此处聚焦其核心的ADAS/自动驾驶行业。</p>
+<ul>
+<li><strong>行业发展趋势</strong>：汽车行业正从L2级辅助驾驶向L2+/L3级高级辅助驾驶和L4级自动驾驶演进。监管是重要驱动力，全球NCAP安全评级标准日趋严格，将更多ADAS功能（如自动紧急制动）纳入评分体系，推动OEM将其作为标配。在Robotaxi领域，行业领先者（如Waymo）已实现商业运营，验证了技术可行性，竞争焦点正从"技术验证"转向"规模化与成本控制"。</li>
+<li><strong>竞争格局</strong>：ADAS和自动驾驶市场竞争激烈。Mobileye面临来自多个维度的竞争：
+<ul>
+<li><strong>芯片厂商</strong>：英伟达（NVIDIA）、高通（Qualcomm）、地平线（Horizon Robotics）等提供高算力、开放的计算平台，吸引希望自研算法的OEM。</li>
+<li><strong>Tier 1供应商</strong>：博世（Bosch）、大陆（Continental）等传统Tier 1也在开发自己的ADAS解决方案。</li>
+<li><strong>OEM自研</strong>：特斯拉（Tesla）、蔚来（NIO）、小鹏（Xpeng）等新势力车企，以及通用（GM）、奔驰（Mercedes-Benz）等传统巨头，均在投入巨资自研自动驾驶系统。</li>
+<li><strong>Robotaxi运营商</strong>：Waymo、Cruise、Zoox、Pony.ai等公司在Robotaxi运营方面已领先Mobileye数个身位。</li>
+</ul></li>
+</ul>
+<p><strong>可比公司</strong>：</p>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>对标维度</th><th>分析</th></tr></thead><tbody><tr><td>Qualcomm</td><td>QCOM</td><td>汽车芯片供应商</td><td>凭借Snapdragon Ride平台和与Wayve AI的合作，在高级别ADAS领域势头强劲，提供开放的计算平台，吸引寻求差异化的OEM。</td></tr><tr><td>NVIDIA</td><td>NVDA</td><td>自动驾驶计算平台</td><td>其Drive平台是高算力自动驾驶方案的标杆，通过提供参考设计和开放软件栈，赋能OEM和Tier 1自研，对Mobileye的"黑盒"交付模式构成挑战。</td></tr><tr><td>Aptiv</td><td>APTV</td><td>Tier 1供应商/自动驾驶方案商</td><td>作为传统Tier 1，具备强大的系统集成能力和客户关系。其与现代汽车的合资公司Motional是Robotaxi领域的重要玩家。</td></tr><tr><td>Horizon Robotics</td><td>-</td><td>中国本土ADAS芯片厂商</td><td>在中国市场凭借高性价比和本地化服务，正快速蚕食Mobileye在基础ADAS市场的份额，并逐步向高级别方案渗透。</td></tr></tbody></table></div>
+<p><strong>总结分析</strong>：Mobileye在基础ADAS市场凭借先发优势和规模效应占据领先地位，但在向高级别自动驾驶演进的过程中，其封闭的"算法+芯片"捆绑销售模式正面临来自开放平台和OEM自研的双重挑战。在Robotaxi运营领域，公司是后来者，面临资金、技术和运营经验均占优的强大竞争对手。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<ul>
+<li><strong>议题一：CEO交接与战略延续性</strong>——<strong>背景</strong>：创始人Shashua在公司中具有无可替代的地位，其技术远见和行业号召力是公司估值的重要组成部分。他的卸任发生在公司战略从ADAS供应商向Robotaxi运营商和机器人公司转型的关键时期，市场担忧新CEO能否驾驭如此复杂的多线作战局面。<strong>问题列表</strong>：1）新任CEO的背景是偏向运营执行还是技术研发？能否稳定核心团队并吸引新的人才？2）Shashua作为董事长和技术战略官，与新CEO的权力分配和协作模式将如何？3）公司的长期战略，特别是Robotaxi自营和人形机器人业务，是否会因CEO变更而进行调整？</li>
+<li><strong>议题二：Robotaxi自营战略的资本回报与竞争定位</strong>——<strong>背景</strong>：公司从轻资产的技术供应商转向重资产的Robotaxi运营商，这一战略转变在6月宣布后引发市场巨大分歧。市场担忧其资本消耗、与现有客户的潜在竞争以及在高度竞争市场中的后发劣势。<strong>问题列表</strong>：1）公司计划如何为初始1-2万辆Robotaxi的车队提供资金？是否会寻求外部融资或合作伙伴？2）管理层测算的单车年收入<strong>12.5万美元</strong>、成本低于<strong>10万美元</strong>的假设依据是什么？在规模化运营中能否实现？3）公司如何平衡自有车队运营与向大众MOIA等合作伙伴提供技术支持的潜在利益冲突？</li>
+<li><strong>议题三：核心ADAS业务的增长质量与盈利能力</strong>——<strong>背景</strong>：近期营收增长在很大程度上依赖于中国OEM的出口，这部分业务的ASP和利润率较低。市场关注剔除R&amp;D激励等一次性因素后，公司核心业务的内生增长动力和盈利趋势。<strong>问题列表</strong>：1）中国OEM出口高增长的可持续性如何？是否存在因贸易壁垒或竞争加剧而放缓的风险？2）剔除R&amp;D激励后，公司核心业务的运营利润率在2026年下半年及2027年的走势如何？3）Surround ADAS和Cloud-Enhanced ADAS的升级周期何时能对ASP和利润率产生显著的正向拉动？</li>
+</ul>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧：公司自建Robotaxi车队是价值创造还是价值毁灭？</strong></p>
+<ul>
+<li><strong>乐观方逻辑</strong>：认为这是公司最大化其技术价值的必然选择。管理层声称，垂直整合模式下单车收入是纯供应商模式的<strong>5倍</strong>，且能加速技术迭代。公司拥有约<strong>12-13亿美元</strong>的现金储备和每年约<strong>3.5亿美元</strong>的经营现金流，足以支持初期投入。此举也展示了管理层对自身L4级技术的绝对信心，有助于在资本市场重塑其作为"物理AI"领导者的形象，而非仅仅是汽车零部件供应商。</li>
+<li><strong>谨慎方逻辑</strong>：认为此举风险远大于机遇。首先，公司作为Robotaxi运营的后来者，在技术成熟度、运营经验和资金规模上均远逊于Waymo、Tesla等竞争对手。其次，自建车队将使其与现有核心客户（如大众）形成直接竞争，可能危及价值量更高的ADAS系统供应业务。最后，重资产运营模式将消耗公司大量现金，且回报周期漫长，在利率高企的环境下，资本市场对这类"烧钱"故事已愈发谨慎。公司近期股价的下跌反映了市场对这一战略的投票。</li>
+</ul>
+<p><strong>总结分析</strong>：公司从供应商转向运营商，本质上是希望在自动驾驶价值链上攫取更大份额，但这一战略选择充满了"生存者偏差"的风险。其成功高度依赖于两个前提：一是其L4技术必须在成本、安全和效率上迅速追平甚至超越行业领先者；二是在与OEM客户形成竞争的同时，仍能维持核心的ADAS供应业务不受影响。目前来看，这两个前提均面临巨大挑战，市场给予的估值折价正是对这一不确定性的合理反映。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>券商盈利预测与估值</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价(美元)</th><th>财务指标</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>瑞银 (2026-07-24)</td><td>中性</td><td>9.00</td><td>营业收入(百万美元)<br>调整后EPS(美元)</td><td>1,894<br>0.35</td><td>2,009<br>0.52</td><td>2,102<br>0.50</td><td>2,438<br>0.57</td></tr><tr><td>高盛 (2026-07-24)</td><td>中性</td><td>9.00</td><td>营业收入(百万美元)<br>GAAP EPS(美元)</td><td>1,894<br>0.01</td><td>1,993<br>0.05</td><td>2,131<br>0.05</td><td>2,329<br>0.10</td></tr><tr><td>摩根士丹利 (2026-07-24)</td><td>中性</td><td>10.00</td><td>营业收入(百万美元)<br>调整后EPS(美元)</td><td>-<br>0.35</td><td>-<br>0.22</td><td>-<br>0.25</td><td>-<br>0.56</td></tr><tr><td>摩根大通 (2026-07-24)</td><td>中性</td><td>9.00</td><td>营业收入(百万美元)<br>调整后EPS(美元)</td><td>-<br>-</td><td>-<br>0.50</td><td>-<br>-</td><td>-<br>0.78</td></tr></tbody></table></div>
+<p><strong>管理层最新指引</strong>：2026年全年营收指引为<strong>19.70亿至20.20亿美元</strong>，调整后营业利润为<strong>3.65亿至4.25亿美元</strong>（包含<strong>1.8亿至2亿美元</strong>的R&amp;D激励贡献）。</p>
+<p><strong>盈利预期与估值分析</strong>：各机构评级均为"中性"，目标价集中在<strong>9-10美元</strong>，显示出市场对公司的谨慎态度。盈利预测存在分歧，主要源于对R&amp;D激励的持续性、Robotaxi业务的投入规模以及高级别ADAS产品的商业化节奏的不同假设。估值方法上，瑞银和高盛均下调了目标市盈率，以反映CEO交接、盈利质量（依赖政府激励）和战略不确定性带来的更高风险溢价。瑞银将其目标P/E倍数从30倍下调至<strong>17倍</strong>，高盛则从18倍下调至<strong>12倍</strong>。整体而言，市场对公司长期增长潜力持观望态度，等待更明确的战略执行信号和商业化成果。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/MBLY · 生成于 2026-08-07</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-07';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'hit',     text: '<strong>赢得 Stellantis Cloud-Enhanced ADAS 高产量定点</strong>：基于 EyeQ6 Lite 软件升级实现高速脱手，2027 量产，单位毛利为基础 ADAS 两倍以上', note: '2026-07-22 公告' },
+  { kind: 'cat', status: 'pending', text: '<strong>新任 CEO 人选公布</strong>（预期 2026 Q3-Q4）：继任者画像与战略聚焦信号，消除不确定性折价的最重要单一事件', note: 'Shashua 拟转任董事长 + 技术战略' },
+  { kind: 'cat', status: 'pending', text: '<strong>Robotaxi 商业计划细节</strong>（2026 下半年）：首发城市、车辆平台、资本开支与融资方案——验证不动用核心业务弹药', note: '' },
+  { kind: 'cat', status: 'pending', text: '<strong>大众 MOIA 奥兰多 Robotaxi 达 KPI</strong>（2026 下半年）：或启动带安全员商业运营——L4 技术成熟度的先行验证', note: '' },
+  { kind: 'cat', status: 'pending', text: '<strong>保时捷 SuperVision 量产前全球客户演示</strong>（2026 下半年）：表现出色有望推动更多 OEM 采用决策', note: '保时捷/奥迪 SuperVision 2027H2 量产' },
+  { kind: 'cat', status: 'pending', text: '<strong>FY26 Q3 财报</strong>（预计 2026-10 下旬）：指引隐含营收同比 -5%~-6%，关注剔除研发激励后的核心盈利是否见底', note: '' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>CEO 交接拖延或战略失焦</strong>：继任者长期悬缺、或新 CEO 延续三线同时烧钱而无收敛信号', note: '2026-07-23 宣布卸任计划' },
+  { kind: 'risk', status: 'clear', text: '<strong>Robotaxi 自营消耗过大或得罪客户</strong>：资本开支方案显著超出 13 亿美元现金承受力，或大众等客户订单因此流失', note: '初期 1-2 万辆预计消耗大部分现金储备（公司口径）' },
+  { kind: 'risk', status: 'clear', text: '<strong>基础 ADAS 份额与 ASP 加速流失</strong>：ASP 降幅扩大（Q2 已 -2%），或关键定点输给英伟达/高通/地平线开放平台', note: '中国本土厂商 + OEM 自研双线挤压' },
+  { kind: 'risk', status: 'clear', text: '<strong>研发激励退坡打回盈利原形</strong>：Q3 起 R&D 激励不含 Q1 追溯影响而显著下降，调整后营业利润率从 31% 大幅回落', note: '全年激励 1.8-2 亿美元计入指引' },
+  { kind: 'risk', status: 'clear', text: '<strong>英特尔减持压力显性化</strong>：英特尔自身经营承压，若进一步出售持股，薄流通盘放大波动', note: '英特尔持股约 88%（估算），2024 年已有过减持' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

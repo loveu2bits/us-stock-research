@@ -246,15 +246,32 @@ const COMPANIES = [
   {t:'WDC', cn:'西部数据', en:'Western Digital', sector:'信息技术', ind:'存储', cap:156, th:['ai-chip','cloud'], d:'HDD 机械硬盘龙头，AI 存储需求受益'},
   {t:'SNDK', cn:'闪迪', en:'SanDisk', sector:'信息技术', ind:'存储芯片', cap:188, th:['ai-chip'], d:'NAND 闪存厂商，自西部数据分拆'},
   {t:'AMKR', cn:'安靠科技', en:'Amkor', sector:'信息技术', ind:'封装测试', cap:13, th:['ai-chip'], d:'半导体封装测试外包龙头之一'},
+  {t:'GFS', cn:'格芯', en:'GlobalFoundries', sector:'信息技术', ind:'半导体代工', cap:28, th:['ai-chip'], d:'成熟制程代工大厂，汽车/射频/边缘 AI 特色工艺'},
+  {t:'TXN', cn:'德州仪器', en:'Texas Instruments', sector:'信息技术', ind:'模拟芯片', cap:254, th:['ai-chip'], d:'模拟芯片龙头，工业与汽车为主'},
+  {t:'ON', cn:'安森美', en:'onsemi', sector:'信息技术', ind:'汽车半导体', cap:30, th:['auto'], d:'车用图像传感器与 SiC 功率双主线'},
+  {t:'MBLY', cn:'Mobileye', en:'Mobileye', sector:'信息技术', ind:'自动驾驶芯片', cap:7, th:['auto'], d:'ADAS 前装存量大，EyeQ 芯片平台'},
+  {t:'SWKS', cn:'思佳讯', en:'Skyworks', sector:'信息技术', ind:'射频芯片', cap:10, th:['consumer'], d:'射频前端大厂，大客户集中'},
+  {t:'QRVO', cn:'Qorvo', en:'Qorvo', sector:'信息技术', ind:'射频芯片', cap:8, th:['consumer'], d:'射频前端大厂，汽车与国防多元化'},
+  {t:'HPE', cn:'慧与', en:'Hewlett Packard Enterprise', sector:'信息技术', ind:'服务器 / 网络', cap:69, th:['ai-chip','cloud'], d:'企业服务器 + 网络（并 Juniper），AI 服务器扩张'},
 
   // ===== 通信服务 =====
   {t:'GOOGL', cn:'谷歌', en:'Alphabet', sector:'通信服务', ind:'互联网', cap:4375, th:['ai-sw','cloud','media'], d:'搜索与广告龙头，Gemini AI、云业务与 Waymo'},
   {t:'META', cn:'Meta', en:'Meta Platforms', sector:'通信服务', ind:'社交媒体', cap:1503, th:['ai-sw','media'], d:'Facebook / Instagram 广告帝国，重注开源大模型'},
   {t:'NFLX', cn:'奈飞', en:'Netflix', sector:'通信服务', ind:'流媒体', cap:307, th:['media'], d:'全球流媒体订阅龙头，广告套餐放量'},
+  {t:'DIS', cn:'迪士尼', en:'Walt Disney', sector:'通信服务', ind:'娱乐传媒', cap:181, th:['media'], d:'影视 IP、主题乐园与 Disney+ 流媒体'},
+  {t:'WBD', cn:'华纳兄弟探索', en:'Warner Bros Discovery', sector:'通信服务', ind:'娱乐传媒', cap:66, th:['media'], d:'HBO 内容库与流媒体，重组进行中'},
+  {t:'SPOT', cn:'Spotify', en:'Spotify', sector:'通信服务', ind:'音乐流媒体', cap:100, th:['media'], d:'全球音乐流媒体龙头，播客与有声书扩张'},
+  {t:'APP', cn:'AppLovin', en:'AppLovin', sector:'通信服务', ind:'广告技术', cap:112, th:['media'], d:'移动广告技术新贵，AXON 引擎驱动'},
+  {t:'RBLX', cn:'Roblox', en:'Roblox', sector:'通信服务', ind:'游戏平台', cap:26, th:['media'], d:'UGC 游戏平台，年轻用户基本盘'},
+  {t:'EA', cn:'艺电', en:'Electronic Arts', sector:'通信服务', ind:'游戏', cap:54, th:['media'], d:'体育游戏年货龙头（FC / Madden）· 2026-08 已私有化退市（$210/股）'},
+  {t:'TTWO', cn:'Take-Two', en:'Take-Two', sector:'通信服务', ind:'游戏', cap:43, th:['media'], d:'GTA / NBA 2K 母公司，GTA6 超级周期'},
 
   // ===== 非必需消费 =====
   {t:'AMZN', cn:'亚马逊', en:'Amazon', sector:'非必需消费', ind:'电商 / 云计算', cap:2937, th:['cloud','consumer','ai-sw'], d:'全球电商龙头，AWS 为最大公有云平台'},
   {t:'TSLA', cn:'特斯拉', en:'Tesla', sector:'非必需消费', ind:'电动汽车', cap:1262, th:['auto'], d:'电动车、储能与 Robotaxi 自动驾驶叙事'},
+  {t:'GM', cn:'通用汽车', en:'General Motors', sector:'非必需消费', ind:'汽车', cap:76, th:['auto'], d:'美国最大车企，电动车转型中'},
+  {t:'F', cn:'福特', en:'Ford', sector:'非必需消费', ind:'汽车', cap:55, th:['auto'], d:'皮卡基本盘 + 商用车 Pro 业务'},
+  {t:'RIVN', cn:'Rivian', en:'Rivian', sector:'非必需消费', ind:'电动汽车', cap:22, th:['auto'], d:'电动皮卡 + R2 放量，赌现金流拐点'},
 
   // ===== 必需消费 =====
   {t:'WMT', cn:'沃尔玛', en:'Walmart', sector:'必需消费', ind:'零售', cap:892, th:['consumer'], d:'全球最大零售商，电商与会员业务持续扩张'},
@@ -269,6 +286,7 @@ const COMPANIES = [
 
   // ===== 工业 =====
   {t:'UBER', cn:'Uber', en:'Uber', sector:'工业', ind:'出行平台', cap:144, th:['auto'], d:'网约车与外卖双平台，自动驾驶合作方'},
+  {t:'LYFT', cn:'Lyft', en:'Lyft', sector:'工业', ind:'出行平台', cap:6, th:['auto'], d:'美国网约车第二，盈利改善周期'},
   {t:'ETN', cn:'伊顿', en:'Eaton', sector:'工业', ind:'电气设备', cap:174, th:['power'], d:'配电设备龙头，AI 数据中心电力受益'},
 
   // ===== 公用事业 =====
@@ -305,6 +323,12 @@ const REPORTS = {
   AMKR:'./AMKR/安靠科技_研究.html', CSCO:'./CSCO/思科_研究.html', DLR:'./DLR/数字房地产_研究.html',
   ETN:'./ETN/伊顿_研究.html', CRM:'./CRM/Salesforce_研究.html', NOW:'./NOW/ServiceNow_研究.html',
   ADBE:'./ADBE/Adobe_研究.html',
+  GFS:'./GFS/格芯_研究.html', HPE:'./HPE/慧与_研究.html', TXN:'./TXN/德州仪器_研究.html',
+  SWKS:'./SWKS/思佳讯_研究.html', QRVO:'./QRVO/Qorvo_研究.html', ON:'./ON/安森美_研究.html',
+  DIS:'./DIS/迪士尼_研究.html', WBD:'./WBD/华纳兄弟探索_研究.html', SPOT:'./SPOT/Spotify_研究.html',
+  APP:'./APP/AppLovin_研究.html', RBLX:'./RBLX/Roblox_研究.html', EA:'./EA/艺电_研究.html',
+  TTWO:'./TTWO/Take-Two_研究.html', MBLY:'./MBLY/Mobileye_研究.html', GM:'./GM/通用汽车_研究.html',
+  F:'./F/福特_研究.html', RIVN:'./RIVN/Rivian_研究.html', LYFT:'./LYFT/Lyft_研究.html',
 };
 
 const VIEWS = [

@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>德州仪器（TXN.O）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--policy-red); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">TXN</span>
+    <span class="site-mark__text">德州仪器 公司研究<span>Texas Instruments · TXN.O</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>德州仪器<span class="en">Texas Instruments · TXN.O · 美股研究</span></h1>
+        <p class="sub">全球最大的模拟芯片龙头正处在「周期复苏 + 产能收获 + AI 结构性增量」三重叠加的甜蜜点：FY26Q2 营收同比 +23% 超指引上限（工业约 +30%、数据中心翻倍、汽车补库启动），毛利率 61.4% 环比 +340 个基点，过去 12 个月自由现金流 65 亿美元——六年超 200 亿美元 300mm 产能投资的折旧高峰已过，现金流拐点初现。但好消息已被股价提前计入：前瞻市盈率处于历史高位区间（约 35x FY2026E，估算），券商目标价从 225 美元（卖出）分裂到 380 美元（买入）。核心矛盾是「新一轮多年上行周期的起点」vs「一次性补库脉冲 + 资本开支再抬头」，我们的判断：复苏真实、份额在提升，但当前价位的赔率中性——持有。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-07</span>
+          <span>下次更新：FY26Q3 财报（2026-09，一页通时点）/ 下半年年度定价谈判（2026-10~11）/ Silicon Labs 交割（2027Q1）</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>约 35x FY2026E GAAP EPS（约 8.6 美元，按券商预测反推现价约 300 美元估算）——历史高位区间；周期复苏与自由现金流拐点真实，但估值已计入大部分利好，汽车补库持续性、2027 资本开支路径均未定。重检条件：2027 资本开支指引明确下降或现价回落至约 29x FY26E（≈250 美元，估算）以下→转积极；Q4 需求前置回落、补库脉冲证伪→转谨慎。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">营收 +23%</strong><span>FY26Q2 同比·54.63 亿美元超指引上限</span></div>
+      <div class="summary-rail__item"><strong>毛利率 61.4%</strong><span>FY26Q2·环比 +340bp·利用率回升</span></div>
+      <div class="summary-rail__item"><strong>FCF $65亿</strong><span>过去 12 个月·资本开支峰值已过</span></div>
+      <div class="summary-rail__item"><strong>数据中心翻倍</strong><span>Q2 同比·年化约 $20亿·AI 结构增量</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">周期定性：工业/汽车/数据中心广泛复苏，是新一轮多年上行周期的起点，还是一次性补库脉冲？</h2>
+        <span class="qa__impact-tag">→ 决定 EPS 弹性方向 · 多空分歧主轴</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>倾向「新周期起点」，但成色混合：<strong>工业复苏是广谱的且仍比 2022 年峰值低约 5-6 个百分点</strong>（由长期趋势与份额增长驱动）；<strong>数据中心是结构性需求</strong>（AI 服务器功率密度与 800V 架构）；<strong>汽车则更像「低库存补库」的脉冲</strong>——客户库存已降至不可持续低位触发紧急采购，是三个引擎中最不可持续的一个。<em>保留判断：FY26Q2 同比 +23% 中含紧急补库与「怕涨价提前下单」的前置需求，Q4 起增速大概率自然回落；若回落幅度超出季节性，「新周期」叙事会被市场重新定价为补库脉冲。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>EPS 渠道</strong>：若多年周期成立，券商 GAAP EPS 预测链 FY2025A 5.45 → FY2026E 约 8.6（+57%）→ FY2027E 约 9.8-12.1 美元的兑现概率上升；若仅为补库，FY2027E 增速会明显钝化（高盛 FY27E 10.20 vs 瑞银 12.06 的差距已部分反映这一分歧）。</p>
+            <p><strong>倍数渠道</strong>：市场当前按「新周期 + AI 重估」给出历史高位区间的前瞻 PE（约 35x FY26E，估算）。<strong>若补库退潮，下行主要走倍数</strong>——向模拟行业周期常态中枢（约 20-25x，估算）回归的杀伤力远大于 EPS 下修本身。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li><strong>需求广度罕见</strong>：工业（Q2 同比约 +30%）、汽车（中双位数）、数据中心（翻倍）三引擎共振，非单一市场驱动</li>
+              <li><strong>份额在增长</strong>：管理层确认 2025 年已实现份额增长；TI 平均交货期 <strong>12 周</strong> vs 竞争对手已延长至 <strong>52 周</strong>——产能优势正转化为份额</li>
+              <li><strong>提价启动</strong>：客户愿意为供应稳定性付溢价，已开始执行提价并在 Q4 及 2027 年放大</li>
+              <li>工业仍比 2022 峰值低 5-6 个百分点，客户过去四五年设计的新一代系统芯片含量更高、正开始放量——<strong>复苏有长期趋势支撑</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li><strong>补库不可持续</strong>：汽车增长部分来自库存过低后的紧急采购，库存恢复正常后需求可能回落</li>
+              <li><strong>前置需求透支</strong>：工业增长可能含客户因担心涨价/短缺而提前下单的成分，Q4-2027 有回吐风险</li>
+              <li>FY26H1 归母净利 +42% 主要是<strong>低基数上的经营杠杆</strong>，2027 年起弹性自然递减，「超预期」会越来越难</li>
+              <li>股价年初至今涨幅显著、盘后对超预期财报反而下跌——<strong>利好兑现即是压力的信号已经出现</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（终端市场结构 · FY26Q2 分市场数据 · 库存与份额证据）</summary>
+          <div class="evidence__body">
+            <h5>终端市场结构与 FY26Q2 表现（FY25 占比来自一页通）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>终端市场</th><th>FY25 营收占比</th><th>FY26Q2 表现</th><th>驱动因素与周期定性</th></tr></thead><tbody><tr><td>工业</td><td>约 33%（最大）</td><td>同比约 <strong>+30%</strong>，覆盖所有细分行业和地区</td><td>长期趋势驱动（工业自动化、航空航天与国防、能源基础设施、机器人）；仍比 2022 峰值低约 5-6 个百分点</td></tr><tr><td>汽车</td><td>约 33%</td><td>同比中双位数，环比高个位数（连续两季持平后转正）</td><td>单车半导体含量提升（电动车 + ADAS）；客户库存极低触发<strong>紧急补库</strong>——脉冲属性最强</td></tr><tr><td>数据中心</td><td>约 9%（FY25）</td><td>同比<strong>翻倍</strong>，年化约 20 亿美元</td><td>AI 服务器功率密度提升 + 800V 高压架构增加功率转换级数——结构性最强</td></tr><tr><td>个人电子等</td><td>约 25%</td><td>同比持平，Q3 展望弱于季节性</td><td>存储芯片短缺与涨价挤压客户预算（<span class="warn">拖累项</span>）</td></tr></tbody></table></div>
+            <h5>补库 vs 真实需求的证据链</h5>
+            <ul>
+              <li><strong>库存去化充分</strong>：存货周转天数从 FY25 末 222 天降至 FY26Q2 末 196 天，公司自身在有效消化库存；汽车客户库存被管理层明确描述为「不可持续的低水平」</li>
+              <li><strong>份额证据</strong>：交货期 12 周 vs 竞争对手 52 周；管理层确认 2025 年份额增长——供给约束下的份额转移是「真需求」而非单纯补库</li>
+              <li><strong>反面证据</strong>：Q2 电话会同时承认个人电子 Q3 展望弱于季节性、存储成本可能破坏需求——需求广度并非无懈可击</li>
+            </ul>
+            <h5>解读：一句话</h5>
+            <p>三个引擎里两个（工业、数据中心）有长期趋势支撑，一个（汽车）是补库脉冲——<strong>周期是真的，但 Q4 增速回落的幅度将决定市场给这段周期定什么价</strong>。这正是跟踪面板把「汽车补库持续性」和「Q3 财报」列为核心观察项的原因。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">自由现金流兑现：六年 200 亿美元资本开支峰值过后，FCF 与毛利率能释放到什么高度？</h2>
+        <span class="qa__impact-tag">→ FCF/营收 16.6%→40.2% · 毛利率 57%→61.4%</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p><strong>拐点已经出现</strong>：过去 12 个月 FCF 达 <strong>65 亿美元</strong>，FY26H1 单半年 FCF 41.37 亿美元已远超 FY25 全年（29.38 亿），FCF 占营收比从 FY25 的 16.6% 跃升至 FY26H1 的 <strong>40.2%</strong>。六年超 200 亿美元资本开支建成的北美 300mm 产能带来约 <strong>40% 的单片成本优势</strong>（300mm vs 200mm），折旧压力边际递减 + 利用率回升驱动毛利率从 FY25 底部 57.0% 修复至 Q2 的 61.4%。<em>保留判断：管理层暗示 2026 年资本开支偏向指引区间（20-30 亿美元）中高端、2027 年可能持平甚至同比增长——这是 FCF 释放节奏与毛利率回升高度的最大变量；若需求无法吸收新增产能，「收获期」会推迟。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这是「股息股属性」的内核</strong>：连续 20 年以上增息 + 持续回购的资本回报能力全部建立在 FCF 之上。券商对 FY2026E FCF 的预测分歧巨大（<strong>70 亿 vs 101 亿美元</strong>，摩根大通 vs 瑞银），分歧本身就是资本开支路径不确定性的量化。</p>
+            <p>若 2027 年资本开支如期回落，FY27E FCF 102-125 亿美元（美银/瑞银），支撑 EPS 增长 + 股息 + 回购三轨并行；若持平，FCF 兑现打八折甚至更低（估算）。毛利率方面，<strong>高固定成本结构下经营杠杆陡峭</strong>：毛利率从 61.4% 每提升 1 个百分点，对应约 2 亿美元级别的税前利润增量（以年化 220 亿美元营收估算）——定价 + 利用率是 EPS 上修的两个直接来源。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>资本开支峰值已过：2026 年指引 20-30 亿美元，较六年投资期显著回落；<strong>洁净室空间已备好</strong>，可按需装机扩产，资本开支具备向下弹性</li>
+              <li>300mm 成本优势约 40% + 嵌入式生产内部化（2030 年目标内部化率 &gt;90%，后端封测同步内部化）——<strong>成本曲线结构性下移，毛利率中枢有长期支撑</strong></li>
+              <li>FCF 占营收 40.2% 已进入「现金流收获期」，长期 FCF 每股复合增速有望重回约 10%（公司口径）</li>
+              <li>净债务 FY25 末 91.67 亿美元，杠杆可控，不制约资本回报</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li><strong>2027 年资本开支可能不降</strong>：Q2 电话会暗示持平甚至同比增长（需求强劲需扩产）——折旧压力持续，压制毛利率回升空间</li>
+              <li>毛利率距前期高点约 69% 仍有距离，且<strong>新厂折旧滞后于资本开支峰值</strong>，回升斜率可能慢于市场预期</li>
+              <li>若需求增长无法充分吸收新增产能，利用率回落将直接反噬 FCF——<strong>IDM 重资产模式的下行弹性同样陡峭</strong></li>
+              <li>Silicon Labs 收购（2027Q1 交割）将再度消耗资产负债表，现金 + 债务融资</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（FCF 与毛利率路径 · 业务板块利润率 · 资本开支节奏）</summary>
+          <div class="evidence__body">
+            <h5>自由现金流与毛利率路径（单位：亿美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td>自由现金流</td><td>13.49</td><td>14.98</td><td>29.38</td><td><strong>41.37</strong></td></tr><tr><td>毛利率</td><td>62.89%</td><td>58.14%</td><td><span class="warn">57.03%（底部）</span></td><td>59.79%（Q2 单季 61.4%）</td></tr><tr><td>营业利润率</td><td>41.84%</td><td>34.15%</td><td>34.73%</td><td><strong>40.36%</strong></td></tr></tbody></table></div>
+            <p>注：FY26Q2 毛利率 61.4%，环比 +340 个基点，驱动力为产能利用率与营收增长；过去 12 个月 FCF 合计约 65 亿美元。FY25 末总债务 140.52 亿、净债务 91.67 亿美元。</p>
+            <h5>业务板块利润率（FY26H1）：模拟是利润支柱，嵌入式是改善期权</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>板块</th><th>FY26H1 收入（亿美元）</th><th>占比</th><th>同比</th><th>营业利润率</th><th>利润率叙事</th></tr></thead><tbody><tr><td>模拟</td><td>82.89</td><td>80.6%</td><td>+24.4%</td><td><strong>43.8%</strong>（Q2 单季 45.6%）</td><td>现金牛，处于强劲复苏通道</td></tr><tr><td>嵌入式处理</td><td>15.11</td><td>14.7%</td><td>+14.0%</td><td>19.2%（Q2 单季 21.3%，FY25 仅 11.3%）</td><td>内部化 + 利用率 → 提升空间最大的期权</td></tr><tr><td>其他</td><td>4.88</td><td>4.7%</td><td>-7.8%</td><td>40.6%</td><td>体量小，非关键变量</td></tr></tbody></table></div>
+            <h5>资本开支节奏的三个情景</h5>
+            <ul>
+              <li><strong>乐观</strong>：2026 年落在指引下沿、2027 年回落 → 折旧见顶回落，毛利率加速向 65%+ 修复，FCF 兑现超预期（对应瑞银 FY26E FCF 101 亿美元）</li>
+              <li><strong>中性</strong>：2026 年落在区间中高端、2027 年持平 → 毛利率温和修复，FCF 按美银口径（约 77 亿美元）兑现</li>
+              <li><strong>悲观</strong>：需求强劲迫使 2027 年资本开支同比增长 → 折旧压力延续，毛利率回升停滞在 60-62%，「收获期」推迟一年（<span class="warn">空方核心假设</span>）</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">数据中心：AI 结构性增量能否推动 TI 从「周期股」向「周期成长股」估值切换？</h2>
+        <span class="qa__impact-tag">→ 年化约 $20亿 · TAM $75亿→$125亿（机构预测）</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>数据中心已是增长最快的引擎：<strong>Q2 营收同比翻倍，年化约 20 亿美元</strong>（FY25 占营收约 9%），未来几年有望超越个人电子成为第三大终端市场。驱动力偏结构性——AI 服务器功率密度提升与 800V 高压架构演进增加功率转换级数，电源管理与信号链芯片含量指数级增长。但需清醒：<strong>9% 的营收占比尚不足以单独改写公司的增长性质</strong>，估值切换需要管理层在分析师日/财报中量化数据中心 TAM 与份额目标。<em>保留判断：数据中心需求与云厂商 AI 资本开支周期绑定，若巨头 capex 放缓，「结构性」叙事同样会被检验。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>对 EPS 的直接贡献目前有限</strong>（营收占比约 9%），主要走<strong>倍数渠道</strong>：若市场认可「AI 基础设施关键受益者」的定位，把数据中心业务单独给予成长股估值，可拉动公司整体前瞻 PE 从周期中枢向 30x+ 靠拢——多方目标价（瑞银 380、美银 370 美元）隐含的正是这层重估。</p>
+            <p>量级参考：机构预测公司数据中心相关目标市场规模从 2025 年 <strong>75 亿美元</strong>增至 2026 年 <strong>125 亿美元</strong>（+67%）；TI 当前年化约 20 亿美元对应约 16-27% 的份额区间（估算）——份额每提升 5 个百分点，约对应 6 亿美元量级增量营收（估算）。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>Q2 同比翻倍且<strong>连续多季高增</strong>，已从「题材」变成实质增长引擎</li>
+              <li>800V 架构增加功率转换级数 → <strong>TAM 机械性扩张</strong>，不依赖单一客户或单一产品</li>
+              <li>TI 既能供高价值专用电源模块，也能覆盖机架中数千种通用模拟器件——<strong>广度优势在数据中心尤其适用</strong></li>
+              <li>管理层目标增速超越市场，并有意在分析师日量化 TAM/份额——<strong>重估催化剂日程明确</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>占营收仅约 9%，<strong>翻倍的增速也抬不动整体大盘</strong>；工业 + 汽车才是 EPS 的决定项</li>
+              <li>AI 数据中心 capex 本身是周期，云厂商开支节奏一旦放缓，「结构性」立刻变成「高贝塔」</li>
+              <li>高性能模拟与电源领域强手如林（ADI 等正面竞争），<strong>份额提升并非必然</strong></li>
+              <li>若 TAM/份额量化迟迟不落地，「估值切换」停留在叙事层面，无法支撑溢价</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（数据中心业务数据 · 传导逻辑）</summary>
+          <div class="evidence__body">
+            <h5>数据中心业务关键数据</h5>
+            <ul>
+              <li><strong>规模</strong>：FY25 占营收约 9%；FY26Q2 同比翻倍，年化收入约 20 亿美元</li>
+              <li><strong>TAM</strong>：机构预测相关目标市场 2025 年 75 亿美元 → 2026 年 125 亿美元</li>
+              <li><strong>驱动</strong>：AI 服务器功率密度提升；行业向 800V 高压架构演进增加功率转换级数，电源管理、信号链模拟芯片需求呈指数级增长</li>
+              <li><strong>展望</strong>：未来几年有望超越个人电子成为公司第三大终端市场；公司目标增速超越市场</li>
+            </ul>
+            <h5>传导逻辑</h5>
+            <p>AI 基础设施建设 → 服务器功率密度上升 + 800V 架构 → 功率转换级数增加 → 电源管理/信号链芯片含量上升 → TI 数据中心营收高增 → 市场将其定价从「纯周期」向「周期 + AI 成长」切换（<span class="warn">反向风险：AI capex 放缓则整条链条逆转</span>）。公司竞争格局传导主链为：大规模 300mm 投资 → 成本优势与供应控制力 → 高利用率与 12 周交货期（对手 52 周）→ 份额提升与定价能力 → 高毛利率与强 FCF；数据中心业务同样受益于这条供给端主链。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 4 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">4</span>
+        <h2 class="qa__title">估值：历史高位的前瞻 PE 定价了什么？赔率还划算吗？</h2>
+        <span class="qa__impact-tag">→ 目标价分裂 $225-$380 · 期望值约持平（估算）</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>按券商盈利预测与目标价反推，现价约 <strong>300 美元（估算）</strong>，对应约 <strong>35x FY2026E GAAP EPS（8.52-8.67 美元）</strong>——处于历史高位区间，与同业相比溢价明显。市场分歧被目标价完整量化：高盛卖出 225 美元（隐含约 -25%）vs 瑞银买入 380 美元（隐含约 +27%）。三情景测算期望值约与现价持平（约 -3%，估算），赔率约 0.7:1——<strong>好公司、不便宜的价格，持有</strong>。<em>保留判断：现价为反推估算值（精确值以行情为准）；情景概率与合理倍数均为主观假设。值得注意的是五家券商 FY26-27E 营收与 EPS 预期高度一致，分歧完全不在盈利方向而在倍数——这与 ADBE 的「盈利上修 + 倍数压缩」结构相反，这里是「盈利兑现 + 倍数已在高位」。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这个问题本身就是估值问题。</strong>当前定价的矛盾在于：基本面处于多年最好时刻（营收 +23%、毛利率 V 型反转、FCF 拐点、份额提升、提价启动），而倍数已提前把好消息打满。空方目标价（高盛 225、大摩 255 美元）隐含的是倍数向周期常态回归，而非盈利崩塌——<strong>看空的杀伤路径是 PE 从约 35x 压向约 26-30x（估算）</strong>。</p>
+            <p>赔率结构：乐观情景（周期延长 + 数据中心重估 + 2027 资本开支回落）上行约 +22%；悲观情景（补库退潮 + capex 不降）下行约 -32%。<strong>下行比上行厚——这是给出「持有」而非「买入」的全部原因。</strong>股息与回购提供持有期回报缓冲，但不足以改变 12 个月视角的赔率结构。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>周期 + 成长双引擎，历史高位<strong>理应被打破</strong>：FCF 每股复合增速重回约 10% 的公司不该只给周期中枢估值</li>
+              <li>美银（370）、瑞银（380）、摩根大通（340）基于 P/E 与 EV/FCF 认为周期上行阶段应享更高估值</li>
+              <li>连续 20 年以上增息的现金牛在利率下行周期具备<strong>类债稀缺性</strong>，估值有底</li>
+              <li>盈利预测仍在验证通道（Q2 超指引上限 + Q3 指引高于预期），每次兑现都在消化高倍数</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>高盛（卖出 225）、摩根士丹利（低配 255）直指核心：<strong>利润率恢复速度将慢于预期，股价已过度反映乐观情绪</strong></li>
+              <li>前瞻 PE 历史高位 + 同业溢价明显——即使增长兑现，<strong>估值可能已透支未来 2-3 年业绩</strong></li>
+              <li>增长含一次性因素（紧急补库、前置下单），FY2027E 增速钝化时高倍数最先受伤</li>
+              <li>财报超预期股价反而盘后下跌——<strong>市场对边际利好的敏感度在下降</strong>，是预期打满的典型特征</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（三情景测算 · 券商预测 · 财务速览）</summary>
+          <div class="evidence__body">
+            <h5>三情景假设（12 个月视角，以反推现价约 300 美元为基准；现价与倍数为估算）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>EPS（GAAP）</th><th>合理 PE</th><th>隐含股价</th><th>vs 当前</th></tr></thead><tbody><tr><td>乐观（30%）</td><td>补库转为多年周期、数据中心加速、2027 资本开支如期回落</td><td>~11.0（FY2027E 区间 9.8-12.1 中上）</td><td>33x</td><td>~365</td><td>+22%</td></tr><tr><td>中性（50%）</td><td>复苏延续但增速正常化，提价 Q4 起贡献，capex 持平</td><td>~10.0（FY2027E 中值）</td><td>28x</td><td>~280</td><td>-7%</td></tr><tr><td>悲观（20%）</td><td>补库脉冲退潮、需求前置回落、capex 增长，倍数回归周期常态</td><td>~8.6（停在 FY2026E）</td><td>24x</td><td>~205</td><td>-32%</td></tr></tbody></table></div>
+            <p><strong>期望值约 290 美元，较反推现价约 -3%；赔率约 0.7:1（+22% / -32%）。</strong>悲观情景隐含价 205 美元与高盛目标价（225）量级互证；乐观情景 365 美元落在美银/瑞银目标价（370/380）之下，未引入超越卖方共识的激进假设。</p>
+            <h5>券商盈利预测与目标价（GAAP 口径）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级 / 目标价</th><th>FY2025A EPS</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th><th>FY2026E FCF（亿美元）</th></tr></thead><tbody><tr><td>美国银行（2026-07-28）</td><td>买入 / $370</td><td>5.45</td><td>8.52</td><td>10.40</td><td>12.05</td><td>77.44</td></tr><tr><td>瑞银（2026-07-24）</td><td>买入 / $380</td><td>5.48</td><td>8.67</td><td>12.06</td><td>14.96</td><td>101.43</td></tr><tr><td>摩根大通（2026-07-27）</td><td>超配 / $340</td><td>5.45</td><td>8.57</td><td>—</td><td>—</td><td>70.04</td></tr><tr><td>高盛（2026-07-23）</td><td>卖出 / $225</td><td>5.45</td><td>8.60</td><td>10.20</td><td>10.50</td><td>—</td></tr><tr><td>摩根士丹利（2026-07-27）</td><td>低配 / $255</td><td>5.45</td><td>8.57</td><td>9.80</td><td>10.73</td><td>—</td></tr></tbody></table></div>
+            <p>注：五家机构 FY2026E GAAP EPS 集中在 8.52-8.67，分歧极小；FY2027E 才拉开（9.80-12.06），FCF 预测同样分裂（70 vs 101 亿美元）——<strong>多空分歧不在「今年赚多少」，而在「增长能持续多久、该给多少倍数」</strong>。</p>
+            <h5>关键财务速览（单位：亿美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>报告期</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td>营业总收入</td><td>175.19</td><td>156.41</td><td>176.82</td><td>102.88</td></tr><tr><td>收入同比</td><td>-12.53%</td><td>-10.72%</td><td>+13.05%</td><td><strong>+20.79%</strong></td></tr><tr><td>毛利率</td><td>62.89%</td><td>58.14%</td><td>57.03%</td><td>59.79%</td></tr><tr><td>营业利润率</td><td>41.84%</td><td>34.15%</td><td>34.73%</td><td><strong>40.36%</strong></td></tr><tr><td>归母净利润（同比）</td><td>65.10（-25.3%）</td><td>47.99（-26.3%）</td><td>50.01（+4.7%）</td><td>35.05（<strong>+42.4%</strong>）</td></tr><tr><td>稀释每股收益（美元）</td><td>7.07</td><td>5.20</td><td>5.45</td><td>3.82</td></tr><tr><td>自由现金流</td><td>13.49</td><td>14.98</td><td>29.38</td><td><strong>41.37</strong></td></tr></tbody></table></div>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>（2026-08-06 版本）：公司概况、近况跟踪、业务拆分、竞争格局、财务数据、券商预测与催化剂（见同目录《德州仪器_一页通.md》，亦见本站「一页通」标签页）</li>
+        <li><strong>财务数据</strong>：FY2023-FY2026H1 利润表与现金流、分部业务数据、FY26Q3 管理层指引（正文数据均来自公开财报整理）</li>
+        <li><strong>局限</strong>：未读财报原文与电话会纪要（建议下一步补读 FY26Q2 earnings call 中关于 2027 资本开支节奏、提价幅度与数据中心 TAM 口径的表述）；<strong>现价与前瞻 PE 为按券商盈利预测与目标价反推的估算值</strong>（现价约 300 美元、约 35x FY26E），精确值以行情为准；三情景概率与合理倍数为主观假设；一页通中 Q3 财报时点标注为 2026 年 9 月，与公司历史披露习惯或有出入，以公司官方通知为准</li>
+        <li><strong>管理层评估（一句话版）</strong>：六年逆周期投入超 200 亿美元建 300mm 产能的战略正进入兑现期——Q2 的份额增长、12 周对 52 周的交货期优势与 FCF 拐点都是执行力的证据，连续 20 年以上的增息记录印证资本纪律；但对 2027 资本开支路径的模糊表态留出了博弈空间，管理层的透明度是下一个观察点</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>德州仪器是全球最大的模拟半导体制造商，产品覆盖电源管理、信号链等模拟芯片及嵌入式处理器，服务于工业、汽车、数据中心、个人电子及通信设备等多元化市场。公司采用IDM模式，拥有遍布全球的自有晶圆制造和封测产能，并正通过大规模投资300mm晶圆厂构建成本与供应链控制力壁垒。其核心战略围绕模拟与嵌入式业务，通过广泛的产品组合、直销渠道及长期产能布局，追求长期自由现金流每股增长。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul>
+<li><strong>Q2业绩超预期，增长广泛</strong>：公司FY26Q2营收54.63亿美元，同比增长23%，环比增长13%，超出指引上限及市场一致预期。增长由工业、数据中心和汽车市场共同驱动，其中工业市场同比增长约30%，汽车市场同比增长中双位数，数据中心市场营收同比翻倍。</li>
+<li><strong>汽车市场出现拐点信号</strong>：汽车市场在连续两个季度持平后，于Q2实现高个位数环比增长，主要受中国电动车及混动车需求驱动。管理层指出，汽车客户库存已消耗至极低水平，不可持续的低库存叠加需求回暖，正触发补库需求，市场处于一个广泛周期的开端。</li>
+<li><strong>定价策略转向积极</strong>：上半年定价保持稳定，优于历史常态。公司已开始执行提价，部分将在Q3体现并持续至Q4。尽管Q3指引中定价贡献微乎其微，但若需求持续强劲，定价将成为下半年及明年的额外增长杠杆。</li>
+<li><strong>资本支出周期近尾声，自由现金流拐点已现</strong>：公司维持2026年资本支出20-30亿美元指引，但指出因需求强劲，最终支出可能偏向区间中高端。过去12个月自由现金流达65亿美元，较去年同期大幅增长，自由现金流占营收比例显著提升。</li>
+<li><strong>收购Silicon Labs进展顺利</strong>：监管审批按计划推进，预计2027年第一季度完成交易，融资计划无变化，将使用手头现金及债务。</li>
+</ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol>
+<li><strong>汽车市场补库周期的启动</strong>：汽车市场在经历长期库存去化后，客户库存已降至不可持续的低位。Q2出现的需求回暖，特别是中国电动车市场的拉动，已触发客户为补充生产必需库存而进行的紧急采购。这一补库周期刚刚开始，有望在未来1-2个季度持续贡献高于季节性的环比增长，成为业绩超预期的重要动力。这与工业市场由长期趋势和份额增长驱动的复苏形成互补，增强了整体需求的广度与韧性。</li>
+<li><strong>定价能力提升带来的利润率弹性</strong>：公司已确认开始执行提价，且上半年定价环境优于往年。由于公司采用直销模式，提价效果将随客户逐一谈判而逐步显现，预计在Q4及2027年贡献更显著。考虑到公司较高的固定成本结构，任何由定价带来的收入增长都将以极高转化率进入利润。在产能利用率提升和折旧压力边际放缓的背景下，定价改善将成为毛利率持续扩张的关键催化剂，有望驱动盈利预测进一步上修。</li>
+<li><strong>数据中心业务的结构性重估</strong>：公司数据中心业务Q2营收同比翻倍，已成为增长的重要引擎。随着AI服务器功率密度提升及向800V高压架构演进，对电源管理、信号链等模拟芯片的需求呈指数级增长。市场开始将TI视为AI基础设施的关键受益者，而不仅仅是传统的周期股。若公司能在即将到来的分析师日或财报中，更清晰地量化数据中心业务的长期市场总量及份额目标，将有助于推动其估值体系向更高成长性板块靠拢。</li>
+</ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol>
+<li><strong>"产能-成本-份额"飞轮效应的兑现</strong>：公司过去六年超过200亿美元的资本支出，主要用于在北美建设300mm晶圆厂，构建了显著的产能与成本优势。300mm晶圆较200mm具备约40%的成本优势。随着本轮投资周期进入尾声，资本支出将下降，而新增产能开始爬坡上量。更高的产能利用率将摊薄固定成本，叠加内部化生产比例的提升（尤其是嵌入式业务），将驱动毛利率和自由现金流持续改善。这一"产能-成本-份额"的飞轮效应，是公司未来1-3年实现自由现金流每股复合增长率重回约10%的核心驱动力。</li>
+<li><strong>从"周期股"到"AI赋能+周期成长"的估值重塑</strong>：数据中心业务正从"题材"转变为实质性的增长引擎。该业务年化收入已达约20亿美元，且公司目标增速超越市场。随着AI基础设施建设的持续，数据中心有望在未来几年超越个人电子，成为公司第三大终端市场。这不仅提供了新的长期增长极，更重要的是，其需求由技术升级（如800V架构）驱动，具备更强的结构性特征，有助于平滑公司传统的周期波动，从而推动市场对其长期盈利质量和估值中枢进行重估。</li>
+<li><strong>嵌入式业务的内生与外延双重增长</strong>：公司正将嵌入式处理器的生产从外部代工厂大规模转移至自有300mm晶圆厂，目标到2030年内部化比例超过90%。这一过程将显著提升该业务的毛利率。同时，收购Silicon Labs将补强公司在工业物联网无线连接领域的产品组合，结合TI自身的制造、渠道和技术优势，有望在庞大的工业市场中创造显著的协同效应和新的增长点，使嵌入式业务成为继模拟之后又一强大的价值创造支柱。</li>
+</ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul>
+<li><strong>资本支出与折旧压力超预期</strong>：尽管资本支出高峰期已过，但公司Q2电话会暗示，为应对强劲需求，2026年资本支出可能偏向指引区间中高端，且2027年资本支出可能持平甚至同比增长。这可能导致折旧费用下降速度慢于预期，从而压制毛利率的回升空间。若需求增长无法充分吸收新增产能，将对自由现金流产生负面影响。</li>
+<li><strong>个人电子市场疲软及存储成本挤压</strong>：公司Q2个人电子业务同比持平，且Q3展望弱于季节性。管理层指出，部分元器件的短缺（如存储芯片）和成本上升给客户带来压力，可能导致需求破坏。若存储芯片价格持续上涨并挤占其他元器件的采购预算，可能对公司个人电子乃至更广泛的工业客户需求造成抑制。</li>
+<li><strong>收购整合与地缘政治风险</strong>：收购Silicon Labs预计于2027年初完成，后续整合存在执行风险，包括产品线内部化生产的进度、协同效应的实现程度等。此外，公司约20%的收入来自中国市场，持续的地缘政治紧张局势和贸易政策变化，可能影响其在华业务拓展和市场份额的稳定性。</li>
+</ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul>
+<li><strong>2026年5月28日</strong>：在Bernstein战略决策会议上，公司详细阐述了其长期产能战略，强调已为未来10-15年的增长做好准备，并指出工业市场复苏仍处早期阶段，数据中心业务目标市场规模正快速增长。</li>
+<li><strong>2026年7月22日</strong>：公司发布FY26Q2财报，营收及每股收益均超出市场预期，并提供了高于预期的Q3指引。业绩增长由工业、数据中心和汽车市场的广泛增长驱动，其中汽车市场复苏成为亮点。</li>
+<li><strong>2026年7月23日</strong>：Q2财报发布后，多家华尔街投行上调目标价，但股价在盘后交易中下跌，反映出市场对前期涨幅过大及未来资本支出预期的消化。</li>
+</ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul>
+<li><strong>2026年9月</strong>：公司预计将在Q3财报中提供更详细的Q4展望。届时，市场将密切关注定价策略的落地效果、汽车市场补库的持续性以及数据中心业务的增长势头，这将是验证短期逻辑的关键节点。</li>
+<li><strong>2026年10月-11月</strong>：公司通常在下半年与部分年度定价客户进行价格谈判。若需求持续强劲，谈判结果可能带来更广泛的涨价，为2027年的收入和利润增长奠定基础，构成重要的预期差来源。</li>
+<li><strong>2027年第一季度</strong>：收购Silicon Labs的交易预计在本季度完成。交易完成后，公司将提供关于整合计划、协同效应及财务影响的更详细信息，这将成为评估嵌入式业务长期增长潜力的重要催化剂。</li>
+</ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<p><strong>业务边际变化</strong>：公司近年最大的变化是完成了从依赖外部代工到大规模自建产能的战略转型。2021-2026年超过200亿美元的资本支出主要用于北美300mm晶圆厂建设，目前该周期已近尾声。同时，公司正将嵌入式处理器的生产从外部代工厂大规模转移至自有工厂，目标到2030年内部化比例超90%。此外，公司于2026年2月宣布收购Silicon Labs，以补强嵌入式业务在工业物联网无线连接领域的产品组合，这是其10-15年周期内的关键战略并购。</p>
+<p><strong>盈利模式</strong>：公司依靠IDM模式下的<strong>技术壁垒与规模成本优势</strong>盈利。通过自有的300mm晶圆厂，公司能以比200mm晶圆低约40%的成本生产芯片，构建了结构性的成本护城河。同时，其超过80,000种产品的广泛组合和以直销为主的渠道模式，使其能服务超过100,000家客户，形成强大的客户粘性和市场洞察力。公司赚取的是基于技术和制造壁垒的"产品价值"与"规模成本"之间的差额。</p>
+<p><strong>业务拆分</strong>：公司业务主要分为模拟、嵌入式处理和其他三大板块。模拟业务是公司的绝对核心，贡献约80%的营收和绝大部分利润。嵌入式处理业务是公司重点发展的第二增长曲线，目前正经历从外部代工到内部生产的转型期，利润率相对较低但改善空间大。公司当前处于<strong>产能爬坡与需求复苏的叠加期</strong>，前期巨额投资带来的折旧压力正被逐步提升的产能利用率和强劲的需求增长所消化。</p>
+<p><strong>细分业务拆分（按业务板块，单位：亿美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>业务板块</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td><strong>模拟 · 收入</strong></td><td>130.40</td><td>121.61</td><td>140.06</td><td>82.89</td></tr><tr><td>同比 / 占营收比</td><td>— / 74.4%</td><td>-6.7% / 77.8%</td><td>+15.2% / 79.2%</td><td>+24.4% / 80.6%</td></tr><tr><td>营业利润 / 营业利润率</td><td>58.21 / 44.6%</td><td>46.08 / 37.9%</td><td>54.12 / 38.6%</td><td>36.30 / <strong>43.8%</strong></td></tr><tr><td><strong>嵌入式处理 · 收入</strong></td><td>33.68</td><td>25.33</td><td>26.97</td><td>15.11</td></tr><tr><td>同比 / 占营收比</td><td>— / 19.2%</td><td>-24.8% / 16.2%</td><td>+6.5% / 15.3%</td><td>+14.0% / 14.7%</td></tr><tr><td>营业利润 / 营业利润率</td><td>10.08 / 29.9%</td><td>3.52 / 13.9%</td><td>3.04 / 11.3%</td><td>2.90 / 19.2%</td></tr><tr><td><strong>其他 · 收入</strong></td><td>11.11</td><td>9.47</td><td>9.79</td><td>4.88</td></tr><tr><td>同比 / 占营收比</td><td>— / 6.3%</td><td>-14.8% / 6.1%</td><td>+3.4% / 5.5%</td><td>-7.8% / 4.7%</td></tr><tr><td>营业利润 / 营业利润率</td><td>5.02 / 45.2%</td><td>5.05 / 53.3%</td><td>3.07 / 31.4%</td><td>1.98 / 40.6%</td></tr></tbody></table></div>
+<ul>
+<li><strong>模拟业务（FY26Q2情况）</strong>：该季度实现营收43.65亿美元，同比增长26%，环比增长11%。增长由信号链和电源两大产品线共同驱动，其中信号链表现更强。营业利润率达45.6%，主要受益于更高的营收和与之相关的毛利增长。作为公司的现金牛业务，模拟产品广泛用于各类电子设备，其增长与宏观经济和半导体周期高度相关，当前正处于强劲的复苏通道。</li>
+<li><strong>嵌入式处理业务（FY26Q2情况）</strong>：该季度实现营收7.88亿美元，同比增长16%，环比增长9%。增长主要来自需求回暖。营业利润率为21.3%，虽远低于模拟业务，但同比和环比均有显著改善。该业务正受益于将生产从外部代工厂转移至自有300mm晶圆厂（如Lehi工厂）的战略，随着内部化比例提升和产能利用率提高，其利润率有巨大的提升空间。</li>
+</ul>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托自有300mm晶圆厂构建的结构性成本优势与供应控制力</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。公司通过长达六年的逆周期资本支出，在北美大规模建设300mm晶圆厂，构建了难以在短期内被复制的成本与供应链优势。300mm晶圆相较200mm具备约40%的成本优势，且自有产能提供了更强的供应链控制力和地缘政治稳定性，这在全球供应链动荡的背景下价值凸显。</li>
+<li><strong>数据验证</strong>：公司Q2毛利率为61.4%，环比提升340个基点，主要驱动力即为更高的产能利用率和营收增长。公司表示，其交货期（平均12周）在行业中极具竞争力，而竞争对手的交货期已延长至52周。这直接证明了其产能优势正在转化为市场份额和客户粘性。</li>
+<li><strong>动态演变</strong>：<strong>护城河变宽</strong>。随着资本支出高峰期过去，新增产能将逐步释放并爬坡，折旧压力边际递减，而营收增长将摊薄固定成本，推动毛利率和自由现金流持续改善。公司已准备好充足的洁净室空间，可随时安装设备扩产，以支持未来数年的增长，这将进一步拉大与竞争对手的差距。</li>
+</ul>
+<p><strong>竞争要素 2：广度与深度兼备的产品组合及直销渠道网络</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。公司拥有超过80,000种产品的广泛组合，覆盖模拟和嵌入式两大领域，能够为客户提供一站式解决方案。同时，其超过80%的收入来自直销渠道，这使公司能更直接、实时地洞察客户需求，并快速响应。这种"广泛产品+直接客户关系"的组合，形成了强大的客户粘性和交叉销售机会。</li>
+<li><strong>数据验证</strong>：公司服务超过100,000家客户，客户基础高度分散，约一半收入来自前50大客户之外。Q2业绩显示，工业市场的增长覆盖了所有细分行业和地区，数据中心业务中，公司既能提供高价值的专用电源模块，也能满足机架中数千种通用模拟器件的需求。这种广度使其能全面捕捉市场机遇。</li>
+<li><strong>动态演变</strong>：<strong>护城河变宽</strong>。公司正持续投资于TI.com电商平台和销售团队，以强化直销能力。收购Silicon Labs将进一步拓宽其在工业物联网领域的产品组合，增加逾2,000种产品，并通过TI的渠道进行销售，实现"产品+渠道"的协同效应，触达更多客户和设计项目。</li>
+</ul>
+<p><strong>现阶段核心驱动力总结</strong>：公司的Alpha在于其IDM模式下的<strong>结构性成本优势</strong>和<strong>供应控制力</strong>，这使其在行业上行周期中能获取更多份额并实现更高的利润弹性。其Beta则在于<strong>模拟芯片市场的周期性复苏</strong>以及<strong>AI数据中心建设带来的结构性增量需求</strong>。两者的叠加，构成了当前阶段强劲的业绩增长动力。</p>
+<p><strong>竞争格局传导逻辑</strong>：</p>
+<ul>
+<li>大规模投资300mm晶圆厂 → 结构性成本优势与供应控制力 → 高产能利用率与有竞争力的交货期 → 市场份额提升与定价能力增强 → 高毛利率与强劲自由现金流</li>
+<li>广泛的产品组合与直销渠道 → 深度客户关系与市场洞察 → 交叉销售机会与设计项目导入 → 汇入主链（市场份额提升与定价能力增强）</li>
+</ul>
+<h3 class="doc-h2">产销链</h3>
+<ul>
+<li><strong>客户情况</strong>：公司客户基础极为分散，服务超过100,000家客户，约一半收入来自前50大客户之外，不存在对单一客户的重大依赖。2025年，一家终端客户贡献了12%的营收，主要来自模拟业务。公司通过直销模式（收入占比超80%）与客户建立紧密联系，能够实时获取需求信号。Q2业绩显示，工业、汽车和数据中心客户的需求均在增长，其中汽车客户因库存过低已出现紧急采购行为。</li>
+<li><strong>供应商情况</strong>：公司采用IDM模式，大部分晶圆制造和封测均在内部完成，因此对外部供应商的依赖度相对较低。其资本支出主要用于采购半导体制造设备。公司正加速将后端封测产能内部化，以减少对外部OSAT的依赖，目标到2030年实现与前端制造相当的内部化水平。这进一步增强了对供应链的控制力。</li>
+<li><strong>经销商情况</strong>：公司以直销为主，经销商渠道占比较小。公司提供单一全球经销商及少数区域性经销商供客户选择，主要用于订单履行。这种模式使公司能够更清晰地掌握终端需求，避免了渠道库存波动带来的信息失真。</li>
+<li><strong>成本传导能力</strong>：当上游原材料或能源成本上升时，公司凭借其IDM模式下的成本结构和市场地位，具备一定的成本转嫁能力。Q2电话会已确认公司开始执行提价，以应对通胀压力并捕捉价值。这表明公司赚取的是基于技术和制造壁垒的"产品价值"，而非单纯的"加工费"，具备一定的品牌和技术溢价能力。</li>
+</ul>
+<h3 class="doc-h2">财务数据</h3>
+<p><strong>关键财务数据（单位：亿美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>财务指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td>截止日期</td><td>2023-12-31</td><td>2024-12-31</td><td>2025-12-31</td><td>2026-06-30</td></tr><tr><td><strong>营业总收入</strong></td><td>175.19</td><td>156.41</td><td>176.82</td><td>102.88</td></tr><tr><td>收入同比</td><td>-12.53%</td><td>-10.72%</td><td>13.05%</td><td>20.79%</td></tr><tr><td>营业成本</td><td>65.00</td><td>65.47</td><td>75.99</td><td>41.37</td></tr><tr><td><strong>毛利润</strong></td><td><strong>110.19</strong></td><td><strong>90.94</strong></td><td><strong>100.83</strong></td><td><strong>61.51</strong></td></tr><tr><td><strong>毛利率</strong></td><td><strong>62.89%</strong></td><td><strong>58.14%</strong></td><td><strong>57.03%</strong></td><td><strong>59.79%</strong></td></tr><tr><td>营业开支</td><td>36.88</td><td>37.53</td><td>39.43</td><td>19.99</td></tr><tr><td><strong>营业利润</strong></td><td><strong>73.31</strong></td><td><strong>53.41</strong></td><td><strong>61.40</strong></td><td><strong>41.52</strong></td></tr><tr><td><strong>营业利润率</strong></td><td><strong>41.84%</strong></td><td><strong>34.15%</strong></td><td><strong>34.73%</strong></td><td><strong>40.36%</strong></td></tr><tr><td>归母净利润</td><td>65.10</td><td>47.99</td><td>50.01</td><td>35.05</td></tr><tr><td>归母净利润同比</td><td>-25.26%</td><td>-26.28%</td><td>4.73%</td><td>42.42%</td></tr><tr><td>稀释每股收益（美元）</td><td>7.07</td><td>5.20</td><td>5.45</td><td>3.82</td></tr><tr><td>自由现金流</td><td>13.49</td><td>14.98</td><td>29.38</td><td>41.37</td></tr></tbody></table></div>
+<p><strong>财务分析</strong>：</p>
+<ul>
+<li><strong>成长能力</strong>：公司收入在经历FY23-FY24的下滑后，于FY25恢复增长，并在FY26H1加速至20.79%的同比增长，显示出强劲的复苏势头。归母净利润增长弹性更大，FY26H1同比增幅达42.42%，体现了显著的经营杠杆效应。</li>
+<li><strong>盈利能力</strong>：毛利率从FY23的峰值62.89%回落至FY25的57.03%，主要受产能扩张带来的折旧增加和产能利用率下降影响。但进入FY26，随着营收增长和产能利用率提升，毛利率已开始修复，FY26H1回升至59.79%。营业利润率呈现同样的"V型"反转趋势，FY26H1已恢复至40.36%。</li>
+<li><strong>运营能力</strong>：存货周转天数从FY25末的222天下降至FY26Q2末的196天，表明公司在需求回暖时，正在有效消化前期积累的库存，运营效率提升。应收账款周转天数则从40天小幅上升至42天，仍在健康范围内。</li>
+<li><strong>偿债能力与现金流</strong>：公司FY25末总债务为140.52亿美元，净债务为91.67亿美元。尽管杠杆率因资本支出而上升，但公司现金流创造能力强劲。FY26H1自由现金流达41.37亿美元，已远超FY25全年水平，主要得益于资本支出下降和经营现金流增加。自由现金流占营收的比重从FY25的16.6%跃升至FY26H1的40.2%，标志着公司已进入现金流收获期。</li>
+</ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p><strong>行业分析</strong>：公司所处的模拟芯片行业，是连接物理世界与数字世界的桥梁，产品生命周期长、应用领域广泛。该行业具有典型的周期性特征，但长期增长驱动力来自电子设备中半导体含量的持续增加。</p>
+<ul>
+<li><strong>工业市场</strong>：是公司最大的终端市场（FY25占33%）。当前正经历广泛的复苏，但仍比2022年峰值低约5-6个百分点。长期增长动力来自工业自动化、航空航天与国防、能源基础设施和机器人等领域。管理层认为，本轮复苏更多由长期趋势驱动，客户在过去四五年设计的新一代系统包含了更高的芯片含量，正开始放量。</li>
+<li><strong>汽车市场</strong>：是公司第二大终端市场（FY25占33%）。增长由单车半导体含量提升驱动，尤其是电动车和高级驾驶辅助系统的普及。当前市场正从库存去化转向补库，中国电动车市场的强劲需求是主要催化剂。</li>
+<li><strong>数据中心市场</strong>：是公司增长最快的市场（FY25占9%）。AI基础设施建设推动了对电源管理、信号链等模拟芯片的爆发式需求。行业向800V高压架构演进，将增加功率转换级数，进一步扩大市场总量。机构预测，公司相关目标市场规模将从2025年的75亿美元增长至2026年的125亿美元。</li>
+</ul>
+<p><strong>竞争格局</strong>：模拟芯片市场竞争格局高度分散，公司是全球最大的供应商，但市场份额仍只有约20%。竞争维度包括产品组合广度、技术水平、客户服务、价格、产能规模和供应稳定性。</p>
+<p><strong>可比公司</strong>：</p>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>主要对标维度</th></tr></thead><tbody><tr><td>Analog Devices (ADI)</td><td>ADI</td><td>同为高性能模拟芯片领导者，产品线广泛，聚焦工业、汽车和通信市场。ADI通过收购Maxim等持续扩大规模，在特定高端领域与TI形成直接竞争。</td></tr><tr><td>Microchip Technology (MCHP)</td><td>MCHP</td><td>在嵌入式控制领域（尤其是MCU）与TI的嵌入式处理业务形成竞争。两者均采用IDM模式，但MCHP更侧重于专用型、低功耗产品。</td></tr><tr><td>NXP Semiconductors (NXPI)</td><td>NXPI</td><td>在汽车半导体（尤其是MCU和处理器）领域与TI竞争。NXP在汽车安全连接和边缘计算方面有较强布局。</td></tr><tr><td>ON Semiconductor (ON)</td><td>ON</td><td>在电源管理和传感器领域与TI竞争，特别是在汽车和工业市场。ON近年来聚焦于智能电源和感知技术。</td></tr></tbody></table></div>
+<p><strong>总结分析</strong>：与主要竞争对手相比，德州仪器的核心差异化优势在于其<strong>极致的IDM模式</strong>。通过大规模投资300mm晶圆厂，TI旨在构建无与伦比的成本结构和供应稳定性，这是其与采用Fab-lite或Fabless模式的竞争对手（如ADI、NXP）相比最显著的区别。这种模式在行业供应紧张时优势尤为突出，能帮助公司获取市场份额。然而，其代价是更高的资本密集度和周期性的折旧压力。在嵌入式领域，TI正通过内部化生产和收购来追赶竞争对手，但其在该市场的地位和利润率仍落后于模拟业务。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<ul>
+<li><strong>议题一：数据中心业务的长期增长潜力与估值重塑</strong>——<strong>背景</strong>：公司数据中心业务连续多个季度实现高速增长，Q2营收同比翻倍。市场开始将其视为AI基础设施的关键受益者，而不仅仅是传统的周期股。这引发了对其估值体系是否应从周期股向成长股切换的讨论。<strong>问题列表</strong>：1）数据中心业务的长期市场总量有多大？公司的份额目标和提升路径是什么？2）随着业务规模扩大，其利润率能否维持或超越公司平均水平？3）数据中心业务的增长能否持续跑赢市场，其驱动力是份额提升还是市场扩张？</li>
+<li><strong>议题二：毛利率的恢复节奏与最终高度</strong>——<strong>背景</strong>：公司毛利率在FY25触底至57%后，于FY26Q2强劲回升至61.4%。市场关注在折旧压力、产能爬坡和定价策略等多重因素影响下，毛利率能否回到并超越前期高点（约69%）。<strong>问题列表</strong>：1）Q3及下半年毛利率的环比提升幅度如何？定价的贡献何时能显著体现？2）随着Lehi等新工厂产能爬坡，折旧压力何时见顶回落？3）长期看，在300mm产能优势和内部化生产策略下，公司的稳态毛利率中枢在什么水平？</li>
+<li><strong>议题三：资本支出周期后的自由现金流兑现度</strong>——<strong>背景</strong>：公司承诺在资本支出高峰期后，自由现金流将大幅增长。Q2的现金流表现初步验证了这一观点，但市场对2027年及以后的资本支出强度仍存分歧。<strong>问题列表</strong>：1）2027年的资本支出是否会如部分投资者预期的那样持平甚至增长，从而延迟自由现金流的释放？2）公司长期资本密集度（资本支出/营收）的合理水平是多少？3）随着自由现金流改善，公司将如何平衡股息、回购和并购等资本配置选项？</li>
+</ul>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧：当前强劲的业绩增长是新一轮半导体上行周期的开始，还是仅为一次不可持续的库存补库？</strong></p>
+<p><strong>乐观方观点</strong>：认为公司正站在一个多年上升周期的起点。其依据是：</p>
+<ol>
+<li><strong>需求广度</strong>：增长并非由单一市场驱动，而是工业、汽车和数据中心三大市场共同发力。工业市场复苏广泛，且仍低于峰值；汽车市场补库周期刚刚开始；数据中心需求具备长期结构性特征。</li>
+<li><strong>份额增长</strong>：公司凭借其充足的产能和有竞争力的交货期，正在从供应紧张的竞争对手手中夺取市场份额。管理层确认2025年已实现份额增长。</li>
+<li><strong>定价能力</strong>：公司已开始提价，表明需求强劲且客户愿意为供应稳定性支付溢价。这将在未来几个季度持续贡献利润弹性。</li>
+</ol>
+<p><strong>谨慎方观点</strong>：认为当前增长部分源于一次性因素，且估值已提前反映了乐观预期。其依据是：</p>
+<ol>
+<li><strong>补库的不可持续性</strong>：汽车市场的增长部分源于客户库存过低后的紧急补库，一旦库存恢复正常水平，需求可能回落。工业市场的增长也可能包含客户因担心涨价和供应短缺而提前下单的因素。</li>
+<li><strong>资本支出与折旧压力</strong>：公司暗示2027年资本支出可能不会下降，意味着折旧压力将持续，这将限制毛利率的回升空间。自由现金流的释放可能慢于预期。</li>
+<li><strong>估值高企</strong>：公司股价年初至今涨幅显著，前瞻市盈率已处于历史高位，与同业相比溢价明显。部分投资者认为，即使考虑增长因素，当前估值也已透支了未来几年的业绩。</li>
+</ol>
+<p>从中立视角看，公司当前的增长既有周期复苏的驱动，也有结构性因素的支撑。工业市场的长期趋势和份额增长是可持续的，数据中心的需求具备长期逻辑。汽车市场的补库确实存在短期脉冲的可能，但其背后也有单车半导体含量提升的长期趋势。最大的不确定性在于资本支出节奏，这将直接影响未来1-2年自由现金流和毛利率的改善斜率。若2027年资本支出能如期下降，将构成显著的预期差和股价催化剂。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>管理层最新指引</strong>：公司FY26Q3指引：营收56.5-61.5亿美元，每股收益2.23-2.57美元。预计2026年全年资本支出在20-30亿美元区间，可能偏向中高端。</p>
+<p><strong>券商盈利预测与估值</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价(美元)</th><th>财务指标</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>美国银行 (2026-07-28)</td><td>买入</td><td>370</td><td>营业收入(百万美元)<br>GAAP EPS(美元)<br>自由现金流(百万美元)</td><td>17,682<br>5.45<br>2,603</td><td>21,869<br>8.52<br>7,744</td><td>24,669<br>10.40<br>10,220</td><td>27,215<br>12.05<br>12,224</td></tr><tr><td>瑞银 (2026-07-24)</td><td>买入</td><td>380</td><td>营业收入(百万美元)<br>GAAP EPS(美元)<br>自由现金流(百万美元)</td><td>17,682<br>5.48<br>2,938</td><td>22,161<br>8.67<br>10,143</td><td>26,727<br>12.06<br>12,509</td><td>30,576<br>14.96<br>14,786</td></tr><tr><td>摩根大通 (2026-07-27)</td><td>超配</td><td>340</td><td>营业收入(百万美元)<br>GAAP EPS(美元)<br>自由现金流(百万美元)</td><td>17,682<br>5.45<br>2,603</td><td>21,474<br>8.57<br>7,004</td><td>-<br>-<br>-</td><td>-<br>-<br>-</td></tr><tr><td>高盛 (2026-07-23)</td><td>卖出</td><td>225</td><td>营业收入(百万美元)<br>GAAP EPS(美元)<br>自由现金流(百万美元)</td><td>17,682<br>5.45<br>-</td><td>22,167<br>8.60<br>-</td><td>25,068<br>10.20<br>-</td><td>26,344<br>10.50<br>-</td></tr><tr><td>摩根士丹利 (2026-07-27)</td><td>低配</td><td>255</td><td>营业收入(百万美元)<br>GAAP EPS(美元)<br>自由现金流(百万美元)</td><td>17,682<br>5.45<br>-</td><td>22,018<br>8.57<br>-</td><td>23,832<br>9.80<br>-</td><td>25,137<br>10.73<br>-</td></tr></tbody></table></div>
+<p>机构间对公司的看法存在显著分歧。<strong>乐观方</strong>（如美银、瑞银）基于强劲的周期复苏和AI驱动的数据中心增长，给出了较高的盈利预测和目标价，其估值方法多基于P/E或EV/FCF，并认为公司在周期上行阶段应享有更高估值。<strong>谨慎方</strong>（如高盛、摩根士丹利）则担忧公司的高库存、持续的资本支出以及估值溢价，给出的目标价远低于当前股价，认为其利润率恢复速度将慢于预期，且当前股价已过度反映了乐观情绪。整体而言，市场对公司FY26-27年的营收和EPS增长预期较为一致，但对增长的质量、持续性以及相应的估值倍数存在核心分歧。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/TXN · 生成于 2026-08-07</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-07';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'hit',     text: '<strong>FY26Q2 营收 54.63 亿美元、同比 +23% 超指引上限</strong>：工业约 +30%、数据中心翻倍、汽车中双位数，Q3 指引 56.5-61.5 亿美元同样高于预期', note: '2026-07-22 财报披露' },
+  { kind: 'cat', status: 'active',  text: '<strong>汽车补库周期持续性</strong>：客户库存降至不可持续低位、Q2 环比高个位数转正——未来 1-2 个季度验证是否贡献高于季节性的环比增长', note: '中国电动车与混动需求驱动' },
+  { kind: 'cat', status: 'active',  text: '<strong>提价落地</strong>：已确认开始执行提价，Q3 初步体现、Q4 放大；直销模式下随客户逐一谈判逐步显现', note: '上半年定价稳定、优于历史常态' },
+  { kind: 'cat', status: 'pending', text: '<strong>FY26Q3 财报</strong>：营收指引 56.5-61.5 亿美元、EPS 2.23-2.57 美元，重点看定价落地、汽车补库持续性、数据中心势头与 Q4 展望', note: '一页通标注 2026-09 时点，以公司通知为准' },
+  { kind: 'cat', status: 'pending', text: '<strong>下半年年度定价谈判</strong>（2026-10~11）：若需求持续强劲，更广泛涨价将为 2027 年收入与利润增长奠定基础——重要预期差来源', note: '' },
+  { kind: 'cat', status: 'pending', text: '<strong>Silicon Labs 收购交割</strong>（2027Q1）：补强工业物联网无线连接（逾 2,000 种产品），交割后披露整合计划与协同效应', note: '监管审批按计划推进；现金 + 债务融资' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>补库脉冲退潮</strong>：汽车/工业增长在库存正常化后回落，Q4 出现需求前置回落迹象', note: 'Q2 增长含紧急补库与怕涨价提前下单成分' },
+  { kind: 'risk', status: 'clear', text: '<strong>2027 资本开支持平甚至同比增长</strong>：折旧压力延续，压制毛利率回升与自由现金流释放', note: 'Q2 电话会已暗示 2026 偏向指引区间中高端' },
+  { kind: 'risk', status: 'clear', text: '<strong>个人电子疲软与存储成本挤压</strong>：Q2 个人电子同比持平、Q3 展望弱于季节性；存储涨价挤占其他元器件采购预算', note: '' },
+  { kind: 'risk', status: 'clear', text: '<strong>Silicon Labs 整合不及预期与地缘政治风险</strong>：内部化生产进度/协同效应低于预期；约 20% 收入来自中国', note: '' },
+  { kind: 'risk', status: 'clear', text: '<strong>高估值回撤</strong>：前瞻 PE 处历史高位区间，若预期兑现不畅，倍数向同业常态回归', note: '券商目标价 225-380 美元的分歧即定价博弈的量化' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

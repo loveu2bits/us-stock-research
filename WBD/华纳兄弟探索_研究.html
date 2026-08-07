@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>华纳兄弟探索（WBD.O）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--policy-red); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">WBD</span>
+    <span class="site-mark__text">华纳兄弟探索 公司研究<span>Warner Bros. Discovery · WBD.O</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>华纳兄弟探索<span class="en">Warner Bros. Discovery · WBD.O · 美股研究</span></h1>
+        <p class="sub">这家公司已经进入并购终局，不再是基本面驱动的投资标的：2026 年 2 月 WBD 接受派拉蒙天舞（Paramount Skydance，PSKY）<strong>每股 31 美元全现金</strong>的整体收购要约（取代 2025 年的分拆计划；此前与 Netflix 的交易被终止，WBD 为此支付 28 亿美元终止费），交易已获美国司法部、欧盟委员会等 65 个司法管辖区批准，原计划 2026 年三季度交割。2026 年 7 月，以加州为首的 12 个州提起反垄断诉讼，联邦法院批准临时限制令（TRO），交割时间表成为最大不确定性。当前股价约 27 美元、对要约价折价约 15%（估算）——这只股票的定价只剩两个变量：诉讼判决与交割时点；流媒体（订阅用户 1.4 亿+）、线性电视衰退与约 327 亿美元债务等基本面，只在交易失败的备选中才有意义。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-07</span>
+          <span>下次更新：CMA 初步决定（2026-08-07）与联邦法院州诉讼裁决落地后 / Q2 财报（2026-08）/ 交易交割（预计 2026Q3，最迟 2027-06-01）</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>现价约 27 美元对 31 美元现金要约折价约 15%（估算）；按约 80% 完成概率测算期望值约 28-29 美元（估算），为正但不厚——延迟超 2026-09-30 有年化约 3.6%「计时费」补偿，失败有 70 亿美元反向分手费（约每股 2.8 美元，估算）托底，但无再买家的失败尾部深至 12-13 美元。重检条件：法院延长/扩大禁令或和解附带重大资产剥离 → 下调；交割确认 → 兑现离场；交易失败 → 按独立价值重估（流媒体用户、债务再融资、竞购方）。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong>$31/股</strong><span>PSKY 全现金要约 · 现价约 27 · 折价约 15%（估算）</span></div>
+      <div class="summary-rail__item"><strong>65 个辖区</strong><span>已批准 · 含美国司法部、欧盟委员会</span></div>
+      <div class="summary-rail__item"><strong>$70亿</strong><span>监管否决时的反向分手费 · 约 $2.8/股（估算）</span></div>
+      <div class="summary-rail__item"><strong>1.4亿+</strong><span>流媒体订阅用户 · 2026Q1 · 年底目标 1.5 亿</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">PSKY 收购能否交割？州级诉讼是最后一个、也是唯一的真实障碍</h2>
+        <span class="qa__impact-tag">→ 价差约 15% · 市场隐含完成概率约七成（估算）</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>大概率完成，但不确定性是近年媒体并购史上最大的一次。有利事实很硬：美国司法部批准、欧盟委员会无条件批准（2026-07-22）、65 个司法管辖区放行——联邦层面与国际层面的核心反垄断关切都已解决，剩下的障碍只有 12 个州的联合诉讼与联邦法院 7 月 20 日批准的临时限制令（TRO）。<em>保留判断：法院批准 TRO 说明法官初步认可了原告的部分论点；若 TRO 延长至全面审判，时间表可能拖向 2027 年（外部截止日 2027-06-01）。但 2026-09-30 之后的延迟由 PSKY 按日支付「计时费」——等待本身有补偿，这是本次套利区别于普通套利的关键。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>EPS 与倍数对这只股票已失效，定价变量是价差。</strong>要约价 31 美元（全现金）vs 现价约 27 美元（估算），折价约 15%。按「成功得 31.5（含计时费）/ 失败得 15（含分手费）」反推，市场隐含完成概率约七成（估算）；本研究主观概率约八成（估算）——两者之差就是期望收益的来源。</p>
+            <p>敏感性结构不对称：诉讼被驳回或和解，价差快速收窄至 2-3%（对应 +10% 以上空间）；若颁布初步禁令，价差走阔、股价向 15-16 美元的独立价值靠拢（对应 -40% 以上，估算）。<strong>裁决是未来 1-2 个月股价最大的单一事件，权重超过其余所有财报之和。</strong></p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li><strong>司法部与欧盟均已放行</strong>：65 个辖区批准，联邦层面核心反垄断关切已解决；历史上州政府单独成功阻止全国性并购的案例极少</li>
+              <li>州级诉讼聚焦好莱坞制作岗位与消费者订阅价格，<strong>政治动机大于法律实质</strong>（多方观点），且可能通过庭外和解快速了结（加州州长正在推动）</li>
+              <li>Ellison 家族与 PSKY 有强烈的财务动机完成交易、<strong>愿意支付计时费等待</strong>——70 亿美元反向分手费条款本身就是买方对交割信心的背书</li>
+              <li>交割若拖过 2026-09-30，计时费年化约 3.6%，<strong>时间成本由买方承担</strong>，套利方持有的仍是 31 美元锚定的期权</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li><strong>法院已批 TRO</strong>：初步认可原告部分论点；12 州联合诉讼声势浩大，聚焦就业与订阅价格，易获公众与法官同情</li>
+              <li>即使最终胜诉，漫长诉讼（可能拖至 2027）带来巨大时间成本与<strong>融资风险</strong>：期间资本市场或关联方股价大幅下挫，可能动摇 Ellison 家族的融资基础</li>
+              <li>合并后实体在<strong>电影发行与有线电视网络的集中度确实偏高</strong>，存在被要求结构性补救（资产剥离）的现实可能，会降低交易吸引力</li>
+              <li>近年州级反垄断执法有强化趋势，<strong>「州诉讼很少成功」的历史经验可能过时</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（交易时间线 · 价差与隐含概率测算 · 合同保护条款）</summary>
+          <div class="evidence__body">
+            <h5>交易关键时间线（2026 年）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>日期</th><th>事件</th></tr></thead><tbody><tr><td>2 月</td><td>WBD 终止 2025 年分拆计划，接受 PSKY <strong>每股 31 美元全现金</strong>整体收购；此前终止与 Netflix 的交易并支付 <strong>28 亿美元终止费</strong>（直接导致 Q1 FCF 转负）</td></tr><tr><td>05-06</td><td>Q1 财报：调整后 EBITDA 22.03 亿美元（+5%）超预期；FCF -4.76 亿美元</td></tr><tr><td>07-13</td><td>以加州为首的 12 个州向联邦法院起诉，要求阻止交易</td></tr><tr><td>07-20</td><td>联邦法院批准临时限制令（TRO）；PSKY 同意在法院就案情裁决后 5 天内、且不晚于 <strong>2027-06-01</strong> 不完成交易</td></tr><tr><td>07-22</td><td>欧盟委员会无条件批准；此前美国司法部等 65 个司法管辖区已批准</td></tr><tr><td>08-03 当周</td><td>联邦法院就州级诉讼举行听证，裁决是否将 TRO 延长至审判</td></tr><tr><td>08-07</td><td>英国 CMA 预计公布初步审查决定（研究日期当日，结果未确认）</td></tr><tr><td>Q3（计划）</td><td>交易交割，股东获每股 31 美元现金；外部截止日 2027-06-01</td></tr></tbody></table></div>
+            <h5>价差与隐含概率（均为估算）</h5>
+            <ul>
+              <li><strong>价差</strong>：要约价 31 美元 vs 现价约 27 美元 → 折价约 15%；券商目标价 27.75-31 美元全部是对完成概率的折价</li>
+              <li><strong>计时费</strong>：交割拖过 2026-09-30 后，PSKY 按日支付约 0.00278 美元/股（年化约 3.6%）——延迟 6 个月情景对应约 0.5 美元/股的额外补偿</li>
+              <li><strong>反向分手费</strong>：若监管机构最终否决，PSKY 向 WBD 支付 70 亿美元（约合每股 2.8 美元，按约 25 亿股股本估算）</li>
+              <li><strong>隐含概率</strong>：按成功 31.5（含计时费）、失败 15（含分手费）反推，现价隐含完成概率约七成；本研究主观概率约八成（估算，依据：联邦+欧盟批准、买方动机强烈）</li>
+            </ul>
+            <h5>解读：一句话</h5>
+            <p>问题只剩「能否交割、何时交割」。31 美元现金锚 + 计时费 + 分手费，让这是一笔「时间与尾部都有补偿」的套利；市场折价反映的是对州级诉讼的恐惧，而恐惧与现实的差距，正是本研究押注的全部超额收益。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">若交易失败，尾部有多深？分手费、独立价值与再竞购可能</h2>
+        <span class="qa__impact-tag">→ 失败情景约 $12-16 · 对应 -40% 至 -55%（估算）</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>尾部有三层垫子，但可靠程度递减：第一层是 <strong>70 亿美元反向分手费</strong>（约合每股 2.8 美元，估算），监管否决即由买方支付，确定性最高；第二层是独立经营价值——并购消息宣布前股价约 12-13 美元，但今天的流媒体基本面好于当时（订阅用户 1.4 亿+、Q1 EBITDA 利润率 15.2% 且仍在上升），独立价值应高于 12-13 美元；第三层是再竞购可能——Netflix 曾出价（伯恩斯坦 27.75 美元目标价即直接对标其此前报价），PSKY 若出局，行业整合逻辑并未消失。<em>保留判断：最深的尾部是真实的——若无再竞购，独立 WBD 要扛约 327 亿美元债务（净杠杆约 3.4 倍）与每年萎缩 8-12% 的线性网络，股价回到 12-13 美元是合理情景（约 -55%）。这个尾部决定仓位上限。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>失败情景不用 EPS 定价，而用 EV/EBITDA 与清算逻辑定价。</strong>分层测算（估算）：分手费每股约 2.8 美元 + 独立价值 12-13 美元 → 约 15-16 美元，对应现价 -40% 至 -45%；若出现再竞购（参考 Netflix 此前报价 27.75），则 22-28 美元、回撤有限。按 20% 失败概率、失败值 15 美元计，尾部对期望值的拖累约 -2.4 美元/股——这就是 15% 价差要覆盖的「保险费」。</p>
+            <p>关键边际变量：流媒体（Q1 收入 28.87 亿美元 +9%、EBITDA 4.38 亿 +29%）是唯一在失败情景下倍数可能上修的资产；线性网络 FY2025 EBITDA 虽有 64.12 亿美元、但每年 -8% 至 -12.5% 收缩。<strong>流媒体增量能否跑赢线性减量，叠加 3.4 倍杠杆，决定独立价值的误差棒很宽。</strong></p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>分手费由 PSKY 在监管否决时支付，<strong>确定性高、约合每股 2.8 美元</strong>（估算），直接抬高失败情景的底部</li>
+              <li>流媒体基本面实质好于并购宣布前：订阅用户超 1.4 亿、年底指引 1.5 亿、广告层占新增用户 50%，<strong>独立价值理应高于 12-13 美元</strong></li>
+              <li>战略买家兴趣未消失：Netflix 已出过一次价，若 PSKY 退出，<strong>行业整合逻辑仍在</strong>，再竞购可能性为尾部提供第二重保险</li>
+              <li>哈利·波特、DC、权力的游戏、指环王等 <strong>全球稀缺 IP 库</strong>，哈利·波特剧集（2026 圣诞计划）、游戏等跨媒体变现通道完整</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li><strong>总债务约 327 亿美元、净杠杆约 3.4 倍</strong>（Q1 末，含过桥贷款），账面现金仅 32.64 亿美元——独立情景下再融资与去杠杆压力大</li>
+              <li>线性网络仍是现金流主体（FY2025 EBITDA 64.12 亿美元、占合计约七成），而这池水每年缩水约一成（<span class="warn">结构性衰退</span>），独立估值的分母持续下沉</li>
+              <li>分手费的<strong>支付时点与确定性本身可能成为争议标的</strong>；Q1 FCF -4.76 亿美元已显示一次性冲击下现金流之脆弱</li>
+              <li>交易失败将触发市场对「结构性衰退 + 高杠杆 + 战略落空」的重新定价，<strong>倍数与盈利双杀</strong>，跌幅可能超出简单加总测算</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（分部资产盘点 · 债务结构 · 券商失败情景标尺）</summary>
+          <div class="evidence__body">
+            <h5>三大分部（单位：亿美元；失败情景下的资产盘点）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>分部</th><th>指标</th><th>FY2024</th><th>FY2025</th><th>2026Q1</th><th>失败情景下的角色</th></tr></thead><tbody><tr><td>流媒体 (Streaming)</td><td>收入 / 调整后EBITDA</td><td>103.13 / 6.77</td><td>108.76 / 13.70</td><td>28.87 / 4.38</td><td>唯一倍数可上修资产：收入 +9%、EBITDA +29%、利润率 15.2%</td></tr><tr><td>制片厂 (Studios)</td><td>收入 / 调整后EBITDA</td><td>116.07 / 16.52</td><td>126.19 / 25.45</td><td>31.25 / 7.75</td><td>常态化年 EBITDA 约 25 亿；Q1 激增为内部授权会计、不可外推</td></tr><tr><td>全球线性网络</td><td>收入 / 调整后EBITDA</td><td>201.75 / 81.49</td><td>176.56 / 64.12</td><td>43.77 / 16.34</td><td>现金流主体但 -8% 至 -12.5% 收缩，利润率仍达 37.3%</td></tr><tr><td><strong>合计</strong></td><td>收入 / 调整后EBITDA</td><td><strong>393.21 / 90.32</strong></td><td><strong>372.96 / 87.44</strong></td><td><strong>88.93 / 22.03</strong></td><td>收入连续两年下滑</td></tr></tbody></table></div>
+            <h5>债务与兜底价值（2026Q1 末）</h5>
+            <ul>
+              <li>现金 32.64 亿美元；总债务（含过桥贷款）约 <strong>327 亿美元</strong>；净杠杆（净债务/调整后 EBITDA）约 <strong>3.4 倍</strong></li>
+              <li>并购宣布前股价约 <strong>12-13 美元</strong>；70 亿美元分手费约合<strong>每股 2.8 美元</strong>（按约 25 亿股股本估算）→ 无再竞购的失败情景合计约 15-16 美元</li>
+              <li>公司正通过再融资与资产出售（如音乐版权合资）管理债务到期压力</li>
+            </ul>
+            <h5>券商目标价：失败情景的定价标尺</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构（日期）</th><th>评级 / 目标价</th><th>目标价锚定逻辑</th></tr></thead><tbody><tr><td>伯恩斯坦（2026-05-08）</td><td>与大盘持平 / $27.75</td><td>直接对标<strong>此前 Netflix 报价</strong>——再竞购价值的参照</td></tr><tr><td>摩根士丹利（2026-05-07）</td><td>均配 / $29.00</td><td>要约价扣减监管风险折价</td></tr><tr><td>古根海姆（2026-03-04）</td><td>中性 / $30.00</td><td>要约价扣减监管风险折价</td></tr><tr><td>瑞银（2026-05-07）</td><td>中性 / $31.00</td><td>直接以要约价为锚</td></tr><tr><td>花旗（2026-05-20）/ 高盛（2026-05-07）</td><td>评级暂停 / 未评级</td><td>并购框架下盈利预测失去锚点</td></tr></tbody></table></div>
+            <p>解读：券商目标价 27.75-31 美元全部是「要约价 × 完成概率」，没有一家按独立基本面定价——<strong>市场共识已将本股视为事件驱动标的</strong>；伯恩斯坦的 27.75 恰好保留了「若再竞购出现」情景的量级参照。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">等待期的财报怎么读：把一次性噪音与真实信号分开</h2>
+        <span class="qa__impact-tag">→ Q1 FCF -4.76亿是分手费 · 流媒体 EBITDA +29% 才是信号</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>2026Q1 财报被两个方向相反的一次性项目扭曲：支出端，支付给 Netflix 的 <strong>28 亿美元终止费</strong>把 FCF 打到 -4.76 亿美元、GAAP 净亏损 -29.16 亿美元（剔除后基本盈亏平衡）；收入端，HBO Max 国际上线带来的<strong>内部内容授权</strong>在制片厂端确认，推高制片厂收入 +35%、EBITDA +199% 至 7.75 亿美元——这是会计确认而非现金流改善，下半年还面临高基数。<em>剔除噪音后的真实信号有三条：流媒体收入 +9%、EBITDA +29%、利润率升至 15.2%；线性网络收入 -8%、EBITDA -9%，但剔除 NBA 影响后核心广告环比改善；FY2025 全年收入 372.96 亿美元（-5.15%）、FCF 30.88 亿美元——公司「常态化」造血能力远低于峰值年份。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>等待期财报不改变 31 美元要约价</strong>——现金对价固定，EPS 预测（券商 2026 年调整后 EPS 从 -1.89 到 +0.93 不等，分歧巨大）对定价没有实际意义。基本面的真实影响渠道有两条：一是<strong>监管氛围</strong>——订阅提价（2025 年底美国提价）与就业议题正是州级诉讼的抓手，财报越「好看」反而越可能被原告引用；二是<strong>独立兜底价值</strong>——流媒体盈利改善抬高失败底部，线性衰退加速则拉低它。</p>
+            <p>管理层指引给出了等待期的核对清单：年底订阅用户超 1.5 亿、制片厂全年调整后 EBITDA 与 2025 年（25.45 亿美元）基本持平、线性网络运营费用高个位数下降。<strong>Q2 财报（2026-08）是裁决落地前对这三条的一次压力测试。</strong></p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>流媒体盈利改善是真实的：EBITDA 4.38 亿美元（+29%）、利润率 15.2%，广告层占全球零售新增用户 50%，<strong>国际扩张 + 广告化双引擎</strong></li>
+              <li>内容火力处于峰值：华纳兄弟影业 2025 年 <strong>9 部电影登顶票房榜首</strong>；《A Knight of the Seven Kingdoms》单集平均观众 3,600 万，HBO 史上最受欢迎首播之一</li>
+              <li>失去 NBA 版权反而节省费用，线性网络 EBITDA 利润率维持 <strong>37.3%</strong> 高位，成本纪律见效；NHL/MLB/NCAA 补位策略纪律性强</li>
+              <li>定价权获验证：美国市场提价与订阅用户增长并存，流媒体订阅相关收入指引全年加速</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>总收入连续两年下滑（FY2024 -4.8%、FY2025 -5.2%），FCF 从 61.61 亿（FY2023）到 30.88 亿（FY2025）再到 <span class="warn">Q1 转负</span>，独立造血能力持续下沉</li>
+              <li>制片厂 Q1 激增是<strong>内部授权的会计现象</strong>，管理层自己指引全年持平，下半年面临高基数与票房不确定性（Supergirl 等）</li>
+              <li>国内线性付费电视用户<strong>同比 -10%</strong>、广告 -11%、观众 -8%，剪线未见底；分销商续约压价风险悬顶</li>
+              <li>28 亿美元终止费说明 WBD 在本轮并购洗牌中是<strong>净付钱的一方</strong>，现金流出先例对独立情景的流动性是负面注脚</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（关键财务数据 · 2026Q1 分部明细 · 噪音与信号清单）</summary>
+          <div class="evidence__body">
+            <h5>关键财务数据（单位：亿美元；EPS 为美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026Q1</th></tr></thead><tbody><tr><td>营业总收入</td><td>413.21</td><td>393.21</td><td>372.96</td><td>88.93</td></tr><tr><td>收入同比</td><td>+22.19%</td><td><span class="warn">-4.84%</span></td><td><span class="warn">-5.15%</span></td><td>-0.96%</td></tr><tr><td>毛利率</td><td>40.64%</td><td>41.59%</td><td>44.01%</td><td>47.79%</td></tr><tr><td>营业利润</td><td>-8.86</td><td>0.18</td><td>13.09</td><td>5.49</td></tr><tr><td>归母净利润</td><td>-31.26</td><td>-113.11</td><td>7.27</td><td><span class="warn">-29.16</span></td></tr><tr><td>基本每股收益</td><td>-1.28</td><td>-4.62</td><td>0.29</td><td>-1.17</td></tr><tr><td>经营活动现金流净额</td><td>74.77</td><td>53.75</td><td>43.19</td><td>-2.08</td></tr><tr><td>自由现金流</td><td>61.61</td><td>44.27</td><td>30.88</td><td><span class="warn">-4.76</span></td></tr></tbody></table></div>
+            <p>注：FY2023 收入同比 +22.19% 为 Discovery 与 WarnerMedia 合并口径所致；FY2024 巨额亏损主要为商誉减值等一次性项目。2026Q1 净亏损 -29.16 亿美元主要由 28 亿美元 Netflix 终止费造成，剔除后基本盈亏平衡。毛利率改善主要得益于内容成本控制（如失去高价 NBA 版权）。</p>
+            <h5>2026Q1 分部明细（单位：亿美元）</h5>
+            <ul>
+              <li><strong>流媒体</strong>：收入 28.87（+9%），其中分销 +7%（欧洲新市场上线 + 美国提价）、广告 +19%（广告支持层扩张）；调整后 EBITDA 4.38（+29%），利润率 15.2%；订阅用户超 1.4 亿，广告层占全球零售新增用户 50%</li>
+              <li><strong>制片厂</strong>：收入 31.25（+35%），其中内容收入 +37%（电视产品 +58%、院线产品 +21%）；调整后 EBITDA 7.75（+199%）——<span class="warn">内部授权会计确认所致，并非现金流同步改善</span></li>
+              <li><strong>线性网络</strong>：收入 43.77（-8%），其中分销 -7%（国内付费电视用户 -10%，部分被 +2% 费率抵消）、广告 -11%（失去 NBA 版权影响约 7pp、国内观众 -8%）；调整后 EBITDA 16.34（-9%），利润率 37.3%（NBA 版权费节省部分对冲收入下滑）</li>
+            </ul>
+            <h5>噪音 vs 信号清单</h5>
+            <ul>
+              <li><strong>噪音（一次性，不可外推）</strong>：28 亿美元终止费（FCF、净利润）、制片厂内部授权激增（收入、EBITDA）、历年商誉减值与重组费用</li>
+              <li><strong>信号（趋势，可外推）</strong>：流媒体收入增速与利润率轨迹、线性订阅用户流失速度、剔除体育版权变动后的广告趋势、内容成本纪律</li>
+              <li>这些信号的作用不是给交易定价（价格固定为 31 美元），而是<strong>校准监管氛围与失败底部</strong>——这是等待期读财报的正确姿势</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>（2026-08-06 版）：公司概况、近况跟踪、分部拆分、财务数据、券商盈利预测（见同目录《华纳兄弟探索_一页通.md》，亦见本站「一页通」标签页）</li>
+        <li><strong>局限</strong>：未读财报原文与并购协议（Merger Agreement）条款全文；现价为按一页通口径的估算值（约 27 美元，2026-08-06），精确值以行情为准；英国 CMA 初步决定（预计 2026-08-07 公布）与联邦法院对 TRO 的裁决可能在研究日期前后已落地但未确认，相关催化剂标注「进行中」；股本、每股分手费、隐含概率等按约 25 亿股股本估算；券商 EPS 预测均为交易框架下发布，在 31 美元现金要约下参考意义有限，且各机构对一次性项目处理口径不一（调整后 EBITDA 预测 38.8-113.9 亿美元的巨大差异即来源于此）</li>
+        <li><strong>管理层评估（一句话版）</strong>：现任管理层的唯一核心任务是推动交割，交易完成后整合主导权在 PSKY 一方——作为并购标的，WBD 管理层的「独立执行力」已不再是评估对象，这也是本研究采用事件驱动框架而非基本面框架的原因</li>
+        <li><strong>定位说明</strong>：本页是并购套利决策记录而非经营性研究；若交易交割，WBD 退市、本页归档；若交易失败，应按独立公司重写研究（重点：流媒体估值、债务再融资、潜在再竞购方）</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>华纳兄弟探索（Warner Bros. Discovery, WBD）是一家全球领先的媒体与娱乐集团，由2022年Discovery与AT&T旗下WarnerMedia合并而成。公司业务横跨影视制作、有线电视网络、流媒体服务及互动游戏，旗下拥有HBO、CNN、DC Studios、华纳兄弟影业、Discovery频道、TNT Sports等标志性品牌。公司拥有全球最大的自有内容库之一，覆盖体育、新闻、生活方式及娱乐领域。当前，公司正处于被Paramount Skydance Corporation（PSKY）以每股31美元现金全资收购的进程中，该交易预计于2026年第三季度完成。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul><li><strong>PSKY收购交易遭遇州级诉讼，完成时间推迟</strong>：2026年7月13日，以加利福尼亚州为首的12个美国州向联邦法院提起诉讼，要求阻止PSKY对WBD的收购。联邦法院于7月20日批准了临时限制令（TRO），PSKY同意在法院就案情作出裁决后5天、或不晚于2027年6月1日前不完成交易。此前，该交易已获美国司法部、欧盟委员会等65个司法管辖区的批准。若交易最终被监管机构否决，PSKY需向WBD支付70亿美元的反向分手费。</li><li><strong>Q1 2026财报：调整后EBITDA超预期，但FCF大幅为负</strong>：公司Q1营收88.93亿美元，同比-1%，与市场预期持平；调整后EBITDA为22.03亿美元，同比+5%，超出市场预期约12%。超预期主要由制片厂业务（Studios）的强劲表现驱动。然而，受支付给Netflix的28亿美元并购终止费、更高的内容投入及营运资本拖累，公司自由现金流为-4.76亿美元，显著低于市场预期。</li><li><strong>流媒体业务（HBO Max）增长强劲</strong>：Q1流媒体营收同比+9%，调整后EBITDA同比+29%至4.38亿美元，利润率提升至15%。受益于英国、德国、意大利等欧洲市场的成功推出，全球订阅用户数在Q1末已显著超过1.4亿，管理层重申2026年底突破1.5亿的目标。广告支持层（ad-lite）用户增长迅速，占全球零售新增用户的50%。</li><li><strong>线性网络（Global Linear Networks）持续承压但好于预期</strong>：Q1该板块营收同比-8%，调整后EBITDA同比-9%。广告收入同比-11%，主要受失去NBA版权（造成1.33亿美元负面影响）及国内观众数下降8%的拖累。但剔除NBA影响后，核心广告趋势环比改善。分销收入同比-7%，受国内线性付费电视用户数下降10%的影响。</li><li><strong>制片厂业务因内部授权确认方式导致业绩激增</strong>：Q1制片厂营收同比+35%，调整后EBITDA同比+199%至7.75亿美元。这一激增主要由HBO Max国际市场上线带来的内部内容授权收入确认方式所驱动。管理层指引2026年全年制片厂调整后EBITDA将与2025年（25.45亿美元）基本持平。</li></ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol><li><strong>并购套利：押注交易最终完成，获取价差收益</strong><br>当前WBD股价（约27美元）与PSKY的31美元现金收购价之间存在约15%的价差，这反映了市场对交易能否完成的疑虑。核心障碍是12个州提起的反垄断诉讼。乐观方认为，联邦司法部已批准交易，且欧盟在审查后未发现重大竞争问题，州级诉讼的政治动机大于法律依据，最终可能通过和解或快速判决解决。此外，若交易完成时间超过2026年9月30日，PSKY将支付每日约0.00277778美元/股的“计时费”（年化约3.6%的额外收益），进一步增厚套利回报。若交易失败，WBD将获得70亿美元分手费，对股价提供一定支撑。此事件是未来3个月WBD股价最核心的驱动因素。</li><li><strong>流媒体业务的独立价值重估</strong><br>即便不考虑并购，WBD的流媒体业务（HBO Max）正展现出强劲的增长和盈利能力改善。Q1订阅用户数超1.4亿，管理层指引年底超1.5亿，增长路径清晰。随着国际扩张、广告层渗透率提升及内容 slate 强化（如《哈利·波特》剧集计划），市场可能对WBD的流媒体资产给予更高估值。若并购失败，市场焦点将迅速转向其独立价值，流媒体业务的盈利能力将成为估值锚点。</li></ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol><li><strong>合并后实体（PSKY+WBD）的协同效应与规模优势</strong><br>若交易完成，合并后的“ParaWarner”将成为拥有超过2亿流媒体订阅用户、每年制作超30部院线电影、并整合了CBS、CNN、HBO等顶级品牌的媒体巨头。管理层预计可实现超60亿美元的年度协同效应，主要来自技术平台整合、内容采购优化及营销开支削减。长期目标是在2030年实现超100亿美元的自由现金流。这一规模效应有望使新实体在与Netflix、Disney的竞争中占据更有利的位置，并改善对广告商的议价能力。</li><li><strong>顶级IP库的长期变现潜力</strong><br>WBD拥有《哈利·波特》、《权力的游戏》、DC宇宙、《指环王》等全球顶级IP。公司正系统性地挖掘这些IP的价值，例如计划于2026年圣诞节推出《哈利·波特》剧集，并开发多款基于核心IP的游戏。这种对经典IP的持续投资和跨媒体叙事能力，是公司长期增长和抵御竞争的核心壁垒。IP价值的释放不仅限于内容订阅，还包括主题乐园、消费品和游戏等多元化收入。</li></ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul><li><strong>并购交易失败风险</strong>：这是当前最直接和重大的风险。若州级诉讼成功阻止交易，WBD股价可能回落至并购消息传出前的水平（约12-13美元），尽管70亿美元的分手费能提供一定缓冲，但公司仍需独立面对有线电视业务的结构性衰退和沉重的债务负担。</li><li><strong>线性电视业务加速恶化</strong>：WBD的现金流仍高度依赖其线性网络业务。Q1数据显示，国内付费电视订阅用户数同比下滑10%，广告收入也因观众流失和NBA版权丧失而承压。若“剪线”（cord-cutting）趋势加速，或主要分销商（如Comcast、Fubo）在合同续约时进一步压价或放弃转播，将对公司的盈利和现金流产生重大负面影响。</li><li><strong>制片厂业务表现波动性</strong>：制片厂业务（Studios）的业绩高度依赖电影上映档期和票房表现。2026年Q1的业绩激增主要由内部授权会计处理驱动，并非现金流的同步改善。2026年后续影片（如《Supergirl》）的票房表现存在不确定性，可能导致制片厂业务盈利大幅波动，无法实现管理层指引的全年持平目标。</li></ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul><li><strong>2026年5月6日</strong>：WBD公布Q1 2026财报，调整后EBITDA超预期，但FCF因支付Netflix分手费而大幅为负。</li><li><strong>2026年5月15日</strong>：WBD在年度广告预售会（Upfront）上展示了新的广告技术工具和内容 slate，为可能作为独立实体的最后一次亮相。</li><li><strong>2026年7月13日</strong>：以加利福尼亚州为首的12个美国州正式提起诉讼，要求阻止PSKY对WBD的收购。</li><li><strong>2026年7月20日</strong>：联邦法院批准了针对该交易的临时限制令（TRO），PSKY同意推迟交易完成时间。</li><li><strong>2026年7月22日</strong>：欧盟委员会无条件批准了PSKY对WBD的收购。</li></ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul><li><strong>2026年8月7日</strong>：英国竞争与市场管理局（CMA）预计将公布其对PSKY/WBD交易的初步审查决定，可能成为影响交易前景的关键事件。</li><li><strong>2026年8月3日当周</strong>：联邦法院将就州级诉讼举行听证会，可能决定是否延长临时限制令（TRO）直至审判，这将直接影响交易完成的时间表。</li><li><strong>2026年第三季度</strong>：若交易获得所有必要批准，PSKY预计将在本季度完成对WBD的收购，届时WBD股东将获得每股31美元的现金。</li></ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<p><strong>业务边际变化</strong>：公司近年最大的战略变化是围绕并购展开。在2025年宣布分拆计划后，公司最终于2026年2月与PSKY达成整体出售协议。在业务层面，公司正经历从传统线性电视向流媒体（DTC）的战略转型。流媒体业务（HBO Max）通过全球扩张和广告层引入，已成为核心增长引擎。制片厂业务（Studios）则更加聚焦于核心IP的院线发行和内部授权。线性网络业务（Global Linear Networks）则处于管理收缩、聚焦现金流的状态。</p>
+<p><strong>盈利模式</strong>：WBD的盈利模式正从依赖付费电视订阅费和广告收入的“渠道”模式，转向结合流媒体订阅、院线票房、内容授权和IP衍生变现的混合模式。其核心竞争力在于<strong>大规模、高质量的内容制作能力和丰富的IP库</strong>，通过多种窗口和平台分发以实现价值最大化。</p>
+<p><strong>业务拆分</strong>： 公司近年业务结构保持稳定，分为三大板块：流媒体（Streaming）、制片厂（Studios）和全球线性网络（Global Linear Networks）。流媒体是增长最快的板块，制片厂是盈利波动最大的板块，而线性网络是当前现金流的主要来源，但处于结构性下滑中。公司当前经营周期处于<strong>并购交易等待期</strong>，基本面受交易相关的一次性项目（如分手费）严重干扰。</p>
+<p><strong>细分业务拆分</strong> (单位：亿美元)</p>
+<div class="tbl-wrap"><table><thead><tr><th>业务板块</th><th>指标</th><th>FY2024</th><th>FY2025</th><th>Q1 2026</th></tr></thead><tbody><tr><td><strong>流媒体 (Streaming)</strong></td><td>收入</td><td>103.13</td><td>108.76</td><td>28.87</td></tr><tr><td></td><td>同比</td><td>-</td><td>+5.5%</td><td>+9%</td></tr><tr><td></td><td>占比</td><td>26%</td><td>29%</td><td>32%</td></tr><tr><td></td><td>调整后EBITDA</td><td>6.77</td><td>13.70</td><td>4.38</td></tr><tr><td><strong>制片厂 (Studios)</strong></td><td>收入</td><td>116.07</td><td>126.19</td><td>31.25</td></tr><tr><td></td><td>同比</td><td>-</td><td>+8.7%</td><td>+35%</td></tr><tr><td></td><td>占比</td><td>30%</td><td>34%</td><td>35%</td></tr><tr><td></td><td>调整后EBITDA</td><td>16.52</td><td>25.45</td><td>7.75</td></tr><tr><td><strong>全球线性网络 (Global Linear Networks)</strong></td><td>收入</td><td>201.75</td><td>176.56</td><td>43.77</td></tr><tr><td></td><td>同比</td><td>-</td><td>-12.5%</td><td>-8%</td></tr><tr><td></td><td>占比</td><td>51%</td><td>47%</td><td>49%</td></tr><tr><td></td><td>调整后EBITDA</td><td>81.49</td><td>64.12</td><td>16.34</td></tr><tr><td><strong>公司/抵消项</strong></td><td>收入</td><td>-27.74</td><td>-38.55</td><td>-14.96</td></tr><tr><td></td><td>调整后EBITDA</td><td>-14.46</td><td>-15.83</td><td>-6.44</td></tr><tr><td><strong>合计</strong></td><td>收入</td><td>393.21</td><td>372.96</td><td>88.93</td></tr><tr><td></td><td>调整后EBITDA</td><td>90.32</td><td>87.44</td><td>22.03</td></tr></tbody></table></div>
+<p><em>注：占比为各板块收入占合计收入（抵消前）的比例。</em></p>
+<p><strong>流媒体 (Streaming)</strong>：Q1 2026收入28.87亿美元，同比+9%。增长主要由分销收入（+7%）和广告收入（+19%）驱动。分销收入增长受益于HBO Max在欧洲新市场的推出和2025年底美国市场的提价。广告收入增长则来自全球广告支持层（ad-lite）用户的增加。调整后EBITDA为4.38亿美元，同比+29%，利润率提升至15.2%，显示出规模效应开始显现。管理层预计订阅用户相关收入增长将在2026年全年加速。</p>
+<p><strong>制片厂 (Studios)</strong>：Q1 2026收入31.25亿美元，同比+35%。增长主要由内容收入（+37%）驱动，特别是电视产品收入（+58%）和院线产品收入（+21%）。这一激增主要源于HBO Max国际市场上线带来的内部内容授权，导致收入在制片厂端确认。调整后EBITDA为7.75亿美元，同比+199%，同样受上述内部授权交易的会计处理影响。管理层指引2026年全年调整后EBITDA与2025年基本持平，因下半年将面临高基数压力。</p>
+<p><strong>全球线性网络 (Global Linear Networks)</strong>：Q1 2026收入43.77亿美元，同比-8%。分销收入（-7%）受国内付费电视用户数下降10%的拖累，但部分被2%的费率增长所抵消。广告收入（-11%）主要受失去NBA版权（负面影响7%）和国内观众数下降8%的影响。调整后EBITDA为16.34亿美元，同比-9%，利润率保持在37.3%的高位，因NBA版权费用的节省抵消了部分收入下滑的影响。</p>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托顶级IP库和规模化内容制作能力构筑的品牌与议价权</strong></p>
+<ul><li><strong>护城河定性</strong>：WBD拥有的《哈利·波特》、DC、《权力的游戏》等全球顶级IP矩阵，以及HBO和华纳兄弟影业百年积累的品牌声誉，构成了<strong>结构性护城河</strong>。这些IP和品牌是吸引用户订阅、进入影院和购买衍生品的核心驱动力，难以在短期内被复制。</li><li><strong>数据验证</strong>：2025年，华纳兄弟影业有9部电影登顶票房榜首，7部连续开画票房超4000万美元，创行业纪录。HBO剧集《A Knight of the Seven Kingdoms》单集平均观众达3600万，为HBO史上最受欢迎的首播剧集之一。流媒体订阅用户数从2022年的约9000万增长至2026年Q1的超1.4亿。</li><li><strong>动态演变</strong>：<strong>护城河变宽</strong>。公司正通过《哈利·波特》剧集、DC宇宙重启等计划，持续投资和激活其核心IP。与PSKY合并后，IP库将进一步扩大（加入《星际迷航》、《壮志凌云》等），内容制作和全球分发能力将得到增强，进一步巩固其在全球媒体行业的领先地位。</li></ul>
+<p><strong>竞争要素 2：线性网络业务面临的结构性挑战</strong></p>
+<ul><li><strong>护城河定性</strong>：公司的全球线性网络业务（如CNN、TNT、Discovery频道）正面临<strong>行业阶段性逆风</strong>。其传统的“捆绑付费电视”分销模式正被流媒体点播模式所颠覆，导致订阅用户和广告收入持续流失。这并非公司特有的竞争劣势，而是整个付费电视生态系统面临的系统性风险。</li><li><strong>数据验证</strong>：Q1 2026，国内线性付费电视用户数同比下降10%，广告收入同比下降11%（剔除NBA影响后下降约6%）。该板块收入已连续多年下滑。</li><li><strong>动态演变</strong>：<strong>护城河收缩</strong>。尽管公司通过获取NHL、MLB、NCAA等体育版权和推出CNN All Access来增强内容吸引力，但难以完全抵消“剪线”趋势带来的负面影响。该业务的长期价值取决于其能否成功向流媒体转型，以及管理层能否有效管理其成本结构以维持现金流。</li></ul>
+<p><strong>现阶段核心驱动力总结</strong>：公司的Alpha在于其强大的IP内容创造和流媒体转型能力，而Beta则在于其线性网络业务与宏观广告市场和付费电视生态的关联。当前，并购交易的进展是压倒一切的基本面变量。</p>
+<p><strong>竞争格局传导逻辑图</strong>：</p>
+<p><strong>竞争格局传导逻辑：</strong>顶级IP库与内容制作能力 → 强品牌认知与用户需求；强品牌认知与用户需求 → 流媒体订阅与院线票房增长；流媒体订阅与院线票房增长 → 高毛利率与盈利改善；流媒体技术颠覆与消费者习惯变迁 → 付费电视订阅与广告收入流失；付费电视订阅与广告收入流失 → 线性网络收入与利润承压；线性网络收入与利润承压 → 整体营收增长停滞与现金流压力</p>
+<h3 class="doc-h2">产销链</h3>
+<ul><li><strong>客户情况</strong>：公司的客户主要分为三类：<strong>消费者</strong>（流媒体订阅用户和院线观众）、<strong>分销商</strong>（有线电视运营商、电信公司等）和<strong>广告商</strong>。Q1 2026，公司分销收入占总收入的55%，广告收入占21%。流媒体订阅用户数已超1.4亿，是增长最快的客户群。广告业务方面，公司正通过推出新的广告技术工具（如Demo Direct、可购物广告）来提升对广告商的吸引力。公司无单一客户收入占比超过10%，客户集中度风险较低。</li><li><strong>供应商情况</strong>：公司的核心“供应商”是<strong>创意人才</strong>（编剧、导演、演员、制片人）和<strong>体育联盟</strong>（如NBA、MLB、NHL）。公司通过提供有竞争力的薪酬、创作自由度和强大的分发平台来吸引顶尖人才。在体育版权方面，公司采取纪律性策略，在失去NBA版权后，转而投资NHL、MLB和扩大March Madness转播权，以优化内容成本结构。</li><li><strong>成本传导机制</strong>：WBD赚取的是“内容品牌溢价”。当上游创意或版权成本上升时，公司能否顺利转嫁取决于其内容的不可替代性。对于HBO和顶级IP电影，公司拥有较强的定价权，可通过提高订阅价格或电影票价来传导成本。但对于线性网络中可替代性较强的频道，其成本转嫁能力较弱，面临分销商压价和广告预算流失的压力。</li></ul>
+<h3 class="doc-h2">财务数据</h3>
+<p><strong>关键财务数据</strong> (单位：亿美元)</p>
+<div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>Q1 2026</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2023-12-31</td><td>2024-12-31</td><td>2025-12-31</td><td>2026-03-31</td></tr><tr><td>营业总收入</td><td>413.21</td><td>393.21</td><td>372.96</td><td>88.93</td></tr><tr><td>收入同比</td><td>+22.19%</td><td>-4.84%</td><td>-5.15%</td><td>-0.96%</td></tr><tr><td>营业成本</td><td>245.26</td><td>229.70</td><td>208.85</td><td>46.43</td></tr><tr><td><strong>毛利率</strong></td><td>40.64%</td><td>41.59%</td><td>44.01%</td><td>47.79%</td></tr><tr><td>销售及管理费用</td><td>176.81</td><td>163.33</td><td>151.02</td><td>37.01</td></tr><tr><td><strong>营业利润</strong></td><td>-8.86</td><td>0.18</td><td>13.09</td><td>5.49</td></tr><tr><td>归母净利润</td><td>-31.26</td><td>-113.11</td><td>7.27</td><td>-29.16</td></tr><tr><td><strong>基本每股收益 (美元)</strong></td><td>-1.28</td><td>-4.62</td><td>0.29</td><td>-1.17</td></tr><tr><td>经营活动现金流净额</td><td>74.77</td><td>53.75</td><td>43.19</td><td>-2.08</td></tr><tr><td>资本性支出</td><td>-13.16</td><td>-9.48</td><td>-12.31</td><td>-2.68</td></tr><tr><td><strong>自由现金流</strong></td><td>61.61</td><td>44.27</td><td>30.88</td><td>-4.76</td></tr></tbody></table></div>
+<p><strong>财务分析</strong>：</p>
+<ul><li><strong>盈利能力</strong>：公司毛利率在FY2025和Q1 2026呈改善趋势，主要得益于内容成本控制（如失去高价NBA版权）。然而，净利润受巨额非现金支出（如商誉减值、重组费用）和本次的并购终止费影响而大幅波动。Q1 2026的GAAP净亏损29.16亿美元，主要由支付给Netflix的28亿美元分手费造成，剔除该项目后基本实现盈亏平衡。</li><li><strong>成长能力</strong>：公司营收连续两年同比下滑，主要受线性网络业务拖累。流媒体业务是唯一稳定的增长点，但其体量尚不足以完全抵消线性业务的下滑。Q1 2026，流媒体收入占比已提升至32%。</li><li><strong>运营能力与偿债能力</strong>：公司自由现金流在FY2025和Q1 2026显著恶化，Q1因分手费支出转为负值。截至Q1 2026末，公司账面现金32.64亿美元，总债务（含过桥贷款）约327亿美元，净杠杆率（Net Debt/Adj. EBITDA）约为3.4倍，债务负担沉重。公司正通过再融资和资产出售（如音乐版权合资）来管理债务到期压力。</li></ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p><strong>行业分析</strong>：WBD主要处于全球媒体与娱乐行业，细分市场包括流媒体视频（SVOD/AVOD）、电影制片与发行、以及有线/广播电视网络。</p>
+<ul><li><strong>流媒体市场</strong>：全球SVOD市场已进入成熟期，竞争焦点从用户增长转向盈利能力和用户留存。Netflix凭借先发优势和全球规模稳居领导者地位，Disney+和Amazon Prime Video紧随其后。WBD的HBO Max通过全球扩张和广告层策略，正努力跻身第二梯队前列。市场增长驱动力来自国际扩张、广告货币化及密码共享打击。</li><li><strong>电影市场</strong>：全球电影市场在疫情后持续复苏，但窗口期（从院线到流媒体）缩短。超级IP（如《超级马力欧》、《芭比》）和续集电影主导票房。WBD是“五大”好莱坞制片厂之一，与迪士尼、环球、索尼和派拉蒙竞争。竞争要素在于IP储备、创意人才关系和全球发行能力。</li><li><strong>有线电视市场</strong>：美国有线电视市场处于长期结构性衰退中，“剪线”趋势持续。广告预算加速向流媒体和数字平台转移。WBD旗下的Turner和Discovery频道面临观众老龄化和订阅用户流失的挑战。竞争主要体现在争夺剩余的付费电视订阅用户和广告预算，以及获取关键体育赛事版权。</li></ul>
+<p><strong>可比公司</strong>：</p>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>对标维度</th><th>分析</th></tr></thead><tbody><tr><td>Netflix</td><td>NFLX</td><td>流媒体业务</td><td>流媒体行业的绝对领导者，拥有超3亿订阅用户和强大的全球内容制作能力。WBD的HBO Max在规模和盈利能力上均落后于Netflix，但HBO的品牌和内容质量是其差异化优势。</td></tr><tr><td>迪士尼</td><td>DIS</td><td>综合媒体集团</td><td>与WBD业务模式最为相似，均拥有制片厂、流媒体（Disney+）和线性电视网络（ABC）。迪士尼在IP储备和主题乐园业务上更强，而WBD在体育版权（如NBA、MLB）和全球线性网络覆盖上曾有优势。</td></tr><tr><td>派拉蒙天舞</td><td>PSKY</td><td>并购方/可比对象</td><td>WBD的收购方。合并前，派拉蒙同样面临流媒体转型和线性业务下滑的挑战。其流媒体服务Paramount+的用户规模和内容库深度不及HBO Max。合并后的新实体将直接对标迪士尼和Netflix。</td></tr></tbody></table></div>
+<p><strong>总结分析</strong>：WBD在流媒体和制片厂业务上具备与行业领导者竞争的内容实力，但其沉重的债务负担和快速衰退的线性业务是其独立发展的主要掣肘。与PSKY的合并旨在通过规模效应和协同效应来解决这些结构性问题，使新实体在行业整合浪潮中占据更有利的位置。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<ul><li><strong>议题一：PSKY收购交易的监管风险与完成概率</strong><br><strong>背景</strong>：该交易已获多数司法管辖区批准，但12个美国州发起的诉讼成为最大障碍。市场对州级诉讼能否成功阻止交易存在巨大分歧。<br><strong>问题列表</strong>：<ol><li>州级诉讼的法律依据是否充分？法院是否会认定该交易在电影发行、有线电视等领域构成实质性垄断？</li><li>若法院发布初步禁令，交易时间表将大幅推迟，PSKY是否会因此支付“计时费”直至交易完成，还是会触发合同中的终止条款？</li><li>加州州长纽森推动庭外和解的干预能否成功？和解方案可能要求合并后的公司做出哪些资产剥离或行为承诺？</li></ol></li><li><strong>议题二：剔除并购影响后，WBD独立基本面的真实价值</strong><br><strong>背景</strong>：当前股价受并购交易主导，但若交易失败，WBD将回归独立运营。市场对其独立价值缺乏共识。<br><strong>问题列表</strong>：<ol><li>流媒体业务（HBO Max）的盈利增长能否持续加速，并足以抵消线性网络业务每年约10%的下滑？</li><li>制片厂业务剔除内部授权的一次性影响后，其经常性盈利水平是多少？2026年后续片单能否支撑管理层指引的全年持平？</li><li>公司高达327亿美元的总债务和3.4倍的杠杆率，在独立运营情景下是否可持续？公司是否有能力在支付70亿美元分手费后有效去杠杆？</li></ol></li></ul>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧：PSKY收购WBD的交易能否最终完成？</strong></p>
+<ul><li><strong>乐观方观点与逻辑</strong>：认为交易大概率完成。主要依据是：1）联邦层面（DOJ）已批准，表明核心反垄断关切已解决；2）欧盟等主要国际监管机构的无条件批准，进一步证明交易不会严重损害竞争；3）州级诉讼的政治动机（蓝州对抗特朗普政府）大于法律实质，历史上州政府单独成功阻止大型并购的案例极少；4）PSKY和Ellison家族有强烈的财务动机完成交易，并愿意支付“计时费”等待，且70亿美元的反向分手费提供了强大的安全垫。</li><li><strong>谨慎方观点与逻辑</strong>：认为交易存在重大失败风险。主要依据是：1）12个州联合诉讼的声势浩大，且聚焦于对好莱坞创作岗位和消费者（订阅价格）的损害，容易获得公众和法官的同情；2）法院批准TRO表明法官初步认可了原告的部分论点，增加了诉讼的不确定性；3）即使最终能赢，漫长的诉讼程序（可能拖到2027年）会带来巨大的时间成本和融资风险，若期间资本市场或Oracle股价大幅下跌，可能动摇Ellison家族的融资基础；4）合并后实体在电影制片和有线电视网络的集中度确实较高，存在需要结构性补救措施（如资产剥离）的可能，这可能降低交易的吸引力。</li></ul>
+<p><strong>总结分析</strong>：该分歧的核心在于对反垄断法执行标准和法院判决倾向的判断。乐观方更看重联邦层面的“绿灯”和历史先例，而谨慎方更关注当前政治氛围下州级执法力量的崛起和诉讼本身带来的延迟风险。从提供的资料看，交易已获得多数关键批准，但州级诉讼是一个真实且重大的障碍，其最终结果难以预测。WBD当前股价的折价，正是对这一不确定性的合理定价。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>管理层最新指引</strong>：</p>
+<ul><li><strong>流媒体</strong>：预计2026年全年订阅用户相关收入增长将加速，年底全球订阅用户数超过1.5亿。</li><li><strong>制片厂</strong>：预计2026年全年调整后EBITDA与2025年（25.45亿美元）基本持平。</li><li><strong>线性网络</strong>：预计2026年全年运营支出将实现高个位数百分比的同比下降。</li></ul>
+<p><strong>券商盈利预测与估值</strong>：</p>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价(美元)</th><th>财务指标</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th></tr></thead><tbody><tr><td>花旗 (2026-05-20)</td><td>评级暂停</td><td>-</td><td>营收(百万美元)</td><td>37,296</td><td>36,871</td><td>37,399</td></tr><tr><td></td><td></td><td></td><td>调整后EBITDA(百万美元)</td><td>8,744</td><td>11,392</td><td>8,656</td></tr><tr><td></td><td></td><td></td><td>调整后EPS(美元)</td><td>0.29</td><td>-0.27</td><td>-0.01</td></tr><tr><td>伯恩斯坦 (2026-05-08)</td><td>与大盘持平</td><td>27.75</td><td>营收(百万美元)</td><td>37,296</td><td>37,323</td><td>39,559</td></tr><tr><td></td><td></td><td></td><td>调整后EBITDA(百万美元)</td><td>6,422</td><td>3,880</td><td>6,953</td></tr><tr><td></td><td></td><td></td><td>调整后EPS(美元)</td><td>0.29</td><td>-1.23</td><td>-0.32</td></tr><tr><td>高盛 (2026-05-07)</td><td>未评级</td><td>-</td><td>营收(百万美元)</td><td>37,296</td><td>38,285</td><td>39,741</td></tr><tr><td></td><td></td><td></td><td>调整后EBITDA(百万美元)</td><td>8,744</td><td>8,454</td><td>8,102</td></tr><tr><td></td><td></td><td></td><td>GAAP EPS(美元)</td><td>0.29</td><td>-1.89</td><td>-0.96</td></tr><tr><td>瑞银 (2026-05-07)</td><td>中性</td><td>31.00</td><td>营收(百万美元)</td><td>37,296</td><td>36,724</td><td>37,625</td></tr><tr><td></td><td></td><td></td><td>调整后EBITDA(百万美元)</td><td>8,744</td><td>8,378</td><td>8,163</td></tr><tr><td></td><td></td><td></td><td>调整后EPS(美元)</td><td>0.93</td><td>0.33</td><td>0.30</td></tr><tr><td>摩根士丹利 (2026-05-07)</td><td>均配</td><td>29.00</td><td>营收(百万美元)</td><td>37,296</td><td>36,866</td><td>37,292</td></tr><tr><td></td><td></td><td></td><td>调整后EBITDA(百万美元)</td><td>8,744</td><td>7,752</td><td>7,792</td></tr><tr><td></td><td></td><td></td><td>调整后EPS(美元)</td><td>1.22</td><td>0.12</td><td>-0.22</td></tr><tr><td>古根海姆 (2026-03-04)</td><td>中性</td><td>30.00</td><td>营收(百万美元)</td><td>37,296</td><td>38,012</td><td>38,396</td></tr><tr><td></td><td></td><td></td><td>调整后EBITDA(百万美元)</td><td>8,744</td><td>8,341</td><td>9,021</td></tr><tr><td></td><td></td><td></td><td>调整后EPS(美元)</td><td>0.29</td><td>0.00</td><td>0.19</td></tr></tbody></table></div>
+<p><strong>盈利预测与估值分析</strong>： 由于PSKY的现金收购要约（每股31美元）是当前WBD股价的主要锚点，多数券商的目标价设定在27.75至31美元之间，反映了对交易完成概率的折价。瑞银的31美元目标价直接基于收购价，而摩根士丹利和古根海姆的目标价则略低于收购价，体现了对监管风险的考量。伯恩斯坦的目标价27.75美元则直接对标了此前Netflix的报价。</p>
+<p>从盈利预测看，机构间存在巨大分歧。瑞银和古根海姆预测2026年调整后EPS为正值，而高盛、花旗和伯恩斯坦则预测为负值，差异主要源于对28亿美元并购终止费及其他一次性项目的处理方式不同。对于调整后EBITDA，多数机构预测2026年将维持在83-85亿美元区间，与2025年基本持平或小幅下滑，这与管理层指引的基调一致。当前估值讨论完全被并购交易主导，传统的市盈率或EV/EBITDA估值法在交易完成前暂时失效。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/WBD · 生成于 2026-08-07</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-07';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'hit',     text: '<strong>欧盟委员会无条件批准</strong>（2026-07-22），交易已获美国司法部等 65 个司法管辖区放行', note: '核心联邦/国际层面反垄断关切已解决' },
+  { kind: 'cat', status: 'active',  text: '<strong>英国 CMA 初步审查决定</strong>（预计 2026-08-07 公布）：交易前景的关键事件之一', note: '研究日期当日，结果未确认' },
+  { kind: 'cat', status: 'active',  text: '<strong>联邦法院对州级诉讼的裁决</strong>：2026-08-03 当周已开庭，是否将 TRO 延长至审判直接决定时间表', note: '2026-07-20 TRO 获批；PSKY 承诺不晚于 2027-06-01 交割' },
+  { kind: 'cat', status: 'pending', text: '<strong>交易交割</strong>：计划 2026Q3，股东获 31 美元/股现金；拖过 2026-09-30 则 PSKY 按日支付「计时费」（年化约 3.6%）', note: '外部截止日 2027-06-01' },
+  { kind: 'cat', status: 'pending', text: '<strong>Q2 2026 财报</strong>（约 2026-08）：订阅用户向 1.5 亿目标推进的进度、剔除 NBA 后的核心广告趋势、线性下滑速度', note: '裁决前的基本面压力测试' },
+  { kind: 'cat', status: 'pending', text: '<strong>庭外和解可能</strong>：加州州长推动和解，或以行为承诺快速了结诉讼', note: '若和解附带重大资产剥离则转为负面事件' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>法院颁布初步禁令 / TRO 长期化</strong>：诉讼拖入 2027 年，或触发合同终止条款', note: '12 州诉讼聚焦好莱坞岗位与消费者订阅价格' },
+  { kind: 'risk', status: 'clear', text: '<strong>PSKY / Ellison 家族融资动摇</strong>：资本市场或关联方股价大幅下挫动摇融资基础', note: '漫长诉讼期放大融资风险' },
+  { kind: 'risk', status: 'clear', text: '<strong>被要求结构性补救</strong>：监管以资产剥离为批准条件，降低交易吸引力或延长交割时间', note: '电影发行与有线网络集中度是原告主要论点' },
+  { kind: 'risk', status: 'clear', text: '<strong>交易失败且无再竞购</strong>：股价回落至并购前 12-13 美元水平（分手费缓冲后仍约 -40%+，估算）', note: 'Netflix 曾出价，再竞购与否是尾部关键变量' },
+  { kind: 'risk', status: 'clear', text: '<strong>线性业务等待期加速恶化</strong>：付费电视用户降幅超 10% 或主要分销商放弃转播，削弱独立兜底价值', note: 'Q1 国内订阅用户 -10%、广告收入 -11%' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

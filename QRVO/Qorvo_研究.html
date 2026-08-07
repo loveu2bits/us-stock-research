@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Qorvo（QRVO.O）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--policy-red); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">QRVO</span>
+    <span class="site-mark__text">Qorvo 公司研究<span>Qorvo · QRVO.O</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>Qorvo<span class="en">Qorvo · QRVO.O · 美股研究</span></h1>
+        <p class="sub">Qorvo 现在是一只「并购套利壳 + 盈利质量转型」双重定价的股票：股价锚定与 Skyworks 的合并条款（每股 Qorvo 换 0.96 股 Skyworks + 32.50 美元现金），背后是真实可验证的独立改善——FY26 毛利率 +4.6 个百分点至 45.9%、营业利润率从 2.6% 跃至 11.2%、国防 HPA 双位数增长；但 50% 的收入系于苹果，下一代 iPhone 已确认丢失部分 UHB 焊盘份额，FTC「二次请求」又让合并结果成为二元变量。价差已被市场收得较薄的当下，我们给出持有。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-07</span>
+          <span>下次更新：FY27 Q1 财报（2026-08）/ 合并反垄断审批进展（预计 2026 年底至 2027 年初交割）</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>约 12-14x FY27E Non-GAAP PE（按券商目标价与合并换股价值反推的估算）；股价主要由合并条款定价（0.96 股 Skyworks + 32.50 美元现金，隐含交易价值约 100 美元，估算），上行被交易价值封顶、价差已薄，下行有毛利率超 50% 与国防增长的独立改善托底。重检条件：合并被否决或拖延至 2027 下半年后；FY27 Q1 毛利率显著低于 50%；苹果份额流失扩大至 ET PMIC / 集成模块。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">毛利率 52.6%</strong><span>FY26 Q4·市场预期仅 48.5%</span></div>
+      <div class="summary-rail__item"><strong>苹果 50%</strong><span>FY26 收入占比·FY25 为 47%</span></div>
+      <div class="summary-rail__item"><strong>$6.8亿</strong><span>FY26 自由现金流·单季回购 $4亿</span></div>
+      <div class="summary-rail__item"><strong>0.96+$32.5</strong><span>合并条款·0.96 股 Skyworks+现金</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">与 Skyworks 的合并：交易价值、通过概率与价差赔率如何算账？</h2>
+        <span class="qa__impact-tag">→ 交易价值约 $100/股（估算）· FTC 审查是最大二元变量</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>合并是当前股价的唯一主线：条款为<strong>每股 Qorvo 换 0.96 股 Skyworks 股票 + 32.50 美元现金</strong>，股东批准（2026-02-11）已落地，卡在 FTC「二次请求」与中国等司法辖区的反垄断/外资审查，管理层预计 2027 年初交割、Skyworks 方面称有望 2026 年底完成。券商目标价（100 美元为主）即按合并条款折算加交易风险折价给出。<em>我们的判断：基准情形通过——双方产品虽有重叠，但苹果等大客户客观上需要有规模、能多源的稳定供应商，重叠部分存在以资产剥离换通过的现实路径；但「当前股价已包含合并预期」意味着价差已薄，这不是一个赔率丰厚的并购套利，通过是大概率但上行有限，否决是小概率但下行深。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>合并主要走「倍数与事件价差」渠道，而非 EPS 渠道。</strong>若交割：Qorvo 股东转为持有「0.96 股 Skyworks + 32.50 美元现金」，估值锚从独立 PE 切换为换股价值（按券商折算约 100 美元/股，估算），此后定价权交给合并新公司——射频前端份额、对苹果的议价能力与成本协同决定中期价值。若被否：股价失去合并溢价、回落独立定价，参照管理层 FY27 EPS 指引约 7.00 美元与 10-12x 独立倍数，大致对应 70-84 美元（估算），较现价下行约 10-20%。</p>
+            <p>三情景测算（概率为主观判断）：按约 55% 按期交割 / 30% 拖延 / 15% 被否，期望值约 94-95 美元，较估算现价（约 90-93 美元，按目标价分布与合并价差反推，精确值以行情为准）<strong>上行仅约 +2%~5%，赔率约 0.5:1</strong>——上行封顶于交易价值、下行是独立定价深坑，这是「持有」而非「买入」的直接算术依据。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>合并造就<strong>射频前端巨无霸</strong>：完整方案 + 规模效应 + 整合重叠费用，减少行业无效竞争，抬升全行业盈利水平</li>
+              <li>股东批准已落地，瑞银/花旗/摩根大通<strong>三家按合并折算给出 100 美元目标价</strong>，交易完成时间明朗化本身就是催化剂</li>
+              <li>大客户（苹果/三星）需要<strong>有规模、能稳定多源</strong>的供应商，合并实体恰好满足——这降低了监管「保护客户」逻辑下的否决动机</li>
+              <li>等待期内独立基本面仍在改善（毛利率、回购），<strong>持有并非纯赌单一事件</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>FTC「二次请求」表明<strong>审查进入深水区</strong>：两家头部射频厂商合并，反垄断挑战真实存在，中国等辖区审批再加时间变量</li>
+              <li>股价已含合并预期，<strong>价差薄 = 赔率差</strong>：通过赚小钱、被否亏大钱，事件驱动的期望值不对称</li>
+              <li>合并后新公司对苹果敞口<strong>更集中</strong>，苹果多源化与自研动机只会更强——交易解决的问题（竞争）与恶化的问题（客户议价）同时存在</li>
+              <li>合并悬而未决期间公司<strong>已停止季度指引</strong>，信息透明度下降，独立定价的锚在变模糊</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（合并时间线 · 交易条款 · 券商折算 · 三情景）</summary>
+          <div class="evidence__body">
+            <h5>合并关键时间线</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>日期</th><th>事件</th><th>含义</th></tr></thead><tbody><tr><td>2026-01-28</td><td>FY26 Q3 财报给出远低于预期的 Q4 指引（退出低端安卓 + iPhone UHB 焊盘份额流失），股价当日大幅下跌</td><td>独立基本面的脆弱面暴露</td></tr><tr><td>2026-02-05</td><td>收到 FTC 关于合并案的「二次请求」（补充信息与文件）</td><td>监管审查进入关键阶段</td></tr><tr><td>2026-02-11</td><td>双方特别股东大会批准合并协议</td><td>股东层面落地，仅剩监管关卡</td></tr><tr><td>2026 年底至 2027 年初</td><td>市场预期交割窗口（管理层预计 2027 年初；Skyworks 管理层称有望 2026 年底）</td><td>时间成本影响套利年化回报</td></tr></tbody></table></div>
+            <h5>交易条款与券商目标价（目标价按合并条款折算 + 交易风险折价）</h5>
+            <ul>
+              <li><strong>条款</strong>：每股 Qorvo 换 <strong>0.96 股 Skyworks 股票 + 32.50 美元现金</strong></li>
+              <li><strong>瑞银（2026-05-07）</strong>：中性 / $100；FY27E 营收 3,509M、Non-GAAP EPS 7.70，FY28E EPS 8.53</li>
+              <li><strong>花旗（2026-05-07）</strong>：中性 / $100；FY27E 营收 3,466M、EPS 6.89，FY28E 7.77，FY29E 8.71</li>
+              <li><strong>摩根大通（2026-05-06）</strong>：中性 / $100；FY27E 营收 3,479M、EPS 6.95</li>
+              <li><strong>摩根士丹利（2026-01-31）</strong>：等权重 / $84；FY27E 营收 3,425M、EPS 6.88，FY28E 8.21</li>
+            </ul>
+            <h5>三情景测算（概率为主观判断；股价为估算）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>隐含股价（估算）</th></tr></thead><tbody><tr><td>按期交割（约 55%）</td><td>FTC 与中国等辖区放行（或附资产剥离条件），2026 年底至 2027 年初完成</td><td>~$100（换股价值折算）</td></tr><tr><td>拖延交割（约 30%）</td><td>审查拖至 2027 下半年，时间成本吃掉部分价差</td><td>~$92-95</td></tr><tr><td>交易被否（约 15%）</td><td>失去合并溢价，回落独立定价（FY27E EPS ~$7.0 × 10-12x）</td><td><span class="warn">~$70-84</span></td></tr></tbody></table></div>
+            <p><strong>期望值约 94-95 美元</strong>，较估算现价（约 90-93 美元）上行约 +2%~5%；赔率（上行/下行）约 0.5:1。管理层 FY27 年度目标：收入同比中个位数下降、毛利率超 50%、Non-GAAP EPS 接近 7.00 美元——各机构 EPS 预测集中在 6.88-7.70，与管理层指引一致，说明市场对独立盈利能力有共识，<strong>分歧只在交易本身</strong>。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">苹果 50% 依赖：内容份额流失是开始还是孤例？</h2>
+        <span class="qa__impact-tag">→ 苹果 = FY26 收入 50% · UHB 焊盘流失已确认</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>苹果既是利润基石也是最大软肋：FY26 占收入 <strong>50%</strong>（FY25 为 47%，三星再占 10%——前两大客户合计六成收入）。公司已在 FY26 Q3 财报确认<strong>下一代 iPhone 丢失部分超高频段（UHB）焊盘份额</strong>，同时获得 iPad 高波段焊盘新订单；管理层指引 FY27 苹果收入持平。<em>我们的判断：短期「持平」大概率可实现（多源化通常渐进、iPad 新单部分对冲），但苹果多供应商 + 自研的方向不可逆，UHB 是第一块被确认倒下的多米诺——「流失是否扩散到 ET PMIC、集成模块」才是决定中期估值的观察点。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>对 EPS：苹果收入约 18.4 亿美元（50% × FY26 总收入 36.8 亿，估算），苹果订单每流失 5% 约对应 0.9 亿美元收入（估算）</strong>，ACG 分部营业利润率 26.2%、经营杠杆高，收入下滑对营业利润的传导是放大的。若流失仅停留在 UHB（已被 FY27「苹果收入持平」指引消化），EPS 影响有限；若扩散至 ET PMIC / 集成模块或苹果加速自研射频，FY28 起收入与利润率将双杀。</p>
+            <p>对倍数：苹果份额是市场给「独立 Qorvo」与「合并新公司」估值的共同折价项。iPhone 18 拆解（2026 下半年）若确认单机价值量稳定，合并逻辑强化、折价收窄；反之，独立定价与合并价值同时下修——<strong>这是一个同时影响两条定价路径的变量</strong>。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li><strong>多源化 ≠ 放弃</strong>：苹果需要 Qorvo 的 BAW 滤波器与 GaAs/GaN PA 能力来制衡 Broadcom / Qualcomm，完全自研或单源化的成本与风险都高</li>
+              <li>丢失 UHB 焊盘的同期<strong>拿下 iPad 高波段焊盘新单</strong>——在苹果体系内部此消彼长，不是单向撤离</li>
+              <li>管理层敢于指引 <strong>FY27 苹果收入持平</strong>，说明内容得失大体对冲；合并后新公司方案更完整，单机价值量有提升空间</li>
+              <li>UWB（汽车数字钥匙等）与 AESA 雷达等新业务 FY26 Q3 已获首批量产订单，<strong>多元化的种子已经发芽</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>UHB 流失是<strong>第一例被确认的份额丢失</strong>，历史经验（2026-01-28 指引暴雷当日股价大跌）显示市场对任何苹果负面信号都是惩罚性定价</li>
+              <li>合并后新公司在苹果供应链中的份额<strong>更高</strong>，苹果扶植第三供应商 / 加速自研的动机只会更强——合并治了竞争，治不了客户</li>
+              <li>苹果已自研基带，<strong>射频前端自研是合理的下一步</strong>；「基带之后的射频」正是市场焦点议题里悬而未决的长期问题</li>
+              <li>50% 客户集中度本身就该被折价：任何单一客户的订单波动或采购策略变化，<strong>都会对业绩产生重大影响</strong>（公司披露原文口径）</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（客户集中度 · 内容变化事件 · 焦点问题清单）</summary>
+          <div class="evidence__body">
+            <h5>客户集中度（占总收入）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>客户</th><th>FY2025</th><th>FY2026</th><th>说明</th></tr></thead><tbody><tr><td>苹果（经多家代工厂采购）</td><td>47%</td><td><strong>50%</strong></td><td>ACG 蜂窝射频方案为主</td></tr><tr><td>三星电子</td><td>10%</td><td><strong>10%</strong></td><td>ACG 蜂窝射频方案</td></tr><tr><td><strong>前两大客户合计</strong></td><td><strong>57%</strong></td><td><strong>60%</strong></td><td>集中度继续上升</td></tr></tbody></table></div>
+            <h5>苹果内容变化关键事件</h5>
+            <ul>
+              <li><strong>FY26 Q3 财报（2026-01-28）</strong>：确认下一代 iPhone 失去部分超高频段（UHB）焊盘份额；同时获得 iPad 高波段焊盘新订单；Q4 指引远低于预期，股价当日大幅下跌</li>
+              <li><strong>管理层指引</strong>：FY27 苹果收入持平（基于的销量与内容假设未披露，市场焦点议题之一即质疑其是否过于乐观）</li>
+              <li><strong>待验证</strong>：iPhone 18（2026 下半年发布）拆解与供应链信息将量化 UHB 流失 vs iPad / ET PMIC / 其他组件增益的净影响</li>
+            </ul>
+            <h5>ACG 分部现状（苹果/三星业务主要载体）</h5>
+            <ul>
+              <li>FY26 收入 <strong>25.51 亿美元</strong>（占总收入 69.3%），同比 <strong>-2.2%</strong>——退出低端安卓的拖累被旗舰/高端机型内容增长部分抵消</li>
+              <li>分部营业利润率 <strong>26.2%</strong>（FY25 为 23.1%），产品组合改善对冲了份额压力</li>
+              <li>市场焦点三问：iPhone 18 具体流失价值量？「苹果收入持平」的假设是否乐观？苹果自研射频的长期风险多大？</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">毛利率 50%+：结构性跃迁还是周期性高点？</h2>
+        <span class="qa__impact-tag">→ FY26 Q4 毛利率 52.6% · FY27 指引超 50%</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>大体是结构性的，但要给斜率打折。三股真实力量：<strong>1）主动退出低毛利大众安卓</strong>（FY27 安卓收入再减约 3 亿美元，低毛利收入永久消失机械抬升毛利率）；<strong>2）HPA 国防组合上行</strong>（FY26 +10.7%，FY27 仅国防与航空航天收入就约 5 亿美元、将首次超过安卓业务）；<strong>3）制造整合的永久降本</strong>（关闭哥斯达黎加组装测试厂、SAW 产线转移得州）。FY26 毛利率已从 41.3% 跃至 45.9%、Q4 单季 52.6%（市场预期仅 48.5%）。<em>保留判断：Q4 的 52.6% 大概率含一次性组合与库存顺风（超出共识 4 个百分点的缺口很难全是结构性的），正常化后落在「50% 出头」更可信——方向可信、斜率打折。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>毛利率是独立定价的托底变量。</strong>按 FY27 收入约 35 亿美元（指引中个位数下降，估算）计，毛利率每 +1 个百分点 ≈ +3,500 万美元毛利（估算），经营杠杆下对 EPS 弹性显著：FY26 营业利润率已从 2.6% 跃至 11.2%、归母净利 +509.5% 至 3.39 亿美元就是证明。管理层 FY27 目标 EPS 接近 7.00 美元、券商 FY28E 已给到 7.77-8.53——这条改善通道的可信度直接决定「合并被否」情景下的估值底。</p>
+            <p>若 FY27 Q1（2026-08 披露）毛利率显著低于 50%，「盈利质量转型」叙事被证伪，独立倍数将回落至历史低位区间，<strong>届时合并价差与独立估值双杀</strong>——这正是跟踪面板把它列为证伪信号的原因。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>三大驱动力都是<strong>永久性的</strong>：低毛利收入永久退出、国防占比结构性上行、制造整合降本不可逆——即使总收入下降，盈利能力与自由现金流进入持续改善通道</li>
+              <li>FY26 已兑现：毛利率 41.3%→<strong>45.9%</strong>、营业利润率 2.6%→<strong>11.2%</strong>、FCF 6.80 亿美元、单季回购 4 亿美元——不是画饼</li>
+              <li>存货 6.41 亿→<strong>5.54 亿美元（-13.6%）</strong>，主动去库存降低未来减值风险；净债务继续缩小，财务健康</li>
+              <li>HPA 分部营业利润率 <strong>26.8%</strong>（+9.7pct），国防「可信供应商」资质 + 金色穹顶/F-47 等项目是 1-3 年最确定的增长引擎</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>Q4 的 52.6% 比共识 48.5% 高出 <strong>4 个百分点以上</strong>，大概率含苹果高端机型备货高峰的一次性组合与库存因素，后续季度可能回落</li>
+              <li>苹果份额流失（UHB）<strong>才刚开始体现</strong>，若 ACG 收入下滑超预期，规模效应减弱将反噬毛利率</li>
+              <li>HPA 虽强但体量仍小（FY26 收入 7.06 亿、占比 19.2%），<strong>不足以完全对冲 ACG（占 69.3%）可能出现的更大规模下滑</strong></li>
+              <li>收入连续两年负增长（FY25 -1.3%、FY26 -1.1%），FY27 指引继续中个位数下降——<strong>「缩出来的利润率」能否撑起估值</strong>，市场尚未给出一致答案</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（财务速览 · 分部拆分 · 毛利率驱动拆解）</summary>
+          <div class="evidence__body">
+            <h5>关键财务数据（单位：百万美元；EPS 为稀释口径）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>报告期（财年止于 3 月末）</th><th>FY2024</th><th>FY2025</th><th>FY2026</th></tr></thead><tbody><tr><td>营业总收入</td><td>3,769.51</td><td>3,718.97</td><td>3,678.52</td></tr><tr><td>收入同比</td><td>+5.6%</td><td>-1.3%</td><td><span class="warn">-1.1%</span></td></tr><tr><td><strong>毛利率</strong></td><td>39.5%</td><td>41.3%</td><td><strong>45.9%</strong></td></tr><tr><td>营业利润率</td><td>2.4%</td><td>2.6%</td><td><strong>11.2%</strong></td></tr><tr><td>归母净利润（同比）</td><td>-70.32</td><td>55.62（+179.1%）</td><td><strong>338.99（+509.5%）</strong></td></tr><tr><td>稀释 EPS（美元）</td><td>-0.72</td><td>0.58</td><td>3.62</td></tr><tr><td>经营活动现金流净额</td><td>833.19</td><td>622.20</td><td>808.63</td></tr><tr><td>自由现金流</td><td>705.96</td><td>484.60</td><td><strong>679.56</strong></td></tr></tbody></table></div>
+            <h5>分部拆分（FY2026；单位：百万美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>分部</th><th>收入</th><th>同比</th><th>收入占比</th><th>营业利润</th><th>营业利润率</th></tr></thead><tbody><tr><td>HPA（高性能模拟，国防/宽带/基站）</td><td>705.66</td><td><strong>+10.7%</strong></td><td>19.2%</td><td>189.36</td><td><strong>26.8%</strong></td></tr><tr><td>CSG（连接与传感器）</td><td>421.65</td><td>-10.8%</td><td>11.5%</td><td>-42.25</td><td>-10.0%</td></tr><tr><td>ACG（先进蜂窝，苹果/安卓手机）</td><td>2,551.21</td><td>-2.2%</td><td>69.3%</td><td>667.35</td><td>26.2%</td></tr></tbody></table></div>
+            <p>注：分部营业利润未分摊总部费用。HPA 利润率一年内 +9.7pct，来自组合改善 + 成本与库存费用下降；CSG 亏损连续三年收窄（-20.4% → -11.8% → -10.0%）。</p>
+            <h5>毛利率驱动拆解</h5>
+            <ul>
+              <li><strong>退出低毛利安卓</strong>：FY27 安卓收入再减约 3 亿美元（战略退出 + 存储涨价客户砍单），低毛利收入永久消失 → 机械抬升</li>
+              <li><strong>HPA 组合上行</strong>：FY27 国防与航空航天收入约 5 亿美元、首次超过安卓业务；金色穹顶、F-47 等国家级项目长周期放量</li>
+              <li><strong>制造整合</strong>：哥斯达黎加组装测试厂关闭、北卡 SAW 产线转移得州 → 降资本密集度与产品成本</li>
+              <li><strong>一次性成分</strong>：Q4 苹果高端机型备货高峰的组合与库存因素（估算，市场共识仅 48.5% 即为旁证），正常化后看 50% 出头</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>：公司概况、近况跟踪、业务拆分、财务数据、盈利预测与估值（2026-07-25 版，见同目录《Qorvo_一页通.md》，亦见本站「一页通」标签页）</li>
+        <li><strong>局限</strong>：未读财报原文与电话会纪要；现价与前瞻 PE 为按券商目标价分布（84-100 美元）与合并换股价值反推的估算值，精确值以行情为准；合并三情景概率为主观判断；一页通截至 2026-07-25，FY27 Q1 财报（2026-08 披露）尚未覆盖，阅读时注意时间差；公司因合并悬而未决已停止季度指引，独立预测可见度低</li>
+        <li><strong>管理层评估（一句话版）</strong>：「以规模换质量」的战略执行已见真章——出售碳化硅电力器件与 MEMS 业务、退出低端安卓、整合制造足迹，FY26 毛利率 +4.6pct、营业利润率 2.6%→11.2%、单季回购 4 亿美元都是执行力的证据；但合并期暂停季度指引令透明度下降，合并后整合的执行能力要到交割后才能检验</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>Qorvo 是一家全球领先的射频、模拟混合信号及电源管理解决方案供应商，业务覆盖无线、有线和电源市场。公司通过三大业务部门运营：<strong>高性能模拟芯片 (HPA)</strong>、<strong>连接与传感器 (CSG)</strong> 和<strong>先进蜂窝网络 (ACG)</strong>。其产品广泛应用于智能手机、国防航天、基础设施及物联网等领域。公司是苹果公司射频方案的核心供应商之一，苹果占其2026财年总收入的<strong>50%</strong>。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul>
+<li><strong>与Skyworks合并推进中</strong>：Qorvo与Skyworks的合并案已于2026年2月11日获双方股东批准。目前正等待包括美国联邦贸易委员会（FTC）在内的反垄断和外国投资审批。管理层预计交易将于<strong>2027年初</strong>完成，但Skyworks管理层近期表示有望在<strong>2026年底</strong>完成。</li>
+<li><strong>加速退出低端安卓市场</strong>：公司正加速战略性退出低利润的大众市场安卓智能手机业务。管理层预计，受此战略调整及存储价格上涨影响，FY27安卓业务收入将同比减少约<strong>3亿美元</strong>。</li>
+<li><strong>HPA业务持续强劲增长</strong>：受益于国防与航空航天领域的强劲需求，HPA业务在FY26收入同比增长<strong>10.7%</strong>。管理层预计FY27该业务将保持<strong>两位数增长</strong>，收入规模有望达到约<strong>5亿美元</strong>，首次超过安卓业务。</li>
+<li><strong>制造足迹持续优化</strong>：公司已完成哥斯达黎加组装测试工厂的关闭，并将北卡罗来纳州的SAW滤波器生产转移至得克萨斯州。这些举措旨在降低资本密集度和产品成本，提升盈利能力。</li>
+<li><strong>FY26毛利率大幅提升</strong>：得益于退出低利润安卓业务、有利的产品组合及成本削减，公司FY26毛利率达到<strong>45.9%</strong>，同比提升<strong>4.6个百分点</strong>。管理层预计FY27毛利率将<strong>超过50%</strong>。</li>
+</ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol>
+<li><strong>合并交易的监管审批进展</strong>：Qorvo与Skyworks的合并是未来一个季度最核心的交易逻辑。2026年2月，双方收到了美国联邦贸易委员会（FTC）的"二次请求"，表明监管审查进入关键阶段。任何关于审批进展的消息，无论是获得中国、美国或其他主要司法管辖区的批准，还是出现意外的阻力，都将直接引发股价波动。当前股价已包含合并预期，交易完成时间点的明朗化是主要催化剂。</li>
+<li><strong>毛利率改善的持续兑现</strong>：公司FY26 Q4毛利率达到<strong>52.6%</strong>，远超市场预期的<strong>48.5%</strong>，主要得益于退出低利润安卓业务和制造优化。管理层已给出FY27毛利率<strong>超过50%</strong>的指引。未来一个季度，市场将密切关注这一高毛利率水平的可持续性。如果后续季度能继续证明毛利率的结构性改善而非一次性收益，将有助于提升市场对合并后公司盈利能力的信心。</li>
+<li><strong>苹果iPhone 18周期内容变化的消化</strong>：公司在FY26 Q3财报中披露，在下一代iPhone中失去了部分超高频段（UHB）焊盘的份额，但同时在iPad中获得了高波段焊盘的新订单。市场正在消化这一多空交织的内容变化。未来一个季度，随着新iPhone设计的逐步定型，更多关于Qorvo在苹果供应链中具体份额和单机价值量的信息将浮出水面，这将直接影响市场对合并后公司长期收入前景的判断。</li>
+</ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol>
+<li><strong>国防与航空航天业务的长期顺风</strong>：Qorvo的HPA部门是美国国防部"可信供应商"，深度绑定美国及其盟国的国防现代化进程。全球地缘政治紧张局势加剧，推动各国国防开支增加，尤其是在相控阵雷达、电子战和卫星通信等领域。公司特别指出了"金色穹顶"防御系统、F-47战斗机等项目带来的机遇。HPA业务FY26收入<strong>7.06亿美元</strong>，管理层预计FY27将增长至约<strong>5亿美元</strong>（仅国防与航空航天部分），该业务具备高技术壁垒和长项目周期，是公司未来1-3年最确定的增长引擎。</li>
+<li><strong>从规模驱动转向盈利质量驱动的战略转型</strong>：公司正主动剥离或退出低利润业务，包括出售碳化硅电力器件业务、MEMS传感器业务，以及加速退出低端安卓市场。这一战略转型虽然在短期内压制了收入增长（FY27收入指引中个位数下降），但极大地优化了产品组合和成本结构。FY26毛利率已从FY25的<strong>41.3%</strong> 跃升至<strong>45.9%</strong>，管理层指引FY27将<strong>超过50%</strong>。这种从追求收入规模到追求盈利质量的转变，有望在长期内提升公司的资本回报率和自由现金流生成能力。</li>
+<li><strong>与Skyworks合并后的协同效应与行业整合</strong>：合并后的新公司将成为射频前端市场的巨无霸，拥有更完整的解决方案、更强的客户议价能力和显著的规模效应。管理层预计合并将带来巨大的成本协同效应，包括整合重叠的运营费用、优化制造布局和提升供应链效率。尽管合并后可能面临苹果等大客户的多源化策略压力，但合并实体通过整合研发资源，有望在下一代技术（如6G）中建立更强的竞争壁垒，减少行业内的无效竞争，提升整个射频行业的盈利水平。</li>
+</ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul>
+<li><strong>合并交易失败的风险</strong>：Qorvo与Skyworks的合并案仍需通过美国FTC、中国市场监管总局等多个司法管辖区的反垄断审查。鉴于双方在射频前端市场的领先地位，审查过程可能漫长且存在不确定性。若交易最终被否决，Qorvo的股价将失去合并溢价，并需重新面对独立运营下的竞争压力，包括在苹果供应链中的份额流失和安卓市场的持续萎缩。</li>
+<li><strong>大客户依赖与内容流失风险</strong>：公司对苹果的依赖度极高，FY26收入占比达<strong>50%</strong>。苹果一贯采用多供应商策略以分散风险和增强议价能力。公司已确认在下一代iPhone中失去部分超高频段（UHB）焊盘份额。未来，若公司在苹果的其他关键组件（如集成模块、ET PMIC）上继续丢失份额，或苹果加速自研射频组件，将对公司收入和盈利能力造成重大打击。</li>
+<li><strong>技术迭代与竞争加剧风险</strong>：射频前端市场竞争激烈，技术路线变化快。在Wi-Fi领域，公司正从Wi-Fi 7向Wi-Fi 8过渡；在蜂窝领域，5G Advanced和未来的6G对射频性能提出更高要求。公司面临来自Broadcom、Qualcomm、Murata等国际巨头以及中国本土射频厂商的双重竞争。若公司在关键技术节点的研发或客户导入上落后，可能导致市场份额和盈利能力的长期受损。</li>
+</ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul>
+<li><strong>2026年5月6日</strong>：Qorvo发布FY26 Q4财报，营收<strong>8.08亿美元</strong>，毛利率<strong>52.6%</strong>，均超市场预期。公司同时宣布回购了<strong>4亿美元</strong>股票。</li>
+<li><strong>2026年2月5日</strong>：Qorvo和Skyworks宣布，已收到美国联邦贸易委员会（FTC）关于双方合并案的"二次请求"，要求提供更多信息和文件材料。</li>
+<li><strong>2026年2月11日</strong>：Qorvo和Skyworks的股东在各自的特别股东大会上批准了双方的合并协议。</li>
+<li><strong>2026年1月28日</strong>：Qorvo发布FY26 Q3财报，并给出远低于市场预期的FY26 Q4指引，主要因加速退出低端安卓市场和在下一代iPhone中失去部分UHB焊盘份额。股价当日大幅下跌。</li>
+</ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul>
+<li><strong>2026年8月-10月</strong>：Qorvo发布FY27 Q1财报。这将是公司执行退出低端安卓市场战略后的首个完整季度，市场将密切关注其收入结构变化和毛利率的可持续性，以验证公司战略转型的成效。</li>
+<li><strong>2026年下半年</strong>：苹果公司预计将发布新一代iPhone（iPhone 18）。届时，通过拆解报告和供应链信息，市场将能更清晰地量化Qorvo在该机型中的具体内容变化（UHB份额流失 vs. 其他组件增益），从而更准确地评估其苹果业务的前景。</li>
+<li><strong>2026年下半年至2027年初</strong>：Qorvo与Skyworks合并案的关键监管审批节点。市场普遍预期交易将在<strong>2026年底至2027年初</strong>完成。在此期间，任何来自美国、中国或欧盟的监管审批进展都将成为股价的直接催化剂。</li>
+</ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<p><strong>业务边际变化</strong>：公司近年正经历深刻的业务结构调整，核心是<strong>从追求收入规模转向追求盈利质量</strong>。具体表现为：1）主动剥离或退出低利润业务，包括出售碳化硅电力器件和MEMS传感器业务，以及加速退出低端安卓手机市场；2）将资源和产能集中于高利润、高壁垒的国防航天和高端智能手机市场；3）通过关闭和整合制造设施（如哥斯达黎加工厂、北卡罗来纳州工厂）来降低固定成本和资本密集度。这些举措在短期内压制了收入增长，但显著提升了毛利率和现金流。</p>
+<p><strong>盈利模式</strong>：Qorvo的盈利模式建立在<strong>高技术壁垒和客户粘性</strong>之上。公司依靠其在射频、化合物半导体（GaAs, GaN）和声学滤波器（BAW, SAW）领域的核心技术和工艺know-how，为高端应用场景提供高性能、高集成度的解决方案。其产品是客户系统性能的关键，具有较高的转换成本。在国防航天领域，其"可信供应商"资质构成了强大的准入壁垒。公司赚取的是<strong>技术溢价和规模效应</strong>带来的利润，而非单纯的加工费。</p>
+<p><strong>业务拆分</strong>：公司业务分为三大板块。<strong>ACG</strong>是收入支柱，但正经历战略收缩；<strong>HPA</strong>是增长和利润引擎，增速最快且毛利率最高；<strong>CSG</strong>规模较小，仍在亏损但亏损收窄。公司当前处于<strong>主动的业务组合优化期</strong>，即牺牲短期收入增长以换取结构性盈利能力的提升。</p>
+<p><strong>细分业务拆分（单位：百万美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2024</th><th>FY2025</th><th>FY2026</th></tr></thead><tbody><tr><td><strong>HPA</strong></td><td></td><td></td><td></td></tr><tr><td>收入</td><td>572.95</td><td>637.26</td><td>705.66</td></tr><tr><td>同比</td><td>-</td><td>11.2%</td><td>10.7%</td></tr><tr><td>收入占比</td><td>15.2%</td><td>17.1%</td><td>19.2%</td></tr><tr><td>营业利润</td><td>82.50</td><td>108.90</td><td>189.36</td></tr><tr><td>营业利润率</td><td>14.4%</td><td>17.1%</td><td>26.8%</td></tr><tr><td><strong>CSG</strong></td><td></td><td></td><td></td></tr><tr><td>收入</td><td>434.54</td><td>472.52</td><td>421.65</td></tr><tr><td>同比</td><td>-</td><td>8.7%</td><td>-10.8%</td></tr><tr><td>收入占比</td><td>11.5%</td><td>12.7%</td><td>11.5%</td></tr><tr><td>营业利润</td><td>-88.65</td><td>-55.84</td><td>-42.25</td></tr><tr><td>营业利润率</td><td>-20.4%</td><td>-11.8%</td><td>-10.0%</td></tr><tr><td><strong>ACG</strong></td><td></td><td></td><td></td></tr><tr><td>收入</td><td>2,762.02</td><td>2,609.19</td><td>2,551.21</td></tr><tr><td>同比</td><td>-</td><td>-5.5%</td><td>-2.2%</td></tr><tr><td>收入占比</td><td>73.3%</td><td>70.2%</td><td>69.3%</td></tr><tr><td>营业利润</td><td>727.91</td><td>602.45</td><td>667.35</td></tr><tr><td>营业利润率</td><td>26.4%</td><td>23.1%</td><td>26.2%</td></tr></tbody></table></div>
+<p>（注：FY2024数据来自FY2025年报中的重述。营业利润为分部数据，未分摊总部费用。）</p>
+<ul>
+<li><strong>HPA (高性能模拟芯片)</strong>：FY26收入<strong>7.06亿美元</strong>，同比增长<strong>10.7%</strong>。增长主要来自国防与航空航天领域的项目和内容增加，以及宽带DOCSIS 4.0的过渡和基站产品需求增长。营业利润率从FY25的<strong>17.1%</strong> 大幅提升至<strong>26.8%</strong>，得益于有利的产品组合、产品成本和库存费用的降低。该业务是公司未来增长和利润扩张的核心驱动力。</li>
+<li><strong>CSG (连接与传感器)</strong>：FY26收入<strong>4.22亿美元</strong>，同比下降<strong>10.8%</strong>。收入下降主要因公司战略性收缩Wi-Fi组件和UWB解决方案的产品组合，聚焦高利润领域。营业亏损从FY25的<strong>5584万美元</strong>收窄至<strong>4225万美元</strong>，得益于产品组合改善、成本降低和运营费用减少。该业务仍处于调整期，目标是实现盈利。</li>
+<li><strong>ACG (先进蜂窝网络)</strong>：FY26收入<strong>25.51亿美元</strong>，同比下降<strong>2.2%</strong>。收入下降反映了公司退出低端安卓市场的影响，但被旗舰和高端智能手机的内容增长所部分抵消。营业利润率从FY25的<strong>23.1%</strong> 提升至<strong>26.2%</strong>，主要得益于有利的产品组合和运营费用减少。该业务是公司最大的收入来源，但正经历结构性调整，未来增长将更依赖于高端市场的内容增长。</li>
+</ul>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托国防领域"可信供应商"资质和深度客户绑定构筑的结构性护城河</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。Qorvo位于得克萨斯州理查森的制造工厂是美国国防部（DoD）认证的1A类"可信供应商"，具备从设计、晶圆制造到先进封装和测试的全流程资质。这一资质构成了极高的准入门槛，因为获得该认证需要长期、大量的安全审查和工艺验证。公司借此深度嵌入美国及其盟国的国防供应链，参与"金色穹顶"防御系统、F-47战斗机等长期、高价值的国家级项目。这种基于国家安全和长期信任的合作关系，使得客户转换成本极高，竞争对手难以在短期内复制。</li>
+<li><strong>数据验证</strong>：HPA部门FY26营业利润率高达<strong>26.8%</strong>，显著高于公司整体水平，体现了其强大的定价能力和技术溢价。管理层预计FY27仅国防与航空航天市场的收入就将达到约<strong>5亿美元</strong>，占HPA部门收入的大部分，并驱动该部门持续两位数增长。</li>
+<li><strong>动态演变</strong>：<strong>护城河变宽（巩固）</strong>。全球地缘政治紧张局势加剧，美国和盟国的国防开支持续增加，特别是在先进雷达、电子战和卫星通信领域。Qorvo作为关键射频和化合物半导体组件的核心供应商，正持续受益于这一宏观趋势，其技术领先地位和客户关系将得到进一步巩固。</li>
+</ul>
+<p><strong>竞争要素 2：在高度集中的智能手机市场，由技术集成度和客户粘性构成的竞争壁垒，但面临多源化策略的侵蚀风险</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：<strong>行业阶段性红利与结构性护城河并存，但面临收缩风险</strong>。在高端智能手机射频前端市场，Qorvo凭借其BAW滤波器、GaAs/GaN功率放大器和高度集成的模块化解决方案，与苹果、三星等顶级客户建立了深度合作关系。这些定制化、高性能的解决方案构成了较高的技术和合作门槛。然而，大客户为保障供应链安全和增强议价能力，普遍采用多供应商策略。公司已确认在下一代iPhone中失去部分UHB焊盘份额，这表明其在该领域的护城河正面临被侵蚀的风险。</li>
+<li><strong>数据验证</strong>：苹果占公司FY26收入的<strong>50%</strong>，显示出极高的客户集中度。ACG部门FY26营业利润率为<strong>26.2%</strong>，虽然健康，但低于HPA部门，且其收入同比下降<strong>2.2%</strong>，反映出大客户策略和市场竞争带来的压力。</li>
+<li><strong>动态演变</strong>：<strong>收缩（面临被侵蚀的风险）</strong>。短期内，公司在苹果供应链中的份额波动是常态。长期看，其护城河的宽度取决于能否通过持续的技术创新（如在ET PMIC、新频段集成模块上取得突破）来抵消多源化带来的份额损失，并在下一代通信技术（如6G）中重新获得更强的技术卡位。</li>
+</ul>
+<p><strong>现阶段核心驱动力总结</strong>：Qorvo的Alpha来源于其主动的战略转型，即通过剥离低利润业务和优化制造，实现盈利质量的跃升。其Beta则高度绑定了全球国防开支周期和苹果公司的产品创新周期。当前阶段，公司正经历Alpha（盈利改善）与Beta（苹果业务不确定性）的角力。</p>
+<p><strong>竞争格局传导逻辑</strong>：</p>
+<ul>
+<li>极高的国防准入壁垒（可信供应商资质）→ 稳固的国防订单与强定价权 → HPA部门高利润率（FY26 营业利润率 26.8%）</li>
+<li>高端手机射频前端高技术集成度 → 对苹果等大客户形成高粘性 → ACG部门健康利润率，但面临份额波动</li>
+<li>大客户多源化策略与市场竞争 → 部分组件份额流失（如UHB焊盘）→ 压制ACG部门利润率（<span class="warn">负向链条</span>）</li>
+</ul>
+<h3 class="doc-h2">产销链</h3>
+<ul>
+<li><strong>客户情况</strong>：
+<ul>
+<li><strong>主要客户</strong>：公司对单一客户依赖度极高。苹果公司通过多家代工厂采购，在FY26和FY25分别占公司总收入的<strong>50%</strong>和<strong>47%</strong>。三星电子在FY26和FY25均占收入的<strong>10%</strong>。这两大客户主要采购ACG部门的蜂窝射频解决方案。客户集中度风险显著，任何一家主要客户的订单波动或采购策略变化都将对公司业绩产生重大影响。</li>
+<li><strong>新客户/新业务</strong>：在汽车领域，CSG部门的UWB解决方案已与领先一级供应商合作，在FY26 Q3获得首批量产订单，覆盖数字钥匙、儿童存在检测等应用。在国防领域，公司正与多国客户探讨AESA雷达解决方案。这些新业务处于早期放量阶段，是未来多元化收入来源的关键。</li>
+</ul>
+</li>
+<li><strong>供应商情况</strong>：公司采用集中化采购和供应链管理。其制造过程需要多种原材料，包括GaN-on-SiC晶圆、GaAs晶圆、硅片、钽酸锂和铌酸锂等。公司通过签订长期供应协议和开发替代供应商来管理供应风险。其内部制造主要集中于最具差异化的技术环节，如BAW、GaAs、GaN和SAW晶圆的生产，而标准化的硅基工艺（如SOI、CMOS）则外包给全球领先的代工厂。</li>
+<li><strong>成本转嫁能力</strong>：公司赚取的主要是技术溢价，而非单纯的周期资源钱。当上游原材料（如贵金属）涨价时，公司通过其技术领先性和部分领域的准垄断地位，具备一定的成本转嫁能力，但并非绝对。其盈利能力的核心驱动力是产品组合的优化（增加高毛利产品占比）和内部制造效率的提升，而非单纯依赖价格传导。</li>
+</ul>
+<h3 class="doc-h2">财务数据</h3>
+<p><strong>关键财务数据（单位：百万美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2024</th><th>FY2025</th><th>FY2026</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2024-03-30</td><td>2025-03-29</td><td>2026-03-28</td></tr><tr><td>营业总收入</td><td>3,769.51</td><td>3,718.97</td><td>3,678.52</td></tr><tr><td>收入同比</td><td>5.6%</td><td>-1.3%</td><td>-1.1%</td></tr><tr><td>营业成本</td><td>2,281.01</td><td>2,183.38</td><td>1,990.42</td></tr><tr><td>毛利润</td><td>1,488.50</td><td>1,535.59</td><td>1,688.10</td></tr><tr><td><strong>毛利率</strong></td><td><strong>39.5%</strong></td><td><strong>41.3%</strong></td><td><strong>45.9%</strong></td></tr><tr><td>研发费用</td><td>682.25</td><td>747.71</td><td>726.12</td></tr><tr><td>销售及管理费用</td><td>389.14</td><td>403.62</td><td>380.67</td></tr><tr><td>营业利润</td><td>91.70</td><td>95.53</td><td>411.42</td></tr><tr><td><strong>营业利润率</strong></td><td><strong>2.4%</strong></td><td><strong>2.6%</strong></td><td><strong>11.2%</strong></td></tr><tr><td>归母净利润</td><td>-70.32</td><td>55.62</td><td>338.99</td></tr><tr><td>归母净利润同比</td><td>-</td><td>179.1%</td><td>509.5%</td></tr><tr><td>稀释每股收益 (美元)</td><td>-0.72</td><td>0.58</td><td>3.62</td></tr><tr><td>经营活动现金流净额</td><td>833.19</td><td>622.20</td><td>808.63</td></tr><tr><td>资本性支出</td><td>127.23</td><td>137.60</td><td>129.07</td></tr><tr><td><strong>自由现金流</strong></td><td><strong>705.96</strong></td><td><strong>484.60</strong></td><td><strong>679.56</strong></td></tr></tbody></table></div>
+<p>（注：自由现金流 = 经营活动现金流净额 - 资本性支出。）</p>
+<p><strong>财务分析</strong>：</p>
+<ul>
+<li><strong>盈利能力</strong>：公司FY26盈利能力实现质的飞跃。毛利率从FY25的<strong>41.3%</strong> 跃升至<strong>45.9%</strong>，营业利润率从<strong>2.6%</strong> 飙升至<strong>11.2%</strong>。这主要归因于ACG部门战略性退出低利润安卓市场、HPA部门有利的产品组合以及制造整合带来的成本节约。归母净利润同比暴增<strong>509.5%</strong>，显示出战略转型在利润端的巨大成效。</li>
+<li><strong>运营能力</strong>：公司运营效率显著提升。存货从FY25的<strong>6.41亿美元</strong>下降至<strong>5.54亿美元</strong>，降幅达<strong>13.6%</strong>，表明公司在主动去库存和优化库存管理。FY26应收账款为<strong>3.83亿美元</strong>，与上年基本持平，收入质量稳定。</li>
+<li><strong>现金流与偿债能力</strong>：公司现金流强劲，FY26经营活动现金流净额为<strong>8.09亿美元</strong>，自由现金流为<strong>6.80亿美元</strong>，均大幅高于FY25。这为公司在FY26 Q4进行<strong>4亿美元</strong>的大规模股票回购提供了坚实基础。公司总负债从FY25的<strong>25.41亿美元</strong>降至<strong>24.81亿美元</strong>，长期债务稳定在<strong>15.49亿美元</strong>，现金及现金等价物增至<strong>12.19亿美元</strong>，净债务进一步缩小，财务状况非常健康。</li>
+</ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p>Qorvo主要参与<strong>射频前端</strong>和<strong>高性能模拟/化合物半导体</strong>两大细分市场。</p>
+<ul>
+<li><strong>1. 射频前端市场</strong>
+<ul>
+<li><strong>行业趋势</strong>：该市场主要受智能手机技术升级（5G/6G）驱动，要求更复杂、更高集成度的模组。然而，智能手机整体出货量已进入存量博弈阶段，增长主要来自单机价值量的提升。在非手机领域，Wi-Fi 7/8、UWB、汽车V2X和卫星通信等应用为行业提供了新的增长点。</li>
+<li><strong>竞争格局</strong>：市场高度集中，Qorvo的主要竞争对手包括Broadcom、Skyworks、Qualcomm和Murata。竞争焦点在于技术性能、集成能力、成本控制和大客户关系。大客户的多源化策略使得份额争夺异常激烈。Qorvo在BAW滤波器和GaAs/GaN PA方面有差异化技术，但在集成模块领域面临来自Broadcom和Qualcomm的强力竞争。</li>
+</ul>
+</li>
+<li><strong>2. 高性能模拟/化合物半导体市场</strong>
+<ul>
+<li><strong>行业趋势</strong>：该市场由国防现代化、5G基站建设和宽带网络升级（DOCSIS 4.0）驱动。特别是国防领域，相控阵雷达、电子战系统对GaN射频器件的需求激增，市场增长确定性强，且对供应商的资质和可靠性要求极高。</li>
+<li><strong>竞争格局</strong>：Qorvo的HPA部门主要与Analog Devices、MACOM和Texas Instruments竞争。在国防航天领域，其"可信供应商"资质构成了强大的护城河，竞争相对缓和，利润率较高。</li>
+</ul>
+</li>
+</ul>
+<p><strong>可比公司</strong>：</p>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>对标维度</th><th>分析</th></tr></thead><tbody><tr><td>Skyworks</td><td>SWKS</td><td>业务模式、客户结构</td><td>与Qorvo高度相似，均为苹果核心射频供应商，面临相同的客户集中度风险和智能手机市场增长瓶颈。两者合并旨在整合资源，降低成本，应对竞争。</td></tr><tr><td>Broadcom</td><td>AVGO</td><td>技术竞争、产品广度</td><td>射频前端市场的强大竞争对手，尤其在FBAR滤波器和集成模块领域技术领先。其产品组合远比Qorvo多元化，客户基础更广，抗风险能力更强。</td></tr><tr><td>Qualcomm</td><td>QCOM</td><td>模块级竞争</td><td>作为基带芯片霸主，通过提供"基带+射频"捆绑方案，在集成模块市场对Qorvo构成直接威胁。其平台化优势使其在手机OEM中拥有强大的议价能力。</td></tr></tbody></table></div>
+<p><strong>总结分析</strong>：Qorvo在射频前端市场面临激烈的寡头竞争，其核心竞争力在于高端滤波器（BAW）和化合物半导体（GaAs/GaN）的技术积累，以及在国防航天领域的独特市场地位。与Skyworks的合并是应对行业竞争加剧和大客户议价能力过强的战略举措，旨在通过规模效应和成本协同来提升盈利能力和行业话语权。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<ul>
+<li><strong>议题一：苹果业务的前景与份额稳定性</strong>——<strong>背景</strong>：苹果是Qorvo最大的客户，占FY26收入的<strong>50%</strong>。苹果的多供应商策略和对核心技术的控制欲，使得Qorvo在其供应链中的地位一直存在不确定性。公司已确认在下一代iPhone中失去部分UHB焊盘份额，这加剧了市场对其苹果业务可持续性的担忧。<strong>问题列表</strong>：1）公司在iPhone 18中具体失去了哪些组件，价值量多大？新获得的iPad高波段焊盘和ET PMIC增益能否完全抵消损失？2）管理层指引FY27苹果收入持平，这一预期是基于怎样的销量和内容假设？是否过于乐观？3）长期看，苹果自研射频组件（如基带芯片后的射频前端）的风险有多大？</li>
+<li><strong>议题二：安卓业务收缩的节奏与对盈利的真实影响</strong>——<strong>背景</strong>：公司正加速退出低端安卓市场，导致FY27安卓收入预计减少<strong>3亿美元</strong>。市场需要区分这是主动的战略选择，还是被动地丢失市场份额。同时，需要评估这种收入收缩对毛利率和运营利润的净影响。<strong>问题列表</strong>：1）3亿美元的收入下降中，多少是主动退出，多少是因存储价格上涨导致客户砍单？2）退出低端安卓市场后，公司在该市场的剩余收入规模是多少？是否已触底？3）收入下降带来的毛利率提升是一次性的，还是结构性的？运营费用能否随收入同步下降以保护利润？</li>
+<li><strong>议题三：毛利率超50%的可持续性与驱动力</strong>——<strong>背景</strong>：公司FY26 Q4毛利率达到惊人的<strong>52.6%</strong>，并指引FY27全年毛利率<strong>超过50%</strong>。这一水平远超历史表现，市场对其可持续性存在分歧。<strong>问题列表</strong>：1）52.6%的季度毛利率中，有多少是来自一次性因素（如产品组合的季节性波动、库存影响）？2）指引的50%以上毛利率，其核心驱动力是产品组合优化（HPA占比提升），还是制造降本？各自的贡献度如何？3）如果未来苹果或安卓高端市场竞争加剧，需要重新增加研发或降价，毛利率能否维持在50%以上？</li>
+</ul>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧点：FY26 Q4及FY27的高毛利率是结构性改善的起点，还是由一次性因素驱动的周期性高点？</strong></p>
+<p><strong>乐观方观点</strong>：认为毛利率改善是结构性的。其逻辑支撑在于：1）公司主动退出了低毛利的安卓业务，这部分收入的永久性消失将结构性提升整体毛利率；2）高毛利的国防航天业务（HPA）占比持续提升，其FY27收入将首次超过安卓业务，成为新的利润引擎；3）制造整合（关闭工厂、外包）带来的成本节约是永久性的。因此，即使总收入下降，公司盈利能力和自由现金流也将进入一个持续改善的通道。</p>
+<p><strong>谨慎方观点</strong>：认为高毛利率难以持续，或存在周期性因素。其逻辑支撑在于：1）FY26 Q4 <strong>52.6%</strong> 的毛利率可能包含了有利的一次性产品组合（如苹果高端机型备货高峰）和库存因素，未来季度可能回落；2）公司在苹果供应链中的份额流失（UHB焊盘）才刚刚开始体现，未来可能面临更多组件的竞争，从而拉低ACG部门的利润率；3）HPA业务虽然增长强劲，但其收入体量仍相对较小，不足以完全抵消ACG部门可能出现的更大规模收入下滑。若苹果业务下滑超预期，规模效应减弱将导致毛利率承压。</p>
+<p><strong>总结分析</strong>：Qorvo的毛利率改善具备坚实的结构性基础，主动剥离低利润业务和制造优化是真实的利润增厚。然而，谨慎方的担忧也不无道理，苹果业务的不确定性是最大的潜在风险。FY26 Q4的极高毛利率水平大概率包含部分一次性利好，未来可能正常化至50%附近。毛利率能否持续提升，最终取决于HPA业务的增长能否持续超越ACG业务的下滑，以及公司能否在苹果供应链中稳住阵脚并找到新的增长点。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>券商盈利预测与估值</strong>：</p>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价</th><th>财务指标</th><th>FY2026A</th><th>FY2027E</th><th>FY2028E</th><th>FY2029E</th></tr></thead><tbody><tr><td>瑞银 (2026-05-07)</td><td>中性</td><td>$100</td><td>营业收入(百万美元)<br>Non-GAAP EPS (美元)</td><td>3,679<br>7.01</td><td>3,509<br>7.70</td><td>3,657<br>8.53</td><td>-<br>-</td></tr><tr><td>花旗 (2026-05-07)</td><td>中性</td><td>$100</td><td>营业收入(百万美元)<br>Non-GAAP EPS (美元)</td><td>3,679<br>7.01</td><td>3,466<br>6.89</td><td>3,679<br>7.77</td><td>3,855<br>8.71</td></tr><tr><td>摩根大通 (2026-05-06)</td><td>中性</td><td>$100</td><td>营业收入(百万美元)<br>Non-GAAP EPS (美元)</td><td>3,679<br>7.00</td><td>3,479<br>6.95</td><td>-<br>-</td><td>-<br>-</td></tr><tr><td>摩根士丹利 (2026-01-31)</td><td>等权重</td><td>$84</td><td>营业收入(百万美元)<br>Non-GAAP EPS (美元)</td><td>3,668<br>6.54</td><td>3,425<br>6.88</td><td>3,558<br>8.21</td><td>-<br>-</td></tr></tbody></table></div>
+<p>（注：各机构预测口径可能略有差异，此处统一采用Non-GAAP口径。目标价均为美元。）</p>
+<p><strong>管理层指引</strong>：由于与Skyworks的合并悬而未决，公司已不再提供季度指引。但管理层重申了FY27的年度目标：收入同比<strong>中个位数下降</strong>，毛利率<strong>超过50%</strong>，Non-GAAP EPS<strong>接近7.00美元</strong>。</p>
+<p><strong>估值分析</strong>：当前市场对Qorvo的估值逻辑已完全围绕其与Skyworks的合并交易展开。多家机构的目标价均基于合并条款（<strong>0.96股Skyworks股票 + 32.50美元现金</strong>）进行折算，并给予一定的交易风险折价。例如，瑞银和花旗的<strong>100美元</strong>目标价即基于此方法。机构间的盈利预测存在分歧，主要集中在对FY27收入下滑幅度的判断上，但EPS预测普遍在<strong>7.00美元</strong>附近，与管理层指引一致。这表明市场对公司的自我改善能力（毛利率提升）有一定共识，但对收入端的压力程度看法不一。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/QRVO · 生成于 2026-08-07</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-07';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'hit',     text: '<strong>FY26 Q4 财报超预期：营收 8.08 亿美元、毛利率 52.6%</strong>（市场预期仅 48.5%），同时宣布回购 4 亿美元股票', note: '2026-05-06 财报披露' },
+  { kind: 'cat', status: 'hit',     text: '<strong>双方股东批准合并协议</strong>：股东层面落地，仅剩监管关卡', note: '2026-02-11 Qorvo 与 Skyworks 各自特别股东大会' },
+  { kind: 'cat', status: 'active',  text: '<strong>合并监管审批：FTC「二次请求」审查中</strong>，尚待美国、中国等辖区反垄断与外国投资审批——预计 2026 年底至 2027 年初交割', note: 'Skyworks 管理层称有望 2026 年底完成' },
+  { kind: 'cat', status: 'pending', text: '<strong>FY27 Q1 财报</strong>（2026-08）：退出低端安卓后首个完整季度，验证收入结构变化与毛利率可持续性', note: '管理层已停止季度指引；FY27 年度目标：收入中个位数下降、毛利率超 50%、EPS 近 7.00 美元' },
+  { kind: 'cat', status: 'pending', text: '<strong>iPhone 18 拆解量化内容变化</strong>（2026 下半年）：UHB 焊盘流失 vs iPad / 其他组件增益的净影响', note: '管理层指引 FY27 苹果收入持平' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>合并被否决或严重拖延</strong>：FTC / 中国等任一司法管辖区否决 → 股价失去合并溢价、回落独立定价', note: '审查处于「二次请求」关键阶段' },
+  { kind: 'risk', status: 'clear', text: '<strong>苹果份额流失扩大</strong>：UHB 焊盘流失已确认；若 ET PMIC、集成模块等关键组件再失，或苹果加速自研射频 → 收入与利润率双杀', note: '苹果占 FY26 收入 50%' },
+  { kind: 'risk', status: 'clear', text: '<strong>毛利率回落</strong>：FY27 毛利率显著低于「超 50%」指引，证明 Q4 的 52.6% 是一次性高点', note: 'Q4 超预期 4 个百分点的缺口本身即含一次性成分的质疑' },
+  { kind: 'risk', status: 'clear', text: '<strong>收入下滑超预期</strong>：FY27 降幅超过中个位数指引，规模效应减弱反噬利润率', note: '安卓收入 -3 亿美元 + 存储涨价客户砍单为已知拖累' },
+  { kind: 'risk', status: 'clear', text: '<strong>合并后新公司多源化压力加剧</strong>：新实体在苹果等大客户处的份额更高，客户多源化 / 自研动机增强', note: '长期风险，合并交割后显现' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

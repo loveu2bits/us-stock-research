@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AppLovin（APP.O）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--policy-red); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">APP</span>
+    <span class="site-mark__text">AppLovin 公司研究<span>AppLovin · APP.O</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>AppLovin<span class="en">AppLovin · APP.O · 美股研究</span></h1>
+        <p class="sub">移动广告技术新贵刚刚交出上市以来第一次显著低于指引的季报：2026Q2 营收 19.24 亿美元、调整后 EBITDA 16.14 亿美元双双不及预期，管理层归因于一次重大 Axon 模型更新的部署延迟而非需求走弱。股价自年内高点回撤超过 40%，NTM EV/EBITDA 压至约 12 倍（18 个月低位）。但我们认为这次 miss 的性质更接近「一次性节奏扰动」而非「增长引擎熄火」：电商广告支出创历史新高（较上季旺季 +28%）、84% 的调整后 EBITDA 利润率、36% 的全球手游广告份额、以及每季度十亿美元级的回购都没有受损。核心矛盾从「增长太快值不值」切换成了「模型迭代放缓 + 电商接力能否兑现」——当前估值已把前者的悲观充分定价，后者的任何正面验证都是免费的期权。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-07</span>
+          <span>下次更新：2026Q3 财报（2026-11，模型更新效果与电商旺季首次验证）</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="buy">买入</strong>
+        <em>约 12x NTM EV/EBITDA（2026-08 初，18 个月低位；现价约 275 美元为反推估算）、对应约 17x FY2026E GAAP PE（估算）；三情景期望值约 +24%、赔率约 2.7:1（估算）。核心逻辑：Q2 miss 系模型延迟一次性扰动，电商二曲线数据仍强，84% EBITDA 利润率 + 回购托底。重检条件：Q3 营收再现低于指引下限、电商广告主支出环比收缩、或游戏广告增速跌破 25%。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">营收 +56%</strong><span>2026 H1 同比·37.66 亿美元</span></div>
+      <div class="summary-rail__item"><strong>~84%</strong><span>2026Q2 调整后 EBITDA 利润率</span></div>
+      <div class="summary-rail__item"><strong>36%</strong><span>全球手游广告收入份额·第一</span></div>
+      <div class="summary-rail__item"><strong>~12x</strong><span>NTM EV/EBITDA·18 个月低位</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">Q2 首次显著低于指引：Axon 模型迭代是一次性扰动，还是边际收益递减的开始？</h2>
+        <span class="qa__impact-tag">→ 11 季度来首次 miss · 增长引擎的可控性成估值折价项</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>现有证据更支持「一次性扰动」：2026Q2 营收 19.24 亿美元低于指引中值（19.30 亿）与一致预期（19.35 亿），调整后 EBITDA 16.14 亿美元贴着指引下限（16.15 亿）下方，管理层归因于一次计划中的重大模型更新未能在 Q2 内部署、顺延至 Q3 初上线，<strong>且强调并非广告主需求走弱或竞争格局变化</strong>——同期电商垂类投放创历史新高可以旁证需求端未坏。公司过去 11 个季度有 10 个季度营收超出指引上限，Q2 是首次显著失手。<em>保留判断：「模型驱动型增长」天然伴随迭代节奏的不确定性，管理层自己也承认模型改进非线性；若 Q3 新模型上线后 Q4 指引再现减速，「一次性」的归因将被证伪，这是本研究的头号证伪信号。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>对 EPS 的影响是节奏性而非水平性的。</strong>延迟的模型更新已在 Q3 初上线，Q3 指引营收 20.55-20.85 亿美元（同比 +46%-48%、环比 +7%-8%）已反映新模型的开局提速；若按 10/11 季度的历史 beat 率，Q3 存在超预期可能。卖方 FY2026E 营收预测仍集中在 81.8-83.8 亿美元（同比 +49% 至 +53%），Q2 miss 并未引发盈利预测的坍塌式下修。</p>
+            <p>真正的作用渠道在<strong>倍数</strong>：市场对「公司能否控制自己的增长引擎」打了折价，这正是 NTM EV/EBITDA 从 2025 年高点的 30 倍+ 压到约 12 倍的主要原因之一（估算）。摩根士丹利 Q2 业绩后即把目标倍数从 27 倍下调至 22 倍。<strong>Q3 财报是倍数修复与否的分水岭</strong>——重回 beat-and-raise 轨道则折价收敛，连续 miss 则市场将按「增长波动性永久性上升」重新定价。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>miss 的幅度极小（营收低于一致预期不足 1%、EBITDA 贴下限），且<strong>归因清晰可验证</strong>——模型更新推迟到 Q3 初上线，Q3 指引环比 +7%-8% 已体现提速</li>
+              <li><strong>11 个季度 10 次超指引上限</strong>的执行记录是管理层信誉的存量资本，单次小幅 miss 不足以推翻</li>
+              <li>需求端旁证未坏：Q2 电商垂类投放创历史新高（较上一年 Q4 旺季 +28%）、MAX 发布商收入环比双位数增长、流量瀑布份额稳定</li>
+              <li>转化率从 1.0% 升至 1.3% 的长期轨迹未变，模型架构与 LLM 相似、随 AI 技术进步持续受益——<strong>迭代能力是「暂时受阻」而非「见顶」</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>「模型延迟」是<strong>不可第三方验证的黑箱解释</strong>——外部投资者无法区分「部署延迟」与「改进效果不达预期后推迟发布」</li>
+              <li>当增长引擎只剩模型迭代一个变量时，<strong>任何一次迭代失速都会直接转化为业绩 miss</strong>，这种脆弱性是结构性的</li>
+              <li>游戏广告 2026Q2 同比增速估计已降至约 39%（2025 全年约 70%），减速恰好与模型延迟叠加，<strong>难以完全切割归因</strong></li>
+              <li>管理层自己承认「模型改进并非线性过程，短期波动难以避免」——<strong>未来业绩波动性加大应匹配更低的估值倍数</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（Q2 业绩复盘 · beat 记录 · 转化率经济学）</summary>
+          <div class="evidence__body">
+            <h5>2026Q2 业绩 vs 指引 vs 一致预期（单位：亿美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>实际</th><th>公司指引</th><th>一致预期</th><th>差异</th></tr></thead><tbody><tr><td>营收</td><td>19.24</td><td>19.15-19.45（中值 19.30）</td><td>19.35</td><td><span class="warn">低于中值与预期</span></td></tr><tr><td>调整后 EBITDA</td><td>16.14</td><td>16.15（下限）</td><td>—</td><td><span class="warn">贴下限下方</span></td></tr><tr><td>调整后 EBITDA 利润率</td><td>~83.9%</td><td>84%-85%</td><td>—</td><td>略低于指引区间</td></tr></tbody></table></div>
+            <h5>历史执行力与模型迭代轨迹</h5>
+            <ul>
+              <li><strong>beat 记录</strong>：过去 11 个季度中 10 个季度营收超出指引上限，2026Q2 为首次显著低于指引</li>
+              <li><strong>模型延迟</strong>：一次计划中的重大模型更新未能在 Q2 内部署，延迟至 Q3 初上线；管理层归因为部署节奏问题，非需求或竞争因素（2026-08-05 业绩会）</li>
+              <li><strong>转化率轨迹</strong>：广告转化率从 1.0% 提升至约 1.3%，对比 Meta 约 0.25% 的「真实」转化率口径仍有约 10 倍理论空间；据测算<strong>转化率每提升 10 个基点可驱动约 17% 的净收入增长</strong>，若维持每年约 20 个基点的提升速度，2030 年营收有望较当前一致预期高出约 50%</li>
+              <li><strong>增长结构变化</strong>：从「量价齐升」（早期安装量 +50%、单安装净收入 +22%）转向「价增量减」（2026Q2 单安装净收入 +58%、安装量 -2%）——变现效率驱动的增长对模型迭代的依赖度更高</li>
+              <li><strong>Q3 指引</strong>：营收 20.55-20.85 亿美元（同比 +46%-48%），调整后 EBITDA 17.10-17.40 亿美元（利润率约 83%），已反映新模型开局提速</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">电商广告扩张：第二曲线能否在游戏减速前接棒？</h2>
+        <span class="qa__impact-tag">→ 占营收约 13% · 决定长期增长跑道与倍数上限</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>方向已被验证、规模尚待验证。强的一面：2026Q2 消费垂类投放金额创历史新高、较 2025Q4 旺季高出 28%；第三方渠道调研显示 AppLovin 在电商广告主预算中的份额从 9.4% 升至 11.1%、<strong>增幅居所有渠道之首</strong>，ROAS 排名第三（仅次于 Meta 与 Google）。弱的一面：活跃电商广告主仅约 1 万家、平均客户月支出从试点期的 14 万美元降至约 3 万美元，第三方像素追踪显示客户增速有所放缓。<em>我们的判断：电商广告 TAM 是游戏的 5-10 倍、公司钱包份额仅约 10%，跑道真实存在；但 2026 下半年旺季 + 自助平台开放后的爬坡数据必须持续兑现，否则「第二曲线」只能停留在叙事层面。按花旗预测，2028 年电商将贡献超过 50% 的总营收增量——这是多空双方分歧最大的单一变量。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>短期 EPS 贡献有限。</strong>电商/消费广告 2026 H1 收入约 5 亿美元（券商估算，占比约 13%、同比约 +150%），即便翻倍也只在总营收上贡献十几个点的增量；它对 2026-2027 年 EPS 的意义是「边际增速」而非「盈利主体」。</p>
+            <p><strong>但倍数含义重大。</strong>当前约 12 倍 EV/EBITDA 本质是「游戏广告平台」的定价——游戏市场 2025 年约 120 亿美元、公司已占 36%，天花板清晰可见。若电商在 2027-2028 年证明自己（广告主数破数万、平均支出企稳回升、旺季支出环比加速），公司的可寻址市场将重估为游戏的 5-10 倍，估值锚从「游戏广告」切换到「全品类效果广告平台」，倍数修复空间远大于 EPS 上修空间。<strong>摩根士丹利的测算提供了一个安全边际参照：即使电商业务估值为零，仅游戏广告业务即可支撑当前估值</strong>（对应 2027 年约 18x EV/EBITDA，估算）。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>预算迁移是硬数据：电商广告主预算份额 9.4%→11.1%（2025Q4→2026 全年），<strong>增幅全渠道第一</strong>，且广告主反馈 ROAS 强劲（渠道调研，2026-07）</li>
+              <li>Q2 投放较上一年 Q4 旺季<strong>高出 28%</strong>——传统旺季尚未到来就已创历史新高，下半年返校季/黑五/圣诞的弹性可期</li>
+              <li>自助平台 6 月下旬全面开放，从邀请制试点转向规模化获客；AI 创意工具（互动落地页已高采用率、视频生成在研）<strong>持续降低中小广告主门槛</strong></li>
+              <li>TAM 是游戏的 5-10 倍、钱包份额仅约 10%——<strong>渗透率极低本身就是增长空间</strong>；管理层预计游戏与电商增速 3-5 年内趋同</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>客户质量信号走弱：平均客户月支出从试点期 14 万美元降至<strong>约 3 万美元</strong>，可以解读为「客户结构下沉」，也可能是「大客户预算退潮」</li>
+              <li>第三方像素追踪显示电商客户增速放缓，<strong>与公司口径的「创历史新高」存在温差</strong>——在缺少官方分部数据的情况下，验证只能依赖间接信号</li>
+              <li>电商战场是 Meta 与 Google 的主场：两者拥有第一方交易数据与更庞大的广告主生态，AppLovin 的<strong>无 ID 流量优势能否迁移到电商品类未经证实</strong></li>
+              <li>公司自 2025Q3 起不再披露分部收入，<strong>电商进展的可见度天然偏低</strong>——叙事与事实之间的缝隙正是做空逻辑的温床</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（电商关键数据 · 分部拆分估算 · TAM 测算）</summary>
+          <div class="evidence__body">
+            <h5>电商/消费广告关键数据</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>数值</th><th>出处 / 评价</th></tr></thead><tbody><tr><td>2026Q2 投放金额</td><td>创历史新高，较 2025Q4 旺季 <strong>+28%</strong></td><td>2026-08-05 业绩会</td></tr><tr><td>电商预算份额</td><td>9.4%（2025Q4）→ <strong>11.1%</strong>（2026 全年），增幅全渠道第一</td><td>渠道调研（2026-07-10）；ROAS 排名第三，仅次于 Meta、Google</td></tr><tr><td>活跃电商广告主</td><td>约 <strong>1.1 万</strong>（2026-07 底）</td><td>第三方数据；公司未正式披露</td></tr><tr><td>平均客户月支出</td><td>试点期约 14 万美元 → 当前<strong>约 3 万美元</strong></td><td>公司业绩会口径；方向需辩证解读</td></tr><tr><td>2026 H1 收入（估算）</td><td>约 5 亿美元，占总营收<strong>约 13%</strong>，同比约 +150%</td><td>券商估算，公司不披露分部</td></tr><tr><td>远期贡献</td><td>2028 年贡献<strong>超 50% 总营收增量</strong></td><td>花旗预测（2026-08-04）</td></tr></tbody></table></div>
+            <h5>分部拆分（券商估算；单位：亿美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>业务板块</th><th>FY2024</th><th>FY2025</th><th>2026 H1</th><th>H1 占比</th></tr></thead><tbody><tr><td>游戏广告</td><td>~27.00（+47%）</td><td>~45.98（+70%）</td><td>~30.00（+35%）</td><td>~80%</td></tr><tr><td>电商/消费广告</td><td>~0.50</td><td>~4.83（+870%）</td><td>~5.00（+150%）</td><td>~13%</td></tr><tr><td>其他（MAX/Adjust/Wurl）</td><td>~4.74</td><td>~4.00（-16%）</td><td>~2.66</td><td>~7%</td></tr><tr><td><strong>总营收</strong></td><td><strong>32.24（+75%）</strong></td><td><strong>54.81（+70%）</strong></td><td><strong>37.66（+56%）</strong></td><td>100%</td></tr></tbody></table></div>
+            <p>注：公司自 2025Q3 起单一运营分部报告，游戏/电商拆分为券商估算；FY2023/2024 含已剥离的自研游戏工作室业务（2025-06-30 完成出售）。</p>
+            <h5>TAM 与渗透率</h5>
+            <ul>
+              <li>全球电商广告市场规模估计为游戏广告的 <strong>5-10 倍</strong>；管理层估计公司仅占消费者广告主钱包份额约 <strong>10%</strong>（2026-03）</li>
+              <li>自助广告平台：2025Q4 邀请制试点 → 2026-06-23 全面开放，优先面向预算与试错能力更强的中端市场广告主</li>
+              <li>核心瓶颈：中小广告主缺乏制作 30-60 秒长视频广告的能力（AI 视频生成工具在研）；模型对电商交易数据的学习仍处早期</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">游戏广告基本盘：36% 份额之后，天花板还有多远？</h2>
+        <span class="qa__impact-tag">→ 占营收约 80% · 现金流与增长的基本盘</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>游戏广告仍是约 80% 的收入来源，且护城河完好：2025 年 1 月至 2026 年 5 月公司占全球手游广告收入的 <strong>36%、稳居第一</strong>（超休闲 41%、休闲 31%），同期全球手游内购市场在萎缩（2026Q2 同比 -6%），AppLovin 的增长（Q2 估计约 +39%）几乎全部来自份额与变现效率提升。但天花板同样真实：管理层自己承认游戏广告渗透率已高、增速将逐步放缓。<em>我们的判断：游戏业务的未来增长主要不靠份额（36% 继续提升的空间有限），而靠<strong>转化率提升</strong>（1.3% → 理论空间数倍）与<strong>供给侧扩张</strong>（混合变现 +75 亿美元级增量、AI 降低游戏开发成本带来新买量需求）——这是一条增速缓慢下台阶但利润率持续抬升的现金牛路径，足以支撑当前估值，但撑不起成长股倍数。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>游戏是 EPS 的主体，也是估值的安全边际。</strong>2026 H1 游戏广告约 30 亿美元（估算）、EBITDA 利润率 84% 主要由它贡献。卖方对 FY2026E 调整后 EBITDA 的预测集中在 68.8-70.8 亿美元——隐含假设已包含游戏增速从 70% 向 30-40% 下台阶。只要游戏增速维持在 25% 以上、转化率继续爬坡，FY2026-2027 的 EPS 预测（GAAP 约 15.4-16.1 / 19.9-22.3 美元）就有支撑。</p>
+            <p>对倍数的影响是双向的：游戏减速本身已被定价（约 12x），<strong>风险在于减速斜率超预期</strong>——若 2027 年游戏增速跌破 20% 而电商尚未接棒，总营收增速将向管理层重申的长期 20%-30% 区间下沿靠拢，届时 12 倍就不再便宜。<strong>供给侧的两个增量（混合变现、AI 新游供给）是对冲减速的关键变量。</strong></p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>份额与效率双赢：36% 份额全球第一，且 AppLovin Ads 在 MAX 发布商侧贡献<strong>超过 50% 的用户获取支出</strong>——双边粘性都已验证</li>
+              <li>混合变现打开供给天花板：约 1,000 亿美元的内购市场若一半转向「内购+广告」，仅广告部分即<strong>约 75 亿美元增量</strong>——相当于再造半个当前市场</li>
+              <li>AI 降低游戏开发成本 → 新游供给增加 → 买量需求增加，<strong>行业 Beta 本身在改善</strong>；第三方应用内广告平台市场到 2030 年 CAGR 约 11%、规模约 1,390 亿美元</li>
+              <li>Meta 在 MAX 上仅对有 ID 流量出价、<strong>尚未进入无 ID 流量领域</strong>——AppLovin 在无 ID 环境的模型能力暂时没有巨头正面竞争</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>36% 份额意味着<strong>份额驱动的边际增长越来越难</strong>，2025 年 +70% 的增速不可复制，2026Q2 已降至约 39%（估算）</li>
+              <li>手游大盘疲弱是结构性问题：2026Q2 全球手游内购收入<strong>同比 -6%</strong>，广告变现渗透率提升（45%→56%）的红利已释放过半</li>
+              <li>转化率 1.3% 的「数倍空间」是与 Meta 不同口径的对比，<strong>实际天花板未经证实</strong>；每 10 个基点 = 17% 收入的弹性同样可以反向作用</li>
+              <li>平台依赖：业务高度绑定苹果 App Store 与 Google Play，<strong>ATT 式隐私政策再收紧</strong>或商店政策变化都可能直接削弱定向能力</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（份额数据 · 供给侧增量 · 竞争格局）</summary>
+          <div class="evidence__body">
+            <h5>游戏广告市场地位</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>数值</th><th>备注</th></tr></thead><tbody><tr><td>全球手游广告收入份额（2025-01 至 2026-05）</td><td><strong>36%，第一</strong></td><td>第三方数据；超休闲 41%、休闲 31%</td></tr><tr><td>AppLovin + Google AdMob 合计份额</td><td>65%</td><td>双寡头格局</td></tr><tr><td>2025 年全球手游广告收入</td><td>约 120 亿美元</td><td>第三方数据</td></tr><tr><td>2026Q2 全球手游内购收入</td><td><span class="warn">同比 -6%</span></td><td>大盘疲弱，APP 靠份额与效率逆势增长</td></tr><tr><td>MAX 发布商侧 AppLovin Ads 贡献</td><td>超过 50% 的用户获取支出</td><td>CEO 2026-02 表述</td></tr></tbody></table></div>
+            <h5>供给侧增量逻辑</h5>
+            <ul>
+              <li><strong>混合变现</strong>：内购（IAP）市场约 1,000 亿美元，若 50% 游戏转向「内购+广告」，广告部分约 <strong>75 亿美元增量机会</strong></li>
+              <li><strong>AI 新游供给</strong>：AI 降低开发成本 → 新游戏数量增加 → 买量需求扩张，进一步扩大可服务市场</li>
+              <li><strong>行业空间</strong>：独立第三方应用内广告技术平台市场以约 11% CAGR 增长，2030 年约 1,390 亿美元（摩根士丹利）</li>
+              <li><strong>管理层定调</strong>（2026-07）：游戏广告渗透率已高、增速将逐步放缓，需要电商接力；长期看游戏与电商增速 3-5 年内趋同</li>
+            </ul>
+            <h5>竞争与共生</h5>
+            <p>与 Meta、Google 的关系是「竞争+共生」：Meta 是 MAX 的长期合作伙伴但仅对有 ID 流量出价；Google 的 AdMob 是最大竞对（合计 65% 份额）；进入电商领域后将与两者正面竞争。其他竞对（Unity、Liftoff、Moloco、The Trade Desk）在增速与利润率上均明显落后。差异化壁垒：30-60 秒全屏视频的独特广告格式、无 ID 环境下的效果优化能力、对休闲游戏用户行为的深度理解。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 4 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">4</span>
+        <h2 class="qa__title">估值：12 倍 EV/EBITDA 是价值陷阱还是深度价值？</h2>
+        <span class="qa__impact-tag">→ 期望值约 +24% · 赔率约 2.7:1（估算）</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>截至 2026 年 8 月初，公司 NTM EV/EBITDA 约 <strong>12 倍、处于 18 个月低位</strong>，股价自年内高点回撤超过 40%。这个倍数对应的是：2026 H1 营收 +56%、调整后 EBITDA 利润率 84%、FY2026E 营收增速约 50%、FCF 转化率约 75%、年回购十亿美元级——<strong>定价隐含的假设接近「游戏广告平台，增长即将失速，电商不值钱」</strong>。三情景测算期望值约较现价 +24%，赔率约 2.7:1，对应「买入」。<em>保留判断：现价约 275 美元为按 12x EV/EBITDA 与券商目标价区间反推的估算值（精确值以行情为准）；高 beta 属性决定了它不适合追求低波动的资金，且若 Q3 再度 miss，下行空间会比情景表更深。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>盈利预测仍在高位，折价完全发生在倍数端。</strong>四家机构 FY2026E 营收预测 81.6-83.8 亿美元（同比 +49% 至 +53%）、调整后 EBITDA 68.8-70.8 亿美元（利润率约 84%）；FY2027E 营收 104.4-117.3 亿美元的分歧全部来自电商假设。Q2 miss 后摩根士丹利将目标倍数从 27 倍降至 22 倍（目标价 720→650 美元），花旗与杰富瑞仍维持 31-32 倍目标倍数（710/700 美元）——<strong>机构间的倍数分歧（22x vs 32x）本身就是赔率的来源</strong>。</p>
+            <p>下行保护来自三处：1）摩根士丹利测算电商估值为零时游戏业务即可支撑当前估值；2）净债务仅约 4.6 亿美元、年 FCF 约 40 亿美元级，回购授权剩余约 18 亿美元且 Q2 实际回购 5.51 亿美元；3）约 12 倍倍数对广告技术板块已处折价区间上沿附近（The Trade Desk 约 8x 但增速仅 ~14%）。<strong>上行弹性来自叙事切换</strong>：Q3-Q4 若模型与电商双双验证，倍数向 18-22x 修复的空间大于 EPS 上修空间。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>约 12x NTM EV/EBITDA 对应 <strong>FY2026E 营收增速约 50%、EBITDA 利润率 84%</strong>——增长/利润率组合在可比公司中无出其右（Meta ~13x 但增速 26%；Unity ~23x 但增速仅 13%）</li>
+              <li>券商目标价 625-710 美元，较反推现价约 275 美元隐含 <strong>+127% 至 +158%</strong> 空间——即便打对折也显著</li>
+              <li>回购是真金白银：2025 年回购 25.8 亿美元、2026 H1 已回购 15.3 亿美元，授权剩余约 18 亿美元，<strong>低估值下回购对 EPS 的增厚效率更高</strong></li>
+              <li>技术面出清较充分：回撤超 40%、估值 18 个月低位，Q3 若边际改善可能触发<strong>空头回补 + 机构增持</strong>的双重买盘</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>12 倍不算绝对便宜：The Trade Desk 约 8x，广告技术板块估值中枢在下移，<strong>「板块折价」可能是新常态而非错杀</strong></li>
+              <li>券商目标价普遍在 Q2 miss 后仍未来得及充分下修（除摩根士丹利外多为 8 月初之前的模型），<strong>目标价与现价的空间可能被高估</strong></li>
+              <li>增速下台阶是确定的：管理层重申长期增速仅 20%-30%，<strong>FY2027 后市场将按中速增长重新锚定倍数</strong></li>
+              <li>高 beta + 依赖单一模型黑箱 + 分部数据不透明，<strong>风险溢价理应高于表面倍数所显示的水平</strong>；外部质疑（做空报告）虽部分被 SEC 问询结束化解，但随时可能再起波澜</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（财务速览 · 三情景测算 · 券商预测）</summary>
+          <div class="evidence__body">
+            <h5>关键财务数据（单位：亿美元；FY2023/2024 含已剥离 Apps 业务）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>报告期</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026 H1</th></tr></thead><tbody><tr><td>营业总收入</td><td>18.42</td><td>32.24</td><td>54.81</td><td>37.66</td></tr><tr><td>收入同比</td><td>-34.6%</td><td>+75.1%</td><td>+70.0%</td><td><strong>+55.8%</strong></td></tr><tr><td>毛利率</td><td>80.6%</td><td>83.8%</td><td>87.9%</td><td><strong>88.6%</strong></td></tr><tr><td>营业利润率</td><td>41.9%</td><td>59.3%</td><td>75.8%</td><td><strong>77.9%</strong></td></tr><tr><td>归母净利润（同比）</td><td>3.57</td><td>15.80（+343%）</td><td>33.34（+111%）</td><td>24.72（+77%）</td></tr><tr><td>稀释 EPS（美元）</td><td>0.98</td><td>4.53</td><td>9.75</td><td>7.32</td></tr><tr><td>自由现金流</td><td>10.37</td><td>20.73</td><td><strong>39.52</strong></td><td>21.50</td></tr><tr><td>调整后 EBITDA 利润率</td><td>67.1%</td><td>—</td><td>82.3%</td><td>Q1 84.5% / Q2 ~83.9%</td></tr></tbody></table></div>
+            <p>注：2026 H1 自由现金流为估算值；公司预计全年 FCF/调整后 EBITDA 转化率约 75%。总债务 35.15 亿美元、现金 30.53 亿美元，<strong>净债务仅约 4.6 亿美元</strong>。2025 年回购 25.8 亿美元，2026 H1 回购 15.33 亿美元，授权剩余约 18 亿美元。</p>
+            <h5>三情景假设（FY2027 视角，以反推现价约 275 美元为基准；现价与倍数为估算）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>FY2027E EBITDA</th><th>合理 EV/EBITDA</th><th>隐含股价</th><th>vs 当前</th></tr></thead><tbody><tr><td>乐观（25%）</td><td>Q3 模型效果验证重回 beat-and-raise、电商旺季放量、叙事切换触发重估</td><td>~88 亿</td><td>18x</td><td>~464</td><td>+69%</td></tr><tr><td>中性（50%）</td><td>营收 +25% 左右，电商温和爬坡，倍数温和修复</td><td>~85 亿</td><td>14x</td><td>~349</td><td>+27%</td></tr><tr><td>悲观（25%）</td><td>模型迭代放缓坐实、电商停滞、游戏增速跌破 25%</td><td>~78 亿</td><td>9x</td><td>~205</td><td>-25%</td></tr></tbody></table></div>
+            <p><strong>期望值约 342 美元，较反推现价约 +24%；赔率约 2.7:1（+69% / -25%）。</strong>隐含股价按约 3.4 亿稀释股本、净债务约 4.6 亿美元折算（均为估算）。注意：悲观情景并非尾部——若电商与模型同时证伪，广告技术板块可比下限（约 8x）叠加盈利下修，实际下行可能更深；乐观情景的 18x 仍低于公司 2025 年高点时 30 倍+ 的倍数，并非激进假设。</p>
+            <h5>券商盈利预测与目标价</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级 / 目标价</th><th>FY2026E 营收（亿美元）</th><th>FY2026E EBITDA（亿美元）</th><th>FY2026E EPS（美元）</th><th>FY2027E 营收（亿美元）</th><th>FY2027E EPS（美元）</th></tr></thead><tbody><tr><td>摩根士丹利（2026-08-06）</td><td>增持 / $650</td><td>82.99</td><td>69.65</td><td>15.38（GAAP）</td><td>104.44</td><td>19.92</td></tr><tr><td>花旗（2026-08-04）</td><td>买入 / $710</td><td>81.80</td><td>68.89</td><td>16.06（GAAP）</td><td>107.46</td><td>22.29</td></tr><tr><td>杰富瑞（2026-07-22）</td><td>买入 / $700</td><td>83.78</td><td>70.82</td><td>—</td><td>117.29</td><td>—</td></tr><tr><td>华泰证券（2026-05-08）</td><td>增持 / $625</td><td>81.61</td><td>68.84</td><td>16.98（调整后）</td><td>106.09</td><td>22.02</td></tr></tbody></table></div>
+            <p>注：目标倍数区间 22-32 倍；摩根士丹利在 Q2 业绩后将目标倍数从 27 倍下调至 22 倍（目标价 720→650 美元），花旗与杰富瑞维持约 31-32 倍。<strong>FY2026E 营收共识约 82-84 亿美元、EBITDA 约 69-71 亿美元</strong>——盈利预测并未因 Q2 miss 坍塌，分歧全部集中在倍数与电商远期假设上。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>：公司概况、近况跟踪、业务拆分、财务数据、券商预测（见同目录《AppLovin_一页通.md》，亦见本站「一页通」标签页；内容截至 2026-08-06，2026Q2 财报已于 2026-08-05 发布并纳入）</li>
+        <li><strong>财务数据</strong>：FY2023-2026H1 利润表与现金流、2026Q2/Q3 指引（均来自公司财报及业绩会公开信息整理）</li>
+        <li><strong>局限</strong>：未直接读财报原文与电话会完整纪要（建议下一步补读 2026Q2 earnings call 中关于模型更新细节与电商广告主支出爬坡的表述）；现价与市值为按约 12x NTM EV/EBITDA 及券商目标价区间反推的估算值（约 275 美元），精确值以行情为准；游戏/电商分部收入为券商估算（公司自 2025Q3 起不再披露分部）；此前做空报告的具体指控未逐条核实（SEC 自愿问询已于 2026-08 结束且监管未建议采取行动，合规层面不确定性部分消除）；FY2023/2024 财务数据含已剥离的自研游戏工作室业务，跨年比较需注意口径</li>
+        <li><strong>管理层评估（一句话版）</strong>：创始人 Adam Foroughi 主导了出售 Apps 业务、全力押注 Axon 与电商扩张的两次关键转身，执行记录出色（11 个季度 10 次超指引上限），但 Q2 模型延迟事件暴露了「增长引擎系于单一模型黑箱」的透明度短板——管理层信誉总体加分，但需要 Q3 用结果自证</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<p><strong>说明：</strong>以下为「公司一页通」全文（内容截至 2026-08-06；公司于 2026-08-05 发布 2026Q2 财报，相关内容已纳入）。</p>
+<h3 class="doc-h2">公司概况</h3>
+<p>AppLovin是一家全球领先的AI驱动广告技术公司，提供端到端的广告解决方案，帮助广告主触达、变现和增长其全球受众。公司核心产品为AI广告推荐系统Axon，通过其需求侧广告平台AppLovin Ads（原名Axon Ads Manager）和供给侧聚合平台MAX，连接广告主与移动应用及联网电视（CTV）发布商。公司于2025年6月出售了其自研游戏工作室业务（Apps Business），全面转型为纯粹的第三方广告平台，目前业务重心正从移动游戏向电商等非游戏垂直领域扩张。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul>
+<li><strong>Q2业绩因模型迭代延迟低于预期</strong>：公司2026年Q2营收19.24亿美元，低于指引中值（19.30亿美元）及市场一致预期（19.35亿美元）；调整后EBITDA为16.14亿美元，低于指引下限（16.15亿美元）。管理层将此归因于一次计划中的重大模型更新未能如期在Q2内部署，而是延迟至Q3初上线，并非广告主需求走弱或竞争格局变化 <em>(2026年8月5日业绩会)</em>。</li>
+<li><strong>消费垂类（电商）广告支出创新高</strong>：尽管整体业绩低于预期，但消费垂类广告主投放金额在Q2创下历史新高，较2025年Q4旺季水平高出28%。这表明电商广告业务仍在强劲增长，但体量尚不足以完全对冲游戏业务的波动 <em>(2026年8月5日业绩会)</em>。</li>
+<li><strong>自助广告平台全面开放</strong>：AppLovin Ads Manager自助广告平台已于2026年6月下旬结束邀请制，向全球广告主开放。公司优先面向预算和试错能力更强的中端市场广告主，短期内不会重塑业务格局，但为长期客户多元化奠定了基础 <em>(2026年8月5日业绩会)</em>。</li>
+<li><strong>AI创意工具持续迭代</strong>：公司正在完善AI视频生成工具，以解决中小广告主在制作30-60秒长视频广告时面临的核心门槛。互动式落地页（End Card）生成工具已获较高采用率，但视频生成能力仍在优化中 <em>(2026年8月5日业绩会)</em>。</li>
+<li><strong>SEC自愿问询结束</strong>：公司此前披露的美国证券交易委员会（SEC）自愿问询已结束，监管机构未建议采取任何行动，消除了部分合规层面的不确定性 <em>(2026年8月5日业绩会)</em>。</li>
+</ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol>
+<li><strong>Q3模型更新驱动的业绩修复</strong>：Q2业绩不及预期的核心原因是模型迭代延迟，而该更新已于Q3初上线。管理层指引Q3营收20.55-20.85亿美元（环比增长7%-8%），已反映新模型带来的开局提速。若模型改进效果显著，Q3存在超预期可能。历史数据显示，公司在过去11个季度中有10个季度的营收超出指引上限，仅Q2为首次显著低于指引。Q3能否重回“beat and raise”轨道，是短期内股价修复的关键催化剂。</li>
+<li><strong>电商广告季节性放量</strong>：Q2消费垂类广告支出较Q4旺季高出28%，显示增长势头强劲。随着自助平台全面开放和下半年电商旺季（返校季、黑五、圣诞）到来，电商广告支出有望在Q3-Q4加速放量。Jefferies在2026年7月的渠道调研显示，AppLovin在电商广告主预算中的份额从2025年Q4的9.4%提升至2026年全年的11.1%，份额增幅居所有渠道之最，且广告主反馈ROAS表现强劲。若该趋势延续，电商业务有望在2026年下半年开始对整体营收产生更显著的增量贡献。</li>
+<li><strong>估值处于18个月低位，回购提供支撑</strong>：截至2026年8月初，AppLovin的EV/EBITDA（未来12个月）已压缩至约12倍，处于过去18个月的低位。公司Q2回购及代扣股份金额约5.51亿美元，回购授权剩余约18亿美元。在估值低位，积极的回购策略有望为股价提供一定支撑。</li>
+</ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol>
+<li><strong>广告转化率提升驱动的长期增长跑道</strong>：AppLovin当前广告转化率仅约1.3%，意味着约99%的广告展示未能产生转化。与Meta约0.25%的“真实”转化率（考虑点击率与购买转化）相比，存在约10倍的提升空间。据测算，转化率每提升10个基点，可驱动约17%的净收入增长。若公司能维持每年约20个基点的转化率提升速度，到2030年营收有望较当前一致预期高出约50%。转化率提升的核心驱动力来自Axon模型的持续迭代、广告主密度增加带来的数据飞轮效应，以及向电商等非游戏垂直领域扩张带来的广告多样性提升。</li>
+<li><strong>电商广告市场的结构性机遇</strong>：全球电商广告市场规模估计为游戏广告的5-10倍。AppLovin目前在该领域的渗透率极低，管理层估计仅占消费者广告主钱包份额的约10%。随着自助平台开放、AI创意工具成熟（降低视频广告制作门槛）以及模型对交易数据的持续学习，公司有望在电商领域复制其在游戏广告市场的成功。花旗预测，到2028年电商业务将贡献公司超过50%的总营收增量，成为增长的核心引擎。</li>
+<li><strong>混合变现趋势与供给端扩张</strong>：传统依赖内购（IAP）变现的游戏正加速转向“内购+广告”的混合变现模式。内购市场规模约1000亿美元，若其中50%的游戏转向混合变现，仅广告部分即可带来约75亿美元的增量机会。此外，AI降低游戏开发成本，推动新游戏供给增加，而这些新游戏需要通过广告平台获取用户，进一步扩大了AppLovin的可服务市场。Sensor Tower数据显示，2025年1月至2026年5月，AppLovin在全球手游广告收入中的份额已达36%，位居首位，在超休闲和休闲游戏领域分别占据41%和31%的份额。</li>
+</ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul>
+<li><strong>模型迭代不确定性</strong>：公司增长高度依赖Axon模型的持续改进。Q2的延迟事件表明，模型迭代节奏存在不确定性。若未来模型改进速度放缓或效果不及预期，可能导致营收增速超预期下滑。管理层在业绩会中强调，模型改进并非线性过程，短期波动难以避免。</li>
+<li><strong>电商业务扩张的可见度偏低</strong>：尽管电商广告增长强劲，但该业务仍处于早期阶段，客户基数较小（估计约1万活跃广告主），且平均客户支出呈下降趋势（从早期试点客户的月均14万美元降至当前约3万美元）。自助平台开放后，新客户获取速度和支出爬坡节奏尚待验证。若电商业务未能如期放量，市场对公司长期增长故事的信心可能动摇。</li>
+<li><strong>竞争加剧与平台依赖风险</strong>：Meta、Google等巨头在移动广告领域持续投入，且拥有更丰富的用户数据和更庞大的广告主生态。此外，AppLovin的业务高度依赖苹果App Store和Google Play Store等第三方平台，这些平台的隐私政策变化（如苹果的ATT框架）可能限制广告定向能力，对业务产生不利影响。</li>
+</ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul>
+<li><strong>2026年5月7日</strong>：公司发布Q1业绩，营收18.42亿美元（同比+59%），调整后EBITDA 15.57亿美元（同比+66%），均超市场预期。管理层指引Q2营收19.15-19.45亿美元，调整后EBITDA利润率84%-85%。</li>
+<li><strong>2026年6月23日</strong>：AppLovin Ads Manager自助广告平台结束邀请制，正式向全球广告主开放，标志着电商广告业务从封闭试点走向规模化扩张。</li>
+<li><strong>2026年7月10日</strong>：Jefferies发布Q2电商广告主渠道调研，显示AppLovin在电商广告预算中的份额从2025年Q4的9.4%提升至2026年全年的11.1%，份额增幅居所有渠道之最，且ROAS排名第三，仅次于Meta和Google。</li>
+<li><strong>2026年8月5日</strong>：公司发布Q2业绩，营收19.24亿美元，调整后EBITDA 16.14亿美元，均低于指引和市场预期，股价在盘后交易中承压。</li>
+</ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul>
+<li><strong>2026年8月-10月</strong>：Q3模型更新效果验证。管理层表示Q2延迟的模型更新已于Q3初上线，且Q3指引已反映其开局提速。若后续数据证实模型改进效果显著，有望驱动Q3业绩超预期并提振市场信心。</li>
+<li><strong>2026年9月-11月</strong>：电商旺季表现。下半年为全球电商旺季（返校季、黑五、圣诞），叠加自助平台全面开放后新广告主持续入驻，电商广告支出有望加速增长。若Q3或Q4业绩会中管理层披露电商业务的量化进展（如广告主数量、支出规模等），可能成为重要的正面催化。</li>
+<li><strong>2026年8月-10月</strong>：潜在的空头回补与机构增持。截至2026年8月初，AppLovin股价自年内高点回撤超过40%，估值处于18个月低位。若Q3业绩出现边际改善，可能触发空头回补行情。此外，公司在估值低位持续进行大规模回购（Q2回购约5.51亿美元），也在一定程度上提供了需求支撑。</li>
+</ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<p><strong>业务边际变化</strong>：公司于2025年6月30日完成了旗下自研游戏工作室业务（Apps Business）的出售，全面转型为纯粹的第三方广告技术平台。此后，公司将所有资源集中于广告技术业务，并加速向电商等非游戏垂直领域扩张。2025年Q4，公司推出邀请制自助广告平台；2026年6月，该平台正式向全球广告主开放。此外，公司于2026年5月推出了社交应用Gist（类似小红书），目前处于早期探索阶段，对财务影响微乎其微。</p>
+<p><strong>盈利模式</strong>：公司主要通过向广告主收取广告费来盈利，实质是一种“套利”或“价差”模式：广告主为每次安装或用户行动支付费用（即AppLovin的毛收入），AppLovin向发布商采购广告库存支付媒体成本，两者之间的差额即为净收入。公司的核心价值主张在于，通过Axon AI模型精准匹配广告与用户，提升广告主的广告支出回报率（ROAS），从而驱动广告主增加预算投放。公司的变现效率越高，价差越大，净收入增长越快。因此，公司的盈利模式高度依赖技术壁垒（AI模型精度）和规模效应（数据飞轮）。</p>
+<p><strong>业务拆分</strong>：公司自2025年Q3起作为单一运营分部报告，不再单独披露游戏广告、电商广告等细分收入。当前收入几乎全部来自广告业务，具体包括：1）Axon Ads Manager（需求侧广告平台），贡献绝大部分收入；2）MAX（供给侧聚合平台），按中标广告支出的百分比确认收入；3）Adjust（移动监测与分析平台），主要收取年度软件订阅费；4）Wurl（联网电视平台），按使用量和/或CPM模式收费。公司目前处于从游戏广告主导向电商等非游戏广告主扩张的转型期，电商业务虽增长迅速但体量尚小。</p>
+<p>由于公司不再披露细分业务收入，以下表格基于公司公告及券商估算数据编制。</p>
+<p><strong>细分业务拆分（基于券商估算）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>业务板块</th><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026 H1</th></tr></thead><tbody><tr><td><strong>游戏广告</strong></td><td>收入（亿美元）</td><td>~18.42</td><td>~27.00</td><td>~45.98</td><td>~30.00</td></tr><tr><td></td><td>同比</td><td>-</td><td>~47%</td><td>~70%</td><td>~35%</td></tr><tr><td></td><td>占总收入比</td><td>~100%</td><td>~84%</td><td>~84%</td><td>~80%</td></tr><tr><td><strong>电商/消费广告</strong></td><td>收入（亿美元）</td><td>-</td><td>~0.50</td><td>~4.83</td><td>~5.00</td></tr><tr><td></td><td>同比</td><td>-</td><td>-</td><td>~870%</td><td>~150%</td></tr><tr><td></td><td>占总收入比</td><td>-</td><td>~1.5%</td><td>~9%</td><td>~13%</td></tr><tr><td><strong>其他（MAX/Adjust/Wurl）</strong></td><td>收入（亿美元）</td><td>-</td><td>~4.74</td><td>~4.00</td><td>~2.66</td></tr><tr><td></td><td>同比</td><td>-</td><td>-</td><td>~-16%</td><td>~-</td></tr><tr><td></td><td>占总收入比</td><td>-</td><td>~15%</td><td>~7%</td><td>~7%</td></tr><tr><td><strong>总营收</strong></td><td><strong>收入（亿美元）</strong></td><td><strong>18.42</strong></td><td><strong>32.24</strong></td><td><strong>54.81</strong></td><td><strong>37.66</strong></td></tr><tr><td></td><td><strong>同比</strong></td><td><strong>-34.6%</strong></td><td><strong>75.1%</strong></td><td><strong>70.0%</strong></td><td><strong>55.8%</strong></td></tr></tbody></table></div>
+<p>注：FY2023及FY2024数据包含已剥离的Apps业务，上表为持续经营口径估算值。2026 H1数据来自财报。游戏广告与电商广告的拆分数据来自券商估算，公司未正式披露。</p>
+<p><strong>各细分业务最新情况（2026 H1）：</strong></p>
+<ul>
+<li><strong>游戏广告</strong>：仍是公司的核心收入来源，2026年上半年估计贡献约80%的营收。尽管Q2因模型迭代延迟导致增速放缓，但游戏广告业务仍显著跑赢整体手游市场（Sensor Tower数据显示2026年Q2全球手游内购收入同比-6%）。增长驱动力包括：1）Axon模型持续优化提升广告主ROAS；2）内购游戏加速转向混合变现模式，增加广告库存供给；3）AI降低游戏开发成本，推动新游戏供给和买量需求增加。</li>
+<li><strong>电商/消费广告</strong>：增长最快的业务板块，2026年上半年估计贡献约13%的营收。Q2广告主投放金额较2025年Q4旺季高出28%，创历史新高。自助平台已于6月全面开放，但短期内不会显著改变业务格局。当前核心挑战包括：1）中小广告主缺乏制作30-60秒长视频广告的能力；2）模型对电商交易数据的学习仍处于早期阶段，精度有待提升。</li>
+<li><strong>其他（MAX/Adjust/Wurl）</strong>：MAX作为供给侧聚合平台，受益于广告主需求增长和实时竞价（In-App Bidding）渗透率提升，发布商收入在Q2实现环比双位数增长。Adjust和Wurl业务体量较小，对整体营收影响有限。</li>
+</ul>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托数据飞轮与模型精度构筑的技术壁垒</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。AppLovin的核心竞争力在于其Axon AI推荐系统。该系统通过处理海量广告互动数据（日均超10亿游戏用户、超110亿次竞价），持续优化广告与用户的匹配精度，形成“更多数据→更优模型→更高ROAS→更多广告主预算→更多数据”的正向飞轮。公司CEO在2026年3月表示，推荐系统与大型语言模型架构相似，将随AI技术发展持续提升预测能力。公司在移动游戏广告领域的数据积累和模型精度已构成显著的先发优势，竞争对手难以在短期内复制。</li>
+<li><strong>数据验证</strong>：公司调整后EBITDA利润率从2023年的67.1%提升至2025年的82.3%，2026年Q1进一步升至84.5%，反映出模型精度提升带来的变现效率改善。Sensor Tower数据显示，2025年1月至2026年5月，AppLovin在全球手游广告收入中的份额达36%，位居首位，较统计期初有所提升。此外，公司营收增速（2025年+70%）远超全球手游内购市场增速（约+5%），表明其增长并非单纯依赖行业Beta，而是由技术驱动的份额提升。</li>
+<li><strong>动态演变</strong>：<strong>护城河变宽</strong>。随着公司向电商等非游戏垂直领域扩张，模型将获得更多元化的交易数据，进一步提升预测能力。同时，AI创意工具（视频生成、互动页面）的推出降低了广告主使用门槛，有望加速广告主数量和预算增长，强化数据飞轮效应。</li>
+</ul>
+<p><strong>竞争要素 2：以极高转换成本构筑的双边网络效应</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。AppLovin通过MAX聚合平台连接了全球大量移动游戏发布商，并通过Axon Ads Manager聚集了大量广告主预算，形成了强大的双边网络效应。发布商依赖MAX实现广告库存变现最大化（A/B测试显示其变现效率优于其他聚合平台），而广告主依赖AppLovin Ads获取高ROAS的用户。发布商更换聚合平台的转换成本较高（需重新集成SDK、重建竞价逻辑），而广告主一旦在平台上实现正向ROAS，倾向于持续增加预算。</li>
+<li><strong>数据验证</strong>：公司CEO在2026年2月表示，MAX发布商中，AppLovin Ads贡献了超过50%的用户获取支出，显示出极强的客户粘性。Q2业绩会中，管理层表示MAX发布商收入环比双位数增长，公司在发布商流量瀑布中的份额保持稳定，表明竞争格局未出现恶化。</li>
+<li><strong>动态演变</strong>：<strong>护城河维持</strong>。虽然Meta、Google等巨头在移动广告领域持续投入，但AppLovin在游戏垂直领域的深耕（如对休闲游戏用户行为的深度理解、独特的30-60秒全屏视频广告格式）构成了差异化壁垒。然而，随着公司向电商领域扩张，将面临来自Meta、Google等巨头的更直接竞争，在该领域的网络效应尚待建立。</li>
+</ul>
+<p><strong>现阶段核心驱动力总结</strong>：公司的Alpha来源于Axon AI模型驱动的变现效率持续提升（转化率从1.0%提升至1.3%，未来仍有数倍提升空间），以及向电商等新垂直领域的扩张潜力。Beta方面，公司受益于全球移动广告支出增长、混合变现模式渗透率提升以及AI降低内容创作成本等长期行业顺风。</p>
+<p><strong>竞争格局传导逻辑</strong>：</p>
+<ul>
+<li>Axon AI模型精度提升 → 广告主ROAS提高 → 广告主预算增加 → 平台竞价密度上升 → 发布商收入增加 → 更多发布商接入MAX → 广告库存供给增加 → 更多数据反馈模型 → Axon模型精度提升（正向飞轮）</li>
+<li>广告主预算增加 → 公司净收入增长 → 高利润率（EBITDA利润率&gt;80%）</li>
+</ul>
+<h3 class="doc-h2">产销链</h3>
+<ul>
+<li><strong>客户情况</strong>：公司客户包括从独立工作室到全球最大互联网平台（如Meta、Google）的各类广告主。公司未披露单一客户收入占比，但表示无客户占营收超过10%。2025年Q4起，公司开始拓展电商等非游戏广告主，截至2026年7月底，电商客户数量约1.1万（Store Leads数据）。新客户获取主要通过推荐计划和品牌营销，自助平台开放后有望加速客户增长。客户留存率极高，管理层表示客户在30天活跃后几乎不流失，主要因为平台能提供显著的广告支出回报率。</li>
+<li><strong>供应商情况</strong>：公司的主要供应商为第三方云计算服务提供商（如Google Cloud）。2024年8月，公司与一家云服务提供商签订了为期三年、最低支出13亿美元的合同。截至2026年Q2，公司已累计支付9.54亿美元。数据中心成本是公司最大的运营成本项，2026年Q2为1.81亿美元，占营收约9.4%。公司表示数据中心成本长期增速约为营收增速的10%，当前实际效率更优。此外，公司向发布商采购广告库存，2026年Q2媒体成本（即营业成本中的流量获取成本）为2.26亿美元，占营收约11.7%。</li>
+<li><strong>经销商情况</strong>：公司采用直销模式，不依赖经销商网络。</li>
+<li><strong>成本传导能力</strong>：公司赚取的是“技术溢价”而非“加工费”或“周期资源钱”。当上游云服务成本上升时，公司可通过模型优化提升变现效率来对冲，而非被动承受利润压缩。公司CFO在Q2业绩会中表示，公司以EBITDA绝对额和自由现金流而非固定利润率为经营目标，算力投入是成本上升主因，但长期利润率预计维持低80%区间。</li>
+</ul>
+<h3 class="doc-h2">财务数据</h3>
+<div class="tbl-wrap"><table><thead><tr><th>财务指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026 H1</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2023-12-31</td><td>2024-12-31</td><td>2025-12-31</td><td>2026-06-30</td></tr><tr><td>营业总收入（亿美元）</td><td>18.42</td><td>32.24</td><td>54.81</td><td>37.66</td></tr><tr><td>同比</td><td>-34.62%</td><td>75.05%</td><td>70.00%</td><td>55.77%</td></tr><tr><td>营业成本（亿美元）</td><td>3.57</td><td>5.21</td><td>6.65</td><td>4.29</td></tr><tr><td>毛利率</td><td>80.62%</td><td>83.84%</td><td>87.87%</td><td>88.61%</td></tr><tr><td>营业利润（亿美元）</td><td>7.72</td><td>19.11</td><td>41.52</td><td>29.34</td></tr><tr><td>营业利润率</td><td>41.91%</td><td>59.27%</td><td>75.75%</td><td>77.91%</td></tr><tr><td>归母净利润（亿美元）</td><td>3.57</td><td>15.80</td><td>33.34</td><td>24.72</td></tr><tr><td>归母净利润同比</td><td>285.07%</td><td>342.87%</td><td>111.39%</td><td>77.14%</td></tr><tr><td>稀释EPS（美元）</td><td>0.98</td><td>4.53</td><td>9.75</td><td>7.32</td></tr><tr><td>自由现金流（亿美元）</td><td>10.37</td><td>20.73</td><td>39.52</td><td>21.50</td></tr></tbody></table></div>
+<p>注：FY2023及FY2024数据包含已剥离的Apps业务。自由现金流根据财报数据计算（经营活动现金流净额 - 资本支出 - 融资租赁本金偿还）。2026 H1自由现金流为21.60 - 0.08 - 0.08 ≈ 21.50亿美元（估算）。</p>
+<p><strong>财务分析</strong>：</p>
+<ul>
+<li><strong>成长能力</strong>：公司营收在2024年和2025年分别实现75%和70%的高速增长，2026年上半年继续维持56%的同比增速。增长驱动因素从早期的“量价齐升”（安装量+50%，单安装净收入+22%）逐步转向“价增量减”（2026年Q2单安装净收入+58%，安装量-2%），反映出模型精度提升带来的变现效率改善。</li>
+<li><strong>盈利能力</strong>：毛利率从2023年的80.6%持续提升至2026年上半年的88.6%，营业利润率从41.9%大幅提升至77.9%。调整后EBITDA利润率从2023年的67.1%提升至2026年Q1的84.5%。利润率改善主要受益于：1）高毛利的广告业务占比提升（Apps业务剥离后）；2）运营杠杆效应（研发和销售费用增速远低于营收增速）；3）模型优化带来的变现效率提升。</li>
+<li><strong>现金流质量</strong>：公司自由现金流转化率极高，2025年自由现金流39.52亿美元，占调整后EBITDA的87.6%。2026年上半年自由现金流约21.50亿美元，占调整后EBITDA（约25.5亿美元，基于Q1数据估算）的84%。Q2自由现金流转化率低于常态（8.63亿美元），主因海外现金税及利息支付时点影响，公司预计全年FCF/调整后EBITDA转化率约75%。</li>
+<li><strong>资本配置</strong>：公司持续大规模回购股票，2025年全年回购25.8亿美元，2026年上半年回购15.33亿美元。截至2026年Q2末，回购授权剩余约18亿美元。公司总债务35.15亿美元，现金及等价物30.53亿美元，净债务约4.62亿美元，财务结构稳健。</li>
+</ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p><strong>行业赛道</strong>：AppLovin主要服务于移动应用广告市场，并正向电商广告和联网电视（CTV）广告市场扩张。</p>
+<ul>
+<li><strong>移动游戏广告市场</strong>：据Sensor Tower数据，2025年全球手游广告收入约120亿美元。AppLovin在该市场的份额约36%，位居首位。市场增长驱动力包括：1）广告变现模式渗透率提升（从2021年的45%升至2025年的56%）；2）内购游戏向混合变现模式转型；3）AI降低游戏开发成本，推动新游戏供给增加。摩根士丹利预计，独立第三方应用内广告技术平台的市场规模将以约11%的复合年增长率增长，到2030年达到约1390亿美元。</li>
+<li><strong>电商广告市场</strong>：全球电商广告市场规模估计为游戏广告的5-10倍。AppLovin目前在该领域的渗透率极低，处于早期扩张阶段。公司CEO在2026年3月表示，公司仅占消费者广告主钱包份额的约10%。</li>
+<li><strong>联网电视广告市场</strong>：公司通过Wurl平台布局CTV广告，但目前体量较小，且优先级因电商业务的快速增长而暂时降低。</li>
+</ul>
+<p><strong>竞争格局</strong>：移动广告市场竞争激烈，主要参与者包括：</p>
+<ul>
+<li><strong>Meta</strong>：全球最大的社交广告平台，在用户数据和广告主生态方面具有显著优势。Meta是AppLovin MAX平台的长期合作伙伴，但目前仅对有ID的流量出价，尚未进入无ID流量领域。</li>
+<li><strong>Google</strong>：通过AdMob在移动广告市场占据重要份额。Sensor Tower数据显示，2025年1月至2026年5月，AppLovin与Google AdMob合计占全球手游广告收入的65%。</li>
+<li><strong>Unity</strong>：在游戏引擎和广告领域具有协同优势，但其广告业务增速远低于AppLovin。</li>
+<li><strong>其他</strong>：包括Liftoff、Moloco、The Trade Desk等。</li>
+</ul>
+<p><strong>可比公司</strong>：</p>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>业务模式</th><th>2026E营收增速</th><th>2026E EV/EBITDA</th><th>核心差异</th></tr></thead><tbody><tr><td>Unity</td><td>U</td><td>游戏引擎+广告</td><td>~13%</td><td>~23x</td><td>游戏引擎与广告协同，但增速和利润率远低于APP</td></tr><tr><td>The Trade Desk</td><td>TTD</td><td>需求侧广告平台</td><td>~14%</td><td>~8x</td><td>聚焦品牌广告和CTV，增速和利润率低于APP</td></tr><tr><td>Meta</td><td>META</td><td>社交+广告</td><td>~26%</td><td>~13x</td><td>用户数据和广告主生态优势显著，但业务重心不同</td></tr><tr><td>Alphabet</td><td>GOOGL</td><td>搜索+广告+云</td><td>~23%</td><td>~22x</td><td>业务多元化，移动广告通过AdMob参与竞争</td></tr><tr><td>Reddit</td><td>RDDT</td><td>社交+广告</td><td>~42%</td><td>~24x</td><td>增速较快，但盈利能力远低于APP</td></tr></tbody></table></div>
+<p><strong>总结分析</strong>：AppLovin在移动游戏广告领域的市场份额和技术壁垒已得到验证，其营收增速和利润率水平在可比公司中处于领先地位。然而，随着公司向电商等新垂直领域扩张，将面临来自Meta、Google等巨头的更直接竞争。AppLovin的差异化优势在于其独特的广告格式（30-60秒全屏视频）和对效果广告（Performance Advertising）的深度优化能力，但在用户数据和广告主生态广度方面与Meta等平台存在差距。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<ul>
+<li><strong>议题一：电商广告业务的增长质量与可持续性</strong>——<strong>背景</strong>：公司电商广告业务自2024年Q4试点以来增长迅速，但近期第三方数据（如Store Leads像素追踪）显示客户增速有所放缓，引发市场对增长可持续性的担忧。此外，平均客户支出呈下降趋势（从早期试点客户的月均14万美元降至当前约3万美元），市场关注新增客户能否有效转化为高价值客户。<strong>问题列表</strong>：1）自助平台全面开放后，新广告主获取速度是否符合预期？客户留存率和支出爬坡节奏如何？2）电商广告主在AppLovin平台上的ROAS是否持续优于其他渠道（如Meta、Google）？3）公司能否通过AI创意工具降低中小广告主的使用门槛，从而加速客户增长？</li>
+<li><strong>议题二：游戏广告业务的增长天花板</strong>——<strong>背景</strong>：公司游戏广告业务已占据全球手游广告市场约36%的份额，市场担忧其增长空间有限。管理层在2026年7月表示，游戏广告渗透率已较高，未来增速将逐步放缓，需要电商业务接力增长。<strong>问题列表</strong>：1）游戏广告业务的转化率（当前约1.3%）还有多大提升空间？模型迭代速度是否会放缓？2）混合变现模式渗透率提升和AI驱动的新游戏供给增加，能否为游戏广告业务提供足够的增量空间？3）若游戏广告增速放缓至20%以下，电商业务能否及时填补增长缺口？</li>
+<li><strong>议题三：模型迭代的不确定性与Q2业绩低于预期的启示</strong>——<strong>背景</strong>：Q2业绩低于指引的核心原因是模型迭代延迟，这是公司过去11个季度以来首次显著低于指引。市场担忧模型改进的节奏是否正在放缓，以及公司对模型迭代的可控性是否低于此前预期。<strong>问题列表</strong>：1）Q2模型延迟是偶发性事件还是模型改进难度加大的信号？2）公司是否有足够的工程人才和算力资源来维持模型迭代速度？3）Q3上线的模型更新效果如何？能否驱动业绩重回“beat and raise”轨道？</li>
+</ul>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧：AppLovin当前估值（约12x EV/EBITDA）是“价值陷阱”还是“深度价值机会”？</strong></p>
+<p><strong>谨慎方观点</strong>：当前估值反映了市场对公司增长前景的合理担忧。游戏广告业务增速正在放缓（2026年Q2同比增速估计已降至约39%，而2025年全年约70%），且市场份额已较高（36%），进一步扩张空间有限。电商广告业务虽增长迅速，但体量尚小（估计占营收约13%），且面临Meta、Google等巨头的激烈竞争，能否成功放量存在较大不确定性。Q2业绩低于指引表明，公司对模型迭代的控制力可能低于此前预期，未来业绩波动性可能加大。此外，公司估值虽已大幅回落，但相比其他广告技术公司（如The Trade Desk约8x EV/EBITDA）仍有一定溢价。</p>
+<p><strong>乐观方观点</strong>：当前估值已充分反映了市场对增长放缓的担忧，而忽视了公司长期增长潜力和盈利能力。游戏广告业务的转化率仅1.3%，未来仍有数倍提升空间，即使市场份额不再扩张，仅靠转化率提升即可驱动持续增长。电商广告市场空间是游戏的5-10倍，公司在该领域的渗透率极低，长期增长跑道充足。公司调整后EBITDA利润率超过80%，自由现金流转化率约75%，即使营收增速放缓至20%-30%，仍可产生大量自由现金流用于回购，为股价提供支撑。摩根士丹利分析指出，即使将电商业务估值为零，仅游戏广告业务即可支撑当前估值（对应2027年约18x EV/EBITDA）。</p>
+<p><strong>综合分析</strong>：当前估值水平已较大程度反映了市场对增长放缓的担忧，但尚未充分定价电商业务的潜在价值。Q2业绩低于指引暴露了模型迭代的短期不确定性，但并未改变公司的长期竞争逻辑（数据飞轮、双边网络效应、高转换成本）。关键变量在于：1）Q3-Q4电商广告能否在旺季和自助平台开放的推动下加速放量；2）模型迭代节奏能否恢复正常。若这两点得到验证，当前估值水平可能构成一个有吸引力的风险收益比。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价（美元）</th><th>财务指标</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>摩根士丹利（2026-08-06）</td><td>增持</td><td>650</td><td>营收（亿美元）<br>调整后EBITDA（亿美元）<br>GAAP EPS（美元）</td><td>58.06<br>45.79<br>9.61</td><td>82.99<br>69.65<br>15.38</td><td>104.44<br>88.07<br>19.92</td><td>125.33<br>105.59<br>23.90</td></tr><tr><td>花旗（2026-08-04）</td><td>买入</td><td>710</td><td>营收（亿美元）<br>调整后EBITDA（亿美元）<br>GAAP EPS（美元）</td><td>58.06<br>45.80<br>10.16</td><td>81.80<br>68.89<br>16.06</td><td>107.46<br>91.03<br>22.29</td><td>137.33<br>117.23<br>30.27</td></tr><tr><td>杰富瑞（2026-07-22）</td><td>买入</td><td>700</td><td>营收（亿美元）<br>调整后EBITDA（亿美元）</td><td>58.06<br>45.80</td><td>83.78<br>70.82</td><td>117.29<br>99.59</td><td>-</td></tr><tr><td>华泰证券（2026-05-08）</td><td>增持</td><td>625</td><td>营收（亿美元）<br>调整后EBITDA（亿美元）<br>调整后EPS（美元）</td><td>54.81<br>-<br>10.12</td><td>81.61<br>68.84<br>16.98</td><td>106.09<br>89.61<br>22.02</td><td>132.30<br>112.12<br>27.85</td></tr></tbody></table></div>
+<p><strong>盈利预测与估值分析</strong>：机构间对AppLovin的盈利预测存在一定分歧，但整体偏向乐观。2026年营收预测区间为81.80-83.78亿美元，调整后EBITDA预测区间为68.84-70.82亿美元。2027年营收预测区间为104.44-117.29亿美元，分歧较大，主要反映了对电商业务增速的不同假设。</p>
+<p>估值方法上，机构普遍采用EV/调整后EBITDA估值法，目标倍数区间为22-32倍。摩根士丹利在Q2业绩后将其目标倍数从27倍下调至22倍，目标价从720美元下调至650美元，反映了市场对广告技术板块估值中枢下移的判断。花旗和杰富瑞维持较高的目标倍数（约31-32倍），主要基于对公司长期增长潜力的乐观预期。</p>
+<p><strong>管理层指引</strong>：公司未提供全年业绩指引。Q3指引为营收20.55-20.85亿美元（同比+46%-48%，环比+7%-8%），调整后EBITDA 17.10-17.40亿美元（利润率约83%）。管理层重申长期营收增速预期为20%-30%，并预计游戏广告和电商广告增速将在未来3-5年内趋同，电商业务将逐步成为增长的核心引擎。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/APP · 生成于 2026-08-07</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-07';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'active',  text: '<strong>Q3 模型更新效果验证</strong>：Q2 延迟的重大模型更新已于 Q3 初上线，Q3 指引 20.55-20.85 亿美元已反映开局提速', note: '2026-08-05 业绩会；若效果显著 Q3 存在超预期可能' },
+  { kind: 'cat', status: 'pending', text: '<strong>2026Q3 财报</strong>（2026-11）：能否重回 beat-and-raise 轨道——营收指引 20.55-20.85 亿、EBITDA 17.10-17.40 亿美元', note: '过去 11 季度 10 次超指引上限，Q2 为首次 miss' },
+  { kind: 'cat', status: 'active',  text: '<strong>电商旺季放量</strong>：返校季/黑五/圣诞 + 自助平台全面开放，Q2 消费垂类投放已创历史新高（较上一年 Q4 旺季 +28%）', note: 'Q3/Q4 业绩会若披露电商量化进展为重要正面催化' },
+  { kind: 'cat', status: 'pending', text: '<strong>自助平台新广告主爬坡</strong>：6 月下旬全面开放，获客速度、留存与支出爬坡节奏待验证', note: '电商广告主约 1.1 万（2026-07，第三方数据）' },
+  { kind: 'cat', status: 'hit',     text: '<strong>SEC 自愿问询结束</strong>：监管机构未建议采取任何行动，合规层面不确定性部分消除', note: '2026-08-05 披露' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>模型迭代放缓坐实</strong>：Q3 新模型效果不及预期或 Q4 指引再显著减速——「一次性延迟」归因被证伪', note: 'Q2 miss 归因不可第三方验证，需 Q3 结果自证' },
+  { kind: 'risk', status: 'clear', text: '<strong>电商扩张失速</strong>：新广告主获取放缓、平均客户支出继续下滑（已从试点期月均 14 万美元降至约 3 万美元）或旺季投放环比收缩', note: '第三方像素追踪已显示客户增速放缓，与公司口径有温差' },
+  { kind: 'risk', status: 'clear', text: '<strong>游戏广告增速失速</strong>：同比增速跌破 25% 且电商未能接力（2026Q2 估计已降至约 39%，2025 全年约 70%）', note: '管理层已定调游戏增速将逐步放缓' },
+  { kind: 'risk', status: 'clear', text: '<strong>竞争与平台政策恶化</strong>：Meta/Google 进入无 ID 流量正面竞争，或苹果 ATT 式隐私政策、应用商店政策再度收紧', note: '业务高度依赖 App Store/Google Play 生态' },
+  { kind: 'risk', status: 'clear', text: '<strong>外部质疑再发酵</strong>：针对 Axon 效果或合规的新一轮做空/质疑引发波动', note: 'SEC 问询结束已消除部分疑虑；股价自年内高点回撤超 40%，波动性高' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

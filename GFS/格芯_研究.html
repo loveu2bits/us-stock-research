@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>格芯（GFS.O）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--policy-red); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">GFS</span>
+    <span class="site-mark__text">格芯 公司研究<span>GlobalFoundries · GFS.O</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>格芯<span class="en">GlobalFoundries · GFS.O · 美股研究</span></h1>
+        <p class="sub">放弃先进制程的格芯，正在台积电先进制程近乎垄断、英特尔代工转型的夹缝中，用「特色工艺 + 地缘稀缺」写一个回归故事：硅光子搭上 AI 数据中心光互联的快车全年营收翻倍，CID（通信基础设施与数据中心）业务 Q2 同比增长 62%、全年指引上调至 +50-60%，非 IFRS 毛利率 29.9% 提前达成 30% 目标，还启动了上市以来首次分红——从「手机驱动的周期股」向「AI 特种工艺平台」的转型第一次有了硬数据。但约 25 倍 FY2027E EPS（估算）已明显贵于联电、接近台积电，占营收 35% 的手机业务仍在下滑、资本开支高峰吞噬自由现金流——方向对，价格不便宜，等一个更好的赔率。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-07</span>
+          <span>下次更新：FY2026Q3 财报（预计 2026-11）/ 第二个 SCALE CPO 设计中标（2026-09 至 10）</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>约 25x FY2027E EPS（按现价约 65 美元与券商预测 2.22-2.62 美元反推估算）；转型方向获初步验证（CID +62%、硅光翻倍、2027 提价共识），但手机业务下滑未完、FCF 受资本开支高峰压缩，溢价已较充分；重检条件：毛利率停滞 30% 或手机降幅超 15% → 下调；CID 持续超预期且股价回落至约 20x FY2027 EPS → 上调买入。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">$17.86亿</strong><span>FY2026Q2 营收·同比 +6% 超指引上限</span></div>
+      <div class="summary-rail__item"><strong class="up">29.9%</strong><span>Q2 非 IFRS 毛利率·同比 +470bps 提前达标</span></div>
+      <div class="summary-rail__item"><strong>CID +47%</strong><span>H1 同比·全年指引上调至 +50-60%</span></div>
+      <div class="summary-rail__item"><strong>$110亿</strong><span>长期协议剩余收入承诺·63% 出货独家供应</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">硅光子与 CID：AI 光互联红利，是能撑起转型的第二曲线，还是占比不足 6% 的边际故事？</h2>
+        <span class="qa__impact-tag">→ CID 指引上调至 +50-60% · 但 H1 仅占营收 15%</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>方向上是当前最确定的增长叙事，但体量上仍只是「拉动项」而非「引擎」：Q2 CID 营收同比 <strong>+62%</strong>（连续第七个季度双位数增长），2026 全年增长指引从约 30%+ 上调至 <strong>50%-60%</strong>，硅光子全年营收预计翻倍（约 4 亿美元）、SiGe 产能 2027 年全年已被超额预订、与全球前五大光收发器供应商中的四家合作。<em>保留判断：CID 在 H1 仅占营收 15%、硅光子不足 6%——未来 1-2 年它能拉动增长与毛利率，但无法独自带领公司走出低增长；真正的考验在竞争：台积电 COUPE 平台与 Tower Semiconductor 正在抢份额，Q3 能否拿下第二个 SCALE（CPO/NPO）设计中标是分水岭。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>短期走「毛利率 + 倍数」渠道，中期才走 EPS 渠道。</strong>CID 毛利率显著高于公司平均水平，其占比每提升 1pp 都直接贡献结构性毛利改善；但按约 4 亿美元硅光收入测算，对全公司营收增速的直接贡献仅约 3-4pp（估算）——当前股价里为硅光支付的是「AI 光互联概念」的估值溢价，而非盈利。</p>
+            <p>若管理层 2028 年硅光 10 亿美元、2030 年 20 亿美元的目标兑现，届时硅光将占营收约 10%-15%（按约 90-120 亿美元营收基数估算），才真正成为 EPS 故事。<strong>2028 年 10 亿美元目标的可信度，是跟踪面板把它列为核心观察项的原因。</strong></p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>需求侧硬数据：Q2 CID 同比 <strong>+62%</strong>、连续第七季双位数增长；全年指引从 30%+ 上调至 <strong>50%-60%</strong>；SiGe 产能 2027 年全年<strong>超额预订</strong></li>
+              <li>卡位优质：与全球前五大光收发器供应商中的<strong>四家</strong>合作，在 300mm 产能、超大规模客户合作深度与政府资源上优于 Tower</li>
+              <li>赛道空间：可服务市场从 2025 年 750 亿美元增至 2030 年 <strong>1,200 亿美元</strong>；三大赛道（硅光/数据中心电源管理/物理 AI）2030 年合计约 <strong>40 亿美元</strong>增量收入</li>
+              <li>2026 年 7 月获美国商务部 <strong>3 亿美元</strong>硅光子拨款意向——政府用真金白银为这条技术路线背书</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>体量仍是硬伤：硅光 2026 年收入约 4 亿美元，<strong>不足总营收 6%</strong>，无法对冲手机业务的下滑</li>
+              <li>竞争不弱：台积电 COUPE 平台直接对标格芯 SCALE 争夺 CPO 市场；Tower 硅光业务增长迅速（2025 年收入约 <strong>2.28 亿美元</strong>）</li>
+              <li>2028 年 10 亿美元目标<strong>高度依赖</strong>可插拔光模块需求的持续性与 CPO 的按时量产，技术路线切换风险真实存在</li>
+              <li>竞争加剧下硅光业务存在<strong>价格战风险</strong>，高毛利叙事可能提前终结</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（CID 增长路径 · 硅光路线图 · 竞争对手对比）</summary>
+          <div class="evidence__body">
+            <h5>CID 与硅光关键数据</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>数值</th><th>评价</th></tr></thead><tbody><tr><td>CID 2026 H1 营收</td><td><strong>5.07 亿美元</strong>，同比 +47.0%，占比升至 15%</td><td>公司增长最快板块</td></tr><tr><td>CID Q2 同比增速</td><td><strong>+62%</strong>，连续第七个季度双位数增长</td><td>动能强劲</td></tr><tr><td>2026 全年 CID 增长指引</td><td>从约 30%+ 上调至 <strong>50%-60%</strong></td><td>Q2 电话会大幅上调</td></tr><tr><td>硅光子 2026 年收入</td><td>预计同比<strong>翻倍</strong>至约 4 亿美元</td><td>占总营收不足 6%（估算）</td></tr><tr><td>硅光子中期目标</td><td>2028 年 <strong>10 亿美元</strong>、2030 年 <strong>20 亿美元</strong></td><td>依赖可插拔光模块 + CPO 按时量产</td></tr><tr><td>SiGe 产能</td><td>2027 年全年已<strong>超额预订</strong></td><td>光网络 TIA/Driver 需求爆发</td></tr></tbody></table></div>
+            <h5>2030 年三大赛道增量收入目标（2026 年 5 月投资者日）</h5>
+            <ul>
+              <li><strong>硅光子</strong>：约 20 亿美元（可插拔光模块 + CPO/NPO）</li>
+              <li><strong>数据中心电源管理</strong>：约 10 亿美元</li>
+              <li><strong>物理 AI（机器人/边缘智能）</strong>：约 10 亿美元，家庭与工业 IoT 板块为核心受益者</li>
+            </ul>
+            <h5>硅光子竞争对比</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>对手</th><th>竞争维度</th><th>对比要点</th></tr></thead><tbody><tr><td>台积电（COUPE 平台）</td><td>CPO / 先进封装</td><td>先进制程 + CoWoS 绝对领先，是 SCALE 在 CPO 领域的最直接对手；格芯差异化在特色工艺与多地域布局</td></tr><tr><td>Tower Semiconductor</td><td>硅光子 / SiGe / 射频</td><td>硅光收入约 2.28 亿美元（2025），增长迅速；格芯优势在 300mm 产能、超大规模客户深度与政府资源</td></tr><tr><td>联电</td><td>成熟制程逻辑代工</td><td>技术平台广度不及格芯，产能集中亚洲，无全球布局优势</td></tr></tbody></table></div>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">下滑的智能手机业务：短期最大拖累，还是倒逼结构优化的催化剂？</h2>
+        <span class="qa__impact-tag">→ 占营收 35% · 2026 预计 -10% 至 -15%</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>短期是确定的拖累，长期是转型必须支付的成本：智能手机（智能移动设备）仍占 H1 营收 <strong>35%</strong>（同比 -5.3%），全年预期已从「高个位数下降」下调至 <strong>-10% 至 -15%</strong>，主因全球手机市场疲软叠加存储芯片短缺抑制出货；管理层在长期模型里明确假设该业务收入长期持平、占比从 39%（FY2025）降至 2030 年 <strong>25% 以下</strong>，资源向 CID 与汽车再配置。<em>我们的判断：下滑更多是终端市场萎缩（含存储短缺扰动）而非份额丢失——公司约三分之二收入来自高端机型、表现优于行业；关键看 2027 年：若手机市场企稳，这一项从「拖累」变「中性」，公司整体增长轮廓将显著改善，可能触发估值重估；若继续恶化，则吞噬 CID 的增量。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>对 EPS 是双向作用。</strong>拖累侧：按 35% 的占比估算，手机业务降幅每扩大 10pp，拖累总营收增速约 3-4pp（估算），并压低碳基利用率、摊薄固定成本；手机与 IoT 同属大宗竞争领域，成本传导能力有限。改善侧：手机占比每下降 1pp，就意味着高毛利的 CID/汽车/技术性服务占比上升 1pp——<strong>这正是毛利率从 24.5%（FY2024）走到 29.9%（Q2 非 IFRS）的核心机制</strong>。</p>
+            <p>估值层面，市场盯着的拐点信号是手机占比跌破 <strong>30%</strong>（市场预期 2027 年）：届时「手机代工厂」的旧标签失效，增长叙事切换到特种工艺平台，倍数体系才可能整体抬升。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>下滑是<strong>行业性而非公司性</strong>：约 2/3 收入来自高端机型，表现相对优于行业；公司长期假设该业务企稳持平</li>
+              <li>缺口正在被填上：CID 全年 +50-60%、汽车全年低双位数增长、IoT Q2 已反弹（环比 +30%、同比 +10%）且全年指引上调至 +10-15%</li>
+              <li>约 <strong>110 亿美元</strong>长期协议剩余收入承诺垫底收入可见性，转型期现金流有安全垫</li>
+              <li>结构优化本身就是<strong>毛利率扩张的引擎</strong>——手机占比下降 = 高毛利组合上升，这是 30%→45% 毛利率路径的第一块砖</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>35% 的占比意味着下滑<strong>远未结束</strong>：-10% 至 -15% 的指引已是三个月内第二次下调，方向尚未见底</li>
+              <li>存储芯片短缺抑制手机出货的传导仍在继续，<strong>企稳时点不可控</strong>（取决于存储周期）</li>
+              <li>手机业务的固定成本能否随收入同步削减存疑——<strong>负经营杠杆</strong>可能在 2026-2027 年持续侵蚀利润率</li>
+              <li>转型完成前（2030 年占比降至 25% 以下），整体营收增速将被<strong>持续拖累 2-4 年</strong>，10-12% 的 CAGR 目标前置条件苛刻</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（终端市场拆分 · 手机指引变化 · 各板块趋势）</summary>
+          <div class="evidence__body">
+            <h5>细分业务拆分（按终端市场；单位：百万美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>终端市场</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th><th>H1 占比</th><th>H1 同比</th></tr></thead><tbody><tr><td>智能移动设备</td><td>3,023</td><td>3,048</td><td>2,678</td><td>1,202</td><td>35%</td><td><span class="warn">-5.3%</span></td></tr><tr><td>通信基础设施与数据中心（CID）</td><td>863</td><td>577</td><td>745</td><td>507</td><td>15%</td><td><strong>+47.0%</strong></td></tr><tr><td>家庭与工业物联网</td><td>1,604</td><td>1,267</td><td>1,189</td><td>586</td><td>17%</td><td><span class="warn">-6.7%</span></td></tr><tr><td>汽车</td><td>1,046</td><td>1,206</td><td>1,410</td><td>715</td><td>21%</td><td>+5.6%</td></tr><tr><td>技术性服务</td><td>856</td><td>652</td><td>769</td><td>410</td><td>12%</td><td><strong>+15.8%</strong></td></tr><tr><td><strong>总计</strong></td><td><strong>7,392</strong></td><td><strong>6,750</strong></td><td><strong>6,791</strong></td><td><strong>3,420</strong></td><td><strong>100%</strong></td><td><strong>+4.5%</strong></td></tr></tbody></table></div>
+            <p>注：2026 年起收入分类从「晶圆/非晶圆」改为「制造服务/技术性服务」，历史数据已按新口径调整。</p>
+            <h5>智能手机指引下修轨迹</h5>
+            <ul>
+              <li>2026 年初预期：<strong>高个位数下降</strong></li>
+              <li>Q2 电话会（2026-08）下调至：<strong>-10% 至 -15%</strong>——三个月内第二次下修</li>
+              <li>Q2 手机收入占比已降至约 36%；市场预期 2027 年跌破 30%，2030 年公司目标 25% 以下</li>
+            </ul>
+            <h5>其他板块趋势（对冲项）</h5>
+            <ul>
+              <li><strong>IoT</strong>：H1 同比 -6.7%，但 Q2 环比 +30%、同比 +10% 反弹；全年指引从中个位数上调至 <strong>+10-15%</strong>，长期定位物理 AI 核心受益板块</li>
+              <li><strong>汽车</strong>：H1 +5.6%，维持全年<strong>低双位数增长</strong>预期；已是全球前三大汽车 MCU 厂商（英飞凌、恩智浦、瑞萨）的代工伙伴，汽车收入五年从约 1 亿美元增至 14.1 亿美元（约 14 倍）</li>
+              <li><strong>技术性服务</strong>：H1 +15.8%，MIPS 并表 + Synopsys ARC 整合，全年贡献预期上调至 1 亿-1.2 亿美元，部分业务毛利率 80%-90%</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">毛利率 30%→45%：结构性跃升还是周期顺风？这是 EPS 弹性的全部来源</h2>
+        <span class="qa__impact-tag">→ 2028 目标 40%、2030 目标 45% · 管理层 vs 券商 EPS 分歧之源</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>第一阶段已兑现：Q2 非 IFRS 毛利率 <strong>29.9%</strong>（同比 +470bps）提前达成 30% 目标，驱动力是组合优化（高毛利 CID 占比提升）+ 利用率回升至 80% 以上。但 30% 到 45% 的跨越要靠三件事：① 高毛利组合继续上升（技术性服务毛利率 80%-90%、CID 高于公司平均）；② <strong>2027 年开始的广泛提价</strong>（已与客户就多个技术领域达成共识，FDX/SiGe/SiPh 等供给受限技术 2026 下半年先行落地）；③ IP/定制芯片业务 2030 年做到 10 亿美元收入。逆风同样明确：资本开支强度从 7%-10% 升至 15%-20%，折旧约 <strong>100bps</strong> 毛利率拖累。<em>我们的判断：40%（2028）可信但需逐季验证，45%（2030）取决于 CPO 与定制芯片放量——券商 FY2027E EPS 区间 2.22-2.62 美元的分歧，本质就是对这条路径的定价分歧。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这是本研究最大的 EPS 弹性所在。</strong>按 FY2028E 营收约 92 亿美元（券商预测）估算，毛利率每提升 1pp 对应毛利约 +0.9 亿美元；从 30% 走到 40%，毛利增量接近 9 亿美元（估算）——这解释了为什么管理层 2028 年 EPS 目标是 <strong>4 美元</strong>，而券商 FY2028E 只给 2.61-3.28 美元：差距几乎全部来自毛利率路径的可信度。</p>
+            <p>反向情形同样剧烈：若毛利率在 30% 附近停滞（手机下滑拖累利用率 + 折旧超预期），FY2027 EPS 停在约 2.2 美元，当前估值立即显得昂贵。<strong>毛利率是本股票多空逻辑的单一最大变量，每季度财报的毛利率读数都应优先于营收读数跟踪。</strong></p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>执行力已被验证：毛利率从 24.5%（FY2024）一路走到 29.9%（Q2），<strong>30% 目标提前达成</strong>，Q3 指引继续扩张至约 30.5%</li>
+              <li>定价权回归：管理层明确表示已与客户就多个技术领域提价达成共识，<strong>2027 年进入营收</strong>——这是产能利用率 80%+ 的卖方市场信号</li>
+              <li>结构性因素占主导：技术性服务（毛利率 80%-90%）占比提升、独家供应占出货 63%、新客户转换成本高——<strong>组合改善不依赖周期</strong></li>
+              <li>政府补贴回收 30%-50% 资本开支，<strong>净投资强度显著低于表观 capex</strong>，折旧压力被部分对冲</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>29.9% 已是<strong>Q2 历史新高</strong>，后续提升的边际难度加大——市场担心前快后慢</li>
+              <li>折旧逆风约 100bps 的估算<strong>可能不充分</strong>：资本开支强度长期目标 20%，若需求波动导致利用率下滑，负杠杆会加倍显现</li>
+              <li>提价落地范围存疑：手机等大宗应用领域<strong>成本传导能力有限</strong>，提价仅限 FDX/SiGe/SiPh 等紧供给技术</li>
+              <li>40%→45% 的后半程高度依赖 CPO、定制芯片等<strong>尚处早期的业务成功放量</strong>，执行风险大</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（毛利率轨迹 · 财务速览 · EPS 目标对比）</summary>
+          <div class="evidence__body">
+            <h5>毛利率轨迹与目标</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>时点</th><th>毛利率</th><th>口径 / 驱动</th></tr></thead><tbody><tr><td>FY2023</td><td>28.4%</td><td>IFRS</td></tr><tr><td>FY2024</td><td>24.5%</td><td>IFRS，周期底部（含 9.35 亿美元减值扰动）</td></tr><tr><td>FY2025</td><td>24.9%</td><td>IFRS</td></tr><tr><td>FY2026 H1</td><td>28.0%</td><td>IFRS，组合优化 + 利用率回升</td></tr><tr><td>FY2026 Q2</td><td><strong>29.9%</strong></td><td>非 IFRS，同比 +470bps，Q2 历史新高，提前达成 30% 目标</td></tr><tr><td>FY2026 Q3 指引</td><td>约 30.5%（±100bps）</td><td>环比继续扩张</td></tr><tr><td>2028 年底目标</td><td><strong>40%</strong></td><td>投资者日长期模型</td></tr><tr><td>2030 年目标</td><td><strong>45%</strong></td><td>投资者日长期模型</td></tr></tbody></table></div>
+            <h5>关键财务数据（单位：百万美元；EPS 为稀释口径）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>报告期</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td>营业总收入</td><td>7,392</td><td>6,750</td><td>6,791</td><td>3,420</td></tr><tr><td>收入同比</td><td>-8.8%</td><td>-8.7%</td><td>+0.6%</td><td><strong>+4.5%</strong></td></tr><tr><td>毛利率</td><td>28.4%</td><td>24.5%</td><td>24.9%</td><td>28.0%</td></tr><tr><td>营业利润</td><td>1,129</td><td>-214</td><td>797</td><td>354</td></tr><tr><td>营业利润率</td><td>15.3%</td><td>-3.2%</td><td>11.7%</td><td>10.4%</td></tr><tr><td>归母净利润（同比）</td><td>1,020（-29.6%）</td><td>-265（-126.0%）</td><td>885（+434.0%）</td><td>269（<span class="warn">-38.6%</span>）</td></tr><tr><td>稀释 EPS（美元）</td><td>1.83</td><td>-0.48</td><td>1.59</td><td>0.48</td></tr><tr><td>经营活动现金流</td><td>2,125</td><td>1,722</td><td>1,731</td><td>947</td></tr><tr><td>资本支出</td><td>1,804</td><td>625</td><td>722</td><td>723</td></tr><tr><td>自由现金流</td><td>321</td><td>1,097</td><td>1,009</td><td>224</td></tr></tbody></table></div>
+            <p>注：FY2024 营业利润与净利润受 9.35 亿美元长期资产减值一次性影响；FY2026 H1 净利同比下滑主因上年同期含一次性收益导致基数异常。2026 全年自由现金流率指引约 10%（FY2025 约 14.9%），主因资本开支大幅增加（H1 已达 7.23 亿美元、接近 FY2025 全年水平）。</p>
+            <h5>EPS 目标对比：管理层 vs 券商</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>口径</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th><th>2030</th></tr></thead><tbody><tr><td>管理层长期模型</td><td>—</td><td>—</td><td><strong>4 美元</strong>（2028 目标）</td><td><strong>6 美元</strong></td></tr><tr><td>券商预测区间</td><td>1.85-2.00</td><td><strong>2.22-2.62</strong></td><td>2.61-3.28</td><td>—</td></tr></tbody></table></div>
+            <p>管理层与券商对 2028 年 EPS 的差距（4 vs 2.61-3.28 美元）几乎全部来自毛利率路径假设——<strong>这是多空分歧的量化呈现</strong>。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 4 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">4</span>
+        <h2 class="qa__title">估值：美国本土唯一规模化代工厂的「稀缺溢价」，定价到位了吗？</h2>
+        <span class="qa__impact-tag">→ 约 25x FY2027 EPS（估算）· 三情景期望值约等于现价 → 持有</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>稀缺性是真实的：格芯是美国本土唯一具备规模化产能的纯代工厂，CHIPS 法案 15 亿美元直接资助 + 纽约州 5.7 亿美元 + 3 亿美元硅光子拨款意向 + 3.75 亿美元量子拨款意向，政府补贴可回收 30%-50% 资本开支；63% 出货为独家供应、110 亿美元长期协议垫底——<strong>溢价有充分理由</strong>。问题在幅度：按现价约 65 美元（估算，反推自券商预测与目标价分布），对应约 <strong>36x FY2026E / 22-25x FY2027E EPS（估算）</strong>，显著高于联电约 16 倍、与台积电约 28 倍相当——而台积电拥有先进制程垄断与更高增速。三情景期望值约等于现价（估算），赔率中性，对应「持有」。<em>保留判断：现价为按券商盈利预测反推的估算值，精确值以行情为准；地缘政治溢价的「合理幅度」没有教科书答案，只能靠 CID 连续超预期来挣得。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这个问题本身就是估值问题。</strong>券商目标价分布 58-100 美元（多数中性/等权重，仅一家增持），FY2027E 营收预测集中在 80-85 亿美元，但 EPS 区间宽达 2.22-2.62 美元——分歧不在收入，在毛利率。坎特菲茨杰拉德 100 美元目标价是对 2030 年 6 美元 EPS 的折现，本质是「按终局愿景定价」；其余机构 22-29 倍 2027/2028 EPS 的估值框架则是「按当期兑现定价」。</p>
+            <p>赔率结构：上行依赖 CID 连续超预期 + CPO 第二单落地 + 提价范围超预期带来的 EPS 上修与倍数维持；下行来自手机下滑失控或毛利率停滞触发的<strong>戴维斯双杀</strong>（EPS 下修 + 溢价收缩）。当前定价下，上行与下行幅度大致对称。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>稀缺性是<strong>结构性而非周期性</strong>：供应链去风险化趋势持续强化，「可信代工厂」战略价值只增不减（洛克希德·马丁等国防供应链合作是验证）</li>
+              <li>以 2030 年 6 美元 EPS 目标看，当前约 10-11 倍 2030 EPS（估算），<strong>长期视角并不贵</strong>；10-12% 贯穿周期 CAGR + 45% 毛利率的组合在代工同业中独一无二</li>
+              <li>资本回报刚刚启动：首次季度股息 0.12 美元/股，目标返还最高 50% 调整后自由现金流——<strong>估值底的支撑在变厚</strong></li>
+              <li>约 110 亿美元 LTA + 95% 新设计中标为独家供应，<strong>收入可见性优于任何亚洲同行</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>约 36x FY2026 EPS（估算）<strong>已高于台积电、约为联电两倍</strong>——而转型尚未在整体营收上验证（H1 营收同比仅 +4.5%）</li>
+              <li>盈利质量在走弱：2026 年 FCF 率指引约 10%（FY2025 为 14.9%），H1 FCF 仅 2.24 亿美元，<strong>资本开支高峰期的分红靠的是存量现金</strong></li>
+              <li>政府拨款目前仍是<strong>不具约束力的意向书</strong>（3 亿 + 3.75 亿美元），落地金额与时间均有变数</li>
+              <li>主权股东 Mubadala 持股约八成（估算），流通盘小放大波动，也意味着<strong>公司治理目标是地缘战略而非股东回报最大化</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（券商预测与目标价 · 三情景测算 · 同业估值对比）</summary>
+          <div class="evidence__body">
+            <h5>券商盈利预测与目标价（EPS 口径各机构或有差异）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级 / 目标价</th><th>FY2025A EPS</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>花旗（2026-08-06）</td><td>中性 / $58</td><td>1.73</td><td>1.96</td><td>2.62</td><td>3.16</td></tr><tr><td>摩根士丹利（2026-08-06）</td><td>等权重 / $60</td><td>1.73</td><td>2.00</td><td>2.44</td><td>3.28</td></tr><tr><td>瑞银（2026-05-08）</td><td>中性 / $77</td><td>1.73</td><td>1.96</td><td>2.62</td><td>3.16</td></tr><tr><td>高盛（2026-05-09）</td><td>中性 / $70</td><td>1.59</td><td>1.60</td><td>2.22</td><td>2.61</td></tr><tr><td>坎特菲茨杰拉德（2026-05-14）</td><td>增持 / $100</td><td>1.72</td><td>1.85</td><td>2.50</td><td>—</td></tr></tbody></table></div>
+            <p>注：营收预测上，FY2026E 中值约 73 亿美元、FY2027E 约 80-85 亿美元，机构间接近；EPS 分歧集中在毛利率假设。估值方法普遍采用 P/E，倍数区间 22-29 倍 2027/2028 年 EPS。</p>
+            <h5>三情景测算（以估算现价约 65 美元为基准）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>EPS</th><th>合理 PE</th><th>隐含股价</th><th>vs 当前</th></tr></thead><tbody><tr><td>乐观（25%）</td><td>CPO 第二单落地、提价超预期、2028 年向管理层 4 美元目标靠拢</td><td>~3.3（FY2028E 券商高值）</td><td>28x</td><td>~92</td><td>+42%</td></tr><tr><td>中性（50%）</td><td>CID 兑现 50-60% 指引，手机企稳，毛利率按 30%→40% 路径渐进</td><td>~2.5（FY2027E 共识）</td><td>24x</td><td>~60</td><td>-8%</td></tr><tr><td>悲观（25%）</td><td>手机降幅超 15%、毛利率停滞 30%、地缘溢价收缩</td><td>~2.2（FY2027E 低值）</td><td>17x</td><td>~37</td><td>-43%</td></tr></tbody></table></div>
+            <p><strong>期望值约 62 美元，与估算现价约 65 美元基本持平；赔率约 1:1（+42% / -43%）。</strong>悲观情景 17 倍对应溢价部分收缩但仍高于联电水平；乐观情景 28 倍与台积电相当、以 FY2028 券商最高 EPS 为基础，并非激进假设。结论：<strong>当前定价大致公平，既非错杀也非泡沫，持有等待催化剂定价更明确。</strong></p>
+            <h5>同业估值对比（按公司一页通口径）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>公司</th><th>前瞻 PE（约）</th><th>备注</th></tr></thead><tbody><tr><td>格芯（GFS）</td><td><strong>36x FY2026 / 22-25x FY2027（估算）</strong></td><td>含地缘稀缺溢价</td></tr><tr><td>台积电（TSM）</td><td>约 28x</td><td>先进制程垄断 + 更高增速</td></tr><tr><td>联电（UMC）</td><td>约 16x</td><td>纯成熟制程、无全球布局</td></tr></tbody></table></div>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>：公司概况、近况跟踪、业务拆分、财务数据、券商预测（见同目录《格芯_一页通.md》，亦见本站「一页通」标签页）</li>
+        <li><strong>财务数据</strong>：FY2023-FY2026H1 利润表与现金流、Q2 业绩与 Q3 指引、投资者日长期模型（正文数据均来自公开财报与披露整理）</li>
+        <li><strong>局限</strong>：未读财报原文与电话会纪要（建议下一步补读 FY2026Q2 earnings call 中关于提价范围与 CPO 设计中标进度的表述）；现价为按券商盈利预测与目标价反推的估算值（约 65 美元），前瞻 PE 与三情景测算均为估算，精确值以行情为准；券商 EPS 预测口径存在差异（IFRS vs Non-IFRS）；FY2024 亏损含 9.35 亿美元长期资产减值一次性影响，FY2026 H1 净利同比 -38.6% 含上年同期一次性收益的基数扰动，跨期比较需注意</li>
+        <li><strong>管理层与股东结构评估（一句话版）</strong>：公司 2018 年停止 7nm 研发、彻底退出先进制程竞赛，此后管理层聚焦特色工艺平台化并在 2026 年 5 月投资者日给出完整长期模型（10-12% CAGR、2028 毛利率 40%、2030 年 45%、EPS 4/6 美元）——战略清晰度在代工同业中突出；主权股东 Mubadala（阿布扎比）持股约八成（估算），公司兼具「准国家队资产」属性：地缘战略价值是其溢价的来源，也意味着股东回报未必是资源配置的唯一目标</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>GlobalFoundries（格芯）是全球第三大半导体代工厂，专注于12nm及以上成熟制程和特种工艺。公司定位为差异化、必需芯片的制造商，而非追逐最先进制程节点。其产品覆盖射频、超低功耗CMOS、硅光子、功率半导体等技术平台，服务于智能移动设备、汽车、家庭与工业物联网、通信基础设施与数据中心四大终端市场。公司拥有横跨美国、德国、新加坡三大洲的制造布局，是唯一具备全球规模化制造足迹的代工厂，这一地缘多元化特征是其区别于亚洲竞争对手的核心资产。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul>
+<li><strong>Q2业绩超预期，毛利率提前达标</strong>：2026年Q2营收17.86亿美元，环比增长9%，同比增长6%，高于指引上限。非IFRS毛利率达<strong>29.9%</strong>，同比提升470个基点，创Q2历史新高，并提前实现约30%的毛利率目标。业绩超预期主要由高毛利的通信基础设施与数据中心（CID）业务强劲增长及产品组合优化驱动。</li>
+<li><strong>CID业务增长预期大幅上调</strong>：受硅光子（SiPh）和硅锗（SiGe）需求爆发驱动，管理层将2026全年CID业务营收增长预期从此前的约30%以上，上调至<strong>50%-60%</strong>。硅光子业务预计全年营收同比翻倍以上，SiGe产能2027年全年已被超额预订。</li>
+<li><strong>战略收购完成，IP/定制芯片能力增强</strong>：公司于2026年6月完成了对Synopsys ARC处理器IP业务的收购，与先前收购的MIPS形成互补，构建了完整的RISC-V处理器IP和定制芯片设计能力。2026全年技术性服务收入贡献预期上调至<strong>1亿至1.2亿美元</strong>。</li>
+<li><strong>首次启动资本回报计划</strong>：公司于2026年7月支付了首次季度现金股息，每股<strong>0.12美元</strong>，并设定了将调整后自由现金流的最高50%通过股息和回购返还股东的目标。</li>
+<li><strong>政府合作持续深化</strong>：2026年7月，公司与美国商务部签署意向书，拟获得<strong>3亿美元</strong>拨款用于加速下一代硅光子技术研发；此前5月，公司已就量子计算项目获得<strong>3.75亿美元</strong>拨款意向。</li>
+</ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol>
+<li><strong>CID业务高增长驱动业绩持续超预期</strong>：公司已将2026全年CID业务增长指引上调至50%-60%，其中硅光子营收预计翻倍以上。Q2 CID营收同比增长62%，为连续第七个季度双位数增长。考虑到AI数据中心对光互联的强劲需求，以及公司SiGe产能已超额预订至2027年，该业务在下半年大概率维持高增速，为整体营收和毛利率提供持续上行支撑。Q3指引营收中值18.85亿美元，毛利率30.5%，环比继续扩张。</li>
+<li><strong>定价环境改善，2027年将迎来更广泛的提价</strong>：管理层在Q2电话会上明确表示，已与客户就多个技术领域的提价达成共识，预计将于<strong>2027年</strong>开始在营收中体现。当前成熟制程代工产能利用率持续改善，公司Q2利用率已处于80%以上高位，供需趋紧为提价提供了有利背景。这一预期差尚未完全反映在当前的盈利预测中，可能成为未来几个季度持续上修EPS的催化剂。</li>
+<li><strong>智能手机业务加速下滑，倒逼业务结构优化</strong>：公司已将2026年智能手机业务全年预期从此前的“高个位数下降”下调至<strong>10%-15%的降幅</strong>。虽然短期构成拖累，但这一加速下滑正在倒逼公司业务结构向高毛利、高增长的CID和汽车领域更快转型。Q2智能手机收入占比已降至约36%，市场预期该比例在2027年可能降至30%以下，届时公司整体增长轮廓将显著改善，可能触发估值重评。</li>
+</ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol>
+<li><strong>从手机驱动的周期股，转型为AI/特种工艺平台</strong>：公司正经历根本性的业务结构转型。管理层在2026年投资者日上提出，到2030年，CID、汽车和物联网将贡献75%的制造服务收入（2025年为55%），智能手机收入占比将降至25%以下。这一转型的核心驱动力来自硅光子、数据中心电源管理和物理AI三大赛道，公司预计这三条赛道将在2030年分别贡献<strong>20亿美元、10亿美元和10亿美元</strong>的增量收入。若转型成功，公司将从低增长的消费电子周期股，重估为高增长的特种半导体平台。</li>
+<li><strong>全球多地域布局是地缘政治溢价的核心来源</strong>：公司在美国、德国、新加坡拥有四大制造基地，且技术可在各厂区间迁移。在客户日益寻求非中国/非台湾产能保障的背景下，这一布局构成了独特的竞争壁垒。公司约<strong>95%</strong>的新设计中标为独家供应，且2025年新增超过500个设计中标。随着CHIPS法案等政府补贴落地，公司预计可获得30%-50%的资本开支回收，显著降低净投资强度，提升长期自由现金流回报。</li>
+<li><strong>IP和定制芯片业务有望提升客户粘性与盈利能力</strong>：通过收购MIPS和Synopsys ARC，公司正从纯代工厂向“技术解决方案平台”演进。这一模式使公司能在客户设计周期更早阶段介入，提供处理器IP、软件工具和定制设计服务，从而增强客户粘性并获取更高附加值。管理层预计该业务到2030年可实现<strong>10亿美元</strong>年收入，且其毛利率（80%-90%）显著高于公司整体水平，将成为长期利润率扩张的重要引擎。</li>
+</ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul>
+<li><strong>智能手机与消费类IoT市场持续疲软</strong>：智能手机仍占公司营收约36%，2026年预计下滑10%-15%。若全球消费电子需求持续低迷，或存储芯片短缺进一步抑制手机出货量，该业务的下滑幅度可能超出预期，部分抵消CID和汽车业务的增长。此外，家庭与工业IoT虽在Q2出现反弹，但其复苏的可持续性仍需观察。</li>
+<li><strong>硅光子等新业务面临激烈的竞争与执行风险</strong>：尽管公司在硅光子领域具备先发优势，但台积电的COUPE平台和Tower Semiconductor均在积极争夺市场份额。硅光子市场虽在快速扩张，但若公司无法在CPO/NPO等下一代技术路线中保持领先，或产能扩张速度不及竞争对手，可能导致份额流失。此外，公司设定的2028年硅光子10亿美元营收目标，高度依赖可插拔光模块需求的持续性和CPO的按时量产。</li>
+<li><strong>大规模产能扩张带来折旧压力与资本开支强度</strong>：公司计划2026年净资本开支占收入15%-20%，长期目标为20%，显著高于过去几年的7%-10%。大规模投资虽为满足需求所必需，但将增加折旧压力，并可能在需求波动时导致产能利用率下降，拖累毛利率。公司预计折旧将对毛利率构成约<strong>100个基点</strong>的逆风。</li>
+</ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul>
+<li><strong>2026年5月7日</strong>：公司举办投资者日，公布长期财务模型，提出10%-12%的贯穿周期营收复合增长率，2028年底毛利率目标40%，2030年目标45%，并宣布首次季度股息。</li>
+<li><strong>2026年5月21日</strong>：公司宣布成立量子技术解决方案（QTS）业务，并与美国商务部签署意向书，拟获得3.75亿美元拨款，政府将获得约1%股权。</li>
+<li><strong>2026年6月1日</strong>：公司完成对Synopsys ARC处理器IP解决方案业务的收购，交易对价约4.55亿美元，进一步强化RISC-V IP和定制芯片能力。</li>
+<li><strong>2026年7月14日</strong>：公司支付了历史上首次季度现金股息，每股0.12美元。</li>
+<li><strong>2026年7月29日</strong>：公司与美国商务部签署一份不具约束力的意向书，拟获得3亿美元拨款，用于加速下一代硅光子技术在美国的研发和制造。</li>
+</ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul>
+<li><strong>2026年8月5日</strong>：公司发布Q2财报，业绩超预期并上调全年CID增长指引，构成正面催化。</li>
+<li><strong>2026年9月-10月</strong>：公司预计在Q3完成第二个SCALE（CPO/NPO）平台的设计中标。若新增重要客户或超大规模客户采用其CPO方案，将进一步提升市场对其在下一代光互联领域地位的信心。</li>
+<li><strong>2026年下半年</strong>：公司预计将从2026年下半年开始，在部分供给受限的技术领域（如FDX、SiGe、SiPh）逐步落实与客户达成的提价协议。具体的提价幅度和范围若超预期，将直接提振2027年的盈利预测。</li>
+<li><strong>2026年Q4</strong>：随着Synopsys ARC业务整合完成，以及MIPS业务持续放量，技术性服务收入的贡献有望进一步提升。该业务毛利率极高，其收入占比的提升将对整体利润率产生结构性拉动。</li>
+</ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<p><strong>业务边际变化</strong>：公司正经历从以智能手机代工为主的商业模式，向多元化特种工艺平台的战略转型。核心变化包括：1）通过收购AMF、MIPS、InfiniLink和Synopsys ARC，将业务从纯晶圆制造向上游IP授权、软件和定制芯片设计延伸；2）大幅增加对硅光子、SiGe、FDX等高成长、高毛利技术走廊的资本开支；3）主动管理智能手机业务的收缩，将资源重新配置到数据中心和汽车领域。</p>
+<p><strong>盈利模式</strong>：公司主要依靠技术差异化（特种工艺、独家供应）和全球化制造布局获取溢价，而非单纯比拼制程先进性。约<strong>63%</strong>的晶圆出货量为独家供应产品，客户转换成本较高。此外，公司通过长期协议锁定部分收入，截至2025年底，长期协议的剩余收入承诺约为<strong>110亿美元</strong>。</p>
+<p><strong>业务拆分</strong>：公司从2026年Q1起将收入分类从“晶圆收入/非晶圆收入”改为“制造服务/技术性服务”，以反映其向平台化解决方案提供商的转型。制造服务包括晶圆制造和先进封装，技术性服务包括IP授权、软件、掩模版、NRE等。当前公司处于<strong>业务结构转型期</strong>，高毛利的CID和汽车业务占比持续提升，低毛利的智能手机业务占比下降。</p>
+<p><strong>细分业务拆分（按终端市场；单位：百万美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>终端市场</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2025占比</th><th>FY2026 H1</th><th>H1占比</th><th>H1同比</th></tr></thead><tbody><tr><td>智能移动设备</td><td>3,023</td><td>3,048</td><td>2,678</td><td>39%</td><td>1,202</td><td>35%</td><td>-5.3%</td></tr><tr><td>通信基础设施与数据中心</td><td>863</td><td>577</td><td>745</td><td>11%</td><td>507</td><td>15%</td><td>+47.0%</td></tr><tr><td>家庭与工业物联网</td><td>1,604</td><td>1,267</td><td>1,189</td><td>18%</td><td>586</td><td>17%</td><td>-6.7%</td></tr><tr><td>汽车</td><td>1,046</td><td>1,206</td><td>1,410</td><td>21%</td><td>715</td><td>21%</td><td>+5.6%</td></tr><tr><td>非晶圆/技术性服务</td><td>856</td><td>652</td><td>769</td><td>11%</td><td>410</td><td>12%</td><td>+15.8%</td></tr><tr><td><strong>总计</strong></td><td><strong>7,392</strong></td><td><strong>6,750</strong></td><td><strong>6,791</strong></td><td><strong>100%</strong></td><td><strong>3,420</strong></td><td><strong>100%</strong></td><td><strong>+4.5%</strong></td></tr></tbody></table></div>
+<p>（注：2026年H1数据中，原“非晶圆收入”已重分类为“技术性服务”，历史数据已做同口径调整。）</p>
+<ul>
+<li><strong>智能移动设备</strong>：2026年H1营收12.02亿美元，同比下降5.3%，占比35%。该业务主要受全球智能手机市场疲软及存储芯片短缺影响，公司预计全年下滑10%-15%。但公司约三分之二收入来自高端机型，表现相对优于行业。长期看，公司假设该业务收入持平，占比将持续下降。</li>
+<li><strong>通信基础设施与数据中心</strong>：2026年H1营收5.07亿美元，同比大增47.0%，占比提升至15%，是公司增长最快的板块。增长主要由硅光子（可插拔光模块）、高性能SiGe（光网络TIA/Driver）和卫星通信三大引擎驱动。公司预计2026全年该业务增长50%-60%，硅光子营收翻倍以上。该业务毛利率显著高于公司平均水平，是短期和长期利润率扩张的核心驱动力。</li>
+<li><strong>家庭与工业物联网</strong>：2026年H1营收5.86亿美元，同比下降6.7%，但Q2已出现反弹（环比+30%，同比+10%）。公司已将全年增长预期从此前的中个位数上调至<strong>10%-15%</strong>，主要受库存正常化、需求信号改善及新一代产品爬坡推动。长期看，该业务被定位为物理AI的核心受益板块，预计贯穿周期实现中双位数增长。</li>
+<li><strong>汽车</strong>：2026年H1营收7.15亿美元，同比增长5.6%，占比21%。Q2受客户出货时间安排影响环比下滑，但公司维持全年<strong>低双位数增长</strong>预期。增长动力来自MCU市场份额扩大、智能传感器、雷达、摄像头等新应用放量。公司已是全球前三大汽车MCU制造商的代工合作伙伴。</li>
+<li><strong>技术性服务</strong>：2026年H1营收4.10亿美元，同比增长15.8%，占比12%。该业务包括IP授权、软件、掩模版、NRE等，受益于MIPS并表及客户流片活动增加。公司预计全年该业务收入贡献将处于10%-12%区间的高端，其毛利率（部分业务达80%-90%）显著高于制造服务，是利润率结构性改善的重要来源。</li>
+</ul>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托高转换成本与独家供应构筑的客户粘性</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。公司约<strong>63%</strong>的晶圆出货量为独家供应产品，客户一旦采用其特种工艺进行设计并完成认证，转换代工厂将面临高昂的重新设计、重新认证成本和时间周期（尤其在汽车和航空航天领域）。2025年公司新增超过500个设计中标，其中约95%为独家供应，表明其技术差异化和客户锁定能力在持续增强。</li>
+<li><strong>数据验证</strong>：2025年来自长期协议的剩余收入承诺约为<strong>110亿美元</strong>，为未来收入提供了较高的可见性。汽车业务收入从2020年的约1亿美元增长至2025年的14.1亿美元，五年增长约14倍，且客户基础从少数MCU厂商扩展至全球前三大MCU供应商（英飞凌、恩智浦、瑞萨）。</li>
+<li><strong>动态演变</strong>：<strong>护城河变宽</strong>。随着公司向IP授权和定制芯片领域延伸，客户在设计阶段即与公司深度绑定，转换成本进一步提高。同时，地缘政治驱动的供应链多元化需求，使得公司多地域制造布局的吸引力持续上升。</li>
+</ul>
+<p><strong>竞争要素 2：依托全球多地域布局的供应链安全溢价</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。公司是美国本土唯一具备规模化半导体制造能力的纯代工厂，同时在德国和新加坡拥有核心产能。在客户日益寻求非中国/非台湾产能保障的背景下，这一布局构成了独特的竞争壁垒。技术可在各厂区间迁移，客户一次设计即可获得多地域生产选择。</li>
+<li><strong>数据验证</strong>：公司预计可从政府补贴中获得30%-50%的资本开支回收。2025年已获得来自美国CHIPS法案的<strong>15亿美元</strong>直接资助批准，以及纽约州<strong>5.7亿美元</strong>支持。2026年又陆续获得硅光子和量子计算领域的政府拨款意向。这些补贴显著降低了公司的净投资强度。</li>
+<li><strong>动态演变</strong>：<strong>护城河变宽</strong>。全球供应链去风险化趋势仍在强化，公司作为“可信代工厂”的战略价值持续提升。近期与洛克希德·马丁等航空航天客户的合作，进一步验证了其在美国国防供应链中的独特地位。</li>
+</ul>
+<p><strong>现阶段核心驱动力总结</strong>：公司的Alpha来源于业务结构从低毛利消费电子向高毛利数据中心和汽车特种工艺的主动转型，以及IP/定制芯片业务带来的盈利能力升级。Beta则来源于全球半导体供应链重构（去中国化/去台湾化）和AI基础设施投资周期的双重顺风。</p>
+<p><strong>竞争格局传导逻辑</strong>：</p>
+<ul>
+<li>高转换成本的独家供应模式（63%出货量为独家）→ 较强的客户粘性与议价能力 → 毛利率持续扩张（目标从约30%提升至45%）</li>
+<li>全球多地域制造布局（美/德/新三地）→ 供应链安全溢价与政府补贴获取能力 → 毛利率扩张</li>
+<li>特种工艺技术差异化（SiPh/SiGe/FDX）→ 在高增长赛道占据先发卡位 → 毛利率扩张</li>
+</ul>
+<h3 class="doc-h2">产销链</h3>
+<p><strong>客户情况</strong>：公司客户集中度较高，2025年前十大客户占应收账款约<strong>72.3%</strong>。其中，单一客户A占晶圆收入约16.4%，客户C占约13.9%。公司通过长期协议锁定核心客户需求，但需关注单一客户订单波动对营收的影响。新客户方面，公司正积极拓展数据中心领域的超大规模客户和光模块供应商，目前与全球前五大光收发器供应商中的四家合作。在汽车领域，公司已成为全球前三大MCU制造商的代工伙伴。</p>
+<p><strong>供应商情况</strong>：公司对关键原材料SOI晶圆的供应商高度集中。2025年，公司<strong>71.4%</strong>的SOI晶圆采购来自单一供应商Soitec。双方签订了多项长期供应协议以保障供应稳定性。其他原材料（如硅晶圆、气体、化学品）虽多数有多个供应源，但部分关键材料仍存在独家供应情况。2026年Q2，因中东冲突导致的供应链不确定性，公司提前加强了氦气、氢气等关键气体和化学品的备货，预计对后续季度毛利率造成约<strong>0.5个百分点</strong>的压力。</p>
+<p><strong>成本传导能力</strong>：公司赚取的是“技术溢价+供应链安全溢价”，而非单纯的加工费。当上游原材料或能源成本上升时，公司具备一定的成本转嫁能力，但存在时滞。2026年Q2电话会上，管理层表示已与客户就多个技术领域的提价达成共识，预计2027年开始体现，这表明在供需趋紧的特种工艺领域，公司的议价能力在增强。但在竞争更充分的智能手机等大宗应用领域，成本传导能力相对有限。</p>
+<h3 class="doc-h2">财务数据</h3>
+<p><strong>关键财务数据（单位：百万美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td>截止日期</td><td>2023-12-31</td><td>2024-12-31</td><td>2025-12-31</td><td>2026-06-30</td></tr><tr><td>营业总收入</td><td>7,392</td><td>6,750</td><td>6,791</td><td>3,420</td></tr><tr><td>营收同比</td><td>-8.8%</td><td>-8.7%</td><td>+0.6%</td><td>+4.5%</td></tr><tr><td>营业成本</td><td>5,291</td><td>5,099</td><td>5,101</td><td>2,464</td></tr><tr><td><strong>毛利润</strong></td><td><strong>2,101</strong></td><td><strong>1,651</strong></td><td><strong>1,690</strong></td><td><strong>956</strong></td></tr><tr><td><strong>毛利率</strong></td><td><strong>28.4%</strong></td><td><strong>24.5%</strong></td><td><strong>24.9%</strong></td><td><strong>28.0%</strong></td></tr><tr><td>研发费用</td><td>428</td><td>496</td><td>518</td><td>306</td></tr><tr><td>销售及管理费用</td><td>473</td><td>427</td><td>375</td><td>296</td></tr><tr><td><strong>营业利润</strong></td><td><strong>1,129</strong></td><td><strong>-214</strong></td><td><strong>797</strong></td><td><strong>354</strong></td></tr><tr><td>营业利润率</td><td>15.3%</td><td>-3.2%</td><td>11.7%</td><td>10.4%</td></tr><tr><td>归母净利润</td><td>1,020</td><td>-265</td><td>885</td><td>269</td></tr><tr><td>归母净利润同比</td><td>-29.6%</td><td>-126.0%</td><td>+434.0%</td><td>-38.6%</td></tr><tr><td>稀释EPS（美元）</td><td>1.83</td><td>-0.48</td><td>1.59</td><td>0.48</td></tr><tr><td>经营活动现金流</td><td>2,125</td><td>1,722</td><td>1,731</td><td>947</td></tr><tr><td>资本支出</td><td>1,804</td><td>625</td><td>722</td><td>723</td></tr><tr><td><strong>自由现金流</strong></td><td><strong>321</strong></td><td><strong>1,097</strong></td><td><strong>1,009</strong></td><td><strong>224</strong></td></tr></tbody></table></div>
+<p>（注：FY2024营业利润和净利润受9.35亿美元长期资产减值的一次性影响。自由现金流 = 经营活动现金流 - 资本支出。）</p>
+<p><strong>财务分析</strong>：</p>
+<ul>
+<li><strong>成长能力</strong>：公司营收在经历2023-2024年的下滑后，于2025年企稳，2026年H1恢复至4.5%的同比增长。增长动力主要来自CID和汽车业务，但被智能手机和消费类IoT的下滑部分抵消。剔除FY2024一次性减值影响后，营业利润呈改善趋势。</li>
+<li><strong>盈利能力</strong>：毛利率从FY2024的24.5%持续改善至FY2026 H1的28.0%，主要驱动因素为产品组合优化（高毛利CID和汽车业务占比提升）、产能利用率提高以及成本改善。非IFRS毛利率（剔除股权激励等）在Q2已达29.9%，公司预计全年约30%。研发费用率从FY2023的5.8%上升至FY2026 H1的8.9%，反映对MIPS、ARC等收购业务的整合以及在硅光子、定制芯片等领域的持续投入。</li>
+<li><strong>现金流</strong>：公司持续产生正向经营现金流和自由现金流。FY2025自由现金流为10.09亿美元，自由现金流率约14.9%。FY2026 H1自由现金流为2.24亿美元，主要受资本开支大幅增加影响（H1资本开支7.23亿美元，已接近FY2025全年水平）。公司预计2026全年自由现金流率约10%。</li>
+</ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p><strong>行业赛道</strong>：公司所处的特种工艺代工市场，是半导体代工行业中一个差异化、高附加值的细分领域。与台积电、三星主导的先进制程（5nm及以下）代工市场不同，特种工艺代工聚焦于射频、模拟、混合信号、功率半导体、硅光子等非尺寸依赖型技术。这些技术广泛应用于汽车电子、工业控制、航空航天、光通信和AI基础设施等领域。市场预计，随着AI驱动数据中心光互联需求爆发、汽车电动化智能化渗透率提升，以及全球供应链重构，特种工艺代工市场将迎来结构性增长机遇。公司预计其可服务市场将从2025年的750亿美元增长至2030年的1200亿美元。</p>
+<p><strong>竞争格局</strong>：在特种工艺代工领域，公司的主要竞争对手包括台积电（在部分成熟制程和先进封装领域存在竞争）、联电、Tower Semiconductor（在硅光子、SiGe等领域直接竞争），以及部分IDM厂商的代工业务。公司的差异化优势在于：1）全球多地域布局，是唯一在美国本土拥有规模化产能的纯代工厂；2）在FDX、SiGe、硅光子等特定技术平台上的先发优势和客户积累；3）约63%的独家供应比例，客户粘性较高。劣势在于：1）在先进制程领域完全缺位；2）整体营收规模远小于台积电，规模效应有限；3）对智能手机等周期性市场的敞口仍较大。</p>
+<p><strong>可比公司</strong>：</p>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>主要竞争维度</th><th>差异化分析</th></tr></thead><tbody><tr><td>台积电 (TSMC)</td><td>TSM</td><td>先进封装、部分成熟制程、硅光子</td><td>台积电在先进制程和CoWoS封装领域绝对领先，但在特种工艺和全球多地域布局上，格芯具备差异化优势。台积电的COUPE平台是格芯SCALE在CPO领域的直接竞争对手。</td></tr><tr><td>联电 (UMC)</td><td>UMC</td><td>成熟制程代工</td><td>联电主要聚焦成熟制程的逻辑代工，技术平台广度不及格芯，且产能集中在亚洲，缺乏格芯的全球布局优势。</td></tr><tr><td>Tower Semiconductor</td><td>TSEM</td><td>硅光子、SiGe、射频</td><td>Tower在硅光子领域增长迅速（2025年收入约2.28亿美元），是格芯在该领域最直接的竞争对手。但格芯在300mm产能、与超大规模客户的合作深度以及政府资源支持方面更具优势。</td></tr></tbody></table></div>
+<p>总结来看，格芯在特种工艺代工市场具备独特的竞争地位，其“技术差异化+全球布局+政府关系”的组合拳，在当前的产业环境下较难被复制。但来自台积电和Tower的竞争不容忽视，尤其在硅光子这一关键增长赛道。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<ul>
+<li><strong>议题一：硅光子业务的增长天花板与竞争壁垒</strong>——<strong>背景</strong>：硅光子是公司当前最核心的增长叙事，管理层已给出2028年10亿美元、2030年20亿美元的营收目标。但市场对该业务的竞争格局和可持续性存在疑问。<strong>问题列表</strong>：1）公司硅光子业务2026年预计翻倍至约4亿美元，这一增速能否持续？2028年10亿美元的目标中，可插拔光模块和CPO/NPO分别贡献多少？2）台积电的COUPE平台和Tower Semiconductor均在积极争夺硅光子市场份额，公司的SCALE平台有何差异化优势？客户是否会在不同供应商之间进行多源采购？3）硅光子业务的毛利率水平如何？随着竞争加剧，是否存在价格战风险？</li>
+<li><strong>议题二：毛利率目标的实现路径与可信度</strong>——<strong>背景</strong>：公司提出了2028年底40%、2030年45%的长期毛利率目标，较当前约30%的水平有巨大提升空间。市场对这一目标的实现路径和假设条件高度关注。<strong>问题列表</strong>：1）从30%到40%的毛利率提升中，产品组合优化、利用率提升、成本改善和定价分别贡献多少？其中哪些是结构性因素，哪些是周期性因素？2）公司预计折旧将对毛利率构成约100个基点的逆风，这一估算是否充分？若资本开支强度持续高于20%，会否带来更大的折旧压力？3）2026年Q2毛利率已达29.9%，提前实现30%目标。这是否意味着后续提升速度可能慢于预期？</li>
+<li><strong>议题三：智能手机业务下滑的拖累程度与转型节奏</strong>——<strong>背景</strong>：智能手机仍占公司营收约36%，且2026年预计下滑10%-15%。市场担心该业务的持续萎缩会否抵消CID和汽车业务的增长，导致整体营收增速不及预期。<strong>问题列表</strong>：1）智能手机业务下滑的主要驱动因素是市场份额丢失还是终端市场萎缩？若是后者，何时能企稳？2）公司预计智能手机收入占比到2030年降至25%以下，这一转型节奏是否足够快？在转型完成前，整体营收增速是否会被持续拖累？3）智能手机业务的固定成本能否随着收入下滑而同步削减？若不能，会否对整体利润率造成负杠杆效应？</li>
+</ul>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧：当前估值是否已充分反映了公司的转型前景？</strong></p>
+<p><strong>乐观方观点</strong>：公司正处于从低增长消费电子代工厂向高增长AI/特种工艺平台的“戴维斯双击”阶段。硅光子、数据中心电源管理、物理AI三大赛道将在2030年贡献超过40亿美元的增量收入，推动整体营收实现10%-12%的复合增长率。毛利率有望从当前的30%提升至45%，EPS到2030年可达6美元。当前约22-25倍2027年EPS的估值，相对于这一增长前景并不昂贵。此外，公司作为美国本土唯一规模化代工厂的战略价值，应享有估值溢价。</p>
+<p><strong>谨慎方观点</strong>：公司的转型故事虽具吸引力，但当前财务表现尚未提供充分验证。2026年H1营收同比仅增长4.5%，且智能手机和消费类IoT仍在拖累整体增速。硅光子业务虽增长迅速，但2026年预计收入仅约4亿美元，占整体营收不足6%，尚不足以完全对冲传统业务的下滑。40%以上的毛利率目标高度依赖CPO、定制芯片等尚处于早期阶段业务的成功放量，存在较大执行风险。当前约36倍2026年EPS的估值，已显著高于联电（约16倍）等成熟制程代工同行，也高于台积电（约28倍），溢价已较为充分。</p>
+<p><strong>总结分析</strong>：市场分歧的本质在于对“转型进度”和“估值方法”的判断差异。乐观方倾向于用2030年的终局愿景来折现估值，而谨慎方更关注未来1-2年的实际财务表现。从当前时点看，公司的转型方向明确，CID业务的增长动能强劲，且定价环境正在改善，基本面处于上行通道。但智能手机业务的加速下滑和持续高强度的资本开支，确实为短期盈利带来了不确定性。估值层面，相对于亚洲代工同行，公司因全球布局和战略稀缺性享有一定溢价具有合理性，但溢价幅度是否合理，取决于CID业务能否在未来2-3个季度持续超预期并带动整体营收增速显著提升。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>券商盈利预测</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价(美元)</th><th>财务指标</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>花旗 (2026-08-06)</td><td>中性</td><td>58.00</td><td>营收(百万美元)<br>EPS(美元)</td><td>6,791<br>1.73</td><td>7,306<br>1.96</td><td>8,492<br>2.62</td><td>9,226<br>3.16</td></tr><tr><td>摩根士丹利 (2026-08-06)</td><td>等权重</td><td>60.00</td><td>营收(百万美元)<br>EPS(美元)</td><td>6,791<br>1.73</td><td>7,276<br>2.00</td><td>8,038<br>2.44</td><td>9,170<br>3.28</td></tr><tr><td>瑞银 (2026-05-08)</td><td>中性</td><td>77.00</td><td>营收(百万美元)<br>EPS(美元)</td><td>6,791<br>1.73</td><td>7,306<br>1.96</td><td>8,492<br>2.62</td><td>9,226<br>3.16</td></tr><tr><td>高盛 (2026-05-09)</td><td>中性</td><td>70.00</td><td>营收(百万美元)<br>EPS(美元)</td><td>6,791<br>1.59</td><td>7,400<br>1.60</td><td>8,077<br>2.22</td><td>8,770<br>2.61</td></tr><tr><td>坎特菲茨杰拉德 (2026-05-14)</td><td>增持</td><td>100.00</td><td>营收(百万美元)<br>EPS(美元)</td><td>6,791<br>1.72</td><td>7,200<br>1.85</td><td>8,000<br>2.50</td><td>-<br>-</td></tr></tbody></table></div>
+<p>（注：各机构EPS口径可能存在差异（IFRS vs Non-IFRS），预测年份为财年（FY）。）</p>
+<p><strong>盈利预测与估值分析</strong>：机构间对公司的营收预测相对接近，FY2026E营收中值约73亿美元，FY2027E约80-85亿美元。但对EPS的预测分歧较大，FY2027E EPS预测区间为2.22-2.62美元，反映对毛利率扩张速度和运营费用率的假设差异。评级方面，多数机构持中性或等权重观点，仅坎特菲茨杰拉德给予增持评级，其目标价100美元显著高于其他机构（58-77美元），主要基于对2030年6美元EPS的乐观折现。估值方法上，机构普遍采用P/E估值，倍数区间为22-29倍2027/2028年EPS，部分机构也参考EV/EBITDA。</p>
+<p><strong>管理层最新指引</strong>：2026年Q3指引为营收18.85亿美元（±2500万），毛利率约30.5%（±100bps），稀释EPS为0.51美元（±0.05美元）。长期模型提出10%-12%的贯穿周期营收复合增长率，2028年底毛利率目标40%，2030年目标45%，EPS目标分别为4美元和6美元。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/GFS · 生成于 2026-08-07</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-07';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'hit',     text: '<strong>FY2026Q2 超预期</strong>：营收 17.86 亿美元（同比 +6%，超指引上限），非 IFRS 毛利率 29.9% 提前达成 30% 目标；CID 全年增长指引上调至 50%-60%', note: '2026-08-05 财报披露' },
+  { kind: 'cat', status: 'active',  text: '<strong>第二个 SCALE（CPO/NPO）平台设计中标</strong>：预计 Q3 完成，超大规模客户采用为关键验证', note: '2026-09 至 10 窗口' },
+  { kind: 'cat', status: 'active',  text: '<strong>政府拨款正式落地</strong>：3 亿美元硅光子 + 3.75 亿美元量子目前均为不具约束力意向书', note: '2026-05/07 与美国商务部签署' },
+  { kind: 'cat', status: 'pending', text: '<strong>FY2026Q3 财报</strong>（预计 2026-11）：营收指引 18.85 亿美元（±2,500 万）、毛利率约 30.5%、EPS 0.51 美元（±0.05）', note: '' },
+  { kind: 'cat', status: 'pending', text: '<strong>2027 年提价兑现</strong>：FDX/SiGe/SiPh 等紧供给技术 2026H2 先行落地，提价范围超预期将直接上修 2027 盈利预测', note: 'Q2 电话会披露已与客户达成共识' },
+  { kind: 'cat', status: 'pending', text: '<strong>技术性服务收入放量</strong>：MIPS + Synopsys ARC 整合，全年贡献预期上调至 1-1.2 亿美元，部分业务毛利率 80%-90%', note: '2026Q4 随 ARC 整合完成加速' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>手机业务降幅超 -15% 或 IoT 复苏中断</strong>，抵消 CID 增长', note: '手机占营收 35%，全年指引已下修至 -10% 至 -15%' },
+  { kind: 'risk', status: 'clear', text: '<strong>硅光子竞争失手</strong>：台积电 COUPE / Tower 夺取份额，SCALE 平台丢失关键客户或 CPO 量产延期', note: 'Tower 2025 硅光收入约 2.28 亿美元' },
+  { kind: 'risk', status: 'clear', text: '<strong>毛利率停滞在约 30%</strong>：折旧约 100bps 逆风 + 资本开支强度升至 15%-20% 兑现为更大拖累', note: 'Q2 非 IFRS 毛利率 29.9%，Q3 指引 30.5%' },
+  { kind: 'risk', status: 'clear', text: '<strong>客户集中度风险</strong>：单一最大客户约占晶圆收入 16.4%、前十大客户约占应收账款 72.3%，订单波动直接冲击营收', note: '2025 年数据' },
+  { kind: 'risk', status: 'clear', text: '<strong>FCF 持续压缩</strong>：2026 年 FCF 率指引约 10%（FY2025 约 14.9%），H1 FCF 仅 2.24 亿美元，资本回报计划可持续性存疑', note: 'H1 资本开支 7.23 亿美元已接近 FY2025 全年' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

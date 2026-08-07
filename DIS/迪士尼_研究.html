@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>迪士尼（DIS.N）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--policy-red); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">DIS</span>
+    <span class="site-mark__text">迪士尼公司研究<span>Disney · DIS.N</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>迪士尼<span class="en">Walt Disney · DIS.N · 美股研究</span></h1>
+        <p class="sub">两天前的 FY26Q3 财报（2026-08-05）把迪士尼的转型叙事推进到了「兑现期」：调整后 EPS 2.06 美元大幅超出一致预期 1.84 美元，流媒体（SVOD）运营利润率 12.9% 同比提升 630 个基点，体验业务收入利润双创第三季度纪录，全年回购上调至至少 90 亿美元。而市场仍按约 14 倍前瞻 PE（估算）给它定价——这是近十年的估值低位，定价的是「线性电视衰退 + 内容失利 + 重资产乐园的宏观敏感」，而非已经发生的双利润拐点。核心矛盾有二：流媒体盈利改善的持续性 vs 传统电视萎缩的速度；乐园的定价权 vs 周期敞口。过去两个季度的证据明显偏向多方，回购提供下行保护，《复仇者联盟：末日》提供上行期权。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-07</span>
+          <span>下次更新：FY26Q4 财报（2026-10 至 11）/ 《复仇者联盟：末日》上映（2026-12-18）</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="buy">买入</strong>
+        <em>约 14x FY2026E 调整后 PE（现价约 102 美元、共识 EPS 6.57-7.03 美元反推，估算），近十年低位；FY26 EPS +约 12% 指引与 FY27 双位数增长 + 流媒体利润拐点 + 体验创纪录 + 回购至少 90 亿美元（约市值 5%）；三情景期望值约 +14%、赔率约 1.8:1（估算）；重检条件：SVOD 利润率跌破双位数、国内乐园游客量同比转负、FY27 EPS 指引低于双位数。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">EPS $2.06</strong><span>FY26Q3 调整后·一致预期 1.84，超预期</span></div>
+      <div class="summary-rail__item"><strong>12.9%</strong><span>SVOD 运营利润率·同比 +630bps</span></div>
+      <div class="summary-rail__item"><strong>+20%</strong><span>体验运营利润 30.17 亿美元·Q3 历史纪录</span></div>
+      <div class="summary-rail__item"><strong>≥$90亿</strong><span>FY2026 回购·自 80 亿上调·约市值 5%</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">流媒体盈利拐点：12.9% 的利润率是起点还是天花板？</h2>
+        <span class="qa__impact-tag">→ SVOD 利润率一年 +6.3pp · 与奈飞 ~25% 的差距即空间</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>拐点已经确立，扩张路径清晰但不会线性。SVOD 运营利润率从 FY2025 全年 <strong>6.6%</strong> → FY2026 前九个月 <strong>10.6%</strong> → FY26Q3 单季 <strong>12.9%</strong>（同比 +630bps），一年改善约 6 个百分点；驱动来自提价、订阅用户增长、内容成本纪律与 Hulu 整合，管理层重申 FY2026 全年双位数利润率。但两个信号提示扩张将放缓：公司已不再按季度披露订阅用户数（战略重心从规模转向盈利与用户价值），广告市场因供应增加面临定价压力。<em>保留判断：双位数利润率在 FY26Q4 广告逆风下能否守住尚需一个季度验证；向奈飞约 25% 水平的收敛是以年计的多年过程，不是两三个季度的故事。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>EPS 渠道：</strong>SVOD 收入体量约年化 220 亿美元级别（FY2025 全年 195.8 亿，FY26 前九个月 163.6 亿），利润率每提升 1pp 约对应 <strong>2 亿美元以上</strong>的运营利润增量（估算）——从 12.9% 到 20%，相当于再造一个中型利润来源。</p>
+            <p><strong>倍数渠道更大：</strong>流媒体对股价的主要作用渠道是估值叙事——从「烧钱黑洞」变成「利润增长点」，是迪士尼从「传统媒体集团折价」向「IP 平台溢价」重估的前提。若 FY27 利润率继续向 15% 迈进，倍数修复的贡献大概率超过 EPS 上修的贡献。反向情形：若利润率回落至单位数，「流媒体盈利证伪」将同时杀 EPS 与倍数。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>利润率一年从 6.6% 走到 12.9%，全年双位数目标被重申——<strong>成本纪律与提价能力同时在线</strong>，不是靠一次性项目</li>
+              <li>Disney+/Hulu/ESPN+ 三重捆绑包的用户流失率<strong>显著低于单一服务</strong>，存量用户质量在改善</li>
+              <li>后续弹药明确：整合 Hulu、引入 ESPN 内容、探索免费广告层——每一个都是 ARPU 与利润率的增量变量</li>
+              <li>DTC 掌握<strong>第一方数据与直接客户关系</strong>，是 AI 时代产品创新与新收入来源的基础；奈飞约 25% 的利润率证明了该模式的上限</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>12.9% vs 奈飞约 <strong>25%</strong>：差距巨大，且奈飞有约 2.8 亿订阅用户的全球规模优势，迪士尼追赶的斜率存疑</li>
+              <li>收入增速已在放缓，且<strong>广告市场因供应增加而定价承压</strong>——广告层的利润弹性可能低于预期</li>
+              <li><strong>不再披露订阅用户数</strong>，外部验证变难；「不提用户数」也可能意味着用户增长停滞</li>
+              <li>国际本地内容与体育内容（ESPN 并入 DTC）成本刚性，利润率扩张随时可能中断</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（SVOD 利润率轨迹 · 行业格局 · 管理层动作）</summary>
+          <div class="evidence__body">
+            <h5>SVOD（Disney+ 等流媒体）利润率与收入轨迹</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>期间</th><th>SVOD 收入（亿美元）</th><th>运营利润率</th><th>备注</th></tr></thead><tbody><tr><td>FY2025 全年</td><td>195.83</td><td>6.6%</td><td>首次全年转正后爬坡</td></tr><tr><td>FY2026 前九个月</td><td>163.64</td><td>10.6%</td><td>进入双位数区间</td></tr><tr><td>FY26Q3 单季</td><td>—（含在娱乐 113.45 亿内）</td><td><strong>12.9%</strong>（同比 +630bps）</td><td>管理层重申 FY26 全年双位数利润率</td></tr></tbody></table></div>
+            <h5>行业格局（为什么利润率是主战场）</h5>
+            <ul>
+              <li>Nielsen 数据：2025 年 12 月流媒体已占美国电视观看时间的 <strong>47.5%</strong>，远超传统有线电视——用户迁移已过大半</li>
+              <li>格局「一超多强」：奈飞约 <strong>2.8 亿</strong>订阅用户居首（FY2025 营业利润率约 25%），迪士尼凭 IP 与内容库居第二；竞争焦点已从用户规模转向<strong>利润创造与用户粘性</strong></li>
+              <li>差异化：跨世代 IP 影响力 + 捆绑销售（Disney+/Hulu/ESPN+）——三重捆绑包流失率显著低于单一服务</li>
+            </ul>
+            <h5>管理层近期动作</h5>
+            <ul>
+              <li>整合 Hulu、引入 ESPN 内容、探索免费广告层——深化参与度与货币化</li>
+              <li>与 TikTok 达成全球内容合作：粉丝创作内容引入 Disney+ 竖屏专区「Verts」，瞄准年轻用户</li>
+              <li>内容授权策略从广泛授权转向<strong>优先供给自有平台</strong>，增强 DTC 独家性</li>
+              <li>计划 2027 年春季起在 Disney+ 中整合游戏、商品等生态元素</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">体验业务：占部门利润 57% 的支柱，是「逆周期」还是「还没轮到周期」？</h2>
+        <span class="qa__impact-tag">→ FY26Q3 运营利润 30.17 亿美元 +20% 创纪录</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>FY26Q3 用数据证伪了宏观悲观预期：在康卡斯特提及奥兰多主题公园客流疲软、同业环球影城承压的背景下，迪士尼国内乐园游客量 <strong>+3%</strong>、人均消费 <strong>+4%</strong>、全球游客量 <strong>+4%</strong>，收入（99.68 亿美元，+10%）与运营利润（30.17 亿美元，+20%）双创第三季度纪录，管理层将 FY26 体验运营利润增长指引上调至高个位数区间的<strong>高端</strong>。增长主要由自身有机投资与执行驱动，远期预订量健康。<em>保留判断：当前证据是「相对强势」（显著优于同业），不是「绝对免疫」——亚洲（上海、香港）消费疲软已经出现，Q3 含约 1 亿美元关税退款的一次性正面影响（管理层称全年影响基本为零）；若美国消费真正进入衰退，高客单价的家庭出游需求不可能独善其身。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>体验是 EPS 的最大单一变量：</strong>其运营利润率 30.4%（FY26 前九个月）几乎是集团整体（19.3%）的 1.6 倍，FY2025 贡献了 <strong>57%</strong> 的部门运营利润（娱乐 27%、体育 16%）。人均消费 +4% 的提价能力直接推利润率；产能扩张（新邮轮运力爬坡、巴黎「冰雪奇缘世界」开业、奥兰多反派乐园与阿纳海姆复仇者联盟园区扩建、2027-2031 再加四艘邮轮）提供未来十年可见的量增管道。</p>
+            <p>代价是 FY26 约 <strong>90 亿美元</strong>资本开支（FY26 前九个月 capex 67.8 亿，同比 +11%），压制当期自由现金流（前九个月 FCF 仅 26.6 亿）。管理层强调项目均经回报率评估且 ROIC 已显著提升——若属实，这是「用当期 FCF 换三十年现金流」的正确交易；若宏观在产能投放期转弱，重资产模式会放大下行。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>创纪录季度出现在同业喊弱的时候——<strong>定价权与需求韧性同时被验证</strong>，相对优势即护城河的证据</li>
+              <li>FY2025 全球前 25 大主题乐园迪士尼独占 <strong>8 席</strong>、入园 <strong>1.45 亿</strong>人次稳居第一；东京迪士尼运营商约 30% 的利润率验证了该模式的盈利上限</li>
+              <li>十年投资周期（邮轮 4 艘 + 全球园区扩建）提供<strong>其他媒体公司不具备的可见增长管道</strong>，且 ROIC 随时间显著提升</li>
+              <li>「魔法体验」的差异化 + IP 持续更新能力，转换成本与品牌忠诚度极高</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>乐园与消费品高度依赖可支配收入——<strong>宏观衰退情景下这是最大的利润敞口</strong>（57% 部门利润）</li>
+              <li>亚洲疲软已在发生（上海、香港），康卡斯特提及的奥兰多客流疲软是宏观先行信号，迪士尼只是<strong>尚未被周期轮到</strong></li>
+              <li>90 亿美元年 capex + 刚性运营成本（人力、燃料）：衰退时利润下滑幅度会被重资产结构<strong>放大</strong></li>
+              <li>Q3 含约 1 亿美元关税退款一次性收益，「创纪录」需要打折看待</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（体验业务拆分 · 扩张管道 · 行业数据）</summary>
+          <div class="evidence__body">
+            <h5>FY26Q3 体验业务关键数据</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>FY26Q3</th><th>同比</th></tr></thead><tbody><tr><td>收入</td><td><strong>99.68 亿美元</strong></td><td>+10%（Q3 历史纪录）</td></tr><tr><td>运营利润</td><td><strong>30.17 亿美元</strong></td><td>+20%（Q3 历史纪录）</td></tr><tr><td>国内乐园游客量</td><td>+3%</td><td>同业环球影城同期承压</td></tr><tr><td>人均消费</td><td>+4%</td><td>提价能力的直接证据</td></tr><tr><td>全球游客量</td><td>+4%</td><td>—</td></tr></tbody></table></div>
+            <p>增量来源：新邮轮（迪士尼命运号、探险号）运力增加 + 巴黎「冰雪奇缘世界」开业。一次性项目：约 <strong>1 亿美元</strong>关税退款对利润有正面影响，管理层表示全年影响基本为零。</p>
+            <h5>扩张管道（十年投资周期）</h5>
+            <ul>
+              <li>邮轮：2027-2031 年再推出 <strong>4 艘</strong>新邮轮（命运号、探险号已启航）</li>
+              <li>乐园：奥兰多反派乐园、阿纳海姆复仇者联盟园区、上海等全球园区扩建</li>
+              <li>FY2026 资本开支计划约 <strong>90 亿美元</strong>；FY26 前九个月 capex 67.8 亿（同比 +11%），经营现金流仍有 125.15 亿</li>
+            </ul>
+            <h5>行业坐标（TEA/AECOM）</h5>
+            <ul>
+              <li>2024 年全球前 25 大主题乐园入园 <strong>2.46 亿</strong>人次，接近疫情前水平；行业由新兴市场中产扩大与体验式消费驱动</li>
+              <li>迪士尼以 <strong>1.45 亿</strong>年入园人次（前 25 中占 8 席）稳居全球第一，对手为环球影城（康卡斯特）与默林娱乐</li>
+              <li>参照系：东京迪士尼运营商东方乐园（授权模式）FY2025 利润率约 30%——验证迪士尼乐园模式的盈利能力</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">内容爆款风险与 IP 疲劳：飞轮的两端在松动吗？</h2>
+        <span class="qa__impact-tag">→ 《玩具总动员5》10 亿+ vs 《海洋奇缘》预亏 1-1.3 亿</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>飞轮仍在转，但效率在分化。一边是《玩具总动员5》全球票房超 <strong>10 亿美元</strong>，同时拉动流媒体（系列在 Disney+ 播放超 20 亿小时）与零售（每年超 10 亿美元）——IP 跨场景变现链条完好，娱乐板块 FY26Q3 运营利润因此大增 <strong>64%</strong>；另一边是《曼达洛人和古古》与真人版《海洋奇缘》相继失利（后者首周末全球票房仅 9,500 万美元，市场预期亏损 1-1.32 亿美元），说明顶级 IP 也有创意疲劳风险。<em>我们的判断：单一内容失利对集团整体利润的影响有限（Q3 娱乐运营利润仍 +64%），但「续集/翻拍系统性疲劳」若成立，将缓慢侵蚀飞轮每个环节的转化效率——2026-12-18 上映的《复仇者联盟：末日》是检验 IP 号召力的分水岭。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>直接冲击有限且可量化：</strong>《海洋奇缘》预亏 1-1.32 亿美元（市场估算），主要压 FY26Q4 娱乐利润——相对集团每季度 55 亿美元级别的部门运营利润，约 1-2% 的量级（估算）。娱乐板块 FY26 前九个月运营利润率 11.9%（FY2025 全年 11.0%），方向仍在改善。</p>
+            <p><strong>真正的杠杆在飞轮乘数：</strong>一部爆款 = 票房 + 流媒体观看 + 乐园景点 + 消费品零售的多场景收入（玩具总动员系列：五部电影总票房超 40 亿美元、4 个乐园园区、19 个景点、2 家主题酒店）；一次失利的伤害也沿同一条链条传导。内容管线因此是估值的期权项：《复仇者联盟：末日》大爆将直接上修市场对 FY27 娱乐板块乃至整个飞轮的预期。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>《玩具总动员5》10 亿+ 票房刚刚证明<strong>飞轮的即时变现能力完好</strong>——失利是单点事件，不是系统故障</li>
+              <li>IP 矩阵多点支撑（漫威/星战/皮克斯/迪士尼动画），单一影片失利不影响全局；内容管线里还有《复仇者联盟：末日》级别的王牌</li>
+              <li>组织上把消费品并入娱乐板块（FY27Q1 生效）、Disney+ 整合游戏与商品——<strong>IP 创造与变现同部门管理，飞轮在加速而非减速</strong></li>
+              <li>内容授权转向优先供给自有平台，爆款的利润留存率在提高</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>《曼达洛人和古古》《海洋奇缘》连续失利可能不是偶然——<strong>观众对续集与翻拍的系统性疲劳</strong>是结构性问题</li>
+              <li>内容成功具有高度不确定性，IP 不是永动机；一次重大的创意失败就可能动摇飞轮根基</li>
+              <li>FY26Q3 内容销售/授权收入同比 <strong>-6%</strong>，广告收入 -1%——内容驱动的收入线已在走弱</li>
+              <li>FY26Q4 面临《海洋奇缘》确认亏损 + 《The Dog Stars》票房不确定性的双重压力</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（娱乐板块数据 · 爆款与失利对照 · 内容日历）</summary>
+          <div class="evidence__body">
+            <h5>FY26Q3 娱乐板块</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>FY26Q3</th><th>同比</th></tr></thead><tbody><tr><td>收入</td><td>113.45 亿美元</td><td>+6%</td></tr><tr><td>其中：订阅与联盟费</td><td>—</td><td><strong>+12%</strong>（含 Fubo 交易贡献）</td></tr><tr><td>其中：广告</td><td>—</td><td>-1%</td></tr><tr><td>其中：内容销售/授权</td><td>—</td><td><span class="warn">-6%</span></td></tr><tr><td>运营利润</td><td>16.80 亿美元</td><td><strong>+64%</strong>（利润率 14.8%）</td></tr></tbody></table></div>
+            <p>利润超预期主因流媒体利润率强劲提升（12.9%）以及营销和内容减值费用下降。</p>
+            <h5>爆款与失利对照</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>影片</th><th>表现</th><th>含义</th></tr></thead><tbody><tr><td>《玩具总动员5》</td><td>全球票房超 <strong>10 亿美元</strong>；系列五部总票房超 40 亿、Disney+ 播放超 20 亿小时、每年零售超 10 亿、4 园区 19 景点 2 酒店</td><td>飞轮跨场景变现能力完好</td></tr><tr><td>《曼达洛人和古古》</td><td>票房未达预期</td><td>星战 IP 号召力边际走弱</td></tr><tr><td>真人版《海洋奇缘》（2026-07-10 上映）</td><td>首周末全球票房 9,500 万美元，预期亏损 <strong>1-1.32 亿美元</strong>（市场估算）</td><td>压 FY26Q4 娱乐利润；翻拍模式承压</td></tr></tbody></table></div>
+            <h5>内容日历（催化剂窗口）</h5>
+            <ul>
+              <li><strong>2026-08-28</strong>：《The Dog Stars》——FY26Q4 重要作品</li>
+              <li><strong>2026-11-25</strong>：《Hexed》——FY27Q1 开篇之作</li>
+              <li><strong>2026-12-18</strong>：《复仇者联盟：末日》——漫威宇宙核心 IP，验证 IP 号召力与飞轮效应的关键催化剂</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 4 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">4</span>
+        <h2 class="qa__title">估值：14 倍前瞻 PE 定价了什么？财报超预期后赔率还够吗？</h2>
+        <span class="qa__impact-tag">→ 目标价 129-144 美元 · 隐含上行 27%-41%</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>现价约 102 美元（一页通口径，约数），对应约 <strong>14x FY2026E 调整后 EPS</strong>（共识 6.57-7.03 美元，估算），处于近十年估值低位；而五家卖方全部给出买入/超配评级，目标价 129-144 美元，隐含 27%-41% 上行空间，对应 FY27/28E 盈利给 16-19x 倍数。当前定价隐含的假设是「线性衰退持续 + 流媒体利润率扩张中断 + 乐园周期见顶」——这三条在 FY26Q3 数据面前都被不同程度证伪。三情景测算期望值约较现价 +14%，赔率约 1.8:1（估算），对应「买入」。<em>保留判断：财报公布两天后股价已部分修复，短期上行更多依赖倍数修复而非 EPS 上修；若 FY26Q4 财报（2026-10 至 11）的 FY27 指引低于双位数，低倍数不构成安全垫。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>EPS 侧有上修空间：</strong>管理层指引 FY26 调整后 EPS +约 12%（不含第 53 周，隐含约 6.64 美元）、FY27 双位数增长；卖方共识 FY26E 6.57-7.03、FY27E 7.35-7.57，普遍高于管理层口径——市场已按超预期完成定价，但共识与指引之间的空间仍是免费的看涨期权。</p>
+            <p><strong>倍数侧是主战场：</strong>14x → 机构给的 16-19x（基于 FY27/28E），修复空间 15%-35%，前提是流媒体双位数利润率与体验高增长持续兑现。FY26 至少 90 亿美元回购（约市值 5%）+ 持续增长的股息提供资金支撑与下行保护——在低估值下回购对 EPS 的增厚效率更高。注意 FY26 前九个月 GAAP 归母净利同比 -34.3% 是 FY25 一次性税项收益的高基数扰动，看调整口径。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>约 14x 前瞻 PE 对 EPS 连续两年双位数增长的公司，<strong>PEG 约 0.7（估算）</strong>——市场为「衰退叙事」付的价格过于极端</li>
+              <li><strong>90 亿美元回购 ≈ 市值 5%</strong>，叠加 A+E 出售回笼约 12 亿美元现金——资本回报在低估值下加速</li>
+              <li>五家机构一致看多，目标价 129-144 美元，上行 27%-41%——分歧不在方向，只在空间</li>
+              <li>FY26 前九个月经营现金流 <strong>125.15 亿美元</strong>，盈利质量支撑投资与股东回报</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>低估值可能是对风险的<strong>合理定价</strong>：90 亿美元年 capex 的重资产模式在衰退时利润弹性向下</li>
+              <li>FY26 前九个月 FCF 仅 <strong>26.6 亿美元</strong>，回购强度部分依赖 A+E 出售的一次性收益——可持续性存疑</li>
+              <li>GAAP 口径 FY26 前九个月归母净利 -34.3%（高基数），表面财务数据<strong>观感不佳</strong>，限制增量资金入场意愿</li>
+              <li>线性电视萎缩 + 体育版权成本上涨（NBA）是<strong>结构性逆风</strong>，不会因一次超预期财报消失</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（财务速览 · 三情景测算 · 券商预测）</summary>
+          <div class="evidence__body">
+            <h5>关键财务数据（单位：亿美元；FY2025 截止 2025-09-27，FY26 Q1-Q3 截止 2026-06-27）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>报告期</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY26 Q1-Q3</th></tr></thead><tbody><tr><td>营业总收入</td><td>888.98</td><td>913.61</td><td>944.25</td><td>763.97</td></tr><tr><td>收入同比</td><td>+7.5%</td><td>+2.8%</td><td>+3.4%</td><td><strong>+6.2%</strong></td></tr><tr><td>毛利率</td><td>33.4%</td><td>35.8%</td><td>37.8%</td><td>37.6%</td></tr><tr><td>营业利润率</td><td>10.1%</td><td>13.0%</td><td>14.7%</td><td><strong>16.3%</strong></td></tr><tr><td>归母净利润（GAAP）</td><td>23.54</td><td>49.72</td><td>124.04</td><td>72.87（<span class="warn">-34.3%</span>）</td></tr><tr><td>稀释 EPS（美元，GAAP）</td><td>1.29</td><td>2.72</td><td>6.85</td><td>4.12</td></tr><tr><td>自由现金流</td><td>—</td><td>85.59</td><td>100.77</td><td>26.63</td></tr></tbody></table></div>
+            <p>注：FY2025 GAAP 净利润含非现金税项收益（一次性），FY25 调整后 EPS 约 5.93 美元；FY26 前九个月净利同比下滑主因该高基数，调整后口径保持健康增长。FY26 Q1-Q3 经营现金流 125.15 亿、资本开支 67.80 亿（同比 +11%，乐园与邮轮扩张）。</p>
+            <h5>三情景假设（以现价约 102 美元为基准；现价与倍数为估算）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>FY2027E 调整后 EPS</th><th>合理 PE</th><th>隐含股价</th><th>vs 当前</th></tr></thead><tbody><tr><td>乐观（25%）</td><td>SVOD 利润率迈向 15%+、体验扩张顺利、《复联：末日》大爆触发飞轮重估</td><td>~7.6（共识上沿）</td><td>19x</td><td>~144</td><td>+41%</td></tr><tr><td>中性（50%）</td><td>EPS 双位数增长兑现、流媒体利润率守住双位数、倍数温和修复</td><td>~7.4（共识中枢）</td><td>16.5x</td><td>~122</td><td>+20%</td></tr><tr><td>悲观（25%）</td><td>宏观衰退 + 线性电视加速萎缩 + 内容再失利，FY27 盈利停滞</td><td>~6.5（停在 FY26 水平）</td><td>12x</td><td>~78</td><td>-23%</td></tr></tbody></table></div>
+            <p><strong>期望值约 116 美元，较现价约 +14%；赔率约 1.8:1（+41% / -23%），估算。</strong>乐观情景的 19x 与机构目标价上沿（高盛 144）一致，并非激进假设；悲观情景对应衰退 + 转型中断的双杀，下行深于线性外推。90 亿美元回购在悲观情景下是主要的估值缓冲。</p>
+            <h5>券商盈利预测与目标价（调整后 EPS 口径）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级 / 目标价</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>花旗（2026-08-06）</td><td>买入 / $135</td><td>5.93</td><td>6.57</td><td>7.35</td><td>8.14</td></tr><tr><td>高盛（2026-08-06）</td><td>买入 / $144</td><td>5.95</td><td>7.03</td><td>7.49</td><td>8.69</td></tr><tr><td>摩根大通（2026-08-06）</td><td>超配 / $137</td><td>5.93</td><td>6.68</td><td>7.35</td><td>8.16</td></tr><tr><td>Bernstein（2026-08-06）</td><td>跑赢大盘 / $129</td><td>5.93</td><td>6.93</td><td>7.47</td><td>—</td></tr><tr><td>瑞银（2026-07-22）</td><td>买入 / $133</td><td>5.95</td><td>6.90</td><td>7.57</td><td>8.95</td></tr></tbody></table></div>
+            <p>注：五家 FY2026E 调整后 EPS 集中在 6.57-7.03 美元，普遍高于管理层 +12% 指引隐含的约 6.64 美元；FY2027E 共识 7.35-7.57，隐含 10%-12% 增长。多数机构基于 FY27/28E 盈利给 <strong>16-19x</strong> 倍数（与标普 500 远期市盈率相当或略有折价），摩根大通采用 DCF。目标价 129-144 美元对现价约 102 美元隐含 27%-41% 上行。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>：公司概况、近况跟踪、业务拆分、财务数据、盈利预测与估值（见同目录《迪士尼_一页通.md》，亦见本站「一页通」标签页），研究日期 2026-08-07</li>
+        <li><strong>局限</strong>：现价约 102 美元为一页通口径的约数，前瞻 PE 与三情景均为反推估算，精确值以行情为准；未读财报原文与电话会纪要（建议下一步补读 FY26Q3 earnings call 中关于 SVOD 广告定价、FY2027 指引细节与资本开支回报率的表述）；FY2025 GAAP 净利润含非现金税项收益、FY26 前九个月同比 -34.3% 为高基数扰动，跨期比较请使用调整后口径；《海洋奇缘》亏损（1-1.32 亿美元）为市场估算；一页通未覆盖 CEO 继任与治理层面的细节，该维度待补查</li>
+        <li><strong>管理层评估（一句话版）</strong>：本届管理层在 FY26Q3 展示的执行力可圈可点——上调指引、加码回购、重组板块（消费品并入娱乐）、谈成 TikTok 合作与 A+E 出售，每一步都在强化 IP 飞轮与股东回报；真正的考验是 90 亿美元资本开支周期的回报率兑现与 FY27 双位数增长指引的落地</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>华特迪士尼公司是一家全球多元化的娱乐巨头，业务涵盖影视内容制作与发行、有线及流媒体电视网络、以及主题乐园与消费品授权。公司通过三大核心部门——娱乐、体育和体验——构建了从IP创造到多场景变现的完整商业闭环。迪士尼是全球最大的IP授权方和线下乐园运营商，凭借旗下漫威、皮克斯、星球大战等常青IP矩阵，在内容与体验经济中占据独特的垄断性地位。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul>
+<li><strong>FY26Q3业绩超预期</strong>：公司于2026年8月5日发布FY26Q3财报，调整后每股收益（EPS）达<strong>2.06美元</strong>，大幅超出市场一致预期的<strong>1.84美元</strong>。总部门运营利润达<strong>55.55亿美元</strong>，同比增长<strong>21%</strong>，同样超出预期。营收为<strong>252.48亿美元</strong>，同比增长<strong>7%</strong>，略低于预期。</li>
+<li><strong>体验业务表现强劲，上调全年指引</strong>：体验业务（乐园及消费品）在FY26Q3实现创纪录的营收（<strong>99.68亿美元</strong>，同比+<strong>10%</strong>）和运营利润（<strong>30.17亿美元</strong>，同比+<strong>20%</strong>）。国内乐园游客量增长<strong>3%</strong>，人均消费增长<strong>4%</strong>。管理层将此归因于自身有机投资和强劲的执行力，并将FY2026体验业务运营利润增长指引上调至此前高个位数区间的<strong>高端</strong>。</li>
+<li><strong>流媒体利润率持续优化</strong>：娱乐部门下的流媒体业务（SVOD）运营利润率在FY26Q3达到<strong>12.9%</strong>，同比提升<strong>630个基点</strong>。管理层重申FY2026全年实现双位数利润率的指引。增长主要由订阅用户和定价驱动，但广告市场因供应增加而面临定价压力。</li>
+<li><strong>宣布重大战略调整与合作</strong>：公司宣布将从FY27Q1起将大部分消费品业务从体验板块划归娱乐板块，以整合IP创造与变现。同时，迪士尼与TikTok达成全球内容合作协议，将TikTok上的粉丝创作内容引入Disney+的竖屏专区"Verts"，旨在提升年轻用户参与度。</li>
+<li><strong>上调股票回购规模</strong>：基于强劲的现金流和出售A+E股权带来的约<strong>12亿美元</strong>现金收益，公司将FY2026的股票回购目标从<strong>80亿美元</strong>上调至<strong>至少90亿美元</strong>。</li>
+</ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol>
+<li><strong>体验业务韧性证伪宏观悲观预期</strong>：在竞争对手康卡斯特提及奥兰多主题公园客流疲软后，市场对迪士尼乐园业务产生担忧。然而，FY26Q3财报显示，迪士尼国内乐园游客量增长<strong>3%</strong>，人均消费增长<strong>4%</strong>，表现显著优于同业。管理层强调增长几乎完全由自身有机行动驱动，且远期预订量健康。这一业绩证伪了市场的悲观预期，随着新邮轮（迪士尼命运号、探险号）运力爬坡和巴黎"冰雪奇缘世界"新园区开业，体验业务有望在<strong>未来一个季度</strong>继续成为业绩稳定器和情绪催化剂。</li>
+<li><strong>流媒体利润率拐点确立，叙事从"烧钱"转向"盈利"</strong>：FY26Q3流媒体运营利润率达到<strong>12.9%</strong>，标志着迪士尼流媒体业务已从拖累业绩的"烧钱黑洞"转变为利润增长点。尽管收入增速有所放缓，但利润率的持续改善是当前阶段的核心逻辑。管理层重申全年双位数利润率指引，并计划通过整合Hulu、引入ESPN内容和探索免费广告层来深化用户参与度和货币化能力。<strong>未来一个季度</strong>，市场将密切关注利润率能否在广告逆风中维持扩张趋势。</li>
+<li><strong>积极的资本配置策略提供下行保护</strong>：公司将FY2026的股票回购目标上调至<strong>至少90亿美元</strong>，约占当前市值的<strong>5%</strong>。这一激进的回购计划，结合持续增长的半年度股息，为股价提供了坚实的资金支撑。在估值处于历史低位的背景下，大规模回购将显著增厚每股收益，是短期内驱动股价修复的重要力量。</li>
+</ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol>
+<li><strong>IP飞轮效应构建难以复制的商业闭环</strong>：迪士尼的核心竞争力在于其跨越一个世纪积累的IP矩阵（漫威、星战、皮克斯等）。公司已证明其有能力将这些IP在不同业务板块间反复变现：一部成功的电影（如《玩具总动员5》全球票房超<strong>10亿美元</strong>）不仅能直接贡献票房收入，还能拉动流媒体观看量（系列电影在Disney+播放超<strong>20亿小时</strong>）、刺激乐园和邮轮需求、并带动全球零售额（每年超<strong>10亿美元</strong>）。这种"内容-流媒体-体验-消费品"的飞轮效应，是竞争对手难以在短期内复制的结构性护城河。未来1-3年，随着公司计划从2027年春季开始在Disney+中整合游戏、商品等生态元素，IP的变现链条将进一步缩短和强化。</li>
+<li><strong>体验业务的重资产扩张提供长期可见的增长管道</strong>：迪士尼正在执行一项长达十年的乐园和邮轮投资周期。未来1-3年，除了已启航的新邮轮，公司计划在2027至2031年间再推出<strong>四艘</strong>新邮轮，并在全球各大乐园进行大规模扩建（如奥兰多的反派乐园、阿纳海姆的复仇者联盟园区）。这些重资产投资虽然短期消耗现金流，但一旦投入运营，将提供长达数十年的稳定现金流和高于资本成本的回报。管理层强调所有项目均经过严格的回报率评估，且投入资本回报率（ROIC）随时间推移已显著提升。</li>
+<li><strong>流媒体业务的战略价值超越短期利润</strong>：尽管市场对流媒体利润率与奈飞的差距存在疑虑，但管理层明确指出，直接面向消费者（DTC）模式的核心价值在于掌握<strong>第一方数据和直接客户关系</strong>。这不仅使公司能进行个性化推荐和精准营销，更是未来在AI时代进行产品创新和建立新收入来源的基础。退出DTC回归纯内容授权模式，将牺牲这些战略价值。未来1-3年，随着技术栈和数据整合完成，以及广告层级和免费模式的探索，流媒体业务的用户基础和单位经济模型有望持续改善，其战略价值将逐步显现。</li>
+</ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul>
+<li><strong>宏观经济下行与消费疲软风险</strong>：迪士尼的乐园和消费品业务高度依赖消费者的可支配收入。尽管当前北美需求强劲，但管理层已注意到亚洲市场（上海、香港）的消费疲软。若美国经济陷入衰退或全球通胀持续高企，可能导致乐园客流量和人均消费下滑，对体验业务这一核心利润支柱造成冲击。</li>
+<li><strong>内容投资的固有不确定性与IP疲劳风险</strong>：电影和流媒体内容的成功具有高度不确定性。近期《曼达洛人和古古》及真人版《海洋奇缘》的票房表现未达预期，凸显了即使是顶级IP也存在创意疲劳和回报不佳的风险。若未来核心IP系列影片持续表现不佳，将削弱整个飞轮的驱动力，影响从流媒体订阅到消费品销售的全链条收入。</li>
+<li><strong>传统电视业务的结构性衰退与体育版权成本压力</strong>：尽管流媒体业务在增长，但高利润率的传统有线电视业务仍在持续萎缩，其收入下滑的速度可能快于流媒体业务的盈利改善速度，从而在过渡期拖累公司整体利润率。同时，体育版权成本（如NBA）持续上涨，而NFL Network与Comcast的转播纠纷等问题，给体育业务的盈利能力带来不确定性。</li>
+</ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul>
+<li><strong>2026年5月1日</strong>：NFL Network和NFL RedZone频道因转播协议到期未能续约，从Comcast Xfinity平台撤下，至今仍未恢复。这对体育部门的订阅和广告收入造成负面影响。</li>
+<li><strong>2026年7月10日</strong>：迪士尼真人版《海洋奇缘》上映，首周末全球票房<strong>9500万美元</strong>，远低于预期。市场预计该片可能面临<strong>1亿至1.32亿美元</strong>的亏损，对FY26Q4的娱乐业务利润构成压力。</li>
+<li><strong>2026年7月</strong>：迪士尼与TikTok达成全球内容合作协议，允许TikTok创作者使用迪士尼IP素材制作短视频，并计划将精选内容引入Disney+。此举旨在利用短视频平台提升IP在年轻群体中的影响力和流媒体平台的参与度。</li>
+<li><strong>2026年7月</strong>：公司宣布已达成协议，将其在A+E Global Media的<strong>50%</strong>股权出售给合资方赫斯特集团，交易对价约为<strong>12亿美元</strong>现金。该交易预计在FY2026末完成，所得款项将用于支持股票回购计划。</li>
+</ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul>
+<li><strong>2026年8月28日</strong>：新片《The Dog Stars》上映。作为FY26Q4的重要作品，其票房表现将影响娱乐部门的业绩。</li>
+<li><strong>2026年10月-11月</strong>：FY26Q4（截至9月底）财报发布。市场将关注公司能否实现全年调整后EPS增长<strong>~12%</strong>（不含第53周）的指引，以及流媒体利润率是否达到双位数目标。同时，对FY2027的初步展望将是关键。</li>
+<li><strong>2026年11月25日</strong>：新片《Hexed》上映。作为FY27Q1的开篇之作，其市场反响将奠定新财年内容业务的基调。</li>
+<li><strong>2026年12月18日</strong>：漫威重磅影片《复仇者联盟：末日》上映。作为漫威宇宙的核心IP，该片是验证IP号召力和拉动整个飞轮效应的关键催化剂，其票房表现将直接影响市场对公司内容战略的信心。</li>
+</ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<ul>
+<li><strong>业务边际变化</strong>：公司正处于从传统有线电视向流媒体深度转型的后期阶段，同时大力投资线下体验业务。近期最重要的变化是宣布将从FY27Q1起，将大部分消费品业务从体验板块划归娱乐板块。此举旨在将IP的创意开发（工作室）与商业变现（消费品）置于同一部门管理下，以强化IP飞轮的协同效应。此外，公司不再按季度披露流媒体订阅用户数，显示其战略重心已从追求用户规模转向提升盈利能力和用户价值。</li>
+<li><strong>盈利模式</strong>：迪士尼的盈利模式是典型的"IP创造与多场景变现"。公司通过旗下工作室创造影视内容和角色IP，然后通过三大渠道进行变现：1) <strong>内容发行</strong>：通过影院、流媒体订阅和广告、有线电视转播费等方式获取直接的内容收入；2) <strong>线下体验</strong>：通过主题乐园、邮轮、酒店等提供沉浸式体验，将线上IP流量转化为高毛利的线下消费；3) <strong>IP授权与零售</strong>：将IP授权给第三方用于商品开发，或通过自营渠道销售衍生品，赚取授权费或零售利润。这种模式的核心在于，一次IP创作投入，可产生长期、多次、跨平台的收入流。</li>
+<li><strong>业务拆分</strong>：公司运营分为三大板块：娱乐、体育和体验。FY2025（截至2025年9月27日），体验业务是最大的利润来源，贡献了<strong>57%</strong>的部门运营利润，而娱乐和体育分别贡献<strong>27%</strong>和<strong>16%</strong>。娱乐板块中，直接面向消费者（DTC）的流媒体业务是增长引擎，而传统有线网络则是衰退但高利润的现金牛。公司当前处于"流媒体利润率爬坡"和"体验业务产能扩张"的叠加经营周期。</li>
+</ul>
+<p><strong>细分业务拆分（单位：百万美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>业务板块</th><th>FY2024 收入</th><th>FY2024 运营利润率</th><th>FY2025 收入</th><th>FY2025 运营利润率</th><th>FY26Q1-Q3 收入</th><th>FY26Q1-Q3 运营利润率</th></tr></thead><tbody><tr><td><strong>娱乐</strong></td><td>41,186</td><td>9.5%</td><td>42,466</td><td>11.0%</td><td>34,669</td><td>11.9%</td></tr><tr><td>其中：SVOD</td><td>-</td><td>-</td><td>19,583</td><td>6.6%</td><td>16,364</td><td>10.6%</td></tr><tr><td><strong>体育</strong></td><td>17,619</td><td>13.7%</td><td>17,672</td><td>16.3%</td><td>14,018</td><td>12.1%</td></tr><tr><td><strong>体验</strong></td><td>34,151</td><td>27.2%</td><td>36,156</td><td>27.6%</td><td>29,461</td><td>30.4%</td></tr><tr><td><strong>总计（含抵消）</strong></td><td><strong>91,361</strong></td><td><strong>17.1%</strong></td><td><strong>94,425</strong></td><td><strong>18.6%</strong></td><td><strong>76,397</strong></td><td><strong>19.3%</strong></td></tr></tbody></table></div>
+<p>（注：SVOD为娱乐板块下的流媒体业务。FY26Q1-Q3数据为期9个月。）</p>
+<ul>
+<li><strong>娱乐业务</strong>：FY26Q3收入<strong>113.45亿美元</strong>，同比增长<strong>6%</strong>。增长主要由订阅和联盟费收入驱动（+<strong>12%</strong>），其中包含Fubo交易的贡献。广告收入同比下降<strong>1%</strong>，内容销售/授权收入下降<strong>6%</strong>。运营利润为<strong>16.80亿美元</strong>，同比大增<strong>64%</strong>，运营利润率<strong>14.8%</strong>。利润超预期主要得益于流媒体（SVOD）利润率的强劲提升（<strong>12.9%</strong>）以及营销和内容减值费用的下降。电影《玩具总动员5》票房超<strong>10亿美元</strong>，是主要亮点，但《曼达洛人和古古》和《海洋奇缘》表现不佳。</li>
+<li><strong>体育业务</strong>：FY26Q3收入<strong>45.00亿美元</strong>，同比增长<strong>4%</strong>。增长主要来自NFL交易的贡献和更高的订阅费率。运营利润为<strong>8.58亿美元</strong>，同比下降<strong>17%</strong>，低于预期。利润下滑主因是NBA新合同带来的版权成本上升，以及NFL Network与Comcast的转播纠纷导致收入受损。NBA和NHL季后赛收视率的大幅增长（超<strong>100%</strong>）是积极信号。</li>
+<li><strong>体验业务</strong>：FY26Q3收入<strong>99.68亿美元</strong>，同比增长<strong>10%</strong>，运营利润<strong>30.17亿美元</strong>，同比增长<strong>20%</strong>，均创下第三季度纪录。增长由量价齐升驱动：全球游客量增长<strong>4%</strong>，国内乐园游客量增长<strong>3%</strong>，人均消费增长<strong>4%</strong>。新邮轮（命运号、探险号）的运力增加和巴黎"冰雪奇缘世界"的开业是主要增量来源。约<strong>1亿美元</strong>的关税退款对利润有一次性正面影响，但管理层表示全年影响基本为零。</li>
+</ul>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托全球顶级IP矩阵构建的多场景变现飞轮</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。迪士尼通过近百年的原创和收购（皮克斯、漫威、卢卡斯影业等），积累了娱乐行业最庞大、最具价值的IP矩阵。其护城河不在于单个IP的成功，而在于将这些IP在影视、流媒体、主题乐园、邮轮和消费品之间反复、交叉变现的系统性能力。这种飞轮效应一旦启动，IP的影响力会通过多场景的体验不断强化，形成自我增强的循环，竞争对手难以在短期内复制这种IP深度和变现广度。</li>
+<li><strong>数据验证</strong>：以《玩具总动员》系列为例，五部电影全球总票房超<strong>40亿美元</strong>，在Disney+上播放超<strong>20亿小时</strong>，每年全球零售额超<strong>10亿美元</strong>，并拥有<strong>4个</strong>沉浸式乐园园区、<strong>19个</strong>景点和<strong>2家</strong>主题酒店。FY26Q3，一部《玩具总动员5》的成功，就同时拉动了影院、流媒体和零售收入，充分展示了IP飞轮的即时变现能力。</li>
+<li><strong>动态演变</strong>：<strong>护城河变宽（巩固）</strong>。公司正通过将消费品业务并入娱乐部门，从组织架构上强化IP创造与变现的协同。同时，计划在Disney+中整合游戏、商品等生态元素，并与TikTok合作引入粉丝创作内容，这将进一步缩短IP变现路径，拓宽触达用户的场景，使飞轮效应在未来1-3年内运转得更快、更高效。</li>
+</ul>
+<p><strong>竞争要素 2：基于重资产投入和极致服务的线下体验壁垒</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。迪士尼的全球主题乐园和邮轮业务是典型的重资产、高壁垒行业。其护城河不仅在于庞大的资本投入（FY2026资本支出计划约<strong>90亿美元</strong>），更在于将虚拟IP转化为独一无二、充满"魔法"的线下沉浸式体验的能力。这种对细节的极致追求、卓越的服务水平和持续创新的能力，创造了极高的客户转换成本和品牌忠诚度，使迪士尼乐园成为家庭娱乐的首选目的地，对竞争对手形成了强大的差异化壁垒。</li>
+<li><strong>数据验证</strong>：在宏观经济存在不确定性的背景下，FY26Q3体验业务收入（<strong>99.68亿美元</strong>）和运营利润（<strong>30.17亿美元</strong>）均创下第三季度历史新高。国内乐园游客量增长<strong>3%</strong>，人均消费增长<strong>4%</strong>，表现远超同期因"消费者信心疲软"而客流下降的竞争对手环球影城。FY2025年，全球前25大主题乐园中，迪士尼独占<strong>8席</strong>，入园总人次达<strong>1.45亿</strong>，稳居全球第一。</li>
+<li><strong>动态演变</strong>：<strong>护城河变宽（巩固）</strong>。公司正在执行一项长期的全球扩张计划，包括未来几年内下水<strong>4艘</strong>新邮轮，以及在奥兰多、阿纳海姆、上海等地进行大规模园区扩建。这些投资将持续扩大其服务容量，满足全球不断增长的中产阶级家庭娱乐需求，进一步拉大与竞争对手的差距。</li>
+</ul>
+<p><strong>现阶段核心驱动力总结</strong>：迪士尼的Alpha在于其独特的IP飞轮和线下体验壁垒，这使其区别于任何纯内容或纯流媒体公司。其Beta则与全球宏观经济和消费者信心高度相关，尤其是体验业务。当前阶段，公司正处于流媒体业务从"规模扩张"转向"利润创造"，以及体验业务"产能扩张"的叠加期，业绩增长具备双重驱动力。</p>
+<p><strong>IP 飞轮传导链</strong>：顶级IP矩阵（漫威/星战/皮克斯等）→ 多场景变现能力 → 高利润的线下体验（乐园/邮轮/酒店）+ 高粘性的流媒体平台（Disney+/Hulu）+ 高溢价的IP授权与零售（消费品）→ 结构性护城河（高毛利率/高ROIC）。</p>
+<h3 class="doc-h2">产销链</h3>
+<ul>
+<li><strong>客户情况</strong>：迪士尼的客户结构高度分散，直接面向全球数亿消费者，不存在对单一客户的依赖风险。其流媒体用户遍布全球，乐园游客来自世界各地。在广告业务中，客户为各行业广告主，公司拥有强大的议价能力，FY26Q3的体育广告预售实现低双位数增长，且超级碗广告位已售罄。在内容授权方面，公司正将策略从广泛授权转向优先供给自有平台，以增强DTC服务的独家性。</li>
+<li><strong>供应商情况</strong>：公司的主要"供应商"是内容创意人才和体育版权方。对顶级创意人才和导演的争夺是行业常态。体育版权是最大的成本项之一，且合同期限长、金额巨大（如NBA新合同）。迪士尼凭借其行业地位和财务实力，在获取关键版权方面具备优势，但版权成本的刚性上涨（如NBA新合同导致FY26Q3体育成本上升）是持续挤压利润率的因素。公司通过技术（如AI辅助制作）和流程优化来控制内容生产成本。</li>
+<li><strong>经销商情况</strong>：迪士尼采用直接面向消费者（DTC）和间接分销相结合的模式。流媒体业务（Disney+, Hulu, ESPN+）是核心的直销渠道。传统有线电视业务则通过Comcast、Charter等MVPDs（多频道视频节目分销商）进行分销，公司向其收取转播费。公司与分销商的议价能力较强，但近期与Comcast就NFL Network的转播纠纷表明，在传统电视生态衰落背景下，续约谈判的摩擦可能增加。</li>
+<li><strong>成本传导能力</strong>：迪士尼对下游消费者拥有较强的定价权，能够通过提价（如乐园门票、流媒体订阅费）来传导通胀压力。FY26Q3国内乐园人均消费增长<strong>4%</strong>，流媒体ARPU持续提升，均证明了这一点。然而，对于上游的体育版权成本，公司议价空间相对有限，更多是通过开发多元化的变现方式（如广告、捆绑销售）来消化，而非单纯压价。</li>
+</ul>
+<h3 class="doc-h2">财务数据</h3>
+<p><strong>关键财务数据（单位：百万美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>财务指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY26 Q1-Q3</th></tr></thead><tbody><tr><td><strong>截止日期</strong></td><td>2023-09-30</td><td>2024-09-28</td><td>2025-09-27</td><td>2026-06-27</td></tr><tr><td>营业总收入</td><td>88,898</td><td>91,361</td><td>94,425</td><td>76,397</td></tr><tr><td>收入同比</td><td>7.47%</td><td>2.77%</td><td>3.35%</td><td>6.16%</td></tr><tr><td>营业成本</td><td>59,201</td><td>58,698</td><td>58,766</td><td>47,676</td></tr><tr><td>毛利</td><td>29,697</td><td>32,663</td><td>35,659</td><td>28,721</td></tr><tr><td><strong>毛利率</strong></td><td><strong>33.40%</strong></td><td><strong>35.75%</strong></td><td><strong>37.76%</strong></td><td><strong>37.59%</strong></td></tr><tr><td>营业开支</td><td>20,705</td><td>20,749</td><td>21,827</td><td>16,297</td></tr><tr><td>营业利润</td><td>8,992</td><td>11,914</td><td>13,832</td><td>12,424</td></tr><tr><td><strong>营业利润率</strong></td><td><strong>10.11%</strong></td><td><strong>13.04%</strong></td><td><strong>14.65%</strong></td><td><strong>16.26%</strong></td></tr><tr><td>归母净利润</td><td>2,354</td><td>4,972</td><td>12,404</td><td>7,287</td></tr><tr><td><strong>归母净利率</strong></td><td><strong>2.65%</strong></td><td><strong>5.44%</strong></td><td><strong>13.14%</strong></td><td><strong>9.54%</strong></td></tr><tr><td>稀释EPS (美元)</td><td>1.29</td><td>2.72</td><td>6.85</td><td>4.12</td></tr><tr><td>自由现金流</td><td>-</td><td>8,559</td><td>10,077</td><td>2,663</td></tr></tbody></table></div>
+<p>（注：FY26 Q1-Q3自由现金流为经营活动现金流净额（125.15亿）减去资本性支出（67.80亿）计算得出。）</p>
+<ul>
+<li><strong>成长能力</strong>：公司营收在FY2025和FY26前三季度重回加速增长轨道，主要受体验业务和流媒体订阅收入驱动。归母净利润在FY2025因非现金税项收益而大幅增长，但FY26前三季度同比下滑<strong>34.3%</strong>，主因是FY25同期存在一次性税项收益的高基数效应。剔除该影响，调整后净利润保持健康增长。</li>
+<li><strong>盈利能力</strong>：毛利率和营业利润率连续三年改善，表明公司在成本控制和业务结构优化方面取得成效。尤其是营业利润率从FY2023的<strong>10.11%</strong>提升至FY26前三季度的<strong>16.26%</strong>，反映了流媒体业务从巨亏走向盈利以及体验业务运营杠杆的提升。</li>
+<li><strong>运营能力</strong>：公司正处于大规模资本开支周期，FY26前三季度资本性支出达<strong>67.80亿美元</strong>，同比增长<strong>11%</strong>，主要用于乐园和邮轮扩张。这导致自由现金流同比大幅下降。但经营性现金流依然强劲，为<strong>125.15亿美元</strong>，为投资和股东回报提供了坚实基础。</li>
+<li><strong>偿债能力与杜邦分析</strong>：公司资产负债率从FY2023的<strong>45%</strong>降至FY26Q3的<strong>43%</strong>，总债务有所下降。ROE在FY2025因净利润大增而跳升至<strong>11.8%</strong>，但FY26前三季度年化ROE回落至<strong>8.8%</strong>，主要受净利润下降和高基数权益的影响。拆分来看，净利润率的波动是ROE变化的主因，资产周转率保持稳定，权益乘数略有下降。</li>
+</ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<ul>
+<li><strong>全球主题乐园行业</strong>：这是一个重资产、高壁垒、增长稳健的行业。根据TEA/AECOM报告，2024年全球前25大乐园入园人次已恢复至<strong>2.46亿</strong>，接近疫情前水平。行业增长由新兴市场中产阶级扩大和体验式消费趋势驱动。竞争格局高度集中，迪士尼以<strong>1.45亿</strong>年入园人次稳居全球第一，其主要竞争对手为环球影城（Comcast旗下）和默林娱乐（乐高乐园等）。迪士尼的竞争优势在于其无与伦比的IP矩阵，能够创造"沉浸式故事体验"，而非单纯的游乐设施。行业风险在于宏观经济波动对可选消费的冲击。</li>
+<li><strong>全球流媒体行业</strong>：这是一个高增长、竞争激烈的行业。根据Nielsen数据，2025年12月，流媒体已占据美国电视观看时间的<strong>47.5%</strong>，远超传统有线电视。行业格局呈现"一超多强"，奈飞凭借先发优势和全球用户规模（约2.8亿）稳居第一，迪士尼凭借强大的IP和内容库位居第二。竞争焦点正从用户规模增长转向利润创造和用户粘性提升。迪士尼的差异化优势在于其IP的跨世代影响力和捆绑销售策略（Disney+, Hulu, ESPN+），其三重捆绑包的用户流失率显著低于单一服务。行业风险在于内容成本高企和用户增长放缓。</li>
+</ul>
+<p><strong>可比公司分析</strong>：</p>
+<div class="tbl-wrap"><table><thead><tr><th>可比公司</th><th>股票代码</th><th>对标维度</th><th>分析</th></tr></thead><tbody><tr><td>奈飞 (Netflix)</td><td>NFLX</td><td>流媒体业务</td><td>流媒体行业龙头，纯DTC模式，利润率更高（FY2025营业利润率约<strong>25%</strong>），但缺乏线下体验和IP授权的多元变现渠道。迪士尼流媒体利润率（FY26Q3为<strong>12.9%</strong>）仍有较大提升空间。</td></tr><tr><td>康卡斯特 (Comcast)</td><td>CMCSA</td><td>主题乐园业务</td><td>旗下环球影城是迪士尼乐园的主要竞争对手。近期其乐园业务因宏观因素承压，而迪士尼同期表现强劲，凸显了迪士尼IP和运营能力的相对优势。</td></tr><tr><td>东方乐园 (Oriental Land Co.)</td><td>4661.T</td><td>主题乐园业务</td><td>东京迪士尼乐园的运营商，采用授权模式。其财务表现可作为迪士尼乐园业务在亚洲市场的参考，其高利润率（FY2025约<strong>30%</strong>）验证了迪士尼乐园模式的盈利能力。</td></tr></tbody></table></div>
+<p><strong>总结分析</strong>：迪士尼在流媒体和乐园两大核心赛道均处于领先地位。与纯流媒体公司奈飞相比，迪士尼的IP飞轮和线下体验业务提供了更稳定和多元的现金流。与纯乐园运营商相比，迪士尼的IP矩阵为其创造了持续更新内容和吸引回头客的能力。其独特的"内容+体验"混合模式，使其在竞争中具备显著的差异化优势。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<ul>
+<li><strong>议题一：流媒体战略的长期价值与利润天花板</strong>——<strong>背景</strong>：市场对迪士尼在流媒体上的巨额投资回报一直存疑。尽管利润率在改善，但与奈飞的差距以及用户增长放缓，引发了关于是否应回归利润更高的内容授权模式的争论。<strong>问题列表</strong>：1）SVOD利润率能否在FY2026达到<strong>10%</strong>以上后，继续向奈飞<strong>25%</strong>的水平收敛？增长引擎是什么？2）在用户增长放缓的背景下，管理层计划如何平衡内容投资（尤其是昂贵的国际本地内容）与利润率扩张？3）管理层如何量化DTC模式带来的"战略价值"（如第一方数据），以证明其优于纯内容授权的财务回报？</li>
+<li><strong>议题二：体验业务增长的可持续性与宏观风险敞口</strong>——<strong>背景</strong>：体验业务是公司最大的利润来源，但其高度依赖宏观经济和消费者信心。近期竞争对手的疲软表现加剧了市场对消费放缓的担忧。<strong>问题列表</strong>：1）国内乐园<strong>3%</strong>的游客量增长和<strong>4%</strong>的人均消费增长，在多大程度上是由一次性的关税退款和促销活动驱动，而非核心需求的真实反映？2）管理层如何看待亚洲市场（上海、香港）的消费疲软？这是短期波动还是长期趋势的开端？3）在<strong>90亿美元</strong>的年度资本开支计划下，如果出现宏观经济衰退，公司有何应对预案来保护利润率和现金流？</li>
+<li><strong>议题三：内容投资回报与IP生命力的不确定性</strong>——<strong>背景</strong>：近期多部高预算电影票房失利，引发了市场对迪士尼IP号召力是否在下降，以及巨额内容投资回报率的担忧。<strong>问题列表</strong>：1）《海洋奇缘》等电影的失利是偶发性的创意失误，还是反映了观众对续集和翻拍片的系统性疲劳？2）公司如何评估其内容投资组合的整体回报率？除了票房，如何量化一部电影对乐园、流媒体和消费品的拉动作用？3）在AI时代，公司如何利用技术提高内容制作效率、降低成本，并创造新的内容形式？</li>
+</ul>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧：迪士尼当前是处于业绩和估值双修复的"困境反转"初期，还是面临传统业务衰退和流媒体竞争加剧的"价值陷阱"？</strong></p>
+<p><strong>乐观方（看多）逻辑</strong>：</p>
+<ul>
+<li><strong>利润修复已确立</strong>：流媒体业务已跨越盈亏平衡点并持续贡献利润，FY26Q3利润率<strong>12.9%</strong>是明证。随着规模扩大和广告层级渗透，利润率有望继续提升，成为集团新的利润支柱。</li>
+<li><strong>体验业务护城河深厚</strong>：FY26Q3的强劲表现证明了迪士尼乐园在宏观不确定性下的定价权和需求韧性。长达十年的投资周期提供了清晰、可见的增长管道，这是其他媒体公司不具备的。</li>
+<li><strong>IP飞轮效应被低估</strong>：《玩具总动员5》的成功展示了IP跨场景变现的强大能力。随着组织架构调整（消费品并入娱乐部门），IP价值的释放将更加充分和高效。</li>
+<li><strong>估值处于历史底部</strong>：当前股价对应的FWD P/E仅<strong>14倍</strong>左右，处于10年估值低位。市场过度悲观，忽视了盈利能力的实质性改善。大规模回购计划更是直接增厚股东价值。</li>
+</ul>
+<p><strong>谨慎方（看空）逻辑</strong>：</p>
+<ul>
+<li><strong>流媒体业务"大而不强"</strong>：尽管实现盈利，但流媒体利润率远低于奈飞，且增长已放缓。在激烈的市场竞争中，要同时实现用户增长和利润率扩张难度极大。高昂的内容投资将长期压制现金流。</li>
+<li><strong>传统业务"流血"速度可能加快</strong>：高利润的有线电视业务收入持续下滑，其造成的利润缺口可能比市场预期的更大，且流媒体业务的盈利增长未必能完全弥补。</li>
+<li><strong>内容创意风险是永恒的阿喀琉斯之踵</strong>：几部大片的失利敲响了警钟。IP不是永动机，观众口味变化无常。一次重大的创意失败就可能动摇整个飞轮的根基。</li>
+<li><strong>重资产模式在经济下行周期中风险敞口大</strong>：<strong>90亿美元</strong>的年资本开支和不断增长的运营成本（人力、燃料）使其在经济衰退时面临利润大幅下滑的风险。当前的低估值可能正是对这一风险的合理定价。</li>
+</ul>
+<p><strong>总结分析</strong>：当前的市场分歧本质上是关于迪士尼转型的"进度条"和"确定性"。乐观方看到了利润拐点和战略清晰度，而谨慎方则更关注转型的长期代价和外部风险。从FY26Q3财报看，乐观方的证据（体验业务韧性、流媒体利润率超预期）更为有力。公司正用业绩证明，其IP飞轮和线下体验的护城河足够深，足以抵御宏观逆风和内容波动，从而支持其完成从传统媒体到"IP+体验"一体化娱乐巨头的战略转型。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>管理层最新指引（来自FY26Q3业绩会）</strong>：</p>
+<ul>
+<li><strong>FY2026</strong>：调整后EPS同比增长约<strong>12%</strong>（不含第53周），或约<strong>16%</strong>（含第53周）。体验业务运营利润增长将达到此前高个位数指引的<strong>高端</strong>。娱乐业务运营利润实现双位数增长。SVOD业务实现双位数运营利润率。全年股票回购<strong>至少90亿美元</strong>。</li>
+<li><strong>FY2027</strong>：调整后EPS实现双位数增长（不含第53周影响）。</li>
+</ul>
+<p><strong>券商盈利预测与估值</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价(美元)</th><th>财务指标</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>花旗 (2026-08-06)</td><td>买入</td><td>135.00</td><td>营收(百万美元)<br>调整后EPS(美元)</td><td>94,425<br>5.93</td><td>101,840<br>6.57</td><td>106,888<br>7.35</td><td>112,057<br>8.14</td></tr><tr><td>高盛 (2026-08-06)</td><td>买入</td><td>144.00</td><td>营收(百万美元)<br>调整后EPS(美元)</td><td>94,425<br>5.95</td><td>102,108<br>7.03</td><td>107,255<br>7.49</td><td>111,178<br>8.69</td></tr><tr><td>摩根大通 (2026-08-06)</td><td>超配</td><td>137.00</td><td>营收(百万美元)<br>调整后EPS(美元)</td><td>94,425<br>5.93</td><td>100,354<br>6.68</td><td>104,617<br>7.35</td><td>106,754<br>8.16</td></tr><tr><td>Bernstein (2026-08-06)</td><td>跑赢大盘</td><td>129.00</td><td>营收(百万美元)<br>调整后EPS(美元)</td><td>94,425<br>5.93</td><td>102,272<br>6.93</td><td>105,607<br>7.47</td><td>-<br>-</td></tr><tr><td>瑞银 (2026-07-22)</td><td>买入</td><td>133.00</td><td>营收(百万美元)<br>调整后EPS(美元)</td><td>94,425<br>5.95</td><td>102,836<br>6.90</td><td>107,217<br>7.57</td><td>112,568<br>8.95</td></tr></tbody></table></div>
+<p>（注：预测数据均为各机构在最新报告中的财年预测。花旗和高盛的目标价基于FY2027E EPS，摩根大通基于DCF估值，Bernstein和瑞银基于FY27-28E EPS。）</p>
+<p><strong>盈利预测与估值分析</strong>：主要券商对迪士尼均持积极看法，评级均为"买入"或"超配"。对FY2026的调整后EPS预测集中在<strong>6.57至7.03美元</strong>之间，普遍高于管理层<strong>~12%</strong>增长指引所隐含的<strong>~6.64美元</strong>（基于FY2025调整后EPS 5.93美元），显示市场对业绩超预期完成有信心。对FY2027的EPS预测在<strong>7.35至7.57美元</strong>之间，隐含<strong>10%-12%</strong>的增长，与管理层双位数增长的指引一致。</p>
+<p>估值方法上，多数机构采用市盈率（P/E）估值法，基于FY2027或FY2028的盈利预测，给予<strong>16-19倍</strong>的估值倍数，与标普500指数当前的远期市盈率相当或略有折价。摩根大通采用DCF估值法。目标价区间在<strong>129至144美元</strong>之间，相较于当前股价（约<strong>102美元</strong>）有<strong>27%至41%</strong>的上行空间。机构间观点较为一致，均认为迪士尼的盈利增长拐点已至，当前估值未能充分反映其流媒体业务盈利改善和体验业务扩张的长期价值。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/DIS · 生成于 2026-08-07</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-07';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'hit',     text: '<strong>FY26Q3 全面超预期</strong>：调整后 EPS 2.06 美元（一致预期 1.84）、部门运营利润 +21%、体验创纪录、回购上调至至少 90 亿美元', note: '2026-08-05 财报披露' },
+  { kind: 'cat', status: 'active',  text: '<strong>流媒体双位数利润率兑现</strong>：FY26Q3 SVOD 运营利润率 12.9%（同比 +630bps），管理层重申全年双位数——Q4 在广告定价压力下的持续性是关键', note: 'FY25 全年 6.6% → FY26 前九个月 10.6%' },
+  { kind: 'cat', status: 'active',  text: '<strong>体验产能爬坡</strong>：新邮轮（命运号、探险号）运力爬坡 + 巴黎「冰雪奇缘世界」开业，FY26 运营利润增长指引上调至高个位数高端', note: '国内游客量 +3%、人均消费 +4%' },
+  { kind: 'cat', status: 'pending', text: '<strong>FY26Q4 财报与 FY2027 展望</strong>（2026-10 至 11）：全年调整后 EPS +约 12%（不含第 53 周）兑现情况与 FY27 双位数增长指引细节', note: '' },
+  { kind: 'cat', status: 'pending', text: '<strong>《复仇者联盟：末日》上映</strong>（2026-12-18）：验证 IP 号召力与飞轮效应的分水岭，直接影响市场对内容战略的信心', note: '漫威宇宙核心 IP' },
+  { kind: 'cat', status: 'pending', text: '<strong>FY27Q1 板块重组生效</strong>：大部分消费品业务并入娱乐板块，IP 创意开发与商业变现同部门管理', note: '组织侧强化飞轮协同' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>流媒体利润率停滞或回落</strong>：SVOD 运营利润率跌破双位数，或广告供应增加带来的定价压力中断扩张趋势', note: 'FY26Q3 为 12.9%，逐季核对' },
+  { kind: 'risk', status: 'clear', text: '<strong>宏观消费疲软传导至国内乐园</strong>：游客量/人均消费同比转负——上海、香港已现疲软，康卡斯特提及的奥兰多客流疲软是先行信号', note: 'FY26Q3 国内游客量 +3%、人均 +4%，尚未触发' },
+  { kind: 'risk', status: 'clear', text: '<strong>内容连续失利坐实 IP 疲劳</strong>：继《海洋奇缘》（预亏 1-1.32 亿美元，市场估算）后，《复仇者联盟：末日》等核心 IP 影片再度大幅低于预期', note: '《玩具总动员5》票房 10 亿+ 证明飞轮仍在运转' },
+  { kind: 'risk', status: 'clear', text: '<strong>线性电视萎缩快于流媒体盈利改善 + 体育版权成本刚性上涨</strong>：过渡期拖累集团整体利润率', note: 'FY26Q3 体育运营利润 -17%（NBA 版权成本 + NFL Network 与 Comcast 纠纷）' },
+  { kind: 'risk', status: 'clear', text: '<strong>重资产开支挤压现金流与回报</strong>：约 90 亿美元年 capex 的 ROIC 不及预期，或 FCF 长期低迷削弱回购可持续性', note: 'FY26 前九个月 FCF 仅 26.6 亿；经营现金流 125.15 亿仍强劲' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

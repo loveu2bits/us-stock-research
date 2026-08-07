@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>艺电（EA.O）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--policy-red); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+#tab-onepager .notice { padding: 14px 18px; background: #f5e9d3; border-left: 3px solid var(--amber); color: var(--ink-soft); font-size: 14px; line-height: 1.6; }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">EA</span>
+    <span class="site-mark__text">艺电 公司研究<span>Electronic Arts · EA.O</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>艺电<span class="en">Electronic Arts · EA.O · 美股研究（已退市 · 结题存档）</span></h1>
+        <p class="sub">史上最大杠杆收购已完成交割：<strong>2025-09-29</strong>，沙特公共投资基金（PIF）、Silver Lake 与 Affinity Partners 组成的财团宣布以 <strong>$210/股全现金</strong>（较未受影响收盘价溢价约 25%）私有化艺电，交易规模约 <strong>$550 亿</strong>；2025 年 12 月股东压倒性批准，2026-07-30 全部监管批准（美国反垄断、CFIUS 外资审查、欧盟等）落定，<strong>2026-08-04 交割完成、从纳斯达克退市</strong>，股东获 $210/股现金。融资结构约 $360 亿股权（含 PIF 滚存其 9.9% 旧持股）+ 约 $200 亿债务（摩根大通牵头，据报道）。Andrew Wilson 续任董事长兼 CEO。本页为结题存档：公开市场投资逻辑已终结，研究价值转向交易复盘与体育游戏现金牛资产的估值锚。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-07</span>
+          <span>下次更新：标的已于 2026-08-04 退市，本页存档、不再定期更新；若出现交易重大后续（残留诉讼、资产重组、再上市等）再行跟进</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>交易已于 2026-08-04 交割，$210/股现金已支付、标的退市，公开市场无券可买无券可卖；对价对应 EV 约 $550 亿，EV/FY26 净预订额 ≈ 6.9x、EV/LTM FCF ≈ 25x（均估算）。核心逻辑已从「基本面 + 套利」切换为「交易如约完成」；重检条件：交易出现任何重大后续事项（残留诉讼/资产重组/再上市计划）。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong>$210/股</strong><span>交割现金对价·较未受影响价溢价约 25%</span></div>
+      <div class="summary-rail__item"><strong>$550亿</strong><span>交易规模·史上最大 LBO</span></div>
+      <div class="summary-rail__item"><strong>$80.3亿</strong><span>FY26 净预订额·创纪录 同比 +9%</span></div>
+      <div class="summary-rail__item"><strong>08-04交割</strong><span>2026-08-04 退市·现金对价支付</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">史上最大 LBO：交易如何落地，交割时各节点兑现了吗？<small>交易状态 · 对价 · 融资结构 · 监管节点 · 退市安排</small></h2>
+        <span class="qa__impact-tag">→ 交割完成 · 套利价差归零</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>交易已于 <strong>2026-08-04 完成交割</strong>，全部节点按承诺兑现：PIF + Silver Lake + Affinity Partners 财团以 <strong>$210/股全现金</strong>（约 $550 亿规模）收购艺电；2025-12 股东压倒性批准；2026-07-30 公司文件确认全部监管批准（美国反垄断 HSR、CFIUS 外资审查、欧盟等）取得；交割后股票停止交易并从纳斯达克退市，股东获现金对价，持股结构变为 <strong>PIF 约 93.4% / Silver Lake 约 5.5% / Affinity 约 1.1%</strong>（据报道口径）。Andrew Wilson 续任董事长兼 CEO，总部维持 Redwood City。<em>保留判断：$10 亿反向分手费条款与 2026-09-28 的协议截止日最终都未用上——交易在 outside date 前近两个月完成，是「高确定性并购」的教科书样本。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>该标的的 EPS / 估值框架自 2026-08-04 起失效。</strong>交割前最后一个可定价变量是并购套利价差：2026 年 5 月初股价约 $201.6、对 $210 对价的价差约 $8-9（约 4.2%），7 月末监管全部放行后迅速收敛，交割后归零——持有到交割的投资者锁定了对价与价差收益。</p>
+            <p>对公开市场研究的意义在于<strong>锚</strong>：$210 对价对应 EV 约 $550 亿，≈ <strong>6.9x FY26 净预订额、约 25x LTM FCF</strong>（均估算）。这是史上最大 LBO 为「顶级体育游戏现金牛」给出的市场价格，后续对同业资产的估值比较都绕不开这组倍数。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点（交割后回看）</h4>
+            <ul>
+              <li>股东在约 <strong>25% 溢价</strong>下一次性兑现现金，且交易从宣布到交割约 10 个月，节点全部如期——<strong>执行风险被干净利落地消除</strong></li>
+              <li>买方财团构成（主权长钱 + 顶级科技 PE）+ $200 亿债务顺利分销，说明专业资本对 EA 现金流质量的集体背书</li>
+              <li>管理层留任、不裁员、总部不动，买方买的是「活的生意」而非重组标的，业务连续性风险低</li>
+              <li>交割时点恰好踩在 FY26 预订额创纪录、Battlefield 6 大年兑现之后——<strong>股东卖在了基本面的高点</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点（交割后回看）</h4>
+            <ul>
+              <li>对垄断性体育 IP 资产，约 25% 的溢价在游戏业并购史上处于<strong>偏低区间</strong>——买方拿走了大部分长期上行</li>
+              <li>FY26 净预订额创纪录 +9%、FC 与 Apex 仍在增长，公司并非「增长枯竭才卖」，<strong>私有化后若增长延续，$210 回头看会显得便宜</strong></li>
+              <li>PIF 93.4% 单一控股无上市治理约束，未来若出现关联交易、资产腾挪，小股东已无救济渠道</li>
+              <li>公开市场从此失去一只「体育 IP 定价权」稀缺标的，投资组合少了一类确定性现金流资产</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（交易里程碑 · 融资与股权结构）</summary>
+          <div class="evidence__body">
+            <h5>交易里程碑</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>时间</th><th>节点</th><th>状态</th></tr></thead><tbody>
+            <tr><td>2025-09-25</td><td>未受影响最后交易日，收盘 $168.32</td><td>基准</td></tr>
+            <tr><td>2025-09-29</td><td>签署合并协议：$210/股全现金，EV 约 $550 亿；含 <strong>$10 亿反向分手费</strong>，协议截止日 2026-09-28</td><td>已达成</td></tr>
+            <tr><td>2025-12</td><td>股东投票压倒性批准</td><td>已达成</td></tr>
+            <tr><td>2026 上半年</td><td>美国反垄断（HSR）放行；约 $200 亿债务融资由摩根大通牵头安排并启动分销</td><td>已达成</td></tr>
+            <tr><td>2026-07 下旬</td><td>欧盟放行（据报道）；CFIUS 外资审查（PIF 为沙特主权基金，为最关键节点）通过</td><td>已达成</td></tr>
+            <tr><td>2026-07-30</td><td>公司文件确认「完成交易所需的全部监管批准已取得」</td><td>已达成</td></tr>
+            <tr><td><strong>2026-08-04</strong></td><td><strong>交割完成</strong>：股票停止交易并从纳斯达克退市，股东获 $210/股现金</td><td><strong>已完成</strong></td></tr>
+            </tbody></table></div>
+            <h5>融资与股权结构（据公开报道）</h5>
+            <ul>
+              <li><strong>对价</strong>：$210/股全现金，较未受影响收盘价溢价约 25%；按约 2.6 亿股计，股权对价口径约 $550 亿</li>
+              <li><strong>股权部分约 $360 亿</strong>：PIF / Silver Lake / Affinity Partners 出资，含 PIF 将其原有约 <strong>9.9%</strong> 持股滚存转股（不套现）</li>
+              <li><strong>债务部分约 $200 亿</strong>：摩根大通牵头安排，为史上最大 LBO 债务融资之一；2026 年上半年银行团启动债务分销（公开报道提及多个分销批次）</li>
+              <li><strong>交割后持股</strong>：PIF 约 93.4%、Silver Lake 约 5.5%、Affinity Partners 约 1.1%</li>
+              <li><strong>治理安排</strong>：Andrew Wilson 续任董事长兼 CEO；公司总部维持加州 Redwood City；交割公告未提及业务剥离或裁员</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">财团为什么愿意出 $210：体育年货 IP 的现金流基本盘值多少？<small>FY26 创纪录预订额 · FC/Apex/Battlefield · 类债券属性</small></h2>
+        <span class="qa__impact-tag">→ EV/预订额 ≈ 6.9x · 私有化定价锚（估算）</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>买方付钱买的是「<strong>类债券的确定性 + 体育 IP 的垄断稀缺性</strong>」：EA SPORTS FC（前 FIFA）/Madden/F1/College Football 年货矩阵叠加 live services 内购（占收入约七成以上，估算），构成几乎不受宏观周期影响的现金流；交割前最后一个财年（FY26）净预订额 <strong>$80.26 亿创纪录、同比 +9%</strong>，Battlefield 6 首个财年创多项系列纪录、FC 全家桶中个位数增长、Apex 双位数增长，LTM 自由现金流约 $22 亿（第三方口径，估算）。<em>保留判断：$550 亿的定价里，「确定性溢价」与「杠杆放大后的 PE 回报要求」互为镜像——对主权长钱是类债券资产，对 PE 是杠杆化现金流工程，两者都成立。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p>该标的自身 EPS 框架随退市失效，但交易倍数成为<strong>行业定价锚</strong>：EV 约 $550 亿 ≈ <strong>6.9x FY26 净预订额</strong>、≈ <strong>25x LTM FCF</strong>（均估算）。对比公开市场：成熟游戏发行商在增长乏力期通常只给到 3-4x 预订额，而 EA 拿到 6.9x，差价来自体育 IP 垄断、年货确定性与控制权溢价三者叠加。</p>
+            <p>对持仓的启示：当「确定性现金牛 + 稀缺 IP」的游戏资产被长钱按此倍数整体收走时，公开市场上剩余的同类资产（体育/常青服务型游戏）在逻辑上获得了一个<strong>由私有交易背书的估值下限参照</strong>——尽管流动性折价与上市治理成本会让公开市场定价打折。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li><strong>预订额创纪录且结构健康</strong>：FY26 $80.26 亿（+9%），Battlefield 6 大年 + FC 稳态 + Apex 双位数，三引擎同时在线</li>
+              <li>live services 占比七成以上（估算），收入可预测性接近订阅制；体育年货每年自动「续订」</li>
+              <li>轻资产模式下 FCF 转化优秀（LTM 约 $22 亿），能支撑 $200 亿债务的利息负担——<strong>这是 LBO 可行的根本前提</strong></li>
+              <li>私有化卸下季度压力后，长周期投入（AI、新品类）反而可能抬升远期现金流，买方的 $210 有增长期权兜底</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>FY26 的 +9% 很大程度靠 Battlefield 6 大年驱动——<strong>剔除大年后的有机增速是个位数下限</strong>，年货矩阵的天花板隐约可见</li>
+              <li>Q4 FY26 营收 $18.64 亿、调整后 EPS $1.59 双双低于预期，虽有收入确认时点因素，仍暴露预订额向收入转化的波动性</li>
+              <li>$200 亿债务意味着每年巨额利息支出，私有化后公司<strong>加杠杆的容错空间变小</strong>，一次年货失手就可能伤及资产负债表</li>
+              <li>移动化与 UGC 平台（沙盒/Roblox 类）持续分流年轻用户时间，体育年货的「下一代玩家渗透」并非高枕无忧</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（FY26 业绩速览 · 特许经营表现）</summary>
+          <div class="evidence__body">
+            <h5>关键财务数据（公司财年截至 3 月末）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>FY2025</th><th>FY2026 / Q4 FY26</th><th>备注</th></tr></thead><tbody>
+            <tr><td>净营收</td><td>约 $75.5 亿（+3%，约数）</td><td>Q4 营收 $18.64 亿</td><td>Q4 低于市场共识 $19.87 亿，系时点性因素</td></tr>
+            <tr><td>净预订额（net bookings）</td><td>—（基期）</td><td><strong>$80.26 亿，同比 +9%，创纪录</strong></td><td>超初始指引区间 $76-80 亿</td></tr>
+            <tr><td>Q4 调整后 EPS</td><td>—</td><td>$1.59（共识 $2.36）</td><td>FC 豪华版收入确认前移至 Q3 等影响</td></tr>
+            <tr><td>Q4 GAAP EPS</td><td>—</td><td>$1.81</td><td>—</td></tr>
+            <tr><td>LTM 自由现金流</td><td>—</td><td>约 $22 亿（2026-05，第三方口径，估算）</td><td>支撑 LBO 债务偿付能力的关键</td></tr>
+            </tbody></table></div>
+            <p>注：FY26 Q4 营收与调整后 EPS 低于预期，管理层归因于 EA SPORTS FC 豪华版收入确认前移至 Q3、College Football 26 遭遇上年爆款高基数等<strong>时点性因素</strong>；全年预订额仍创纪录，方向未受影响。</p>
+            <h5>特许经营表现（FY2026）</h5>
+            <ul>
+              <li><strong>Battlefield 6</strong>：2025-10 发售，首个财年创多项系列纪录，是 FY26 预订额 +9% 的最大增量来源</li>
+              <li><strong>EA SPORTS FC 全家桶</strong>（FC 26 / FC Online / FC Mobile）：净预订额<strong>中个位数增长</strong>，年货基本盘稳态</li>
+              <li><strong>Apex Legends</strong>：净预订额<strong>双位数增长</strong>，Q4 创年内单季最佳</li>
+              <li><strong>年货矩阵</strong>：Madden NFL、College Football、F1、NHL 等持续贡献确定性收入；live services 占收入约七成以上（估算）</li>
+            </ul>
+            <h5>一句话解读</h5>
+            <p>财团出 $210 的本质，是给「全球唯一垄断四大体育联盟游戏授权/自有 IP 矩阵的现金牛」做了一次整体定价——<strong>6.9x 预订额（估算）买的是确定性，不是高增长</strong>；这与二级市场对增长型游戏公司给低倍数、对衰退型发行商给更低倍数的定价逻辑一脉相承。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">退市之后：EA 的剩余价值与这宗交易留下的参照意义<small>治理安排 · 后续观察点 · 板块估值锚</small></h2>
+        <span class="qa__impact-tag">→ 本页存档 · 估值锚保留</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>公开市场已无可投标的，本页转为<strong>结题存档</strong>。交割后的事实集：Andrew Wilson 续任董事长兼 CEO、总部不变、未宣布裁员与剥离；新股东表态「长期持有、大力投入增长与 AI」。对公众投资者，EA 剩余的价值形态只有三种：（1）交易经济学的复盘样本（节点全部兑现的大型 LBO）；（2）体育游戏资产的估值锚（≈6.9x 预订额 / ≈25x FCF，估算）；（3）<strong>未来若出现再上市（IPO）、资产剥离或转售时的重新参与窗口</strong>——目前无任何公开信号。<em>保留判断：PIF 93.4% 的绝对控股意味着短中期内再资本化的主动权完全在大股东手中，公众投资者只能被动等待。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p>该标的的盈利与估值分析正式终止。对研究框架的影响是<strong>方法论层面</strong>的：这宗交易验证了「事件驱动视角下，大型并购的价差是交易完成概率与时间成本的函数」——从宣布（2025-09-29）到交割（2026-08-04）约 10 个月，交割前最后阶段价差约 4%，持有到交割即锁定套利收益（尾段年化约近 20%，估算），其间最大扰动来自 CFIUS 外资审查的时间不确定性。</p>
+            <p>对板块的影响：当最优质的体育游戏资产被按 $550 亿整体收走，公开市场剩余游戏资产的<strong>「被收购期权价值」</strong>应被纳入定价思考——尤其是拥有常青 IP、高 FCF 转化、且股东结构允许交易的发行人。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点（交易复盘价值）</h4>
+            <ul>
+              <li>从宣布到交割约 10 个月，<strong>股东批准、反垄断、CFIUS、欧盟、债务分销全部如期落地</strong>——大型 LBO 中罕见的零拖期执行</li>
+              <li>交易结构干净（全现金、无反复 renegotiation），$10 亿反向分手费与 outside date 均未被迫启用</li>
+              <li>为游戏行业留下明确估值锚：<strong>最优质现金牛 ≈ 6.9x 预订额（估算）</strong>，后续同业并购与二级市场定价有了参照系</li>
+              <li>管理层与业务连续性安排（Wilson 留任）表明私有化是「换股东」而非「动生意」，员工、玩家与生态扰动最小化</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点（警示与代价）</h4>
+            <ul>
+              <li>退市后<strong>信息黑箱</strong>：公司不再有定期报告义务，玩家数、预订额、盈利等关键变量不再有公开口径，研究可得性归零</li>
+              <li>93.4% 单一主权股东 + 无上市治理约束，<strong>未来关联交易、资本运作对小股东（已不存在）之外的利益相关方缺乏制衡</strong></li>
+              <li>「溢价套现」的另一面是公众投资者永久失去该资产的长期上行——若 AI 投入与新作周期兑现，上行全部归属财团</li>
+              <li>$200 亿债务压在业务上，若未来某个年货周期失手，私有公司缺乏公开市场的融资缓冲，<strong>风险承担结构更脆弱</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（交易经济学 · 交割后安排）</summary>
+          <div class="evidence__body">
+            <h5>交易经济学一览（估算口径均标注）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>数值</th><th>备注</th></tr></thead><tbody>
+            <tr><td>每股对价</td><td>$210 现金</td><td>较 2025-09-25 收盘 $168.32 溢价约 25%</td></tr>
+            <tr><td>交易规模</td><td>约 $550 亿</td><td>史上最大 LBO</td></tr>
+            <tr><td>股权投资</td><td>约 $360 亿</td><td>含 PIF 滚存其约 9.9% 旧持股</td></tr>
+            <tr><td>债务融资</td><td>约 $200 亿</td><td>摩根大通牵头安排（据报道）</td></tr>
+            <tr><td>交割后持股</td><td>PIF 约 93.4% / Silver Lake 约 5.5% / Affinity 约 1.1%</td><td>据报道口径</td></tr>
+            <tr><td>EV / FY26 净预订额</td><td>≈ 6.9x</td><td>估算（$550 亿 / $80.26 亿）</td></tr>
+            <tr><td>EV / LTM FCF</td><td>≈ 25x</td><td>估算（$550 亿 / 约 $22 亿）</td></tr>
+            <tr><td>宣布至交割耗时</td><td>约 10 个月</td><td>2025-09-29 → 2026-08-04，早于 outside date 约 8 周</td></tr>
+            </tbody></table></div>
+            <h5>交割后安排（公司公告要点）</h5>
+            <ul>
+              <li><strong>管理层</strong>：Andrew Wilson 续任董事长兼 CEO，其表态公司「以强势姿态开启新篇章」</li>
+              <li><strong>股东表态</strong>：PIF 称将做「长期伙伴」；Silver Lake 称将「大力投入 EA 的增长，包括 AI 相关机会」；Affinity Partners 强调支持触达新受众与创作者</li>
+              <li><strong>运营</strong>：总部维持加州 Redwood City；交割公告未提及业务剥离、裁员或品牌调整</li>
+              <li><strong>披露义务</strong>：退市后不再有 SEC 定期报告义务；后续信息只能依赖偶发公开渠道——这是本页转为存档的直接原因</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>：未获取——标的已于 2026-08-04 退市，一页通接口不再收录该证券；已用公司财报及公开披露整理替代速览（见同目录《艺电_一页通.md》，亦见本站「一页通」标签页）</li>
+        <li><strong>交易信息</strong>：合并协议要点（对价、反向分手费、outside date）、股东投票、监管批准与交割公告来自公司公告及公开报道；融资结构（股权约 $360 亿 / 债务约 $200 亿）与交割后持股比例（PIF 约 93.4% 等）为媒体报道口径，未经审计口径核实</li>
+        <li><strong>财务数据</strong>：FY26 净预订额 $80.26 亿（+9%）、Q4 FY26 营收 $18.64 亿与 EPS 数据来自公司业绩公告；FY25 净营收约 $75.5 亿为约数；LTM 自由现金流约 $22 亿为第三方平台口径（估算）；EV/预订额、EV/FCF 为本页估算</li>
+        <li><strong>局限</strong>：退市后公司无强制披露义务，私有化后的资本结构细节（债务利率/期限/再融资安排）与经营数据不可得；「live services 占比七成以上」「年化套利收益」等均为估算；若交易出现残留诉讼或再资本化动作，本页需重新激活更新</li>
+        <li><strong>管理层评估（一句话版）</strong>：Andrew Wilson 自 2013 年执掌 EA，任内完成从盒装游戏发行商到 live services 现金牛的转型并顶住 FIFA 授权流失冲击（自有品牌 FC 成功接棒），交割后获新股东留任——管理层连续性是买方愿意支付溢价并维持业务不动的前提</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<div class="notice">说明：「公司一页通」未能获取本标的——EA 已于 2026-08-04 完成私有化交割并从纳斯达克退市，证券代码失效、数据库不再收录该股。以下为依据公司财报及公开披露整理的替代速览（整理日期 2026-08-07）。</div>
+<h3 class="doc-h2">公司概况</h3>
+<p>Electronic Arts（艺电，EA）是全球最大的互动娱乐软件公司之一，1982 年创立，总部位于加州 Redwood City。公司以「年货」体育游戏与 3A 大作为双轮：EA SPORTS FC（前 FIFA 系列）、Madden NFL、EA SPORTS F1、College Football 等体育 IP 每年稳定迭代，辅以 Battlefield、Apex Legends、The Sims 及星球大战授权作品等。收入以 live services（内购 / 赛季内容 / 订阅）为主，占比约七成以上，是典型的「高确定性现金流 + 顶级体育 IP 垄断」资产。2026-08-04 起公司由 PIF 牵头的财团全资私有，不再是上市公司。</p>
+<h3 class="doc-h2">私有化交易全记录</h3>
+<ul>
+<li><strong>2025-09-29 宣布协议</strong>：PIF（沙特公共投资基金）、Silver Lake、Affinity Partners 组成的财团宣布以 <strong>$210/股全现金</strong> 私有化 EA，交易规模约 <strong>$550 亿</strong>，为史上最大杠杆收购（LBO）。较 2025-09-25 未受影响的收盘价 $168.32 溢价约 <strong>25%</strong>。协议含 <strong>$10 亿反向分手费</strong>，协议截止日（outside date）为 2026-09-28。</li>
+<li><strong>融资结构（据公开报道）</strong>：财团股权投资约 <strong>$360 亿</strong>（含 PIF 将其原有约 <strong>9.9%</strong> 持股滚存转股），债务融资约 <strong>$200 亿</strong>（摩根大通牵头安排，2026 年上半年银行团启动债务分销）。</li>
+<li><strong>2025-12 股东批准</strong>：股东投票压倒性通过交易。</li>
+<li><strong>监管路径</strong>：美国反垄断审查（HSR）较早放行，关键节点为 CFIUS 外资审查（PIF 为沙特主权基金）与欧盟审查；欧盟于 2026 年 7 月下旬放行（据报道）。<strong>2026-07-30</strong> 公司文件确认「完成交易所需的全部监管批准已取得」。</li>
+<li><strong>2026-08-04 交割</strong>：交易完成，EA 普通股停止交易并从纳斯达克退市，股东获每股 $210 现金。交割后持股结构约为 <strong>PIF 93.4%、Silver Lake 5.5%、Affinity Partners 1.1%</strong>。Andrew Wilson 续任董事长兼 CEO，总部维持不变，未宣布业务与人员调整。</li>
+</ul>
+<h3 class="doc-h2">短期逻辑（交割前 · 已终结）</h3>
+<p>并购套利：宣布后至交割前，股价围绕 $210 对价波动，价差反映交易完成概率与剩余时间成本。2026 年 5 月初价差约 $8-9（约 4.2%），7 月末监管全部放行后迅速收敛；2026-08-04 交割、现金对价支付，套利逻辑终结，公开市场投资逻辑随之终结。</p>
+<h3 class="doc-h2">长期逻辑（私有化后）</h3>
+<ol>
+<li><strong>体育 IP 现金牛进入长钱时代</strong>：PIF 以约 93.4% 的绝对控股入主并表态做「长期伙伴」；Wilson 留任意味着 FC / Madden / Apex 的运营节奏与年货节奏大概率延续。</li>
+<li><strong>AI 与新品类投入</strong>：Silver Lake 明确将「大力投入 EA 的增长，包括 AI 相关机会」；Affinity Partners 强调支持触达新受众与创作者。私有化卸下季度业绩压力，有利于长周期投入。</li>
+<li><strong>退市代价</strong>：不再有强制信息披露义务，公众投资者失去跟踪渠道与剩余索取权；后续研究只能依赖偶发公开信息。</li>
+</ol>
+<h3 class="doc-h2">风险提示（交易复盘口径）</h3>
+<ul>
+<li>交易失败风险（CFIUS 否决 / 融资失败 / 股东否决）——均未发生，交易于 2026-08-04 顺利交割。</li>
+<li>反向分手费 $10 亿条款若触发将引发诉讼与对价重谈——未发生。</li>
+<li>退市后信息不透明：公司不再有定期报告义务，研究数据可得性显著下降。</li>
+</ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul>
+<li><strong>2026-05-05</strong>：公布 FY2026（截至 2026-03-31）业绩，净预订额（net bookings）<strong>$80.26 亿创纪录、同比 +9%</strong>，超过初始指引区间 $76-80 亿；Q4 营收 $18.64 亿、调整后 EPS $1.59，因 FC 豪华版收入确认前移至 Q3、College Football 26 遭遇上年爆款高基数等时点性因素低于市场预期。</li>
+<li><strong>2026-07-30</strong>：公司文件确认全部监管批准已取得，预计 8 月初交割。</li>
+<li><strong>2026-08-04</strong>：交割完成，EA 从纳斯达克退市；股东获 $210/股现金。</li>
+</ul>
+<h3 class="doc-h2">未来关注</h3>
+<ul>
+<li>交割后对价支付与结算收尾（交割后数日内完成）。</li>
+<li>新股东治下的首个完整运营年：FC 27、Battlefield live services 与 AI 投入动向（经公开渠道偶发披露）。</li>
+<li>若未来出现资产剥离、再上市（IPO）或转售等资本运作——对公众投资者将是重新可参与的窗口。</li>
+</ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<ul>
+<li><strong>盈利模式</strong>：以体育「年货」（全价游戏 + 赛季内容更新）与 live services 内购为主。EA SPORTS FC（Ultimate Team 内购）、Madden、Apex Legends 为主要现金流来源；F1、College Football 等补充品类。</li>
+<li><strong>收入结构</strong>：live services 及内购收入占比约七成以上（估算），全价游戏销售约占两成多，其余为广告与授权等。</li>
+<li><strong>FY2026 增长驱动</strong>：Battlefield 6（2025-10 发售，首个财年创多项系列纪录）、EA SPORTS FC 全家桶（FC 26 / FC Online / FC Mobile 净预订额中个位数增长）、Apex Legends（净预订额双位数增长）。</li>
+</ul>
+<h3 class="doc-h2">核心竞争力</h3>
+<ul>
+<li><strong>体育 IP 垄断</strong>：与 FIFA（已转为自有品牌 FC）、NFL、F1、NCAA 等的授权/自有组合构成极高门槛，竞品难以复制；年货模式提供类订阅的确定性。</li>
+<li><strong>全球发行与在线运营能力</strong>：数亿级注册玩家、跨主机/PC/移动端的在线服务基础设施。</li>
+<li><strong>现金流质量</strong>：轻资产、高预收（预订额先于收入确认），LTM 自由现金流约 $22 亿（2026-05 第三方口径，估算）。</li>
+</ul>
+<h3 class="doc-h2">财务数据（公司财年截至 3 月末）</h3>
+<div class="tbl-wrap"><table><thead><tr><th>指标</th><th>FY2025</th><th>FY2026 / Q4 FY26</th></tr></thead><tbody>
+<tr><td>净营收</td><td>约 $75.5 亿（同比约 +3%）</td><td>Q4 营收 $18.64 亿（市场预期 $19.87 亿）</td></tr>
+<tr><td>净预订额 Net bookings</td><td>—（基期）</td><td><strong>$80.26 亿（创纪录，同比 +9%）</strong></td></tr>
+<tr><td>Q4 调整后 EPS</td><td>—</td><td>$1.59（共识 $2.36）</td></tr>
+<tr><td>Q4 GAAP EPS</td><td>—</td><td>$1.81</td></tr>
+<tr><td>LTM 自由现金流</td><td>—</td><td>约 $22 亿（第三方估算）</td></tr>
+</tbody></table></div>
+<p>注：FY2026 Q4 营收与调整后 EPS 低于预期主要系时点性因素（FC 豪华版收入确认前移、College Football 高基数），全年预订额仍创纪录。</p>
+<h3 class="doc-h2">交易估值（对价隐含倍数，估算）</h3>
+<ul>
+<li>$210/股 × 约 2.6 亿股，股权对价口径约 $550 亿；融资结构约 $360 亿股权（含 PIF 滚存持股）+ 约 $200 亿债务。</li>
+<li>对 FY2026 净预订额 $80.26 亿：<strong>EV/Bookings ≈ 6.9 倍</strong>（估算）。</li>
+<li>对 LTM 自由现金流约 $22 亿：<strong>EV/FCF ≈ 25 倍</strong>（估算）。</li>
+<li>该组倍数可视为「史上最大 LBO」对顶级体育游戏现金牛的定价锚，对公开市场剩余游戏资产的估值参照有意义。</li>
+</ul>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/EA · 生成于 2026-08-07</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-07';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'hit',     text: '<strong>私有化协议签署</strong>：PIF + Silver Lake + Affinity Partners，$210/股全现金，EV 约 $550 亿，史上最大 LBO', note: '2025-09-29 宣布，较未受影响价溢价约 25%' },
+  { kind: 'cat', status: 'hit',     text: '<strong>股东投票批准交易</strong>：压倒性通过', note: '2025-12' },
+  { kind: 'cat', status: 'hit',     text: '<strong>全部监管批准取得</strong>：美国反垄断（HSR）、CFIUS 外资审查、欧盟等', note: '2026-07-30 公司文件确认；欧盟 7 月下旬放行（据报道）' },
+  { kind: 'cat', status: 'hit',     text: '<strong>交割完成、纳斯达克退市</strong>：$210/股现金对价支付，Andrew Wilson 续任董事长兼 CEO', note: '2026-08-04；交割后 PIF 约 93.4%' },
+  { kind: 'cat', status: 'pending', text: '<strong>交割后对价结算收尾</strong>：现金支付与股东账户清算在交割后数日内完成', note: '常规程序，无风险信号' },
+  { kind: 'cat', status: 'pending', text: '<strong>再资本化窗口（远期）</strong>：若未来出现资产剥离、再上市（IPO）或转售，将是公众投资者重新参与的窗口', note: '目前无公开信号；主动权在 PIF' },
+  // ---- 风险点（证伪信号，均随交割完成而失效/未触发）----
+  { kind: 'risk', status: 'clear', text: '<strong>监管否决致交易告吹</strong>：CFIUS 外资审查（PIF 为沙特主权基金）或欧盟否决', note: '未触发：2026-07-30 全部批准取得' },
+  { kind: 'risk', status: 'clear', text: '<strong>$200 亿债务融资失败</strong>：银行团分销受阻致交割延期', note: '未触发：2026 上半年债务顺利分销、如期交割' },
+  { kind: 'risk', status: 'clear', text: '<strong>交易终止触发 $10 亿反向分手费与诉讼</strong>：对价重谈或股东利益受损', note: '未触发：交易在 outside date（2026-09-28）前完成' },
+  { kind: 'risk', status: 'clear', text: '<strong>交割前业绩恶化给买方压价借口</strong>：预订额大幅低于指引', note: '未触发：FY26 净预订额 $80.26 亿创纪录（+9%）' },
+  { kind: 'risk', status: 'clear', text: '<strong>退市后信息黑箱</strong>：公司无强制披露义务，研究数据可得性显著下降', note: '已成既成事实；本页转为存档，经公开渠道偶发跟踪' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

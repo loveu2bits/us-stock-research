@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>安森美（ON.O）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--policy-red); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">ON</span>
+    <span class="site-mark__text">安森美 公司研究<span>onsemi · ON.O</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>安森美<span class="en">onsemi · ON.O · 美股研究</span></h1>
+        <p class="sub">功率半导体的老牌玩家刚走完一轮完整周期：汽车/工业下行把毛利率从 47% 磨到 33%，随后 AI 数据中心电源与产能利用率修复又把股价年内推高近 50%，估值抬到约 25 倍前瞻市盈率——叙事从「周期复苏」切换到了「AI 成长」。但矛盾同样清楚：AI 数据中心业务 2026 年只占营收约 8%，占比八成以上（估算）的汽车+工业基本盘复苏仍弱（汽车环比 -2%、工业环比 +1%），中国本土 SiC 厂商低价产能还在扩张。故事是真的，价格也先到了——我们给「持有」，等基本盘确认或占比拐点说话。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-07</span>
+          <span>下次更新：Synaptics HSR 等待期结束（2026-08-17）/ 分析师日（2026-09-16）/ FY26Q3 财报（2026-10 底至 11 月初）</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>反推现价约 $80（估算）对应约 25x FY2026E 调整后 PE（按券商预测 $3.14-3.30 估算），处于近年高位；AI 数据中心全电源树卡位稀缺、毛利率修复路径清晰，但 8% 占比扛不起全局，年内 +50% 已定价大部分好消息；三情景期望值约 +14%，赔率约 1.6:1。重检条件：汽车/工业连续两个季度环比转正或 AI 占比超预期 → 上调；AI 资本开支放缓或 SiC 价格战击穿毛利率 → 下调。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">营收 +6.9%</strong><span>FY2026H1·同比，两年下滑后重回增长</span></div>
+      <div class="summary-rail__item"><strong>41%</strong><span>FY26Q3 毛利率指引中值·Q2 实际 39.3%</span></div>
+      <div class="summary-rail__item"><strong>&gt;$5亿</strong><span>AI 数据中心 2026 营收展望「翻倍以上」</span></div>
+      <div class="summary-rail__item"><strong>~25x</strong><span>FY2026E 前瞻 P/E（估算）·年内 +50%</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">AI 数据中心电源：足以改变公司属性的结构性增长极，还是周期股头上的 AI 光环？</h2>
+        <span class="qa__impact-tag">→ 占比 4%→8%+ · 2030 TAM 上调至 $475 亿</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>方向真实、卡位稀缺：安森美是目前唯一覆盖从电网到 GPU 核心（wall-to-core）全电源树的美国宽禁带功率半导体供应商，AI 数据中心营收从 FY2025 约 2.5 亿美元增至 2026 年「翻倍以上」（显著超 5 亿美元，其中 SiC 同比约 +60%），公司已把 2030 年该市场 TAM 从约 120 亿美元上调至约 <strong>475 亿美元</strong>（隐含年复合约 72%）。但要直面算术：这块业务 2026 年只占总营收约 <strong>8%</strong>，尚不足以完全对冲汽车/工业的周期波动；而市场已按「成长股」逻辑给出约 25 倍前瞻市盈率——AI 叙事不再是期权，而是<strong>已定价的义务</strong>。<em>保留判断：增长质量（真实终端消耗 vs 客户锁供带来的渠道囤货）与 800V DC 架构切换的节奏（大规模转换预计 2027 年底至 2028 年初）是接下来两个季度的核心验证点。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>EPS 渠道偏小：</strong>AI 数据中心产品毛利较高、增速极快，占比从约 4% 升至 8%+，直接拉动整体毛利率与营收增速；但即便营收翻倍，对总盘子的增速贡献也只是个位数百分点——EPS 弹性更多经由毛利率混合（mix）而非营收规模。</p>
+            <p><strong>估值渠道是主渠道：</strong>当前约 25 倍前瞻倍数，本质是市场把估值锚从「周期股（历史常态约 12-16x）」切换到「AI 结构性成长（20-25x）」。若 AI 资本开支节奏放缓或新品爬坡不及预期，风险不是少赚一个增长故事，而是<strong>估值锚退回 + 盈利下修的双杀</strong>；反之，若 AI 占比提前跨过 15-20%，倍数还有向纯成长股靠拢的空间。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li><strong>唯一性卡位</strong>：美国供应商中唯一覆盖 wall-to-core 全电源树（SiC MOSFET/JFET、垂直 GaN、硅基电源管理 IC 全组合），系统级方案而非单一器件，客户转换成本高</li>
+              <li>单机柜半导体内容价值从当前约 <strong>1.5 万美元增至 2030 年约 11.5 万美元</strong>（机柜功率 125kW→1MW、架构向 800V DC 过渡）——内容量扩张约 7-8 倍</li>
+              <li>客户验证已拿到：扩大 <strong>NVIDIA MGX</strong> 生态供货，赢得 <strong>AWS</strong> 与中国长城的电源平台项目</li>
+              <li>内部资源用脚投票：Q2「其他」业务（含 AI 数据中心）营收<strong>环比 +34%</strong>，产能主动优先分配给该方向，部分客户已为 2028 年锁供</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li><strong>占比约 8% 改变不了整体的周期属性</strong>——汽车/工业仍是绝对主体，而 Q2 汽车环比 -2%、工业仅环比 +1%</li>
+              <li>「翻倍以上」增长含<strong>锁供囤货成分</strong>：交期从 27 周拉长至 32 周、客户锁 2028 年供应，渠道库存一旦积累，后续需要消化期</li>
+              <li>800V DC 架构大规模转换在 <strong>2027 年底至 2028 年初</strong>才启动——2027 年该业务增速可能出现青黄不接的空窗</li>
+              <li>英飞凌、意法半导体等巨头同样在数据中心电源发力，<strong>「全电源树」的稀缺性会随时间收窄</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（AI 数据中心业务关键数据 · 传导逻辑）</summary>
+          <div class="evidence__body">
+            <h5>AI 数据中心业务关键数据</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>数值</th><th>评价</th></tr></thead><tbody><tr><td>FY2025 营收</td><td>约 <strong>2.5 亿美元</strong>（几乎从零起步）</td><td>占总营收约 4%</td></tr><tr><td>FY2026 展望</td><td>指引从「翻倍」上调至<strong>「翻倍以上」</strong>，显著超 5 亿美元</td><td>占比升至约 8%+；2026 年 8 月业绩会披露</td></tr><tr><td>其中 SiC 营收</td><td>2026 预计同比 <strong>+约 60%</strong></td><td>数据中心电源是 SiC 的第二需求曲线</td></tr><tr><td>2030 年 TAM</td><td>从约 120 亿美元上调至约 <strong>475 亿美元</strong></td><td>隐含年复合增长率约 72%</td></tr><tr><td>单机柜半导体内容价值</td><td>当前约 <strong>1.5 万美元</strong> → 2030 年约 <strong>11.5 万美元</strong></td><td>驱动力：机柜功率 125kW→1MW、800V DC 配电架构</td></tr><tr><td>关键客户/项目</td><td>NVIDIA MGX 生态、AWS、中国长城电源平台</td><td>高端客户验证</td></tr><tr><td>Q2 表现</td><td>「其他」业务（含 AI 数据中心）营收<strong>环比 +34%</strong></td><td>远超汽车（-2%）与工业（+1%）</td></tr></tbody></table></div>
+            <h5>传导逻辑</h5>
+            <ul>
+              <li>AI 服务器功耗攀升 + 800V DC 架构演进 → 高压高效电源半导体需求激增 → 安森美全电源树组合卡位 → 系统级设计导入 → 营收增速超越同行（正向链条）</li>
+              <li>AI 资本开支节奏放缓 / 800V 转换空窗期 → 增速不及预期 → 约 25x 的估值锚退回周期股区间（<span class="warn">负向链条，当前定价的主要脆弱点</span>）</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">汽车/工业基本盘：周期真的见底了吗？中国 SiC 能否顶住本土价格战？</h2>
+        <span class="qa__impact-tag">→ 营收主体 · 中国汽车 SiC 预计 +60-70%</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>见底信号明确、复苏力度温和、中国是例外。Q2 汽车环比 <strong>-2%</strong>、工业仅环比 <strong>+1%</strong>，欧洲季节性疲软、传统工业低迷；但中国汽车营收 H1 同比 <strong>+13%</strong>（同期整车销量 -4%），内容量增长逻辑被验证，公司预计 2026 年中国汽车 SiC 营收同比 <strong>+60%-70%</strong>。真正的悬念在价格端：中国本土 SiC 厂商低价扩产叠加同业大厂产能投放，行业研究机构（TechInsights）预警阶段性供过于求——<strong>「量」的增长确定性高，「价」的确定性低</strong>。好在交期 32 周、book-to-bill 持续大于 1、部分客户锁 2028 年供应，收入端的可见度是周期底部罕见的。</p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>基本盘的 EPS 弹性远大于 AI 数据中心</strong>：汽车+工业占营收八成以上（估算），利用率每提升 1 个百分点带来 25-30 个基点毛利率（滞后约两个季度）；营收规模恢复 → 经营杠杆释放。这部分复苏在当前按 AI 定价的估值里几乎是<strong>免费看涨期权</strong>——一旦兑现是双击。</p>
+            <p>反过来说，券商 FY2027E 营收共识约 75.5-76.8 亿美元（+约 15%）、调整后 EPS 约 4.4-4.7 美元，<strong>隐含假设了基本盘温和复苏</strong>。若 Q3-Q4 汽车/工业环比仍无法转正，FY2027E 盈利预测体系面临整体下修，25 倍倍数将同时承受分子分母双重压力。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li><strong>内容量增长被验证</strong>：中国汽车营收 +13% vs 整车销量 -4%——SiC 在 800V 平台渗透 + Treo 平台新品（10BASE-T1S 以太网、超声波感应）扩张单车价值量</li>
+              <li>供给端在收缩：行业产能降低约 12%、累计退出约 <strong>9 亿美元</strong>年化营收的非核心业务——供给纪律改善是周期反转的前置条件</li>
+              <li>需求端锁供信号：交期 27→32 周、book-to-bill 持续 &gt;1、客户锁 2028 年供应——典型的需求修复早期特征</li>
+              <li>软件定义汽车 + 区域架构 → 单车半导体含量持续提升，汽车半导体是<strong>「量平价升」</strong>的市场，不完全依赖整车销量</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>Q2 数据仍弱：<strong>汽车环比 -2%、工业仅环比 +1%</strong>，「企稳」与「复苏」是两回事；欧洲汽车市场季节性疲软未消</li>
+              <li><strong>中国本土 SiC 厂商低价崛起</strong>，TechInsights 预测产能快速扩张将导致阶段性供过于求——量涨价跌，营收增长未必换来利润增长</li>
+              <li>电动车渗透率提升不及预期会直接打击 SiC 主需求；宏观恶化再加一层压力</li>
+              <li>客户锁供与交期拉长也可能预演未来的<strong>补库存透支</strong>——本轮「催单」是否在制造下一轮去库存，需要逐季核对渠道库存</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（分部拆分 · 汽车/工业关键数据 · SiC 竞争格局）</summary>
+          <div class="evidence__body">
+            <h5>分部业务拆分（单位：亿美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>分部</th><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td rowspan="3"><strong>PSG 电源方案部</strong></td><td>收入（同比）</td><td>38.80</td><td>33.48（-13.7%）</td><td>28.05（-16.2%）</td><td>15.66（<strong>+16.6%</strong>）</td></tr><tr><td>收入占比</td><td>47.0%</td><td>47.3%</td><td>46.8%</td><td>50.3%</td></tr><tr><td>毛利率</td><td>47.0%</td><td>41.3%</td><td><span class="warn">24.5%</span></td><td>27.5%</td></tr><tr><td rowspan="3"><strong>AMG 模拟与混合信号部</strong></td><td>收入（同比）</td><td>30.57</td><td>26.09（-14.7%）</td><td>22.62（-13.3%）</td><td>10.86（-3.2%）</td></tr><tr><td>收入占比</td><td>37.0%</td><td>36.8%</td><td>37.7%</td><td>34.8%</td></tr><tr><td>毛利率</td><td>46.5%</td><td>50.1%</td><td>51.1%</td><td><strong>53.5%</strong></td></tr><tr><td rowspan="3"><strong>ISG 智能感知部</strong></td><td>收入（同比）</td><td>13.16</td><td>11.25（-14.5%）</td><td>9.28（-17.5%）</td><td>4.65（+3.6%）</td></tr><tr><td>收入占比</td><td>16.0%</td><td>15.9%</td><td>15.5%</td><td>14.9%</td></tr><tr><td>毛利率</td><td>48.7%</td><td>46.7%</td><td><span class="warn">15.1%</span></td><td>40.4%</td></tr><tr><td><strong>合计</strong></td><td>收入 / 毛利率</td><td>82.53 / 47.1%</td><td>70.82 / 45.4%</td><td>59.95 / <span class="warn">33.1%</span></td><td>31.17 / 38.5%</td></tr></tbody></table></div>
+            <p>注：FY2026 H1 为截至 2026-07-03 的六个月累计。PSG 重回增长（+16.6%）由 AI 数据中心与汽车 SiC 驱动，但 27.5% 的毛利率仍是三分部最低（重资产制造属性）；AMG 毛利率 53.5% 最高（Treo 平台产品毛利率 &gt;70%）；ISG 毛利率从 FY2025 的 15.1% 恢复至 40.4%（过剩与呆滞库存费用影响消退）。</p>
+            <h5>汽车/工业关键数据</h5>
+            <ul>
+              <li><strong>Q2 节奏</strong>：汽车营收环比 -2%（欧洲季节性因素），工业环比 +1%——复苏温和</li>
+              <li><strong>中国例外</strong>：2026 H1 中国汽车营收同比 +13%，同期整车销量 -4%；2026 年中国汽车 SiC 营收预计同比 <strong>+60%-70%</strong>（中国 800V 平台渗透驱动）</li>
+              <li><strong>客户/项目</strong>：吉利（极氪）、小米等中国电动车厂商深度合作；北美进入 Rivian R2 平台</li>
+              <li><strong>供给端信号</strong>：产品平均交期约 27 周延长至约 32 周；book-to-bill 连续多个季度显著高于 1；部分客户已开始为 2028 年锁定供应</li>
+            </ul>
+            <h5>SiC 竞争格局</h5>
+            <ul>
+              <li>欧洲 IDM 巨头（英飞凌、意法半导体）在 SiC 投资激进，汽车/工业全面竞争；意法是特斯拉 SiC 主要供应商</li>
+              <li><strong>中国本土厂商低价崛起</strong>，TechInsights 预测产能快速扩张可能导致阶段性供过于求（<span class="warn">价格风险</span>）</li>
+              <li>安森美的应对筹码：垂直整合 IDM（内部制造占比超 60%）的成本与供应韧性 + 车规认证壁垒 + 第二轮涨价 + 客户锁供；但 ASP 下行压力是客观存在的长期变量</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">毛利率 V 型修复：33% → 41% → 53% 的路径能信几分？</h2>
+        <span class="qa__impact-tag">→ Q3 指引 41% · 长期目标 53% / 营业利润率 40%</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>修复前半段（33% → 41%）确定性高，三个引擎都已上路：1）产能利用率 Q1 77% → Q2 <strong>83%</strong>，每 1 个百分点对应 25-30 个基点毛利率（滞后约两个季度，Q4 充分受益）；2）<strong>第二轮涨价</strong>实施中，管理层明确 2027 年价格环境不会走软；3）Fab Right 降本——出售两座工厂年省约 <strong>3,500 万美元</strong>、产能降低约 12%、累计退出约 9 亿美元年化的非核心业务，合计贡献约 <strong>200 个基点</strong>毛利率改善。但后半段（41% → 53% 长期目标）取决于营收规模回升与产品组合升级（AMG/Treo 毛利率 &gt;70%、AI 数据中心高毛利产品占比）——<em>若营收增长停在中低个位数，45% 一线可能就是天花板，而不是 53%。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>毛利率是安森美最大的 EPS 杠杆</strong>：按约 66 亿美元营收规模，每 100 个基点毛利率对应约 0.12 美元 EPS（估算）。FY2025 毛利率 33.1% → FY2026 H1 38.5% → Q2 单季 39.3%（环比 +80bp）→ Q3 指引 40%-42%（中值 41%、环比再 +170bp），方向与斜率俱佳，是短期盈利超预期最现实的来源。</p>
+            <p>同步发生的是<strong>资本开支纪律释放现金流</strong>：资本开支占营收从 19% 降至约 6%、FY2026 预计低于 5%，FY2025 自由现金流 14.19 亿美元创纪录（自由现金流率 23.7%）。毛利率修复 + 轻资本开支 = 利润与现金流同时扩张，为回购和 Synaptics 全股票交易提供资金基础，也让「下修」情景有了现金缓冲。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>修复引擎都是<strong>「已发生」而非「承诺」</strong>：利用率 83% 是既成事实，第二轮涨价执行中，两座工厂出售协议已签（年省约 3,500 万美元，2027 年起显现、2028 年完全实现）</li>
+              <li>利用率每 +1pct 对应 25-30bp 毛利率、滞后约两个季度 → <strong>Q4 是天然的兑现窗口</strong>；Q3 指引 41% 本身就意味着环比再 +170bp</li>
+              <li>Fab Right 结构性降低盈亏平衡点：产能降 12% + 非核心低毛利业务退出（约 9 亿美元年化），同样的营收产出更高的毛利——长期约 200bp 改善</li>
+              <li>组合持续上移：AMG（毛利率 53.5%、Treo 产品 &gt;70%）与 AI 数据中心高毛利产品占比提升，<strong>长期目标毛利率 53%、营业利润率 40% 有清晰路线图</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>涨价是<strong>成本推动型</strong>而非需求拉动型：Q2 提价基本被原材料与外协成本上涨抵消、无净增益——真正的定价权尚未证明</li>
+              <li><strong>SiC 价格竞争是最大变量</strong>：中国低价产能若引发 ASP 普跌，涨价守不住，组合改善也会被稀释</li>
+              <li>53% 的长期目标隐含营收规模回升与高利用率——若汽车/工业复苏迟迟不来，利用率停在 80% 出头，修复会中途停滞</li>
+              <li>FY2025 的 33.1% 含过剩/呆滞库存费用与重组扰动，「V 型」里有一部分只是<strong>一次性项目的均值回归</strong>，不能线性外推动能</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（盈利轨迹 · 毛利率三引擎 · 资本开支与现金流）</summary>
+          <div class="evidence__body">
+            <h5>盈利轨迹（GAAP；单位：亿美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>报告期</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td>营业总收入</td><td>82.53</td><td>70.82</td><td>59.95</td><td>31.17</td></tr><tr><td>收入同比</td><td>-0.9%</td><td>-14.2%</td><td>-15.4%</td><td><strong>+6.9%</strong></td></tr><tr><td>毛利率</td><td>47.1%</td><td>45.4%</td><td><span class="warn">33.1%</span></td><td>38.5%</td></tr><tr><td>营业利润</td><td>26.14</td><td>19.02</td><td>7.51</td><td>5.76</td></tr><tr><td>归母净利润</td><td>21.84</td><td>15.73</td><td><span class="warn">1.21</span></td><td>1.93</td></tr><tr><td>基本每股收益（美元）</td><td>5.07</td><td>3.68</td><td>0.29</td><td>0.49</td></tr><tr><td>经营现金流 / 资本开支 / 自由现金流</td><td>19.77 / 15.39 / 4.38</td><td>19.06 / 6.94 / 12.12</td><td>17.60 / 3.41 / <strong>14.19</strong></td><td>6.99 / 0.56 / 6.43</td></tr></tbody></table></div>
+            <p>注：FY2025 GAAP 归母净利润仅 1.21 亿美元，含高额重组与资产减值费用，同期<strong>调整后 EPS 为 2.35 美元</strong>——GAAP 与调整后口径差异巨大，跨期比较需注意。FY2026 H1 净利润同比 +161% 主要是低基数。Q2 单季 Non-GAAP 毛利率 39.3%（环比 +80bp），Q3 指引 40%-42%（中值 41%）。</p>
+            <h5>毛利率扩张的三个引擎</h5>
+            <ul>
+              <li><strong>利用率</strong>：Q1 77% → Q2 83%；每 +1pct 对应 25-30bp 毛利率，滞后约两个季度体现 → Q4 充分受益</li>
+              <li><strong>涨价</strong>：第二轮涨价实施中，效益未来几个季度显现；管理层预计 2027 年价格环境不走软（第一轮提价在 Q2 基本被成本上涨抵消）</li>
+              <li><strong>Fab Right 降本</strong>：出售 Mountain Top（宾州）与 Tarlac（菲律宾）两厂（年省约 3,500 万美元，2027 年显现、2028 年完全实现）；产能降低约 12%；累计退出约 9 亿美元年化营收的非核心业务；合计贡献约 200bp 毛利率改善</li>
+            </ul>
+            <h5>资本开支纪律与资产负债表</h5>
+            <ul>
+              <li>资本开支：15.39 → 6.94 → 3.41 → 0.56 亿美元（FY2023→FY2026H1），占营收从 19% 降至约 6%、FY2026 预计 <strong>&lt;5%</strong></li>
+              <li>FY2025 自由现金流 <strong>14.19 亿美元</strong>创纪录，自由现金流率 23.7%</li>
+              <li>2026 年 5 月发行 <strong>15 亿美元 0% 可转换优先票据</strong>（2031 年到期），并用部分收益回购 310 万股；现金及短期投资约 39 亿美元，总流动性约 <strong>54 亿美元</strong>，净杠杆率远低于 1 倍</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 4 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">4</span>
+        <h2 class="qa__title">估值：约 25 倍前瞻定价了什么？赔率如何？</h2>
+        <span class="qa__impact-tag">→ 期望值约 +14% · 赔率约 1.6:1（估算）</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>按券商预测与「约 25 倍 Forward P/E」的描述反推，现价约 <strong>80 美元（估算）</strong>，对应 FY2026E 调整后 EPS（3.14-3.30 美元）约 <strong>25x</strong>、FY2027E（约 4.4-4.7 美元）约 17x、FY2028E（5.60-6.10 美元）约 13-14x。股价年内已上涨近 <strong>50%</strong>，市场完成了对这家公司从「周期底部」到「AI 结构性成长」的重新定价；而四家大行（摩根大通/花旗/高盛/摩根士丹利）在 Q2 财报后清一色中性/未评级，花旗 98 美元、高盛 95 美元的目标价也只是按 16-20x FY2028E 盈利的保守框架给出。<strong>三情景期望值约 +14%，赔率约 1.6:1——故事方向对，但安全边际薄，对应「持有」。</strong><em>保留判断：现价为反推估算值，精确值以行情为准；若股价回调至约 65 美元（约 20x FY2026E，估算）以下，赔率明显改善，可重检上调观点。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这个问题本身就是估值问题。</strong>当前定价的结构：盈利预测在上修通道（FY2025A 调整后 EPS 2.35 → FY2026E 约 3.2 → FY2027E 约 4.6 → FY2028E 约 5.9 美元，年复合 +35-40%），但倍数已提前抬到 25 倍——市场在为完美执行付钱。四家机构全部中性，没有一家给出买入评级，这在研究覆盖里是一个值得重视的信号：<strong>机构共识是「价格公道」而非「低估」</strong>。</p>
+            <p>上行来源：AI 数据中心占比超预期 / 汽车复苏确认 → 中性阵营上调评级带来的增量资金。下行来源：AI 资本开支放缓或 SiC 价格战 → 25 倍倍数无缓冲，盈利与倍数双杀。<strong>上行需要超预期，下行只需不及预期——这是持有而非买入的核心原因。</strong></p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>FY2026-2028 EPS 年复合 +35-40%（券商共识），对约 25x 的 PEG 约 0.6-0.7——<strong>若增长兑现，现价并不贵</strong></li>
+              <li>按 FY2028E 只有约 13-14x——倍数「近期盈利上显贵、远期盈利上显便宜」，是典型的成长消化路径，时间站在多方</li>
+              <li>花旗 98、高盛 95 的目标价较反推现价仍有约 19-22% 空间，且估值锚只是保守的 16-20x FY2028E——<strong>不需要叙事过热，正常兑现即可</strong></li>
+              <li>资产负债表稳健（总流动性约 54 亿美元、净杠杆率 &lt;1x）+ 资本开支纪律 + 回购已重启——下行有现金缓冲</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>年内 +约 50%、约 25x 前瞻倍数处于<strong>历史高位</strong>——「市场对公司长期盈利能力的预期已较为充分」（一页通风险节原话）</li>
+              <li><strong>四家大行一致中性/未评级</strong>，无一看多——机构态度是「故事认可、价格已到位」</li>
+              <li>25 倍已定价 AI 数据中心的完美执行：800V 切换若造成 2027 年增速空窗、或 SiC 价格战压缩盈利，<strong>倍数与盈利双杀，下行空间大于上行</strong></li>
+              <li>Synaptics 约 70 亿美元全股票收购 2027 年中才完成——<strong>稀释与整合不确定性是未来 12 个月的折价项</strong>而非加分项</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（券商盈利预测 · 三情景测算）</summary>
+          <div class="evidence__body">
+            <h5>券商盈利预测与估值（均为 2026-08-04 发布；调整后 EPS 口径；营收单位：百万美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级 / 目标价</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>摩根大通</td><td>中性 / —</td><td>EPS 2.35<br>营收 5,995</td><td>EPS 3.24<br>营收 6,570</td><td>EPS 4.63<br>营收 7,560</td><td>EPS 5.96<br>营收 8,594</td></tr><tr><td>花旗</td><td>中性 / $98</td><td>EPS 2.34<br>营收 5,995</td><td>EPS 3.14<br>营收 6,542</td><td>EPS 4.65<br>营收 7,675</td><td>EPS 6.10<br>营收 8,650</td></tr><tr><td>高盛</td><td>中性 / $95</td><td>EPS 2.35<br>营收 5,995</td><td>EPS 3.30<br>营收 6,628</td><td>EPS 4.60<br>营收 7,552</td><td>EPS 5.60<br>营收 8,163</td></tr><tr><td>摩根士丹利</td><td>未评级 / —</td><td>EPS 2.35<br>营收 5,995</td><td>EPS 3.19<br>营收 6,566</td><td>EPS 4.42<br>营收 7,551</td><td>—</td></tr></tbody></table></div>
+            <p>注：FY2026E 营收共识约 65.4-66.3 亿美元（+约 10%），FY2027E 约 75.5-76.8 亿美元（+约 15%）；EPS 共识 FY2026E 约 3.2、FY2027E 约 4.4-4.7、FY2028E 约 5.6-6.1 美元。花旗/高盛目标价基于约 16-20x FY2028E EPS。管理层 FY26Q3 指引：营收 16.5-17.5 亿美元、Non-GAAP 毛利率 40%-42%、Non-GAAP EPS 0.81-0.93 美元。</p>
+            <h5>三情景测算（FY2028 视角；基准为反推现价约 80 美元，估算）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>调整后 EPS</th><th>合理 PE</th><th>隐含股价</th><th>vs 当前</th></tr></thead><tbody><tr><td>乐观（25%）</td><td>AI 数据中心 2027 年延续翻倍式增长、汽车/工业进入补库存、毛利率加速向 45%+</td><td>约 $6.1（券商预测上沿）</td><td>20x</td><td>~$122</td><td>+53%</td></tr><tr><td>中性（50%）</td><td>EPS 兑现共识，倍数回归券商估值框架中枢</td><td>约 $5.9（共识）</td><td>16x</td><td>~$94</td><td>+18%</td></tr><tr><td>悲观（25%）</td><td>AI 资本开支放缓 + SiC 价格战 + 汽车复苏落空，盈利低于共识</td><td>约 $4.5（低于共识）</td><td>12x</td><td>~$54</td><td>-33%</td></tr></tbody></table></div>
+            <p><strong>期望值约 91 美元，较反推现价约 +14%；赔率约 1.6:1（+53% / -33%）。</strong>中性情景隐含价与花旗/高盛目标价（95-98 美元）相互印证；乐观情景 20x FY2028E 是券商估值框架上沿、并非激进假设；悲观情景 12x 回到其周期底部历史倍数区间。EV 为正但幅度有限、赔率一般——这是「持有」评级的量化注脚。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>（2026-08-06 版）：公司概况、近况跟踪、业务拆分、盈利预测与估值（见同目录《安森美_一页通.md》，亦见本站「一页通」标签页）</li>
+        <li><strong>财务数据</strong>：FY2023-FY2026H1 利润表与现金流、分部营收与毛利率、FY26Q3 管理层指引（正文数据均来自公开财报整理）</li>
+        <li><strong>局限</strong>：现价与前瞻倍数为按券商 EPS 预测及「约 25 倍 Forward P/E」表述反推的估算值，精确值以行情为准；未读财报原文与电话会纪要（建议下一步补读 2026 年 8 月业绩会中关于 AI 数据中心增长质量与 800V 架构切换节奏的管理层表述）；FY2025 GAAP 净利润含大额重组与减值扰动（GAAP EPS 0.29 vs 调整后 EPS 2.35 美元），跨表比较需注意口径；Synaptics 收购尚未完成（预计 2027 年中），当前财务数据不含备考影响</li>
+        <li><strong>管理层评估（一句话版）</strong>：过去两年的执行有数字背书——产能降低约 12%、退出约 9 亿美元年化非核心业务、资本开支占营收从 19% 压到不足 5%、自由现金流 14.19 亿美元创纪录、两轮涨价体现定价纪律；战略聚焦（AI 数据中心 + 汽车 SiC + Treo 平台）清晰，最大的一笔赌注是以约 70 亿美元全股票收购 Synaptics 切入边缘 AI 计算，整合成效要等 2027 年验证</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>安森美半导体（onsemi）是一家全球领先的功率半导体与智能感知解决方案供应商，核心业务聚焦于为汽车、工业及AI数据中心等市场提供<strong>智能电源（Intelligent Power）</strong>与<strong>智能感知（Intelligent Sensing）</strong>技术。公司通过其碳化硅（SiC）产品、电源管理IC及图像传感器，在汽车电气化、先进驾驶辅助系统（ADAS）及AI数据中心电源树等高增长领域占据关键卡位。公司采用IDM模式，拥有全球化的前端晶圆制造与后端封测网络，并正通过「Fab Right」战略持续优化其制造布局。</p>
+
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul>
+<li><strong>AI数据中心业务指引大幅上修</strong>：公司已将2026年AI数据中心营收预期从「翻倍」上调至<strong>「翻倍以上」</strong>，预计该业务全年营收将显著超过5亿美元。其中，AI数据中心应用的SiC营收预计同比增长约<strong>60%</strong>。<em>（2026年8月业绩会）</em></li>
+<li><strong>收购Synaptics，补强边缘AI计算能力</strong>：公司于2026年6月宣布以<strong>全股票交易</strong>收购Synaptics，企业价值约<strong>70亿美元</strong>，预计于<strong>2027年中</strong>完成。此举旨在整合Synaptics的AI原生计算平台（Astra）与无线连接技术，将公司能力从电源、感知、控制拓展至连接计算，构建完整的物理AI智能系统解决方案。<em>（2026年6月并购电话会）</em></li>
+<li><strong>推进「Fab Right」战略，剥离非核心制造资产</strong>：公司宣布出售位于美国宾夕法尼亚州Mountain Top和菲律宾Tarlac的两座工厂，预计每年可节省约<strong>3500万美元</strong>成本，效益将从2027年开始显现，2028年完全实现。这标志着公司非核心业务退出计划已基本完成，累计退出年化营收约9亿美元。<em>（2026年7月公告）</em></li>
+<li><strong>实施第二轮涨价以对冲成本压力</strong>：由于原材料和外部制造成本持续上升，公司正在实施<strong>第二轮涨价</strong>，预计效益将在未来几个季度显现。管理层预计2027年不会出现价格环境走软的情况。<em>（2026年8月业绩会）</em></li>
+<li><strong>产能利用率与交期显著提升</strong>：Q2产能利用率从77%提升至<strong>83%</strong>，产品平均交期从约27周延长至约<strong>32周</strong>，book-to-bill比率连续多个季度显著高于1，部分客户已开始为2028年锁定供应。<em>（2026年8月业绩会）</em></li>
+</ul>
+
+<h3 class="doc-h2">短期逻辑</h3>
+<ol>
+<li><strong>AI数据中心业务指引上修带来的业绩与估值双击</strong>：公司Q2财报后将2026年AI数据中心营收指引从「翻倍」上调至「翻倍以上」，这是一个显著的边际变化。该业务在2025年营收约2.5亿美元，若2026年实现翻倍以上增长，其营收占比将从约4%提升至约8%以上。考虑到该业务的高成长性和较高的毛利率，其加速增长有望显著提升公司整体营收增速和盈利能力，触发市场对公司进行价值重估。9月16日的分析师日可能公布更详细的AI数据中心业务展望和长期财务模型，构成短期催化剂。</li>
+<li><strong>毛利率持续扩张的确定性较高</strong>：公司Q2毛利率环比提升80个基点至39.3%，并指引Q3毛利率中值环比提升170个基点至41%。这一扩张趋势具备较高确定性，驱动力来自：1）产能利用率从Q1的77%提升至Q2的83%，且利用率每提升1个百分点将带来25-30个基点的毛利率改善，该效益通常滞后约两个季度体现，意味着Q4将充分受益；2）公司实施的第二轮涨价将逐步抵消成本压力；3）产品组合持续向高毛利的AI数据中心和Treo平台产品倾斜。毛利率的持续改善是短期内驱动盈利超预期和股价上涨的核心动力。</li>
+<li><strong>供给紧张格局下的议价权提升</strong>：公司产品交期已延长至32周，book-to-bill持续高于1，部分客户已开始为2028年锁定供应。这表明公司在特定高增长领域（如AI数据中心电源）已出现供不应求。公司主动将产能优先分配给AI数据中心，并在需求强劲的领域进行针对性提价。这种供需格局强化了公司的议价能力，有助于在未来几个季度维持甚至提升产品定价。</li>
+</ol>
+
+<h3 class="doc-h2">长期逻辑</h3>
+<ol>
+<li><strong>AI数据中心电源树的全栈覆盖能力构建结构性增长极</strong>：公司是唯一一家能够覆盖从电网到GPU核心（wall-to-core）全电源树的美国宽基功率半导体供应商。随着AI服务器功耗从当前125kW向1MW演进，以及架构向800V DC配电过渡，单机柜的半导体内容价值将从当前的约<strong>1.5万美元</strong>增长至2030年的约<strong>11.5万美元</strong>。公司凭借SiC MOSFET/JFET、垂直GaN、硅基电源管理IC等完整产品组合，有望在这一结构性增长趋势中获得持续份额。公司已将2030年AI数据中心TAM从约120亿美元上调至约<strong>475亿美元</strong>，隐含年复合增长率约72%。</li>
+<li><strong>汽车电动化与智能化带来的单车价值量持续提升</strong>：尽管全球汽车产量增长平缓，但公司汽车业务营收增速持续超越整车产量。2026年上半年，公司中国汽车营收同比增长<strong>13%</strong>，而同期整车销量下降4%。这得益于SiC在电动车（尤其是中国800V平台）中的渗透率提升，以及Treo平台带来的10BASE-T1S以太网、超声波感应等新产品的内容扩张。公司预计2026年中国汽车SiC营收将同比增长<strong>60%-70%</strong>。随着软件定义汽车和区域架构的普及，公司单车可服务市场（SAM）将持续扩大。</li>
+<li><strong>「Fab Right」战略与经营杠杆释放驱动利润率结构性上行</strong>：公司正通过「Fab Right」战略系统性地优化其全球制造布局，包括剥离低效或非核心工厂、将产能降低约12%等。这些举措预计将贡献约200个基点的毛利率改善。同时，公司已基本完成约9亿美元年化营收的非核心业务退出，使业务组合更加聚焦于高毛利产品。随着营收规模恢复增长，轻量化的资产结构和聚焦的产品组合将释放出显著的经营杠杆，推动利润率向长期目标（毛利率53%，营业利润率40%）靠拢。</li>
+</ol>
+
+<h3 class="doc-h2">风险提示</h3>
+<ul>
+<li><strong>AI数据中心业务的高成长性已被充分定价</strong>：公司股价年初至今已上涨近50%，当前估值（约25倍Forward P/E）已隐含了市场对AI数据中心业务高成长的乐观预期。若AI数据中心资本开支节奏放缓，或公司新产品的导入和爬坡不及预期，可能导致估值回调。此外，AI数据中心业务当前仅占公司总营收约8%，其增长尚不足以完全对冲汽车和工业市场的周期性波动。</li>
+<li><strong>汽车与工业市场需求复苏的不确定性</strong>：尽管公司Q2汽车和工业业务显示出企稳迹象，但汽车业务环比下降2%，工业业务仅环比增长1%，表明复苏力度依然温和。欧洲汽车市场的季节性疲软和传统工业需求的低迷仍是短期逆风。若全球宏观经济环境恶化，或电动汽车渗透率提升不及预期，公司核心业务可能面临需求再度放缓的风险。</li>
+<li><strong>SiC市场竞争加剧与成本压力</strong>：SiC市场正吸引大量资本涌入，包括中国本土竞争对手的崛起和同业大厂的产能扩张。TechInsights预测，产能的快速增长可能导致SiC市场出现阶段性供过于求，使公司在享受市场扩张红利的同时，面临价格压力和份额争夺的风险。同时，原材料和外协制造成本的持续上升，也考验公司通过提价传导成本的能力。</li>
+</ul>
+
+<h3 class="doc-h2">近期要闻</h3>
+<ul>
+<li><strong>2026年7月7日</strong>：安森美宣布将出售位于菲律宾Tarlac和美国宾夕法尼亚州Mountain Top的两座制造工厂，分别出售给超丰电子和Silex Microsystems。此举是「Fab Right」战略的一部分，预计每年可节省约3500万美元成本。</li>
+<li><strong>2026年6月25日</strong>：安森美宣布与Synaptics达成最终收购协议，以全股票交易方式收购Synaptics，企业价值约70亿美元。交易预计于2027年中完成，旨在整合Synaptics的连接计算能力，拓展物理AI市场。</li>
+<li><strong>2026年5月11日</strong>：公司发行了<strong>15亿美元</strong>的0%可转换优先票据（2031年到期），并使用部分净收益回购了3.1百万股普通股。</li>
+<li><strong>2026年5月4日</strong>：公司完成了对Codasip s.r.o.的RISC-V处理器IP业务的收购，旨在加速其计算能力。</li>
+</ul>
+
+<h3 class="doc-h2">未来催化</h3>
+<ul>
+<li><strong>2026年9月16日</strong>：安森美计划在纽约举办分析师日。预计公司将在此次会议上公布更详细的长期财务模型、AI数据中心业务的具体增长路径和内容价值框架、以及「Fab Right」战略的进一步进展，有望成为股价的重要催化剂。</li>
+<li><strong>2026年8月17日</strong>：安森美与Synaptics根据HSR法案提交的并购审查等待期将于此日结束，除非被延长或提前终止。审查结果将直接影响并购交易的时间表和确定性。</li>
+<li><strong>2026年Q3财报（预计10月底-11月初）</strong>：公司Q3指引显示营收和毛利率将环比显著增长。若实际业绩能兑现甚至超越指引，特别是AI数据中心业务继续保持强劲增长，将进一步验证公司的增长逻辑，驱动股价上行。</li>
+</ul>
+
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<p><strong>业务边际变化</strong>：公司近年来正经历深刻的业务组合转型。一方面，公司主动退出了约9亿美元年化营收的非核心、低毛利或价格压力较大的业务，以改善整体盈利质量。另一方面，公司通过有机投资和并购，将资源集中于高增长的AI数据中心电源、汽车SiC和Treo模拟混合信号平台。收购Synaptics是这一战略的最新体现，旨在将能力边界从电源和感知拓展至边缘AI计算，构建完整的智能系统解决方案。</p>
+<p><strong>盈利模式</strong>：公司主要依靠<strong>技术壁垒和产品差异化</strong>实现盈利。在AI数据中心和汽车SiC等高增长领域，公司凭借其覆盖全电源树的完整产品组合、领先的宽禁带（SiC、GaN）技术以及垂直整合的制造能力，提供高能效、高功率密度的解决方案，从而获得溢价。在模拟混合信号领域，Treo平台通过可复用的技术模块加速产品开发，并以较高的毛利率（&gt;70%）贡献利润。</p>
+<p><strong>业务拆分</strong>：公司业务分为三个可报告部门：电源方案部（PSG）、模拟与混合信号部（AMG）和智能感知部（ISG）。从营收结构看，PSG是最大的部门，且其占比因AI数据中心和汽车SiC的强劲需求而持续提升。AMG是毛利率最高的部门，受益于产品组合优化。ISG部门在经历了2025年的库存调整后，盈利能力正在恢复。公司当前处于<strong>业绩兑现期</strong>，前期的战略调整和产品布局开始转化为营收增长和利润率扩张。</p>
+<p><strong>细分业务拆分（单位：亿美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td>截止日期</td><td>2023-12-31</td><td>2024-12-31</td><td>2025-12-31</td><td>2026-07-03</td></tr><tr><td><strong>PSG 收入（同比）</strong></td><td>38.80</td><td>33.48（-13.7%）</td><td>28.05（-16.2%）</td><td>15.66（+16.6%）</td></tr><tr><td>PSG 收入占比 / 毛利率</td><td>47.0% / 47.0%</td><td>47.3% / 41.3%</td><td>46.8% / 24.5%</td><td>50.3% / 27.5%</td></tr><tr><td><strong>AMG 收入（同比）</strong></td><td>30.57</td><td>26.09（-14.7%）</td><td>22.62（-13.3%）</td><td>10.86（-3.2%）</td></tr><tr><td>AMG 收入占比 / 毛利率</td><td>37.0% / 46.5%</td><td>36.8% / 50.1%</td><td>37.7% / 51.1%</td><td>34.8% / 53.5%</td></tr><tr><td><strong>ISG 收入（同比）</strong></td><td>13.16</td><td>11.25（-14.5%）</td><td>9.28（-17.5%）</td><td>4.65（+3.6%）</td></tr><tr><td>ISG 收入占比 / 毛利率</td><td>16.0% / 48.7%</td><td>15.9% / 46.7%</td><td>15.5% / 15.1%</td><td>14.9% / 40.4%</td></tr><tr><td><strong>合计收入</strong></td><td>82.53</td><td>70.82</td><td>59.95</td><td>31.17</td></tr><tr><td><strong>合计毛利 / 毛利率</strong></td><td>38.84 / 47.1%</td><td>32.16 / 45.4%</td><td>19.84 / 33.1%</td><td>11.99 / 38.5%</td></tr></tbody></table></div>
+<p>注：FY2026 H1数据为截至2026年7月3日的六个月累计数据。</p>
+<ul>
+<li><strong>PSG（电源方案部）</strong>：FY2026 H1营收15.66亿美元，同比增长16.6%，是公司增长的主要引擎。增长动力来自AI数据中心对电源产品的强劲需求，以及汽车SiC业务的持续爬坡。毛利率为27.5%，同比大幅提升，主要得益于产能利用率提高和产品组合优化，但相较于其他部门仍偏低，反映其重资产制造属性。</li>
+<li><strong>AMG（模拟与混合信号部）</strong>：FY2026 H1营收10.86亿美元，同比微降3.2%，表现相对平稳。该部门是公司毛利率最高的部门，FY2026 H1毛利率达到53.5%，受益于向高毛利产品（如Treo平台产品）的混合转变。</li>
+<li><strong>ISG（智能感知部）</strong>：FY2026 H1营收4.65亿美元，同比增长3.6%。该部门毛利率在FY2025因大额过剩和呆滞库存费用而大幅下滑，但在FY2026 H1已恢复至40.4%，显示出业务正在正常化。</li>
+</ul>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托AI数据中心全电源树覆盖形成的系统级解决方案壁垒</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：这属于<strong>结构性护城河</strong>。公司是唯一一家能提供从高压电网级设备到低压核心处理器供电（wall-to-core）全系列电源半导体产品的美国供应商。这种全栈能力使其能为客户提供系统级解决方案，而非单一器件，增加了客户粘性和转换成本。</li>
+<li><strong>数据验证</strong>：公司Q2「其他」业务（含AI数据中心）营收环比增长34%，远超汽车和工业业务增速。公司已将2030年AI数据中心TAM从120亿美元大幅上调至约475亿美元，并预计2026年该业务营收翻倍以上，SiC部分增长约60%。单机柜内容价值从当前的1.5万美元增长至2030年的11.5万美元的预测，直接验证了其全电源树覆盖带来的价值量扩张。</li>
+<li><strong>动态演变</strong>：随着AI服务器功耗持续攀升并向800V高压直流架构演进，对高压、高效电源半导体的需求将呈指数级增长。公司凭借其先发优势和完整产品组合，护城河正在<strong>变宽</strong>。</li>
+</ul>
+<p><strong>竞争要素 2：依托垂直整合制造（IDM）与「Fab Right」战略形成的成本与供应韧性</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：这属于<strong>结构性护城河</strong>。在供应链安全日益重要的背景下，尤其是在汽车和工业市场，公司超过60%的制造为内部完成，这为其提供了更强的供应保障和成本控制能力。同时，「Fab Right」战略通过剥离低效资产、优化产能布局，系统性地改善了成本结构。</li>
+<li><strong>数据验证</strong>：公司已累计退出约9亿美元年化营收的非核心业务，并将晶圆厂产能降低约12%。近期出售的两家工厂预计每年可节省约3500万美元。Q2产能利用率提升至83%，带动毛利率环比扩张80个基点。管理层指引利用率每提升1个百分点，将带来25-30个基点的毛利率改善。</li>
+<li><strong>动态演变</strong>：随着「Fab Right」战略的持续推进和非核心业务剥离的完成，公司的制造网络将更加精简和高效。这一成本优势将随着营收规模的增长而进一步放大，护城河正在<strong>巩固</strong>。</li>
+</ul>
+<p><strong>现阶段核心驱动力总结</strong>：公司的Alpha来自其独特的AI数据中心全电源树覆盖能力，这使其成为AI算力基建的核心受益者，具备超越行业平均水平的增长潜力。其Beta则与全球汽车和工业市场的周期性复苏紧密相关。当前阶段，Alpha属性（AI数据中心驱动）正显著增强，成为公司业绩和估值的主要驱动力。</p>
+<p><strong>竞争格局传导逻辑</strong>：</p>
+<ul>
+<li>全栈电源树覆盖（从电网到核心）→ 提供系统级解决方案、增强客户粘性 → 获得AI数据中心高价值设计导入 → 营收增速超越同行（AI DC营收翻倍以上）</li>
+<li>IDM模式与「Fab Right」战略 → 优化成本结构、保障供应韧性 → 毛利率持续扩张（利用率提升+成本节约）</li>
+<li>两条链条共同指向：营收与EPS高增长；关键验证点是整合兑现与基本盘复苏（<span class="warn">若 AI 资本开支放缓或 SiC 价格战爆发，链条反向传导</span>）</li>
+</ul>
+
+<h3 class="doc-h2">产销链</h3>
+<ul>
+<li><strong>客户情况</strong>：公司采用分销与直销相结合的模式，FY2025分销商销售占比约54%。客户集中度较低，FY2025单一分销商客户占营收比例约11%。在AI数据中心领域，公司已扩大在NVIDIA MGX生态系统的供货，并赢得了AWS和中国长城等关键客户的电源平台项目。在汽车领域，公司在中国市场与吉利（极氪）、小米等领先EV制造商深度合作，并在北美进入Rivian R2平台。</li>
+<li><strong>供应商情况</strong>：公司采用IDM模式，内部制造占比超过60%，但仍有约34%的制造输入成本来自第三方承包商。公司正通过「Fab Right」战略优化内部产能，并出售非核心工厂。近期原材料和外协制造成本持续上升，是公司实施第二轮涨价的主要原因。</li>
+<li><strong>成本传导能力</strong>：当上游原材料或外协成本上升时，公司具备一定的成本转嫁能力，但存在时滞。Q2的提价基本被成本上涨所抵消，未对毛利率产生净提振。公司预计通过后续的涨价和内部效率提升来消化成本压力，表明其赚取的是「技术溢价+规模制造」的钱，而非单纯的周期资源钱。</li>
+</ul>
+
+<h3 class="doc-h2">财务数据</h3>
+<p><strong>关键财务数据（单位：亿美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>FY2026 H1</th></tr></thead><tbody><tr><td>截止日期</td><td>2023-12-31</td><td>2024-12-31</td><td>2025-12-31</td><td>2026-07-03</td></tr><tr><td><strong>营业总收入</strong></td><td>82.53</td><td>70.82</td><td>59.95</td><td>31.17</td></tr><tr><td>营收同比(%)</td><td>-0.88</td><td>-14.19</td><td>-15.35</td><td>+6.94</td></tr><tr><td>营业成本</td><td>43.70</td><td>38.66</td><td>40.12</td><td>19.17</td></tr><tr><td>毛利</td><td>38.84</td><td>32.16</td><td>19.84</td><td>11.99</td></tr><tr><td><strong>毛利率(%)</strong></td><td>47.06</td><td>45.41</td><td>33.09</td><td>38.48</td></tr><tr><td>营业利润</td><td>26.14</td><td>19.02</td><td>7.51</td><td>5.76</td></tr><tr><td>归母净利润</td><td>21.84</td><td>15.73</td><td>1.21</td><td>1.93</td></tr><tr><td>归母净利润同比(%)</td><td>+14.80</td><td>-27.98</td><td>-92.31</td><td>+161.24</td></tr><tr><td>基本每股收益(美元)</td><td>5.07</td><td>3.68</td><td>0.29</td><td>0.49</td></tr><tr><td>经营活动现金流</td><td>19.77</td><td>19.06</td><td>17.60</td><td>6.99</td></tr><tr><td>资本性支出</td><td>15.39</td><td>6.94</td><td>3.41</td><td>0.56</td></tr><tr><td><strong>自由现金流</strong></td><td>4.38</td><td>12.12</td><td><strong>14.19</strong></td><td>6.43</td></tr></tbody></table></div>
+<p><strong>财务分析</strong>：</p>
+<ul>
+<li><strong>成长能力</strong>：公司FY2023至FY2025营收连续两年下滑，主要受半导体下行周期、汽车和工业市场需求疲软及主动退出非核心业务影响。但FY2026 H1营收同比增长6.94%，标志着公司已重回增长轨道，主要由AI数据中心业务的强劲增长驱动。</li>
+<li><strong>盈利能力</strong>：毛利率在FY2025大幅下滑至33.09%，主要原因是产能利用率下降、过剩和呆滞库存费用以及产品组合恶化。但FY2026 H1毛利率已显著回升至38.48%，Q2单季Non-GAAP毛利率达39.3%，并指引Q3进一步提升至41%，盈利能力呈V型复苏态势。归母净利润在FY2025因高额重组和资产减值费用而大幅下滑，但在FY2026 H1已实现同比大幅扭亏。</li>
+<li><strong>运营能力</strong>：公司正通过「Fab Right」战略优化资产结构。资本性支出从FY2023的15.39亿美元大幅缩减至FY2025的3.41亿美元，资本开支占营收比重从19%降至约6%，并预计在FY2026低于5%。这驱动自由现金流在FY2025创下14.19亿美元的新高，自由现金流率达到23.7%。</li>
+<li><strong>偿债能力</strong>：公司于2026年5月发行了15亿美元的0%可转换票据，同时账上现金及短期投资约39亿美元，总流动性达54亿美元。净杠杆率远低于1倍，财务状况稳健。</li>
+</ul>
+
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p><strong>AI数据中心电源市场</strong>：这是一个由AI算力需求爆发驱动的高增长市场。随着GPU功耗和机架功率密度急剧上升，对高效、高功率密度的电源转换与分配方案需求激增。行业趋势是从传统的12V/48V架构向800V高压直流配电演进，以降低损耗。公司预计该市场TAM将从当前约120亿美元增长至2030年的约475亿美元，年复合增长率达72%。安森美凭借其覆盖全电源树的完整产品组合（SiC MOSFET/JFET、硅基电源管理IC、垂直GaN等），在该市场中定位独特，是少数能提供系统级方案的供应商。</p>
+<p><strong>汽车半导体市场</strong>：该市场的核心驱动力是汽车电气化和智能化带来的单车半导体含量提升。SiC功率器件在800V电动车平台中因其高效率优势而加速渗透。尽管全球汽车产量增长平缓，但公司通过提升单车价值量（尤其是SiC和Treo平台产品）实现了超越市场的增长。在中国市场，公司SiC份额领先，并持续获得新车型设计导入。</p>
+<p><strong>可比公司</strong>：</p>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>对标维度</th><th>分析</th></tr></thead><tbody><tr><td>英飞凌</td><td>IFX.DE</td><td>功率半导体</td><td>全球功率半导体龙头，在汽车和工业领域与安森美全面竞争，尤其在SiC领域投资激进。</td></tr><tr><td>意法半导体</td><td>STM.PA</td><td>汽车与工业半导体</td><td>在汽车MCU和SiC领域实力强劲，是特斯拉SiC的主要供应商，与安森美在电动车市场直接竞争。</td></tr><tr><td>德州仪器</td><td>TXN.O</td><td>模拟与嵌入式处理</td><td>全球模拟芯片巨头，产品组合广泛，在电源管理和信号链领域与安森美的AMG部门竞争。</td></tr><tr><td>Wolfspeed</td><td>WOLF.N</td><td>SiC衬底与器件</td><td>纯粹的SiC半导体公司，在衬底材料领域领先，但在器件端面临安森美等IDM的激烈竞争。</td></tr></tbody></table></div>
+<p><strong>总结分析</strong>：安森美在功率半导体领域面临来自英飞凌、意法半导体等欧洲IDM巨头的激烈竞争，在SiC领域则需应对Wolfspeed等专业厂商的挑战。其差异化优势在于：1）在AI数据中心领域，其全电源树覆盖能力是独特的，竞争对手多聚焦于单一环节；2）在汽车领域，其垂直整合的SiC制造能力和Treo平台带来的新产品扩展，构成了超越单纯器件销售的解决方案优势。然而，在模拟芯片领域，其规模和技术广度与德州仪器相比仍有差距。</p>
+
+<h3 class="doc-h2">市场焦点议题</h3>
+<ul>
+<li><strong>议题一：AI数据中心业务的增长质量与可持续性</strong>——<strong>背景</strong>：公司AI数据中心业务在2025年从几乎为零增长至约2.5亿美元，并预计2026年翻倍以上。该业务的爆发式增长是公司股价年初至今上涨近50%的核心驱动力。市场关注其增长是真实需求驱动，还是渠道囤货，以及未来增速是否会放缓。<strong>问题列表</strong>：1）AI数据中心营收的翻倍以上增长中，有多少来自真实终端消耗，多少来自客户为锁定供应而增加的库存？2）公司预计2030年TAM达475亿美元，其市占率目标是多少？如何应对竞争对手（如英飞凌、意法半导体）的追赶？3）800V DC架构的转换预计在2027年底至2028年初开始，这是否意味着2027年AI数据中心业务增速可能阶段性放缓？</li>
+<li><strong>议题二：毛利率恢复的路径与天花板</strong>——<strong>背景</strong>：公司毛利率从FY2024的45.4%大幅下滑至FY2025的33.1%，目前正处于修复通道中。管理层提出了53%的长期毛利率目标。市场关注其修复的节奏、驱动力以及最终能达到的水平。<strong>问题列表</strong>：1）产能利用率提升（当前83%）对毛利率的提振效应（每点25-30bps）何时能完全兑现？利用率恢复到90%以上需要多大规模的营收增长？2）第二轮涨价能否在下半年完全抵消原材料成本上涨的压力，从而对毛利率产生净正向贡献？3）退出非核心业务和「Fab Right」战略带来的成本节约（如每年3500万美元）能否如期实现，并对毛利率产生预期中的改善？</li>
+<li><strong>议题三：汽车与工业终端市场的真实需求状况</strong>——<strong>背景</strong>：公司汽车和工业业务在Q2表现平平，汽车环比下降2%，工业仅环比增长1%。市场担忧除去AI数据中心的光环，公司的传统核心业务是否仍面临需求逆风。<strong>问题列表</strong>：1）汽车业务Q2的环比下滑是否仅为欧洲的季节性因素，还是反映了更广泛的需求疲软？中国市场的强劲增长能否持续？2）工业业务中，能源基础设施和工厂自动化的增长何时能完全抵消传统工业的疲软？3）公司表示未看到客户建立库存，但交期延长和催单增加是否预示着未来存在补库存需求？</li>
+</ul>
+
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧：当前股价的上涨是主要由AI数据中心这一结构性增长故事的估值重塑驱动，还是其传统汽车和工业业务也即将迎来周期性复苏的共振？</strong></p>
+<ul>
+<li><strong>乐观方观点</strong>：认为安森美已不再是传统的周期股，而是深度嵌入了AI这一长期结构性增长趋势的成长股。其AI数据中心业务凭借独特的全电源树覆盖能力，具备高进入壁垒和长期增长空间，应享有更高的估值倍数。同时，汽车和工业业务也已触底，即将进入补库存周期，形成业绩的「双轮驱动」。公司「Fab Right」战略带来的利润率扩张将进一步放大盈利弹性。</li>
+<li><strong>谨慎方观点</strong>：认为AI数据中心业务当前占比仍不足10%，其高速增长尚不足以完全改变公司整体的周期属性。股价的大幅上涨已提前透支了未来几年的增长预期，当前估值（约25x Forward P/E）已处于历史高位。汽车和工业需求的复苏信号尚不明确，尤其是欧洲市场依然疲软。此外，SiC市场竞争加剧和成本压力可能侵蚀未来的盈利能力。</li>
+</ul>
+<p><strong>总结分析</strong>：当前市场对安森美的定价已从周期底部修复转向结构性成长。AI数据中心业务是这一转变的核心依据，其增长前景和战略卡位具备合理性。然而，该业务的长期增长轨迹和竞争格局仍存在不确定性。汽车和工业业务的周期性复苏是潜在的看涨期权，但其复苏的时点和力度尚需更多数据验证。公司能否在AI数据中心业务高增长的同时，成功实现传统业务的企稳回升，并兑现利润率扩张的承诺，将是决定其能否支撑当前估值的关键。</p>
+
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>管理层最新指引</strong>：公司预计FY2026 Q3营收为16.5亿至17.5亿美元，Non-GAAP毛利率为40%至42%，Non-GAAP每股收益为0.81至0.93美元。全年资本支出预计低于营收的5%。</p>
+<p><strong>券商盈利预测与估值</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价(美元)</th><th>财务指标</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>摩根大通 (2026-08-04)</td><td>中性</td><td>-</td><td>营收(百万美元)<br>调整后EPS(美元)</td><td>5,995<br>2.35</td><td>6,570<br>3.24</td><td>7,560<br>4.63</td><td>8,594<br>5.96</td></tr><tr><td>花旗 (2026-08-04)</td><td>中性</td><td>98</td><td>营收(百万美元)<br>调整后EPS(美元)</td><td>5,995<br>2.34</td><td>6,542<br>3.14</td><td>7,675<br>4.65</td><td>8,650<br>6.10</td></tr><tr><td>高盛 (2026-08-04)</td><td>中性</td><td>95</td><td>营收(百万美元)<br>调整后EPS(美元)</td><td>5,995<br>2.35</td><td>6,628<br>3.30</td><td>7,552<br>4.60</td><td>8,163<br>5.60</td></tr><tr><td>摩根士丹利 (2026-08-04)</td><td>未评级</td><td>-</td><td>营收(百万美元)<br>调整后EPS(美元)</td><td>5,995<br>2.35</td><td>6,566<br>3.19</td><td>7,551<br>4.42</td><td>-<br>-</td></tr></tbody></table></div>
+<p><strong>盈利预期与估值分析</strong>：主要券商对安森美FY2026和FY2027年的营收和EPS预测较为一致，均反映了对公司重回增长轨道并实现利润率扩张的预期。基于FY2026年EPS预期，公司当前股价对应约25倍Forward P/E。花旗和高盛给出的目标价分别为98美元和95美元，基于约16-20倍FY2028年EPS预期，显示在当前估值水平上，上行空间需要由未来两年的业绩高增长来兑现。市场对公司长期盈利能力的预期已较为充分。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/ON · 生成于 2026-08-07</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-07';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'hit',     text: '<strong>FY26Q2 业绩会：AI 数据中心 2026 展望上调至「翻倍以上」（&gt;5 亿美元）、产能利用率 83%、毛利率 39.3% 环比 +80bp</strong>，Q3 毛利率指引中值 41%', note: '2026-08 业绩会披露' },
+  { kind: 'cat', status: 'pending', text: '<strong>Synaptics 并购 HSR 审查等待期结束</strong>（2026-08-17）：全股票交易、企业价值约 70 亿美元，预计 2027 年中完成', note: '审查结果影响交易时间表与确定性' },
+  { kind: 'cat', status: 'pending', text: '<strong>分析师日</strong>（2026-09-16，纽约）：长期财务模型、AI 数据中心增长路径与内容价值框架——近期最重要催化剂', note: '' },
+  { kind: 'cat', status: 'pending', text: '<strong>FY26Q3 财报</strong>（2026-10 底至 11 月初）：营收指引 16.5-17.5 亿美元、Non-GAAP 毛利率 40-42%、EPS 0.81-0.93 美元', note: '' },
+  { kind: 'cat', status: 'active',  text: '<strong>毛利率扩张路径验证</strong>：第二轮涨价生效 + 利用率效应滞后两季在 Q4 充分体现，Q4 毛利率能否站上 42%+', note: 'Q3 指引 41% 为中考' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>AI 数据中心增长质量不及预期</strong>：渠道锁供囤货而非真实需求，或 800V 架构切换（2027 年底-2028 年初）造成 2027 年增速空窗', note: '逐季核对增长构成与库存表述' },
+  { kind: 'risk', status: 'clear', text: '<strong>汽车/工业基本盘复苏落空</strong>：Q2 汽车环比 -2%、工业环比 +1%，若 Q3-Q4 仍无法环比转正，FY2027E 盈利预测体系面临下修', note: '欧洲仍弱，中国是唯一亮点' },
+  { kind: 'risk', status: 'clear', text: '<strong>SiC 阶段性供过于求与价格战</strong>：中国本土产能扩张 + 同业大厂扩产，ASP 下行击穿毛利率修复', note: 'TechInsights 供过于求预警；观察涨价执行与锁供订单' },
+  { kind: 'risk', status: 'clear', text: '<strong>Synaptics 收购整合与稀释风险</strong>：全股票交易 EV 约 70 亿美元，2027 年中完成，边缘 AI 协同尚处叙事阶段', note: '' },
+  { kind: 'risk', status: 'clear', text: '<strong>估值回调</strong>：约 25x 前瞻倍数（估算）已定价乐观预期，AI 资本开支放缓将触发倍数与盈利双杀', note: '股价年内已 +约 50%' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

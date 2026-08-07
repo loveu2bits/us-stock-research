@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>福特（F.N）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--policy-red); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">F</span>
+    <span class="site-mark__text">福特公司研究<span>Ford · F.N</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>福特<span class="en">Ford · F.N · 美股研究</span></h1>
+        <p class="sub">福特正处在「短期盈利修复高确定性」与「长期转型未兑现」的十字路口：2Q26 调整后 EBIT 25 亿美元（同比 +17%）超预期，全年指引上调至 100-110 亿美元；压制 2025 年利润的铝供应中断将在 2H26 消退，F 系列产量环比增约 30%，叠加向越野/大型车的产品组合升级，下半年修复是汽车板块少见的「明牌」。但批发销量同比 -12% 提示终端需求走弱、Model e 仍年亏约 40 亿美元、约 7.5 倍 FY2026E 调整后 PE（估算）并未提供周期股低谷级的便宜——我们给出「持有」：估值不贵、股息率约 4%（估算）托底，升级到买入需要需求端数据企稳与 Ford Pro 利润率回到 10%+ 的双重验证。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-07</span>
+          <span>下次更新：3Q26 财报（2026-10）/ Oakville Super Duty 投产（2026-4Q）/ 特别股息决定（2026-4Q）</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>约 7.5x FY2026E 调整后 PE（按约 14 美元现价估算，券商预测反推）；三情景期望值约 +9%（价格口径），叠加约 4% 股息率（估算）总回报约 13%，赔率约 1.3:1；核心逻辑是 2H26 铝供应恢复 + 组合升级的盈利修复，但周期后段需求风险与 Model e 亏损限制上行。重检条件：批发降幅连续两个季度扩大或 Ford Pro 利润率 2027 年无法回 10%+ 则下调；特别股息落地、BESS 新大单且需求企稳则上调。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">EBIT $25亿</strong><span>2Q26 调整后·同比 +17%·超预期</span></div>
+      <div class="summary-rail__item"><strong>$100-110亿</strong><span>2026 调整后 EBIT 指引·中点上调 10 亿</span></div>
+      <div class="summary-rail__item"><strong>160万</strong><span>付费订阅数·同比约 +50%</span></div>
+      <div class="summary-rail__item"><strong>-$40亿</strong><span>Model e 2026 亏损指引·含约 10 亿 UEV/BESS 投入</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">Ford Pro 利润引擎：周期性顶点还是结构性护城河？</h2>
+        <span class="qa__impact-tag">→ Pro 占集团 1H26 调整后 EBIT 约 57%</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>Ford Pro 的护城河是<strong>结构性的</strong>：它卖的不是车，而是「硬件 + 软件 + 服务」集成的车队运营系统——Ford Pro Intelligence 付费订阅超 <strong>90 万</strong>（同比 +20%+），车队客户一旦把运营流程嵌入远程信息处理与预测性维护平台，转换成本极高。1H26 利润率从 12.3% 降至 <strong>9.7%</strong> 主要是铝供应中断的供应链问题，而非需求或竞争问题。<em>保留判断：若供应正常化后（2027 年）利润率仍无法回到 10%+，性质就变了——那将是定价权被通用/Ram 侵蚀的证据，护城河叙事需要重写。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>Pro 是福特最大单一利润源。</strong>1H26 Pro EBIT <strong>34.03 亿美元</strong>，占集团调整后 EBIT（59.88 亿）约 <strong>57%</strong>；按 Pro 年化收入约 700 亿美元计，利润率每变动 1pp ≈ 7 亿美元 EBIT ≈ 调整后 EPS <strong>约 0.13 美元（估算）</strong>——Pro 利润率能否回 10-13% 直接决定 FY2027 EPS 是落在 1.86 还是 2.30 美元。</p>
+            <p>对估值的作用走<strong>倍数渠道</strong>：软件订阅（高利润、经常性）占比每提升一步，Pro 的盈利就越脱离纯卖车的周期属性。若市场开始按「商用车平台 + 软件订阅」而非「周期车企」给 Pro 定价，是福特整体估值脱离 8-9 倍周期框架的唯一路径。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>订阅数逆势增长：铝供应中断导致车辆交付受阻期间，软件与物理服务收入<strong>仍在增长</strong>——粘性与抗周期性得到实战验证</li>
+              <li>Ford Pro Intelligence 付费订阅超 <strong>90 万</strong>（同比 +20%+），总付费订阅 160 万（同比约 +50%），经常性收入占比持续提升</li>
+              <li>Oakville 新增 <strong>10 万辆</strong> Super Duty 年产能 4Q26 投产，直接满足积压的刚性商用需求；2027 款车型早期签约进度<strong>比去年同期快约一个月</strong></li>
+              <li>管理层重申软件及物理服务年复合增速约 <strong>8%</strong>，是利润率扩张的关键驱动力</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>2Q26 Pro EBIT 同比 <strong>-26%</strong>、利润率 12.3%→9.7%——无论原因如何，利润引擎已经先降速，2024 年 13.5% 的峰值可能是本轮顶点</li>
+              <li>通用、Ram 均在加大商用车投放与产能扩张，<strong>商用车市场的竞争正在加剧</strong>，定价权并非理所当然</li>
+              <li>Pro 的景气与美国企业资本开支、物流活动高度绑定，其「抗周期性」<strong>尚未经过真正衰退的检验</strong></li>
+              <li>软件订阅 ARPU 相对卖车收入仍是小体量，<strong>短期无法对冲整车销售的周期波动</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（业务拆分 · Pro 关键数据）</summary>
+          <div class="evidence__body">
+            <h5>细分业务拆分（单位：亿美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>业务板块</th><th>FY2024 收入</th><th>FY2024 EBIT</th><th>EBIT率</th><th>FY2025 收入</th><th>FY2025 EBIT</th><th>EBIT率</th><th>1H26 收入</th><th>1H26 EBIT</th><th>EBIT率</th></tr></thead><tbody><tr><td>Ford Blue（燃油及混动）</td><td>1,019.00</td><td>51.00</td><td>5.0%</td><td>1,019.00</td><td>30.24</td><td>3.0%</td><td>521.00</td><td>30.77</td><td><strong>5.9%</strong></td></tr><tr><td>Ford Model e（电动车/软件/能源）</td><td>62.00</td><td>-47.00</td><td>-75.8%</td><td>58.00</td><td>-48.06</td><td>-82.9%</td><td>20.00</td><td>-16.96</td><td>-84.8%</td></tr><tr><td><strong>Ford Pro（商用及车队）</strong></td><td>667.00</td><td><strong>90.00</strong></td><td><strong>13.5%</strong></td><td>663.00</td><td>68.43</td><td>10.3%</td><td>350.00</td><td><strong>34.03</strong></td><td><strong>9.7%</strong></td></tr><tr><td>Ford Credit（金融）</td><td>137.00</td><td>17.00</td><td>—</td><td>138.32</td><td>25.57</td><td>—</td><td>68.00</td><td>15.40</td><td>—</td></tr><tr><td><strong>公司总计（EBIT 为调整后）</strong></td><td><strong>1,849.92</strong></td><td><strong>102.08</strong></td><td><strong>5.5%</strong></td><td><strong>1,872.67</strong></td><td><strong>67.80</strong></td><td><strong>3.6%</strong></td><td><strong>915.49</strong></td><td><strong>59.88</strong></td><td><strong>6.5%</strong></td></tr></tbody></table></div>
+            <p>注：FY2025 整体利润率承压主要受铝供应中断、大宗商品成本与保修费用影响；1H26 修复至 6.5%。Pro 以约 38% 的集团收入贡献约 57% 的调整后 EBIT（1H26），Blue 与 Credit 各贡献约 51% 与 26%，Model e 为主要拖累项。</p>
+            <h5>Ford Pro 关键数据</h5>
+            <ul>
+              <li><strong>2Q26</strong>：EBIT 同比 -26%，利润率 9.7%（上年同期 12.3%），主因铝供应中断导致车辆交付受阻</li>
+              <li><strong>软件</strong>：Ford Pro Intelligence 付费订阅超 90 万（同比 +20%+）；集团总付费订阅 160 万（同比约 +50%）；软件及物理服务年复合增速指引约 8%</li>
+              <li><strong>产能</strong>：Oakville 工厂新增 10 万辆 Super Duty 年产能，4Q26 投产；2027 款车型早期签约进度比去年同期快约一个月</li>
+              <li><strong>护城河机制</strong>：远程信息处理 + 预测性维护 + 充电管理 + 支付结算的集成生态 → 车队客户转换的金钱、时间与运营风险成本极高</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">2H26 盈利修复：「确定性交易」的弹性有多大？</h2>
+        <span class="qa__impact-tag">→ 指引中点 $105亿 vs 市场共识约 $96亿</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>修复路径罕见地清晰：Novelis 铝厂 4Q26 接近满产，<strong>2H26 F 系列产量环比增约 30%</strong>，2025 年高达 <strong>15-20 亿美元</strong>的替代采购成本消退，叠加 Oakville Super Duty 新产能投产——下半年是「量增 + 成本降 + 组合升级」三重释放。管理层已将全年调整后 EBIT 指引上调至 <strong>100-110 亿美元</strong>，而市场共识仅约 <strong>96 亿美元</strong>，指引兑现即意味着 EPS 上修。<em>保留判断：管理层同时给出「2H26 EBIT（剔除 1Q26 一次性 IEEPA 收益）与 1H26 基本持平」的保守表述，若照此解读上行空间有限；真实弹性取决于 F 系列批发恢复节奏，8-10 月月度产量数据是第一个验证窗口。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这是当前 EPS 预期的主要分歧所在。</strong>券商 FY2026E 调整后 EPS 区间 1.69-1.90 美元，上下限的差异正是对下半年修复幅度的不同假设；按约 40 亿股计，每 10 亿美元 EBIT 增量 ≈ 调整后 EPS <strong>约 0.15-0.18 美元（估算）</strong>。若全年 EBIT 达指引中点 105 亿（vs 共识 96 亿），隐含 EPS 上修约 0.15 美元，对应现价（估算）约 8% 的盈利上修空间。</p>
+            <p>定价权数据支持「组合升级是结构性的」：2Q26 批发销量同比 <strong>-12%</strong> 但收入仅降 <strong>4%</strong>、EBIT 反而 <strong>+17%</strong>；管理层将全年行业定价假设从持平上调至 <strong>+0.5%</strong>，越野车型已占美国销量 25%。此外 J.D. Power 2026 主流品牌质量第一（2010 年以来首次）预示<strong>保修成本趋势性下降</strong>——这是尚未被定价的中期利润弹性（2025 年保修费用曾是利润率杀手之一）。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>修复是<strong>供给侧驱动</strong>（铝产能恢复），不依赖宏观需求转好——被压抑的批发销量集中释放，确定性高于一般周期逻辑</li>
+              <li>共识 96 亿 <strong>低于指引中点 105 亿</strong>，卖方尚未充分计入修复斜率，构成业绩持续超预期的窗口</li>
+              <li>产品组合向越野/V8/大型 SUV 迁移 + 监管放松（排放标准放宽），高利润内燃机产品<strong>可更自由地销售</strong></li>
+              <li>主动削减低利润租赁、优化残值管理，2Q26 美国零售库存 <strong>52 天</strong>（低于 55-65 天目标区间），渠道健康</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>批发销量同比 <strong>-12%</strong> 是真实的需求信号——美国新车均价与贷款利率处于历史高位，消费者承受能力在恶化</li>
+              <li>「2H EBIT 与 1H 基本持平」的管理层表述若兑现，全年仅约指引下限，<strong>共识其实并不低</strong></li>
+              <li>1Q26 含一次性 IEEPA 收益，<strong>下半年同比基数并不友好</strong>，报表端的「增长」可能不如体感强劲</li>
+              <li>历史上福特多次在周期顶峰加大投入、低谷期陷入困境——当前 SAAR 1600-1650 万辆的景气位置<strong>更接近周期顶部而非起点</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（供应中断影响与恢复时间线 · 价量拆解）</summary>
+          <div class="evidence__body">
+            <h5>铝供应中断的影响与恢复时间线</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>时间</th><th>事件</th><th>财务影响</th></tr></thead><tbody><tr><td>2025</td><td>铝供应商 Novelis 工厂火灾，F 系列皮卡产量受损</td><td>产量损失 + 全年约 <strong>15-20 亿美元</strong>替代采购成本；FY2025 调整后 EBIT 降至 67.80 亿（2024 年 102.08 亿）</td></tr><tr><td>1H26</td><td>定价与产品组合改善先行生效</td><td>Ford Blue EBIT 率回升至 <strong>5.9%</strong>（2025 年 3.0%）；集团毛利率 15.32%（2025 年 6.84%）</td></tr><tr><td>2H26</td><td>F 系列产量环比 <strong>+约 30%</strong>（花旗测算）；被压抑批发集中释放</td><td>Ford Blue 与 Ford Pro 利润率直接受益</td></tr><tr><td>4Q26</td><td>Novelis 接近满产；Oakville 新增 10 万辆 Super Duty 产能投产</td><td>临时性成本消退 + 2027 年增量产能落位</td></tr><tr><td>2027</td><td>Super Duty 全年产能释放</td><td>管理层初步展望「利好利空平衡」：Novelis 成本消失 + 持续降本 vs IEEPA 一次性收益消失 + UEV/BESS 上市投入</td></tr></tbody></table></div>
+            <h5>2Q26 价量拆解：组合升级的证据</h5>
+            <ul>
+              <li><strong>量</strong>：批发销量同比 -12%（车型换代 + 主动削减低利润租赁）</li>
+              <li><strong>价/组合</strong>：收入仅同比 -4%，调整后 EBIT 同比 <strong>+17%</strong> 至 25 亿美元（超预期约 4 亿）；调整后 EPS 0.42 美元（超预期 0.06）</li>
+              <li><strong>定价假设</strong>：管理层将全年行业定价假设从持平上调至 +0.5%；越野车型占美国销量 25%</li>
+              <li><strong>质量信号</strong>：J.D. Power 2026 IQS 主流品牌第一（2010 年以来首次），预示保修成本下降——2025 年保修费用增加曾是毛利率从 14.35% 跌至 6.84% 的原因之一</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">Model e 亏损与 BESS 期权：窟窿何时收窄，期权何时兑现？</h2>
+        <span class="qa__impact-tag">→ 年亏约 $40亿 vs UBS 测算 BESS 2030 年 EPS +$0.13</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>电动车业务已是「止血中但未痊愈」：Model e 1H26 亏损 16.96 亿美元、同比收窄，2026 全年亏损指引约 <strong>40 亿美元</strong>（含约 10 亿对 UEV 平台与 BESS 的增量投入）。真正的拐点押注在 <strong>UEV 平台</strong>（2027 年交付、起售价约 3 万美元、自研区域化电气架构 + 软件）——成则摆脱「硬件组装厂」标签，败则电动化战略进一步收缩（2025 年处置 BlueOval SK 电池合资、计提约 200 亿美元费用已是务实收缩的先例）。<strong>BESS（福特能源）是最现实的新期权</strong>：EDF 框架协议（2028 年起每年最多 4GWh、五年合计约 20GWh）+ 肯塔基 20GWh 产能（可扩至 40GWh）+ CATL 技术许可与 IRA 补贴下的成本优势。<em>保留判断：PTC 补贴 2030 年起退坡，BESS 的优势窗口有限，与特斯拉、韩系电池厂的竞争才刚开始——这是一张「有到期日的期权」。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>Model e 减亏是福特利润表上最大的单一弹性。</strong>按 2026 年亏损 40 亿美元计，每收窄 10 亿 ≈ 调整后 EPS <strong>+约 0.18 美元（估算）</strong>，效果相当于 Pro 利润率提升 0.7-0.8pp——且减亏路径（一代电动车降本、产量调整）已在 1H26 初步见效。</p>
+            <p>BESS 当前对 EPS 贡献接近于零，UBS 测算 2030 年贡献约 <strong>0.13 美元 EPS</strong>；其估值意义在于叙事——一旦下半年落地新大客户（数据中心/公用事业），市场将开始提前定价这张期权，而当前约 7.5 倍 PE（估算）里几乎没有计入。国防业务（Super Duty 军用原型车合同）体量小，但「国防供应商」标签可能触发估值体系的部分重塑。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>2025 年处置 BlueOval SK、计提约 200 亿美元费用，标志<strong>从激进电动化转向资本纪律</strong>——最贵的一次性学费已经交过</li>
+              <li>BESS 卡位精准：AI 数据中心 + 电网储能需求爆发，瑞银预测 2030 年美国市场约 <strong>200GWh</strong>；福特本土 LFP 产能 + IRA 资格（PTC 约 45 美元/kWh）构成合规与成本双重壁垒</li>
+              <li>瑞银测算 PTC 下电芯成本约 <strong>26 美元/kWh</strong>、系统约 176 美元/kWh，具备竞争力；EDF 之外正与更广泛客户（含数据中心）深入谈判</li>
+              <li>UEV 平台若达成 3 万美元起售 + 软件订阅规模化，利润率有<strong>从个位数向双位数跃升</strong>的空间——这是长期估值天花板的决定变量</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>Model e 仍年亏约 <strong>40 亿美元</strong>且收入萎缩（1H26 收入仅 20 亿），每年吞噬集团约三分之一的调整后利润——减亏不等于盈利，转正遥遥无期</li>
+              <li>UEV 2027 交付面临<strong>量产、成本控制、软件质量、消费者接受度</strong>四重不确定性；软件智能化上特斯拉与中国车企的领先是实质性的</li>
+              <li>BESS 远水难解近渴：EDF 交付 2028 年才开始，且依赖 IRA 政策稳定性——<strong>PTC 2030 年退坡</strong>后优势可能收窄</li>
+              <li>储能市场竞争格局未定但强敌环伺（特斯拉领跑、韩系电池厂扩产），福特缺乏品牌之外的<strong>已验证规模交付记录</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（Model e 亏损路径 · BESS 里程碑）</summary>
+          <div class="evidence__body">
+            <h5>Model e 亏损路径（单位：亿美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>FY2024</th><th>FY2025</th><th>1H26</th><th>FY2026 指引</th></tr></thead><tbody><tr><td>收入</td><td>62.00</td><td>58.00</td><td>20.00</td><td>—</td></tr><tr><td>EBIT</td><td>-47.00</td><td>-48.06</td><td><strong>-16.96</strong>（同比收窄）</td><td><strong>约 -40</strong></td></tr><tr><td>EBIT 率</td><td>-75.8%</td><td>-82.9%</td><td>-84.8%</td><td>—</td></tr></tbody></table></div>
+            <p>注：2026 年亏损指引约 40 亿美元中含约 10 亿美元对 UEV 平台与 BESS 的增量投资；改善来自第一代电动车成本削减与产量调整。2025 年底处置 BlueOval SK 电池合资计提约 200 亿美元会计费用（其中现金支出约 55 亿美元），导致 FY2025 归母净利润 -81.82 亿美元。</p>
+            <h5>BESS（福特能源）关键里程碑</h5>
+            <ul>
+              <li><strong>2026-05-18</strong>：与 EDF Power Solutions 签署五年框架协议，2028 年起每年最多采购 <strong>4GWh</strong> DC Block 储能系统（合计约 20GWh），用于美国电网级项目</li>
+              <li><strong>产能</strong>：肯塔基工厂 20GWh，有潜力扩至 <strong>40GWh</strong>；正与更广泛客户（可能包括数据中心）深入谈判</li>
+              <li><strong>成本优势</strong>：CATL 技术许可 + IRA 生产税收抵免（PTC 约 45 美元/kWh）；瑞银测算 PTC 下电芯成本约 26 美元/kWh、系统总成本约 176 美元/kWh</li>
+              <li><strong>空间测算</strong>：瑞银预测 2030 年美国 BESS 市场约 200GWh，BESS 业务 2030 年可贡献约 <strong>0.13 美元 EPS</strong>；长期目标「年收入超 40 亿美元、利润率超 10%」</li>
+              <li><strong>风险边界</strong>：PTC 2030 年开始退坡；竞争将转向品牌、服务与系统集成能力</li>
+              <li><strong>国防</strong>：已与美国国防部签订基于 Super Duty 的军用原型车合同，短期体量小</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 4 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">4</span>
+        <h2 class="qa__title">估值与资本回报：8 倍 PE 定价了什么？特别股息是不是催化剂？</h2>
+        <span class="qa__impact-tag">→ 约 7.5x FY2026E 调整后 PE（估算）· 股息率约 4%（估算）</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>按券商目标价与盈利预测反推，现价（约 14 美元，估算）对应约 <strong>7.5x FY2026E、约 7x FY2027E 调整后 EPS</strong>；券商目标倍数 8-9 倍是周期车企的常态区间——福特既非显著低估也非高估，估值空间主要靠「盈利兑现 + 资本回报」打开。常规股息年化约 0.60 美元（估算），对应股息率约 <strong>4%</strong>（估算）；管理层承诺将 <strong>40%-50% 的自由现金流</strong>回报股东，2026 年 FCF 指引 60-70 亿美元，市场普遍预期 4Q26 宣布<strong>特别股息</strong>。资本结构是双刃剑：1H26 末现金 186 亿美元、总流动性 434 亿美元提供缓冲，但 Ford Credit 金融业务高杠杆与 95-105 亿美元年度资本开支，决定了股东回报的上限。<em>三情景期望值约 +9%（价格口径）、赔率约 1.3:1，叠加股息总回报约 13%/年——正收益但不极端，对应「持有」。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>分歧不在 EPS 方向，而在倍数与尾部风险。</strong>五家券商 FY2026E 调整后 EPS 集中在 1.69-1.90 美元、FY2027E 1.86-2.10 美元，均预计盈利逐年抬升；目标价 15-20 美元的分布本身就是分歧的量化——看空的摩根士丹利（15 美元）与看多的花旗（20 美元）相差 33%。市场共识 2026 调整后 EBIT 约 <strong>96 亿美元</strong>低于指引中点 105 亿，说明即便 2Q 超预期后，卖方对指引可实现性仍存疑虑——<strong>这既是折价的来源，也是上修的来源</strong>。</p>
+            <p>倍数端：8-9 倍目标 PE 隐含的是「周期股常态」定价，福特若想让市场给 10 倍以上，必须证明 Ford Pro 的软件化与 BESS 的成长性——两者目前都未兑现到报表。在此之前，估值的下行靠约 4% 股息率（估算）与回购/特别股息托底，上行靠每个催化剂逐一兑现。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>花旗（20）、摩根大通（17）、瑞银（17）均为买入/超配：盈利上修 + BESS 期权价值，瑞银/花旗在估值中<strong>计入了 BESS 期权</strong>，认为应享更高倍数</li>
+              <li>FY2025 经营现金流 212.82 亿、FCF 124.67 亿；2026 FCF 指引 60-70 亿，40-50% 分配政策下<strong>特别股息概率高</strong>——真金白银的催化</li>
+              <li>约 7.5x PE + 约 4% 股息率（均估算），下行有现金流与资产价值托底，<strong>持有成本接近于零</strong></li>
+              <li>盈利预测仍在上修通道：2Q 超预期 + 指引上调 10 亿，若 3Q 再度超预期，共识 EBIT 向 105 亿靠拢将直接推动目标价上移</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>高盛（中性 16）、摩根士丹利（均配 15）强调<strong>竞争与转型风险</strong>：周期后段的便宜可以是常态而非错杀——汽车股长期就在 8 倍附近</li>
+              <li>批发 -12% + 新车均价与贷款利率历史高位，<strong>需求下行风险尚未在盈利预测中充分体现</strong>；若 2027 年 EBIT 回落，8 倍 PE 的「安全垫」会瞬间变薄</li>
+              <li>资本开支 95-105 亿美元高企（UEV/BESS 投入期），FCF 转化效率低于表面，<strong>特别股息发完之后的持续性存疑</strong></li>
+              <li>关税与 USMCA 规则变化、DRAM 供应紧张等<strong>外生变量</strong>随时可能打断修复节奏（1Q26 的 IEEPA 一次性收益在 2027 年消失即是基数陷阱）</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（三情景测算 · 券商预测 · 流动性）</summary>
+          <div class="evidence__body">
+            <h5>三情景假设（FY2027 视角，以估算现价约 14 美元为基准；现价与倍数为估算）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>FY2027E 调整后 EPS</th><th>合理 PE</th><th>隐含股价</th><th>vs 当前</th></tr></thead><tbody><tr><td>乐观（25%）</td><td>Pro 利润率回 13%、BESS 新大单落地、特别股息发放、需求软着陆</td><td>~2.30（券商预测上沿）</td><td>9x</td><td>~21</td><td>+48%</td></tr><tr><td>中性（50%）</td><td>铝供应如期恢复、指引兑现、需求温和走弱但不失速</td><td>~1.95（共识）</td><td>8x</td><td>~15.5</td><td>+11%</td></tr><tr><td>悲观（25%）</td><td>价格战 + 周期下行，批发持续走弱，UEV 投入加大</td><td>~1.50</td><td>6x</td><td>~9</td><td>-36%</td></tr></tbody></table></div>
+            <p><strong>期望值约 15.2 美元，较估算现价约 +9%；赔率约 1.3:1（+48% / -36%）。</strong>叠加约 4% 股息率（估算），总期望回报约 13%/年——正收益但对承担周期尾部风险而言补偿不算丰厚，这是「持有」而非「买入」的量化依据。悲观情景的 -36% 并非尾部极端情形，历史上汽车股在衰退期的回撤普遍更深。</p>
+            <h5>券商盈利预测与目标价（调整后 EPS，美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级 / 目标价</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>花旗（2026-07-29）</td><td>买入 / $20</td><td>1.09</td><td>1.90</td><td>2.10</td><td>2.30</td></tr><tr><td>摩根大通（2026-07-29）</td><td>超配 / $17</td><td>1.09</td><td>1.87</td><td>1.95</td><td>2.00</td></tr><tr><td>高盛（2026-08-03）</td><td>中性 / $16</td><td>1.09</td><td>1.90</td><td>2.00</td><td>2.10</td></tr><tr><td>摩根士丹利（2026-07-29）</td><td>均配 / $15</td><td>1.09</td><td>1.79</td><td>1.86</td><td>2.15</td></tr><tr><td>瑞银（2026-07-30）</td><td>买入 / $17</td><td>1.09</td><td>1.69</td><td>1.95</td><td>2.13</td></tr></tbody></table></div>
+            <p>注：五家机构 FY2026E EPS 区间 1.69-1.90，差异主要来自对 2H26 利润率修复斜率的假设；市场一致预期 2026 调整后 EBIT 约 96 亿美元，低于公司指引中点 105 亿。瑞银/花旗的目标价计入了 BESS 业务期权价值。</p>
+            <h5>流动性与股东回报框架</h5>
+            <ul>
+              <li><strong>流动性</strong>：1H26 末现金 186.03 亿美元，总流动性 434 亿美元；FY2025 经营现金流 212.82 亿、FCF 124.67 亿（受营运资金积极变化推升）</li>
+              <li><strong>2026 指引</strong>：调整后 FCF 60-70 亿美元；资本开支 95-105 亿美元</li>
+              <li><strong>分配政策</strong>：承诺将 40%-50% 的 FCF 回报股东；常规股息年化约 0.60 美元（估算）；市场存在 4Q26 特别股息预期</li>
+              <li><strong>杠杆提示</strong>：Ford Credit 汽车金融业务天然高杠杆，叠加转型期资本开支，股东回报的可持续性依赖 FCF 指引兑现</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>：公司概况、近况跟踪、业务拆分、财务数据、券商预测（见同目录《福特_一页通.md》，亦见本站「一页通」标签页），一页通数据日期 2026-08-06</li>
+        <li><strong>财务数据</strong>：FY2023-1H2026 利润表与现金流、2026 年管理层指引、分部 EBIT 拆分（正文数据均来自公开财报整理）</li>
+        <li><strong>局限</strong>：未读财报原文与电话会纪要（建议下一步补读 2Q26 earnings call 中关于 2H EBIT 表述与特别股息的措辞）；现价（约 14 美元）与前瞻 PE 为按券商目标价与盈利预测反推的估算值，精确值以行情为准；FY2025 GAAP 归母净利润 -81.82 亿美元主要受 BlueOval SK 处置约 200 亿美元一次性非现金费用影响，GAAP 与调整后口径差异极大，跨期比较必须用调整后口径；常规股息年化为估算值；本研究未单独建模 Ford Credit 的信贷周期风险</li>
+        <li><strong>管理层评估（一句话版）</strong>：Jim Farley 团队 2025 年果断处置 BlueOval SK（约 200 亿美元一次性费用）展现了资本纪律从「规模优先」转向「回报优先」，2Q26 超预期与指引上调是转型务实化的第一份成绩单——执行信誉在恢复，但 UEV 平台 2027 年交付与 BESS 商业化才是真正的期末大考</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>福特汽车是一家总部位于美国密歇根州的全球化汽车制造商，业务涵盖设计、制造、销售及服务全系列福特品牌卡车、多功能车、轿车及林肯品牌豪华车。公司通过 <strong>Ford Blue（燃油及混动车）、Ford Model e（电动车及软件）、Ford Pro（商用及车队业务）</strong> 三大业务板块运营，并拥有提供汽车金融服务的子公司Ford Credit。福特是美国市场的皮卡和商用车领导者，F系列皮卡已连续多年蝉联全美最畅销车型。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul>
+<li><strong>2Q26业绩超预期并上调全年指引</strong>：公司2Q26实现调整后EBIT <strong>25亿美元</strong>，同比增长17%，高于市场一致预期的约21亿美元。调整后EPS为 <strong>0.42美元</strong>，超一致预期0.06美元。管理层将2026全年调整后EBIT指引中点上调 <strong>10亿美元</strong> 至 <strong>100亿-110亿美元</strong>，主要受强劲的定价和产品组合驱动。</li>
+<li><strong>F系列及Super Duty产能恢复在即</strong>：因2025年铝供应商Novelis火灾导致的F系列皮卡产量损失正在恢复。管理层指引2H26 F系列产量将环比大幅增长约30%，且加拿大Oakville工厂新增 <strong>10万辆</strong> Super Duty年产能将于4Q26投产，为2027年提供增量。</li>
+<li><strong>软件及服务订阅量高速增长</strong>：2Q26总付费订阅量同比增长约50%至 <strong>160万个</strong>，其中高利润的Ford Pro Intelligence付费订阅超90万，同比增长超20%。管理层重申软件及物理服务业务年复合增速约8%，是利润率扩张的关键驱动力。</li>
+<li><strong>电池储能业务（BESS）取得早期进展</strong>：公司已与EDF Power Solutions签署框架协议，后者可在2028年起每年采购最多4GWh储能系统。管理层表示正与更广泛的客户（可能包括数据中心）进行深入谈判，并指出肯塔基工厂20GWh产能有潜力扩至40GWh。</li>
+<li><strong>欧洲业务战略调整</strong>：福特与吉利汽车达成协议，将在西班牙瓦伦西亚工厂成立合资公司（福特持股66%），共享产能生产面向欧洲市场的多能源车型，首款新车计划于2028年下线，旨在降低欧洲制造成本并应对竞争。</li>
+</ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol>
+<li><strong>2H26盈利强修复的确定性交易</strong>：2025年因铝供应商火灾损失的F系列产量及产生的 <strong>15-20亿美元</strong> 替代采购成本，将在2H26迎来拐点。随着Novelis工厂产能爬坡并于4Q26接近满产，这部分临时成本将消退，同时被压抑的批发销量将集中释放。花旗测算2H26 F系列产量环比增长约30%，将直接推升Ford Blue和Ford Pro的利润率。管理层指引2H26调整后EBIT（剔除1Q26一次性IEEPA收益）与1H26基本持平，但市场共识可能尚未充分反映这一修复斜率，构成业绩持续超预期的窗口。</li>
+<li><strong>定价能力与产品组合升级的结构性重估</strong>：尽管2Q26批发销量同比下降12%，但营收仅下降4%，调整后EBIT同比增长17%，核心在于产品组合向高利润车型（越野系列、V8、大型SUV）的强势转移。管理层将全年行业定价假设从持平上调至 <strong>+0.5%</strong>，并强调越野车型已占美国销量的25%。这一趋势与美国监管环境放松（排放标准放宽）相契合，使得福特能够更自由地销售高利润内燃机产品。若这一组合升级被市场从「周期性」重新认定为「结构性」，将驱动估值中枢上移。</li>
+<li><strong>非汽车业务（BESS/国防）的期权价值重估</strong>：福特能源（BESS）业务正从概念走向落地。与EDF的框架协议及管理层对「广泛客户」的暗示，使市场开始定价这一高增长、高利润的增量市场。瑞银测算，BESS业务在2030年可贡献约 <strong>0.13美元</strong> 的EPS。此外，公司已与美国国防部签订基于Super Duty的军用原型车合同，虽然短期体量小，但「国防供应商」的标签可能触发估值体系的部分重塑。任何新的BESS客户或国防订单公告，都可能成为股价的短期强催化。</li>
+</ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol>
+<li><strong>Ford Pro的护城河深化与利润池扩张</strong>：Ford Pro不仅是卖车，更是提供硬件、软件、服务的集成式商业解决方案。其超过 <strong>90万</strong> 的付费软件订阅用户构建了高转换成本的生态系统，车队管理者更换供应商的隐性成本极高。随着远程服务、预测性维护和充电管理等服务的渗透，Pro的经常性收入占比将持续提升，其利润率（2Q26为9.7%）和抗周期性显著优于传统汽车业务。Oakville工厂新增的10万辆Super Duty产能，将直接满足积压的刚性商用需求，为Pro业务在未来2-3年提供清晰的销量和利润增长路径。</li>
+<li><strong>从「硬件制造商」向「软硬件一体化平台」的艰难转型</strong>：福特的长期价值重估取决于能否成功转型为一家「软硬件一体化」公司。其下一代Universal Electric Vehicle（UEV）平台，计划于2027年交付，起售价约 <strong>3万美元</strong>，并搭载完全自研的区域化电气架构和软件系统。这是福特摆脱「硬件组装厂」标签、建立软件护城河和用户全生命周期价值捕获能力的关键战役。若UEV平台能实现成本、性能和智能化体验的突破，并成功将BlueCruise等软件订阅服务规模化，将打开利润率从个位数向双位数跃升的空间。</li>
+<li><strong>BESS业务打开第二增长曲线</strong>：依托与CATL的技术许可协议和美国的《通胀削减法案》（IRA）补贴，福特能源在北美储能市场具备独特的成本优势和合规壁垒。其LFP电池系统符合生产税收抵免（PTC）和投资税收抵免（ITC）资格，对客户极具吸引力。随着AI数据中心和电网级储能需求的爆发，福特能源有望在十年内成长为一个年收入超 <strong>40亿美元</strong>、利润率超10%的高价值业务，为福特提供超越汽车行业周期的增长引擎。</li>
+</ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul>
+<li><strong>核心盈利引擎高度集中且面临竞争加剧</strong>：公司利润高度依赖F系列皮卡和Ford Pro业务。美国皮卡市场竞争日趋激烈，通用、Ram均在加大新品投放和产能扩张。若行业需求下滑或竞争导致价格战，福特的定价能力和利润率将受到显著冲击。同时，其在美国市场的成功与监管环境（如排放标准放松）密切相关，政策转向可能带来风险。</li>
+<li><strong>电动车及软件转型的长期执行风险</strong>：Model e业务2Q26仍亏损 <strong>9.19亿美元</strong>，且营收规模萎缩。UEV平台的成功与否是决定福特能否在电动化时代立足的关键，但大规模量产、成本控制、软件质量及消费者接受度均存在不确定性。公司在软件和智能化领域面临来自特斯拉及中国车企的巨大竞争压力，转型失败可能导致长期战略价值被侵蚀。</li>
+<li><strong>全球贸易政策与供应链的持续扰动</strong>：作为高度依赖北美一体化供应链的制造商，福特对《美墨加协定》（USMCA）的谈判结果高度敏感。任何提高区域内容要求或改变关税规则的结果，都可能增加其制造成本。此外，全球地缘政治风险、大宗商品（如铝、DRAM芯片）价格波动，以及潜在的供应链中断，仍是影响其盈利稳定性的重要变量。</li>
+</ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul>
+<li><strong>2026年5月18日</strong>：福特能源宣布与EDF Power Solutions North America签署五年框架协议，后者可每年采购最多4GWh的DC Block储能系统，用于美国电网级项目，预计2028年开始交付。</li>
+<li><strong>2026年6月</strong>：福特在J.D. Power 2026年美国新车质量研究（IQS）中，位列主流品牌第一名，这是自2010年以来的首次。该成绩被视为其质量改进和未来保修成本下降的积极信号。</li>
+<li><strong>2026年7月23日</strong>：福特汽车与吉利汽车宣布达成协议，将在西班牙瓦伦西亚成立合资公司，共享福特工厂产能，生产面向欧洲市场的福特和吉利品牌多能源汽车。福特持股66%。</li>
+<li><strong>2026年7月28日</strong>：福特公布2Q26业绩，调整后EBIT和EPS均超市场预期，并上调2026年全年利润和自由现金流指引。</li>
+</ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul>
+<li><strong>2026年8月-10月</strong>：Novelis铝工厂产能爬坡进展及F系列皮卡产量恢复的月度数据。若产量恢复速度超预期，将直接催化股价。</li>
+<li><strong>2026年下半年</strong>：福特能源（BESS）可能宣布新的重大客户（如大型数据中心或公用事业公司），这将验证其储能业务的商业化前景和增长潜力。</li>
+<li><strong>2026年第四季度</strong>：加拿大Oakville工厂新增的Super Duty产能正式投产。这不仅将缓解供需矛盾，也为2027年的销量和利润增长提供可见性。</li>
+<li><strong>2026年第四季度</strong>：公司可能发放特别股息。基于管理层40%-50%的自由现金流分配政策及2026年上调后的FCF指引，市场存在特别股息的预期。</li>
+</ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<p><strong>业务边际变化</strong>：公司正经历从传统燃油车业务向「燃油车盈利输血、电动车及软件服务培育增长」的战略转型期。2025年底，公司宣布重组电动车资产，包括处置与SK On的电池合资企业BlueOval SK，并为此计提了约 <strong>200亿美元</strong> 的会计费用（其中现金支出约55亿美元）。此举标志着福特从激进的电动化投资转向更务实、资本效率更高的策略。同时，公司正式推出电池储能系统（BESS）业务，将其作为Model e部门实现盈利的新支柱。</p>
+<p><strong>盈利模式</strong>：福特的盈利模式呈现「双轮驱动」特征：<strong>传统业务（Ford Blue &amp; Pro）通过规模效应、品牌溢价和产品组合优化赚取高利润，为转型提供现金流</strong>；<strong>新兴业务（Model e）则致力于通过软件订阅、BESS和下一代电动车平台构建长期、高粘性的利润来源</strong>。Ford Credit则通过提供汽车金融和租赁服务，赚取利差和手续费，并支持车辆销售。</p>
+<p><strong>业务拆分</strong>：公司近年业务结构清晰，利润核心是Ford Pro，增长潜力在Model e内的软件和能源业务。2025年受铝供应中断和关税影响，整体利润率承压。2026年进入业绩修复期，主要受定价和产品组合改善驱动。</p>
+<p><strong>细分业务拆分（单位：亿美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>业务板块</th><th>FY2024 收入</th><th>FY2024 EBIT</th><th>EBIT率</th><th>FY2025 收入</th><th>FY2025 EBIT</th><th>EBIT率</th><th>1H26 收入</th><th>1H26 EBIT</th><th>1H26 EBIT率</th></tr></thead><tbody><tr><td><strong>Ford Blue</strong></td><td>1,019.00</td><td>51.00</td><td>5.0%</td><td>1,019.00</td><td>30.24</td><td>3.0%</td><td>521.00</td><td>30.77</td><td>5.9%</td></tr><tr><td><strong>Ford Model e</strong></td><td>62.00</td><td>-47.00</td><td>-75.8%</td><td>58.00</td><td>-48.06</td><td>-82.9%</td><td>20.00</td><td>-16.96</td><td>-84.8%</td></tr><tr><td><strong>Ford Pro</strong></td><td>667.00</td><td>90.00</td><td>13.5%</td><td>663.00</td><td>68.43</td><td>10.3%</td><td>350.00</td><td>34.03</td><td>9.7%</td></tr><tr><td><strong>Ford Credit</strong></td><td>137.00</td><td>17.00</td><td>-</td><td>138.32</td><td>25.57</td><td>-</td><td>68.00</td><td>15.40</td><td>-</td></tr><tr><td><strong>公司总计</strong></td><td><strong>1,849.92</strong></td><td><strong>102.08</strong></td><td><strong>5.5%</strong></td><td><strong>1,872.67</strong></td><td><strong>67.80</strong></td><td><strong>3.6%</strong></td><td><strong>915.49</strong></td><td><strong>59.88</strong></td><td><strong>6.5%</strong></td></tr></tbody></table></div>
+<p>（注：公司总计EBIT为调整后数据。1H26指2026年上半年。）</p>
+<ul>
+<li><strong>Ford Blue（燃油及混动车）</strong>：2026年上半年，该部门受益于强劲的产品组合（越野车型、V8、大型SUV）和净定价能力，EBIT利润率从2025年的3.0%大幅反弹至5.9%。尽管批发销量因车型换代和主动削减低利润的租赁业务而下降，但营收相对稳定，显示了其在高利润细分市场的定价权。</li>
+<li><strong>Ford Model e（电动车、软件及能源）</strong>：该部门仍处于深度亏损，但亏损额同比有所收窄。1H26 EBIT亏损16.96亿美元，较2025年同期改善。改善主要来自第一代电动车的成本削减和产量调整。该部门现在包含了公司未来高增长的业务种子：软件订阅服务（总付费订阅达160万）和电池储能业务（BESS）。管理层指引2026全年Model e亏损约 <strong>40亿美元</strong>，其中包含约10亿美元对UEV平台和BESS的增量投资。</li>
+<li><strong>Ford Pro（商用及车队业务）</strong>：作为公司的利润基石，该部门在1H26实现EBIT <strong>34.03亿美元</strong>，利润率9.7%。尽管受到铝供应中断影响，收入和利润同比有所下滑，但其软件和物理服务的增长展现了商业模式的韧性。随着2H26 Super Duty产能恢复和Oakville新工厂投产，该部门预计将重回增长轨道。</li>
+</ul>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托极高转换成本与集成服务构筑的客户粘性（Ford Pro）</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。Ford Pro不仅销售车辆，更提供一套集成了远程信息处理、预测性维护、充电管理和支付结算的完整数字生态系统。商业车队客户一旦将运营流程深度嵌入该平台，其转换供应商的金钱、时间和运营风险成本极高，形成了强大的客户粘性。</li>
+<li><strong>数据验证</strong>：Ford Pro Intelligence的付费订阅用户数已超 <strong>90万</strong>，同比增长超20%。该部门在面临铝供应中断导致车辆交付受阻的情况下，其软件和物理服务收入依然保持增长，证明了其商业模式的粘性和抗周期性。其EBIT利润率（1H26为9.7%）远高于公司整体水平。</li>
+<li><strong>动态演变</strong>：<strong>护城河变宽</strong>。随着公司增加Super Duty产能、扩展移动服务车队，并深化软件功能（如ADAS），Ford Pro为客户创造的价值和嵌入深度将持续增加，进一步巩固其市场领导地位。</li>
+</ul>
+<p><strong>竞争要素 2：依托先发规模和IRA政策构筑的阶段性成本优势（Ford Energy/BESS）</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：<strong>行业阶段性红利</strong>。福特能源的竞争优势主要源于其较早利用与CATL的技术许可协议，在美国本土建立LFP电池产能，从而有资格获得IRA法案下的生产税收抵免（PTC，约45美元/kWh）。这使得其产品在成本上相比依赖进口的非合规产品具有显著优势，并能帮助客户获得投资税收抵免（ITC）。</li>
+<li><strong>数据验证</strong>：瑞银测算，在PTC补贴下，福特BESS的电芯成本可降至约 <strong>26美元/kWh</strong>，系统总成本约 <strong>176美元/kWh</strong>，具备较强竞争力。公司已获得EDF的20GWh框架协议，并正与更广泛的客户谈判。</li>
+<li><strong>动态演变</strong>：<strong>面临不确定性</strong>。该优势的持续性取决于IRA政策的稳定性、PTC补贴的逐步退坡（2030年开始），以及未来其他竞争对手（如特斯拉、韩国电池厂）在北美本土LFP产能的扩张速度。长期看，成本优势可能收窄，竞争将转向品牌、服务和系统集成能力。</li>
+</ul>
+<p><strong>现阶段核心驱动力总结</strong>：福特当前的Alpha来源于其<strong>传统优势业务（Pro和卡车）的定价能力和产品组合升级</strong>，这带来了强劲的现金流和业绩修复。其Beta则在于<strong>BESS和下一代电动车平台等增长期权</strong>，这些业务决定了公司的长期估值天花板，但目前仍处于高投入、待验证阶段。</p>
+<p><strong>竞争格局传导逻辑</strong>：</p>
+<ul>
+<li>Ford Pro集成生态系统（硬件+软件+服务）→ 极高的客户转换成本和品牌忠诚度 → 强定价能力与高且稳定的利润率</li>
+<li>IRA政策补贴与CATL技术许可 → 阶段性成本优势（BESS业务）→ 获取早期订单与建立市场地位</li>
+<li>强劲的皮卡和SUV产品组合 → 有利的供需关系与定价话语权 → 营收稳定、利润率高</li>
+</ul>
+<h3 class="doc-h2">产销链</h3>
+<ul>
+<li><strong>客户情况</strong>：福特的主要客户分为三类：1）通过经销商网络购买的个人消费者；2）大型商业车队客户（Ford Pro的核心客群）；3）租赁公司。公司正主动削减低利润的租赁渠道销量，以保护剩余价值。Ford Pro的客户关系稳固，2027款车型的早期签约进度比去年同期快约一个月，显示出强劲的续购需求。公司不存在对单一客户的过度依赖。</li>
+<li><strong>供应商情况</strong>：公司供应链高度全球化，但正面临多重挑战。铝供应商Novelis的火灾暴露了单一关键供应商的风险，公司为此在2026年承担了约 <strong>15亿美元</strong> 的替代采购成本。此外，全球DRAM芯片供应紧张，公司已与美光签订战略客户协议以锁定供应，但这可能带来不利的成本条款。为应对地缘政治风险和USMCA潜在的新规，公司正与供应商合作评估供应链近岸化。</li>
+<li><strong>经销商情况</strong>：公司采用传统的经销商网络进行销售。2Q26美国零售库存为 <strong>52天</strong> 供应量，略低于55-65天的目标，库存水平健康。公司正与经销商共同投资，扩大服务能力和移动服务车队，以提升客户体验和售后收入。</li>
+<li><strong>成本传导能力</strong>：福特在皮卡和大型SUV等核心市场拥有较强的品牌溢价和定价权，能够部分传导原材料成本上涨的压力。但在竞争激烈的电动车和轿车市场，其成本传导能力较弱。总体而言，公司赚取的是 <strong>「品牌溢价」+「规模制造」</strong> 的钱，其利润对大宗商品价格和供应链稳定性高度敏感。</li>
+</ul>
+<h3 class="doc-h2">财务数据</h3>
+<p><strong>关键财务数据（单位：亿美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>1H2026</th></tr></thead><tbody><tr><td>截止日期</td><td>2023-12-31</td><td>2024-12-31</td><td>2025-12-31</td><td>2026-06-30</td></tr><tr><td><strong>营业总收入</strong></td><td>1,761.91</td><td>1,849.92</td><td>1,872.67</td><td>915.49</td></tr><tr><td>收入同比</td><td>11.47%</td><td>5.00%</td><td>1.23%</td><td>0.78%</td></tr><tr><td><strong>营业成本</strong></td><td>1,505.50</td><td>1,584.34</td><td>1,744.66</td><td>775.27</td></tr><tr><td><strong>毛利润</strong></td><td>256.41</td><td>265.58</td><td>128.01</td><td>140.22</td></tr><tr><td><strong>毛利率</strong></td><td>14.55%</td><td>14.35%</td><td>6.84%</td><td>15.32%</td></tr><tr><td><strong>营业利润</strong></td><td>149.39</td><td>162.71</td><td>19.52</td><td>85.31</td></tr><tr><td><strong>归母净利润</strong></td><td>43.47</td><td>58.79</td><td>-81.82</td><td>12.21</td></tr><tr><td><strong>基本EPS (美元)</strong></td><td>1.09</td><td>1.48</td><td>-2.06</td><td>0.31</td></tr><tr><td><strong>自由现金流</strong></td><td>66.82</td><td>67.39</td><td>124.67</td><td>9.03</td></tr></tbody></table></div>
+<p>（注：自由现金流由经营活动现金流净额减去资本性支出计算得出。FY2025归母净利润大幅为负主要受BlueOval SK合资企业处置相关的一次性非现金费用影响。）</p>
+<p><strong>财务分析</strong>：</p>
+<ul>
+<li><strong>盈利能力</strong>：公司毛利率在2025年因铝供应中断、大宗商品成本上涨和保修费用增加而大幅下滑至6.84%。进入2026年，随着定价改善和成本控制措施生效，上半年毛利率已恢复至15.32%。然而，净利润端受Model e的持续亏损和重组费用拖累，波动较大。调整后EBIT利润率是更好的观察指标，1H26为6.5%，较2025年的3.6%显著修复。</li>
+<li><strong>运营能力</strong>：2025年应收账款大幅下降，主要与业务结构调整有关。存货水平相对稳定。公司正通过主动削减租赁销量、增加认证二手车销售等方式，优化车辆残值管理。</li>
+<li><strong>偿债能力与现金流</strong>：公司维持着强劲的流动性，截至1H26末持有现金 <strong>186.03亿美元</strong>，总流动性 <strong>434亿美元</strong>。2025年经营活动现金流净额高达 <strong>212.82亿美元</strong>，自由现金流为 <strong>124.67亿美元</strong>，表现强劲，主要受益于营运资金的积极变化。管理层指引2026全年调整后自由现金流为 <strong>60亿-70亿美元</strong>，资本支出为95亿-105亿美元，现金流状况健康，足以支撑其转型投资和股东回报。</li>
+</ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p>福特所处的全球汽车行业正经历百年未有之大变局，呈现「传统燃油车存量博弈、电动车渗透率波动、软件定义汽车兴起」的复杂格局。</p>
+<ul>
+<li><strong>美国核心市场</strong>：这是一个成熟且高度集中的市场，福特和通用等本土巨头凭借皮卡和SUV的统治地位，享有结构性优势。2026年上半年美国车市年化销量（SAAR）维持在 <strong>1600-1650万辆</strong> 的健康水平。该市场的竞争壁垒主要来自消费者对本土品牌的忠诚度、经销商网络以及针对中国电动车的严格关税壁垒。然而，高企的新车均价和贷款利率对消费者承受能力构成压力。行业趋势是混动车（HEV）需求强劲增长，而纯电动车（BEV）需求增速放缓，这对在内燃机和混动技术上有深厚积累的福特有利。</li>
+<li><strong>全球电动车及中国市场</strong>：中国是全球最大的电动车市场，由比亚迪、特斯拉及众多新势力主导，竞争极为惨烈。福特在中国市场采取收缩战略，聚焦于优势细分市场。在欧洲，随着2035年禁燃令的临近，电动车渗透率快速提升，但中国车企正凭借高性价比产品大举进入，对包括福特在内的传统欧洲车企构成严峻挑战。福特与吉利在西班牙的合资，正是在此背景下降低制造成本、应对竞争的战略举措。</li>
+<li><strong>储能（BESS）市场</strong>：这是一个高增长的新兴市场，受AI数据中心扩张和电网稳定性需求驱动。瑞银预测，2030年美国BESS市场规模可达约 <strong>200GWh</strong>。竞争格局尚未定型，特斯拉目前是领导者，但福特凭借其本土制造能力、LFP技术路线和IRA补贴资格，有望成为强有力的挑战者。</li>
+</ul>
+<p><strong>可比公司分析</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>核心业务对比</th><th>盈利能力（EBIT率）</th><th>估值水平（P/E）</th><th>战略差异点</th></tr></thead><tbody><tr><td><strong>通用汽车 (GM)</strong></td><td>GM</td><td>全尺寸皮卡/SUV强势，电动车平台Ultium，Cruise自动驾驶</td><td>高于福特</td><td>低于福特</td><td>更早退出不盈利市场，资本配置更激进（大规模回购），自动驾驶投入更聚焦。</td></tr><tr><td><strong>Stellantis (STLA)</strong></td><td>STLA</td><td>多品牌组合，北美皮卡/Jeep利润丰厚，欧洲业务庞大</td><td>高于福特</td><td>远低于福特</td><td>面临更严峻的中国车企竞争和欧洲市场挑战，库存和定价问题突出，处于困境反转阶段。</td></tr><tr><td><strong>特斯拉 (TSLA)</strong></td><td>TSLA</td><td>纯电动车领导者，FSD自动驾驶软件，能源业务</td><td>远高于传统车企</td><td>远高于传统车企</td><td>纯科技公司估值逻辑，增长来自新车、FSD和机器人，与传统车企的盈利模式不同。</td></tr></tbody></table></div>
+<p><strong>总结分析</strong>：与通用相比，福特在资本配置和业务聚焦上显得更为保守，但其Ford Pro的商业模式和BESS业务的潜力提供了差异化的增长叙事。与Stellantis相比，福特在北美市场的地位更为稳固，受欧洲和中国市场竞争的冲击相对较小。与特斯拉相比，福特代表了汽车行业的「现在」，拥有强大的现金流和制造能力，但在科技属性和增长预期上存在显著折价。福特的投资逻辑在于其传统业务的现金牛地位能否持续，以及新兴业务能否成功兑现增长预期，从而驱动估值向科技公司靠拢。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<ul>
+<li><strong>议题一：Ford Pro的利润率趋势与增长可持续性</strong>——<strong>背景</strong>：Ford Pro是福特最核心的利润引擎，但其2Q26 EBIT同比下降26%，利润率从12.3%降至9.7%，主要受铝供应中断影响。市场高度关注这一高利润业务的增长是否已见顶，以及其抵御经济下行的能力。<strong>问题列表</strong>：1）随着Oakville新增产能投产和供应链恢复，Pro的利润率能否在2027年回到并超越2024年的峰值水平（13.5%）？2）软件订阅的ARPU和渗透率提升能否有效对冲新车销售的周期性波动，使Pro的盈利更具韧性？3）面对通用和Ram在商用车领域的竞争加剧，Pro的定价能力和市场份额能否维持？</li>
+<li><strong>议题二：电动车及BESS业务的盈利路径与资本回报</strong>——<strong>背景</strong>：Model e部门持续巨额亏损，消耗大量现金。公司已将未来押注于UEV平台和BESS业务，但这两项业务均处于早期阶段，面临技术、市场和政策的不确定性。<strong>问题列表</strong>：1）UEV平台能否在2027年如期交付，并实现其 <strong>3万美元</strong> 起售价的成本目标？其盈利能力何时能转正？2）BESS业务的客户拓展进度如何？除了EDF，何时能签下超大规模数据中心客户？20GWh产能何时能满产？3）考虑到IRA补贴的逐步退坡，BESS业务的长期可持续利润率中枢在哪里？</li>
+<li><strong>议题三：资本配置的优先级与股东回报</strong>——<strong>背景</strong>：公司拥有强劲的自由现金流，但同时也面临电动化、智能化和BESS业务的高额资本开支需求。市场关注管理层如何在投资未来与回报股东之间取得平衡。<strong>问题列表</strong>：1）2026年上调后的60亿-70亿美元自由现金流中，有多少将用于再投资，多少用于分红或回购？2）公司是否会遵循其40%-50%的FCF分配政策，在2026年发放特别股息？3）面对高昂的转型成本，公司是否会考虑分拆或引入外部资本来释放BESS或Ford Pro等业务的价值？</li>
+</ul>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p><strong>核心分歧：福特当前强劲的业绩修复是周期性顶点还是结构性改善的起点？</strong></p>
+<p><strong>乐观方观点：结构性改善，估值应重估</strong></p>
+<ul>
+<li><strong>逻辑</strong>：福特已不再是单纯的周期性汽车制造商。Ford Pro的集成服务模式创造了高粘性、高利润的经常性收入流，其商业模式的韧性在本次供应链危机中已得到验证。同时，BESS和国防等非汽车业务提供了超越汽车周期的增长期权。公司在J.D. Power质量排名中的跃升，标志着其长期困扰的保修成本问题将得到根本性改善。因此，其盈利质量和增长可持续性应享有比传统车企更高的估值。</li>
+<li><strong>支撑依据</strong>：1H26调整后EBIT利润率已恢复至6.5%，接近2024年水平。软件订阅用户数高速增长。BESS业务已获得首个大客户框架协议。</li>
+</ul>
+<p><strong>谨慎方观点：周期性修复，高光时刻难以持续</strong></p>
+<ul>
+<li><strong>逻辑</strong>：当前业绩的强劲反弹，主要得益于后疫情时代被压抑的换车需求、有利的产品组合（监管放松）以及供应链恢复带来的一次性补库效应。美国车市已处于周期高位，消费者承受能力恶化，未来需求下行风险加大。Model e的巨额亏损和UEV平台的高额投入将持续侵蚀利润。BESS业务远水难解近渴，且面临政策风险。一旦行业周期下行，福特的定价能力和利润率将迅速恶化。</li>
+<li><strong>支撑依据</strong>：2Q26批发销量同比下降12%，表明终端需求可能正在走弱。美国新车均价和贷款利率处于历史高位。公司历史上多次在周期顶峰加大投资，随后在低谷期陷入困境。</li>
+</ul>
+<p><strong>总结分析</strong>：福特正处在转型的关键十字路口。其传统业务的护城河（Ford Pro和卡车）依然坚固，并展现出超越以往周期的盈利韧性，这构成了公司价值的安全垫。然而，其估值能否实现质的飞跃，取决于新兴业务（软件、BESS、UEV）能否成功规模化并兑现盈利承诺。当前市场对这两方面的定价均不充分，既未完全奖励其业务结构的改善，也未过度惩罚其转型的不确定性。未来的股价方向将取决于上述两项核心分歧的逐步明朗化。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>管理层最新指引</strong>：公司上调2026全年调整后EBIT指引至 <strong>100亿-110亿美元</strong>，调整后自由现金流指引至 <strong>60亿-70亿美元</strong>。资本支出维持 <strong>95亿-105亿美元</strong> 不变。管理层对2027年的初步展望为「存在平衡的利好与利空因素」，利好包括Novelis临时成本的消失和成本持续改善，利空包括IEEPA一次性收益的消失和UEV/BESS的上市投入。</p>
+<p><strong>券商盈利预测与估值</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价(美元)</th><th>财务指标</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td><strong>花旗 (2026-07-29)</strong></td><td>买入</td><td>20.00</td><td>调整后EPS (美元)</td><td>1.09</td><td>1.90</td><td>2.10</td><td>2.30</td></tr><tr><td><strong>摩根大通 (2026-07-29)</strong></td><td>超配</td><td>17.00</td><td>调整后EPS (美元)</td><td>1.09</td><td>1.87</td><td>1.95</td><td>2.00</td></tr><tr><td><strong>高盛 (2026-08-03)</strong></td><td>中性</td><td>16.00</td><td>调整后EPS (美元)</td><td>1.09</td><td>1.90</td><td>2.00</td><td>2.10</td></tr><tr><td><strong>摩根士丹利 (2026-07-29)</strong></td><td>均配</td><td>15.00</td><td>调整后EPS (美元)</td><td>1.09</td><td>1.79</td><td>1.86</td><td>2.15</td></tr><tr><td><strong>瑞银 (2026-07-30)</strong></td><td>买入</td><td>17.00</td><td>调整后EPS (美元)</td><td>1.09</td><td>1.69</td><td>1.95</td><td>2.13</td></tr></tbody></table></div>
+<p><strong>盈利预期与估值分析</strong>：主要券商对福特2026年的EPS预测集中在 <strong>1.69-1.90美元</strong> 区间，反映了对下半年利润率修复程度的不同假设。市场一致预期2026年调整后EBIT约为 <strong>96亿美元</strong>，低于公司指引中点的105亿美元，表明市场对公司指引的可实现性仍存疑虑。估值方法上，多数机构采用市盈率（P/E）估值，目标倍数在 <strong>8-9倍</strong> 之间，反映了其传统汽车业务的周期性折价。瑞银和花旗给出了更高的目标价，主要因为它们在估值中计入了BESS业务的期权价值，认为其应享有比传统汽车业务更高的估值倍数。机构间观点存在分歧，乐观方（花旗、摩根大通、瑞银）强调盈利上修和增长期权，而谨慎方（高盛、摩根士丹利）则更关注竞争和转型风险。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/F · 生成于 2026-08-07</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-07';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'hit',     text: '<strong>2Q26 业绩超预期 + 上调全年指引</strong>：调整后 EBIT 25 亿美元（同比 +17%）、EPS 0.42 美元；FY2026 EBIT 指引中点上调 10 亿至 100-110 亿美元，FCF 指引 60-70 亿', note: '2026-07-28 财报披露' },
+  { kind: 'cat', status: 'active',  text: '<strong>F 系列产量恢复</strong>：2H26 产量环比 +约 30%，Novelis 铝厂 4Q26 接近满产——8-10 月月度产量数据为第一验证窗口', note: '2025 年火灾损失 + 15-20 亿美元替代采购成本消退中' },
+  { kind: 'cat', status: 'pending', text: '<strong>Oakville Super Duty 新产能投产</strong>（4Q26）：新增 10 万辆年产能，缓解积压需求并为 2027 提供增量', note: '2027 款车型早期签约进度比去年同期快约一个月' },
+  { kind: 'cat', status: 'pending', text: '<strong>BESS 新大客户公告</strong>：数据中心/公用事业级订单——验证福特能源商业化前景，触发期权价值重估', note: 'EDF 框架协议（2028 年起每年最多 4GWh）已落地；肯塔基 20GWh 可扩至 40GWh' },
+  { kind: 'cat', status: 'pending', text: '<strong>特别股息决定</strong>（预期 4Q26）：40%-50% FCF 分配政策 + 上调后的 FCF 指引，市场预期明确', note: '常规股息年化约 0.60 美元（估算）' },
+  { kind: 'cat', status: 'active',  text: '<strong>软件订阅持续放量</strong>：总付费订阅 160 万（同比约 +50%）、Ford Pro Intelligence 超 90 万——利润率扩张的关键驱动', note: '软件及物理服务年复合增速指引约 8%' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>终端需求走弱</strong>：批发销量降幅连续两个季度扩大（2Q26 同比 -12%）或价格战爆发（通用/Ram 加产能）', note: '新车均价与贷款利率历史高位，消费者承受能力承压' },
+  { kind: 'risk', status: 'clear', text: '<strong>Ford Pro 利润率无法恢复</strong>：供应正常化后 2027 年仍低于 10%——将从供应链问题重估为定价权问题', note: '2Q26 利润率 9.7%（上年同期 12.3%）；2024 年峰值 13.5%' },
+  { kind: 'risk', status: 'clear', text: '<strong>Model e 亏损超出指引或 UEV 跳票</strong>：全年亏损超 40 亿美元、2027 年 UEV 平台延期/成本超标', note: 'UEV 起售价约 3 万美元目标，2027 年交付' },
+  { kind: 'risk', status: 'clear', text: '<strong>贸易政策与供应链扰动</strong>：USMCA 规则变化抬高成本、关税/DRAM/铝等供应链再度中断', note: '1Q26 IEEPA 一次性收益在 2027 年消失，基数不利' },
+  { kind: 'risk', status: 'clear', text: '<strong>BESS 政策红利提前退坡</strong>：IRA/PTC 补贴退坡加速（现行 2030 年起），或特斯拉/韩系电池厂北美 LFP 产能扩张快于预期', note: '成本优势窗口收窄即护城河定性降级' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

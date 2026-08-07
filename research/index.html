@@ -224,7 +224,7 @@ a.sr-row:hover { background: var(--paper-cool); }
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong id="update-date">2026-08-06</strong>
+        <strong id="update-date">2026-08-07</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -259,7 +259,7 @@ a.sr-row:hover { background: var(--paper-cool); }
     <p>公司财报及公开披露 · 公开研究资料整理 · 市占率为公开资料的约数 · 仅作研究学习用途，不构成投资建议。</p>
   </div>
 </section>
-<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究 · 更新于 2026-08-06</div></footer>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究 · 更新于 2026-08-07</div></footer>
 
 <script>
 // ================= 已研究公司的报告链接 =================
@@ -282,6 +282,13 @@ const REPORTS = {
   AMKR:'../AMKR/安靠科技_研究.html', CSCO:'../CSCO/思科_研究.html', DLR:'../DLR/数字房地产_研究.html',
   ETN:'../ETN/伊顿_研究.html', CRM:'../CRM/Salesforce_研究.html', NOW:'../NOW/ServiceNow_研究.html',
   ADBE:'../ADBE/Adobe_研究.html',
+  // 2026-08-07 新增 18 家（产业链「待研究」清零）
+  GFS:'../GFS/格芯_研究.html', HPE:'../HPE/慧与_研究.html', TXN:'../TXN/德州仪器_研究.html',
+  SWKS:'../SWKS/思佳讯_研究.html', QRVO:'../QRVO/Qorvo_研究.html', ON:'../ON/安森美_研究.html',
+  DIS:'../DIS/迪士尼_研究.html', WBD:'../WBD/华纳兄弟探索_研究.html', SPOT:'../SPOT/Spotify_研究.html',
+  APP:'../APP/AppLovin_研究.html', RBLX:'../RBLX/Roblox_研究.html', EA:'../EA/艺电_研究.html',
+  TTWO:'../TTWO/Take-Two_研究.html', MBLY:'../MBLY/Mobileye_研究.html', GM:'../GM/通用汽车_研究.html',
+  F:'../F/福特_研究.html', RIVN:'../RIVN/Rivian_研究.html', LYFT:'../LYFT/Lyft_研究.html',
 };
 
 // 含「券商研报」tab 的公司
@@ -718,8 +725,8 @@ document.addEventListener('click', ev => {
 // ================= 观点速览（只列买入/看空；持有的不列） =================
 // 更新研究观点时只改这两个数组（ticker），链接与中文名自动带出
 const RATINGS = {
-  date: '2026-08-06',
-  buy:  ['TSM','MU','ANET','AMD','UBER','AMZN','V','PLD','AVGO','SNPS','SNDK','VST','CRM','ADBE'],
+  date: '2026-08-07',
+  buy:  ['TSM','MU','ANET','AMD','UBER','AMZN','V','PLD','AVGO','SNPS','SNDK','VST','CRM','ADBE','HPE','DIS','APP','GM'],
   sell: [],
 };
 function renderRatings(){

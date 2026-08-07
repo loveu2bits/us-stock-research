@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>通用汽车（GM.N）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--policy-red); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">GM</span>
+    <span class="site-mark__text">通用汽车 公司研究<span>General Motors · GM.N</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>通用汽车<span class="en">General Motors · GM.N · 美股研究</span></h1>
+        <p class="sub">美国最大车企刚交出一份罕见的强财报：2026 年 Q2 调整后 EPS 3.57 美元、北美利润率 8.6% 重回目标区间、全年调整后 EBIT 指引上调 5 亿美元——但市场只给约 6 倍市盈率，定价的是「周期顶」。核心矛盾在于：这是周期股盈利顶点，还是「收缩电动车 + 北美定价权 + 低估值回购 + 新业务期权」的结构性改善起点？我们的判断倾向后者：激励支出比行业低 1.5-2 个百分点的定价权、同比缩 8% 的股本、12 月上市的新皮卡周期，都站在多方一边；但周期风险真实存在，必须用跟踪面板盯住。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-07</span>
+          <span>下次更新：2026Q3 财报（2026-10/11）/ 新皮卡预售数据（2026-10/11）</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="buy">买入</strong>
+        <em>约 6x FY2026E 调整后 EPS（估算；公司指引 12-14 美元、券商一致预期 12.7-13.8 美元），汽车业务 FCF 收益率约 10%（估算）。核心逻辑：北美定价权获验证（Q2 定价贡献 6 亿美元）+ 低估值回购（股本同比 -8%）+ 新皮卡周期（2026-12 上市）+ 软件/防务新业务期权，Q2 超预期且全年指引上调。重检条件：北美利润率跌破 8% 目标区间，或新皮卡预售明显不及预期，或美国轻型车需求衰退式下滑。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">$3.57</strong><span>Q2 调整后 EPS·EBIT 39.4 亿同比 +29.8%</span></div>
+      <div class="summary-rail__item"><strong>8.6%</strong><span>Q2 北美调整后 EBIT 率·重回 8-10% 目标</span></div>
+      <div class="summary-rail__item"><strong>$140-160亿</strong><span>FY2026 调整后 EBIT 指引·上调 5 亿</span></div>
+      <div class="summary-rail__item"><strong>-8%</strong><span>稀释股数同比·H1 回购 28 亿美元</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">北美利润基本盘：定价权与 8-10% 利润率能否扛住关税并延续到新皮卡周期？</h2>
+        <span class="qa__impact-tag">→ 北美占收入 83% · H1 利润率 9.3%</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>未来 2-3 个季度大概率可持续，但不能线性外推。定价权是真实的：<strong>Q2 定价同比贡献 6 亿美元</strong>、激励支出仅占平均交易价 <strong>4.7%</strong>（持续低于行业 1.5-2 个百分点）、经销商库存 55 天处于 50-60 天目标区间中段——这是「卖得贵且不用打折」的组合。北美利润率从 FY2025 的 6.8% 修复到 <strong>2026 H1 的 9.3%</strong>，重回 8-10% 目标区间。<em>保留判断：全年 25-35 亿美元的关税冲击、商品通胀与物流成本仍在对冲定价收益；利润率能否在 2027 年维持，最终取决于美国大型车需求与新皮卡换代执行，而非定价本身。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>北美业务（GMNA）贡献约 83% 的收入与几乎全部利润，它的利润率就是这家公司 EPS 的锚。</strong>按北美年收入约 1,550 亿美元计，利润率每变动 1 个百分点对应约 15 亿美元 EBIT、约 1.2 美元 EPS（估算）——这解释了为什么市场盯住 8-10% 这个区间。FY2026 指引（调整后 EBIT 140-160 亿美元，上调 5 亿）已包含定价贡献与关税对冲的结果。</p>
+            <p>2027 年的变量是<strong>新皮卡换代的双刃剑</strong>：提价与产品组合上移是 EPS 上行驱动，但换代期的生产爬坡中断与新车成本抬升是短期拖累。Q3 财报的 2027 年初步展望将是定价权能否跨周期延续的第一次正式检验。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>定价权有硬数据：<strong>Q2 定价同比贡献 6 亿美元</strong>，激励占比 4.7% 低于行业 1.5-2pp——在关税与通胀逆风中仍实现利润率同比 +2.5pp，说明不是周期运气</li>
+              <li>细分市场结构好：全尺寸皮卡份额 <strong>&gt;42%</strong>、大型 SUV 销量约为最接近对手的 <strong>3 倍</strong>；客户（商业车队、高收入家庭）对价格不敏感，周期性弱于普通乘用车</li>
+              <li>库存纪律是定价权的保险丝：<strong>55 天库存</strong>处于目标区间中段，不压货、不打价格战，2026-12 新皮卡上市有提价空间</li>
+              <li>FY2025 利润率 6.8% 是电动车重组与中国拖累的低点，<strong>H1 回到 9.3% 是修复而非顶点</strong>——保修与排放合规成本的改善是结构性的</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li><strong>关税全年冲击 25-35 亿美元</strong>，商品通胀（铝、铜、DRAM）与物流成本仍在上升，定价对冲有滞后与上限</li>
+              <li>高利润率部分来自<strong>不可持续的强定价周期与一次性保修改善</strong>——这正是市场焦点议题之一，2027 年新皮卡成本抬升后利润率未必守得住</li>
+              <li>收入端已见顶：FY2025 收入同比 <strong>-1.3%</strong>、2026 H1 仅 +0.6%，靠提价撑利润的模式在需求走弱时最脆弱</li>
+              <li>皮卡/SUV 需求对美国衰退、高利率、油价高度敏感——<strong>利润基本盘同时是最大的宏观敞口</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（分部拆分 · 定价权数据）</summary>
+          <div class="evidence__body">
+            <h5>分部拆分（按报告分部；单位：亿美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>业务板块</th><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026 H1</th></tr></thead><tbody><tr><td rowspan="4"><strong>GM 北美（GMNA）</strong></td><td>收入</td><td>1,414.45</td><td>1,575.09</td><td>1,543.17</td><td>763.12</td></tr><tr><td>收入占比</td><td>82.3%</td><td>84.0%</td><td>83.4%</td><td>83.3%</td></tr><tr><td>调整后 EBIT</td><td>123.06</td><td>145.28</td><td>104.52</td><td>71.07</td></tr><tr><td>调整后 EBIT 利润率</td><td>8.7%</td><td>9.2%</td><td>6.8%</td><td><strong>9.3%</strong></td></tr><tr><td rowspan="4"><strong>GM 国际（GMI）</strong></td><td>收入</td><td>159.49</td><td>138.90</td><td>134.27</td><td>65.50</td></tr><tr><td>收入占比</td><td>9.3%</td><td>7.4%</td><td>7.3%</td><td>7.1%</td></tr><tr><td>调整后 EBIT</td><td>12.10</td><td>3.03</td><td>7.37</td><td>3.14</td></tr><tr><td>调整后 EBIT 利润率</td><td>7.6%</td><td>2.2%</td><td>5.5%</td><td>4.8%</td></tr><tr><td rowspan="4"><strong>GM 金融</strong></td><td>收入</td><td>142.25</td><td>158.75</td><td>170.60</td><td>85.43</td></tr><tr><td>收入占比</td><td>8.3%</td><td>8.5%</td><td>9.2%</td><td>9.3%</td></tr><tr><td>调整后税前利润</td><td>29.85</td><td>29.65</td><td>28.02</td><td>12.94</td></tr><tr><td>调整后税前利润率</td><td>21.0%</td><td>18.7%</td><td>16.4%</td><td>15.1%</td></tr></tbody></table></div>
+            <p>注：GMNA 是绝对利润引擎；GMI 含中国合资股权收益（2026 H1 贡献 2.48 亿美元）；GM 金融 2026 H1 向集团支付股息 9 亿美元。GM 金融利润率逐年回落（租赁折旧与运营成本上升）是财务侧需要留意的边际变化。</p>
+            <h5>定价权与渠道数据（2026 Q2）</h5>
+            <ul>
+              <li><strong>定价贡献</strong>：同比 +6 亿美元，管理层称其为 Q2 利润超预期的主要驱动力</li>
+              <li><strong>激励支出</strong>：占平均交易价 4.7%，持续低于行业平均 1.5-2 个百分点</li>
+              <li><strong>经销商库存</strong>：51.1 万辆、约 55 天供应量，处于 50-60 天目标区间中段</li>
+              <li><strong>份额</strong>：全尺寸皮卡 &gt;42%；大型 SUV 销量约为最接近竞争对手的 3 倍；2026 H1 政府车队销售额创 2009 年以来新高</li>
+            </ul>
+            <h5>解读：一句话</h5>
+            <p>「低激励 + 健康库存 + 高份额」是定价权的三件套，三者同时为正是罕见状态。<strong>问题不是定价权存不存在，而是它能否扛过关税成本传导与新皮卡换代期的双重挤压</strong>——这正是把它列为头号观察项的原因。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">电动车重组：109 亿美元的学费是阵痛终点，还是战略失败的代价？</h2>
+        <span class="qa__impact-tag">→ FY2025 GAAP 失真 · 重组现金支出基本完成</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>财务上是阵痛终点，战略上是主动认输。自 2025 年下半年以来电动车重组费用累计 <strong>109 亿美元</strong>（其中 FY2025 79 亿、2026 Q2 23 亿），管理层明确表示调整产能与制造布局的<strong>主要现金费用已基本完成、未来支出将大幅减少</strong>——GAAP 利润的最大扰动源正在移除。收缩电动车、聚焦高利润燃油车与软件服务，是把资本从低回报处抽回的务实选择。<em>保留判断：电动化长期趋势并未消失，今天的收缩换来了利润表干净，但也放弃了部分技术储备——若需求或政策再度转向，追赶成本会更高。这是被接受的长期风险，不是被消除的风险。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>直接影响在 GAAP 报表的「正常化」。</strong>FY2025 GAAP 归母净利润被 79 亿美元重组费用砸到 31.8 亿美元（同比 -55.8%），同期调整后 EBIT 仍有 127.46 亿美元——真实盈利能力与报表利润严重背离。2026 H1 GAAP 净利同比 -25.3% 仍是 Q2 再计 23 亿美元的余波；<strong>从 2026 H2 起基数变干净，同比读数将大幅改善，这本身就是 EPS 正常化的催化</strong>。</p>
+            <p>估值渠道：重组结束意味着市场可以不再对「下一个大额减值」预留折价。只要后续季度不再出现新的电动车相关费用，约 6 倍 PE 中隐含的「战略失误折价」有理由逐步收敛；反之，任何新增计提都会立即打断这一过程。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>止损本身就是能力：<strong>主要现金费用已基本完成</strong>，109 亿的学费买回了资本配置纪律——资源集中到回报 20%+ 的核心业务</li>
+              <li>报表正常化是免费的催化：重组出清后 GAAP 与调整后利润收敛，<strong>同比读数改善会吸引只看 GAAP 的资金回流</strong></li>
+              <li>收缩方向与政策环境一致：排放监管放宽、燃油皮卡/SUV 需求依然强劲，<strong>顺势而为而非逆势硬扛</strong></li>
+              <li>电动化能力没有清零：奥特能平台与电池产线仍在，保留了对政策与需求再度转向的最低限度响应能力</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li><strong>109 亿美元是战略失误的实锤</strong>：两年前激进扩张、如今巨额减值，同一批管理层的长期战略判断力值得怀疑</li>
+              <li>电动化是长期方向：削减投资意味着在<strong>电池、软件、自动驾驶</strong>上可能落后于仍在投入的对手，丧失长期竞争力</li>
+              <li>政策可能再度收紧：若监管重新鼓励电动车，公司将面临<strong>前期投资沉没 + 重新投入追赶</strong>的战略两难</li>
+              <li>收缩叙事对估值的帮助是一次性的——<strong>减值出清只能修复折价，不能创造增长</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（重组费用时间线 · GAAP 与调整后口径对比）</summary>
+          <div class="evidence__body">
+            <h5>电动车重组费用时间线</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>期间</th><th>电动车相关重组费用</th><th>管理层口径</th></tr></thead><tbody><tr><td>FY2025</td><td><strong>79 亿美元</strong></td><td>收缩电动车激进扩张计划、调整产能与制造布局</td></tr><tr><td>2026 Q2</td><td><strong>23 亿美元</strong></td><td>主要现金费用已基本完成，未来相关支出将大幅减少</td></tr><tr><td>2025 H2 以来累计</td><td><strong>109 亿美元</strong></td><td>重组进入尾声</td></tr></tbody></table></div>
+            <h5>GAAP 与调整后口径对比（单位：亿美元）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标</th><th>FY2024</th><th>FY2025</th><th>2026 H1</th></tr></thead><tbody><tr><td>GAAP 归母净利润</td><td>71.89</td><td>31.80（<span class="warn">-55.8%</span>）</td><td>39.01（同比 -25.3%）</td></tr><tr><td>GAAP 稀释 EPS（美元）</td><td>6.37</td><td>3.27</td><td>4.25</td></tr><tr><td>调整后 EBIT</td><td>约 155（各分部合计，估算）</td><td><strong>127.46</strong></td><td>利润率 8.9%</td></tr></tbody></table></div>
+            <p>注：FY2025 GAAP 营业利润率仅 1.57%、2026 H1 回升至 4.78%，报表利润的崩塌与修复几乎完全由重组费用驱动——<strong>看这家公司必须用调整后口径</strong>。券商 2025 年调整后 EPS 口径为 10.6 美元上下（对比 GAAP 3.27 美元），口径差异巨大。</p>
+            <h5>解读：一句话</h5>
+            <p>重组尾声意味着 2026 H2 起利润表将「轻装上阵」：<strong>只要不再出现新的电动车计提，GAAP 同比改善就是确定性事件</strong>；跟踪面板里「新增计提」与「电动化政策转向」是需要同时盯住的两端。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">新业务（软件订阅 / 防务 / 保险）：能不能撑起「去周期化」的估值重估？</h2>
+        <span class="qa__impact-tag">→ 递延收入 63 亿 +50% · 盈利占比仍小（估算）</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>方向真实、增速快，但规模还小——未来 2-3 年它是<strong>「估值期权」而非「盈利支柱」</strong>。软件与服务递延收入 <strong>63 亿美元、同比增长近 50%</strong>，2026 年确认收入有望超 30 亿美元、毛利率约 70%；防务 2026 年营收近 7 亿美元并实现盈利、手握超 10 亿美元步兵班组车辆合同、长期 CAGR 预期 30%+；保险已覆盖 21 个州、60% 以上的美国销量。但这些加总对 140-160 亿美元调整后 EBIT 的贡献仍是低个位数到中个位数百分比（估算）。<em>保留判断：期权价值兑现的前提是增速持续——软件递延收入增速若从 50% 台阶回落，「卖服务」的叙事会立刻打折。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>盈利渠道的影响目前有限，估值渠道才是主战场。</strong>软件与服务全年确认收入 30 亿美元+、按约 70% 毛利率计毛利约 20 亿美元，扣除费用后对集团 EBIT 的贡献估计在中低个位数百分比（估算）——不足以改变 EPS 的增长方向，但足以改变 EPS 的「质地」。</p>
+            <p>倍数端：当前约 6 倍 PE 是纯周期股定价。若市场开始把软件订阅（高毛利、经常性、弱周期）与防务（长周期军工合同）从整车业务里拆出来单独给价（SOTP，估算），倍数向券商目标价隐含的 7-9 倍 2026E 靠拢并不需要 EPS 上修。<strong>新业务是「戴维斯双击」里倍数那一击的载体。</strong></p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>软件递延收入 <strong>63 亿、+50%</strong> 是硬数据不是故事：2,200 万辆 OTA 车辆是天然的订阅分发渠道，OnStar 付费用户年底接近 1,300 万</li>
+              <li>Super Cruise 付费选装率 <strong>30-40%</strong>，下一代高端皮卡标配将带来约 16 万辆增量——<strong>智驾订阅是整车之外毛利最高的增量</strong>（服务毛利率约 70%）</li>
+              <li>防务是弱周期的第二曲线：2026 年近 7 亿美元营收且盈利、<strong>超 10 亿美元合同在手</strong>、长期 CAGR 30%+，军工订单周期与汽车周期基本不相关</li>
+              <li>管理层已给出 2027 年软件与服务收入<strong>双位数增长</strong>的预期——新业务从「概念」进入「有指引」阶段</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>规模不够改写周期：30 亿确认收入对 1,850 亿营收的公司是<strong>零头</strong>，汽车下行周期一来照样吞噬新业务增长</li>
+              <li>递延收入高增部分依赖<strong>新车销售捆绑与免费试用期转化</strong>，续费留存率未披露，+50% 的增速可持续性存疑</li>
+              <li>防务 7 亿美元的体量对集团 EBIT 的贡献以千万美元计（估算），<strong>30% CAGR 也要很多年才能长成气候</strong></li>
+              <li>「车企变科技公司」的叙事市场上演过很多次——<strong>估值重估从未因为故事发生，只因为利润占比真实改变而发生</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（新业务数据一览 · 规模对比）</summary>
+          <div class="evidence__body">
+            <h5>新业务关键数据（截至 2026 Q2）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>业务</th><th>关键数据</th><th>备注</th></tr></thead><tbody><tr><td>软件与服务（OnStar / Super Cruise 等）</td><td>递延收入 <strong>63 亿美元</strong>，同比 +50%；2026 年确认收入有望 &gt;30 亿美元；毛利率约 70%</td><td>管理层预计 2027 年收入双位数增长</td></tr><tr><td>OnStar 订阅</td><td>付费用户预计年底接近 <strong>1,300 万</strong></td><td>依托约 2,200 万辆 OTA 车辆保有量</td></tr><tr><td>Super Cruise</td><td>用户超 <strong>85 万</strong>；付费选装率 30-40%；下一代高端皮卡标配预计带来 16 万辆增量</td><td>智驾订阅是服务收入的高毛利增量</td></tr><tr><td>防务（GM Defense）</td><td>2026 年营收近 <strong>7 亿美元</strong>并实现盈利；超 10 亿美元步兵班组车辆合同；长期 CAGR 预期 &gt;30%</td><td>2026-08 至 11 或有新军方合同/合作进展</td></tr><tr><td>保险</td><td>覆盖 <strong>21 个州</strong>、60% 以上的美国销量</td><td>依托车辆数据定价的嵌入式车险</td></tr></tbody></table></div>
+            <h5>规模对比（估算）</h5>
+            <ul>
+              <li>软件全年确认收入 30 亿美元+ ≈ 集团营收（约 1,850 亿）的 <strong>~1.6%</strong>；毛利约 20 亿美元，对集团调整后 EBIT（140-160 亿）贡献估计在 <strong>5-10%</strong> 区间（估算）</li>
+              <li>防务 + 保险合计 EBIT 贡献以数亿美元计（估算），占比更小</li>
+              <li>结论：<strong>新业务改变的是盈利结构的「质地」，还不足以改变「方向」</strong>——它的价值主要通过估值倍数渠道兑现</li>
+            </ul>
+            <h5>解读：一句话</h5>
+            <p>判断新业务成色的量化指标很简单：<strong>软件递延收入增速能否守住 50% 台阶、Super Cruise 选装率能否突破 40%</strong>。这两个数字每季度财报都能核对，不需要信仰。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 4 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">4</span>
+        <h2 class="qa__title">估值与股东回报：约 6 倍 PE + 股本年缩 8%，赔率站在哪边？</h2>
+        <span class="qa__impact-tag">→ 约 6x FY2026E 调整后 EPS（估算）· 赔率约 1.9:1</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>赔率偏向多方。现价约对应 <strong>6x FY2026E 调整后 EPS（约 13 美元，估算）</strong>、约 7x 汽车业务 FCF（估算，FCF 指引 95-115 亿美元）；六家券商全部买入/增持，目标价 103-132 美元。更重要的是回购结构：<strong>2026 H1 回购 28 亿美元、稀释股数同比 -8%</strong>，管理层明确 2027 年继续——在 6 倍 PE 上回购，每一美元都在高效增厚 EPS，即便估值倍数纹丝不动，EPS 复利也能驱动股价。<em>保留判断：现价约 78 美元为按一页通「约 6 倍市盈率」表述与券商盈利预测反推的估算值（精确值以行情为准）；空方核心论据「峰值盈利」无法被证伪、只能被时间检验——若衰退来临、EPS 跌回 10 美元下方，6 倍也保护不了多少。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这个问题本身就是估值问题。</strong>当前定价的矛盾：一边是 Q2 超预期、全年指引上调 5 亿、券商一致预期 FY2026E EPS 12.7-13.8 美元（高于公司指引中值）；另一边是约 6 倍 PE 的纯周期股定价。EPS 端有双引擎——EBIT 增长（指引 140-160 亿）叠加股本收缩（-8%），EPS 增速将快于 EBIT 增速；倍数端只需从 6x 回到券商目标价隐含的 7-9x 2026E，就构成完整的戴维斯双击。</p>
+            <p>三情景测算（估算）：期望值约较现价 <strong>+23%</strong>，赔率约 <strong>1.9:1</strong>（+69% / -36%）。下行情景的缓冲来自 FCF：95-115 亿美元的 FCF 指引对应约 10% 收益率（估算），回购与股息在低位托底。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>约 6x 调整后 PE 对一家<strong>指引上调、FCF 收益率约 10%（估算）、股本年缩 8%</strong> 的公司，是「把坏消息全部定价」的价格</li>
+              <li>六家券商一致看多：目标价 103-132 美元，对应 7-9x 2026E——<strong>即便最保守的高盛目标价（103）也隐含约三成上行</strong>（以估算现价约 78 美元计）</li>
+              <li>回购是「明牌」：管理层公开承诺 2027 年继续以 EPS 加速驱动股价——<strong>低估值 + 确定性回购 = 下有底的不对称结构</strong></li>
+              <li>催化剂日程明确：新皮卡 10-11 月预售、12 月交付，Q3 财报给 2027 展望——<strong>未来两个季度不缺事件</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li><strong>「峰值盈利」论</strong>：汽车是强周期行业，历史上一体化车企的最低 PE 总出现在盈利顶点——6 倍可能不是错杀而是合理定价</li>
+              <li>若衰退来临，皮卡/SUV 需求与定价双杀，EPS 可能跌回 9-10 美元区间，<strong>届时 5-6x 对应 50 美元下方，下行空间依然可观</strong></li>
+              <li>109 亿重组 + 中国份额降至 6.6%，是长期战略风险的账单——<strong>便宜需要有便宜的道理，低 PE 本身不构成买入理由</strong></li>
+              <li>券商目标价对应 7-9x 仍属保守区间，说明<strong>连多方都不敢给成长股倍数</strong>——重估的上限可能比想象的低</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（券商预测 · 三情景测算 · 股东回报）</summary>
+          <div class="evidence__body">
+            <h5>券商盈利预测与目标价（调整后口径）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级 / 目标价</th><th>FY2025A EPS</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>花旗</td><td>买入 / $131</td><td>10.60</td><td>13.60</td><td>14.60</td><td>15.25</td></tr><tr><td>道明证券</td><td>买入 / $132</td><td>10.62</td><td>13.30</td><td>15.50</td><td>17.60</td></tr><tr><td>高盛</td><td>买入 / $103</td><td>10.61</td><td>13.55</td><td>14.50</td><td>15.00</td></tr><tr><td>巴克莱</td><td>增持 / $110</td><td>10.62</td><td>13.84</td><td>15.44</td><td>17.19</td></tr><tr><td>摩根大通</td><td>增持 / $110</td><td>10.60</td><td>12.65</td><td>14.35</td><td>16.35</td></tr><tr><td>中金公司</td><td>跑赢行业 / $105</td><td colspan="4">调整后 EBIT（亿美元）：FY2025A 127.46 → FY2026E 156.0 → FY2027E 163.4</td></tr></tbody></table></div>
+            <p>注：FY2026E EPS 共识集中在 12.7-13.8 美元，高于公司指引中值 13 美元；FY2027E 普遍 14.35 美元以上。目标价对应 2026 年 PE 7-9 倍、2027 年 6-8 倍，较当前约 6 倍（估算）有明确修复空间。</p>
+            <h5>三情景假设（FY2027 视角；估算现价约 78 美元，精确值以行情为准）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>FY2027E 调整后 EPS</th><th>合理 PE</th><th>隐含股价</th><th>vs 当前</th></tr></thead><tbody><tr><td>乐观（25%）</td><td>新皮卡成功 + 定价延续 + 新业务获 SOTP 定价</td><td>~15.5（券商预测上沿）</td><td>8.5x</td><td>~132</td><td>+69%</td></tr><tr><td>中性（50%）</td><td>指引兑现、新皮卡平稳换代、倍数温和修复</td><td>~14.5（共识）</td><td>7x</td><td>~101</td><td>+29%</td></tr><tr><td>悲观（25%）</td><td>衰退 + 定价崩塌，盈利回落周期底部</td><td>~10（回落）</td><td>5x</td><td>~50</td><td><span class="warn">-36%</span></td></tr></tbody></table></div>
+            <p><strong>期望值约 96 美元，较估算现价约 +23%；赔率约 1.9:1（+69% / -36%）。</strong>乐观情景隐含股价与道明证券目标价（132）一致；中性情景与高盛/中金目标价（103-105）相互印证。注意：悲观情景的 5x 已是周期股底部倍数，若衰退深度超预期，下行可能更深——这是持有这只股票必须接受的波动性质。</p>
+            <h5>股东回报与现金流</h5>
+            <ul>
+              <li><strong>回购</strong>：2026 H1 回购 28 亿美元，稀释股数同比 <strong>-8%</strong>；管理层明确 2027 年继续，优先投资回报率 &gt;20% 的核心业务、其余现金回馈股东</li>
+              <li><strong>FCF</strong>：FY2026 调整后汽车业务 FCF 指引 95-115 亿美元（上调后）；FY2025 集团 FCF 高达 175.64 亿美元（含一次性因素扰动）</li>
+              <li><strong>含义</strong>：按估算现价，FCF 收益率约 10%（估算）——即使倍数不修复，回购 + 股息也提供可观的持有回报</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>：公司概况、近况跟踪、业务拆分、财务数据、券商预测（见同目录《通用汽车_一页通.md》，亦见本站「一页通」标签页）</li>
+        <li><strong>财务数据</strong>：FY2023-2026H1 利润表与现金流、分部数据、FY2026 管理层指引（正文数据均来自公开财报整理）</li>
+        <li><strong>局限</strong>：未读财报原文与电话会纪要（建议下一步补读 2026Q2 earnings call 中关于新皮卡定价策略与 2027 展望的表述）；现价为按一页通估值表述（约 6 倍 PE）与券商盈利预测反推的估算值（约 78 美元），精确值以行情为准；FY2025 与 2026 H1 GAAP 利润含大额电动车重组费用（FY2025 79 亿、Q2'26 23 亿），GAAP 与调整后口径差异巨大，跨期比较一律用调整后口径；软件业务利润贡献与三情景测算均为标注「估算」的推算</li>
+        <li><strong>管理层评估（一句话版）</strong>：资本配置纪律是这届管理层最强的验证点——「优先投回报率 20%+ 的核心业务、其余回购」说到做到（H1 回购 28 亿、股本同比 -8%），电动车止损与指引上调的果断也体现执行力；但 109 亿美元重组本身说明其战略判断曾犯大错，对「新业务再扩张」的叙事应保持一分警惕</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>通用汽车是全球最大的汽车制造商之一，核心业务聚焦于设计、制造和销售卡车、跨界车及汽车零部件，并提供软件驱动的服务与订阅。公司核心利润来源为北美市场，尤其在全尺寸皮卡和大型SUV领域占据强势市场地位，旗下拥有雪佛兰、别克、GMC和凯迪拉克四大核心品牌。近年来，公司战略重心转向巩固高利润的燃油车业务，同时收缩电动车激进扩张计划，并积极拓展软件订阅、防务及保险等高附加值、弱周期的新兴业务。</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul>
+<li><strong>2026年Q2业绩超预期并上调全年指引</strong>：公司Q2调整后息税前利润为<strong>39.43亿美元</strong>，同比增长<strong>29.8%</strong>，调整后每股收益为<strong>3.57美元</strong>，均显著超出市场预期。基于强劲的定价能力和保修成本的改善，公司将2026年全年调整后息税前利润指引上调<strong>5亿美元</strong>至<strong>140亿至160亿美元</strong>，调整后汽车业务自由现金流指引上调至<strong>95亿至115亿美元</strong>。</li>
+<li><strong>北美业务利润率重回目标区间</strong>：北美业务（GMNA）Q2调整后息税前利润率达<strong>8.6%</strong>，同比提升<strong>2.5个百分点</strong>，重回公司<strong>8-10%</strong> 的长期目标区间。这主要得益于强劲的定价（同比贡献<strong>6亿美元</strong>）、保修成本下降及排放合规成本节约，部分抵消了商品通胀和物流成本的压力。</li>
+<li><strong>电动车战略重组进入尾声</strong>：Q2公司记录了<strong>23亿美元</strong>的电动车相关重组费用，自2025年下半年以来累计费用已达<strong>109亿美元</strong>。管理层表示，为调整电动车产能和制造布局而产生的主要现金费用已基本完成，未来相关支出将大幅减少。</li>
+<li><strong>新业务增长引擎加速</strong>：软件与服务业务Q2递延收入达<strong>63亿美元</strong>，同比增长近<strong>50%</strong>，全年确认收入有望超过<strong>30亿美元</strong>。防务业务（GM Defense）预计2026年营收近<strong>7亿美元</strong>并实现盈利，未来数年营收年复合增长率预计超<strong>30%</strong>。保险业务已扩展至<strong>21个州</strong>，覆盖通用汽车美国销量的<strong>60%</strong> 以上。</li>
+<li><strong>中国市场盈利但销量承压</strong>：中国合资企业Q2实现股权收益<strong>8300万美元</strong>，连续第七个季度盈利，但销量同比下滑<strong>20%</strong>。盈利主要得益于对高利润车型（如别克GL8）的聚焦、严格的成本控制及渠道价格管理。</li>
+</ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol>
+<li><strong>新一代全尺寸皮卡上市催化估值修复</strong>：公司计划于<strong>2026年12月</strong>向经销商交付新一代雪佛兰Silverado和GMC Sierra轻型皮卡。这是公司最核心的利润来源，其换代是未来3个月内最关键的催化剂。管理层明确表示，新车在性能、设计和科技配置上均有显著提升，为提价创造了空间。市场预期，新皮卡带来的产品力跃升将巩固甚至扩大通用在北美全尺寸皮卡市场<strong>超过42%</strong> 的份额优势，并驱动2027年盈利增长。这一确定性较高的事件有望成为公司估值从当前极低水平（约6倍市盈率）向上修复的直接导火索。</li>
+<li><strong>盈利韧性与上调指引驱动预期差交易</strong>：尽管面临持续的关税压力（全年预计<strong>25亿至35亿美元</strong>）、商品通胀和物流成本上升，公司依然在Q2实现了利润率扩张并上调全年指引。这向市场传递了一个关键信号：公司的成本控制能力和定价权足以抵御宏观逆风。当前市场对汽车行业终端需求存在担忧，但通用汽车的业绩表明其核心业务的盈利韧性被低估。这种实际业绩与市场悲观预期之间的差距，构成了未来一个季度内交易预期差的机会。</li>
+<li><strong>高利润新业务规模化带来的价值重估机会</strong>：公司的软件订阅、防务和保险业务正从概念走向规模化。特别是软件与服务业务，其递延收入已超<strong>60亿美元</strong>，且毛利率高达<strong>70%</strong> 左右，正逐渐成为稳定的利润贡献者。防务业务也获得了超<strong>10亿美元</strong>的步兵班组车辆合同。这些高利润率、弱周期性的业务正在改变公司的盈利结构，使其不再单纯依赖汽车销售周期。随着市场对这些新业务价值的逐步认知，公司有望获得业务模式升级带来的估值溢价。</li>
+</ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol>
+<li><strong>北美皮卡和SUV市场的结构性护城河</strong>：通用汽车在北美全尺寸皮卡和大型SUV市场拥有难以复制的竞争优势。其市场份额长期领先，Q2全尺寸皮卡市场份额超<strong>42%</strong>，大型SUV销量约为最接近竞争对手的<strong>3倍</strong>。这一优势建立在百年品牌忠诚度、庞大的忠实客户基础、规模化的制造与供应链体系以及深厚的产品研发积淀之上。该细分市场的客户对价格相对不敏感，更看重产品性能、耐用性和品牌，这使得公司拥有较强的定价权，并能维持高于行业平均的利润率。只要北美市场对大型车辆的需求结构不发生根本性改变，这一业务就是公司长期稳定的“现金牛”。</li>
+<li><strong>从“卖硬件”到“卖服务”的盈利模式升级</strong>：公司正利用其庞大的车辆保有量（约<strong>2200万辆</strong>具备OTA能力的汽车），通过OnStar和Super Cruise等软件服务，将一次性车辆销售转变为持续性的收入来源。OnStar的付费用户预计到年底将接近<strong>1300万</strong>，Super Cruise用户将超过<strong>85万</strong>。这些服务的毛利率远高于整车制造，随着渗透率提升和功能增加，将显著改善公司整体盈利能力和盈利稳定性，降低周期波动。管理层预计2027年软件与服务收入将实现双位数增长，这为长期利润增长提供了清晰的路径。</li>
+<li><strong>资本配置纪律下的股东回报最大化</strong>：公司展现出卓越的资本配置纪律，优先投资于回报率高于<strong>20%</strong> 的核心业务，并维持强劲的资产负债表。在满足业务投资需求后，公司将大量自由现金流用于股票回购。2026年上半年已回购<strong>28亿美元</strong>股票，稀释后股数同比下降约<strong>8%</strong>。在极低的估值水平下，大规模回购能显著增厚每股收益，为长期股东创造可观价值。管理层明确表示，2027年将继续执行这一策略，通过EPS的加速增长来驱动股价。</li>
+</ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul>
+<li><strong>核心市场周期性风险</strong>：公司的利润高度依赖北美全尺寸皮卡和SUV市场。若美国经济陷入衰退、利率持续高企或燃油价格大幅上涨，可能导致消费者推迟或放弃购买高价值的大型车辆，转向更经济的车型，从而对公司销量、定价和利润率造成重大冲击。</li>
+<li><strong>电动车转型的沉没成本与战略不确定性</strong>：尽管公司已收缩电动车战略，但已为此付出了<strong>109亿美元</strong>的巨额重组费用。未来若电动车技术出现突破性进展、消费者偏好快速转变或监管政策再次收紧，公司可能面临前期投资沉没、且需重新投入巨资追赶的风险，陷入战略两难境地。</li>
+<li><strong>中国市场长期挑战</strong>：尽管中国业务通过重组实现了连续盈利，但销量持续下滑，市场份额已降至<strong>6.6%</strong>。在中国本土品牌强势崛起和激烈的价格战环境下，通用汽车在华业务面临长期的结构性压力。与上汽的合资协议虽已续约至2047年，但如何在一个日益本土化、电动化的市场中保持竞争力和盈利能力，仍是一个巨大的挑战。</li>
+</ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul>
+<li><strong>2026年7月21日</strong>：通用汽车公布2026年第二季度财报，业绩全面超出市场预期，并上调了2026年全年盈利和自由现金流指引。</li>
+<li><strong>2026年7月28日</strong>：上汽通用汽车宣布高层人事变动，原华域汽车总经理徐平接替卢晓出任上汽通用汽车总经理，此举被视为股东双方为合资公司下一阶段转型配置的关键人事安排。</li>
+<li><strong>2026年8月5日</strong>：上汽集团与通用汽车正式签署合资续约协议，将上汽通用汽车的合资期限延长<strong>20年</strong>至<strong>2047年</strong>，并明确将中国作为凯迪拉克和别克品牌的出口基地，标志着双方合作进入“技术共创、全球输出”的新阶段。</li>
+</ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul>
+<li><strong>2026年10月-12月</strong>：新一代全尺寸皮卡（雪佛兰Silverado和GMC Sierra）将于<strong>2026年12月</strong>抵达展厅，在此之前，公司预计将在10月或11月公布更多产品细节、定价策略并开启预售。预售订单数据将是衡量新车市场反响和未来盈利贡献的关键先行指标。</li>
+<li><strong>2026年10月-11月</strong>：公司预计将发布2026年第三季度财报。届时，管理层将提供关于新一代皮卡上市准备情况、2027年初步展望以及资本配置计划（如新的回购授权）的更多细节，这将是对其长期增长逻辑的一次重要验证。</li>
+<li><strong>2026年8月-11月</strong>：公司防务业务（GM Defense）可能在此期间宣布新的军方合同或与洛克希德·马丁等防务巨头的合作进展。任何实质性订单的落地都将进一步验证该新兴业务的增长潜力，并提升公司的估值想象空间。</li>
+</ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<p><strong>业务边际变化</strong>：公司正经历深刻的战略调整。核心变化是<strong>从激进的电动化扩张转向巩固高利润的燃油车业务</strong>，并为此承担了巨额重组费用。同时，公司正积极培育<strong>软件订阅、防务、保险和储能</strong>等新兴业务，旨在将盈利来源从单一的汽车销售，拓展至高附加值服务和技术输出，降低周期波动。</p>
+<p><strong>盈利模式</strong>：公司的盈利模式正从单纯依赖“硬件销售”向“硬件销售+软件服务+技术输出”的复合模式转变。其核心盈利基础是<strong>通过强大的产品力和品牌忠诚度，在北美皮卡和SUV市场获取定价权和规模优势</strong>。在此基础上，通过OnStar和Super Cruise等软件服务获取高利润的持续性收入，并通过防务业务进入高壁垒、长周期的军工市场。</p>
+<p><strong>业务拆分</strong>：公司业务主要分为<strong>北美汽车（GMNA）、国际汽车（GMI）和汽车金融（GM Financial）</strong> 三大板块。北美汽车是绝对的利润中心，贡献了绝大部分盈利。国际汽车板块中，中国合资企业的盈利状况对整体影响显著。汽车金融板块则提供稳定且可观的利润和股息。公司当前处于<strong>业绩兑现期</strong>，即前期战略调整（电动车收缩、中国业务重组）的正面效果开始在财务报表中显现，同时新业务尚在早期高速增长阶段。</p>
+<p><strong>细分业务拆分（按报告分部，单位：亿美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>业务板块</th><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026 H1</th></tr></thead><tbody><tr><td rowspan="4"><strong>GM北美 (GMNA)</strong></td><td>收入</td><td>1,414.45</td><td>1,575.09</td><td>1,543.17</td><td>763.12</td></tr><tr><td>收入占比</td><td>82.3%</td><td>84.0%</td><td>83.4%</td><td>83.3%</td></tr><tr><td>调整后EBIT</td><td>123.06</td><td>145.28</td><td>104.52</td><td>71.07</td></tr><tr><td>调整后EBIT利润率</td><td>8.7%</td><td>9.2%</td><td>6.8%</td><td>9.3%</td></tr><tr><td rowspan="4"><strong>GM国际 (GMI)</strong></td><td>收入</td><td>159.49</td><td>138.90</td><td>134.27</td><td>65.50</td></tr><tr><td>收入占比</td><td>9.3%</td><td>7.4%</td><td>7.3%</td><td>7.1%</td></tr><tr><td>调整后EBIT</td><td>12.10</td><td>3.03</td><td>7.37</td><td>3.14</td></tr><tr><td>调整后EBIT利润率</td><td>7.6%</td><td>2.2%</td><td>5.5%</td><td>4.8%</td></tr><tr><td rowspan="4"><strong>GM金融 (GM Financial)</strong></td><td>收入</td><td>142.25</td><td>158.75</td><td>170.60</td><td>85.43</td></tr><tr><td>收入占比</td><td>8.3%</td><td>8.5%</td><td>9.2%</td><td>9.3%</td></tr><tr><td>调整后税前利润</td><td>29.85</td><td>29.65</td><td>28.02</td><td>12.94</td></tr><tr><td>调整后税前利润率</td><td>21.0%</td><td>18.7%</td><td>16.4%</td><td>15.1%</td></tr></tbody></table></div>
+<ul>
+<li><strong>GM北美（GMNA）</strong>：2026年上半年，该板块调整后息税前利润率达<strong>9.3%</strong>，重回公司<strong>8-10%</strong> 的目标区间。核心驱动力是强劲的定价，这得益于公司对全尺寸皮卡和大型SUV的产品力优势及严格的库存管理（经销商库存天数维持在<strong>55天</strong>左右）。同时，保修成本的改善和排放合规成本的下降也贡献了利润。该板块是公司绝对的利润引擎。</li>
+<li><strong>GM国际（GMI）</strong>：该板块包含中国合资企业的股权收益。2026年上半年，中国合资企业贡献了<strong>2.48亿美元</strong>的股权收益，同比大幅增长，是GMI板块盈利改善的关键。这主要得益于公司在中国市场放弃“以价换量”的策略，转而聚焦别克GL8等高利润车型，并严格控制成本。尽管销量下滑，但盈利能力显著修复。</li>
+<li><strong>GM金融（GM Financial）</strong>：该板块为购车客户和经销商提供融资支持。2026年上半年，其税前利润有所下滑，主要原因是租赁车辆折旧费用增加和运营成本上升，但部分被较低的利息支出所抵消。该板块持续向通用汽车支付股息，2026年上半年为<strong>9亿美元</strong>，是公司重要的现金来源。</li>
+</ul>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：依托强大产品力与品牌忠诚度构筑的定价权</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：<strong>结构性护城河</strong>。通用汽车在北美全尺寸皮卡和大型SUV市场的定价权，源于其数十年积累的品牌资产、庞大的忠实客户群体以及产品在性能、耐用性和残值方面的领先地位。这一优势难以在短期内被竞争对手复制。</li>
+<li><strong>数据验证</strong>：2026年Q2，公司北美地区调整后息税前利润率达到<strong>8.6%</strong>，同比提升<strong>2.5个百分点</strong>，重回<strong>8-10%</strong> 的目标区间。同期，公司激励措施占平均交易价格的比例为<strong>4.7%</strong>，持续低于行业平均<strong>1.5至2个百分点</strong>。管理层将定价作为Q2利润超预期的主要驱动力，贡献了<strong>6亿美元</strong>的同比增量。</li>
+<li><strong>动态演变</strong>：<strong>护城河变宽（巩固）</strong>。即将于2026年12月上市的新一代全尺寸皮卡，在性能、科技和设计上均有显著升级，为公司进一步提升产品定位和价格提供了机会。管理层已明确表示对新车定价持乐观态度，预计将延续强劲的定价势头。</li>
+</ul>
+<p><strong>竞争要素 2：通过软件与服务构建的客户粘性与转换成本</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：<strong>结构性护城河（早期阶段）</strong>。通过OnStar和Super Cruise等服务，公司正将车辆从一次性硬件销售转变为持续产生收入的平台。这些服务深度嵌入车辆功能，为客户提供安全、便捷和先进的驾驶体验，从而提高了客户的转换成本，并创造了高利润的持续性收入来源。</li>
+<li><strong>数据验证</strong>：2026年Q2，OnStar递延收入达<strong>63亿美元</strong>，同比增长近<strong>50%</strong>。Super Cruise的付费选装率维持在<strong>30-40%</strong> 的区间。这些服务的毛利率高达<strong>70%</strong> 左右，远高于整车制造。公司预计2026年全年软件与服务确认收入将超过<strong>30亿美元</strong>。</li>
+<li><strong>动态演变</strong>：<strong>护城河变宽（巩固）</strong>。公司计划在下一代高端皮卡上标配Super Cruise，并在多数车型上提供选装，预计此举将带来<strong>16万辆</strong>的增量。随着车辆保有量的增加和功能的不断丰富，软件与服务的收入规模和客户粘性将持续增强，成为公司重要的利润增长极。</li>
+</ul>
+<p><strong>现阶段核心驱动力总结</strong>：通用汽车的Alpha来源于其在北美皮卡和SUV市场的绝对领先地位和卓越的资本配置能力，这使其能够持续产生强劲的自由现金流并大规模回馈股东。其Beta属性则与北美宏观经济和汽车行业周期紧密相关。当前，公司正通过发展高利润、弱周期的新业务来增强Alpha属性，以对冲其Beta风险。</p>
+<p><strong>竞争格局传导逻辑</strong>：</p>
+<ul>
+<li>强大的全尺寸皮卡/SUV产品力与品牌忠诚度 → 显著高于行业平均的定价权与较低的激励支出 → 北美业务利润率重回8-10%目标区间，产生巨额自由现金流</li>
+<li>持续扩大的软件与服务订阅用户群 → 高利润率、高粘性的经常性收入来源 → 改善整体盈利质量与稳定性，提升公司估值中枢</li>
+<li>巨额自由现金流与高利润经常性收入 → 支持大规模股票回购与新兴业务投资</li>
+</ul>
+<h3 class="doc-h2">产销链</h3>
+<ul>
+<li><strong>客户情况</strong>：公司通过独立授权经销商网络进行销售，客户包括个人消费者和车队客户（租赁公司、政府、商业客户）。2026年上半年，车队销售量同比增长，其中政府销售额创2009年以来新高，全尺寸皮卡在商业客户中创下交付记录。公司对单一客户的依赖度低，客户集中度风险不显著。</li>
+<li><strong>供应商情况</strong>：公司从全球众多供应商处采购原材料和零部件。2025年，来自两家最大供应商的采购额合计约占<strong>12%</strong>。公司面临商品价格（如铝、铜）和特定组件（如DRAM内存芯片）成本上涨的压力。为保障供应链安全，公司已与美光、三星等关键供应商建立长期战略合作关系。公司具备一定的成本转嫁能力，但无法完全抵消所有上游涨价影响。</li>
+<li><strong>经销商情况</strong>：截至2026年Q2末，美国经销商库存为<strong>51.1万辆</strong>，约合<strong>55天</strong>供应量，处于公司<strong>50-60天</strong>的目标区间中段，库存水平健康。公司通过严格的库存管理和有纪律的激励措施，维持了终端价格的稳定，避免了渠道压货和价格战，保护了品牌价值和经销商利润。</li>
+<li><strong>成本传导定性</strong>：当上游原材料或零部件的成本上升时，通用汽车凭借其强大的产品力，尤其是皮卡和SUV的市场地位，能够通过提高新车售价将部分成本压力转嫁给消费者。公司赚取的核心是<strong>品牌溢价</strong>和<strong>规模制造利润</strong>，而非单纯的加工费或周期资源钱。</li>
+</ul>
+<h3 class="doc-h2">财务数据</h3>
+<p><strong>关键财务数据（单位：亿美元）</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>项目</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026 H1</th></tr></thead><tbody><tr><td>截止日期</td><td>2023-12-31</td><td>2024-12-31</td><td>2025-12-31</td><td>2026-06-30</td></tr><tr><td><strong>营业总收入</strong></td><td>1718.42</td><td>1874.42</td><td>1850.19</td><td>916.50</td></tr><tr><td>收入同比</td><td>9.64%</td><td>9.08%</td><td>-1.29%</td><td>0.56%</td></tr><tr><td>营业成本</td><td>1527.04</td><td>1640.37</td><td>1734.23</td><td>829.99</td></tr><tr><td><strong>营业利润</strong></td><td>92.98</td><td>127.84</td><td>29.09</td><td>43.85</td></tr><tr><td>营业利润率</td><td>5.41%</td><td>6.82%</td><td>1.57%</td><td>4.78%</td></tr><tr><td><strong>归母净利润</strong></td><td>100.22</td><td>71.89</td><td>31.80</td><td>39.01</td></tr><tr><td>归母净利润同比</td><td>12.42%</td><td>-28.27%</td><td><span class="warn">-55.77%</span></td><td><span class="warn">-25.33%</span></td></tr><tr><td><strong>稀释每股收益（美元）</strong></td><td>7.32</td><td>6.37</td><td>3.27</td><td>4.25</td></tr><tr><td>经营活动现金流净额</td><td>209.30</td><td>201.29</td><td>268.67</td><td>93.04</td></tr><tr><td>资本性支出</td><td>-109.70</td><td>-108.30</td><td>-93.03</td><td>-34.54</td></tr><tr><td><strong>自由现金流</strong></td><td>99.60</td><td>92.99</td><td><strong>175.64</strong></td><td>58.50</td></tr></tbody></table></div>
+<p>注：自由现金流 = 经营活动现金流净额 + 资本性支出。GAAP 盈利指标在 FY2025 因巨额电动车重组费用（79 亿美元）严重失真，同期调整后息税前利润为 127.46 亿美元。</p>
+<p><strong>财务分析</strong>：</p>
+<ul>
+<li><strong>盈利能力</strong>：公司的GAAP盈利指标在2025年因巨额的电动车重组费用（<strong>79亿美元</strong>）而严重失真，导致营业利润和归母净利润大幅下滑。然而，调整后息税前利润（2025年为<strong>127.46亿美元</strong>）和2026年上半年的强劲表现表明，公司核心业务的盈利能力依然稳健。2026年H1的调整后息税前利润率已恢复至<strong>8.9%</strong>，显示出盈利质量的修复。</li>
+<li><strong>成长能力</strong>：收入增长已趋于平缓，2025年出现小幅下滑，2026年上半年基本持平。这表明公司已进入成熟期，未来增长将更多依赖于产品组合向高价值车型的转移（如新一代皮卡）、软件与服务等新业务的扩张，而非单纯的销量增长。</li>
+<li><strong>运营能力</strong>：公司通过严格的库存管理，将经销商库存天数控制在<strong>55天</strong>的健康水平，这有助于维持定价纪律和减少促销成本，是运营效率提升的体现。</li>
+<li><strong>现金流与股东回报</strong>：公司展现出强大的现金生成能力，即使在巨额重组费用的冲击下，2025年自由现金流仍达到<strong>175.64亿美元</strong>。强劲的自由现金流是公司进行大规模股票回购（2026年H1回购<strong>28亿美元</strong>）和支付股息的坚实基础，体现了其作为“现金牛”的财务特征。</li>
+</ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<p><strong>行业分析</strong>：通用汽车的核心赛道是<strong>北美全尺寸皮卡和大型SUV市场</strong>。这是一个高度集中的寡头垄断市场，主要参与者为通用、福特和Ram。该市场的需求受宏观经济、利率、油价和消费者信心影响，但由于客户群体（如商业车队、高收入家庭）的特殊性，其周期性相对弱于普通乘用车市场。市场规模巨大且稳定，单车利润极高，是汽车行业中最具吸引力的细分领域之一。行业趋势上，尽管电动化是长期方向，但短期内，由于政策放宽和消费者实际需求，燃油皮卡和SUV的市场需求依然强劲。</p>
+<p><strong>竞争格局</strong>：通用汽车在该核心市场占据领先地位，其全尺寸皮卡市场份额超过<strong>42%</strong>，大型SUV销量约为最接近竞争对手的<strong>3倍</strong>。其竞争优势主要源于强大的品牌忠诚度、持续的产品创新和庞大的规模效应。</p>
+<p><strong>可比公司分析</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>核心对标维度</th><th>分析</th></tr></thead><tbody><tr><td>福特汽车 (Ford)</td><td>F</td><td>北美全尺寸皮卡市场直接竞争对手</td><td>通用与福特共同主导北美皮卡市场，但通用的利润率、定价能力和市场份额均优于福特，显示出更强的产品竞争力和运营效率。</td></tr><tr><td>Stellantis (Ram品牌)</td><td>STLA</td><td>北美全尺寸皮卡市场第三大竞争者</td><td>Ram品牌是皮卡市场的有力竞争者，但通用和福特在销量和品牌忠诚度上仍保持显著领先。</td></tr><tr><td>特斯拉 (Tesla)</td><td>TSLA</td><td>电动车市场领导者，估值标杆</td><td>特斯拉在电动车领域拥有绝对的领先地位和远高于传统车企的估值。通用在电动车战略上收缩，聚焦于追赶而非挑战特斯拉的领导地位，但在传统燃油车市场的盈利能力远超特斯拉。</td></tr></tbody></table></div>
+<p><strong>总结分析</strong>：通用汽车在其核心的北美皮卡和SUV市场拥有稳固的护城河，竞争格局对其有利。其主要挑战并非来自该细分市场的现有对手，而是来自行业电动化、智能化的长期趋势，以及如何在中国等海外市场应对本土品牌的激烈竞争。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<ul>
+<li><strong>议题一：核心盈利的质量与可持续性</strong>——<strong>背景</strong>：公司GAAP利润因巨额电动车重组费用而大幅波动，市场担忧其调整后利润是否真实反映了业务的持续盈利能力。同时，当前的高利润率是否由不可持续的强定价周期所驱动，也是关注焦点。<strong>问题列表</strong>：1）2026年H1北美业务<strong>9.3%</strong> 的调整后息税前利润率，有多少是由不可持续的强定价和一次性保修改善贡献的？2）随着新一代皮卡上市带来的更高成本，以及商品通胀压力的持续，2027年利润率能否继续维持或扩张？3）公司如何确保在向软件服务等新业务转型的过程中，核心汽车业务的盈利水平不被稀释？</li>
+<li><strong>议题二：2027年增长逻辑的兑现路径</strong>——<strong>背景</strong>：管理层在Q2业绩会上明确表示2027年将在收入、利润率、息税前利润和自由现金流上实现增长，但未给出具体量化指引。市场需要更清晰的路径来验证这一乐观预期。<strong>问题列表</strong>：1）新一代皮卡带来的增量销量和定价收益，能否完全对冲掉潜在的宏观需求疲软、成本上涨和车型换代带来的生产中断成本？2）软件与服务、防务等新业务在2027年能贡献多大的利润增量？其增长速度是否足以对整体盈利产生实质性影响？3）中国业务在销量持续下滑的背景下，能否继续依靠成本控制和产品组合优化来维持盈利贡献？</li>
+<li><strong>议题三：电动车战略收缩后的长期影响</strong>——<strong>背景</strong>：公司已为电动车战略调整付出了<strong>109亿美元</strong>的代价。虽然短期财务压力解除，但市场对其在汽车行业长期电动化趋势中的竞争地位存在疑虑。<strong>问题列表</strong>：1）大幅削减电动车投资，是否会导致公司在未来关键技术（如电池、软件、自动驾驶）上落后于竞争对手，从而丧失长期竞争力？2）公司如何平衡对高利润燃油车业务的持续投资与对未来电动化技术的必要储备？3）如果未来监管政策再次转向鼓励电动车，公司是否有足够的技术和产能储备来迅速响应？</li>
+</ul>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p>市场对通用汽车的核心分歧在于，其当前展现的强劲盈利和现金流是<strong>周期性顶点</strong>还是<strong>结构性改善的起点</strong>。</p>
+<p><strong>看空方观点（“周期股”逻辑）</strong>：认为汽车行业是强周期行业，通用汽车当前的业绩主要受益于美国强劲的消费者需求和有利的产品周期，尤其是皮卡和SUV的高利润。一旦宏观经济下行、利率维持高位或消费者需求疲软，公司的销量、定价和利润将面临显著压力。巨额的电动车重组费用和在中国市场的持续份额流失，被视为公司长期战略风险的证据。因此，当前约6倍的极低市盈率是合理的，反映了其周期性和未来不确定性。</p>
+<p><strong>看多方观点（“价值重估”逻辑）</strong>：认为通用汽车已不再是单纯的周期股。公司通过严格的资本配置、成本控制和业务结构优化，已经证明了其在逆境中的盈利韧性。更重要的是，公司正通过发展高利润、弱周期的软件订阅、防务和保险业务，从根本上改变其盈利模式，降低对汽车销售周期的依赖。新一代皮卡的上市和这些新业务的规模化，将为公司提供清晰且确定的增长路径。因此，当前极低的估值是不可持续的，随着新业务价值逐步被市场认知，公司有望迎来盈利和估值的“戴维斯双击”。</p>
+<p><strong>总结分析</strong>：看空方的逻辑点出了汽车行业的本质风险，而看多方的逻辑则捕捉到了公司正在发生的积极质变。通用汽车的未来取决于其能否成功执行从传统汽车制造商向“硬件+软件+服务”综合平台转型的战略。如果新业务能够持续高速增长并达到临界规模，其估值体系将有望重塑；反之，如果核心汽车业务的下行周期吞噬了新业务的增长，那么“周期股”的标签将难以摘除。</p>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<p><strong>管理层最新指引</strong>（2026 财年）：</p>
+<ul>
+<li>调整后息税前利润：<strong>140亿至160亿美元</strong>。</li>
+<li>调整后摊薄每股收益：<strong>12.00至14.00美元</strong>。</li>
+<li>调整后汽车业务自由现金流：<strong>95亿至115亿美元</strong>。</li>
+<li>公司同时表示，基于当前信息，相信2027年能够在营收、利润率、息税前利润和自由现金流上实现增长。</li>
+</ul>
+<p><strong>券商盈利预测与估值</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价(美元)</th><th>财务指标</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>花旗 (Citi)</td><td>买入</td><td>131</td><td>调整后EPS(美元)</td><td>10.60</td><td>13.60</td><td>14.60</td><td>15.25</td></tr><tr><td>道明证券 (TD Cowen)</td><td>买入</td><td>132</td><td>调整后EPS(美元)</td><td>10.62</td><td>13.30</td><td>15.50</td><td>17.60</td></tr><tr><td>高盛 (Goldman Sachs)</td><td>买入</td><td>103</td><td>调整后EPS(美元)</td><td>10.61</td><td>13.55</td><td>14.50</td><td>15.00</td></tr><tr><td>巴克莱 (Barclays)</td><td>增持</td><td>110</td><td>调整后EPS(美元)</td><td>10.62</td><td>13.84</td><td>15.44</td><td>17.19</td></tr><tr><td>摩根大通 (J.P. Morgan)</td><td>增持</td><td>110</td><td>调整后EPS(美元)</td><td>10.60</td><td>12.65</td><td>14.35</td><td>16.35</td></tr><tr><td>中金公司 (CICC)</td><td>跑赢行业</td><td>105</td><td>调整后EBIT(亿美元)</td><td>127.46</td><td>156.0</td><td>163.4</td><td>-</td></tr></tbody></table></div>
+<p>主要券商对通用汽车普遍持积极看法，评级均为“买入”或“增持”。对2026年调整后EPS的预测集中在<strong>13至13.84美元</strong>之间，高于公司指引中值<strong>13美元</strong>，显示出市场对公司盈利能力的信心。对2027年的EPS预测则普遍在<strong>14.35美元以上</strong>，反映了对新一轮产品周期和新业务增长的乐观预期。估值方法上，多数机构采用市盈率（P/E）估值，目标价对应2026年市盈率在<strong>7-9倍</strong>之间，或2027年市盈率在<strong>6-8倍</strong>之间，较当前交易水平有一定提升空间，但整体仍属保守。</p>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/GM · 生成于 2026-08-07</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-07';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'hit',     text: '<strong>2026 Q2 业绩超预期并上调全年指引</strong>：调整后 EBIT 39.43 亿美元（同比 +29.8%）、调整后 EPS 3.57 美元；全年调整后 EBIT 指引上调 5 亿至 140-160 亿美元、汽车 FCF 指引上调至 95-115 亿美元', note: '2026-07-21 财报披露' },
+  { kind: 'cat', status: 'pending', text: '<strong>新一代 Silverado/Sierra 细节、定价与预售</strong>（2026-10/11）：预售订单数据是衡量新车反响与 2027 盈利贡献的关键先行指标', note: '2026-12 开始向经销商交付；全尺寸皮卡份额 >42%' },
+  { kind: 'cat', status: 'pending', text: '<strong>2026 Q3 财报</strong>（2026-10/11）：新皮卡上市准备、2027 年初步展望、新回购授权', note: '管理层已口头承诺 2027 年收入/利润率/EBIT/FCF 增长，等待量化' },
+  { kind: 'cat', status: 'active',  text: '<strong>软件与服务收入兑现</strong>：全年确认收入目标 >30 亿美元（递延收入 63 亿、同比 +50%、毛利率约 70%）', note: '管理层预计 2027 年该业务收入双位数增长' },
+  { kind: 'cat', status: 'pending', text: '<strong>GM Defense 新军方合同</strong>：2026 年营收近 7 亿美元并盈利、长期 CAGR 预期 >30%', note: '已有超 10 亿美元步兵班组车辆合同；8-11 月或有新订单/防务合作进展' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>北美大型车需求受创</strong>：衰退/高利率/油价致皮卡与 SUV 销量、定价双杀，GMNA 利润率跌破 8% 目标区间', note: 'Q2 利润率 8.6%、H1 9.3%；激励占比仍低于行业 1.5-2pp' },
+  { kind: 'risk', status: 'clear', text: '<strong>关税与成本超支</strong>：全年关税冲击超出 25-35 亿美元区间，或商品通胀（铝/铜/DRAM）与物流成本加速上行', note: 'Q2 定价贡献 6 亿美元可部分对冲，但传导有滞后' },
+  { kind: 'risk', status: 'clear', text: '<strong>新皮卡换代不及预期</strong>：预售订单疲软或产能爬坡中断，拖累 2027 年盈利', note: '换代期伴随生产中断与新车成本抬升' },
+  { kind: 'risk', status: 'clear', text: '<strong>中国合资恶化</strong>：销量加速下滑（Q2 已 -20%）或股权收益由盈转亏', note: 'Q2 股权收益 8,300 万美元、连续 7 季盈利；份额已降至 6.6%，合资续约至 2047 年' },
+  { kind: 'risk', status: 'clear', text: '<strong>新增电动车相关计提</strong>：重组尾声表述被推翻，或电动化需求/政策回暖暴露投入不足', note: '累计重组费用 109 亿美元；管理层称主要现金费用已基本完成' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

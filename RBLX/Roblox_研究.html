@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roblox（RBLX.N）公司研究</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root {
+  --paper: #ffffff; --paper-cool: #f3f6f8;
+  --ink: #17202b; --ink-soft: #53606d; --ink-faint: #77838e;
+  --line: #d9e0e6; --line-strong: #b9c4ce;
+  --federal-blue: #164b7a; --policy-red: #b64045; --teal: #23766f; --amber: #9a6a16;
+  --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --shell: 1080px; --header-height: 68px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 20px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ===== 顶栏 ===== */
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); padding: 0 32px; border-bottom: 1px solid rgba(185,196,206,.78); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.site-mark { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.site-mark__seal { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--federal-blue); border-radius: 50%; color: var(--federal-blue); font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.site-mark__text { font-size: 14px; font-weight: 700; }
+.site-mark__text span { margin-left: 7px; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+.site-nav { display: flex; align-items: stretch; min-height: var(--header-height); }
+.site-nav button { position: relative; display: grid; min-width: 96px; padding: 0 14px; place-items: center; border: 0; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.site-nav button::after { position: absolute; right: 14px; bottom: -1px; left: 14px; height: 2px; background: var(--federal-blue); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity .18s, transform .18s; }
+.site-nav button:hover, .site-nav button.is-active { color: var(--federal-blue); }
+.site-nav button:hover::after, .site-nav button.is-active::after { opacity: 1; transform: scaleX(1); }
+
+.shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
+
+/* ===== 抬头：公司名称 + 观点 ===== */
+.overview { padding: 34px 0 0; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
+.overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
+.overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+.verdict { padding: 16px 18px; border-top: 3px solid var(--policy-red); background: var(--paper-cool); }
+.verdict span { display: block; margin-bottom: 4px; color: var(--ink-faint); font-size: 12px; }
+.verdict strong { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+.verdict strong.hold { color: var(--amber); }
+.verdict strong.buy { color: var(--policy-red); }
+.verdict strong.sell { color: var(--teal); }
+.verdict em { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 12px; font-style: normal; line-height: 1.5; }
+.overview__meta { display: flex; gap: 18px; margin-top: 10px; color: var(--ink-faint); font-size: 12px; }
+
+/* ===== 关键指标栏 ===== */
+.summary-rail { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); min-height: 74px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.summary-rail__item { display: flex; flex-direction: column; justify-content: center; padding: 10px 18px; border-right: 1px solid var(--line); }
+.summary-rail__item:last-child { border-right: 0; }
+.summary-rail__item strong { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.summary-rail__item strong.up { color: var(--policy-red); }
+.summary-rail__item span { margin-top: 6px; color: var(--ink-faint); font-size: 11px; }
+
+/* ===== 跟踪面板（置顶，AI 核对标注） ===== */
+.tracker { margin: 28px 0 0; border: 1px solid var(--line-strong); }
+.tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--line-strong); background: #19232d; color: #fff; }
+.tracker__head h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.tracker__head span { color: #8f9ba5; font-size: 12px; }
+.tracker__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.tracker__col { padding: 16px 22px 18px; }
+.tracker__col + .tracker__col { border-left: 1px solid var(--line); }
+.tracker__col h3 { margin: 0 0 12px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.tracker__col.catalyst h3 { color: var(--policy-red); }
+.tracker__col.risk h3 { color: var(--teal); }
+.track-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.track-item:last-child { margin-bottom: 0; }
+.track-item__badge { flex: none; margin-top: 2px; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.st-pending   { background: #f5e9d3; color: var(--amber); }
+.st-active    { background: #e3ecf5; color: var(--federal-blue); }
+.st-hit       { background: #f7e2e3; color: var(--policy-red); }
+.st-miss      { background: #e0eeec; color: var(--teal); }
+.st-clear     { background: #eceff2; color: var(--ink-faint); }
+.st-triggered { background: var(--policy-red); color: #fff; }
+.track-item__text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.track-item__text strong { color: var(--ink); }
+.track-item__text .note { display: block; margin-top: 2px; color: var(--ink-faint); font-size: 12px; }
+.track-item.resolved .track-item__text { color: var(--ink-faint); }
+.tracker__foot { padding: 10px 22px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11.5px; }
+
+/* ===== 核心问题卡片 ===== */
+.doc { padding: 40px 0 80px; }
+.doc[hidden] { display: none; }
+.qa { margin: 0 0 40px; border: 1px solid var(--line-strong); }
+.qa__head { display: flex; gap: 18px; align-items: baseline; padding: 22px 26px 18px; border-bottom: 1px solid var(--line-strong); background: var(--paper-cool); }
+.qa__num { flex: none; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--federal-blue); line-height: 1; }
+.qa__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 650; line-height: 1.35; }
+.qa__title small { display: block; margin-top: 4px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
+.qa__impact-tag { flex: none; align-self: center; margin-left: auto; padding: 4px 12px; border: 1px solid var(--policy-red); border-radius: 3px; color: var(--policy-red); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.qa__body { padding: 0 26px 26px; }
+
+/* 结论条（问题之下第一顺位） */
+.conclusion { display: grid; grid-template-columns: 64px 1fr; gap: 16px; margin: 20px 0; padding: 16px 20px; background: #eef3f8; border-left: 3px solid var(--federal-blue); }
+.conclusion__label { color: var(--federal-blue); font-size: 14px; font-weight: 750; }
+.conclusion p { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.65; }
+.conclusion p em { color: var(--ink-soft); font-weight: 500; font-style: normal; }
+
+/* 对 EPS / 估值倍数的影响（紧跟结论） */
+.impact { display: grid; grid-template-columns: 110px 1fr; gap: 18px; margin-bottom: 20px; padding: 16px 20px; border-left: 3px solid var(--policy-red); background: #faf1f1; }
+.impact__label { color: var(--policy-red); font-size: 13px; font-weight: 750; line-height: 1.5; }
+.impact__body p { margin: 0 0 8px; color: var(--ink-soft); font-size: 14px; }
+.impact__body p:last-child { margin-bottom: 0; }
+.impact__body strong { color: var(--ink); }
+
+/* 对立论点：多空两栏 */
+.debate { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); }
+.debate__side { padding: 16px 20px; }
+.debate__side + .debate__side { border-left: 1px solid var(--line); }
+.debate__side h4 { margin: 0 0 10px; font-size: 13px; font-weight: 750; letter-spacing: .04em; }
+.debate__side.bull h4 { color: var(--policy-red); }
+.debate__side.bear h4 { color: var(--teal); }
+.debate__side ul { margin: 0; padding-left: 18px; }
+.debate__side li { margin-bottom: 7px; color: var(--ink-soft); font-size: 14px; }
+.debate__side li strong { color: var(--ink); }
+
+/* 论据（可折叠） */
+details.evidence { margin-bottom: 4px; border: 1px solid var(--line); }
+details.evidence summary { display: flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--paper-cool); color: var(--federal-blue); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; user-select: none; }
+details.evidence summary::-webkit-details-marker { display: none; }
+details.evidence summary::after { content: "展开 ▾"; margin-left: auto; color: var(--ink-faint); font-size: 12px; font-weight: 500; }
+details.evidence[open] summary::after { content: "收起 ▴"; }
+.evidence__body { padding: 18px 20px 6px; }
+.evidence__body h5 { margin: 16px 0 8px; color: var(--federal-blue); font-size: 13.5px; font-weight: 750; }
+.evidence__body h5:first-child { margin-top: 0; }
+.evidence__body p, .evidence__body li { color: var(--ink-soft); font-size: 14px; }
+.evidence__body p { margin: 0 0 12px; }
+.evidence__body ul, .evidence__body ol { margin: 0 0 14px; padding-left: 22px; }
+.evidence__body li { margin-bottom: 6px; }
+.evidence__body li strong, .evidence__body p strong { color: var(--ink); }
+
+/* 通用表格 / 引用 */
+.tbl-wrap { margin: 12px 0 18px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { padding: 10px 12px; border-top: 1.5px solid var(--line-strong); border-bottom: 1.5px solid var(--line-strong); background: var(--paper-cool); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.warn { color: var(--policy-red); }
+
+/* 一页通标签页（沿用旧文档样式） */
+#tab-onepager .doc-h2 { margin: 32px 0 14px; padding-left: 14px; border-left: 3px solid var(--federal-blue); font-family: var(--font-display); font-size: 22px; font-weight: 650; }
+#tab-onepager .doc-h2:first-child { margin-top: 0; }
+#tab-onepager p, #tab-onepager li { color: var(--ink-soft); font-size: 15px; }
+#tab-onepager p { margin: 0 0 14px; }
+#tab-onepager ul, #tab-onepager ol { margin: 0 0 16px; padding-left: 24px; }
+#tab-onepager li { margin-bottom: 6px; }
+#tab-onepager strong { color: var(--ink); }
+
+/* 附录 */
+.appendix { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.appendix h3 { margin: 0 0 12px; font-family: var(--font-display); font-size: 20px; font-weight: 650; }
+.appendix p, .appendix li { color: var(--ink-soft); font-size: 14px; }
+.appendix ul { margin: 0 0 14px; padding-left: 22px; }
+.appendix li { margin-bottom: 6px; }
+.appendix strong { color: var(--ink); }
+
+/* ===== 页脚 ===== */
+.sources { padding: 40px 0; background: #19232d; color: #bdc7d0; }
+.sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
+.sources p { margin: 0; font-size: 13px; }
+.site-footer { padding: 18px 0; background: #111920; color: #8f9ba5; font-size: 11px; }
+
+@media (max-width: 720px) {
+  .shell { width: min(calc(100% - 32px), var(--shell)); }
+  .overview__heading { grid-template-columns: 1fr; gap: 18px; }
+  .overview__copy h1 { font-size: 32px; }
+  .summary-rail { grid-template-columns: repeat(2, 1fr); }
+  .tracker__grid { grid-template-columns: 1fr; }
+  .tracker__col + .tracker__col { border-left: 0; border-top: 1px solid var(--line); }
+  .debate { grid-template-columns: 1fr; }
+  .debate__side + .debate__side { border-left: 0; border-top: 1px solid var(--line); }
+  .impact, .conclusion { grid-template-columns: 1fr; gap: 6px; }
+  .qa__head { flex-wrap: wrap; }
+  .qa__impact-tag { margin-left: 0; }
+  .site-nav button { min-width: 78px; padding: 0 8px; }
+  .site-mark__text span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-mark" href="../research/index.html" title="返回公司研究入口">
+    <span class="site-mark__seal">RBLX</span>
+    <span class="site-mark__text">Roblox 公司研究<span>Roblox · RBLX.N</span></span>
+  </a>
+  <nav class="site-nav">
+    <button class="is-active" data-tab="report">核心问题</button>
+    <button data-tab="onepager">一页通</button>
+  </nav>
+</header>
+
+<section class="overview" id="top">
+  <div class="shell">
+    <div class="overview__heading">
+      <div class="overview__copy">
+        <h1>Roblox<span class="en">Roblox · RBLX.N · 美股研究</span></h1>
+        <p class="sub">UGC 游戏平台之王刚经历了上市以来最狼狈的一个财报季：2Q26 预订额（Bookings）增速骤降至 8.3%，3Q 指引同比负增 14%-18%，全年指引干脆暂停，股价单日暴跌约 30%。但硬币另一面是：1.23 亿 DAU 仍创新高、1H26 自由现金流 8.90 亿美元、30 亿美元回购正在执行、估值已被砸到约 3 倍 EV/Bookings 的成熟发行商区间。核心矛盾是：管理层主动用短期变现换长期留存与安全合规（算法目标切换、年龄分层账户、分成提至 37.8%），而市场按「增长引擎熄火 + 监管税永驻」定价——我们认为赔率已显著改善，但胜率要等 3Q26 参与度数据验证，给「持有」。</p>
+        <div class="overview__meta">
+          <span>研究日期 2026-08-07</span>
+          <span>下次更新：欧盟 DSA 认定决定（2026-08）/ RDC 开发者大会（2026-09~10）/ 3Q26 财报（2026-10~11）</span>
+        </div>
+      </div>
+      <div class="verdict">
+        <span>观点</span>
+        <strong class="hold">持有</strong>
+        <em>现价约 35-40 美元（估算）、约 3x FY2026E EV/Bookings（估算），上市以来最低区间，接近成熟游戏发行商水平；网络效应与现金流未损，但变现效率下滑 + 全年指引暂停 + 监管升级令短期胜率不可验证；重检条件：3Q26 预订额/时长数据、欧盟 DSA 认定、Build 放量——任一明确好转或恶化即重估。</em>
+      </div>
+    </div>
+    <div class="summary-rail">
+      <div class="summary-rail__item"><strong class="up">预订额 +8.3%</strong><span>2Q26 同比 · 15.58 亿美元 · 增速骤降</span></div>
+      <div class="summary-rail__item"><strong class="up">1.23 亿</strong><span>2Q26 DAU · 新高 · 时长 290 亿小时</span></div>
+      <div class="summary-rail__item"><strong>-14%~-18%</strong><span>3Q26 预订额指引同比 · 全年指引暂停</span></div>
+      <div class="summary-rail__item"><strong>$8.90亿</strong><span>1H26 自由现金流 · 30 亿美元回购执行中</span></div>
+    </div>
+
+    <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
+    <section class="tracker" id="tracker">
+      <div class="tracker__head">
+        <h2>跟踪面板</h2>
+        <span id="tracker-checked">最近核对：—</span>
+      </div>
+      <div class="tracker__grid">
+        <div class="tracker__col catalyst">
+          <h3>🎯 催化剂（等待兑现）</h3>
+          <div id="tracker-catalysts"></div>
+        </div>
+        <div class="tracker__col risk">
+          <h3>⚠️ 风险点（证伪信号）</h3>
+          <div id="tracker-risks"></div>
+        </div>
+      </div>
+      <div class="tracker__foot">状态在每次更新研究时核对标注：催化剂「待验证 / 进行中 / 已兑现 / 落空」，风险点「未触发 / 已触发」。任一风险点转「已触发」→ 重检观点。</div>
+    </section>
+  </div>
+</section>
+
+<main class="shell">
+  <article class="doc" id="tab-report">
+
+    <!-- ============ 核心问题 1 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">1</span>
+        <h2 class="qa__title">变现效率下滑：是「短空长多」的主动改革，还是增长见顶的信号？</h2>
+        <span class="qa__impact-tag">→ 3Q26 预订额指引 -14%~-18% · 全年指引暂停</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>2Q26 每小时预订额（Bookings per Hour）下滑、北美 13 岁以下群体最明显，管理层归因于两点：① 用户时长从 2025 年高变现爆款结构性转向新游戏与常青游戏；② 推荐算法（RFY）优化目标从短期变现切换为 28 天长期留存。这是一次<strong>主动改革</strong>——管理层称内部 A/B 测试显示留存提升带来的长期收益将超过短期预订额损失，且同期推出年龄分层账户（Kids/Select）强化安全。<em>保留判断：公司同时暂停了全年业绩指引，意味着连管理层自己也无法量化改革结果，「短空长多」目前只能视为假设而非事实；第三方线索偏正面——花旗按 3Q CCU（并发用户）趋势测算预订额约 16.9 亿美元，高于公司指引上限（16.53 亿美元）。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>预订额是先行指标，收入滞后 2-3 个季度。</strong>1H26 收入仍 +37.6%（确认的是过去高预订期的充值），但 FY2026E 预订额共识已从年初的 86-88 亿美元被砍至 68-70 亿美元区间——按此推算，FY2027 收入增速将从 35%+ 显著降档，GAAP 口径亏损（1H26 净亏 4.29 亿美元，SBC 5.57 亿美元）的收窄进程也会放缓。</p>
+            <p>倍数渠道的打击已经发生且更直接：单日暴跌约 30%、市值蒸发逾百亿美元后，估值被砸到<strong>约 3x EV/Bookings（估算）</strong>，接近成熟游戏发行商区间。当前倍数对「变现效率下滑」的定价已相当充分，未来倍数走向几乎完全取决于预订额增速曲线能否在 3Q26-4Q26 见底——这正是本问题排在第一位的原因。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>是<strong>主动改革而非被动恶化</strong>：算法目标切换与年龄分层账户均为管理层主动选择，内部 A/B 测试支持「留存 LTV 提升 &gt; 短期预订额损失」</li>
+              <li>生态集中度在下降：前 10 大游戏占总时长从三年前约 30% 降至约 <strong>20%</strong>，对单一爆款依赖降低，增长底盘更分散、更可持续</li>
+              <li>美银用 7,500 款游戏交叉验证：<strong>即使剔除 2025 年爆款，平台总时长 2025 年仍增长 35%</strong>，且 2026 年初仍在加速——增长并非全靠爆款</li>
+              <li>第三方高频数据偏乐观：花旗（2026-08-04）按保守假设测算 3Q CCU 趋势对应预订额 <strong>16.9 亿美元，高于公司指引上限</strong></li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>变现效率下滑是既成事实：2Q26 预订额 +8.3% 已处指引下沿，3Q 指引同比 <strong>-14%~-18%</strong>，恶化速度超出所有机构预期</li>
+              <li><strong>暂停全年指引</strong>意味着管理层自己也无法量化改革结果，业绩可见度处于上市以来最低水平</li>
+              <li>时长向低变现内容迁移<strong>可能是结构性的</strong>：爆款后的均值回归，还是用户偏好永久变化，目前无法区分；算法调整未必能逆转</li>
+              <li>2025 年高增长可能透支了需求：面对 11 月《GTA VI》上市与宏观压力，3-4Q26 参与度数据可能继续疲软（瑞银 8 月 3 日因此下调评级）</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（预订额 vs 收入机制 · 关键经营数据）</summary>
+          <div class="evidence__body">
+            <h5>关键经营指标（预订额 = 当期用户充值，先行指标；收入 = 按用户生命周期分期确认，滞后指标）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>指标（单位）</th><th>FY2024</th><th>FY2025</th><th>1H26 / 2Q26</th></tr></thead><tbody><tr><td>日活跃用户 DAU（百万）</td><td>—</td><td>127</td><td><strong>123</strong>（2Q26 季度均值，同比仍增）</td></tr><tr><td>总时长（十亿小时）</td><td>—</td><td>123.9</td><td>29.0（2Q26）</td></tr><tr><td>预订额 Bookings（亿美元）</td><td>43.69</td><td>67.88（+55.4%）</td><td>32.88（1H26）；2Q26 为 15.58，<span class="warn">+8.3%</span></td></tr><tr><td>收入（亿美元）</td><td>36.02</td><td>48.91（+35.8%）</td><td>29.11（1H26，+37.6%）</td></tr><tr><td>自由现金流（亿美元）</td><td>6.41</td><td>13.53</td><td>8.90（1H26）</td></tr></tbody></table></div>
+            <p>注：预订额与收入的口径差，正是当前「收入仍 +37%、指引已 -18%」看似矛盾的根源——收入确认滞后，预订额才是边际变化的真实读数。</p>
+            <h5>变现效率下滑的三条归因链</h5>
+            <ul>
+              <li><strong>算法切换</strong>：RFY 推荐流优化目标从短期变现 → 28 天长期留存，直接压低单位时长充值；管理层称内部 A/B 支持长期收益覆盖短期损失</li>
+              <li><strong>内容组合迁移</strong>：时长从 2025 年高变现爆款转向新游戏与常青游戏，常青游戏商业化设计较弱，北美 13 岁以下每小时预订额降幅最大</li>
+              <li><strong>安全摩擦</strong>：年龄验证渗透率升至 57%、6 月 16 日全球推出 Roblox Kids/Select 账户，短期抑制注册、沟通与参与度（长期换取品牌信任与合规空间）</li>
+            </ul>
+            <h5>管理层 3Q26 指引与第三方交叉验证</h5>
+            <ul>
+              <li>公司指引：3Q26 预订额 <strong>15.76-16.53 亿美元</strong>（同比 -14%~-18%），未提供全年指引</li>
+              <li>花旗（2026-08-04）：即使保守假设，3Q CCU 趋势也指向 <strong>16.9 亿美元</strong>预订额，高于指引上限——若兑现，将是「指引过于保守」的第一个证据</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 2 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">2</span>
+        <h2 class="qa__title">年龄层上移 + AI 创作飞轮：能否撑起第二增长曲线？</h2>
+        <span class="qa__impact-tag">→ 18+ 用户仅占已验证 DAU 27% · DevEx 分成提至 37.8%</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>这是 Roblox 方向最确定的长期变量，且已有早期数据验证：<strong>Build</strong>（自然语言生成可玩游戏）在新西兰试点的 DAU 已超过传统开发工具 Roblox Studio；美国 18 岁以上已验证用户的变现能力比 18 岁以下<strong>高出 50% 以上</strong>，公司 6 月 8 日把该群体的内购开发者分成（DevEx）从 26.6% 提至 37.8%，用真金白银购买成人内容供给。但要清醒：18+ 用户目前仅占年龄已验证 DAU 的 <strong>27%</strong>，收入仍由低龄用户主导（北美占约 57% 收入），「长大」是 2-3 年级别的变量，短期内填不上预订额的缺口。<em>保留判断：Build 把创作门槛降到「一句话生成游戏」，内容供给爆炸几乎必然，但供给爆炸是否转化为预订额、还是淹没推荐质量，新西兰之外尚无验证数据。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>短期对利润是负贡献：</strong>分成从 26.6% 提至 37.8% 直接压低平台抽成率，叠加 AI 基础设施投入，公司明确提示 3Q26 调整后 EBITDA 将大幅萎缩（1H26 调整后 EBITDA 为 2.51 亿美元）；GAAP 亏损收窄进程同步放缓。</p>
+            <p><strong>长期是倍数修复的前提：</strong>18+ 群体占全球游戏市场约 80% 份额，若其占平台 DAU 比重从 27% 向行业权重靠拢，预订额天花板接近翻倍；叠加 Roblox Reality（照片级真实感）撕掉「低龄像素风」标签、广告等新变现方式落地，估值叙事才能从「儿童游戏平台」切换为「全年龄 UGC + 社交平台」——这是倍数从 3x 回到 5x+ 的必要条件。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>瞄准变现效率最高的方向：18+ 占全球游戏市场约 <strong>80%</strong>，美国市场 18+ 用户变现比低龄用户<strong>高 50%+</strong>，当前 27% 渗透率意味着巨大提升空间</li>
+              <li><strong>Build 的 NZ 试点 DAU 已超 Roblox Studio</strong>——AI 创作工具产品力得到初步验证，内容供给侧的扩张可能非线性</li>
+              <li>分成提至 37.8% + Roblox Reality 画质升级，目标直指传统游戏开发者与 RPG、射击等高变现品类，内容结构正在升维</li>
+              <li>创作者经济飞轮在加速：2025 年创作者合计赚取 <strong>15.03 亿美元（+63%）</strong>，42,000+ 创作者达到 DevEx 兑现资格——供给端激励充足</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>提高分成是<strong>「用利润买供给」</strong>：平台抽成率被直接压缩，短期利润率压力放大，且回报周期以年计</li>
+              <li>成人用户争夺是红海：18+ 用户的时长被《GTA》《堡垒之夜》等成熟大作牢牢占据，Roblox 的画风与社交链优势在成人群体明显弱化，<strong>11 月 GTA VI 上线是即时压力测试</strong></li>
+              <li>Build 降低门槛的另一面是<strong>低质 AI 内容泛滥</strong>，可能稀释推荐质量、拉低整体变现效率——与问题 1 的变现下滑形成共振</li>
+              <li>AI 模型训练与推理成本正在成为新的固定成本项，长期对毛利率构成压力</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（年龄层上移数据 · AI 创作工具 · 创作者经济）</summary>
+          <div class="evidence__body">
+            <h5>年龄层上移：空间与抓手</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>维度</th><th>数据</th><th>含义</th></tr></thead><tbody><tr><td>18+ 用户占比</td><td>仅占年龄已验证 DAU 的 <strong>27%</strong></td><td>渗透率提升空间巨大</td></tr><tr><td>市场权重</td><td>18+ 占全球游戏市场约 <strong>80%</strong></td><td>平台结构与行业结构严重错配 = 天花板可抬升</td></tr><tr><td>变现差</td><td>美国 18+ 变现能力较低龄用户<strong>高 50%+</strong></td><td>结构上移直接拉高整体 ARPU</td></tr><tr><td>经济激励</td><td>DevEx 分成 26.6% → <strong>37.8%</strong>（2026-06-08，美国 18+ 已验证用户内购）</td><td>用分成换成人内容供给</td></tr><tr><td>技术抓手</td><td>Roblox Reality（照片级真实感多人游戏）+ Moments 短视频并入主页</td><td>撕掉低龄标签、强化内容发现</td></tr></tbody></table></div>
+            <h5>AI 创作工具（Build）</h5>
+            <ul>
+              <li>自然语言描述直接生成可玩游戏，创作门槛降至「一句话」；<strong>NZ 试点 DAU 已超过 Roblox Studio</strong>（2Q26 电话会披露）</li>
+              <li>战略意图：内容供给爆炸 → 吸引并留住更广用户群（尤其 18+）→ 驱动长期预订额；风险在于供给质量控制</li>
+            </ul>
+            <h5>创作者经济</h5>
+            <ul>
+              <li>2025 年创作者合计赚取 <strong>15.03 亿美元（同比 +63%）</strong>；42,000+ 创作者达到 DevEx 兑现资格；2025 年分成比例整体提升 8.5%</li>
+              <li>内容生态健康度：前 10 大游戏时长占比从约 30% 降至约 <strong>20%</strong>（三年维度）；但头部效应仍在——2025 年 12 月前 50 款游戏占 51% 游戏内时长</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ============ 核心问题 3 ============ -->
+    <section class="qa">
+      <div class="qa__head">
+        <span class="qa__num">3</span>
+        <h2 class="qa__title">估值与安全/监管风险：约 3 倍 EV/Bookings 定价了多少坏消息？</h2>
+        <span class="qa__impact-tag">→ 约 3x FY2026E EV/Bookings（估算） · 单日暴跌约 30%</span>
+      </div>
+      <div class="qa__body">
+
+        <div class="conclusion">
+          <span class="conclusion__label">结论</span>
+          <p>单日暴跌约 30%（市值蒸发逾百亿美元）把倍数砸到了成熟游戏发行商区间——<strong>约 3x FY2026E EV/Bookings（估算）</strong>，而 FY2025 预订额还是 +55.4% 的增长、1H26 自由现金流 8.90 亿美元、30 亿美元回购正在低位执行。对短期恐慌的定价已较充分；但有两条风险尚未被完全定价：① <strong>安全合规可能成为永久性「监管税」</strong>——欧盟预计 8 月认定其为 DSA「超大型在线平台」（VLOPs），多州检察长诉讼/调查进行中；② <strong>《GTA VI》（2026-11-19）</strong>对 18+ 用户时长的冲击是真实压力测试。<em>我们的判断：赔率已转向多方占优，但胜率取决于 3Q26 参与度数据与监管落地形态，故给「持有」而非「买入」——三情景期望值仅小幅为正（约 +10%，估算）。</em></p>
+        </div>
+
+        <div class="impact">
+          <div class="impact__label">对 EPS / 估值倍数的影响</div>
+          <div class="impact__body">
+            <p><strong>这个问题本身就是估值问题。</strong>当前定价的矛盾在于：共识 FY2026E 预订额已从年初 86-88 亿美元下修至 68-70 亿美元，盈利端坏消息基本出尽；但券商目标价分布极宽（40-165 美元），摩根大通 40 美元（中性）与反推现价（约 35-40 美元，估算）基本持平，而花旗 70、中金 58、华泰 55.03 仍隐含 40%-80% 上行空间——分歧的本质不是业绩方向，而是「这次下滑是周期性还是结构性」。</p>
+            <p>换 FCF 视角：1H26 自由现金流 8.90 亿美元，年化约 18 亿美元，对应 EV/FCF 约 11-12 倍（估算）——对一个 DAU 仍在增长、预订额商业模式（预收款）现金流极佳的平台，这是偏低的倍数；前提是预订额不出现断崖。反向风险走「监管税」渠道：若 DSA 义务 + 美国诉讼和解成本常态化，利润率中枢下移，3x 倍数就不算便宜。</p>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="debate__side bull">
+            <h4>多方论点</h4>
+            <ul>
+              <li>约 3x EV/Bookings 对一家<strong>预订额两年 CAGR 曾超 30%、FCF 年化约 18 亿美元</strong>的平台，是上市以来从未有过的成熟发行商定价——恐慌已过度</li>
+              <li><strong>30 亿美元回购在低位执行</strong>（Q2 已回购约 3.80 亿美元），管理层用真金白银为估值托底，同时年龄验证渗透率升至 57%，安全叙事从负债转资产</li>
+              <li>花旗交叉验证显示 3Q 实际预订额可能<strong>高于指引上限</strong>——若兑现，「管理层过度保守 + 空头拥挤」将触发回补行情</li>
+              <li>网络效应护城河未损：1.23 亿 DAU、1,400 万活跃体验、创作者年入 15 亿美元的飞轮完整，短期变现波动不改生态结构</li>
+            </ul>
+          </div>
+          <div class="debate__side bear">
+            <h4>空方论点</h4>
+            <ul>
+              <li>「便宜」可以是新常态：若变现效率结构性下移，Roblox 就该按成熟平台定价，<strong>3x 不是错杀而是合理</strong></li>
+              <li>监管风险在升级而非收敛：欧盟 VLOPs 认定（8 月）带来内容审核/风险评估/透明度硬义务，多州检察长诉讼的法律费用与和解成本可能成为<strong>永久性利润拖累</strong></li>
+              <li>暂停全年指引 = 可见度归零，机构无法建模，估值缺乏锚；瑞银已下调评级与目标价</li>
+              <li>11 月《GTA VI》上线，对 18+ 用户（公司押注的增长引擎）的时长与消费冲击尚未发生，<strong>四季度还有一个明牌利空窗口</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="evidence">
+          <summary>论据（财务速览 · 三情景测算 · 券商预测）</summary>
+          <div class="evidence__body">
+            <h5>关键财务数据（单位：亿美元；EPS 为基本口径）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>报告期</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>1H26</th></tr></thead><tbody><tr><td>营业收入</td><td>27.99</td><td>36.02</td><td>48.91</td><td>29.11</td></tr><tr><td>收入同比</td><td>+25.8%</td><td>+28.7%</td><td>+35.8%</td><td><strong>+37.6%</strong></td></tr><tr><td>开发者交换费（DevEx）</td><td>7.41</td><td>9.23</td><td>15.03</td><td>7.86</td></tr><tr><td>毛利率（扣 DevEx 后）</td><td>50.3%</td><td>52.1%</td><td>47.4%</td><td><strong>52.9%</strong></td></tr><tr><td>归母净利润</td><td>-11.52</td><td>-9.35</td><td>-10.65</td><td><span class="warn">-4.29</span></td></tr><tr><td>基本每股收益（美元）</td><td>-1.87</td><td>-1.44</td><td>-1.54</td><td>-0.60</td></tr><tr><td>调整后 EBITDA</td><td>—</td><td>1.80</td><td>1.25</td><td>2.51</td></tr><tr><td>自由现金流</td><td>—</td><td>6.41</td><td><strong>13.53</strong></td><td><strong>8.90</strong></td></tr></tbody></table></div>
+            <p>注：GAAP 持续亏损主要受高额股权激励拖累（1H26 达 5.57 亿美元）；预订额预收款模式使现金流远好于账面利润。公司管理层未提供 2026 全年指引。</p>
+            <h5>三情景假设（FY2027 视角，现价约 35-40 美元、取 37 美元为基准估算）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>情景</th><th>关键假设</th><th>FY2027E 预订额</th><th>合理倍数</th><th>隐含回报</th></tr></thead><tbody><tr><td>乐观（30%）</td><td>算法改革见效、Build 放量、18+ 渗透提速，预订额增速恢复 15%+</td><td>约 80 亿美元</td><td>5x EV/Bookings</td><td><strong>+50%~+60%</strong></td></tr><tr><td>中性（45%）</td><td>预订额低个位数增长，倍数维持 ~3x，FCF + 回购托底</td><td>约 72-75 亿美元</td><td>~3x EV/Bookings</td><td>±10%</td></tr><tr><td>悲观（25%）</td><td>变现持续下滑 + VLOPs 义务加码 + GTA VI 冲击 18+ 时长</td><td>约 70 亿美元</td><td>2.5x EV/Bookings</td><td><span class="warn">-25%~-30%</span></td></tr></tbody></table></div>
+            <p><strong>期望值约 +10%（估算），不足以直接支撑「买入」，但下行空间被 FCF 与回购部分缓冲。</strong>注意乐观情景的 5x 仍显著低于 Roblox 作为成长平台时期的历史常态倍数（曾长期 6-10x），并非激进假设；悲观情景中「监管税常态化」是唯一可能永久压低利润率中枢的因素，需盯紧 8 月欧盟决定。</p>
+            <h5>券商盈利预测与目标价（口径不一：预订额 / 收入 / EBITDA 混用，跨行比较需谨慎）</h5>
+            <div class="tbl-wrap"><table><thead><tr><th>机构（日期）</th><th>评级 / 目标价</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th></tr></thead><tbody><tr><td>花旗（2026-08-04）</td><td>买入 / $70</td><td>预订额 67.88 亿</td><td>—</td><td>—</td></tr><tr><td>美银（2026-03-25）</td><td>买入 / $165</td><td>预订额 67.88 亿</td><td>预订额 86.24 亿</td><td>预订额 107.80 亿</td></tr><tr><td>华泰（2026-08-05）</td><td>买入 / $55.03</td><td>收入 48.91 亿；净亏 10.72 亿</td><td>收入 61.44 亿；净亏 9.22 亿</td><td>收入 72.06 亿；净亏 5.18 亿</td></tr><tr><td>中金（2026-08-01）</td><td>跑赢行业 / $58</td><td>预订额 67.88 亿</td><td>预订额 69.46 亿</td><td>预订额 78.00 亿</td></tr><tr><td>摩根大通（2026-08-03）</td><td>中性 / $40</td><td>预订额 67.88 亿</td><td>预订额 68.32 亿</td><td>预订额 78.12 亿</td></tr></tbody></table></div>
+            <p>注：美银预测来自 3 月报告，未反映最新指引下修（其 FY2026E 预订额 86.24 亿已明显过时）；华泰为收入/净利润口径；瑞银 8 月 3 日下调评级与目标价（未见具体预测）。<strong>财报后共识 FY2026E 预订额已从 86-88 亿下修至 68-70 亿美元区间</strong>——乐观方与谨慎方的分歧不在业绩方向，而在逆风持续时间与估值倍数。</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="appendix">
+      <h3>附：本研究使用的工具与局限</h3>
+      <ul>
+        <li><strong>公司一页通</strong>：公司概况、近况跟踪、业务模式、财务数据、券商盈利预测（见同目录《Roblox_一页通.md》，亦见本站「一页通」标签页）</li>
+        <li><strong>财务数据</strong>：FY2023-1H26 利润表关键科目、预订额/DAU/时长等经营指标（正文数据均来自公开财报整理）</li>
+        <li><strong>局限</strong>：现价与 EV/Bookings、EV/FCF 倍数为按「单日暴跌约 30%、市值蒸发逾百亿美元」与约 3x EV/Bookings 表述反推的估算值，精确值以行情为准；未读财报原文与电话会纪要（建议下一步补读 2Q26 earnings call 中关于算法切换 A/B 数据与恢复时间表的表述）；公司暂停全年指引，预测可见度低；券商预测口径混乱（预订额/收入/EBITDA/净亏损混用），跨机构比较需逐行核对；一页通中美银目标价（165 美元）基于 3 月旧预测，引用时已标注过时</li>
+        <li><strong>管理层评估（一句话版）</strong>：创始人 CEO David Baszucki 选择主动牺牲短期变现换长期留存与安全合规（算法切换 + 年龄分层 + 分成让利），方向上长期主义，但暂停全年指引让可见度降到上市以来最低——管理层公信力正处于「用 3Q26 数据自证」的考试期</li>
+      </ul>
+    </div>
+
+  </article>
+
+  <article class="doc" id="tab-onepager" hidden>
+<h3 class="doc-h2">公司概况</h3>
+<p>Roblox 是全球领先的沉浸式游戏与创作平台，由 Roblox Client（用户端）、Roblox Studio（开发者工具）和 Roblox Cloud（云基础设施）构成。平台上的所有内容均由用户生成，形成了一个「创作者-内容-用户-变现」的双边网络生态。公司通过销售虚拟货币 Robux 变现，用户在平台内购买虚拟道具或体验通行证，平台抽成后将剩余部分支付给创作者。截至 2026 年 6 月 30 日，平台拥有超过 1400 万个活跃体验，季度平均日活跃用户（DAU）达 1.23 亿。公司目标占据全球游戏内容市场 10% 的份额。（一页通日期：2026-08-06）</p>
+<h3 class="doc-h2">公司近况跟踪</h3>
+<ul>
+<li><strong>2Q26 业绩与 3Q26 指引显著低于预期</strong>：2Q26 预订额（Bookings）为 15.58 亿美元，同比增速放缓至 8.3%，处于指引区间下沿。公司给出的 3Q26 预订额指引中值为 16.15 亿美元，意味着同比下降 14%-18%，远低于市场预期。同时，公司宣布暂停提供全年业绩指引。</li>
+<li><strong>变现效率承压</strong>：核心问题是每小时预订额（Bookings per Hour）下降，尤其在北美 13 岁以下用户群体中表现明显。管理层将此归因于用户时长从 2025 年高变现的爆款游戏，结构性转向新游戏和常青游戏，以及推荐算法从优化短期变现转向优化长期留存。</li>
+<li><strong>安全与年龄验证持续推进</strong>：全球年龄验证渗透率在 Q2 提升至 57%。6 月，公司全球推出了基于年龄的 Roblox Kids 和 Select 账户体系，旨在为不同年龄段用户提供更安全、合适的体验。</li>
+<li><strong>AI 与新产品布局深化</strong>：公司发布了 AI 创作工具 Build，用户可通过自然语言描述生成游戏；宣布了旨在实现照片级真实感多人游戏的 Roblox Reality 项目；并将短视频功能 Moments 整合进主页，以增强内容发现和社交互动。</li>
+<li><strong>股份回购计划</strong>：公司在 2026 年 5 月宣布了一项总额为 30 亿美元的 A 类普通股回购计划，并在 Q2 已回购约 3.80 亿美元的股份。</li>
+</ul>
+<h3 class="doc-h2">短期逻辑</h3>
+<ol>
+<li><strong>业绩预期与估值已至极端悲观区间，存在预期差修复机会</strong>：公司 2Q26 业绩 miss 且 3Q 指引大幅低于预期，导致股价单日暴跌约 30%，市值蒸发逾百亿美元。当前股价对应 2026 年 EV/Bookings 约 3 倍，已接近成熟游戏发行商的估值水平。市场对短期逆风的定价已相当充分，若后续月度经营数据（如第三方跟踪的并发用户数）或公司业务调整展现出任何企稳迹象，都可能触发空头回补和估值修复。花旗在 8 月 4 日的报告中指出，即使以保守假设推算，3Q26 的 CCU 趋势也指向 16.9 亿美元的预订额，高于公司指引上限。</li>
+<li><strong>算法与产品变革的「短期阵痛」效果有待观察</strong>：公司主动将推荐算法（RFY）的优化目标从短期变现切换至 28 天长期留存，并推出了基于年龄的账户体系。这些举措在短期内压制了变现效率，但管理层在 2Q 电话会上表示，内部 A/B 测试数据显示留存率提升带来的长期收益将超过短期预订额损失。未来一个季度，投资者将密切关注 DAU、用户时长等参与度指标能否在 Q3 季节性因素和俄罗斯市场解禁的帮助下企稳回升，以验证管理层「短空长多」的战略逻辑是否成立。</li>
+</ol>
+<h3 class="doc-h2">长期逻辑</h3>
+<ol>
+<li><strong>AI 驱动的「创作-消费」飞轮有望重塑平台内容生态</strong>：Roblox 正将 AI 深度整合进其创作者工具链。新推出的 Build 功能允许用户通过自然语言提示词直接生成可玩游戏，极大降低了 UGC 门槛。管理层在 2Q 电话会上透露，在新西兰上线后，Build 的日活跃用户数已超过传统开发工具 Roblox Studio。若 AI 能如管理层预期般带来内容供给的爆炸式增长，将吸引并留住更广泛的用户群体，尤其是当前增长迅速的 18 岁以上用户，从而驱动平台长期预订额增长。</li>
+<li><strong>用户结构上移，打开长期商业化空间</strong>：Roblox 正通过技术升级（如 Roblox Reality 项目提升画质）和经济激励（将美国 18 岁以上已验证用户的内购开发者分成比例从 26.6% 提升至 37.8%）吸引更多成年用户和高质量内容。18 岁以上用户群体占全球游戏市场约 80% 的份额，且在美国市场的变现能力比 18 岁以下用户高出 50% 以上。目前该群体仅占平台年龄已验证 DAU 的 27%，渗透率提升空间巨大。随着平台内容向 RPG、射击等传统游戏类型拓展，其长期用户和收入天花板有望被显著抬高。</li>
+</ol>
+<h3 class="doc-h2">风险提示</h3>
+<ul>
+<li><strong>变现能力恢复不及预期</strong>：当前变现效率下降的核心原因是用户时长向低变现内容的结构性转移和算法调整。若优化长期留存的算法策略最终无法有效提升用户的长期生命周期价值（LTV），或无法在可接受的时间范围内恢复变现效率，公司的增长引擎将面临持续压力。</li>
+<li><strong>安全与监管风险持续升级</strong>：作为拥有大量未成年用户的 UGC 平台，Roblox 正面临全球范围内日益严苛的监管环境。欧盟可能依据《数字服务法案》（DSA）将其认定为「超大型在线平台」（VLOPs），从而面临更严格的内容审核、风险评估和透明度义务。在美国，多个州的检察长已就未成年人保护和消费者安全问题提起诉讼或调查，相关法律费用和潜在和解成本可能持续拖累公司利润。</li>
+</ul>
+<h3 class="doc-h2">近期要闻</h3>
+<ul>
+<li><strong>2026 年 5 月</strong>：公司董事会批准了一项总额为 30 亿美元的 A 类普通股回购计划。</li>
+<li><strong>2026 年 6 月 8 日</strong>：公司正式将针对美国 18 岁以上已验证用户的内购开发者分成比例（DevEx）从 26.6% 提升至 37.8%，以激励面向成年用户的高质量内容创作。</li>
+<li><strong>2026 年 6 月 16 日</strong>：公司在全球范围内推出了基于年龄的 Roblox Kids 和 Roblox Select 账户体系，旨在为儿童和青少年提供与其年龄相适应的游戏和更严格的安全功能。</li>
+<li><strong>2026 年 7 月 30 日</strong>：公司公布 2Q26 财报，预订额增速大幅放缓至 8.3%，且 3Q26 指引预计预订额同比下降 14%-18%，远低于市场预期，并宣布暂停提供全年业绩指引。</li>
+</ul>
+<h3 class="doc-h2">未来催化</h3>
+<ul>
+<li><strong>2026 年 8 月</strong>：欧盟可能正式宣布将 Roblox 认定为《数字服务法案》（DSA）下的「超大型在线平台」（VLOPs），这将明确公司在欧盟市场的合规成本与运营边界。</li>
+<li><strong>2026 年 9-10 月</strong>：Roblox 年度开发者大会（RDC）通常在此时举行，预计公司将公布更多关于 AI 工具（Build）、Roblox Reality 项目、广告平台以及新内容品类的进展和路线图，是观察公司长期战略落地的重要窗口。</li>
+<li><strong>2026 年 11 月 19 日</strong>：备受瞩目的游戏大作《GTA VI》计划于该日发布。其上线对 Roblox 用户，尤其是 18 岁以上用户群体的时长和消费的冲击程度，将是市场评估 Roblox 竞争壁垒的关键考验。</li>
+</ul>
+<h3 class="doc-h2">公司业务模式及拆分</h3>
+<ul>
+<li><strong>业务边际变化</strong>：公司正处于战略转型期，从依赖少数爆款游戏驱动增长，转向通过技术和经济手段构建更健康、多元化的内容生态。核心举措包括：1）将推荐算法目标从短期变现转向长期留存；2）推出 Build 等 AI 工具，将创作门槛降至「一句话生成游戏」；3）通过 Roblox Reality 项目提升游戏画质上限，并提高成年用户内容的分成比例，以吸引大龄用户和传统游戏开发者。</li>
+<li><strong>盈利模式</strong>：公司通过销售虚拟货币 Robux 获取收入。用户充值后，在平台内消费以获取游戏内道具、avatar 装扮或体验通行证。Roblox 在每笔 Robux 交易中抽成，剩余部分（约 30%-70% 不等）归内容创作者所有。创作者可将赚取的 Robux 通过「开发者交换计划」（DevEx）按公司设定的汇率兑换为法定货币。因此，公司的盈利依赖于平台内 Robux 的总消费规模及其与创作者的分成比例。</li>
+<li><strong>业务拆分</strong>：公司业务模式单一，所有收入均来源于 Roblox 平台的运营，未披露分业务收入。平台的核心运营和财务指标如下：</li>
+</ul>
+<div class="tbl-wrap"><table><thead><tr><th>指标（单位）</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>1H26</th></tr></thead><tbody><tr><td><strong>日活跃用户（DAU，百万）</strong></td><td>—</td><td>—</td><td>127</td><td>123（Q2）</td></tr><tr><td><strong>总时长（十亿小时）</strong></td><td>—</td><td>—</td><td>123.9</td><td>29.0（Q2）</td></tr><tr><td><strong>预订额（Bookings，亿美元）</strong></td><td>—</td><td>43.69</td><td>67.88</td><td>32.88</td></tr><tr><td><strong>收入（亿美元）</strong></td><td>27.99</td><td>36.02</td><td>48.91</td><td>29.11</td></tr><tr><td><strong>净亏损（亿美元）</strong></td><td>-11.52</td><td>-9.35</td><td>-10.65</td><td>-4.29</td></tr><tr><td><strong>调整后 EBITDA（亿美元）</strong></td><td>—</td><td>1.80</td><td>1.25</td><td>2.51</td></tr><tr><td><strong>自由现金流（亿美元）</strong></td><td>—</td><td>6.41</td><td>13.53</td><td>8.90</td></tr></tbody></table></div>
+<p>注：预订额是公司关键的替代绩效指标，代表当期用户充值金额，收入则是在用户生命周期内分期确认。</p>
+<h3 class="doc-h2">核心竞争力</h3>
+<p><strong>竞争要素 1：基于海量 UGC 内容与社交网络的双边网络效应</strong></p>
+<ul>
+<li><strong>护城河定性</strong>：构成<strong>结构性护城河</strong>。Roblox 平台上的内容几乎全部由用户生成，数百万创作者持续产出游戏和虚拟物品，吸引了超过 1.2 亿的 DAU。庞大的用户基础及其产生的社交关系网络，反过来又为创作者提供了巨大的变现机会，激励其生产更高质量的内容，形成了强大的「内容-用户-创作者」飞轮。这种由双边网络效应构筑的生态系统，是外部竞争者难以在短期内复制的。</li>
+<li><strong>数据验证</strong>：2025 年，平台创作者共赚取 15.03 亿美元，同比增长 63%。截至 2Q26，超过 42,000 名创作者符合 DevEx 计划的兑现资格。平台内容多样性持续提升，前 10 大游戏占总时长的比例已从三年前的约 30% 降至约 20%，表明平台对单一爆款的依赖度在下降，生态更为健康。</li>
+<li><strong>动态演变</strong>：<strong>护城河变宽</strong>。公司正通过 AI 工具（如 Build）进一步降低创作门槛，有望吸引更多非专业开发者加入，加速内容供给侧的扩张。同时，通过提升成年用户内容的分成比例，引导创作者开发更多元化的游戏类型，这将有助于平台吸引和留住更广泛的用户群体，进一步巩固网络效应。</li>
+</ul>
+<h3 class="doc-h2">产销链</h3>
+<ul>
+<li><strong>客户情况</strong>：Roblox 是一个双边平台，其客户包括<strong>用户</strong>和<strong>创作者</strong>。用户端，截至 2Q26，DAU 达 1.23 亿，其中北美地区占比约 18%，但贡献了约 57% 的收入。用户集中度风险低。创作者端，平台拥有数百万创作者，但头部效应明显，2025 年 12 月，前 50 款游戏占据了 51% 的游戏内时长。公司通过 DevEx 计划与创作者分享收入，2025 年分成比例提升 8.5%，并针对特定内容提供更高的分成，以维护创作者生态的稳定。</li>
+<li><strong>供应商情况</strong>：公司的主要成本包括支付渠道费（计入收入成本）和基础设施（服务器、带宽等）费用。公司通过引导用户向网页端、礼品卡等低成本支付渠道迁移来优化支付成本。在基础设施方面，公司采用自建数据中心和租用公有云（如 AWS）相结合的模式，并持续投资于 AI 模型训练，这部分成本未来将更多体现为固定成本属性。</li>
+<li><strong>定性</strong>：公司赚取的是平台「抽成钱」。其毛利率水平（2Q26 约 80%，扣除 DevEx 后）主要取决于其对上下游的议价能力。一方面，公司通过提升创作者分成来巩固内容供给，短期内会压缩自身利润率；另一方面，公司通过优化支付渠道和控制基础设施成本来获取运营杠杆。当上游（创作者）分成成本上升时，公司需要依靠规模效应和技术优化来维持利润率。</li>
+</ul>
+<h3 class="doc-h2">财务数据</h3>
+<div class="tbl-wrap"><table><thead><tr><th>报告期（截止日期）</th><th>FY2023（2023-12-31）</th><th>FY2024（2024-12-31）</th><th>FY2025（2025-12-31）</th><th>1H26（2026-06-30）</th></tr></thead><tbody><tr><td><strong>营业收入（亿美元）</strong></td><td>27.99</td><td>36.02</td><td>48.91</td><td>29.11</td></tr><tr><td>收入同比（%）</td><td>25.81</td><td>28.68</td><td>35.77</td><td>37.58</td></tr><tr><td><strong>营业成本（亿美元）</strong></td><td>6.49</td><td>8.01</td><td>10.72</td><td>5.86</td></tr><tr><td><strong>开发者交换费（亿美元）</strong></td><td>7.41</td><td>9.23</td><td>15.03</td><td>7.86</td></tr><tr><td><strong>毛利润（亿美元）</strong></td><td>14.09</td><td>18.78</td><td>23.16</td><td>15.39</td></tr><tr><td>毛利率（%）</td><td>50.34</td><td>52.14</td><td>47.35</td><td>52.87</td></tr><tr><td><strong>研发费用（亿美元）</strong></td><td>12.54</td><td>14.44</td><td>15.68</td><td>8.42</td></tr><tr><td><strong>营业利润（亿美元）</strong></td><td>3.60</td><td>7.75</td><td>14.24</td><td>9.50</td></tr><tr><td><strong>归母净利润（亿美元）</strong></td><td>-11.52</td><td>-9.35</td><td>-10.65</td><td>-4.29</td></tr><tr><td><strong>基本每股收益（美元）</strong></td><td>-1.87</td><td>-1.44</td><td>-1.54</td><td>-0.60</td></tr><tr><td><strong>自由现金流（亿美元）</strong></td><td>—</td><td>6.41</td><td>13.53</td><td>8.90</td></tr></tbody></table></div>
+<p>注：毛利率计算已扣除开发者交换费，即（收入-收入成本-开发者交换费）/ 收入。自由现金流 = 经营活动现金流 - 资本支出。</p>
+<p><strong>财务分析</strong>：</p>
+<ul>
+<li><strong>成长能力</strong>：公司收入增速强劲，FY2025 和 1H26 均保持在 35% 以上，主要得益于过去两年用户规模和变现效率的双重提升。然而，作为先行指标的预订额增速在 2Q26 已骤降至 8.3%，预示着未来 2-3 个季度的收入增长将面临显著放缓。</li>
+<li><strong>盈利能力</strong>：公司 GAAP 口径下仍处于亏损状态，主要受高额的股权激励费用（1H26 为 5.57 亿美元）拖累。剔除股权激励等非现金项目后，调整后 EBITDA 在 1H26 为 2.51 亿美元，显示出主营业务的潜在盈利能力和经营杠杆。但 3Q26 的指引显示，由于收入端的逆风和 AI 等领域的持续投入，调整后 EBITDA 将大幅萎缩，利润率短期内将显著承压。</li>
+<li><strong>现金流</strong>：公司现金流表现强劲，1H26 自由现金流达 8.90 亿美元，主要得益于其预收款的商业模式（用户充值后，资金作为递延收入入账）。强劲的现金流为公司进行股份回购、投资 AI 基础设施和应对法律诉讼提供了充足的财务弹性。</li>
+</ul>
+<h3 class="doc-h2">行业及竞争分析</h3>
+<ul>
+<li><strong>行业分析</strong>：Roblox 处于全球游戏和社交娱乐市场的交汇点。管理层估算全球游戏市场规模约为 2000 亿美元，Roblox 目前仅占约 4% 的份额。其平台模式融合了游戏、社交和 UGC 创作，与传统的一次性买断制或付费制游戏有本质区别。行业趋势正朝着跨平台、免费游玩（F2P）、服务型游戏（GaaS）和用户生成内容的方向发展，Roblox 的商业模式与这些趋势高度契合。其长期目标是从游戏平台演变为一个连接 10 亿用户的沉浸式社交与娱乐平台，涵盖通讯、商业和广告等更广泛的领域。</li>
+</ul>
+<p><strong>可比公司</strong>：</p>
+<div class="tbl-wrap"><table><thead><tr><th>公司名称</th><th>股票代码</th><th>对标维度</th><th>分析</th></tr></thead><tbody><tr><td>Meta Platforms</td><td>META</td><td>社交/元宇宙平台</td><td>均致力于打造大规模沉浸式社交平台，拥有庞大的用户基础和广告变现潜力。但 Roblox 更侧重于 UGC 游戏内容和年轻用户，而 Meta 则从社交网络出发，向元宇宙硬件和软件层面拓展。</td></tr><tr><td>Unity Software</td><td>U</td><td>游戏引擎/开发者生态</td><td>均为游戏开发者提供创作工具和平台服务。Unity 是通用游戏引擎，服务所有类型的游戏开发商；Roblox 则是集引擎、云服务、社交和变现于一体的闭环平台，其工具专为自身平台生态服务。</td></tr><tr><td>Epic Games</td><td>（未上市）</td><td>游戏平台/引擎</td><td>旗下《堡垒之夜》和虚幻引擎是 Roblox 在争夺用户时长和开发者资源方面的直接竞争对手。《堡垒之夜》通过举办虚拟演唱会等大型活动，在向「元宇宙」平台演进方面与 Roblox 路径相似。</td></tr></tbody></table></div>
+<p><strong>总结分析</strong>：Roblox 的独特之处在于其完全由 UGC 驱动的、高度集成的闭环生态。与 Meta 相比，它拥有更成熟的虚拟经济体系；与 Unity 相比，它直接连接了创作者和消费者，形成了更强的网络效应。其主要竞争风险来自其他拥有庞大用户基础的平台（如 Epic Games 的《堡垒之夜》）向 UGC 模式的渗透，以及未来可能出现的新一代 AI 原生创作平台。</p>
+<h3 class="doc-h2">市场焦点议题</h3>
+<ul>
+<li><strong>议题 1：变现效率的恶化是结构性还是暂时性的？</strong><br><strong>背景</strong>：2Q26 每小时预订额下降，尤其是北美年轻用户群体，直接导致业绩 miss 和 3Q 指引大幅下调。管理层解释为算法调整和内容组合变化所致。<br><strong>问题列表</strong>：1）推荐算法转向优化长期留存后，用户长期生命周期价值（LTV）的提升能否在可预见的时间内（如 2-3 个季度）弥补短期变现效率的损失？2）用户时长从高变现爆款向低变现常青游戏的结构性转移，是疫情后/爆款热潮后的均值回归，还是代表了用户偏好的永久性变化？3）公司是否有能力通过优化新游戏的变现设计或引入新的变现模式（如广告、订阅）来提升常青游戏的商业化水平？</li>
+<li><strong>议题 2：安全与年龄验证措施的长期成本与收益</strong><br><strong>背景</strong>：公司强制推行年龄验证和基于年龄的账户体系，旨在打造更安全的平台，但这在短期内抑制了用户注册、沟通和参与度，并增加了运营成本和法律费用。<br><strong>问题列表</strong>：1）年龄验证和 Kids/Select 账户的全面推行，对用户获取、留存和沟通活跃度的负面影响何时能完全消退？2）为满足全球日益严苛的未成年人保护法规（如欧盟 DSA），公司未来还需投入多少额外的合规和审核成本？这些成本是否会成为一项永久性的「监管税」？3）更安全的平台环境能否如管理层预期，最终转化为更强的品牌信任度、更高的用户粘性和更优质的广告库存，从而带来长期的商业回报？</li>
+</ul>
+<h3 class="doc-h2">市场分歧探讨</h3>
+<p>市场对 Roblox 的核心分歧在于：<strong>当前业绩下滑是管理层为构建长期壁垒而主动选择的「短空长多」，还是平台增长瓶颈已至、护城河正在被侵蚀的信号？</strong></p>
+<ul>
+<li><strong>乐观方观点与依据</strong>：认为当前困境是「成长的阵痛」。管理层为追求长期健康生态，主动调整算法、推行安全措施，这些短期逆风将在未来 1-2 年内消退。核心依据是：1）平台 DAU 和总时长仍在同比增长，用户基本盘稳固；2）AI 工具（Build）和画质提升（Roblox Reality）将极大丰富内容供给，吸引成年用户，打开新的增长曲线；3）前 10 大游戏集中度下降，生态更加健康，对单一爆款的依赖度降低。美银在 3 月的报告中通过分析 7500 款游戏的数据指出，即使剔除 2025 年的爆款游戏，平台总时长在 2025 年仍增长了 35%，且增长在 2026 年初仍在加速，证明增长并非仅由少数爆款驱动。</li>
+<li><strong>谨慎方观点与依据</strong>：认为公司面临结构性问题，增长前景不确定。核心担忧是：1）变现效率的下降可能并非暂时，而是用户向低变现内容迁移的长期趋势，算法调整未必能逆转；2）年龄验证等安全措施永久性地提高了用户进入门槛和运营成本，压缩了利润空间；3）2025 年的高速增长可能过度透支了未来需求，面对《GTA VI》等大作和宏观经济的挑战，用户增长和时长可能持续承压。公司暂停发布年度指引，进一步加剧了市场对其未来可见度的担忧。瑞银在 8 月 3 日的报告中下调了评级和目标价，认为平台变革带来的短期逆风将持续，且变现效率的恢复路径尚不清晰。</li>
+</ul>
+<h3 class="doc-h2">盈利预测与估值</h3>
+<div class="tbl-wrap"><table><thead><tr><th>机构</th><th>评级</th><th>目标价（美元）</th><th>财务指标</th><th>FY2025A</th><th>FY2026E</th><th>FY2027E</th><th>FY2028E</th></tr></thead><tbody><tr><td>花旗（2026-08-04）</td><td>买入</td><td>70.00</td><td>预订额（百万美元）<br>调整后 EBITDA（百万美元）</td><td>6,788<br>1,728</td><td>—<br>—</td><td>—<br>—</td><td>—<br>—</td></tr><tr><td>美银（2026-03-25）</td><td>买入</td><td>165.00</td><td>预订额（百万美元）<br>调整后 EBITDA（百万美元）</td><td>6,788<br>1,744</td><td>8,624<br>2,247</td><td>10,780<br>3,011</td><td>13,475<br>—</td></tr><tr><td>华泰（2026-08-05）</td><td>买入</td><td>55.03</td><td>收入（百万美元）<br>归母净利润（百万美元）</td><td>4,891<br>-1,072</td><td>6,144<br>-922</td><td>7,206<br>-518</td><td>7,865<br>-98</td></tr><tr><td>中金（2026-08-01）</td><td>跑赢行业</td><td>58.00</td><td>预订额（百万美元）<br>调整后 EBITDA（百万美元）</td><td>6,788<br>1,727</td><td>6,946<br>1,213</td><td>7,800<br>1,525</td><td>—<br>—</td></tr><tr><td>摩根大通（2026-08-03）</td><td>中性</td><td>40.00</td><td>预订额（百万美元）<br>调整后 EBITDA（百万美元）</td><td>6,788<br>1,727</td><td>6,832<br>1,213</td><td>7,812<br>1,508</td><td>—<br>—</td></tr></tbody></table></div>
+<p>注：花旗在 8 月 4 日的报告中未提供具体的预测数据。美银的预测数据来自其 3 月 25 日的报告，可能未反映最新的业绩指引变化。</p>
+<ul>
+<li><strong>盈利预测与估值分析</strong>：在 2Q26 财报发布后，各机构普遍大幅下调了盈利预测。对 FY2026 的预订额预测已从年初的 86-88 亿美元区间，下调至 68-70 亿美元区间，调整后 EBITDA 预测也相应大幅削减。机构间的分歧依然显著，乐观方（如美银、花旗）的目标价仍显著高于当前股价，主要基于对长期增长逻辑的看好，并采用 EV/FCF 或 EV/EBITDA 等估值方法。谨慎方（如摩根大通、瑞银）则更关注短期逆风的持续性和不确定性，给予的估值倍数较低。公司管理层未提供最新的全年业绩指引。</li>
+<li><strong>管理层最新指引</strong>：对于 3Q26，公司预计预订额在 15.76 亿至 16.53 亿美元之间，同比下降 14%-18%。公司未提供 2026 年全年的业绩指引。</li>
+</ul>
+  </article>
+</main>
+
+<section class="sources">
+  <div class="shell">
+    <h2>数据来源</h2>
+    <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
+  </div>
+</section>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/RBLX · 生成于 2026-08-07</div></footer>
+
+<script>
+/* ============================================================
+ * 跟踪面板数据 —— 每次更新研究时只需改这里：
+ *   kind: 'cat'(催化剂) | 'risk'(风险点)
+ *   status: 催化剂 pending(待验证) / active(进行中) / hit(已兑现) / miss(落空)
+ *           风险点 clear(未触发) / triggered(已触发)
+ *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
+ *   checked: 最近核对日期
+ * ============================================================ */
+const TRACKING_CHECKED = '2026-08-07';
+const TRACKING = [
+  // ---- 催化剂 ----
+  { kind: 'cat', status: 'active',  text: '<strong>3Q26 财报验证「短空长多」</strong>（2026-10~11）：预订额指引 15.76-16.53 亿美元（同比 -14%~-18%），DAU/时长与每小时预订额是判据', note: '花旗交叉验证：3Q CCU 趋势对应预订额约 16.9 亿美元，高于指引上限' },
+  { kind: 'cat', status: 'pending', text: '<strong>欧盟 DSA「超大型在线平台」（VLOPs）认定</strong>（预期 2026-08）：明确欧盟市场合规成本与运营边界', note: '若认定：内容审核/风险评估/透明度义务加码' },
+  { kind: 'cat', status: 'pending', text: '<strong>RDC 开发者大会</strong>（2026-09~10）：Build、Roblox Reality、广告平台与新内容品类路线图——长期战略落地窗口', note: '' },
+  { kind: 'cat', status: 'active',  text: '<strong>Build AI 创作工具放量</strong>：NZ 试点 DAU 已超 Roblox Studio，等待更大范围数据验证「一句话生成游戏」的供给爆炸', note: '2Q26 电话会披露' },
+  { kind: 'cat', status: 'active',  text: '<strong>年龄层上移落地</strong>：18+ DevEx 分成提至 37.8%（6/8）+ Kids/Select 账户全球推出（6/16），18+ 渗透率从 27% 抬升', note: '美国 18+ 变现较低龄用户高 50%+' },
+  { kind: 'cat', status: 'hit',     text: '<strong>30 亿美元回购启动</strong>：2026 年 5 月董事会批准，Q2 已回购约 3.80 亿美元', note: '低位股东回报，为估值托底' },
+  // ---- 风险点（证伪信号）----
+  { kind: 'risk', status: 'clear', text: '<strong>变现效率持续下滑</strong>：每小时预订额在 3-4Q26 仍未恢复，算法改革未能提升长期 LTV', note: '2Q26 下滑以北美 13 岁以下群体最明显' },
+  { kind: 'risk', status: 'clear', text: '<strong>《GTA VI》（2026-11-19）冲击用户时长</strong>：18+ 用户群体时间与消费被显著分流', note: '竞争壁垒的现实检验；公司押注的增长引擎正是 18+' },
+  { kind: 'risk', status: 'clear', text: '<strong>安全监管升级</strong>：多州检察长诉讼/调查产生大额和解成本；DSA 义务成为永久性「监管税」', note: '年龄验证渗透率 57%，仍在推进' },
+  { kind: 'risk', status: 'clear', text: '<strong>指引可见度不改善</strong>：4Q26 仍无法恢复全年指引，机构持续下修预测', note: '2Q26 财报起暂停全年指引' },
+  { kind: 'risk', status: 'clear', text: '<strong>利润率压缩超预期</strong>：DevEx 分成上调 + AI 投入令调整后 EBITDA 萎缩延续至 2027', note: '1H26 调整后 EBITDA 2.51 亿美元、SBC 5.57 亿美元；3Q 指引大幅萎缩' },
+];
+const STATUS_LABEL = {
+  pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
+  clear: '未触发', triggered: '已触发',
+};
+document.getElementById('tracker-checked').textContent = '最近核对：' + TRACKING_CHECKED;
+for (const item of TRACKING) {
+  const box = document.getElementById(item.kind === 'cat' ? 'tracker-catalysts' : 'tracker-risks');
+  const resolved = (item.status === 'hit' || item.status === 'miss' || item.status === 'triggered');
+  const div = document.createElement('div');
+  div.className = 'track-item' + (resolved ? ' resolved' : '');
+  div.innerHTML = '<span class="track-item__badge st-' + item.status + '">' + STATUS_LABEL[item.status] + '</span>' +
+    '<span class="track-item__text">' + item.text + (item.note ? '<span class="note">' + item.note + '</span>' : '') + '</span>';
+  box.appendChild(div);
+}
+
+/* ===== 标签页切换 ===== */
+document.querySelectorAll('.site-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.site-nav button').forEach(b => b.classList.toggle('is-active', b === btn));
+    document.getElementById('tab-report').hidden = btn.dataset.tab !== 'report';
+    document.getElementById('tab-onepager').hidden = btn.dataset.tab !== 'onepager';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
