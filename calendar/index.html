@@ -85,6 +85,14 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 .next a:hover { text-decoration: underline; }
 .next .sep { margin: 0 8px; color: var(--line-strong); }
 
+/* ===== 历史催化 ===== */
+.history { margin: 0 0 56px; padding: 18px 22px; border: 1px solid var(--line); border-top: 3px solid var(--teal); background: var(--paper); }
+.history h2 { margin: 0 0 4px; font-family: var(--font-display); font-size: 19px; font-weight: 650; }
+.history .h-sub { margin: 0 0 14px; color: var(--ink-faint); font-size: 12.5px; }
+.history .ev { border-left-color: var(--teal); background: var(--paper-cool); }
+.history .ev__date { flex: none; color: var(--ink-faint); font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.st-done { background: #dfe9e5; color: var(--teal); }
+
 .site-footer { border-top: 1px solid var(--line); padding: 26px 0 40px; }
 .site-footer p { margin: 0; color: var(--ink-faint); font-size: 12px; line-height: 1.9; text-align: center; }
 
@@ -137,6 +145,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   <section class="next">
     <h2>紧随其后（窗口之后）</h2>
     <p id="next-body"></p>
+  </section>
+
+  <section class="history">
+    <h2>历史催化（已发生）</h2>
+    <p class="h-sub">已落地的事件与结果速记，「关注指标」是当初盯住的数字——留作事后复盘对照。</p>
+    <div id="history-body"></div>
   </section>
 </main>
 
@@ -233,6 +247,22 @@ const NEXT = [
   { co: '迈威尔', tk: 'MRVL', link: '../MRVL/迈威尔_研究.html#tracker', text: '08 底 FY2Q27 财报——营收中点 $27 亿（环比 +12%）兑现度 + 是否再上修全年' },
 ];
 
+// ===== 历史催化（已发生，新条目加在数组开头）=====
+const HISTORY = [
+  { date: '08-11', co: '超微电脑', tk: 'SMCI', link: '../SMCI/超微电脑_研究.html#tracker',
+    title: 'FY26Q4 财报电话会',
+    result: '电话会已召开；结果与 FY27 指引待正式披露后纳入研究。',
+    metrics: ['FY27 毛利率指引', 'DCBBS 利润贡献拆分', '订单转化说明'] },
+  { date: '08-05', co: '好市多', tk: 'COST', link: '../COST/好市多_研究.html#tracker',
+    title: '7 月销售数据',
+    result: '核心同店 +6.6% 守住 6-7% 区间（连续两个月环比放缓）；美国 +6.9% 略低于预期 7.1%；客流 +3.6% 加速。',
+    metrics: ['核心同店增速', '美国同店 vs 预期', '客流增速'] },
+  { date: '07-21', co: '超微电脑', tk: 'SMCI', link: '../SMCI/超微电脑_研究.html#tracker',
+    title: 'FY26Q4 初步业绩',
+    result: '毛利率指引跳升至 15%-17% + 单季新增订单超 $600 亿，股价当日大涨。',
+    metrics: ['毛利率指引', '新增订单额'] },
+];
+
 const STATUS_LABEL = { pending: '待验证', active: '进行中' };
 
 // ===== 渲染 =====
@@ -268,6 +298,18 @@ cal.innerHTML = DAYS.map(day => `
 
 document.getElementById('next-body').innerHTML =
   NEXT.map(n => `<a href="${n.link}">${n.co} ${n.tk}</a> ${n.text}`).join('<span class="sep">·</span>');
+
+document.getElementById('history-body').innerHTML = HISTORY.map(ev => `
+  <div class="ev">
+    <div class="ev__head">
+      <span class="ev__date">${ev.date}</span>
+      <a class="ev__co" href="${ev.link}">${ev.co}<span class="tk">${ev.tk}</span></a>
+      <span class="ev__title">${ev.title}</span>
+      <span class="ev__badge st-done">已发生</span>
+    </div>
+    <p class="ev__desc">${ev.result}</p>
+    <div class="ev__metrics"><span class="lbl">关注指标</span>${ev.metrics.map(m => `<span class="metric">${m}</span>`).join('')}</div>
+  </div>`).join('');
 </script>
 </body>
 </html>
