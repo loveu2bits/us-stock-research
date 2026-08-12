@@ -127,12 +127,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   <div class="shell">
     <div class="overview__heading">
       <div class="overview__copy">
-        <h1>催化剂日历 · 未来两周<span class="en">2026-08-12 ~ 08-26 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
+        <h1>催化剂日历 · 未来两周<span class="en">2026-08-13 ~ 08-27 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
         <p class="sub">两周窗口内的财报、监管节点与产品事件，按日期排列；「关注指标」是该事件落地时最该盯住的数字与信号。日期待定的窗口内候选单列在最后。</p>
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong>2026-08-12</strong>
+        <strong>2026-08-13</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -161,16 +161,10 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 </footer>
 
 <script>
-// ===== 数据：未来两周催化剂（2026-08-12 ~ 08-26）=====
+// ===== 数据：未来两周催化剂（2026-08-13 ~ 08-27）=====
 // link 相对 calendar/ 目录；#tracker 锚点直达研究页跟踪面板
 const DAYS = [
-  { date: '08-12', week: '周三 · 今天', today: true, wk: 1, events: [
-    { co: '思科', tk: 'CSCO', link: '../CSCO/思科_研究.html#tracker', status: 'pending',
-      title: 'FY26Q4 财报（盘后）',
-      desc: '管理层此前暗示 AI 订单显著提升，本次是验证窗口；同时给出 FY2027 初步展望。',
-      metrics: ['AI 订单环比增幅', '毛利率 ≥66% 防线', 'FY27 初步指引'] },
-  ]},
-  { date: '08-13', week: '周四', wk: 1, events: [
+  { date: '08-13', week: '周四 · 今天', today: true, wk: 1, events: [
     { co: '应用材料', tk: 'AMAT', link: '../AMAT/应用材料_研究.html#tracker', status: 'pending',
       title: 'FY26Q3 财报（盘后）',
       desc: '市场预期 Beat-and-Raise，花旗预计营收 / EPS 超预期 3% / 2%；Q4 指引是真正的胜负手。',
@@ -249,9 +243,13 @@ const NEXT = [
 
 // ===== 历史催化（已发生，新条目加在数组开头）=====
 const HISTORY = [
+  { date: '08-12', co: '思科', tk: 'CSCO', link: '../CSCO/思科_研究.html#tracker',
+    title: 'FY26Q4 财报',
+    result: '营收 $173 亿（+18%）、非GAAP EPS $1.22 双超预期；AI 订单 Q4 $40 亿/全年 $93 亿（4.5x）；毛利率 66.3% 守住 66%；FY27 营收指引 $722-734 亿（约 +15%）、AI 收入 ~$75 亿——盘后 -2~5%（卖事实）。',
+    metrics: ['AI 订单环比增幅', '毛利率 ≥66% 防线', 'FY27 初步指引'] },
   { date: '08-11', co: '超微电脑', tk: 'SMCI', link: '../SMCI/超微电脑_研究.html#tracker',
     title: 'FY26Q4 财报电话会',
-    result: '电话会已召开；结果与 FY27 指引待正式披露后纳入研究。',
+    result: 'F4Q26 营收 $111.2 亿（+93%，落在指引下限）、毛利率 17.6%（超指引）、EPS $1.70；FY27 营收指引 $650-720 亿、F1Q27 指引 $145-155 亿/毛利率 10.4-10.8%；盘后 +7~13%。',
     metrics: ['FY27 毛利率指引', 'DCBBS 利润贡献拆分', '订单转化说明'] },
   { date: '08-05', co: '好市多', tk: 'COST', link: '../COST/好市多_研究.html#tracker',
     title: '7 月销售数据',
@@ -273,7 +271,7 @@ const nextWeek = dated.filter(d => d.wk === 2).reduce((n, d) => n + d.events.len
 const tbdCount = DAYS.filter(d => d.tbd).reduce((n, d) => n + d.events.length, 0);
 const earnings = DAYS.flatMap(d => d.events).filter(e => /财报/.test(e.title)).length;
 rail.innerHTML = [
-  [thisWeek, '本周（08-12 ~ 08-16）'],
+  [thisWeek, '本周（08-13 ~ 08-16）'],
   [nextWeek, '下周（08-17 ~ 08-26）'],
   [tbdCount, '窗口内待定'],
   [earnings + ' 场', '其中财报'],
