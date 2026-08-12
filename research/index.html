@@ -34,7 +34,7 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 .shell { width: min(calc(100% - 64px), var(--shell)); margin-inline: auto; }
 
 .overview { padding: 34px 0 0; }
-.overview__heading { display: grid; grid-template-columns: minmax(0,1fr) 170px; gap: 48px; align-items: end; margin-bottom: 24px; }
+.overview__heading { display: grid; grid-template-columns: minmax(0,1fr); gap: 48px; align-items: end; margin-bottom: 24px; }
 .overview__copy h1 { margin: 0 0 14px; font-family: var(--font-display); font-size: 46px; font-weight: 650; line-height: 1.1; }
 .overview__copy h1 .en { display: block; margin-top: 6px; color: var(--ink-faint); font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
 .overview__copy p.sub { max-width: 860px; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
@@ -223,10 +223,6 @@ a.sr-row:hover { background: var(--paper-cool); }
           <div class="ratings__body" id="ratings-body"></div>
         </details>
       </div>
-      <div class="overview__date">
-        <span>最近更新</span>
-        <strong id="update-date">2026-08-07</strong>
-      </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
   </div>
@@ -260,7 +256,7 @@ a.sr-row:hover { background: var(--paper-cool); }
     <p>公司财报及公开披露 · 公开研究资料整理 · 市占率为公开资料的约数 · 仅作研究学习用途，不构成投资建议。</p>
   </div>
 </section>
-<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究 · 更新于 2026-08-07</div></footer>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究 · 更新于 2026-08-12</div></footer>
 
 <script>
 // ================= 已研究公司的报告链接 =================
@@ -737,8 +733,7 @@ function renderRatings(){
     return REPORTS[t] ? `<a href="${REPORTS[t]}">${label}</a>` : `<span class="plain">${label}</span>`;
   };
   $('ratings-summary').innerHTML =
-    `📈 买入 <span class="cnt-buy">${RATINGS.buy.length} 家</span> · 📉 看空 <span class="cnt-sell">${RATINGS.sell.length} 家</span>` +
-    `<span class="ratings__date">${RATINGS.date}</span>`;
+    `📈 买入 <span class="cnt-buy">${RATINGS.buy.length} 家</span> · 📉 看空 <span class="cnt-sell">${RATINGS.sell.length} 家</span>`;
   $('ratings-body').innerHTML =
     `<div class="ratings__grp"><span class="ratings__label buy">买入</span>${RATINGS.buy.map(chip).join('')}</div>` +
     `<div class="ratings__grp"><span class="ratings__label sell">看空</span>${RATINGS.sell.length ? RATINGS.sell.map(chip).join('') : '<span class="ratings__none">暂无——估值下不了手的集中在持有档</span>'}</div>`;
