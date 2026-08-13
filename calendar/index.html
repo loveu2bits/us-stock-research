@@ -127,12 +127,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   <div class="shell">
     <div class="overview__heading">
       <div class="overview__copy">
-        <h1>催化剂日历 · 未来两周<span class="en">2026-08-13 ~ 08-27 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
+        <h1>催化剂日历 · 未来两周<span class="en">2026-08-14 ~ 08-28 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
         <p class="sub">两周窗口内的财报、监管节点与产品事件，按日期排列；「关注指标」是该事件落地时最该盯住的数字与信号。日期待定的窗口内候选单列在最后。</p>
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong>2026-08-13</strong>
+        <strong>2026-08-14</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -161,19 +161,13 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 </footer>
 
 <script>
-// ===== 数据：未来两周催化剂（2026-08-13 ~ 08-27）=====
+// ===== 数据：未来两周催化剂（2026-08-14 ~ 08-28）=====
 // link 相对 calendar/ 目录；#tracker 锚点直达研究页跟踪面板
 const DAYS = [
-  { date: '08-13', week: '周四 · 今天', today: true, wk: 1, events: [
-    { co: '应用材料', tk: 'AMAT', link: '../AMAT/应用材料_研究.html#tracker', status: 'pending',
-      title: 'FY26Q3 财报（盘后）',
-      desc: '市场预期 Beat-and-Raise，花旗预计营收 / EPS 超预期 3% / 2%；Q4 指引是真正的胜负手。',
-      metrics: ['Q4 指引 vs 共识', '营收·EPS 超预期幅度', '中国大陆营收占比'] },
-  ]},
-  { date: '08-14', week: '周五', wk: 1, events: [
+  { date: '08-14', week: '周五 · 今天', today: true, wk: 1, events: [
     { co: 'Vistra', tk: 'VST', link: '../VST/Vistra_研究.html#tracker', status: 'pending',
-      title: '德州数据中心并网审查听证会（预期）',
-      desc: '德州州长 8 月 6 日暂停新数据中心电网接入审批并下令全面审计，ERCOT 批次评审受阻；听证会预计明确审查时间表，决定德州大型负荷签约的解冻节奏。',
+      title: '德州数据中心并网审查 PUCT 特别会议',
+      desc: '州长 8/6 暂停新数据中心电网接入审批并下令全面审计；PUCT 8/14 特别会议讨论 765kV 线路与数据中心、审计实施方案。ERCOT 将在 8/20 PUCT 会议前提交「批次零」时间表正当理由例外请求——时间表硬信号移至 8/20。',
       metrics: ['审查时间表', '首批获批规模', '配储等附加要求'] },
   ]},
   { date: '08-17', week: '周一', wk: 2, events: [
@@ -183,6 +177,10 @@ const DAYS = [
       metrics: ['是否触发二次审查', '交割时间表是否重申'] },
   ]},
   { date: '08-20', week: '周四前后', wk: 2, events: [
+    { co: 'Vistra', tk: 'VST', link: '../VST/Vistra_研究.html#tracker', status: 'pending',
+      title: 'PUCT 公开会议（ERCOT 审计时间表请求）',
+      desc: 'ERCOT 将在此会议前提交 Batch Zero 时间表「正当理由例外」请求，明确数据中心审批重新推进的时点——德州大型负荷签约解冻节奏的硬信号。',
+      metrics: ['审查时间表获批情况', '首批获批规模', '配储等附加要求'] },
     { co: '沃尔玛', tk: 'WMT', link: '../WMT/沃尔玛_研究.html#tracker', status: 'pending',
       title: 'FY27Q2 财报（8 月中旬）',
       desc: '指引收入 +4~5%、调整后营业利润 +7~10%——能否超预期，两个数要同时看。',
@@ -243,6 +241,10 @@ const NEXT = [
 
 // ===== 历史催化（已发生，新条目加在数组开头）=====
 const HISTORY = [
+  { date: '08-13', co: '应用材料', tk: 'AMAT', link: '../AMAT/应用材料_研究.html#tracker',
+    title: 'FY26Q3 财报',
+    result: '营收 $91.15 亿（+25%）、非GAAP EPS $3.50（+41%）双超预期（共识 ~$89.9 亿 / ~$3.40）；Q4 指引营收 $102.5 亿（vs 共识 ~$95.4 亿）、EPS $4.02（vs ~$3.69）远超共识；2026 系统业务增长指引再上调、经营现金流 $30.4 亿创历史新高——盘后股价小幅回落（卖事实）。',
+    metrics: ['Q4 指引 vs 共识', '营收·EPS 超预期幅度', '中国大陆营收占比'] },
   { date: '08-12', co: '思科', tk: 'CSCO', link: '../CSCO/思科_研究.html#tracker',
     title: 'FY26Q4 财报',
     result: '营收 $173 亿（+18%）、非GAAP EPS $1.22 双超预期；AI 订单 Q4 $40 亿/全年 $93 亿（4.5x）；毛利率 66.3% 守住 66%；FY27 营收指引 $722-734 亿（约 +15%）、AI 收入 ~$75 亿——盘后 -2~5%（卖事实）。',
@@ -271,7 +273,7 @@ const nextWeek = dated.filter(d => d.wk === 2).reduce((n, d) => n + d.events.len
 const tbdCount = DAYS.filter(d => d.tbd).reduce((n, d) => n + d.events.length, 0);
 const earnings = DAYS.flatMap(d => d.events).filter(e => /财报/.test(e.title)).length;
 rail.innerHTML = [
-  [thisWeek, '本周（08-13 ~ 08-16）'],
+  [thisWeek, '本周（08-14 ~ 08-16）'],
   [nextWeek, '下周（08-17 ~ 08-26）'],
   [tbdCount, '窗口内待定'],
   [earnings + ' 场', '其中财报'],
