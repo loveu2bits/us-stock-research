@@ -94,6 +94,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 .cap { display: flex; align-items: baseline; gap: 6px; }
 .cap .v { font-family: var(--font-display); font-size: 23px; font-weight: 650; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
 .cap .u { color: var(--ink-faint); font-size: 11.5px; }
+.quote { display: flex; align-items: baseline; gap: 8px; margin-top: -4px; font-size: 12.5px; font-variant-numeric: tabular-nums; }
+.quote .p { font-weight: 700; }
+.quote .chg { font-weight: 650; }
+.quote .chg.up { color: #1a7f4b; }
+.quote .chg.down { color: #b64045; }
+.quote .chg.flat { color: var(--ink-faint); }
 .tags { display: flex; gap: 6px; flex-wrap: wrap; }
 .tag { padding: 2px 9px; border-radius: 999px; font-size: 11px; font-weight: 700; }
 .tag.sector { border: 1px solid color-mix(in srgb, var(--federal-blue) 40%, white); color: var(--federal-blue); }
@@ -296,7 +302,12 @@ const COMPANIES = [
   {t:'DLR', cn:'数字房地产', en:'Digital Realty', sector:'房地产', ind:'数据中心', cap:71, th:['cloud'], d:'全球最大数据中心 REIT 之一'},
 ];
 
-COMPANIES.forEach(c => { c.tier = TIERS.find(t => c.cap >= t.min).key; });
+// 市值/排名依赖每日行情数据（data/market.json），统一在 recompute() 里重算
+let sortedAll = [];
+function recompute(){
+  COMPANIES.forEach(c => { c.tier = TIERS.find(t => c.cap >= t.min).key; });
+  sortedAll = [...COMPANIES].sort((a,b)=>b.cap-a.cap);
+}
 
 const SECTOR_ORDER = ['信息技术','通信服务','非必需消费','必需消费','金融','医疗保健','工业','公用事业','房地产'];
 
@@ -343,7 +354,6 @@ function fmtCap(b){  // b 单位是十亿美元（$B），1B = 10亿
   return (b*10).toLocaleString() + ' 亿';
 }
 
-const sortedAll = [...COMPANIES].sort((a,b)=>b.cap-a.cap);
 const rankOf = c => sortedAll.indexOf(c) + 1;
 
 function match(c, q){
@@ -402,6 +412,7 @@ function cardHTML(c, rank){
       <span class="rank">#${rank}</span>
     </div>
     <div class="cap"><span class="v">$${fmtCap(c.cap)}</span><span class="u">美元（约）</span></div>
+    ${c.price != null ? `<div class="quote" title="${c.mkDate} 收盘"><span class="p">$${c.price.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</span>${c.chg != null ? `<span class="chg ${c.chg>0?'up':c.chg<0?'down':'flat'}">${c.chg>0?'+':''}${c.chg.toFixed(2)}%</span>` : ''}</div>` : ''}
     <div class="tags">
       <span class="tag ${c.tier}">${tier.name}</span>
       <span class="tag sector">${c.sector} · ${c.ind}</span>
@@ -465,8 +476,27 @@ function renderAll(){ renderViewTabs(); renderTierTabs(); renderChips(); renderC
 
 document.getElementById('search').addEventListener('input', e => { state.q = e.target.value; renderContent(); });
 
-renderStats();
-renderAll();
+// ================= 启动：先拉每日行情（失败则保持静态数据兜底） =================
+async function boot(){
+  try {
+    const r = await fetch('./data/market.json');
+    if (r.ok) {
+      const mk = await r.json();
+      if (mk && mk.tickers) {
+        COMPANIES.forEach(c => {
+          const m = mk.tickers[c.t];
+          if (!m) return;
+          if (m.cap) c.cap = m.cap;
+          if (m.price != null) { c.price = m.price; c.chg = m.chg; c.mkDate = mk.date; }
+        });
+      }
+    }
+  } catch (e) { /* 无行情数据时保持静态内容 */ }
+  recompute();
+  renderStats();
+  renderAll();
+}
+boot();
 </script>
 </body>
 </html>
