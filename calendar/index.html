@@ -127,12 +127,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   <div class="shell">
     <div class="overview__heading">
       <div class="overview__copy">
-        <h1>催化剂日历 · 未来两周<span class="en">2026-08-14 ~ 08-28 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
+        <h1>催化剂日历 · 未来两周<span class="en">2026-08-15 ~ 08-29 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
         <p class="sub">两周窗口内的财报、监管节点与产品事件，按日期排列；「关注指标」是该事件落地时最该盯住的数字与信号。日期待定的窗口内候选单列在最后。</p>
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong>2026-08-14</strong>
+        <strong>2026-08-15</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -161,15 +161,9 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 </footer>
 
 <script>
-// ===== 数据：未来两周催化剂（2026-08-14 ~ 08-28）=====
+// ===== 数据：未来两周催化剂（2026-08-15 ~ 08-29）=====
 // link 相对 calendar/ 目录；#tracker 锚点直达研究页跟踪面板
 const DAYS = [
-  { date: '08-14', week: '周五 · 今天', today: true, wk: 1, events: [
-    { co: 'Vistra', tk: 'VST', link: '../VST/Vistra_研究.html#tracker', status: 'pending',
-      title: '德州数据中心并网审查 PUCT 特别会议',
-      desc: '州长 8/6 暂停新数据中心电网接入审批并下令全面审计；PUCT 8/14 特别会议讨论 765kV 线路与数据中心、审计实施方案。ERCOT 将在 8/20 PUCT 会议前提交「批次零」时间表正当理由例外请求——时间表硬信号移至 8/20。',
-      metrics: ['审查时间表', '首批获批规模', '配储等附加要求'] },
-  ]},
   { date: '08-17', week: '周一', wk: 2, events: [
     { co: '安森美', tk: 'ON', link: '../ON/安森美_研究.html#tracker', status: 'pending',
       title: 'Synaptics 并购 HSR 审查等待期结束',
@@ -241,6 +235,10 @@ const NEXT = [
 
 // ===== 历史催化（已发生，新条目加在数组开头）=====
 const HISTORY = [
+  { date: '08-14', co: 'Vistra', tk: 'VST', link: '../VST/Vistra_研究.html#tracker',
+    title: '德州数据中心并网审查 PUCT 特别会议',
+    result: '会议已召开：审计范围锁定 ERCOT「批次零」内约 250-300 个项目（约九成为数据中心、对应需求约 200GW，超电网峰值纪录两倍），需数月完成、完成前任何新数据中心不得获批并网；765kV 线路未作个别裁决。ERCOT 将在 8/20 PUCT 会议前提交 Batch Zero 时间表「正当理由例外」请求——时间表硬信号移至 8/20。',
+    metrics: ['审查时间表', '首批获批规模', '配储等附加要求'] },
   { date: '08-13', co: '应用材料', tk: 'AMAT', link: '../AMAT/应用材料_研究.html#tracker',
     title: 'FY26Q3 财报',
     result: '营收 $91.15 亿（+25%）、非GAAP EPS $3.50（+41%）双超预期（共识 ~$89.9 亿 / ~$3.40）；Q4 指引营收 $102.5 亿（vs 共识 ~$95.4 亿）、EPS $4.02（vs ~$3.69）远超共识；2026 系统业务增长指引再上调、经营现金流 $30.4 亿创历史新高——盘后股价小幅回落（卖事实）。',
@@ -273,8 +271,8 @@ const nextWeek = dated.filter(d => d.wk === 2).reduce((n, d) => n + d.events.len
 const tbdCount = DAYS.filter(d => d.tbd).reduce((n, d) => n + d.events.length, 0);
 const earnings = DAYS.flatMap(d => d.events).filter(e => /财报/.test(e.title)).length;
 rail.innerHTML = [
-  [thisWeek, '本周（08-14 ~ 08-16）'],
-  [nextWeek, '下周（08-17 ~ 08-26）'],
+  [thisWeek, '本周（08-15 ~ 08-16）'],
+  [nextWeek, '下周（08-17 ~ 08-29）'],
   [tbdCount, '窗口内待定'],
   [earnings + ' 场', '其中财报'],
 ].map(([v, l]) => `<div class="summary-rail__item"><strong>${v}</strong><span>${l}</span></div>`).join('');
