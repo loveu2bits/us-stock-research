@@ -113,6 +113,25 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 
 .empty { display: none; padding: 70px 0; text-align: center; color: var(--ink-faint); font-size: 15px; }
 
+/* ===== 晨报侧栏 ===== */
+.layout { display: grid; grid-template-columns: minmax(0,1fr) 310px; gap: 26px; align-items: start; }
+.brief-rail { position: sticky; top: calc(var(--header-height) + 10px); margin: 12px 0 30px; border: 1px solid var(--line-strong); background: var(--paper); }
+.brief-rail__head { display: flex; align-items: baseline; justify-content: space-between; padding: 12px 16px 10px; border-bottom: 1px solid var(--line); }
+.brief-rail__head b { color: var(--policy-red); font-size: 13px; }
+.brief-rail__date { color: var(--ink-faint); font-size: 11.5px; }
+.brief-rail__title { margin: 0; padding: 12px 16px 0; font-family: var(--font-display); font-size: 18px; font-weight: 650; line-height: 1.35; }
+.brief-rail__list { margin: 0; padding: 8px 16px 4px; list-style: none; }
+.brief-rail__list li { position: relative; margin: 7px 0; padding-left: 13px; color: var(--ink-soft); font-size: 12.8px; line-height: 1.55; }
+.brief-rail__list li::before { position: absolute; left: 0; color: var(--federal-blue); content: "·"; font-weight: 700; }
+.brief-rail__foot { display: flex; gap: 14px; margin-top: 6px; padding: 10px 16px 13px; border-top: 1px solid var(--line); }
+.brief-rail__foot a { color: var(--federal-blue); font-size: 12px; font-weight: 650; text-decoration: none; }
+.brief-rail__foot a:hover { text-decoration: underline; }
+
+@media (max-width: 1100px) {
+  .layout { grid-template-columns: 1fr; }
+  .brief-rail { position: static; order: -1; }
+}
+
 /* ===== 页脚 ===== */
 .sources { margin-top: 70px; padding: 40px 0; background: #19232d; color: #bdc7d0; }
 .sources h2 { margin: 0 0 12px; color: white; font-family: var(--font-display); font-size: 24px; font-weight: 650; }
@@ -160,25 +179,37 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   </div>
 </section>
 
-<main class="shell">
-  <div class="controls">
-    <div class="search-row">
-      <div class="search-field">
-        <input id="search" type="text" placeholder="搜索公司名称 / 代码 / 行业 / 主题关键词…">
+<main class="shell layout">
+  <div class="main-col">
+    <div class="controls">
+      <div class="search-row">
+        <div class="search-field">
+          <input id="search" type="text" placeholder="搜索公司名称 / 代码 / 行业 / 主题关键词…">
+        </div>
+      </div>
+      <div class="filter-row">
+        <span class="filter-row__label">市值</span>
+        <div class="tier-tabs" id="tierTabs"></div>
+      </div>
+      <div class="filter-row">
+        <span class="filter-row__label">行业</span>
+        <div class="sector-chips" id="sectorChips"></div>
       </div>
     </div>
-    <div class="filter-row">
-      <span class="filter-row__label">市值</span>
-      <div class="tier-tabs" id="tierTabs"></div>
-    </div>
-    <div class="filter-row">
-      <span class="filter-row__label">行业</span>
-      <div class="sector-chips" id="sectorChips"></div>
-    </div>
+
+    <div id="content"></div>
+    <div class="empty" id="empty">没有找到匹配的公司，换个关键词试试。</div>
   </div>
 
-  <div id="content"></div>
-  <div class="empty" id="empty">没有找到匹配的公司，换个关键词试试。</div>
+  <aside class="brief-rail" id="briefRail" hidden>
+    <div class="brief-rail__head"><b>美股晨报</b><span class="brief-rail__date"></span></div>
+    <h3 class="brief-rail__title"></h3>
+    <ul class="brief-rail__list"></ul>
+    <div class="brief-rail__foot">
+      <a class="brief-rail__more" href="#">今日全文 →</a>
+      <a href="/brief/">历史晨报</a>
+    </div>
+  </aside>
 </main>
 
 <section class="sources">
@@ -496,6 +527,25 @@ async function boot(){
   renderStats();
   renderAll();
 }
+// ================= 晨报侧栏(同源 /brief/latest.json,失败保持隐藏) =================
+function escHTML(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+async function loadBrief(){
+  try {
+    const r = await fetch('/brief/latest.json');
+    if (!r.ok) return;
+    const b = await r.json();
+    if (!b || !b.date || !b.title) return;
+    const rail = document.getElementById('briefRail');
+    rail.querySelector('.brief-rail__date').textContent = b.date;
+    rail.querySelector('.brief-rail__title').textContent = b.title;
+    rail.querySelector('.brief-rail__list').innerHTML = (b.bark || '').split('\n')
+      .filter(Boolean).map(l => `<li>${escHTML(l.replace(/^·\s*/, ''))}</li>`).join('');
+    rail.querySelector('.brief-rail__more').href = '/brief/' + b.date + '.html';
+    rail.hidden = false;
+  } catch (e) { /* 无晨报数据时隐藏侧栏 */ }
+}
+loadBrief();
+
 boot();
 </script>
 </body>
