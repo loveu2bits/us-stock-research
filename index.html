@@ -535,12 +535,13 @@ async function loadBrief(){
     if (!r.ok) return;
     const b = await r.json();
     if (!b || !b.date || !b.title) return;
+    const pub = b.pub_date || b.date;
     const rail = document.getElementById('briefRail');
-    rail.querySelector('.brief-rail__date').textContent = b.date;
+    rail.querySelector('.brief-rail__date').textContent = pub;
     rail.querySelector('.brief-rail__title').textContent = b.title;
     rail.querySelector('.brief-rail__list').innerHTML = (b.bark || '').split('\n')
       .filter(Boolean).map(l => `<li>${escHTML(l.replace(/^·\s*/, ''))}</li>`).join('');
-    rail.querySelector('.brief-rail__more').href = '/brief/' + b.date + '.html';
+    rail.querySelector('.brief-rail__more').href = '/brief/' + pub + '.html';
     rail.hidden = false;
   } catch (e) { /* 无晨报数据时隐藏侧栏 */ }
 }
