@@ -223,7 +223,7 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
     <a href="https://www.seattletimes.com/business/how-major-us-stock-indexes-fared-tuesday-7-28-2026/" target="_blank">AP / Seattle Times</a></p>
   </div>
 </section>
-<footer class="site-footer"><div class="shell">美股研究 · 公司概况（与深度研究一一对应）· 更新于 2026-08-18（北京时间）</div></footer>
+<footer class="site-footer"><div class="shell">美股研究 · 公司概况（与深度研究一一对应）· <span id="updateDate">更新于 2026-08-18（北京时间）</span></div></footer>
 
 <script>
 // ================= 市值分层 =================
@@ -520,6 +520,7 @@ async function boot(){
           if (m.cap) c.cap = m.cap;
           if (m.price != null) { c.price = m.price; c.chg = m.chg; c.mkDate = mk.date; }
         });
+        if (mk.date) document.getElementById('updateDate').textContent = '更新于 ' + mk.date + '（北京时间）';
       }
     }
   } catch (e) { /* 无行情数据时保持静态内容 */ }
