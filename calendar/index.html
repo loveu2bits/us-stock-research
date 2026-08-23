@@ -127,12 +127,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   <div class="shell">
     <div class="overview__heading">
       <div class="overview__copy">
-        <h1>催化剂日历 · 未来两周<span class="en">2026-08-15 ~ 08-29 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
+        <h1>催化剂日历 · 未来两周<span class="en">2026-08-22 ~ 09-05 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
         <p class="sub">两周窗口内的财报、监管节点与产品事件，按日期排列；「关注指标」是该事件落地时最该盯住的数字与信号。日期待定的窗口内候选单列在最后。</p>
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong>2026-08-17</strong>
+        <strong>2026-08-22</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -161,30 +161,54 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 </footer>
 
 <script>
-// ===== 数据：未来两周催化剂（2026-08-15 ~ 08-29）=====
+// ===== 数据：未来两周催化剂（2026-08-22 ~ 09-05）=====
 // link 相对 calendar/ 目录；#tracker 锚点直达研究页跟踪面板
 const DAYS = [
-  { date: '08-20', week: '周四前后', wk: 2, events: [
-    { co: 'Vistra', tk: 'VST', link: '../VST/Vistra_研究.html#tracker', status: 'pending',
-      title: 'PUCT 公开会议（ERCOT 审计时间表请求）',
-      desc: 'ERCOT 将在此会议前提交 Batch Zero 时间表「正当理由例外」请求，明确数据中心审批重新推进的时点——德州大型负荷签约解冻节奏的硬信号。',
-      metrics: ['审查时间表获批情况', '首批获批规模', '配储等附加要求'] },
-    { co: '沃尔玛', tk: 'WMT', link: '../WMT/沃尔玛_研究.html#tracker', status: 'pending',
-      title: 'FY27Q2 财报（8 月中旬）',
-      desc: '指引收入 +4~5%、调整后营业利润 +7~10%——能否超预期，两个数要同时看。',
-      metrics: ['美国同店 ≥4%', '营业利润增速回上限', '电商与广告盈利'] },
-  ]},
-  { date: '08 月下旬', week: '预计 08-26 前后', wk: 2, events: [
+  { date: '08-26', week: '周三', wk: 1, events: [
     { co: '英伟达', tk: 'NVDA', link: '../NVDA/英伟达_研究.html#tracker', status: 'pending',
       title: 'FY27Q2 财报',
       desc: '当前价位的胜负手：营收 / 毛利率是否再超指引，「1 万亿美元订单管道」是否上修。',
       metrics: ['营收 vs 指引上限', '毛利率走势', '订单管道是否上修', 'Rubin 出货口径'] },
+    { co: '新思科技', tk: 'SNPS', link: '../SNPS/新思科技_研究.html#tracker', status: 'pending',
+      title: 'FY26Q3 财报（iFinD 预计披露日）',
+      desc: 'IP 环比改善的持续性 + 全年指引更新。',
+      metrics: ['IP 业务环比增速', '全年指引调整', '中国敞口变化'] },
+    { co: 'Salesforce', tk: 'CRM', link: '../CRM/Salesforce_研究.html#tracker', status: 'pending',
+      title: 'FY2Q27 财报（iFinD 预计披露日 08-26）',
+      desc: '「下半年有机加速」承诺的首次计分，市场预期已极保守。',
+      metrics: ['有机增速', 'cRPO 是否拐头（上季 +14%）'] },
+  ]},
+  { date: '08-27', week: '周四', wk: 1, events: [
+    { co: '迈威尔', tk: 'MRVL', link: '../MRVL/迈威尔_研究.html#tracker', status: 'pending',
+      title: 'FY2Q27 财报（iFinD 预计披露日 08-27）',
+      desc: '营收中点 $27 亿（环比 +12%）兑现度 + 是否再上修全年。',
+      metrics: ['营收 vs 中点 $27 亿', '全年指引是否再上修'] },
+  ]},
+  { date: '09-02', week: '下周三', wk: 2, events: [
+    { co: '博通', tk: 'AVGO', link: '../AVGO/博通_研究.html#tracker', status: 'pending',
+      title: 'FY26Q3 财报（iFinD 预计披露日 09-02）',
+      desc: 'AI 收入 $160 亿指引兑现度 + 是否上调 FY27 展望；市场预期「超 $1,000 亿」偏保守。',
+      metrics: ['AI 收入 $160 亿兑现度', 'FY27 展望是否上调'] },
+    { co: '慧与', tk: 'HPE', link: '../HPE/慧与_研究.html#tracker', status: 'pending',
+      title: 'FY26Q3 财报（iFinD 预计披露日 09-02）',
+      desc: '指引营收 115-121 亿美元、Non-GAAP EPS 0.88-0.93 美元——验证连续超预期与全年展望是否再上调。',
+      metrics: ['营收 vs 指引上限', '全年 EPS 指引是否再上调'] },
+  ]},
+  { date: '09-03', week: '下周四', wk: 2, events: [
+    { co: '戴尔', tk: 'DELL', link: '../DELL/戴尔_研究.html#tracker', status: 'pending',
+      title: 'FY27Q2 财报（iFinD 预计披露日 09-03）',
+      desc: '指引营收 $440-450 亿 / AI $155 亿 / EPS $4.80——焦点是超预期幅度 vs 买方 $650 亿全年预期。',
+      metrics: ['AI 服务器 $155 亿指引兑现', '超预期幅度', '全年指引变动'] },
   ]},
   { date: '窗口内待定', week: '时间未公布，两周内可能落地', tbd: true, events: [
     { co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker', status: 'pending',
       title: '新任 CEO 人选落定（预期 8~9 月）',
       desc: '消除不确定性折价的最重要单一事件。',
       metrics: ['人选背景（内部 / 外部）', 'AI 战略口径变化', '指引是否被重置'] },
+    { co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker', status: 'pending',
+      title: 'FY26Q3 财报（iFinD 预计披露日 09-10）',
+      desc: '窗口边缘事件：新帅落定前后的第一个完整业绩验证。',
+      metrics: ['AI 收入口径', '指引是否重置'] },
     { co: '甲骨文', tk: 'ORCL', link: '../ORCL/甲骨文_研究.html#tracker', status: 'pending',
       title: '200 亿美元 ATM 股权融资执行（8~9 月）',
       desc: '足额推进 = 缓解评级压力 + 利差收窄。',
@@ -229,6 +253,14 @@ const NEXT = [
 
 // ===== 历史催化（已发生，新条目加在数组开头）=====
 const HISTORY = [
+  { date: '08-20', co: '沃尔玛', tk: 'WMT', link: '../WMT/沃尔玛_研究.html#tracker',
+    title: 'FY27Q2 财报',
+    result: '调整后营业利润 +17.4%（远超 +7~10% 指引上限）、调整后 EPS $0.81（超指引 0.72~0.74）并上调全年指引；但美国同店 +2.6% 未达 4%+ 观察线、首次跌破 3%，财报日股价 -9.2%。利润率跳升含一次性关税退税助推（毛利率 26.1%、营业利润率 4.9% 均四年新高），下一验证点 FY27Q3（11 月上旬）。',
+    metrics: ['美国同店 ≥4%', '营业利润增速回上限', '电商与广告盈利'] },
+  { date: '08-20', co: 'Vistra', tk: 'VST', link: '../VST/Vistra_研究.html#tracker',
+    title: 'PUCT 公开会议（ERCOT 审计时间表请求）',
+    result: 'PUCT 批准 ERCOT「批次零」分类期限的正当理由例外：8 月末起向暂定合格项目发 RFI，目标 12/10 前完成约 250-300 个项目（约 200GW）审计并提交报告；审计完成前不批准任何新数据中心并网，「批次零」并网研究确定推迟过原 2027-04-09 期限——负荷解冻节奏慢于预期，股价两日累计约 -4.5%。',
+    metrics: ['审查时间表获批情况', '首批获批规模', '配储等附加要求'] },
   { date: '08-17', co: '安森美', tk: 'ON', link: '../ON/安森美_研究.html#tracker',
     title: 'Synaptics 并购 HSR 审查等待期',
     result: 'FTC 于 2026-08-12 提前终止 HSR 等待期（较原定 08-17 更早），美国反垄断障碍扫清；仍待 Synaptics 股东批准及其他监管审批，交割时间表重申 2027 年中。股价反应温和（08-13 -2.1%、08-14 +1.4%）。',
