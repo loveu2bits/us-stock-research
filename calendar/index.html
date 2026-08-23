@@ -132,7 +132,7 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong>2026-08-22</strong>
+        <strong>2026-08-24</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -184,6 +184,12 @@ const DAYS = [
       desc: '营收中点 $27 亿（环比 +12%）兑现度 + 是否再上修全年。',
       metrics: ['营收 vs 中点 $27 亿', '全年指引是否再上修'] },
   ]},
+  { date: '09-01', week: '周二', wk: 2, events: [
+    { co: 'Qorvo', tk: 'QRVO', link: '../QRVO/Qorvo_研究.html#tracker', status: 'pending',
+      title: 'SWKS 债券交换要约到期 + FTC 30 天等待期结束（8 月底~9 月初）',
+      desc: '交换要约参与率与 FTC 等待期内是否起诉，是「合并 2026 年内交割」预期的直接检验。',
+      metrics: ['交换要约参与率', 'FTC 是否放行'] },
+  ]},
   { date: '09-02', week: '下周三', wk: 2, events: [
     { co: '博通', tk: 'AVGO', link: '../AVGO/博通_研究.html#tracker', status: 'pending',
       title: 'FY26Q3 财报（iFinD 预计披露日 09-02）',
@@ -213,14 +219,6 @@ const DAYS = [
       title: '200 亿美元 ATM 股权融资执行（8~9 月）',
       desc: '足额推进 = 缓解评级压力 + 利差收窄。',
       metrics: ['发行推进进度', '10Y/30Y 利差变化', '评级机构表态'] },
-    { co: '新思科技', tk: 'SNPS', link: '../SNPS/新思科技_研究.html#tracker', status: 'pending',
-      title: 'FY26Q3 财报（预计 8 月）',
-      desc: 'IP 环比改善的持续性 + 全年指引更新。',
-      metrics: ['IP 业务环比增速', '全年指引调整', '中国敞口变化'] },
-    { co: 'Qorvo', tk: 'QRVO', link: '../QRVO/Qorvo_研究.html#tracker', status: 'pending',
-      title: 'FY27Q1 财报（8 月）',
-      desc: '退出低端安卓后的首个完整季度，验证收入结构变化。',
-      metrics: ['收入结构变化', '毛利率可持续性'] },
     { co: '闪迪', tk: 'SNDK', link: '../SNDK/闪迪_研究.html#tracker', status: 'pending',
       title: '投资者日（8 月，日期待定）',
       desc: '估值体系切换的验证窗口：长期财务目标、NBM 进展、资本回报计划。',
@@ -253,6 +251,18 @@ const NEXT = [
 
 // ===== 历史催化（已发生，新条目加在数组开头）=====
 const HISTORY = [
+  { date: '08-07', co: 'Vistra', tk: 'VST', link: '../VST/Vistra_研究.html#tracker',
+    title: '2Q26 财报',
+    result: '调整后 EBITDA $17.67 亿超共识 $16.40 亿（同比 +30%+）：实现电价上行 + PJM 容量收入 + Martin Lake 1 号重启 + Lotus 并表；同季宣布 FERC 已批准 Cogentrix 收购、预计 2026 年底交割。全年指引口径未变，上修留待交割后。',
+    metrics: ['调整后 EBITDA vs 共识', '全年指引是否重申'] },
+  { date: '07-30', co: 'Rivian', tk: 'RIVN', link: '../RIVN/Rivian_研究.html#tracker',
+    title: '2026Q2 完整财报',
+    result: '营收 $16.58 亿（+27%）超共识 $15.2 亿，并表毛利首次转正（报道口径毛利率 7.5%）；但汽车毛利率（剔监管积分）-13.9%——R2 爬坡增量成本约 $1 亿的「谷底季」；软件与服务 +37%、毛利率 42%；全年调整后 EBITDA 指引中值改善 $5,000 万至 -$18~-20 亿，Q4 汽车毛利率转正目标维持。',
+    metrics: ['汽车毛利率（剔积分）', 'R2 爬坡成本', 'EBITDA 指引变动'] },
+  { date: '07-28', co: 'Qorvo', tk: 'QRVO', link: '../QRVO/Qorvo_研究.html#tracker',
+    title: 'FY27Q1 财报',
+    result: '营收 $7.85 亿（同比 -4.2%）仍超共识 $7.43 亿，非GAAP 毛利率 52.8%（同比 +880bp）、非GAAP EPS $1.64 大超预期 $1.10；HPA 收入 +50.2%、营业利润率 33.9%。因合并悬置暂停季度指引，全年 EPS 指引自「接近 $7」上调至「高于 $7.00」；管理层对合并 2026 年内完成信心增强。',
+    metrics: ['收入结构变化', '毛利率可持续性'] },
   { date: '08-20', co: '沃尔玛', tk: 'WMT', link: '../WMT/沃尔玛_研究.html#tracker',
     title: 'FY27Q2 财报',
     result: '调整后营业利润 +17.4%（远超 +7~10% 指引上限）、调整后 EPS $0.81（超指引 0.72~0.74）并上调全年指引；但美国同店 +2.6% 未达 4%+ 观察线、首次跌破 3%，财报日股价 -9.2%。利润率跳升含一次性关税退税助推（毛利率 26.1%、营业利润率 4.9% 均四年新高），下一验证点 FY27Q3（11 月上旬）。',
