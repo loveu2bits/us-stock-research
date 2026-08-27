@@ -127,12 +127,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   <div class="shell">
     <div class="overview__heading">
       <div class="overview__copy">
-        <h1>催化剂日历 · 未来两周<span class="en">2026-08-22 ~ 09-05 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
+        <h1>催化剂日历 · 未来两周<span class="en">2026-08-28 ~ 09-10 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
         <p class="sub">两周窗口内的财报、监管节点与产品事件，按日期排列；「关注指标」是该事件落地时最该盯住的数字与信号。日期待定的窗口内候选单列在最后。</p>
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong>2026-08-26</strong>
+        <strong>2026-08-28</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -164,29 +164,15 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 // ===== 数据：未来两周催化剂（2026-08-22 ~ 09-05）=====
 // link 相对 calendar/ 目录；#tracker 锚点直达研究页跟踪面板
 const DAYS = [
-  { date: '08-27', week: '周四', wk: 1, events: [
-    { co: '英伟达', tk: 'NVDA', link: '../NVDA/英伟达_研究.html#tracker', status: 'pending',
-      title: 'FY27Q2 财报（美东 08-26 盘后，北京时间 08-27 晨披露）',
-      desc: '当前价位的胜负手：营收 / 毛利率是否再超指引，「1 万亿美元订单管道」是否上修。',
-      metrics: ['营收 vs 指引上限', '毛利率走势', '订单管道是否上修', 'Rubin 出货口径'] },
-    { co: '新思科技', tk: 'SNPS', link: '../SNPS/新思科技_研究.html#tracker', status: 'pending',
-      title: 'FY26Q3 财报（美东 08-26 盘后，北京时间 08-27 晨披露）',
-      desc: 'IP 环比改善的持续性 + 全年指引更新。',
-      metrics: ['IP 业务环比增速', '全年指引调整', '中国敞口变化'] },
-    { co: 'Salesforce', tk: 'CRM', link: '../CRM/Salesforce_研究.html#tracker', status: 'pending',
-      title: 'FY2Q27 财报（美东 08-26 盘后，北京时间 08-27 晨披露）',
-      desc: '「下半年有机加速」承诺的首次计分，市场预期已极保守。',
-      metrics: ['有机增速', 'cRPO 是否拐头（上季 +14%）'] },
-    { co: '迈威尔', tk: 'MRVL', link: '../MRVL/迈威尔_研究.html#tracker', status: 'pending',
-      title: 'FY2Q27 财报（iFinD 预计披露日 08-27）',
-      desc: '营收中点 $27 亿（环比 +12%）兑现度 + 是否再上修全年。',
-      metrics: ['营收 vs 中点 $27 亿', '全年指引是否再上修'] },
-  ]},
-  { date: '09-01', week: '周二', wk: 2, events: [
+  { date: '09-01', week: '下周二', wk: 2, events: [
     { co: 'Qorvo', tk: 'QRVO', link: '../QRVO/Qorvo_研究.html#tracker', status: 'pending',
       title: 'SWKS 债券交换要约到期 + FTC 30 天等待期结束（8 月底~9 月初）',
       desc: '交换要约参与率与 FTC 等待期内是否起诉，是「合并 2026 年内交割」预期的直接检验。',
       metrics: ['交换要约参与率', 'FTC 是否放行'] },
+    { co: '戴尔', tk: 'DELL', link: '../DELL/戴尔_研究.html#tracker', status: 'pending',
+      title: 'FY27Q2 财报（iFinD 预计披露日 09-01，较此前 09-03 提前）',
+      desc: '指引营收 $440-450 亿 / AI $155 亿 / EPS $4.80——焦点是超预期幅度 vs 买方 $650 亿全年预期。',
+      metrics: ['AI 服务器 $155 亿指引兑现', '超预期幅度', '全年指引变动'] },
   ]},
   { date: '09-02', week: '下周三', wk: 2, events: [
     { co: '博通', tk: 'AVGO', link: '../AVGO/博通_研究.html#tracker', status: 'pending',
@@ -198,21 +184,17 @@ const DAYS = [
       desc: '指引营收 115-121 亿美元、Non-GAAP EPS 0.88-0.93 美元——验证连续超预期与全年展望是否再上调。',
       metrics: ['营收 vs 指引上限', '全年 EPS 指引是否再上调'] },
   ]},
-  { date: '09-03', week: '下周四', wk: 2, events: [
-    { co: '戴尔', tk: 'DELL', link: '../DELL/戴尔_研究.html#tracker', status: 'pending',
-      title: 'FY27Q2 财报（iFinD 预计披露日 09-03）',
-      desc: '指引营收 $440-450 亿 / AI $155 亿 / EPS $4.80——焦点是超预期幅度 vs 买方 $650 亿全年预期。',
-      metrics: ['AI 服务器 $155 亿指引兑现', '超预期幅度', '全年指引变动'] },
+  { date: '09-10', week: '下下周四', wk: 2, events: [
+    { co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker', status: 'pending',
+      title: 'FY26Q3 财报（iFinD 预计披露日 09-10）',
+      desc: '新 CEO 落定前后的第一个完整业绩验证。',
+      metrics: ['AI 收入口径', '指引是否重置'] },
   ]},
   { date: '窗口内待定', week: '时间未公布，两周内可能落地', tbd: true, events: [
     { co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker', status: 'pending',
       title: '新任 CEO 人选落定（预期 8~9 月）',
       desc: '消除不确定性折价的最重要单一事件。',
       metrics: ['人选背景（内部 / 外部）', 'AI 战略口径变化', '指引是否被重置'] },
-    { co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker', status: 'pending',
-      title: 'FY26Q3 财报（iFinD 预计披露日 09-10）',
-      desc: '窗口边缘事件：新帅落定前后的第一个完整业绩验证。',
-      metrics: ['AI 收入口径', '指引是否重置'] },
     { co: '甲骨文', tk: 'ORCL', link: '../ORCL/甲骨文_研究.html#tracker', status: 'pending',
       title: '200 亿美元 ATM 股权融资执行（8~9 月）',
       desc: '足额推进 = 缓解评级压力 + 利差收窄。',
@@ -241,14 +223,31 @@ const DAYS = [
 ];
 
 const NEXT = [
-  { co: 'Take-Two', tk: 'TTWO', link: '../TTWO/Take-Two_研究.html#tracker', text: '08-27 GTA 6 新预告片《分量十足的一瞥》发布——预售势头的持续验证' },
-  { co: 'Salesforce', tk: 'CRM', link: '../CRM/Salesforce_研究.html#tracker', text: '08 底 FY2Q27 财报——「下半年有机加速」承诺的首次计分，看有机增速与 cRPO 拐头' },
-  { co: '戴尔', tk: 'DELL', link: '../DELL/戴尔_研究.html#tracker', text: '08 底 FY27Q2 财报——AI 服务器 $155 亿指引兑现度 vs 买方 $650 亿全年预期' },
-  { co: '迈威尔', tk: 'MRVL', link: '../MRVL/迈威尔_研究.html#tracker', text: '08 底 FY2Q27 财报——营收中点 $27 亿（环比 +12%）兑现度 + 是否再上修全年' },
+  { co: '戴尔', tk: 'DELL', link: '../DELL/戴尔_研究.html#tracker', text: '09-01 FY27Q2 财报（iFinD 确认 09-01）——AI 服务器 $155 亿指引兑现度 + 超预期幅度 vs 买方 $650 亿全年预期' },
+  { co: '博通', tk: 'AVGO', link: '../AVGO/博通_研究.html#tracker', text: '09-02 FY26Q3 财报——AI 收入 $160 亿指引兑现度 + FY27 展望是否再上调' },
+  { co: '慧与', tk: 'HPE', link: '../HPE/慧与_研究.html#tracker', text: '09-02 FY26Q3 财报——营收 vs 指引上限（115-121 亿）/ 全年 EPS 指引是否再上调' },
+  { co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker', text: '09-10 FY26Q3 财报——新 CEO 落定前后的第一个完整业绩验证' },
+  { co: 'Salesforce', tk: 'CRM', link: '../CRM/Salesforce_研究.html#tracker', text: '09 月中旬 Dreamforce——Cloudforce / AI Force 亮相 + 投资者日更新 FY30 长期框架（F2Q27 已 +22.6% 兑现）' },
 ];
 
 // ===== 历史催化（已发生，新条目加在数组开头）=====
 const HISTORY = [
+  { date: '08-28', co: '迈威尔', tk: 'MRVL', link: '../MRVL/迈威尔_研究.html#tracker',
+    title: 'FY2Q27 财报（美东 08-27 盘后 / 北京时间 08-28 晨）',
+    result: '创纪录营收 $27.39 亿（+37%）超共识 $27.1 亿，Non-GAAP EPS $0.94 超共识 $0.93；Q3 指引高于市场预期，FY27 展望上修约 $5 亿、FY28 上修约 $1.5 亿（至约 $180 亿）——但财报前月内股价 +30% 预期打满，盘后一度 -7%（高盛维持中性、目标价 $195，看区间震荡）。「兑现但不出彩」，验证了满定价判断。',
+    metrics: ['营收 vs 中点 $27 亿', '全年指引是否再上修'] },
+  { date: '08-27', co: '英伟达', tk: 'NVDA', link: '../NVDA/英伟达_研究.html#tracker',
+    title: 'FY27Q2 财报（美东 08-26 盘后 / 北京时间 08-27 晨）',
+    result: '营收 $96.2 亿（+106%）超共识 $92.3 亿，Non-GAAP 毛利率 75.0%、Non-GAAP EPS $2.22；FY3Q27 指引营收 $108 亿（±2%）但毛利率降至 74%（FY4Q27 预计触底 71-72%，HBM 成本拖累）；首次给出 FY28 营收 +70% 指引（远超市场 40-45% 共识），供应承诺 $1,190→$2,790 亿；Vera Rubin 3Q 起贡献约 20% 数据中心收入。财报日 +8.7%，观点由持有上调为买入。',
+    metrics: ['营收 vs 指引上限', '毛利率走势', '订单管道是否上修', 'Rubin 出货口径'] },
+  { date: '08-27', co: '新思科技', tk: 'SNPS', link: '../SNPS/新思科技_研究.html#tracker',
+    title: 'FY26Q3 财报（美东 08-26 盘后 / 北京时间 08-27 晨）',
+    result: '总营收 $24.77 亿（+42%）、非GAAP 营业利润率 41.6%、Non-GAAP EPS $3.91 全面超指引；FY26 四项指引二次上调（营收 96.9-97.4 亿 / 利润率 41.5% / EPS 15.04-15.10 / FCF 上修约 6 亿至 ~26 亿）；设计 IP 收入 $4.74 亿（同比 +11%）连续第二季改善，Q4 EDA 有机增速指引加速至双位数。财报日 +13.4%。',
+    metrics: ['IP 业务环比增速', '全年指引调整', '中国敞口变化'] },
+  { date: '08-27', co: 'Salesforce', tk: 'CRM', link: '../CRM/Salesforce_研究.html#tracker',
+    title: 'FY2Q27 财报（美东 08-26 盘后 / 北京时间 08-27 晨）',
+    result: '营收 $113.5 亿（固定汇率 +11%）超指引上限，FY27 全年营收指引上调约 $3 亿至 $461-464 亿；Q3 指引 cRPO ~+14%（固定汇率）；Agentforce ARR 升至 $15 亿、当季新增 2,000 家付费生产客户（环比 +70%）、AWU 环比 +97%；Non-GAAP 营业利润率 34.1%；发布 Cloudforce（与 Anthropic 合作）与 AI Force 架构。财报日 +22.6%，「有机加速」承诺首次计分通过。',
+    metrics: ['有机增速', 'cRPO 是否拐头（上季 +14%）'] },
   { date: '08-07', co: 'Vistra', tk: 'VST', link: '../VST/Vistra_研究.html#tracker',
     title: '2Q26 财报',
     result: '调整后 EBITDA $17.67 亿超共识 $16.40 亿（同比 +30%+）：实现电价上行 + PJM 容量收入 + Martin Lake 1 号重启 + Lotus 并表；同季宣布 FERC 已批准 Cogentrix 收购、预计 2026 年底交割。全年指引口径未变，上修留待交割后。',
@@ -309,8 +308,8 @@ const nextWeek = dated.filter(d => d.wk === 2).reduce((n, d) => n + d.events.len
 const tbdCount = DAYS.filter(d => d.tbd).reduce((n, d) => n + d.events.length, 0);
 const earnings = DAYS.flatMap(d => d.events).filter(e => /财报/.test(e.title)).length;
 rail.innerHTML = [
-  [thisWeek, '本周（08-15 ~ 08-16）'],
-  [nextWeek, '下周（08-17 ~ 08-29）'],
+  [thisWeek, '本周（08-28 ~ 08-30）'],
+  [nextWeek, '下周（09-01 ~ 09-10）'],
   [tbdCount, '窗口内待定'],
   [earnings + ' 场', '其中财报'],
 ].map(([v, l]) => `<div class="summary-rail__item"><strong>${v}</strong><span>${l}</span></div>`).join('');
