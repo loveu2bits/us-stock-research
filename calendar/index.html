@@ -127,12 +127,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   <div class="shell">
     <div class="overview__heading">
       <div class="overview__copy">
-        <h1>催化剂日历 · 未来两周<span class="en">2026-08-28 ~ 09-10 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
+        <h1>催化剂日历 · 未来两周<span class="en">2026-09-01 ~ 09-15 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
         <p class="sub">两周窗口内的财报、监管节点与产品事件，按日期排列；「关注指标」是该事件落地时最该盯住的数字与信号。日期待定的窗口内候选单列在最后。</p>
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong>2026-08-28</strong>
+        <strong>2026-09-01</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -161,14 +161,14 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 </footer>
 
 <script>
-// ===== 数据：未来两周催化剂（2026-08-22 ~ 09-05）=====
+// ===== 数据：未来两周催化剂（2026-09-01 ~ 09-15）=====
 // link 相对 calendar/ 目录；#tracker 锚点直达研究页跟踪面板
 const DAYS = [
   { date: '09-01', week: '下周二', wk: 2, events: [
-    { co: 'Qorvo', tk: 'QRVO', link: '../QRVO/Qorvo_研究.html#tracker', status: 'pending',
-      title: 'SWKS 债券交换要约到期 + FTC 30 天等待期结束（8 月底~9 月初）',
-      desc: '交换要约参与率与 FTC 等待期内是否起诉，是「合并 2026 年内交割」预期的直接检验。',
-      metrics: ['交换要约参与率', 'FTC 是否放行'] },
+    { co: 'Qorvo', tk: 'QRVO', link: '../QRVO/Qorvo_研究.html#tracker', status: 'active',
+      title: 'SWKS 交换要约 09-01 到期结算 + 中国/韩国审批跟进——交割窗口（2026 年底至 2027 年初）',
+      desc: '美国 FTC 已通过（08-01 时限协议届满未诉）；仅剩中国 SAMR / 韩国 KFTC。交换要约结算随交割进行。',
+      metrics: ['SAMR/KFTC 审批进展', '交割时间'] },
     { co: '戴尔', tk: 'DELL', link: '../DELL/戴尔_研究.html#tracker', status: 'pending',
       title: 'FY27Q2 财报（iFinD 预计披露日 09-01，较此前 09-03 提前）',
       desc: '指引营收 $440-450 亿 / AI $155 亿 / EPS $4.80——焦点是超预期幅度 vs 买方 $650 亿全年预期。',
@@ -199,10 +199,6 @@ const DAYS = [
       title: '200 亿美元 ATM 股权融资执行（8~9 月）',
       desc: '足额推进 = 缓解评级压力 + 利差收窄。',
       metrics: ['发行推进进度', '10Y/30Y 利差变化', '评级机构表态'] },
-    { co: '闪迪', tk: 'SNDK', link: '../SNDK/闪迪_研究.html#tracker', status: 'pending',
-      title: '投资者日（8 月，日期待定）',
-      desc: '估值体系切换的验证窗口：长期财务目标、NBM 进展、资本回报计划。',
-      metrics: ['长期财务目标', 'NBM（NAND 新商业模式）进展', '分红 / 回购计划'] },
     { co: '泛林集团', tk: 'LRCX', link: '../LRCX/泛林集团_研究.html#tracker', status: 'pending',
       title: 'FY2026 10-K 年报发布（8 月）',
       desc: '年报细节比季报更全，重点看存货与递延。',
@@ -232,6 +228,14 @@ const NEXT = [
 
 // ===== 历史催化（已发生，新条目加在数组开头）=====
 const HISTORY = [
+  { date: '09-01', co: 'Qorvo', tk: 'QRVO', link: '../QRVO/Qorvo_研究.html#tracker',
+    title: 'SWKS 债券交换要约到期 + FTC 30 天等待期结束',
+    result: '美国 FTC 通过：HSR 等待期届满、与 FTC 的时限协议 08-01 期满未采取进一步行动——美国反垄断实质通过，仅剩中国 SAMR / 韩国 KFTC；SWKS 交换要约 09-01 到期，早鸟参与率 2029 债 89.4% / 2031 债 93.1%（结算随交割）。',
+    metrics: ['交换要约参与率', 'FTC 是否放行'] },
+  { date: '08-13', co: '闪迪', tk: 'SNDK', link: '../SNDK/闪迪_研究.html#tracker',
+    title: '2026 投资者日（Sandisk In Focus）',
+    result: '落地长期模型 FY28-30：营收中高双位数复合增长、Non-GAAP 毛利率 ~80%、营业利润率 ~75%、调整后 FCF 利润率 ~50%，投资后 100% 多余现金回报股东；发布 BiCS9/10 QLC（BiCS10 位密度较 BiCS8 提升 60%）。',
+    metrics: ['长期财务目标', 'NBM（NAND 新商业模式）进展', '分红 / 回购计划'] },
   { date: '08-28', co: '迈威尔', tk: 'MRVL', link: '../MRVL/迈威尔_研究.html#tracker',
     title: 'FY2Q27 财报（美东 08-27 盘后 / 北京时间 08-28 晨）',
     result: '创纪录营收 $27.39 亿（+37%）超共识 $27.1 亿，Non-GAAP EPS $0.94 超共识 $0.93；Q3 指引高于市场预期，FY27 展望上修约 $5 亿、FY28 上修约 $1.5 亿（至约 $180 亿）——但财报前月内股价 +30% 预期打满，盘后一度 -7%（高盛维持中性、目标价 $195，看区间震荡）。「兑现但不出彩」，验证了满定价判断。',
