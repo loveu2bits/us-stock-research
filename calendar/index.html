@@ -127,12 +127,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   <div class="shell">
     <div class="overview__heading">
       <div class="overview__copy">
-        <h1>催化剂日历 · 未来两周<span class="en">2026-09-02 ~ 09-16 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
+        <h1>催化剂日历 · 未来两周<span class="en">2026-09-03 ~ 09-17 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
         <p class="sub">两周窗口内的财报、监管节点与产品事件，按日期排列；「关注指标」是该事件落地时最该盯住的数字与信号。日期待定的窗口内候选单列在最后。</p>
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong>2026-09-02</strong>
+        <strong>2026-09-03</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -161,19 +161,9 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 </footer>
 
 <script>
-// ===== 数据：未来两周催化剂（2026-09-02 ~ 09-16）=====
+// ===== 数据：未来两周催化剂（2026-09-03 ~ 09-17）=====
 // link 相对 calendar/ 目录；#tracker 锚点直达研究页跟踪面板
 const DAYS = [
-  { date: '09-02', week: '今天（周三）', wk: 1, events: [
-    { co: '博通', tk: 'AVGO', link: '../AVGO/博通_研究.html#tracker', status: 'pending',
-      title: 'FY26Q3 财报（美东 09-02 盘后 / 北京 09-03 晨）',
-      desc: 'AI 收入 $160 亿指引兑现度 + 是否上调 FY27 展望；市场预期「超 $1,000 亿」偏保守。',
-      metrics: ['AI 收入 $160 亿兑现度', 'FY27 展望是否上调'] },
-    { co: '慧与', tk: 'HPE', link: '../HPE/慧与_研究.html#tracker', status: 'pending',
-      title: 'FY26Q3 财报（美东 09-02 盘后 / 北京 09-03 晨）',
-      desc: '指引营收 115-121 亿美元、Non-GAAP EPS 0.88-0.93 美元——验证连续超预期与全年展望是否再上调。',
-      metrics: ['营收 vs 指引上限', '全年 EPS 指引是否再上调'] },
-  ]},
   { date: '09-10', week: '下周四', wk: 2, events: [
     { co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker', status: 'pending',
       title: 'FY26Q3 财报（iFinD 预计披露日 09-10）',
@@ -185,6 +175,10 @@ const DAYS = [
       title: '新任 CEO 人选落定（预期 8~9 月）',
       desc: '消除不确定性折价的最重要单一事件。',
       metrics: ['人选背景（内部 / 外部）', 'AI 战略口径变化', '指引是否被重置'] },
+    { co: '慧与', tk: 'HPE', link: '../HPE/慧与_研究.html#tracker', status: 'pending',
+      title: 'AMD Helios AI 机架开始出货（2026-09 至 10）',
+      desc: '慧与为独家网络合作伙伴（QFX5252 交换机）——Scale-Up 网络关键一役与超大规模市场入场券；FY26Q3 财报后首个量级验证点。',
+      metrics: ['出货节奏与客户结构', '网络利润率'] },
     { co: '甲骨文', tk: 'ORCL', link: '../ORCL/甲骨文_研究.html#tracker', status: 'pending',
       title: '200 亿美元 ATM 股权融资执行（8~9 月）',
       desc: '足额推进 = 缓解评级压力 + 利差收窄。',
@@ -215,6 +209,14 @@ const NEXT = [
 
 // ===== 历史催化（已发生，新条目加在数组开头）=====
 const HISTORY = [
+  { date: '09-02', co: '博通', tk: 'AVGO', link: '../AVGO/博通_研究.html#tracker',
+    title: 'FY26Q3 财报（美东 09-02 盘后 / 北京 09-03 晨）',
+    result: '营收 $296 亿（+86%）创纪录、Non-GAAP EPS $3.32（+96%）双双超指引（$294 亿）与共识；毛利率 75% 优于 74% 指引、FCF $137 亿；<strong>AI 半导体收入 $167 亿（+221%、+54% 环比）超 $160 亿指引、占总收入 56%</strong>。FY26 AI 指引上修至约 $580 亿；<strong>FY27 AI 指引大幅上调至约 $1,150 亿、FY28 再翻倍至 $2,300 亿（对应 FY28 EPS 超 $30）</strong>——「超 1,000 亿」预期差兑现并上修。Q4 指引营收 $348 亿 / AI $217 亿（+236%）。观点维持买入。',
+    metrics: ['AI 收入 $160 亿兑现度（实际 $167 亿）', 'FY27 展望是否上调（上调至 $1,150 亿）', '毛利率 vs 74% 指引'] },
+  { date: '09-02', co: '慧与', tk: 'HPE', link: '../HPE/慧与_研究.html#tracker',
+    title: 'FY26Q3 财报（美东 09-02 盘后 / 北京 09-03 晨）',
+    result: '营收 $122 亿（+34%）超共识（~$119 亿）与指引上限，Non-GAAP EPS $1.11（指引 0.88-0.93 / 共识 0.93、GAAP $1.06）、Non-GAAP 毛利率 40.4%（同比 +1050bp）、FCF $10 亿；Q4 指引营收 $139-148 亿 / EPS $1.20-1.30（共识 $1.07）。<strong>FY26 指引再上调</strong>：营收 +34-37% / EPS $3.75-3.85 / FCF ≥$37.5 亿、网络增长 +73-74%；<strong>FY27 框架同步上调</strong>至营收 +13-17% / EPS +16-20% / 营业利润率 14-15% / FCF ≥$50 亿。观点维持买入。',
+    metrics: ['营收 vs 指引上限', '全年 EPS / FY27 框架是否再上修', '网络与毛利率'] },
   { date: '09-02', co: '戴尔', tk: 'DELL', link: '../DELL/戴尔_研究.html#tracker',
     title: 'FY27Q2 财报（美东 09-01 盘后 / 北京 09-02 晨）',
     result: '营收 $469.7 亿（+58%）创纪录、Non-GAAP EPS $7.04（+203%）双双大超指引（$440-450 亿 / $4.80）与共识（~$449 亿 / ~$4.92）；AI 服务器 $164 亿（+100%，指引 $155 亿）、单季新增订单 $609 亿 / 积压 $950 亿创纪录；传统服务器 +122%、存储 +26%、CSG +20%；Non-GAAP 营业利润率 12.6%（上年同期 7.7%）证实利润端改善。全年指引大幅上调：营收 $1,920 亿（+69%）/ AI $740 亿（+200%）/ EPS $25.50（+42%）；Q3 指引营收 $490 亿 / EPS $6.50。财报日收盘 $425（-6.8%，iFinD 行情）、盘后 +8.5% 至 ~$461；观点由持有上调为买入。',
