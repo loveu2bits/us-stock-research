@@ -132,7 +132,7 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong>2026-09-03</strong>
+        <strong>2026-09-07</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -169,12 +169,24 @@ const DAYS = [
       title: 'FY26Q3 财报（iFinD 预计披露日 09-10）',
       desc: '新 CEO 落定前后的第一个完整业绩验证。',
       metrics: ['AI 收入口径', '指引是否重置'] },
+    { co: '甲骨文', tk: 'ORCL', link: '../ORCL/甲骨文_研究.html#tracker', status: 'pending',
+      title: 'FY27Q1 财报（iFinD 预计披露日 09-10）',
+      desc: 'OCI 上季 +93% 的高基数验证 + 首次给出完整 Q1 云指引兑现度；ATM 融资与评级走向同步观察。',
+      metrics: ['OCI 增速', 'cRPO / RPO 变化', 'capex 与 ATM 推进'] },
+  ]},
+  { date: '09-08~11', week: '下周', wk: 2, events: [
+    { co: '泛林集团', tk: 'LRCX', link: '../LRCX/泛林集团_研究.html#tracker', status: 'pending',
+      title: '高盛 Communacopia 大会（09-08~11）',
+      desc: 'FY2026 10-K 已发布后的首个集中投资者沟通窗口，验证 NAND 升级与大客户集中度叙事。',
+      metrics: ['NAND 升级节奏', 'WFE 2026/2027 展望口径'] },
+  ]},
+  { date: '09-16', week: '下下周三', wk: 2, events: [
+    { co: '安森美', tk: 'ON', link: '../ON/安森美_研究.html#tracker', status: 'pending',
+      title: '分析师日',
+      desc: '汽车/工业终端需求能否企稳 + 数据中心功率半导体的增长定位，长期框架更新窗口。',
+      metrics: ['长期财务目标', '数据中心/功率业务占比展望'] },
   ]},
   { date: '窗口内待定', week: '时间未公布，两周内可能落地', tbd: true, events: [
-    { co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker', status: 'pending',
-      title: '新任 CEO 人选落定（预期 8~9 月）',
-      desc: '消除不确定性折价的最重要单一事件。',
-      metrics: ['人选背景（内部 / 外部）', 'AI 战略口径变化', '指引是否被重置'] },
     { co: '慧与', tk: 'HPE', link: '../HPE/慧与_研究.html#tracker', status: 'pending',
       title: 'AMD Helios AI 机架开始出货（2026-09 至 10）',
       desc: '慧与为独家网络合作伙伴（QFX5252 交换机）——Scale-Up 网络关键一役与超大规模市场入场券；FY26Q3 财报后首个量级验证点。',
@@ -183,10 +195,6 @@ const DAYS = [
       title: '200 亿美元 ATM 股权融资执行（8~9 月）',
       desc: '足额推进 = 缓解评级压力 + 利差收窄。',
       metrics: ['发行推进进度', '10Y/30Y 利差变化', '评级机构表态'] },
-    { co: '泛林集团', tk: 'LRCX', link: '../LRCX/泛林集团_研究.html#tracker', status: 'pending',
-      title: 'FY2026 10-K 年报发布（8 月）',
-      desc: '年报细节比季报更全，重点看存货与递延。',
-      metrics: ['日本「已发货待验收」库存', '递延收入细节', '大客户集中度'] },
     { co: 'ServiceNow', tk: 'NOW', link: '../NOW/ServiceNow_研究.html#tracker', status: 'pending',
       title: '「对话式服务台」AI 原生新品发布（8~9 月）',
       desc: '20-30% 提价能否被客户广泛接受，验证 AI 时代的定价权。',
@@ -195,20 +203,37 @@ const DAYS = [
       title: 'Audiobooks+ 新套餐 + Family / Student 新计划（8~9 月起）',
       desc: '直接贡献订阅收入与 ARPU。',
       metrics: ['ARPU 贡献', '有声书使用时长'] },
-    { co: 'Roblox', tk: 'RBLX', link: '../RBLX/Roblox_研究.html#tracker', status: 'pending',
-      title: '欧盟 DSA「超大型在线平台」认定（预期 8 月）',
-      desc: '明确欧盟市场的合规成本与运营边界。',
-      metrics: ['合规成本量化', '欧盟区运营限制条款'] },
   ]},
 ];
 
 const NEXT = [
-  { co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker', text: '09-10 FY26Q3 财报——新 CEO 落定前后的第一个完整业绩验证' },
+  { co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker', text: '09-10 FY26Q3 财报——新 CEO 落定（12-01 生效）后的第一个完整业绩验证' },
   { co: 'Salesforce', tk: 'CRM', link: '../CRM/Salesforce_研究.html#tracker', text: '09 月中旬 Dreamforce——Cloudforce / AI Force 亮相 + 投资者日更新 FY30 长期框架（F2Q27 已 +22.6% 兑现）' },
+  { co: '好市多', tk: 'COST', link: '../COST/好市多_研究.html#tracker', text: '09-24 FY2026 Q4 财报——8 月核心同店 +5.4%（错期调整后 +6.2%），关注年末购物季前趋势' },
 ];
 
 // ===== 历史催化（已发生，新条目加在数组开头）=====
 const HISTORY = [
+  { date: '09-03', co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker',
+    title: '新任 CEO 落定：Anil Chakravarthy（内部）任总裁兼 CEO，2026-12-01 生效',
+    result: 'Chakravarthy（CXO/全球销售负责人）从内部接任，Narayen 转任执行董事长——「管理层真空」折价解除、战略连续性预期更高。消息日 09-04 收 266.51（-6.7%），市场仍待 09-10 FY26Q3 财报验证；风险项「管理层真空导致战略摇摆」转 clear。',
+    metrics: ['人选（内部，延续 AI 战略）', '2026-12-01 交接', '首个完整业绩验证 09-10'] },
+  { date: '09-02', co: '好市多', tk: 'COST', link: '../COST/好市多_研究.html#tracker',
+    title: '8 月销售数据',
+    result: '净销售额 $237.0 亿（+9.9%）、16 周 Q4 $939 亿（+11.3%）、FY52 $2,973 亿（+10.2%）；<strong>核心同店 +5.4%</strong>（剔除劳动节错期约 -75bp 后约 +6.2%），美国核心 +5.6%（上月 +6.9% 回落）、加拿大 +2.8%、其他国际 +6.8%；数字化可比 +17.9%。连续第三个月放缓（5 月 +8.0% → 6 月 +7.0% → 7 月 +6.6% → 8 月 +5.4%），但剔除错期后仍守 6-7% 区间，5% 风险线未触发。',
+    metrics: ['核心同店 vs 6-7% 区间', '劳动节错期幅度', '数字化增速'] },
+  { date: '08-31', co: 'Roblox', tk: 'RBLX', link: '../RBLX/Roblox_研究.html#tracker',
+    title: '欧盟 DSA「超大型在线平台」认定落地',
+    result: '欧盟于 2026-08-31 官宣将 Roblox 认定为 VLOP（与 Reddit 一并；OpenAI ChatGPT 获 VLOSE 认定）；2027-01 前须完成合规，荷兰 ACM 协同监管，违规最高罚没全球营收 6%——「安全监管升级」风险项部分落地、合规成本明确化。',
+    metrics: ['合规成本量化', '2027-01 合规期限', '罚款风险敞口'] },
+  { date: '08-31', co: '超微电脑', tk: 'SMCI', link: '../SMCI/超微电脑_研究.html#tracker',
+    title: 'F4Q26 完整财报（10-K）提交',
+    result: 'FY26 营收 $390.63 亿（+77.8%）、归母净利 $21.96 亿；总债务升至 $40.6 亿（上年 $1.13 亿）；<strong>披露管控仍无效</strong>（Disclosure Controls Not Effective，连年未修复）——10-K 如期提交但治理修复未完成，「治理折价」继续。',
+    metrics: ['经审计营收/净利', '披露管控是否修复', '出口管制结论'] },
+  { date: '08-07', co: '泛林集团', tk: 'LRCX', link: '../LRCX/泛林集团_研究.html#tracker',
+    title: 'FY2026 10-K 发布',
+    result: 'FY2026 营收 $232.33 亿（+26.0%）、GAAP 毛利率 50.5%、非 GAAP EPS $5.82（+40.9%）；等待已久的审计口径确认：<strong>大客户集中度 16%/15%/12%/12%</strong>（前四家）分散、存货周转 3.0 次为近五年最高；应收账款风险经复核转 clear。',
+    metrics: ['应收周转复核', '日本「已发货待验收」库存', '大客户集中度'] },
   { date: '09-02', co: '博通', tk: 'AVGO', link: '../AVGO/博通_研究.html#tracker',
     title: 'FY26Q3 财报（美东 09-02 盘后 / 北京 09-03 晨）',
     result: '营收 $296 亿（+86%）创纪录、Non-GAAP EPS $3.32（+96%）双双超指引（$294 亿）与共识；毛利率 75% 优于 74% 指引、FCF $137 亿；<strong>AI 半导体收入 $167 亿（+221%、+54% 环比）超 $160 亿指引、占总收入 56%</strong>。FY26 AI 指引上修至约 $580 亿；<strong>FY27 AI 指引大幅上调至约 $1,150 亿、FY28 再翻倍至 $2,300 亿（对应 FY28 EPS 超 $30）</strong>——「超 1,000 亿」预期差兑现并上修。Q4 指引营收 $348 亿 / AI $217 亿（+236%）。观点维持买入。',
