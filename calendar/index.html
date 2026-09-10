@@ -127,12 +127,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   <div class="shell">
     <div class="overview__heading">
       <div class="overview__copy">
-        <h1>催化剂日历 · 未来两周<span class="en">2026-09-03 ~ 09-17 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
+        <h1>催化剂日历 · 未来两周<span class="en">2026-09-11 ~ 09-25 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
         <p class="sub">两周窗口内的财报、监管节点与产品事件，按日期排列；「关注指标」是该事件落地时最该盯住的数字与信号。日期待定的窗口内候选单列在最后。</p>
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong>2026-09-10</strong>
+        <strong>2026-09-11</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -161,30 +161,26 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 </footer>
 
 <script>
-// ===== 数据：未来两周催化剂（2026-09-03 ~ 09-17）=====
+// ===== 数据：未来两周催化剂（2026-09-11 ~ 09-25）=====
 // link 相对 calendar/ 目录；#tracker 锚点直达研究页跟踪面板
 const DAYS = [
-  { date: '09-11', week: '下周五', wk: 2, events: [
-    { co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker', status: 'pending',
-      title: 'FY26Q3 财报（美东 09-10 盘后发布 / 北京 09-11 晨出结果）',
-      desc: '新 CEO 落定前后的第一个完整业绩验证；北京 09-11 晨核对实际数与指引兑现度。',
-      metrics: ['AI 收入口径', '指引是否重置'] },
-    { co: '甲骨文', tk: 'ORCL', link: '../ORCL/甲骨文_研究.html#tracker', status: 'pending',
-      title: 'FY27Q1 财报（美东 09-10 盘后发布 / 北京 09-11 晨出结果）',
-      desc: 'OCI 上季 +93% 的高基数验证 + 首次给出完整 Q1 云指引兑现度；ATM 融资与评级走向同步观察；北京 09-11 晨核对。',
-      metrics: ['OCI 增速', 'cRPO / RPO 变化', 'capex 与 ATM 推进'] },
-  ]},
-  { date: '09-08~11', week: '下周', wk: 2, events: [
-    { co: '泛林集团', tk: 'LRCX', link: '../LRCX/泛林集团_研究.html#tracker', status: 'pending',
-      title: '高盛 Communacopia 大会（09-08~11）',
-      desc: 'FY2026 10-K 已发布后的首个集中投资者沟通窗口，验证 NAND 升级与大客户集中度叙事。',
+  { date: '09-08~11', week: '本周', wk: 1, events: [
+    { co: '泛林集团', tk: 'LRCX', link: '../LRCX/泛林集团_研究.html#tracker', status: 'active',
+      title: '高盛 Communacopia 大会（09-08~11，今日收尾）',
+      desc: 'FY2026 10-K 已发布后的集中投资者沟通窗口，验证 NAND 升级与大客户集中度叙事；结论并入 FY27Q1 财报（10 月）核对。',
       metrics: ['NAND 升级节奏', 'WFE 2026/2027 展望口径'] },
   ]},
-  { date: '09-16', week: '下下周三', wk: 2, events: [
+  { date: '09-16', week: '下周三', wk: 2, events: [
     { co: '安森美', tk: 'ON', link: '../ON/安森美_研究.html#tracker', status: 'pending',
       title: '分析师日',
       desc: '汽车/工业终端需求能否企稳 + 数据中心功率半导体的增长定位，长期框架更新窗口。',
       metrics: ['长期财务目标', '数据中心/功率业务占比展望'] },
+  ]},
+  { date: '09-24', week: '下下周四', wk: 2, events: [
+    { co: '好市多', tk: 'COST', link: '../COST/好市多_研究.html#tracker', status: 'pending',
+      title: 'FY2026 Q4 财报（美东 09-24 盘后发布）',
+      desc: '8 月核心同店 +5.4%（剔除劳动节错期后约 +6.2%）、连续第三个月放缓——年末购物季前验证 6-7% 区间与 5% 风险线。',
+      metrics: ['核心同店 vs 6-7% 区间', '数字化/电商可比增速', 'Q4 指引'] },
   ]},
   { date: '窗口内待定', week: '时间未公布，两周内可能落地', tbd: true, events: [
     { co: '慧与', tk: 'HPE', link: '../HPE/慧与_研究.html#tracker', status: 'pending',
@@ -193,7 +189,7 @@ const DAYS = [
       metrics: ['出货节奏与客户结构', '网络利润率'] },
     { co: '甲骨文', tk: 'ORCL', link: '../ORCL/甲骨文_研究.html#tracker', status: 'pending',
       title: '200 亿美元 ATM 股权融资执行（8~9 月）',
-      desc: '足额推进 = 缓解评级压力 + 利差收窄。',
+      desc: 'FY27Q1 财报电话会未披露执行进展；足额推进 = 缓解评级压力 + 利差收窄。',
       metrics: ['发行推进进度', '10Y/30Y 利差变化', '评级机构表态'] },
     { co: 'ServiceNow', tk: 'NOW', link: '../NOW/ServiceNow_研究.html#tracker', status: 'pending',
       title: '「对话式服务台」AI 原生新品发布（8~9 月）',
@@ -207,13 +203,21 @@ const DAYS = [
 ];
 
 const NEXT = [
-  { co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker', text: '09-11（北京）FY26Q3 财报——新 CEO 落定（12-01 生效）后的第一个完整业绩验证' },
   { co: 'Salesforce', tk: 'CRM', link: '../CRM/Salesforce_研究.html#tracker', text: '09 月中旬 Dreamforce——Cloudforce / AI Force 亮相 + 投资者日更新 FY30 长期框架（F2Q27 已 +22.6% 兑现）' },
-  { co: '好市多', tk: 'COST', link: '../COST/好市多_研究.html#tracker', text: '09-24 FY2026 Q4 财报——8 月核心同店 +5.4%（错期调整后 +6.2%），关注年末购物季前趋势' },
+  { co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker', text: '2026-10 Adobe Max 大会——FY26Q3 兑现（AI-first ARR 同比 +150%+、MAU 破 10 亿）后，Firefly/Creative Cloud 的下一个产品验证窗口' },
+  { co: '甲骨文', tk: 'ORCL', link: '../ORCL/甲骨文_研究.html#tracker', text: 'FY27Q2 财报（2026-12 中旬）——Q1 OCI +121% 兑现后，续盯 ATM 融资执行与评级走向' },
 ];
 
 // ===== 历史催化（已发生，新条目加在数组开头）=====
 const HISTORY = [
+  { date: '09-11', co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker',
+    title: 'FY26Q3 财报（美东 09-10 盘后 / 北京 09-11 晨）',
+    result: '营收 $67.6 亿（+13%）beat 指引上限（67.2 亿）与共识（~$67.0 亿），Non-GAAP EPS $6.13（+0.7% 超共识）<strong>连续第五季 beat</strong>；总 ARR 升至 $275 亿、维持 FY26 末 +10.2% 目标；<strong>AI-first ARR 同比 +150%+、全平台 MAU 破 10 亿</strong>；FY26 指引上调（营收 $265.76-266.26 亿 / Non-GAAP EPS $24.45-24.50）。Q4 指引营收 $68.0-68.5 亿（中值略低于共识），财报后盘前 -1%~-2.5%（09-10 收 248.83）——「Freemium 转化」首个量化判据通过。未来验证点：Adobe Max（2026-10）、FY26Q4 财报（12 月中）、CEO 交接（12-01）。',
+    metrics: ['AI 收入口径（AI-first ARR +150%+）', 'ARR 与指引兑现（10.2% 维持 + FY26 上调）', 'Q4 指引 vs 共识'] },
+  { date: '09-11', co: '甲骨文', tk: 'ORCL', link: '../ORCL/甲骨文_研究.html#tracker',
+    title: 'FY27Q1 财报（美东 09-10 盘后 / 北京 09-11 晨）',
+    result: '营收 $193.45 亿（+30%）、Non-GAAP EPS $1.92（+30%）全面超指引与共识（~$191.4 亿 / $1.74）；<strong>云收入 $116.07 亿（+62%）/ OCI $74.2 亿（+121%，再超 +93% 前高）</strong>、RPO 升至 $6,640 亿（环比 +$260 亿，多为预付款）；Q1 交付 850MW/30 万+ GPU；<strong>Q1 FCF -$54 亿（好于预期约 -$95.6 亿）</strong>、capex 指引维持、CY 经营现金流创单季纪录；FY2027 指引上调至营收至少 $900 亿 / Non-GAAP EPS $8.10。财报日（09-10）盘前 -5.4%（收 152.94），盘后 +4~7%（~$163）；年迄今仍 -22%。「Q1 OCI 兑现」重检首条通过，ATM 融资落地未确认。',
+    metrics: ['OCI 增速（超 +110% 门槛，实际 +121%）', 'RPO / cRPO（$6,640 亿，环比 +$260 亿）', 'capex 与 ATM 推进（capex 指引维持）'] },
   { date: '09-03', co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker',
     title: '新任 CEO 落定：Anil Chakravarthy（内部）任总裁兼 CEO，2026-12-01 生效',
     result: 'Chakravarthy（CXO/全球销售负责人）从内部接任，Narayen 转任执行董事长——「管理层真空」折价解除、战略连续性预期更高。消息日 09-04 收 266.51（-6.7%），市场仍待 09-10 FY26Q3 财报验证；风险项「管理层真空导致战略摇摆」转 clear。',
@@ -244,7 +248,7 @@ const HISTORY = [
     metrics: ['营收 vs 指引上限', '全年 EPS / FY27 框架是否再上修', '网络与毛利率'] },
   { date: '09-02', co: '戴尔', tk: 'DELL', link: '../DELL/戴尔_研究.html#tracker',
     title: 'FY27Q2 财报（美东 09-01 盘后 / 北京 09-02 晨）',
-    result: '营收 $469.7 亿（+58%）创纪录、Non-GAAP EPS $7.04（+203%）双双大超指引（$440-450 亿 / $4.80）与共识（~$449 亿 / ~$4.92）；AI 服务器 $164 亿（+100%，指引 $155 亿）、单季新增订单 $609 亿 / 积压 $950 亿创纪录；传统服务器 +122%、存储 +26%、CSG +20%；Non-GAAP 营业利润率 12.6%（上年同期 7.7%）证实利润端改善。全年指引大幅上调：营收 $1,920 亿（+69%）/ AI $740 亿（+200%）/ EPS $25.50（+42%）；Q3 指引营收 $490 亿 / EPS $6.50。财报日收盘 $425（-6.8%，iFinD 行情）、盘后 +8.5% 至 ~$461；观点由持有上调为买入。',
+    result: '营收 $469.7 亿（+58%）创纪录、Non-GAAP EPS $7.04（+203%）双双大超指引（$440-450 亿 / $4.80）与共识（~$449 亿 / ~$4.92）；AI 服务器 $164 亿（+100%，指引 $155 亿）、单季新增订单 $609 亿 / 积压 $950 亿创纪录；传统服务器 +122%、存储 +26%、CSG +20%；Non-GAAP 营业利润率 12.6%（上年同期 7.7%）证实利润端改善。全年指引大幅上调：营收 $1,920 亿（+69%）/ AI $740 亿（+200%）/ EPS $25.50（+42%）；Q3 指引营收 $490 亿 / EPS $6.50。财报日收盘 $425（-6.8%）、盘后 +8.5% 至 ~$461；观点由持有上调为买入。',
     metrics: ['AI 服务器 $155 亿指引兑现（实际 $164 亿）', '超预期幅度', '全年指引变动'] },
   { date: '09-01', co: 'Qorvo', tk: 'QRVO', link: '../QRVO/Qorvo_研究.html#tracker',
     title: 'SWKS 债券交换要约到期 + FTC 30 天等待期结束',
@@ -330,8 +334,8 @@ const nextWeek = dated.filter(d => d.wk === 2).reduce((n, d) => n + d.events.len
 const tbdCount = DAYS.filter(d => d.tbd).reduce((n, d) => n + d.events.length, 0);
 const earnings = DAYS.flatMap(d => d.events).filter(e => /财报/.test(e.title)).length;
 rail.innerHTML = [
-  [thisWeek, '本周（09-02 ~ 09-06）'],
-  [nextWeek, '下周（09-07 ~ 09-16）'],
+  [thisWeek, '本周（09-07 ~ 09-13）'],
+  [nextWeek, '下周（09-14 ~ 09-25）'],
   [tbdCount, '窗口内待定'],
   [earnings + ' 场', '其中财报'],
 ].map(([v, l]) => `<div class="summary-rail__item"><strong>${v}</strong><span>${l}</span></div>`).join('');
