@@ -127,12 +127,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   <div class="shell">
     <div class="overview__heading">
       <div class="overview__copy">
-        <h1>催化剂日历 · 未来两周<span class="en">2026-09-11 ~ 09-25 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
+        <h1>催化剂日历 · 未来两周<span class="en">2026-09-12 ~ 09-25 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
         <p class="sub">两周窗口内的财报、监管节点与产品事件，按日期排列；「关注指标」是该事件落地时最该盯住的数字与信号。日期待定的窗口内候选单列在最后。</p>
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong>2026-09-11</strong>
+        <strong>2026-09-12</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -161,15 +161,9 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 </footer>
 
 <script>
-// ===== 数据：未来两周催化剂（2026-09-11 ~ 09-25）=====
+// ===== 数据：未来两周催化剂（2026-09-12 ~ 09-25）=====
 // link 相对 calendar/ 目录；#tracker 锚点直达研究页跟踪面板
 const DAYS = [
-  { date: '09-08~11', week: '本周', wk: 1, events: [
-    { co: '泛林集团', tk: 'LRCX', link: '../LRCX/泛林集团_研究.html#tracker', status: 'active',
-      title: '高盛 Communacopia 大会（09-08~11，今日收尾）',
-      desc: 'FY2026 10-K 已发布后的集中投资者沟通窗口，验证 NAND 升级与大客户集中度叙事；结论并入 FY27Q1 财报（10 月）核对。',
-      metrics: ['NAND 升级节奏', 'WFE 2026/2027 展望口径'] },
-  ]},
   { date: '09-16', week: '下周三', wk: 2, events: [
     { co: '安森美', tk: 'ON', link: '../ON/安森美_研究.html#tracker', status: 'pending',
       title: '分析师日',
@@ -203,6 +197,7 @@ const DAYS = [
 ];
 
 const NEXT = [
+  { co: '泛林集团', tk: 'LRCX', link: '../LRCX/泛林集团_研究.html#tracker', text: 'FY27Q1 财报（2026-10）——$81 亿指引能否再超预期，Communacopia「售罄」口径的首个财务验证' },
   { co: 'Salesforce', tk: 'CRM', link: '../CRM/Salesforce_研究.html#tracker', text: '09 月中旬 Dreamforce——Cloudforce / AI Force 亮相 + 投资者日更新 FY30 长期框架（F2Q27 已 +22.6% 兑现）' },
   { co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker', text: '2026-10 Adobe Max 大会——FY26Q3 兑现（AI-first ARR 同比 +150%+、MAU 破 10 亿）后，Firefly/Creative Cloud 的下一个产品验证窗口' },
   { co: '甲骨文', tk: 'ORCL', link: '../ORCL/甲骨文_研究.html#tracker', text: 'FY27Q2 财报（2026-12 中旬）——Q1 OCI +121% 兑现后，续盯 ATM 融资执行与评级走向' },
@@ -210,6 +205,10 @@ const NEXT = [
 
 // ===== 历史催化（已发生，新条目加在数组开头）=====
 const HISTORY = [
+  { date: '09-08~11', co: '泛林集团', tk: 'LRCX', link: '../LRCX/泛林集团_研究.html#tracker',
+    title: '高盛 Communacopia 大会（LRCX 09-10 受邀交流，CFO Bettinger 与会）',
+    result: '重申<strong>行业「售罄」、2027 年底前 8-10 个一线新洁净室落地</strong>；$400 亿 NAND 升级至 2027 年底完成（转换期内晶圆产能 -20%，之后转新建）；2027 年 WFE 排序延续 DRAM 领涨、先进代工与其差距收窄；GAA/背面供电/先进封装各对应每 10 万片晶圆启动 +$10 亿 SAM；披露俄勒冈新实验室属约 $30 亿研发工程计划；确认与 SpaceX Terafab 新客户深入接洽；毛利率维持「51-52% 区间、数年迈向中 50s」。未给增量财务指引；会议周股价 -6.9%（09-10 半导体板块普跌收 298.01 / 09-11 收 298.22，pe_ttm ~51x）。结论并入 FY27Q1 财报（10 月）核对。',
+    metrics: ['NAND 升级节奏（2027 底前完成）', 'WFE 2026/2027 展望口径', '需求「售罄」持续性'] },
   { date: '09-11', co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker',
     title: 'FY26Q3 财报（美东 09-10 盘后 / 北京 09-11 晨）',
     result: '营收 $67.6 亿（+13%）beat 指引上限（67.2 亿）与共识（~$67.0 亿），Non-GAAP EPS $6.13（+0.7% 超共识）<strong>连续第五季 beat</strong>；总 ARR 升至 $275 亿、维持 FY26 末 +10.2% 目标；<strong>AI-first ARR 同比 +150%+、全平台 MAU 破 10 亿</strong>；FY26 指引上调（营收 $265.76-266.26 亿 / Non-GAAP EPS $24.45-24.50）。Q4 指引营收 $68.0-68.5 亿（中值略低于共识），财报后盘前 -1%~-2.5%（09-10 收 248.83）——「Freemium 转化」首个量化判据通过。未来验证点：Adobe Max（2026-10）、FY26Q4 财报（12 月中）、CEO 交接（12-01）。',
