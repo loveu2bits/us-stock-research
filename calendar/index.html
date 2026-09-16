@@ -127,12 +127,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   <div class="shell">
     <div class="overview__heading">
       <div class="overview__copy">
-        <h1>催化剂日历 · 未来两周<span class="en">2026-09-12 ~ 09-25 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
+        <h1>催化剂日历 · 未来两周<span class="en">2026-09-17 ~ 09-30 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
         <p class="sub">两周窗口内的财报、监管节点与产品事件，按日期排列；「关注指标」是该事件落地时最该盯住的数字与信号。日期待定的窗口内候选单列在最后。</p>
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong>2026-09-16</strong>
+        <strong>2026-09-17</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -161,20 +161,20 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 </footer>
 
 <script>
-// ===== 数据：未来两周催化剂（2026-09-12 ~ 09-25）=====
+// ===== 数据：未来两周催化剂（2026-09-17 ~ 09-30）=====
 // link 相对 calendar/ 目录；#tracker 锚点直达研究页跟踪面板
 const DAYS = [
-  { date: '09-17', week: '下周四', wk: 2, events: [
-    { co: '安森美', tk: 'ON', link: '../ON/安森美_研究.html#tracker', status: 'pending',
-      title: '分析师日（美东 09-16 14:00举行 / 北京 09-17 凌晨出结果）',
-      desc: '汽车/工业终端需求能否企稳 + 数据中心功率半导体的增长定位，长期框架更新窗口；北京 09-17 晨核对长期财务模型与数据中心拆分。',
-      metrics: ['长期财务目标', '数据中心/功率业务占比展望'] },
-  ]},
-  { date: '09-24', week: '下下周四', wk: 2, events: [
+  { date: '09-24', week: '下周四', wk: 2, events: [
     { co: '好市多', tk: 'COST', link: '../COST/好市多_研究.html#tracker', status: 'pending',
       title: 'FY2026 Q4 财报（美东 09-24 盘后发布）',
       desc: '8 月核心同店 +5.4%（剔除劳动节错期后约 +6.2%）、连续第三个月放缓——年末购物季前验证 6-7% 区间与 5% 风险线。',
       metrics: ['核心同店 vs 6-7% 区间', '数字化/电商可比增速', 'Q4 指引'] },
+  ]},
+  { date: '09-30', week: '下周三', wk: 2, events: [
+    { co: '美光', tk: 'MU', link: '../MU/美光_研究.html#tracker', status: 'pending',
+      title: 'FY26Q4 财报（iFinD 预计披露日 09-30）',
+      desc: '营收指引 $500±10 亿、Non-GAAP 毛利率 ~86%、EPS $31±1 能否再次兑现超预期——SCA 细节披露与 FY27 capex 指引（隐含 >$400 亿）决定存储周期定价拐点是否提前。',
+      metrics: ['营收 vs $500 亿指引', 'SCA 免条款与保底收入细节', 'FY27 capex 指引'] },
   ]},
   { date: '窗口内待定', week: '时间未公布，两周内可能落地', tbd: true, events: [
     { co: '慧与', tk: 'HPE', link: '../HPE/慧与_研究.html#tracker', status: 'pending',
@@ -197,6 +197,7 @@ const DAYS = [
 ];
 
 const NEXT = [
+  { co: '安森美', tk: 'ON', link: '../ON/安森美_研究.html#tracker', text: 'FY26Q3 财报（2026-10 底至 11 月初）——分析师日（09-16 -9.0%）未给近端毛利率桥，Q3 兑现 40-42% 毛利率指引与 AI 数据中心再加速是下一个胜负手' },
   { co: '泛林集团', tk: 'LRCX', link: '../LRCX/泛林集团_研究.html#tracker', text: 'FY27Q1 财报（2026-10）——$81 亿指引能否再超预期，Communacopia「售罄」口径的首个财务验证' },
   { co: 'Salesforce', tk: 'CRM', link: '../CRM/Salesforce_研究.html#tracker', text: '09 月中旬 Dreamforce——Cloudforce / AI Force 亮相 + 投资者日更新 FY30 长期框架（F2Q27 已 +22.6% 兑现）' },
   { co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker', text: '2026-10 Adobe Max 大会——FY26Q3 兑现（AI-first ARR 同比 +150%+、MAU 破 10 亿）后，Firefly/Creative Cloud 的下一个产品验证窗口' },
@@ -205,6 +206,10 @@ const NEXT = [
 
 // ===== 历史催化（已发生，新条目加在数组开头）=====
 const HISTORY = [
+  { date: '09-17', co: '安森美', tk: 'ON', link: '../ON/安森美_研究.html#tracker',
+    title: '分析师日（美东 09-16 14:00 举行 / 北京 09-17 晨核对）',
+    result: '公司公布 <strong>2030 年约 $213B 可寻址市场</strong>远景（汽车/工业/AI 数据中心/新兴应用）、三大技术平台（高压 SiC/GaN、Treo 智能层、嵌入式电源平台）并宣布<strong>Subaru EV 技术评估合作</strong>；但<strong>未给近端毛利率桥与量化财务路径</strong>，市场聚焦执行风险与 Synaptics 稀释——当日股价 <strong>-9.0% 收 $66.60</strong>（iFinD 行情，市值约 $25.9B，前日 73.20），估值由约 25x 回落至约 20-21x FY2026E。结论：常态化催化兑现但未达市场预期，观点维持持有，验证窗口顺延至 FY26Q3 财报（2026-10 底至 11 月初）。',
+    metrics: ['长期财务目标与近端毛利率桥', '数据中心/功率业务占比展望', 'Synaptics 购并整合与稀释'] },
   { date: '09-08~11', co: '泛林集团', tk: 'LRCX', link: '../LRCX/泛林集团_研究.html#tracker',
     title: '高盛 Communacopia 大会（LRCX 09-10 受邀交流，CFO Bettinger 与会）',
     result: '重申<strong>行业「售罄」、2027 年底前 8-10 个一线新洁净室落地</strong>；$400 亿 NAND 升级至 2027 年底完成（转换期内晶圆产能 -20%，之后转新建）；2027 年 WFE 排序延续 DRAM 领涨、先进代工与其差距收窄；GAA/背面供电/先进封装各对应每 10 万片晶圆启动 +$10 亿 SAM；披露俄勒冈新实验室属约 $30 亿研发工程计划；确认与 SpaceX Terafab 新客户深入接洽；毛利率维持「51-52% 区间、数年迈向中 50s」。未给增量财务指引；会议周股价 -6.9%（09-10 半导体板块普跌收 298.01 / 09-11 收 298.22，pe_ttm ~51x）。结论并入 FY27Q1 财报（10 月）核对。',
@@ -333,8 +338,8 @@ const nextWeek = dated.filter(d => d.wk === 2).reduce((n, d) => n + d.events.len
 const tbdCount = DAYS.filter(d => d.tbd).reduce((n, d) => n + d.events.length, 0);
 const earnings = DAYS.flatMap(d => d.events).filter(e => /财报/.test(e.title)).length;
 rail.innerHTML = [
-  [thisWeek, '本周（09-07 ~ 09-13）'],
-  [nextWeek, '下周（09-14 ~ 09-25）'],
+  [thisWeek, '本周（09-14 ~ 09-20）'],
+  [nextWeek, '下周（09-21 ~ 09-30）'],
   [tbdCount, '窗口内待定'],
   [earnings + ' 场', '其中财报'],
 ].map(([v, l]) => `<div class="summary-rail__item"><strong>${v}</strong><span>${l}</span></div>`).join('');
