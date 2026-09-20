@@ -127,12 +127,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   <div class="shell">
     <div class="overview__heading">
       <div class="overview__copy">
-        <h1>催化剂日历 · 未来两周<span class="en">2026-09-17 ~ 09-30 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
+        <h1>催化剂日历 · 未来两周<span class="en">2026-09-21 ~ 09-30 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
         <p class="sub">两周窗口内的财报、监管节点与产品事件，按日期排列；「关注指标」是该事件落地时最该盯住的数字与信号。日期待定的窗口内候选单列在最后。</p>
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong>2026-09-17</strong>
+        <strong>2026-09-21</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -161,7 +161,7 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 </footer>
 
 <script>
-// ===== 数据：未来两周催化剂（2026-09-17 ~ 09-30）=====
+// ===== 数据：未来两周催化剂（2026-09-21 ~ 09-30）=====
 // link 相对 calendar/ 目录；#tracker 锚点直达研究页跟踪面板
 const DAYS = [
   { date: '09-24', week: '下周四', wk: 2, events: [
@@ -199,13 +199,33 @@ const DAYS = [
 const NEXT = [
   { co: '安森美', tk: 'ON', link: '../ON/安森美_研究.html#tracker', text: 'FY26Q3 财报（2026-10 底至 11 月初）——分析师日（09-16 -9.0%）未给近端毛利率桥，Q3 兑现 40-42% 毛利率指引与 AI 数据中心再加速是下一个胜负手' },
   { co: '泛林集团', tk: 'LRCX', link: '../LRCX/泛林集团_研究.html#tracker', text: 'FY27Q1 财报（2026-10）——$81 亿指引能否再超预期，Communacopia「售罄」口径的首个财务验证' },
-  { co: 'Salesforce', tk: 'CRM', link: '../CRM/Salesforce_研究.html#tracker', text: '09 月中旬 Dreamforce——Cloudforce / AI Force 亮相 + 投资者日更新 FY30 长期框架（F2Q27 已 +22.6% 兑现）' },
+  { co: 'Salesforce', tk: 'CRM', link: '../CRM/Salesforce_研究.html#tracker', text: 'F3Q27 财报（2026-11 底）——有机再加速斜率 + AIforce/Fin 贡献；Dreamforce（09-15~17）已落地：发布 AIforce + 重申 FY30「Rule of 50」' },
   { co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker', text: '2026-10 Adobe Max 大会——FY26Q3 兑现（AI-first ARR 同比 +150%+、MAU 破 10 亿）后，Firefly/Creative Cloud 的下一个产品验证窗口' },
   { co: '甲骨文', tk: 'ORCL', link: '../ORCL/甲骨文_研究.html#tracker', text: 'FY27Q2 财报（2026-12 中旬）——Q1 OCI +121% 兑现后，续盯 ATM 融资执行与评级走向' },
 ];
 
 // ===== 历史催化（已发生，新条目加在数组开头）=====
 const HISTORY = [
+  { date: '09-21', co: '特斯拉', tk: 'TSLA', link: '../TSLA/特斯拉_研究.html#tracker',
+    title: '加州民权诉讼（CRD 诉特斯拉）第一阶段开庭（今日）',
+    result: '第一阶段审理按计划今日（09-21）开庭（SEC 披露）；此前三名原告已和解、约 580 名黑人工人继续索赔，CRD 指控 Fremont 工厂系统性种族歧视（低于白人月薪约 $1,533）+ 敌意工作环境。首日无重大裁决消息，风险项保持未触发，跟踪审理进展。',
+    metrics: ['审理进展与裁决', '和解范围是否扩大', '对运营/品牌的潜在影响'] },
+  { date: '09-15~17', co: 'Salesforce', tk: 'CRM', link: '../CRM/Salesforce_研究.html#tracker',
+    title: 'Dreamforce 大会 + 投资者日（美东 09-15~17）',
+    result: '发布 <strong>AIforce</strong> 界面层（Claudeforce + Slackforce + Agentforce Coworker，用户可在 Claude/Slack/Lightning 中调用 Salesforce，Headless 360 更名整合进 AIforce）；Edition 简化为 Core/Advanced/Max（$195/$395/$550，2026-09 生效）；重申 FY30「Rule of 50」与 $630 亿营收目标并量化高端版升级（每转化 1% 存量用户约 +$1 亿收入）；Agentforce Coworker 发布首 35 天激活 10 万用户。Fin（Intercom）收购提前至 09-10 完成。',
+    metrics: ['Headless/AIforce 定价（Core/Adv/Max）', 'FY30「Rule of 50」重申', 'Claudeforce 客户采用'] },
+  { date: '09-09', co: '苹果', tk: 'AAPL', link: '../AAPL/苹果_研究.html#tracker',
+    title: '秋季发布会（CEO 特纳斯首次登台）',
+    result: '发布首款折叠屏 <strong>iPhone Duo</strong>（$1,999）+ iPhone 18 Pro/Pro Max（2nm A20 Pro，起售价上调 $100 至 $1,199/$1,299）+ AirPods 5 / Watch S12/Ultra 4；标准版 iPhone 18 缺席，Duo 10-16 预购/10-23 发售。Pro 首周末交货周期同比持平、备货 +18%（大摩——需求强于预期信号），运营商以旧换新补贴提至 $1,200 对冲提价。',
+    metrics: ['Duo/Pro 售价与发售节奏', '首销量/交货周期', '运营商补贴对冲'] },
+  { date: '09-09', co: '台积电', tk: 'TSM', link: '../TSM/台积电_研究.html#tracker',
+    title: '苹果 2nm 新机发布（iPhone 18 Pro/Pro Max 搭载 A20 Pro）',
+    result: 'A20 Pro（N2）上机验证——最大客户旗舰 N2 需求确定性落地，Q4 起进入备货量产爬坡高峰；与 Q3 财报（2026-10）共同验证 2nm 爬坡节奏与毛利率稀释。',
+    metrics: ['N2 上机验证', 'Q4 备货爬坡', '后续财报 2nm 披露'] },
+  { date: '09-09/09-18', co: '思佳讯', tk: 'SWKS', link: '../SWKS/思佳讯_研究.html#tracker',
+    title: 'iPhone 18 发布与 9 月季度拉货 + $20 亿债务融资落地',
+    result: 'iPhone 18 Pro/Pro Max 09-18 发售、Duo 10-16 预购——Q4 移动营收环比高双位数指引进入兑现期，单机含量「大致持平」待 FY26Q4 财报验证（苹果自研 C2 基带导入影响观察对象）；管理层 09-11 Communacopia 确认约 $20 亿债务融资完成并获优惠利率，为 Qorvo 合并交割铺路。',
+    metrics: ['iPhone 18/Duo 拉货', '含量「大致持平」验证', 'SAMR 终审（交割窗口）'] },
   { date: '09-17', co: '安森美', tk: 'ON', link: '../ON/安森美_研究.html#tracker',
     title: '分析师日（美东 09-16 14:00 举行 / 北京 09-17 晨核对）',
     result: '公司公布 <strong>2030 年约 $213B 可寻址市场</strong>远景（汽车/工业/AI 数据中心/新兴应用）、三大技术平台（高压 SiC/GaN、Treo 智能层、嵌入式电源平台）并宣布<strong>Subaru EV 技术评估合作</strong>；但<strong>未给近端毛利率桥与量化财务路径</strong>，市场聚焦执行风险与 Synaptics 稀释——当日股价 <strong>-9.0% 收 $66.60</strong>（iFinD 行情，市值约 $25.9B，前日 73.20），估值由约 25x 回落至约 20-21x FY2026E。结论：常态化催化兑现但未达市场预期，观点维持持有，验证窗口顺延至 FY26Q3 财报（2026-10 底至 11 月初）。',
