@@ -127,12 +127,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   <div class="shell">
     <div class="overview__heading">
       <div class="overview__copy">
-        <h1>催化剂日历 · 未来两周<span class="en">2026-09-21 ~ 09-30 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
+        <h1>催化剂日历 · 未来两周<span class="en">2026-09-25 ~ 10-04 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
         <p class="sub">两周窗口内的财报、监管节点与产品事件，按日期排列；「关注指标」是该事件落地时最该盯住的数字与信号。日期待定的窗口内候选单列在最后。</p>
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong>2026-09-24</strong>
+        <strong>2026-09-25</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -161,20 +161,20 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 </footer>
 
 <script>
-// ===== 数据：未来两周催化剂（2026-09-21 ~ 09-30）=====
+// ===== 数据：未来两周催化剂（2026-09-25 ~ 10-04）=====
 // link 相对 calendar/ 目录；#tracker 锚点直达研究页跟踪面板
 const DAYS = [
-  { date: '09-25', week: '本周五', wk: 2, events: [
-    { co: '好市多', tk: 'COST', link: '../COST/好市多_研究.html#tracker', status: 'pending',
-      title: 'FY2026 Q4 财报（美东 09-24 盘后 / 北京 09-25 晨核对）',
-      desc: '8 月核心同店 +5.4%、连续第三个月放缓——年末购物季前最关键验证。16 周净销售额已披露 $93.9B（+11.3%），本次补全表下方四项：全年开店/capex 完成度、核心利润率真实趋势、会员费与续卡率、FY27 展望；共识 Non-GAAP EPS ~$6.55（上年 $5.87）。',
-      metrics: ['Non-GAAP EPS vs ~$6.55 共识', '核心利润率/会员费增速', 'FY27 展望'] },
-  ]},
   { date: '09-30', week: '下周三', wk: 2, events: [
     { co: '美光', tk: 'MU', link: '../MU/美光_研究.html#tracker', status: 'pending',
       title: 'FY26Q4 财报（iFinD 预计披露日 09-30）',
       desc: '营收指引 $500±10 亿、Non-GAAP 毛利率 ~86%、EPS $31±1 能否再次兑现超预期——SCA 细节披露与 FY27 capex 指引（隐含 >$400 亿）决定存储周期定价拐点是否提前。',
       metrics: ['营收 vs $500 亿指引', 'SCA 免条款与保底收入细节', 'FY27 capex 指引'] },
+  ]},
+  { date: '10-02', week: '下周五', wk: 2, events: [
+    { co: '好市多', tk: 'COST', link: '../COST/好市多_研究.html#tracker', status: 'pending',
+      title: '9 月销售数据（预估美东 10-01 盘后 / 北京 10-02 晨公布，以官网为准）',
+      desc: '8 月核心同店 +5.4%（劳动节错期约 -75bp）后，能否回到 6%+ 是关键一测；Q4 财报（调整后 EPS $6.60 超共识）后首个高频验证点，同时检验关税退款再投资的消费拉动。',
+      metrics: ['核心同店 vs 6%+', '9 月净销售额增速', '错期后趋势'] },
   ]},
   { date: '窗口内待定', week: '时间未公布，两周内可能落地', tbd: true, events: [
     { co: '慧与', tk: 'HPE', link: '../HPE/慧与_研究.html#tracker', status: 'pending',
@@ -202,10 +202,15 @@ const NEXT = [
   { co: 'Salesforce', tk: 'CRM', link: '../CRM/Salesforce_研究.html#tracker', text: 'F3Q27 财报（2026-11 底）——有机再加速斜率 + AIforce/Fin 贡献；Dreamforce（09-15~17）已落地：发布 AIforce + 重申 FY30「Rule of 50」' },
   { co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker', text: '2026-10 Adobe Max 大会——FY26Q3 兑现（AI-first ARR 同比 +150%+、MAU 破 10 亿）后，Firefly/Creative Cloud 的下一个产品验证窗口' },
   { co: '甲骨文', tk: 'ORCL', link: '../ORCL/甲骨文_研究.html#tracker', text: 'FY27Q2 财报（2026-12 中旬）——Q1 OCI +121% 兑现后，续盯 ATM 融资执行与评级走向' },
+  { co: '好市多', tk: 'COST', link: '../COST/好市多_研究.html#tracker', text: 'FY2027 Q1 财报（2026-12 中旬）——FY27 capex $75 亿执行、33 家开店节奏、会员费剔除提价基数后的真实增速；前置高频验证点是 10 月上旬的 9 月销售数据' },
 ];
 
 // ===== 历史催化（已发生，新条目加在数组开头）=====
 const HISTORY = [
+  { date: '09-25', co: '好市多', tk: 'COST', link: '../COST/好市多_研究.html#tracker',
+    title: 'FY2026 Q4 财报（美东 09-24 盘后 / 北京 09-25 晨）',
+    result: '净销售额 <strong>$93.9B（+11.2%）</strong>、Q4 总营收 $95.72B 超共识 $94.86B；GAAP EPS $6.75（含 IEEPA 关税退款一次性收益 $0.15/股，剔除后 +12.4%），<strong>调整后 EPS $6.60 超共识 ~$6.55</strong>；核心同店（剔除汽油/汇率）+6.7%、客流 +3.3%、数字化可比 +19.5%。全年净销售额 $297.2B（+10.1%）、EPS $20.76（+14.0%）、会员费 $59.07 亿（+11.0%，Q4 +7.3% 为提价末季）；FY26 开店 28 家（净 25）至 939、capex $64 亿兑现 ~$65 亿目标；<strong>FY27：开店 33 家（净 28）+ capex ~$75 亿</strong>；美加续卡率 92.3%（+10bp）、全球 89.8%。关税退款 Q4 到账约 1/3 并转投会员价值。',
+    metrics: ['Non-GAAP EPS（实际 $6.60 vs ~$6.55 共识）', '核心利润率/会员费（core-on-core -9bp ex-gas、全年会员费 +11.0%）', 'FY27 开店与 capex 指引（33 家 / $75 亿）'] },
   { date: '09-21', co: '特斯拉', tk: 'TSLA', link: '../TSLA/特斯拉_研究.html#tracker',
     title: '加州民权诉讼（CRD 诉特斯拉）第一阶段开庭（今日）',
     result: '第一阶段审理按计划今日（09-21）开庭（SEC 披露）；此前三名原告已和解、约 580 名黑人工人继续索赔，CRD 指控 Fremont 工厂系统性种族歧视（低于白人月薪约 $1,533）+ 敌意工作环境。首日无重大裁决消息，风险项保持未触发，跟踪审理进展。',
@@ -358,8 +363,8 @@ const nextWeek = dated.filter(d => d.wk === 2).reduce((n, d) => n + d.events.len
 const tbdCount = DAYS.filter(d => d.tbd).reduce((n, d) => n + d.events.length, 0);
 const earnings = DAYS.flatMap(d => d.events).filter(e => /财报/.test(e.title)).length;
 rail.innerHTML = [
-  [thisWeek, '本周（09-14 ~ 09-20）'],
-  [nextWeek, '下周（09-21 ~ 09-30）'],
+  [thisWeek, '本周（09-21 ~ 09-27）'],
+  [nextWeek, '下周（09-28 ~ 10-04）'],
   [tbdCount, '窗口内待定'],
   [earnings + ' 场', '其中财报'],
 ].map(([v, l]) => `<div class="summary-rail__item"><strong>${v}</strong><span>${l}</span></div>`).join('');
