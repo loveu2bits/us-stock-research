@@ -556,7 +556,7 @@ tr:hover td { background: #f8fafc; }
     <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
   </div>
 </section>
-<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/LRCX · 生成于 2026-08-06 · 更新于 2026-09-12</div></footer>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/LRCX · 生成于 2026-08-06 · 更新于 2026-09-28</div></footer>
 
 <script>
 /* ============================================================
@@ -567,11 +567,11 @@ tr:hover td { background: #f8fafc; }
  *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
  *   checked: 最近核对日期
  * ============================================================ */
-const TRACKING_CHECKED = '2026-09-12';
+const TRACKING_CHECKED = '2026-09-28';
 const TRACKING = [
   // ---- 催化剂 ----
   { kind: 'cat', status: 'hit',     text: '<strong>FY2026Q4 财报全面超预期 + 9 月季度指引大幅上调</strong>：营收/毛利率/EPS 创纪录，2026 WFE 展望上修至 $1,500 亿低位区间', note: '2026-07-29 兑现' },
-  { kind: 'cat', status: 'active',  text: '<strong>Hyperscaler 财报季资本开支指引</strong>（2026-08 中下旬）：微软/亚马逊/谷歌 capex 直接验证 AI 设备需求持续性', note: '逐项核对中' },
+  { kind: 'cat', status: 'hit',     text: '<strong>Hyperscaler 财报季资本开支指引</strong>：微软/亚马逊/谷歌 capex 直接验证 AI 设备需求持续性', note: '2026-08 财报季逐项核对完成（2026-09-28 结案）：MSFT Azure +43%、下季 capex 指引 &gt;$500 亿环比大增；AMZN 2026 capex 上调至约 $2,200 亿；META 全年指引下限上修 $50 亿至 $1,300-1,450 亿；GOOGL capex 再上调（FCF 转负）——四家 hyperscaler 无一下修，验证通过。对照 iFinD 口径 FY26 营收 $232.33 亿（+26.0%）、毛利率 50.5%、资本开支 $9.66 亿，pe_ttm 54.3x（09-25 收 315.21）' },
   { kind: 'cat', status: 'hit',     text: '<strong>FY2026 10-K 发布</strong>：FY26 营收 $232.33 亿（+26.0%）、GAAP 毛利率 50.5%、非 GAAP 每股收益 $5.82（+40.9%）', note: '2026-08-07 提交；大客户集中度 16%/15%/12%/12%（前四家），存货周转 3.0 次为近五年最高' },
   { kind: 'cat', status: 'hit',     text: '<strong>9 月投资者沟通窗口（高盛 Communacopia 09-10 / 花旗 TMT 09-09）</strong>：CFO Bettinger 重申行业「售罄」、2027 年底前 8-10 个一线新洁净室落地，$400 亿 NAND 升级至 2027 年底完成、之后转新建', note: '2026-09-12 核对；未提供增量财务指引；09-11 收 298.22（会议周 -6.9%，09-10 半导体板块普跌），pe_ttm 51.4x' },
   { kind: 'cat', status: 'pending', text: '<strong>FY2027Q1 财报</strong>（2026-10）：$81 亿指引能否再超预期——验证超级周期的关键节点', note: '指引隐含系统收入 QoQ +30%+' },
@@ -579,7 +579,7 @@ const TRACKING = [
   // ---- 风险点（证伪信号）----
   { kind: 'risk', status: 'clear', text: '<strong>2027 下半年 NAND 供过于求</strong>（第三方预测）：价格松动 → 客户放缓升级节奏', note: '当前客户讨论仍集中在升级现有产能' },
   { kind: 'risk', status: 'clear', text: '<strong>对华出口管制升级至存量设备备件/服务</strong>：直接冲击 CSBG 高利润底座', note: '中国占比已 34%→26%，需每季跟踪' },
-  { kind: 'risk', status: 'clear', text: '<strong>CSP 集体下修资本开支</strong>：AI ROI 证伪 → WFE 订单砍单', note: '当前仍在扩张，财报季核对' },
+  { kind: 'risk', status: 'clear', text: '<strong>CSP 集体下修资本开支</strong>：AI ROI 证伪 → WFE 订单砍单', note: '2026-08 财报季四家 hyperscaler capex 全线上调、无一下修，未触发' },
   { kind: 'risk', status: 'clear', text: '<strong>毛利率回落至 50% 以下</strong>：55% 长期目标路径证伪，定价权叙事受损', note: '最新 52.0%，近 20 年最高' },
   { kind: 'risk', status: 'clear', text: '<strong>应收账款回款恶化</strong>：周转天数 72 天环比上升，若持续拉长提示客户资金链压力', note: '10-K 复核完成；存货周转 3.0 次为近五年最高，未见系统性恶化' },
 ];
