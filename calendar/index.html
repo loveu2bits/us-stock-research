@@ -127,12 +127,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   <div class="shell">
     <div class="overview__heading">
       <div class="overview__copy">
-        <h1>催化剂日历 · 未来两周<span class="en">2026-09-28 ~ 10-11 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
+        <h1>催化剂日历 · 未来两周<span class="en">2026-09-30 ~ 10-13 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
         <p class="sub">两周窗口内的财报、监管节点与产品事件，按日期排列；「关注指标」是该事件落地时最该盯住的数字与信号。日期待定的窗口内候选单列在最后。</p>
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong>2026-09-28</strong>
+        <strong>2026-09-30</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -161,14 +161,20 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 </footer>
 
 <script>
-// ===== 数据：未来两周催化剂（2026-09-28 ~ 10-11）=====
+// ===== 数据：未来两周催化剂（2026-09-30 ~ 10-13）=====
 // link 相对 calendar/ 目录；#tracker 锚点直达研究页跟踪面板
 const DAYS = [
   { date: '09-30', week: '本周三', wk: 1, events: [
     { co: '美光', tk: 'MU', link: '../MU/美光_研究.html#tracker', status: 'pending',
-      title: 'FY26Q4 财报（iFinD 预计披露日 09-30）',
-      desc: '营收指引 $500±10 亿、Non-GAAP 毛利率 ~86%、EPS $31±1 能否再次兑现超预期——SCA 细节披露与 FY27 capex 指引（隐含 >$400 亿）决定存储周期定价拐点是否提前。',
-      metrics: ['营收 vs $500 亿指引', 'SCA 免条款与保底收入细节', 'FY27 capex 指引'] },
+      title: 'FY26Q4 财报（美东 09-30 盘后，iFinD 预计披露日 09-30；电话会 14:30 MT / 北京 10-01 04:30）',
+      desc: '公司指引营收 $500±10 亿、Non-GAAP 毛利率 ~86%、调整后 EPS $31±1；卖方共识营收约 $508.6-512 亿、EPS 约 $31.45-31.56。能否再次超指引上限，以及 SCA 细节与 FY27 capex 指引（隐含 >$400 亿），决定存储周期定价拐点是否提前。',
+      metrics: ['营收 vs $500 亿指引与 ~$509-512 亿共识', 'Non-GAAP 毛利率 vs ~86%', '调整后 EPS vs $31 指引 / $31.45-31.56 共识', 'SCA 定价机制与保底收入细节', 'FY27 capex 指引'] },
+  ]},
+  { date: '10-01', week: '本周四', wk: 1, events: [
+    { co: '新思科技', tk: 'SNPS', link: '../SNPS/新思科技_研究.html#tracker', status: 'pending',
+      title: '投资者日（美东 09-30 13:00 ET 纽约 / 北京 10-01 01:00，官网确认）',
+      desc: 'FY26Q3 全面超预期（营收 $24.77 亿 +42%、非 GAAP EPS $3.91、利润率 41.6%）与全年指引二次上调后的价值重估节点：长期财务模型、IP「工厂2」授权+版税模式量化目标、AgentEngineer 变现路径。当前相对 Cadence 远期 PE 折价约 25-30%，远高于历史 10-15% 区间。',
+      metrics: ['长期财务框架与 Design IP 增速目标', 'Factory 2 版税客户与费率披露', 'AgentEngineer 变现模式（订阅/工作流/消费制）'] },
   ]},
   { date: '10-02', week: '本周五', wk: 1, events: [
     { co: '好市多', tk: 'COST', link: '../COST/好市多_研究.html#tracker', status: 'pending',
@@ -181,6 +187,12 @@ const DAYS = [
       title: '与 Arm 合同纠纷诉讼开庭（2026-10-05）',
       desc: '裁决 Nuvia 技术授权下开发 Oryon CPU 的合法性——直接决定 PC 与数据中心 CPU 战略根基，也是继苹果基带流失之后的第二个结构性变量。',
       metrics: ['裁决结果与 Nuvia 授权范围', 'Oryon CPU 出货与设计赢单', '对数据中心 CPU 路线的影响'] },
+  ]},
+  { date: '10-09', week: '下周五', wk: 2, events: [
+    { co: '华纳兄弟探索', tk: 'WBD', link: '../WBD/华纳兄弟探索_研究.html#tracker', status: 'pending',
+      title: '同意令裁定与交易交割（预计 2026-10 上中旬）',
+      desc: '12 州与编剧工会已于 09-21 和解，唯一关口是法官是否批准 5 年期同意令；09-24 听证未当庭批准。PSKY 已启动 B 类股转纽交所（10-06 起交易）并称正为「未来数周内」交割做准备。09-30 后每季度 $0.25/股计时费（约 6.5 亿美元/季）开始累积。',
+      metrics: ['同意令是否获批及是否附带核心资产剥离', 'TRO 解除与交割确认公告', '交割价 31 美元 + 累计计时费'] },
   ]},
   { date: '窗口内待定', week: '时间未公布，两周内可能落地', tbd: true, events: [
     { co: '慧与', tk: 'HPE', link: '../HPE/慧与_研究.html#tracker', status: 'pending',
@@ -378,8 +390,8 @@ const nextWeek = dated.filter(d => d.wk === 2).reduce((n, d) => n + d.events.len
 const tbdCount = DAYS.filter(d => d.tbd).reduce((n, d) => n + d.events.length, 0);
 const earnings = DAYS.flatMap(d => d.events).filter(e => /财报/.test(e.title)).length;
 rail.innerHTML = [
-  [thisWeek, '本周（09-28 ~ 10-04）'],
-  [nextWeek, '下周（10-05 ~ 10-11）'],
+  [thisWeek, '本周（09-30 ~ 10-04）'],
+  [nextWeek, '下周（10-05 ~ 10-13）'],
   [tbdCount, '窗口内待定'],
   [earnings + ' 场', '其中财报'],
 ].map(([v, l]) => `<div class="summary-rail__item"><strong>${v}</strong><span>${l}</span></div>`).join('');
