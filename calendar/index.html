@@ -127,12 +127,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   <div class="shell">
     <div class="overview__heading">
       <div class="overview__copy">
-        <h1>催化剂日历 · 未来两周<span class="en">2026-10-02 ~ 10-16 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
+        <h1>催化剂日历 · 未来两周<span class="en">2026-10-03 ~ 10-17 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
         <p class="sub">两周窗口内的财报、监管节点与产品事件，按日期排列；「关注指标」是该事件落地时最该盯住的数字与信号。日期待定的窗口内候选单列在最后。</p>
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong>2026-10-02</strong>
+        <strong>2026-10-03</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -170,6 +170,12 @@ const DAYS = [
       desc: '裁决 Nuvia 技术授权下开发 Oryon CPU 的合法性——直接决定 PC 与数据中心 CPU 战略根基，也是继苹果基带流失之后的第二个结构性变量。',
       metrics: ['裁决结果与 Nuvia 授权范围', 'Oryon CPU 出货与设计赢单', '对数据中心 CPU 路线的影响'] },
   ]},
+  { date: '10-06', week: '下周二', wk: 1, events: [
+    { co: '华纳兄弟探索', tk: 'WBD', link: '../WBD/华纳兄弟探索_研究.html#tracker', status: 'pending',
+      title: '交易交割（双方 09-30 公告预计交割日 2026-10-06）',
+      desc: '09-30 法院签入 5 年期同意令、州诉讼了结并解除禁止交割令，69 个辖区审批与法院关口全部走完；同日 PSKY 与 WBD 公告预计 10-06 交割。对价 $31.00 + $0.00277778/股/日 × 09-30 后至交割日天数（10-06 交割即 <strong>$31.01666668</strong>），计时费已于 10-01 起按日累积。10-02 收 30.94 美元、市值约 777 亿美元，折价约 0.25%。B 类股 10-05 纳斯达克收市后转纽交所；认股权证登记日 10-05、约 10-13 发放约 4.7 亿份。',
+      metrics: ['交割确认公告（8-K / 生效时间）', '实际交割对价与计时费天数', '是否按惯常条件如期生效、股票注销'] },
+  ]},
   { date: '10-07', week: '本周三', wk: 1, events: [
     { co: '好市多', tk: 'COST', link: '../COST/好市多_研究.html#tracker', status: 'pending',
       title: '9 月销售数据（美东 10-07 盘后 / 北京 10-08 晨，官网 IR 日程 13:15 PT 已确认）',
@@ -179,12 +185,6 @@ const DAYS = [
       title: 'FY26Q4 电话会余波与卖方模型上修（09-30 财报后 1-2 周）',
       desc: '财报三项全超指引上限，SCA 覆盖度与 FY27Q1 指引细节尚待卖方模型消化；关注是否有机构上调 FY27 EPS 至 180 美元以上，以及 SCA 条款的进一步解读。',
       metrics: ['卖方 FY27 EPS 上修幅度', '目标价中枢变化', 'SCA 覆盖度解读'] },
-  ]},
-  { date: '10-09', week: '本周五', wk: 1, events: [
-    { co: '华纳兄弟探索', tk: 'WBD', link: '../WBD/华纳兄弟探索_研究.html#tracker', status: 'pending',
-      title: '同意令裁定与交易交割（预计 2026-10 上中旬）',
-      desc: '12 州与编剧工会已于 09-21 和解，唯一关口是法官是否批准 5 年期同意令；09-24 听证未当庭批准。PSKY 已启动 B 类股转纽交所（10-06 起交易）并称正为「未来数周内」交割做准备。09-30 后每季度 $0.25/股计时费（约 6.5 亿美元/季）开始累积。',
-      metrics: ['同意令是否获批及是否附带核心资产剥离', 'TRO 解除与交割确认公告', '交割价 31 美元 + 累计计时费'] },
   ]},
   { date: '10-14', week: '下周三', wk: 2, events: [
     { co: '阿斯麦', tk: 'ASML', link: '../ASML/阿斯麦_研究.html#tracker', status: 'pending',
@@ -232,6 +232,10 @@ const NEXT = [
 
 // ===== 历史催化（已发生，新条目加在数组开头）=====
 const HISTORY = [
+  { date: '09-30', co: '华纳兄弟探索', tk: 'WBD', link: '../WBD/华纳兄弟探索_研究.html#tracker',
+    title: '法院签入 12 州同意令，PSKY-WBD 交易最后关口解除',
+    result: 'Martínez-Olguín 法官于 <strong>2026-09-30 下令录入</strong> 5 年期同意令，州诉讼（4:26-cv-07116-AMO）了结、7 月禁止交割令被修改为允许交割（PSKY 当日 8-K 确认）；此前 09-24 听证未当庭批准、Booker 参议员要求的独立公共利益审查、「Block The Merger」反对方异议均随之失去否决效力。同意令为纯行为救济、<strong>无核心资产剥离</strong>（CNN / New Line 均不在剥离范围）：前两年每年 30 部、其后三年每年 32 部影片，美国本土制作年增至少 3 亿美元（5 年合计 15 亿），CBS/CNN 设新闻编辑独立委员会，法院持续监管 + 独立监察人，含违规情形下剥离制片厂/有线频道的兜底条款。同日 PSKY 与 WBD 公告<strong>预计 2026-10-06 交割</strong>。',
+    metrics: ['同意令是否附带核心资产剥离（无）', '州诉讼与禁止交割令状态（均已解除）', '5 年行为承诺强度（30/32 部 + 3 亿美元/年）'] },
   { date: '10-01', co: '新思科技', tk: 'SNPS', link: '../SNPS/新思科技_研究.html#tracker',
     title: '投资者日（美东 09-30 13:00 ET / 北京 10-01 01:00）',
     result: '长期框架全面上移：<strong>FY26-FY30 营收 CAGR 由「双位数」上调至约 15%</strong>、FY30 非GAAP 营业利润率约 50%、EPS 增长目标中 20% 区间；<strong>首次给出 FY27 指引——营收 $111.5 亿（+15%）、非GAAP 利润率 44%、EPS $19.08</strong>（高于卖方原预测区间 17.02-18.60 的上沿）。收入端两条新线落地：<strong>与 AWS 签多年期多代际 AOIP 协议、许可费总额 $10 亿</strong>（覆盖 Graviton / Trainium，含定制费与未来版税），与 <strong>OpenAI 共建 GPT-Synopsys</strong> 并按 PPA 效果分成。$4 亿成本协同提前一年于 FY27 完成，收入协同 FY27 起贡献、FY29 目标 $4 亿。管理层明示 FY27 无版税收入、FY28 起为纯利润贡献、FY30 AOIP 收入约 $10 亿。股价 10-01 <strong>+12.78% 至 $490.54</strong>，按 FY27 指引 EPS 计约 25.7x。',
