@@ -127,12 +127,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   <div class="shell">
     <div class="overview__heading">
       <div class="overview__copy">
-        <h1>催化剂日历 · 未来两周<span class="en">2026-10-03 ~ 10-17 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
+        <h1>催化剂日历 · 未来两周<span class="en">2026-10-04 ~ 10-18 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
         <p class="sub">两周窗口内的财报、监管节点与产品事件，按日期排列；「关注指标」是该事件落地时最该盯住的数字与信号。日期待定的窗口内候选单列在最后。</p>
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong>2026-10-03</strong>
+        <strong>2026-10-04</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -161,7 +161,7 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 </footer>
 
 <script>
-// ===== 数据：未来两周催化剂（2026-10-02 ~ 10-16）=====
+// ===== 数据：未来两周催化剂（2026-10-04 ~ 10-18）=====
 // link 相对 calendar/ 目录；#tracker 锚点直达研究页跟踪面板
 const DAYS = [
   { date: '10-05', week: '本周一', wk: 1, events: [
@@ -201,10 +201,6 @@ const DAYS = [
       metrics: ['同店 NOI 增速', '积压租赁签约', '债务成本与再融资节奏'] },
   ]},
   { date: '窗口内待定', week: '时间未公布，两周内可能落地', tbd: true, events: [
-    { co: '慧与', tk: 'HPE', link: '../HPE/慧与_研究.html#tracker', status: 'pending',
-      title: 'AMD Helios AI 机架开始出货（2026-09 至 10）',
-      desc: '慧与为独家网络合作伙伴（QFX5252 交换机）——Scale-Up 网络关键一役与超大规模市场入场券；FY26Q3 财报后首个量级验证点。',
-      metrics: ['出货节奏与客户结构', '网络利润率'] },
     { co: '甲骨文', tk: 'ORCL', link: '../ORCL/甲骨文_研究.html#tracker', status: 'pending',
       title: '200 亿美元 ATM 股权融资执行（8~9 月）',
       desc: 'FY27Q1 财报电话会未披露执行进展；足额推进 = 缓解评级压力 + 利差收窄。',
@@ -232,6 +228,14 @@ const NEXT = [
 
 // ===== 历史催化（已发生，新条目加在数组开头）=====
 const HISTORY = [
+  { date: '09-30', co: '慧与', tk: 'HPE', link: '../HPE/慧与_研究.html#tracker',
+    title: 'AMD Helios AI 机架首个系统订单：Vultr 12 亿美元',
+    result: '公司 IR 公告，<strong>Helios 首个系统订单、也是慧与首个开放以太网 Scale-Up 机架级 AI 系统订单</strong>：每机架 <strong>72 颗 AMD Instinct MI455X</strong> + EPYC「Venice」CPU + Pensando Vulcano AI NIC + <strong>6 台 HPE Juniper QFX5252 scale-up 以太网交换托盘</strong>（每机架）+ 直接液冷，部署于 Vultr 美国自有数据中心；管理层口径为 Helios 贡献未计入现有 FY27 指引。此前市场担心的「Helios 网络侧无人接单」风险解除——慧与以独家网络合作伙伴身份拿到超大规模云厂商入场券。订单<strong>交付与收入确认节奏未披露</strong>，随 FY26Q4 财报核对。股价 10-02 收 <strong>$69.33（+7.36%）</strong>、市值 920 亿美元。',
+    metrics: ['订单金额与客户结构（12 亿美元 / Vultr）', 'QFX5252 scale-up 交换托盘配置（每机架 6 台）', '交付与收入确认节奏（FY26Q4）', 'Helios 毛利率与网络利润率拉动'] },
+  { date: '09-30', co: '慧与', tk: 'HPE', link: '../HPE/慧与_研究.html#tracker',
+    title: '网络分析师日（Networking Investor Day）：三年量化框架',
+    result: '首次给出长期量化框架：<strong>FY27-FY29 网络经营利润率目标「中高 20% 区间」</strong>（把整合期的利润率瑕疵写成三年承诺）、<strong>FY26→FY29 网络收入高双位数 CAGR</strong>；<strong>FY27 网络增速展望当场自 +14-17% 上调至高双位数至低 20%</strong>（注意：上调的是网络分部，公司整体 FY27 营收 +13-17% 框架未变）。细分目标：路由收入低-高 20% CAGR 至 FY2029、园区与分支高个位数 CAGR、安全与网络融合；宣布未来三年在数据中心网络 / 路由 / 园区网三块均跑赢市场增速并取得份额。FY26Q3 已把网络供应采购承诺环比翻倍以缓解供应约束。<strong>未给出具体股东资本回报方案</strong>，75% FCF 返还仍待 FY2026 年底达标后公布。分析师日后卖方目标价 $62-80、中枢约 $70。',
+    metrics: ['FY27-FY29 网络经营利润率目标（中高 20% 区间）', 'FY26→FY29 网络收入 CAGR（高双位数）', 'FY27 网络增速展望（+14-17% → 高双位数至低 20%）', '网络供应采购承诺与积压订单转化率'] },
   { date: '09-30', co: '华纳兄弟探索', tk: 'WBD', link: '../WBD/华纳兄弟探索_研究.html#tracker',
     title: '法院签入 12 州同意令，PSKY-WBD 交易最后关口解除',
     result: 'Martínez-Olguín 法官于 <strong>2026-09-30 下令录入</strong> 5 年期同意令，州诉讼（4:26-cv-07116-AMO）了结、7 月禁止交割令被修改为允许交割（PSKY 当日 8-K 确认）；此前 09-24 听证未当庭批准、Booker 参议员要求的独立公共利益审查、「Block The Merger」反对方异议均随之失去否决效力。同意令为纯行为救济、<strong>无核心资产剥离</strong>（CNN / New Line 均不在剥离范围）：前两年每年 30 部、其后三年每年 32 部影片，美国本土制作年增至少 3 亿美元（5 年合计 15 亿），CBS/CNN 设新闻编辑独立委员会，法院持续监管 + 独立监察人，含违规情形下剥离制片厂/有线频道的兜底条款。同日 PSKY 与 WBD 公告<strong>预计 2026-10-06 交割</strong>。',
