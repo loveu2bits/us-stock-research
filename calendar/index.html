@@ -132,7 +132,7 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong>2026-10-05</strong>
+        <strong>2026-10-09</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -161,26 +161,10 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 </footer>
 
 <script>
-// ===== 数据：未来两周催化剂（2026-10-04 ~ 10-18）=====
+// ===== 数据：未来两周催化剂（截至 2026-10-09 校验，10-14 起剩余）=====
 // link 相对 calendar/ 目录；#tracker 锚点直达研究页跟踪面板
 const DAYS = [
-  { date: '10-05', week: '本周一', wk: 1, events: [
-    { co: '高通', tk: 'QCOM', link: '../QCOM/高通_研究.html#tracker', status: 'pending',
-      title: '与 Arm 诉讼开庭（2026-10-05 美东 09:30 / 北京当晚）· 裁决待定',
-      desc: 'Qualcomm 诉 Arm（C.A. 24-490，Noreika 法官）如期进入开庭：09-28 庭前会议、10-02 陪审团选定均已完成，10-05 09:30 ET 开庭审理，裁决预计 10 月中下旬。争议焦点是 Arm 是否违反架构与技术许可协议（v9 授权应交付内容与权利金费率），<strong>不是</strong> Nuvia/Oryon 授权合法性——后者已由 2024-12 陪审团裁决与 2025-09-30 终局判决确认有效，Arm 上诉第三巡回法院中；Arm 07-10 就 v10 相关诉请提交简易判决动议，法院 07-28 已按口头裁定调整权利金计算口径。影响量级参考：管理层曾称收购 Nuvia 每年最多省 14 亿美元权利金。10-02 高通收 184.87 美元（+1.53%）、市值 1942 亿美元。',
-      metrics: ['裁决结果与 v9 权利金费率认定', 'v10 相关诉请是否退出审理范围', 'Oryon/Cortex 后续授权成本与 PC、数据中心 CPU 路线'] },
-  ]},
-  { date: '10-06', week: '下周二', wk: 1, events: [
-    { co: '华纳兄弟探索', tk: 'WBD', link: '../WBD/华纳兄弟探索_研究.html#tracker', status: 'pending',
-      title: '交易交割（双方 09-30 公告预计交割日 2026-10-06）',
-      desc: '09-30 法院签入 5 年期同意令、州诉讼了结并解除禁止交割令，69 个辖区审批与法院关口全部走完；同日 PSKY 与 WBD 公告预计 10-06 交割。对价 $31.00 + $0.00277778/股/日 × 09-30 后至交割日天数（10-06 交割即 <strong>$31.01666668</strong>），计时费已于 10-01 起按日累积。10-02 收 30.94 美元、市值约 777 亿美元，折价约 0.25%。B 类股 10-05 纳斯达克收市后转纽交所；认股权证登记日 10-05、约 10-13 发放约 4.7 亿份。',
-      metrics: ['交割确认公告（8-K / 生效时间）', '实际交割对价与计时费天数', '是否按惯常条件如期生效、股票注销'] },
-  ]},
   { date: '10-07', week: '本周三', wk: 1, events: [
-    { co: '好市多', tk: 'COST', link: '../COST/好市多_研究.html#tracker', status: 'pending',
-      title: '9 月销售数据（美东 10-07 盘后 / 北京 10-08 晨，官网 IR 日程 13:15 PT 已确认）',
-      desc: '8 月核心同店 +5.4%（劳动节错期约 -75bp）后，能否回到 6%+ 是关键一测；Q4 财报（调整后 EPS $6.60 超共识）后首个高频验证点，同时检验关税退款再投资的消费拉动。9 月零售月覆盖 08-31 至 10-04 的五周（去年为 09-01 至 10-05 的五周）。',
-      metrics: ['核心同店 vs 6%+', '9 月净销售额增速', '错期后趋势'] },
     { co: '美光', tk: 'MU', link: '../MU/美光_研究.html#tracker', status: 'pending',
       title: 'FY26Q4 电话会余波与卖方模型上修（09-30 财报后 1-2 周）',
       desc: '财报三项全超指引上限，SCA 覆盖度与 FY27Q1 指引细节尚待卖方模型消化；关注是否有机构上调 FY27 EPS 至 180 美元以上，以及 SCA 条款的进一步解读。',
@@ -223,11 +207,23 @@ const NEXT = [
   { co: 'Salesforce', tk: 'CRM', link: '../CRM/Salesforce_研究.html#tracker', text: 'F3Q27 财报（2026-11 底）——有机再加速斜率 + AIforce/Fin 贡献；Dreamforce（09-15~17）已落地：发布 AIforce + 重申 FY30「Rule of 50」' },
   { co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker', text: '2026-10 Adobe Max 大会——FY26Q3 兑现（AI-first ARR 同比 +150%+、MAU 破 10 亿）后，Firefly/Creative Cloud 的下一个产品验证窗口' },
   { co: '甲骨文', tk: 'ORCL', link: '../ORCL/甲骨文_研究.html#tracker', text: 'FY27Q2 财报（2026-12 中旬）——Q1 OCI +121% 兑现后，续盯 ATM 融资执行与评级走向' },
-  { co: '好市多', tk: 'COST', link: '../COST/好市多_研究.html#tracker', text: 'FY2027 Q1 财报（2026-12 中旬）——FY27 capex $75 亿执行、33 家开店节奏、会员费剔除提价基数后的真实增速；前置高频验证点是 10-07 盘后的 9 月销售数据' },
+  { co: '好市多', tk: 'COST', link: '../COST/好市多_研究.html#tracker', text: 'FY2027 Q1 财报（2026-12 中旬）——FY27 capex $75 亿执行、33 家开店节奏、会员费剔除提价基数后的真实增速；9 月核心同店 +7.6% 已回到 6%+，下一高频验证点是 10 月销售数据（2026-11 上旬）' },
 ];
 
 // ===== 历史催化（已发生，新条目加在数组开头）=====
 const HISTORY = [
+  { date: '10-07', co: '好市多', tk: 'COST', link: '../COST/好市多_研究.html#tracker',
+    title: '9 月销售数据（美东 10-07 盘后 / 北京 10-08 晨）',
+    result: '净销售额 <strong>$30.02B（+13.0%）</strong>，总同店 +11.4%、核心同店（剔除汽油/汇率）<strong>+7.6%</strong>——8 月 +5.4% 后回到 6%+ 上方，"连续两月环比放缓"担忧缓解；美国核心 +8.0%、加拿大 +4.9%、其他国际 +7.7%，客流 +4.7%、数字化可比 +19%（剔除汇率 +19.1%）。劳动节错期（今年晚一周）正面拉动约 +50bp，扣除后仍在 7% 区间——核心同店企稳于 6%+ 上方，5% 证伪线继续未触发。10-08 收 <strong>$947.92</strong>（+0.6%）、市值 $4,201 亿、pe_ttm 45.5x。',
+    metrics: ['核心同店 vs 6%+（实际 +7.6% ex-gas/FX）', '9 月净销售额增速（+13.0%）', '客流（+4.7%）与数字化（+19.1% ex-FX）'] },
+  { date: '10-06', co: '华纳兄弟探索', tk: 'WBD', link: '../WBD/华纳兄弟探索_研究.html#tracker',
+    title: '交易交割完成（PSKY-WBD，合体后更名 Skydance）',
+    result: '2026-10-06 <strong>交割完成</strong>（SEC 8-K + 公司公告确认）：WBD 股东每股获 <strong>$31.01666668</strong> 现金（$31.00 + $0.00277778/日 × 09-30 后 6 天计时费，总对价约 $780 亿），WBD 股票当日在纳斯达克停牌退市注销，PSKY 更名 <strong>Skydance</strong>（NYSE: SKYD）B 类股同日转纽交所、Ellison 任董事长兼 CEO；合体公司年化营收约 $700 亿、净债务约 $800 亿（Fitch 计入 WBD 存量约 $875 亿债务，买方另增约 $520 亿新债）。"买入即现金结算"的事件驱动仓按期兑现并了结，ARB 折价归零。',
+    metrics: ['交割确认（8-K / 生效时点）', '实际对价（$31.01666668，含 6 天计时费）', '合体后 Skydance 口径（营收 $700 亿 / 净债务 $800 亿）'] },
+  { date: '10-05', co: '高通', tk: 'QCOM', link: '../QCOM/高通_研究.html#tracker',
+    title: '与 Arm 诉讼开庭（Qualcomm 诉 Arm，C.A. 24-490）',
+    result: '10-05 09:30 ET <strong>如期开庭</strong>（09-28 庭前会议、10-02 陪审团选定均已完成）；争议围绕 <strong>v9 授权应交付内容与权利金费率</strong>，不是 Nuvia/Oryon 授权合法性（后者已由 2024-12 陪审团与 2025-09-30 终局判决确认有效并上诉中）；Arm 就 v10 诉请的简易判决动议已获口头裁定、审理范围或已收窄。<strong>裁决尚未作出（预计 10 月中下旬），仍为 Oryon/Cortex 授权成本敞口。</strong>',
+    metrics: ['裁决结果与 v9 权利金费率认定', 'v10 诉请是否退出审理', 'Oryon/Cortex 后续授权成本与 PC、数据中心 CPU 路线'] },
   { date: '09-30', co: '慧与', tk: 'HPE', link: '../HPE/慧与_研究.html#tracker',
     title: 'AMD Helios AI 机架首个系统订单：Vultr 12 亿美元',
     result: '公司 IR 公告，<strong>Helios 首个系统订单、也是慧与首个开放以太网 Scale-Up 机架级 AI 系统订单</strong>：每机架 <strong>72 颗 AMD Instinct MI455X</strong> + EPYC「Venice」CPU + Pensando Vulcano AI NIC + <strong>6 台 HPE Juniper QFX5252 scale-up 以太网交换托盘</strong>（每机架）+ 直接液冷，部署于 Vultr 美国自有数据中心；管理层口径为 Helios 贡献未计入现有 FY27 指引。此前市场担心的「Helios 网络侧无人接单」风险解除——慧与以独家网络合作伙伴身份拿到超大规模云厂商入场券。订单<strong>交付与收入确认节奏未披露</strong>，随 FY26Q4 财报核对。股价 10-02 收 <strong>$69.33（+7.36%）</strong>、市值 920 亿美元。',
