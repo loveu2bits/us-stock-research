@@ -132,7 +132,7 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong>2026-10-09</strong>
+        <strong>2026-10-10</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -161,15 +161,9 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 </footer>
 
 <script>
-// ===== 数据：未来两周催化剂（截至 2026-10-09 校验，10-14 起剩余）=====
+// ===== 数据：未来两周催化剂（截至 2026-10-10 校验，10-14 起剩余）=====
 // link 相对 calendar/ 目录；#tracker 锚点直达研究页跟踪面板
 const DAYS = [
-  { date: '10-07', week: '本周三', wk: 1, events: [
-    { co: '美光', tk: 'MU', link: '../MU/美光_研究.html#tracker', status: 'pending',
-      title: 'FY26Q4 电话会余波与卖方模型上修（09-30 财报后 1-2 周）',
-      desc: '财报三项全超指引上限，SCA 覆盖度与 FY27Q1 指引细节尚待卖方模型消化；关注是否有机构上调 FY27 EPS 至 180 美元以上，以及 SCA 条款的进一步解读。',
-      metrics: ['卖方 FY27 EPS 上修幅度', '目标价中枢变化', 'SCA 覆盖度解读'] },
-  ]},
   { date: '10-14', week: '下周三', wk: 2, events: [
     { co: '阿斯麦', tk: 'ASML', link: '../ASML/阿斯麦_研究.html#tracker', status: 'pending',
       title: 'Q3 财报（iFinD 预计披露日 2026-10-14）',
@@ -212,6 +206,10 @@ const NEXT = [
 
 // ===== 历史催化（已发生，新条目加在数组开头）=====
 const HISTORY = [
+  { date: '10-07', co: '美光', tk: 'MU', link: '../MU/美光_研究.html#tracker',
+    title: 'FY26Q4 电话会余波与卖方模型上修（09-30 财报后 1-2 周）',
+    result: '卖方模型上修兑现且发散：<strong>D.A. Davidson（Luria）10-07 将目标价自 $2,100 上调至 $3,000（全街最高，按约 19x FY27E EPS）</strong>、Rosenblatt 自 $1,500 上调至 $1,900、Baird 至 $1,520、Mizuho 至 $1,400；大摩 10-01 将 FY27 EPS 自 $168.52 上调至 <strong>$182.52</strong>、美银 10-04 自 $140.24 上调至 <strong>$171.78</strong>（目标价 $1,550）。<strong>「FY27 EPS 上调至 $180 以上」门槛由瑞银 $184.89 与大摩 $182.52 两家确认。</strong>iFinD 一致目标价 10-09 升至 <strong>$1,600</strong>（对 10-09 收盘 $1,029.00 隐含约 +55%）；SCA 条款无新增披露，解读已入研究页（26 份 / 35%+ / $320 亿承诺 / RPO $1,500 亿）。股价 10-07 冲高 $1,088（+4.06%）后连续两日回调（10-08 -4.79%、10-09 收 $1,029.00），pe_ttm 13.7x——目标价上修未改「四连超预期后高位震荡」节奏，下一验证点是 FY27Q1 财报（2026-11 月末）。',
+    metrics: ['卖方 FY27 EPS 上修幅度', '目标价中枢变化', 'SCA 覆盖度解读'] },
   { date: '10-07', co: '好市多', tk: 'COST', link: '../COST/好市多_研究.html#tracker',
     title: '9 月销售数据（美东 10-07 盘后 / 北京 10-08 晨）',
     result: '净销售额 <strong>$30.02B（+13.0%）</strong>，总同店 +11.4%、核心同店（剔除汽油/汇率）<strong>+7.6%</strong>——8 月 +5.4% 后回到 6%+ 上方，"连续两月环比放缓"担忧缓解；美国核心 +8.0%、加拿大 +4.9%、其他国际 +7.7%，客流 +4.7%、数字化可比 +19%（剔除汇率 +19.1%）。劳动节错期（今年晚一周）正面拉动约 +50bp，扣除后仍在 7% 区间——核心同店企稳于 6%+ 上方，5% 证伪线继续未触发。10-08 收 <strong>$947.92</strong>（+0.6%）、市值 $4,201 亿、pe_ttm 45.5x。',
