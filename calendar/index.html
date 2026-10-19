@@ -127,12 +127,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   <div class="shell">
     <div class="overview__heading">
       <div class="overview__copy">
-        <h1>催化剂日历 · 未来两周<span class="en">2026-10-18 ~ 11-01 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
+        <h1>催化剂日历 · 未来两周<span class="en">2026-10-19 ~ 11-01 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
         <p class="sub">两周窗口内的财报、监管节点与产品事件，按日期排列；「关注指标」是该事件落地时最该盯住的数字与信号。日期待定的窗口内候选单列在最后。</p>
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong>2026-10-18</strong>
+        <strong>2026-10-19</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -161,10 +161,10 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 </footer>
 
 <script>
-// ===== 数据：未来两周催化剂（截至 2026-10-18 校验，10-20 起剩余）=====
+// ===== 数据：未来两周催化剂（截至 2026-10-19 校验，10-20 起剩余）=====
 // link 相对 calendar/ 目录；#tracker 锚点直达研究页跟踪面板
 const DAYS = [
-  { date: '10-20 ~ 10-22', week: '下周二起 财报密集周', wk: 2, events: [
+  { date: '10-20 ~ 10-22', week: '本周二起 财报密集周', wk: 1, events: [
     { co: '通用汽车', tk: 'GM', link: '../GM/通用汽车_研究.html#tracker', status: 'pending',
       title: 'Q3 财报（iFinD 预计披露日 2026-10-20）',
       desc: '新皮卡上市准备与 2027 年初步展望；管理层已口头承诺 2027 年收入/利润率/EBIT/FCF 增长，等待量化。',
@@ -198,7 +198,7 @@ const DAYS = [
       desc: 'ARPU / 毛利率与有声书、新套餐（Audiobooks+、Family/Student）进展。',
       metrics: ['月活/付费净增', '毛利率', 'ARPU 贡献'] },
   ]},
-  { date: '10-28 ~ 10-29', week: '下下周二/周三', wk: 3, events: [
+  { date: '10-28 ~ 10-29', week: '下周二/周三', wk: 2, events: [
     { co: '微软', tk: 'MSFT', link: '../MSFT/微软_研究.html#tracker', status: 'pending',
       title: 'F1Q26 财报（iFinD 预计披露日 2026-10-28）',
       desc: 'Azure 增速与 capex 指引——AI 需求可持续性与资本开支节奏的关键读数。',
@@ -207,6 +207,14 @@ const DAYS = [
       title: 'Q3 财报（iFinD 预计披露日 2026-10-28）',
       desc: '云增速与 capex、搜索广告韧性——FCF 转负后的投入纪律。',
       metrics: ['Google Cloud 增速', 'capex', '广告收入'] },
+    { co: '甲骨文', tk: 'ORCL', link: '../ORCL/甲骨文_研究.html#tracker', status: 'pending',
+      title: '投资者日（2026-10-28）',
+      desc: '管理层详解毛利率路径与 FCF 转正时间表（回应负 FCF 争议）、Vera Rubin 交付节奏——$200 亿 ATM 已足额落地后的关键表态窗口。',
+      metrics: ['毛利率路径指引', 'FCF 转正时间表', 'Vera Rubin 交付节奏'] },
+    { co: 'ServiceNow', tk: 'NOW', link: '../NOW/ServiceNow_研究.html#tracker', status: 'pending',
+      title: 'Q3 财报（iFinD 预计披露日 2026-10-28）',
+      desc: '订阅指引 +20%（固定汇率）兑现度、联邦政府旺季 pipeline；Flow 新品（10-01 发布）采用与消费制定价反馈。',
+      metrics: ['订阅增速 vs +20%', 'cRPO 与 AI ACV', 'Flow 采用与定价反馈'] },
     { co: '亚马逊', tk: 'AMZN', link: '../AMZN/亚马逊_研究.html#tracker', status: 'pending',
       title: 'Q3 财报（iFinD 预计披露日 2026-10-29）',
       desc: 'AWS 增速与 2026 capex（约 $2,200 亿）、零售利润率。',
@@ -219,30 +227,24 @@ const DAYS = [
       title: 'Q3 财报（iFinD 预计披露日 2026-10-29）',
       desc: '数据中心 REIT 验证窗口：积压订单转化、融资成本与板块景气。',
       metrics: ['积压订单', '租赁签约', '融资成本'] },
+    { co: 'Rivian', tk: 'RIVN', link: '../RIVN/Rivian_研究.html#tracker', status: 'pending',
+      title: 'Q3 财报（2026-10-29 盘后，公司已公布日程）',
+      desc: 'Q3 交付 19,248 辆（同比 +46%）已披露；核心看汽车毛利率逼近转正、R2 爬坡节奏与全年 65,000-70,000 辆指引维持（Q4 隐含 ≥23,193 辆）。',
+      metrics: ['汽车毛利率（转正进展）', 'Q4 交付隐含 ≥23,193 辆', 'R2 单位成本与现金消耗'] },
   ]},
   { date: '窗口内待定', week: '时间未公布，两周内可能落地', tbd: true, events: [
-    { co: '甲骨文', tk: 'ORCL', link: '../ORCL/甲骨文_研究.html#tracker', status: 'pending',
-      title: '200 亿美元 ATM 股权融资执行（8~9 月）',
-      desc: 'FY27Q1 财报电话会未披露执行进展；足额推进 = 缓解评级压力 + 利差收窄。',
-      metrics: ['发行推进进度', '10Y/30Y 利差变化', '评级机构表态'] },
-    { co: 'ServiceNow', tk: 'NOW', link: '../NOW/ServiceNow_研究.html#tracker', status: 'pending',
-      title: '「对话式服务台」AI 原生新品发布（8~9 月）',
-      desc: '20-30% 提价能否被客户广泛接受，验证 AI 时代的定价权。',
-      metrics: ['提价接受度', '首批客户构成'] },
     { co: 'Spotify', tk: 'SPOT', link: '../SPOT/Spotify_研究.html#tracker', status: 'pending',
       title: 'Audiobooks+ 新套餐 + Family / Student 新计划（原 8~9 月，已顺延至 2026 下半年）',
-      desc: '直接贡献订阅收入与 ARPU；2026-09-28 核对时公司口径为 2026 下半年推出，尚无上线公告。',
+      desc: '直接贡献订阅收入与 ARPU；2026-10-19 核对时公司口径仍为 2026 下半年推出，尚无上线公告；3Q26 财报（10-22）或有更新。',
       metrics: ['ARPU 贡献', '有声书使用时长', '是否正式上线'] },
   ]},
 ];
 
 const NEXT = [
-  { co: '德州仪器', tk: 'TXN', link: '../TXN/德州仪器_研究.html#tracker', text: '3Q26 财报（2026-10，iFinD 预计披露日尚未滚动更新）+ OCP 全球峰会——验证 Q3 提价传导后的毛利率走向与工业（Q2 约 +30%）/汽车补库持续性' },
   { co: '安森美', tk: 'ON', link: '../ON/安森美_研究.html#tracker', text: 'FY26Q3 财报（2026-10 底至 11 月初）——分析师日（09-16 -9.0%）未给近端毛利率桥，Q3 兑现 40-42% 毛利率指引与 AI 数据中心再加速是下一个胜负手' },
-  { co: '泛林集团', tk: 'LRCX', link: '../LRCX/泛林集团_研究.html#tracker', text: 'FY27Q1 财报（2026-10）——$81 亿指引能否再超预期，Communacopia「售罄」口径的首个财务验证' },
   { co: 'Salesforce', tk: 'CRM', link: '../CRM/Salesforce_研究.html#tracker', text: 'F3Q27 财报（2026-11 底）——有机再加速斜率 + AIforce/Fin 贡献；Dreamforce（09-15~17）已落地：发布 AIforce + 重申 FY30「Rule of 50」' },
-  { co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker', text: '2026-10 Adobe Max 大会——FY26Q3 兑现（AI-first ARR 同比 +150%+、MAU 破 10 亿）后，Firefly/Creative Cloud 的下一个产品验证窗口' },
-  { co: '甲骨文', tk: 'ORCL', link: '../ORCL/甲骨文_研究.html#tracker', text: 'FY27Q2 财报（2026-12 中旬）——Q1 OCI +121% 兑现后，续盯 ATM 融资执行与评级走向' },
+  { co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker', text: '2026-11-10~12 Adobe Max 大会（迈阿密）——FY26Q3 兑现（AI-first ARR 同比 +150%+、MAU 破 10 亿）后，Firefly/Creative Cloud 的下一个产品验证窗口' },
+  { co: '甲骨文', tk: 'ORCL', link: '../ORCL/甲骨文_研究.html#tracker', text: 'FY27Q2 财报（2026-12 中旬）——投资者日（2026-10-28）后，续盯毛利率路径、FCF 转正时间表与 Vera Rubin 交付节奏' },
   { co: '好市多', tk: 'COST', link: '../COST/好市多_研究.html#tracker', text: 'FY2027 Q1 财报（2026-12 中旬）——FY27 capex $75 亿执行、33 家开店节奏、会员费剔除提价基数后的真实增速；9 月核心同店 +7.6% 已回到 6%+，下一高频验证点是 10 月销售数据（2026-11 上旬）' },
 ];
 
@@ -260,6 +262,10 @@ const HISTORY = [
     title: 'Q3 财报（2026-10-14）',
     result: '营收 <strong>€116.62 亿</strong>（指引 €110-120 亿）、毛利率 <strong>57.5%</strong>（超 55-57% 上限）、净利润 €49.60 亿——毛利率超预期主因装机管理业务的产能升级组件超预期（该业务收入 €32.89 亿，超指引近 €4 亿）。管理层确认与客户提价谈判结束并已落地（2027 年部分体现、2028 年全面反映），Q4 指引营收中值 <strong>€147 亿</strong>、毛利率约 57%，均高一致预期；需求能见度延伸至 2030、2028 年产能拟再扩 &gt;30%。iFinD 口径 Q3 毛利率 57.5%、pe_ttm 41.2x、一致目标价 €2,500（10-16 收 $1,641.52，ADR 空间充足）。',
     metrics: ['Q3 营收 vs €110-120 亿指引', '毛利率 vs 55-57%（实际 57.5%）', 'Q4 指引与 2027 展望', '提价落地节奏'] },
+  { date: '10-13', co: '高通', tk: 'QCOM', link: '../QCOM/高通_研究.html#tracker',
+    title: '与 Arm 诉讼陪审团裁决（Qualcomm 诉 Arm，C.A. 24-490）',
+    result: '<strong>陪审团裁定 Arm 违反架构许可协议</strong>（未按约提供软件补丁与开发工具）、并「故意且过失」干涉 Qualcomm 与 Meta 的关系，仅判<strong>名义赔偿 $2</strong>（两项各 $1）；Arm 在其余 5 项违约主张上胜诉，双方各自宣示胜利。<strong>关键金额问题仍未决</strong>：Qualcomm 能否援引「五年权利金停付」条款（涉数十亿美元）由 Noreika 法官裁量，败诉方预计上诉——授权成本敞口未完全消除。市场反应温和（10-13 Qualcomm 约 +1%、Arm 约 -1%）。',
+    metrics: ['违约认定与名义赔偿（$2）', '「五年权利金停付」条款是否可执行（法官裁量）', '上诉进展与 Oryon/Cortex 长期授权成本'] },
   { date: '10-07', co: '美光', tk: 'MU', link: '../MU/美光_研究.html#tracker',
     title: 'FY26Q4 电话会余波与卖方模型上修（09-30 财报后 1-2 周）',
     result: '卖方模型上修兑现且发散：<strong>D.A. Davidson（Luria）10-07 将目标价自 $2,100 上调至 $3,000（全街最高，按约 19x FY27E EPS）</strong>、Rosenblatt 自 $1,500 上调至 $1,900、Baird 至 $1,520、Mizuho 至 $1,400；大摩 10-01 将 FY27 EPS 自 $168.52 上调至 <strong>$182.52</strong>、美银 10-04 自 $140.24 上调至 <strong>$171.78</strong>（目标价 $1,550）。<strong>「FY27 EPS 上调至 $180 以上」门槛由瑞银 $184.89 与大摩 $182.52 两家确认。</strong>iFinD 一致目标价 10-09 升至 <strong>$1,600</strong>（对 10-09 收盘 $1,029.00 隐含约 +55%）；SCA 条款无新增披露，解读已入研究页（26 份 / 35%+ / $320 亿承诺 / RPO $1,500 亿）。股价 10-07 冲高 $1,088（+4.06%）后连续两日回调（10-08 -4.79%、10-09 收 $1,029.00），pe_ttm 13.7x——目标价上修未改「四连超预期后高位震荡」节奏，下一验证点是 FY27Q1 财报（2026-11 月末）。',
@@ -274,7 +280,7 @@ const HISTORY = [
     metrics: ['交割确认（8-K / 生效时点）', '实际对价（$31.01666668，含 6 天计时费）', '合体后 Skydance 口径（营收 $700 亿 / 净债务 $800 亿）'] },
   { date: '10-05', co: '高通', tk: 'QCOM', link: '../QCOM/高通_研究.html#tracker',
     title: '与 Arm 诉讼开庭（Qualcomm 诉 Arm，C.A. 24-490）',
-    result: '10-05 09:30 ET <strong>如期开庭</strong>（09-28 庭前会议、10-02 陪审团选定均已完成）；争议围绕 <strong>v9 授权应交付内容与权利金费率</strong>，不是 Nuvia/Oryon 授权合法性（后者已由 2024-12 陪审团与 2025-09-30 终局判决确认有效并上诉中）；Arm 就 v10 诉请的简易判决动议已获口头裁定、审理范围或已收窄。<strong>裁决尚未作出（预计 10 月中下旬），仍为 Oryon/Cortex 授权成本敞口。</strong>',
+    result: '10-05 09:30 ET <strong>如期开庭</strong>（09-28 庭前会议、10-02 陪审团选定均已完成）；争议围绕 <strong>v9 授权应交付内容与权利金费率</strong>，不是 Nuvia/Oryon 授权合法性（后者已由 2024-12 陪审团与 2025-09-30 终局判决确认有效并上诉中）；Arm 就 v10 诉请的简易判决动议已获口头裁定、审理范围或已收窄。<strong>裁决尚未作出（预计 10 月中下旬），仍为 Oryon/Cortex 授权成本敞口。</strong>→ 2026-10-13 陪审团已作出裁决（见下条）。',
     metrics: ['裁决结果与 v9 权利金费率认定', 'v10 诉请是否退出审理', 'Oryon/Cortex 后续授权成本与 PC、数据中心 CPU 路线'] },
   { date: '09-30', co: '慧与', tk: 'HPE', link: '../HPE/慧与_研究.html#tracker',
     title: 'AMD Helios AI 机架首个系统订单：Vultr 12 亿美元',
@@ -292,6 +298,10 @@ const HISTORY = [
     title: '投资者日（美东 09-30 13:00 ET / 北京 10-01 01:00）',
     result: '长期框架全面上移：<strong>FY26-FY30 营收 CAGR 由「双位数」上调至约 15%</strong>、FY30 非GAAP 营业利润率约 50%、EPS 增长目标中 20% 区间；<strong>首次给出 FY27 指引——营收 $111.5 亿（+15%）、非GAAP 利润率 44%、EPS $19.08</strong>（高于卖方原预测区间 17.02-18.60 的上沿）。收入端两条新线落地：<strong>与 AWS 签多年期多代际 AOIP 协议、许可费总额 $10 亿</strong>（覆盖 Graviton / Trainium，含定制费与未来版税），与 <strong>OpenAI 共建 GPT-Synopsys</strong> 并按 PPA 效果分成。$4 亿成本协同提前一年于 FY27 完成，收入协同 FY27 起贡献、FY29 目标 $4 亿。管理层明示 FY27 无版税收入、FY28 起为纯利润贡献、FY30 AOIP 收入约 $10 亿。股价 10-01 <strong>+12.78% 至 $490.54</strong>，按 FY27 指引 EPS 计约 25.7x。',
     metrics: ['FY26-FY30 营收 CAGR 指引（约 15%）', 'FY27 指引（营收 $111.5 亿 / 利润率 44% / EPS $19.08）', 'AWS AOIP 许可费 $10 亿与版税节奏', 'GAAP vs 非GAAP 口径利润差'] },
+  { date: '10-01', co: 'ServiceNow', tk: 'NOW', link: '../NOW/ServiceNow_研究.html#tracker',
+    title: 'Flow 发布：「对话式服务台」AI 原生新品（原预期 8~9 月）',
+    result: '公司 10-01 正式发布 <strong>Flow by ServiceNow</strong>——AI 原生对话式服务台，员工可在 Teams/Slack/邮件/网页内直接处理 IT/HR/客服请求，<strong>独立销售、无平台前置</strong>、最快当天上线；定价改为<strong>消费制</strong>（无订阅费，试用期后约 <strong>$2/对话、$1/自动化执行</strong>）。原「20-30% 提价」假设让位于按用量计费，Q3 财报（10-28）为采用与定价接受度的首个验证窗口。',
+    metrics: ['首批客户构成与采用速度', '消费制定价接受度 vs 原提价假设', '对 cRPO / AI ACV 的贡献'] },
   { date: '09-30', co: '美光', tk: 'MU', link: '../MU/美光_研究.html#tracker',
     title: 'FY26Q4 财报（美东 09-30 盘后 / 北京 10-01 晨）',
     result: '营收 <strong>$542 亿</strong>、毛利率约 <strong>87%</strong>、Non-GAAP EPS <strong>$33.42</strong>，三项全部超指引上限。业绩稳定性机制进一步强化：<strong>SCA 合同由 17 份增至 26 份，覆盖至 2030 年约 35%+ 营收，其中约 3/4 设有价格上下限</strong>；客户已作出 <strong>$320 亿财务承诺</strong>、RPO 约 $1,500 亿。资本开支指引由约 $300 亿大幅上调至约 <strong>$400 亿</strong>（FY27 折旧随之上升，是 GAAP 与 Non-GAAP 分歧的来源）。FY27Q1 指引：营收 <strong>$615 亿 ±$15 亿</strong>、Non-GAAP 毛利率约 <strong>86.25%</strong>（全年低点）、EPS <strong>$38.15 ±$1</strong>。2026-12-09 后启动以回购为主的资本回报（当前授权 $22 亿）。',
@@ -300,6 +310,14 @@ const HISTORY = [
     title: '骁龙峰会（夏威夷）：首次「双旗舰」骁龙 8 Elite Gen 6 / 8 Elite Extreme Gen 6',
     result: '两款旗舰同用<strong>台积电 2nm</strong> 与 Oryon 三代 CPU（2×5.0GHz 大核 + 6×4.0GHz、16MB Flex Cache，为首个 5GHz 手机 CPU）；Extreme 独有 Adreno Matrix 神经渲染核心（AI 超分/插帧）、可本地跑 30B 参数 MoE（大共享内存 +50%）、8K60 与 APV 专业编解码；<strong>X105 调制解调器为首个 3GPP Release 19 蜂窝基带</strong>。首款机型摩托罗拉 Signature 27 年内上市、小米 18 系列 09-23 中国首发——双分档利于在 2nm 成本上升下守住价格带，催化剂按期兑现。',
     metrics: ['双旗舰分档与价格带', '端侧 30B MoE 推理能力', '首发机型与上市节奏'] },
+  { date: '09-10~12', co: 'Roblox', tk: 'RBLX', link: '../RBLX/Roblox_研究.html#tracker',
+    title: 'RDC 2026 开发者大会（圣何塞）',
+    result: '头号发布为 <strong>「Roblox Everywhere」</strong>——创作者可将作品作为<strong>独立应用</strong>分发至移动/PC/主机，Roblox 保留引擎与后端（目标浏览器免安装试玩 2026 年底、独立应用 2026 年末起分批开放）；另更新 Build AI 工具、广告平台与新内容品类路线图，并披露 20 周年数据（上季 290 亿小时、180+ 国家）。会后股价单日 <strong>+10~11%</strong>、Wedbush 目标价上调至 $48（维持中性）；3Q26 财报（10-29）验证战略落地与预订额指引。',
+    metrics: ['「Roblox Everywhere」上线节奏', 'Build / 广告平台新功能', '股价与卖方目标价反应'] },
+  { date: '09-10', co: '甲骨文', tk: 'ORCL', link: '../ORCL/甲骨文_研究.html#tracker',
+    title: '$200 亿 ATM 股权融资执行（原预期 8~9 月）',
+    result: '<strong>已足额落地</strong>：FY27Q1（截至 2026-08-31）财报披露 ATM 项下 <strong>$200 亿全部发行完毕、净筹资约 $199 亿</strong>（2026-09-10 随 Q1 财报公布）；融资执行不确定性消除，焦点转向评级压力与利差、以及负 FCF 的改善路径。',
+    metrics: ['发行完成度（$200 亿 / 净 $199 亿）', '10Y/30Y 利差与评级机构表态', 'FCF 转正时间表'] },
   { date: '09-08', co: '高通', tk: 'QCOM', link: '../QCOM/高通_研究.html#tracker',
     title: '与亚马逊达成跨多代 AI 数据中心基础设施合作',
     result: '覆盖<strong>定制 AI 推理芯片 + 1.6T 光互联</strong>，向亚马逊发行认股权证、绑定 10 年最高 <strong>$600 亿</strong>采购，产品已进入量产；管理层对 FY27 数据中心 50 亿美元收入目标表态有信心，收入自 12 月季度起确认，另有一家未披露客户。首个公开命名的超大规模客户，为「从 0 到 1」的数据中心叙事提供硬证据（公告日盘前一度 +10%）。',
@@ -338,11 +356,11 @@ const HISTORY = [
     metrics: ['NAND 升级节奏（2027 底前完成）', 'WFE 2026/2027 展望口径', '需求「售罄」持续性'] },
   { date: '09-11', co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker',
     title: 'FY26Q3 财报（美东 09-10 盘后 / 北京 09-11 晨）',
-    result: '营收 $67.6 亿（+13%）beat 指引上限（67.2 亿）与共识（~$67.0 亿），Non-GAAP EPS $6.13（+0.7% 超共识）<strong>连续第五季 beat</strong>；总 ARR 升至 $275 亿、维持 FY26 末 +10.2% 目标；<strong>AI-first ARR 同比 +150%+、全平台 MAU 破 10 亿</strong>；FY26 指引上调（营收 $265.76-266.26 亿 / Non-GAAP EPS $24.45-24.50）。Q4 指引营收 $68.0-68.5 亿（中值略低于共识），财报后盘前 -1%~-2.5%（09-10 收 248.83）——「Freemium 转化」首个量化判据通过。未来验证点：Adobe Max（2026-10）、FY26Q4 财报（12 月中）、CEO 交接（12-01）。',
+    result: '营收 $67.6 亿（+13%）beat 指引上限（67.2 亿）与共识（~$67.0 亿），Non-GAAP EPS $6.13（+0.7% 超共识）<strong>连续第五季 beat</strong>；总 ARR 升至 $275 亿、维持 FY26 末 +10.2% 目标；<strong>AI-first ARR 同比 +150%+、全平台 MAU 破 10 亿</strong>；FY26 指引上调（营收 $265.76-266.26 亿 / Non-GAAP EPS $24.45-24.50）。Q4 指引营收 $68.0-68.5 亿（中值略低于共识），财报后盘前 -1%~-2.5%（09-10 收 248.83）——「Freemium 转化」首个量化判据通过。未来验证点：Adobe Max（2026-11-10~12）、FY26Q4 财报（12 月中）、CEO 交接（12-01）。',
     metrics: ['AI 收入口径（AI-first ARR +150%+）', 'ARR 与指引兑现（10.2% 维持 + FY26 上调）', 'Q4 指引 vs 共识'] },
   { date: '09-11', co: '甲骨文', tk: 'ORCL', link: '../ORCL/甲骨文_研究.html#tracker',
     title: 'FY27Q1 财报（美东 09-10 盘后 / 北京 09-11 晨）',
-    result: '营收 $193.45 亿（+30%）、Non-GAAP EPS $1.92（+30%）全面超指引与共识（~$191.4 亿 / $1.74）；<strong>云收入 $116.07 亿（+62%）/ OCI $74.2 亿（+121%，再超 +93% 前高）</strong>、RPO 升至 $6,640 亿（环比 +$260 亿，多为预付款）；Q1 交付 850MW/30 万+ GPU；<strong>Q1 FCF -$54 亿（好于预期约 -$95.6 亿）</strong>、capex 指引维持、CY 经营现金流创单季纪录；FY2027 指引上调至营收至少 $900 亿 / Non-GAAP EPS $8.10。财报日（09-10）盘前 -5.4%（收 152.94），盘后 +4~7%（~$163）；年迄今仍 -22%。「Q1 OCI 兑现」重检首条通过，ATM 融资落地未确认。',
+    result: '营收 $193.45 亿（+30%）、Non-GAAP EPS $1.92（+30%）全面超指引与共识（~$191.4 亿 / $1.74）；<strong>云收入 $116.07 亿（+62%）/ OCI $74.2 亿（+121%，再超 +93% 前高）</strong>、RPO 升至 $6,640 亿（环比 +$260 亿，多为预付款）；Q1 交付 850MW/30 万+ GPU；<strong>Q1 FCF -$54 亿（好于预期约 -$95.6 亿）</strong>、capex 指引维持、CY 经营现金流创单季纪录；FY2027 指引上调至营收至少 $900 亿 / Non-GAAP EPS $8.10。财报日（09-10）盘前 -5.4%（收 152.94），盘后 +4~7%（~$163）；年迄今仍 -22%。「Q1 OCI 兑现」重检首条通过，ATM 融资落地随后确认（见 09-10 条目）。',
     metrics: ['OCI 增速（超 +110% 门槛，实际 +121%）', 'RPO / cRPO（$6,640 亿，环比 +$260 亿）', 'capex 与 ATM 推进（capex 指引维持）'] },
   { date: '09-03', co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker',
     title: '新任 CEO 落定：Anil Chakravarthy（内部）任总裁兼 CEO，2026-12-01 生效',
@@ -460,8 +478,8 @@ const nextWeek = dated.filter(d => d.wk === 2).reduce((n, d) => n + d.events.len
 const tbdCount = DAYS.filter(d => d.tbd).reduce((n, d) => n + d.events.length, 0);
 const earnings = DAYS.flatMap(d => d.events).filter(e => /财报/.test(e.title)).length;
 rail.innerHTML = [
-  [thisWeek, '第一周（10-05 ~ 10-09）'],
-  [nextWeek, '第二周（10-12 ~ 10-16）'],
+  [thisWeek, '第一周（10-19 ~ 10-25）'],
+  [nextWeek, '第二周（10-26 ~ 11-01）'],
   [tbdCount, '窗口内待定'],
   [earnings + ' 场', '其中财报'],
 ].map(([v, l]) => `<div class="summary-rail__item"><strong>${v}</strong><span>${l}</span></div>`).join('');

@@ -201,7 +201,7 @@ tr:hover td { background: #f8fafc; }
         <p class="sub">企业级 AI 平台的「控制塔」：Q2 订阅收入、cRPO、营业利润率三超指引上限，AI ACV 突破 10 亿美元、净新增环比 +40%，基本面在加速而非减速。但财报次日股价反而收跌——市场定价的矛盾不是当季业绩，而是 OpenAI 原生企业代理对 SaaS 席位模式的颠覆叙事 vs 公司「AI 编排层」的卡位。按券商目标价反推现价约 28x FY2026E Non-GAAP EPS（估算），仍处软件业较高估值档，赔率尚不足以买入。</p>
         <div class="overview__meta">
           <span>研究日期 2026-08-06</span>
-          <span>下次更新：Q3 财报（2026-10 前后，联邦政府旺季验证）/ 对话式服务台新品市场反馈（2026-08 至 09）</span>
+          <span>下次更新：Q3 财报（2026-10-28，联邦政府旺季验证）/ Flow 新品采用与定价反馈（2026-10-01 发布）</span>
         </div>
       </div>
       <div class="verdict">
@@ -568,12 +568,12 @@ tr:hover td { background: #f8fafc; }
  *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
  *   checked: 最近核对日期
  * ============================================================ */
-const TRACKING_CHECKED = '2026-08-06';
+const TRACKING_CHECKED = '2026-10-19';
 const TRACKING = [
   // ---- 催化剂 ----
   { kind: 'cat', status: 'hit',     text: '<strong>2026 Q2 财报超预期 + AI ACV 突破 10 亿美元</strong>：订阅/cRPO/营业利润率三超指引上限，全年订阅指引上调', note: '2026-07-22 兑现；但财报次日因 OpenAI Presence 担忧收跌' },
   { kind: 'cat', status: 'active',  text: '<strong>AI ACV 年底 15 亿美元目标</strong>：净新增环比 +40%，提前达 2030 年「AI 占 ACV 30%」目标', note: '每季度核对 AI ACV 披露' },
-  { kind: 'cat', status: 'pending', text: '<strong>「对话式服务台」AI 原生新品发布</strong>（2026-08 至 09）：20-30% 提价能否被客户广泛接受，验证 AI 时代定价权', note: '' },
+  { kind: 'cat', status: 'hit',     text: '<strong>「对话式服务台」AI 原生新品发布</strong>（2026-08 至 09）：20-30% 提价能否被客户广泛接受，验证 AI 时代定价权', note: '2026-10-19 核对：<strong>Flow by ServiceNow 已于 10-01 发布</strong>（晚于 8~9 月窗口 1 天）——对话式 AI 原生服务台，可在 Teams/Slack/邮件/网页内完成请求处理，独立销售、无平台前置、最快当天上线；消费制定价（试用期后 $2/对话、$1/自动化）替代原「20-30% 溢价」假设，存量 AI 套餐客户以既有额度使用；接受度待 10-28 Q3 财报及后续披露验证' },
   { kind: 'cat', status: 'pending', text: '<strong>Q3 联邦政府旺季 + Q3 财报</strong>（2026-09 至 10）：订阅指引 +20%（固定汇率）相对保守，政府 pipeline 健康', note: '' },
   { kind: 'cat', status: 'active',  text: '<strong>Armis / Veza 整合 + 2026 年底员工数恢复至收购前</strong>：运营杠杆承诺兑现即利润率上修', note: '下半年持续跟踪' },
   // ---- 风险点（证伪信号）----
