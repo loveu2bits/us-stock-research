@@ -127,12 +127,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   <div class="shell">
     <div class="overview__heading">
       <div class="overview__copy">
-        <h1>催化剂日历 · 未来两周<span class="en">2026-10-19 ~ 11-01 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
+        <h1>催化剂日历 · 未来两周<span class="en">2026-10-21 ~ 11-01 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
         <p class="sub">两周窗口内的财报、监管节点与产品事件，按日期排列；「关注指标」是该事件落地时最该盯住的数字与信号。日期待定的窗口内候选单列在最后。</p>
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong>2026-10-19</strong>
+        <strong>2026-10-21</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -161,18 +161,10 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 </footer>
 
 <script>
-// ===== 数据：未来两周催化剂（截至 2026-10-19 校验，10-20 起剩余）=====
+// ===== 数据：未来两周催化剂（截至 2026-10-21 校验）=====
 // link 相对 calendar/ 目录；#tracker 锚点直达研究页跟踪面板
 const DAYS = [
-  { date: '10-20 ~ 10-22', week: '本周二起 财报密集周', wk: 1, events: [
-    { co: '通用汽车', tk: 'GM', link: '../GM/通用汽车_研究.html#tracker', status: 'pending',
-      title: 'Q3 财报（iFinD 预计披露日 2026-10-20）',
-      desc: '新皮卡上市准备与 2027 年初步展望；管理层已口头承诺 2027 年收入/利润率/EBIT/FCF 增长，等待量化。',
-      metrics: ['2027 年量化指引', '新皮卡上市节奏', '新回购授权'] },
-    { co: '奈飞', tk: 'NFLX', link: '../NFLX/奈飞_研究.html#tracker', status: 'pending',
-      title: 'Q3 财报（iFinD 预计披露日 2026-10-20）',
-      desc: '广告层与会员净增、内容投入与营业利润率——流媒体估值锚。',
-      metrics: ['付费净增', '广告层收入', '营业利润率'] },
+  { date: '10-21 ~ 10-22', week: '财报密集周（余下）', wk: 1, events: [
     { co: '泛林集团', tk: 'LRCX', link: '../LRCX/泛林集团_研究.html#tracker', status: 'pending',
       title: 'FY27Q1 财报（iFinD 预计披露日 2026-10-21）',
       desc: '$81 亿指引能否再超预期，Communacopia「售罄」与 2027 年 WFE 展望的首个财务验证。',
@@ -198,6 +190,12 @@ const DAYS = [
       desc: 'ARPU / 毛利率与有声书、新套餐（Audiobooks+、Family/Student）进展。',
       metrics: ['月活/付费净增', '毛利率', 'ARPU 贡献'] },
   ]},
+  { date: '10-26 ~ 10-27', week: '下周一/二', wk: 2, events: [
+    { co: '维萨', tk: 'V', link: '../V/维萨_研究.html#tracker', status: 'pending',
+      title: 'FY26Q4 财报 + FY27 指引（iFinD 预计披露日 2026-10-27）',
+      desc: 'VAS 剔除一次性因素后的韧性、裁员后费用率变化——当前价位的胜负手。',
+      metrics: ['FY27 指引', 'VAS 收入增速', '费用率变化'] },
+  ]},
   { date: '10-28 ~ 10-29', week: '下周二/周三', wk: 2, events: [
     { co: '微软', tk: 'MSFT', link: '../MSFT/微软_研究.html#tracker', status: 'pending',
       title: 'F1Q26 财报（iFinD 预计披露日 2026-10-28）',
@@ -215,6 +213,10 @@ const DAYS = [
       title: 'Q3 财报（iFinD 预计披露日 2026-10-28）',
       desc: '订阅指引 +20%（固定汇率）兑现度、联邦政府旺季 pipeline；Flow 新品（10-01 发布）采用与消费制定价反馈。',
       metrics: ['订阅增速 vs +20%', 'cRPO 与 AI ACV', 'Flow 采用与定价反馈'] },
+    { co: '科磊', tk: 'KLAC', link: '../KLAC/科磊_研究.html#tracker', status: 'pending',
+      title: 'FY27Q1 财报（iFinD 预计披露日 2026-10-28）',
+      desc: '核对营收 $40 亿 / 毛利率 62.5% 兑现度，以及是否进一步上调 2027 年展望。',
+      metrics: ['营收 vs $40 亿', '毛利率 vs 62.5%', '2027 展望'] },
     { co: '亚马逊', tk: 'AMZN', link: '../AMZN/亚马逊_研究.html#tracker', status: 'pending',
       title: 'Q3 财报（iFinD 预计披露日 2026-10-29）',
       desc: 'AWS 增速与 2026 capex（约 $2,200 亿）、零售利润率。',
@@ -231,6 +233,18 @@ const DAYS = [
       title: 'Q3 财报（2026-10-29 盘后，公司已公布日程）',
       desc: 'Q3 交付 19,248 辆（同比 +46%）已披露；核心看汽车毛利率逼近转正、R2 爬坡节奏与全年 65,000-70,000 辆指引维持（Q4 隐含 ≥23,193 辆）。',
       metrics: ['汽车毛利率（转正进展）', 'Q4 交付隐含 ≥23,193 辆', 'R2 单位成本与现金消耗'] },
+    { co: '闪迪', tk: 'SNDK', link: '../SNDK/闪迪_研究.html#tracker', status: 'pending',
+      title: 'FY27Q1 财报（iFinD 预计披露日 2026-10-29）',
+      desc: '验证指引缺口是「主动克制」——ASP 是否维持温和上涨、毛利率能否守住 83-85%。',
+      metrics: ['毛利率 vs 83-85%', 'ASP 走势', 'FY27Q1 指引'] },
+    { co: 'Roblox', tk: 'RBLX', link: '../RBLX/Roblox_研究.html#tracker', status: 'pending',
+      title: '3Q26 财报（iFinD 预计披露日 2026-10-29）',
+      desc: '预订额指引 15.76-16.53 亿美元（同比 -14%~-18%），DAU/时长与每小时预订额是判据。',
+      metrics: ['预订额 vs 指引', 'DAU/时长', '每小时预订额'] },
+    { co: '礼来', tk: 'LLY', link: '../LLY/礼来_研究.html#tracker', status: 'pending',
+      title: '3Q26 财报（iFinD 预计披露日 2026-10-29）',
+      desc: '海外 Mounjaro 动能能否延续 + 全年指引是否再上调（当前 $850-870 亿）。',
+      metrics: ['Mounjaro/Zepbound 销售', '海外扩张动能', '全年指引'] },
   ]},
   { date: '窗口内待定', week: '时间未公布，两周内可能落地', tbd: true, events: [
     { co: 'Spotify', tk: 'SPOT', link: '../SPOT/Spotify_研究.html#tracker', status: 'pending',
@@ -241,7 +255,10 @@ const DAYS = [
 ];
 
 const NEXT = [
-  { co: '安森美', tk: 'ON', link: '../ON/安森美_研究.html#tracker', text: 'FY26Q3 财报（2026-10 底至 11 月初）——分析师日（09-16 -9.0%）未给近端毛利率桥，Q3 兑现 40-42% 毛利率指引与 AI 数据中心再加速是下一个胜负手' },
+  { co: '苹果', tk: 'AAPL', link: '../AAPL/苹果_研究.html#tracker', text: 'FQ4 财报（2026-11-02，iFinD 预计披露日）——收入指引 +9~11% 兑现度、毛利率 47-48%（剔退款 ~46.5%）；特纳斯接任 CEO 后首份完整财报，资本配置口径待验证' },
+  { co: 'Palantir', tk: 'PLTR', link: '../PLTR/Palantir_研究.html#tracker', text: 'FY26Q3 财报（2026-11-02，iFinD 预计披露日）——美国商业 TCV/RDV 先行指标能否延续，全年 +82% 指引是否再上修' },
+  { co: '安森美', tk: 'ON', link: '../ON/安森美_研究.html#tracker', text: 'FY26Q3 财报（2026-11-02，iFinD 预计披露日）——营收指引 16.5-17.5 亿美元、Non-GAAP 毛利率 40-42%；分析师日（09-16 -9.0%）未给近端毛利率桥，Q3 兑现 40-42% 毛利率指引与 AI 数据中心再加速是下一个胜负手' },
+  { co: '高通', tk: 'QCOM', link: '../QCOM/高通_研究.html#tracker', text: 'FY26Q4 财报（2026-11-04，iFinD 预计披露日）——QCT 毛利率是否企稳（提价传导验证窗口）+ 数据中心客户进展更新；Arm 诉讼「五年权利金停付」条款裁量进展' },
   { co: 'Salesforce', tk: 'CRM', link: '../CRM/Salesforce_研究.html#tracker', text: 'F3Q27 财报（2026-11 底）——有机再加速斜率 + AIforce/Fin 贡献；Dreamforce（09-15~17）已落地：发布 AIforce + 重申 FY30「Rule of 50」' },
   { co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker', text: '2026-11-10~12 Adobe Max 大会（迈阿密）——FY26Q3 兑现（AI-first ARR 同比 +150%+、MAU 破 10 亿）后，Firefly/Creative Cloud 的下一个产品验证窗口' },
   { co: '甲骨文', tk: 'ORCL', link: '../ORCL/甲骨文_研究.html#tracker', text: 'FY27Q2 财报（2026-12 中旬）——投资者日（2026-10-28）后，续盯毛利率路径、FCF 转正时间表与 Vera Rubin 交付节奏' },
@@ -250,6 +267,14 @@ const NEXT = [
 
 // ===== 历史催化（已发生，新条目加在数组开头）=====
 const HISTORY = [
+  { date: '10-20', co: '通用汽车', tk: 'GM', link: '../GM/通用汽车_研究.html#tracker',
+    title: 'Q3 财报（2026-10-20 盘前）',
+    result: '调整后 EPS <strong>$3.70</strong>（vs 共识 $3.63）、营收 <strong>$500.2 亿</strong>（+2.9%，季度新高）、调整后 EBIT <strong>$41 亿</strong>（+22%，北美 $36 亿占 88%）——双双超预期。但全年指引收窄：<strong>调整后 EPS $12.75-13.75</strong>（中值 $13.25 低于共识 $13.41）、EBIT $145-155 亿；<strong>汽车 FCF 指引上调至 $115-125 亿</strong>、董事会新批 <strong>$200 亿</strong>多年期回购（前 $60 亿已完成）。成本端：商品通胀约 $20 亿（区间上沿）、关税预计落 $25-35 亿下沿、保修上沿；EV 重组累计计提 $112 亿（现金付 $46/74 亿）基本完成。2027 仅定性（「强于 2026」，需成本缓和）；Q4 因换代减产约 3.5 万辆。中国 Q3 股权收益同比 -60%（仍盈利）。iFinD 行情：10-20 收 <strong>$77.09（-6.84%）</strong>、市值 $676 亿（指引中值对应约 5.8x）。',
+    metrics: ['EPS vs 共识 $3.63（实际 $3.70）', '全年 EPS 指引 vs 共识中值 $13.41（收窄至 $12.75-13.75）', '汽车 FCF 指引（上调至 $115-125 亿）', '新回购授权（$200 亿）', '2027 展望量化程度'] },
+  { date: '10-20', co: '奈飞', tk: 'NFLX', link: '../NFLX/奈飞_研究.html#tracker',
+    title: 'Q3 财报（2026-10-20 盘后）',
+    result: 'GAAP EPS <strong>$0.87</strong>（vs 共识 $0.82）、营收 <strong>$128.7 亿</strong>（+12%、FXN +11%，持平预期）——三年最低增速；利润率升至 <strong>34.6%</strong>。Q4 营收指引约 <strong>$134.4 亿低于共识</strong>、全年 $511 亿。股东信确认观看时长下滑与提价相关；印度时长 +24%、广告业务年内 +80%+、全球与美国 churn 同比改善。盘后股价 <strong>约 -6%</strong>（10-20 收 $68.69、-1.66%）。',
+    metrics: ['营收增速 vs 11.7% 指引（FXN +11% 略低）', '广告增长（年内 +80%+）', 'Q4 指引 vs 共识（低于）', '观看时长与 churn'] },
   { date: '10-15', co: '台积电', tk: 'TSM', link: '../TSM/台积电_研究.html#tracker',
     title: 'Q3 财报（2026-10-15）',
     result: '营收 <strong>$467 亿</strong>（NT$1,494.2 亿，同比 +41%）超指引上沿，毛利率 <strong>66.4%</strong>（2nm 稀释中）；全年营收增速指引由「略高于 40%」再上调至约 <strong>+44%</strong>。2nm 占晶圆收入由 Q2 的 3% 跃升至 <strong>8%</strong>、Q4 有望 15-20%，HPC 占比升至 68%（环比 +22%）。Q4 指引营收 <strong>$523-543 亿</strong>（中值环比 +14%、同比 +58%，较彭博一致预期高约 5.9%）、毛利率中值 66%；2026 capex 维持 $600-640 亿。iFinD 口径 9M 营收 NT$38.99 万亿、归母净利 NT$20.42 万亿，pe_ttm 26.8x、一致目标价 610（10-16 收 412.61，空间约 +48%）。',
