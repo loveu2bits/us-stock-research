@@ -132,7 +132,7 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong>2026-10-22</strong>
+        <strong>2026-10-25</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -150,7 +150,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   <section class="history">
     <h2>历史催化（已发生）</h2>
     <p class="h-sub">已落地的事件与结果速记，「关注指标」是当初盯住的数字——留作事后复盘对照。</p>
-    <div id="history-body"></div>
+    <div id="history-body">
+      <div class="h-day"><div class="h-date">2026-10-22</div><ul class="h-list">
+        <li class="h-item"><div class="h-head"><span class="h-co">西部数据 <span class="h-tk">WDC</span></span><span class="h-res">已兑现（指引保守论验证）</span></div><div class="h-title">FY27Q1 财报</div><div class="h-metrics">营收 $45.7亿、毛利率 58.0%、Non-GAAP EPS $4.64</div></li>
+        <li class="h-item"><div class="h-head"><span class="h-co">Spotify <span class="h-tk">SPOT</span></span><span class="h-res">已兑现（广告复苏）</span></div><div class="h-title">Q3 财报</div><div class="h-metrics">广告收入 +10%（固定汇率 +9%）、毛利率 33.9%、营业利润 €7.86亿</div></li>
+      </ul></div>
+    </div>
   </section>
 </main>
 
@@ -164,16 +169,6 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 // ===== 数据：未来两周催化剂（截至 2026-10-22 校验）=====
 // link 相对 calendar/ 目录；#tracker 锚点直达研究页跟踪面板
 const DAYS = [
-  { date: '10-22', week: '本周四', wk: 1, events: [
-    { co: '西部数据', tk: 'WDC', link: '../WDC/西部数据_研究.html#tracker', status: 'pending',
-      title: 'FY27Q1 财报（iFinD 预计披露日 2026-10-22）',
-      desc: 'HDD/存储景气与 AI 数据洪流对近线存储需求的拉动。',
-      metrics: ['营收与毛利率', '近线 HDD 出货', '下季指引'] },
-    { co: 'Spotify', tk: 'SPOT', link: '../SPOT/Spotify_研究.html#tracker', status: 'pending',
-      title: 'Q3 财报（iFinD 预计披露日 2026-10-22）',
-      desc: 'ARPU / 毛利率与有声书、新套餐（Audiobooks+、Family/Student）进展。',
-      metrics: ['月活/付费净增', '毛利率', 'ARPU 贡献'] },
-  ]},
   { date: '10-26 ~ 10-27', week: '下周一/二', wk: 2, events: [
     { co: '楷登电子', tk: 'CDNS', link: '../CDNS/楷登电子_研究.html#tracker', status: 'pending',
       title: 'Q3 财报（iFinD 预计披露日 2026-10-26）',
