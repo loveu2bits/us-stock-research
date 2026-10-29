@@ -132,7 +132,7 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong>2026-10-25</strong>
+        <strong>2026-10-29</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -161,7 +161,7 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 
 <footer class="site-footer">
   <div class="shell">
-    <p>日历随各公司研究页跟踪面板同步更新 · 数据来源：公司财报及公开披露 · 公开研究资料整理<br>仅作研究学习用途，不构成投资建议<br>最近更新：2026-10-26</p>
+    <p>日历随各公司研究页跟踪面板同步更新 · 数据来源：公司财报及公开披露 · 公开研究资料整理<br>仅作研究学习用途，不构成投资建议<br>最近更新：2026-10-29</p>
   </div>
 </footer>
 
@@ -174,32 +174,12 @@ const DAYS = [
       title: 'Q3 财报（iFinD 预计披露日 2026-10-26）',
       desc: 'Agentic AI 贡献首次量化与 IP 业务环比持续性——FY26 指引中值 63 亿美元（+19%）之后的第二次上修窗口。',
       metrics: ['Agentic AI 收入是否进入指引', 'IP 业务环比增速', 'FY26 指引是否再上调'] },
-    { co: '安靠科技', tk: 'AMKR', link: '../AMKR/安靠科技_研究.html#tracker', status: 'pending',
-      title: 'Q3 财报（iFinD 预计披露日 2026-10-26）',
-      desc: 'HDFO 数据中心 CPU 放量与英伟达 15 亿美元协议预付款入账，验证「计算 + 存储」双轮。',
-      metrics: ['计算业务环比（指引 +~30%）', '毛利率 vs 18.5-19.5% 指引', '英伟达协议预付款与收入确认'] },
-    { co: '维萨', tk: 'V', link: '../V/维萨_研究.html#tracker', status: 'pending',
-      title: 'FY26Q4 财报 + FY27 指引（iFinD 预计披露日 2026-10-27）',
-      desc: 'VAS 剔除一次性因素后的韧性、裁员后费用率变化——当前价位的胜负手。',
-      metrics: ['FY27 指引', 'VAS 收入增速', '费用率变化'] },
   ]},
   { date: '10-28 ~ 10-29', week: '下周二/周三', wk: 2, events: [
     { co: '微软', tk: 'MSFT', link: '../MSFT/微软_研究.html#tracker', status: 'pending',
       title: 'F1Q26 财报（iFinD 预计披露日 2026-10-28）',
       desc: 'Azure 增速与 capex 指引——AI 需求可持续性与资本开支节奏的关键读数。',
       metrics: ['Azure 增速', 'capex 指引', 'AI 相关收入'] },
-    { co: '谷歌', tk: 'GOOGL', link: '../GOOGL/谷歌_研究.html#tracker', status: 'pending',
-      title: 'Q3 财报（iFinD 预计披露日 2026-10-28）',
-      desc: '云增速与 capex、搜索广告韧性——FCF 转负后的投入纪律。',
-      metrics: ['Google Cloud 增速', 'capex', '广告收入'] },
-    { co: '甲骨文', tk: 'ORCL', link: '../ORCL/甲骨文_研究.html#tracker', status: 'pending',
-      title: '投资者日（2026-10-28）',
-      desc: '管理层详解毛利率路径与 FCF 转正时间表（回应负 FCF 争议）、Vera Rubin 交付节奏——$200 亿 ATM 已足额落地后的关键表态窗口。',
-      metrics: ['毛利率路径指引', 'FCF 转正时间表', 'Vera Rubin 交付节奏'] },
-    { co: 'ServiceNow', tk: 'NOW', link: '../NOW/ServiceNow_研究.html#tracker', status: 'pending',
-      title: 'Q3 财报（iFinD 预计披露日 2026-10-28）',
-      desc: '订阅指引 +20%（固定汇率）兑现度、联邦政府旺季 pipeline；Flow 新品（10-01 发布）采用与消费制定价反馈。',
-      metrics: ['订阅增速 vs +20%', 'cRPO 与 AI ACV', 'Flow 采用与定价反馈'] },
     { co: '科磊', tk: 'KLAC', link: '../KLAC/科磊_研究.html#tracker', status: 'pending',
       title: 'FY27Q1 财报（iFinD 预计披露日 2026-10-28）',
       desc: '核对营收 $40 亿 / 毛利率 62.5% 兑现度，以及是否进一步上调 2027 年展望。',
@@ -266,19 +246,30 @@ const NEXT = [
 
 // ===== 历史催化（已发生，新条目加在数组开头）=====
 const HISTORY = [
-  
+  { date: '10-28', co: '谷歌', tk: 'GOOGL', link: '../GOOGL/谷歌_研究.html#tracker',
+    title: 'Q3 财报（2026-10-28 盘后）',
+    result: '营收 <strong>$1,275.8 亿</strong>（+25%）、EPS <strong>$2.12</strong>、净利 $265.5 亿；<strong>Google Cloud $307.1 亿（+103%）</strong>、云营业利润率 36.2%、云 backlog <strong>$5,610 亿</strong>（约 55% 在未来 24 个月确认）。capex <strong>$513.6 亿</strong>、单季 FCF <strong>-$91 亿</strong>；2026 capex 指引 <strong>$1,950-2,050 亿</strong>、2027 将「显著增加」但未给数字。广告收入低于预期约 $14 亿，盘后跌约 10%；10-28 收 <strong>$324.89</strong>、pe_ttm 16.9x、一致目标价 $407.9（约 +26%）。',
+    metrics: ['云增速 +103% 与 backlog $5,610 亿', 'capex $513.6 亿 / 2026 指引 $1,950-2,050 亿', '单季 FCF -$91 亿', '广告收入低于预期约 $14 亿'] },
+  { date: '10-28', co: '甲骨文', tk: 'ORCL', link: '../ORCL/甲骨文_研究.html#tracker',
+    title: '投资者日（2026-10-28）',
+    result: 'FY30 目标营收 <strong>$2,250 亿+</strong>（CAGR >35%）、Non-GAAP 营业利润率 <strong>40%+</strong>、EPS <strong>$21+</strong>；<strong>FY28H2 FCF 转正</strong>、FY29 FCF <strong>$300 亿+</strong>；FY27-30 新增融资上限 <strong>$200 亿</strong>（股权/债务各半）。股价 <strong>+10.7% 至 $144.54</strong>、pe_ttm 23.39x、FY27E 约 18x；较三情景期望值 $218 折价约 34%，评级由持有上调买入。',
+    metrics: ['FY30 营收 $2,250 亿+ / CAGR >35%', 'FY28H2 FCF 转正、FY29 $300 亿+', 'FY27-30 融资上限 $200 亿', '$144.54 / pe_ttm 23.4x'] },
+  { date: '10-28', co: 'ServiceNow', tk: 'NOW', link: '../NOW/ServiceNow_研究.html#tracker',
+    title: 'Q3 财报（2026-10-28 盘后）',
+    result: '订阅收入 <strong>$39.88 亿</strong>（+21%）、cRPO <strong>+20.5%</strong>、AI ACV <strong>$17 亿</strong>；上调全年订阅指引，但 <strong>Q4 cRPO 指引 18.5%</strong> 显示减速。股价 10-28 收 <strong>$150.13（-3.0%）</strong>、pe_ttm 92.9x；三情景期望值约 $139，现价仍有约 8% 溢价，维持持有。',
+    metrics: ['订阅 +21% / cRPO +20.5%', 'AI ACV $17 亿', 'Q4 cRPO 指引 18.5%', '$150.13 / pe_ttm 92.9x'] },
+  { date: '10-28', co: '安靠科技', tk: 'AMKR', link: '../AMKR/安靠科技_研究.html#tracker',
+    title: 'Q3 财报（2026-10-28 发布）',
+    result: '营收 <strong>$19.91 亿</strong>（同比持平、环比 +5%）、毛利率 <strong>18.3%</strong>（低于 18.5-19.5% 指引）、EPS <strong>$0.76</strong>；计算业务环比 <strong>+25%</strong>（指引 +~30%）、通信 -8%。Q4 指引营收 <strong>$19-20 亿</strong>、毛利率 <strong>18-19%</strong>、EPS <strong>$0.65-0.75</strong>；2026 capex 约 $25 亿。10-28 收 <strong>$42.21（+5.68%）</strong>、pe_ttm 16.9x，较三情景期望值 $66 折价约 36%，评级由持有上调买入。',
+    metrics: ['营收 $19.91 亿 / 毛利率 18.3%', '计算 +25% vs 指引 +30%', 'Q4 毛利率指引 18-19%', '$42.21 / pe_ttm 16.9x'] },
+  { date: '10-27', co: '维萨', tk: 'V', link: '../V/维萨_研究.html#tracker',
+    title: 'FY26Q4 财报 + FY27 指引（2026-10-27）',
+    result: 'Q4 净收入 <strong>$121 亿</strong>（+13%）、Non-GAAP EPS <strong>$3.48</strong>（+17%）；FY26 净收入 <strong>$459 亿</strong>（+15%）、Non-GAAP EPS <strong>$13.27</strong>（+16%）、VAS <strong>$140 亿</strong>（+30% cc，Q4 +31%）。FY27 指引净收入低双位数、EPS 低双位数至低十几、VAS 低-中 20s；季度股息上调 16% 至 $0.78。10-28 收 <strong>$400.60</strong>、pe_ttm 30.7x，已回到 26-27x 目标 PE，目标价 410-450 仅 2-12% 空间，评级由买入下调持有。',
+    metrics: ['FY26 营收 $459 亿 / EPS $13.27', 'VAS $140 亿 +30% cc', 'FY27 指引低双位数', '$400.60 / pe_ttm 30.7x'] },
   { date: '10-26', co: '楷登电子', tk: 'CDNS', link: '../CDNS/楷登电子_研究.html#tracker',
     title: 'Q3 财报（iFinD 预计披露日 2026-10-26）',
-    result: '今日待披露（iFinD 预计 2026-10-26）。重点关注 Agentic AI 贡献量化、IP 业务环比持续性及 FY26 指引是否再上调。已同步跟踪面板核对日期至 2026-10-26。',
+    result: '已过预计披露日，研究页与跟踪面板尚待本轮后续核对；重点关注 Agentic AI 贡献量化、IP 业务环比持续性及 FY26 指引是否再上调。',
     metrics: ['Agentic AI 收入是否进入指引', 'IP 业务环比增速', 'FY26 指引是否再上调'] },
-  { date: '10-26', co: '安靠科技', tk: 'AMKR', link: '../AMKR/安靠科技_研究.html#tracker',
-    title: 'Q3 财报（iFinD 预计披露日 2026-10-26）',
-    result: '今日待披露（iFinD 预计 2026-10-26）。重点关注 HDFO 数据中心 CPU 放量、计算业务环比、毛利率（18.5-19.5% 指引）及英伟达 $15 亿协议预付款入账。已同步跟踪面板核对日期至 2026-10-26。',
-    metrics: ['计算业务环比（指引 +~30%）', '毛利率 vs 18.5-19.5% 指引', '英伟达协议预付款与收入确认'] },
-  { date: '10-27', co: '维萨', tk: 'V', link: '../V/维萨_研究.html#tracker',
-    title: 'FY26Q4 财报 + FY27 指引（iFinD 预计披露日 2026-10-27）',
-    result: '明日待披露（iFinD 预计 2026-10-27）。重点关注 VAS 剔除一次性后的韧性、裁员后费用率变化及 FY27 指引。已同步跟踪面板核对日期至 2026-10-26。',
-    metrics: ['FY27 指引', 'VAS 收入增速', '费用率变化'] },
 { date: '10-21', co: 'Meta', tk: 'META', link: '../META/Meta_研究.html#tracker',
     title: 'Q3 财报（2026-10-21 盘后）',
     result: '营收 <strong>$646.01 亿</strong>（+26%）超 LSEG 共识 $633.7 亿与指引上限 $640 亿；广告 $630.6 亿、DAP 36.4 亿（+10%）、展示价格 +14%。费用 $516.13 亿中含 52 州 AG 和解一次性 <strong>$98.9 亿</strong>，经营利润 $129.88 亿（-37%、利润率 20%，剔除一次性后 $228.8 亿）、GAAP 净利 $98.6 亿、摊薄 EPS $3.83（<strong>剔除一次性后 $7.40</strong>）。capex $349.1 亿、经营现金流 $327.9 亿、<strong>自由现金流 -$21.2 亿</strong>；Q4 指引营收 $730-760 亿（中值 $745 亿）、FY26 费用指引 $1,750-1,790 亿、FY26 capex 指引 <strong>$1,350-1,450 亿</strong>（下限上调 $50 亿）；Reality Labs FY26 $180-190 亿。Class C 无投票权股 + <strong>2 拆 1 股票股利 2027-01-19 生效</strong>；新墨西哥州判赔 $250 亿。股价盘后 +2.9%；iFinD 行情 10-21 收 <strong>$697.52（+0.47%）</strong>、pe_ttm 26.09x、一致目标价 $803（约 +15%）。',
