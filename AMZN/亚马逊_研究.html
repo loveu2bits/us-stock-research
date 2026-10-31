@@ -212,10 +212,10 @@ tr:hover td { background: #f8fafc; }
     <div class="overview__heading">
       <div class="overview__copy">
         <h1>亚马逊<span class="en">Amazon · AMZN.O · 美股研究</span></h1>
-        <p class="sub">"AI 烧钱"叙事翻转成"AI 兑现"：AWS +37% 五连加速、4,960 亿订单在手——2,200 亿资本开支市场照单全收，因为这是拿着订单建产能，不是赌需求。核心问题只剩两个：产能爬坡的速度，和自由现金流为负的窗口还要多久。</p>
+        <p class="sub">"AI 烧钱"翻转成"AI 兑现"进入验证期：3Q26 AWS +39.3% 六连加速、backlog 5,780 亿，但单季资本开支 759 亿、TTM FCF -424 亿，Q4 营收指引中值 $2,435 亿，略低于共识 $2,445 亿——核心问题只剩两个：产能爬坡的速度，和自由现金流为负的窗口还要多久。</p>
         <div class="overview__meta">
           <span>研究日期 2026-07-31</span>
-          <span>下次更新：3Q26 财报后（2026-10 下旬）</span>
+          <span>下次更新：AWS re:Invent（2026-12）/ 4Q26 财报（2027-02 初）· 2027 capex 与 FCF 路径</span>
         </div>
       </div>
       <div class="verdict">
@@ -225,10 +225,10 @@ tr:hover td { background: #f8fafc; }
       </div>
     </div>
     <div class="summary-rail">
-      <div class="summary-rail__item"><strong class="up">+37%</strong><span>AWS 增速 · 18 个季度最快</span></div>
-      <div class="summary-rail__item"><strong class="up">$4,960亿</strong><span>积压订单 · 同比 +154%</span></div>
-      <div class="summary-rail__item"><strong class="up">39.4%</strong><span>AWS 营业利润率 · +650bp</span></div>
-      <div class="summary-rail__item"><strong>-$76亿</strong><span>TTM 自由现金流 · 去年同期 +182 亿</span></div>
+      <div class="summary-rail__item"><strong class="up">+39.3%</strong><span>AWS 增速 · 六连加速</span></div>
+      <div class="summary-rail__item"><strong class="up">$5,780亿</strong><span>积压订单 · 环比 +820 亿</span></div>
+      <div class="summary-rail__item"><strong class="up">13.9%</strong><span>营业利润率 · 历史新高</span></div>
+      <div class="summary-rail__item"><strong>-$424亿</strong><span>TTM 自由现金流 · 3Q capex 759 亿</span></div>
     </div>
 
     <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
@@ -457,7 +457,7 @@ tr:hover td { background: #f8fafc; }
     <div class="appendix">
       <h3>附：本研究的数据与局限</h3>
       <ul>
-        <li><strong>数据来源</strong>：公司 2Q26 财报及公开披露、公开研究资料整理（含公司一页通与多家券商财报点评）</li>
+        <li><strong>数据来源</strong>：公司 3Q26 财报及公开披露、公开研究资料整理（含公司一页通与多家券商财报点评）</li>
         <li><strong>局限</strong>：未读 10-K/10-Q 原文；TTM 自由现金流等为财报整理口径；卖方 EPS 预测分歧较大，主要源于 Anthropic 等股权投资公允价值变动是否计入损益的假设不同，剔除后核心盈利预期相对一致</li>
         <li><strong>管理层评估（一句话版）</strong>：本季首次系统讲清 AI 投入回报模型并给出超长期订单能见度（2028 年在手需求「很震撼」），口径自信、敢于给长期指引，需持续验证兑现度</li>
       </ul>
@@ -570,7 +570,7 @@ tr:hover td { background: #f8fafc; }
     <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
   </div>
 </section>
-<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/AMZN · 生成于 2026-08-06</div></footer>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/AMZN · 生成于 2026-08-06 · 更新于 2026-11-01</div></footer>
 
 <script>
 /* ============================================================
@@ -581,19 +581,19 @@ tr:hover td { background: #f8fafc; }
  *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
  *   checked: 最近核对日期
  * ============================================================ */
-const TRACKING_CHECKED = '2026-07-31';
+const TRACKING_CHECKED = '2026-11-01';
 const TRACKING = [
   // ---- 催化剂 ----
-  { kind: 'cat', status: 'pending', text: '<strong>3Q26 财报</strong>（2026-10 下旬）：AWS 能否守住 35%+；收入指引 1,970-2,020 亿（剔除错期 +13~17%）；营业利润指引 225-265 亿——当前价位的胜负手', note: '' },
-  { kind: 'cat', status: 'active',  text: '<strong>2027 capex 指引</strong>：对照摩通 $3,650 亿（+65%）的「最激进锚」——低于此 = FCF 叙事利好，达到或超出 = 考验市场容忍度', note: '跟踪计划新增，2026-07-31' },
-  { kind: 'cat', status: 'active',  text: '<strong>re:Invent 大会</strong>（2026 Q4）：FMR 新一代前沿模型亮相；Trainium 外售进展', note: '' },
-  { kind: 'cat', status: 'active',  text: '<strong>电力容量爬坡</strong>（每季度）：2027 年底较 2025 翻倍的目标进度——产能=收入；Anthropic/OpenAI 超 1,380 亿多年期协议的收入确认节奏', note: '瑞银提示 OpenAI 部分推迟至 2027 年初' },
+  { kind: 'cat', status: 'hit',     text: '<strong>3Q26 财报</strong>（2026-10-29）：营收 $2,019 亿（+12%）、营业利润 $281 亿（利润率 13.9% 创纪录）、AWS $459.8 亿（+39.3%）', note: '已兑现。营收略低于共识 $2,023 亿、EPS $1.89 低于 $1.96；AWS 六连加速、backlog 升至 $5,780 亿（环比 +$820 亿）；广告 $196 亿（+11%，Prime Day 错期拖累约 850bp）；Q3 capex $759 亿、TTM FCF -$424 亿；Q4 营收指引 $2,400-2,470 亿（中值 $2,435 亿，略低于共识 $2,445 亿）、营业利润 $285-335 亿' },
+  { kind: 'cat', status: 'active',  text: '<strong>2027 capex 指引</strong>：对照摩通 $3,650 亿（+65%）的「最激进锚」——低于此 = FCF 叙事利好，达到或超出 = 考验市场容忍度', note: '2026-10-29 财报：2026 capex 维持约 $2,200 亿，2027 将「显著增加」但未给数字；Amazon Leo/Globalstar 交易另增投入' },
+  { kind: 'cat', status: 'active',  text: '<strong>re:Invent 大会</strong>（2026-12）：FMR 新一代前沿模型亮相；Trainium 外售进展', note: '3Q 财报未提前披露 FMR 细节，仍看 12 月大会' },
+  { kind: 'cat', status: 'active',  text: '<strong>电力容量爬坡</strong>（每季度）：2027 年底较 2025 翻倍的目标进度——产能=收入；Anthropic/OpenAI 超 1,380 亿多年期协议的收入确认节奏', note: 'backlog $5,780 亿（环比 +$820 亿）继续验证多年期协议；2027 年底容量翻倍目标不变' },
   // ---- 风险点（证伪信号）----
-  { kind: 'risk', status: 'clear', text: '<strong>AWS 增速跌破 30%</strong>（五连加速的叙事终结）', note: '最新 2Q26：+37%，未触发' },
-  { kind: 'risk', status: 'clear', text: '<strong>backlog 环比增速掉到 +15% 以下</strong>（订单能见度恶化）', note: '最新：环比 +36%，未触发' },
-  { kind: 'risk', status: 'clear', text: '<strong>AWS 营业利润率跌破 35%</strong>（折旧+存储涨价压顶，芯片对冲失效）', note: '最新 39.4%，剔除一次性收益基线 37.9%，距离危险线 ~3pct' },
-  { kind: 'risk', status: 'clear', text: '<strong>2027 年 capex 再度大幅上调而 backlog 没有同步增长</strong>（投入产出脱钩）', note: '待 2027 指引公布核对' },
-  { kind: 'risk', status: 'clear', text: '<strong>零售增速跌破高个位数，或广告增速跌破 15%</strong>（基本盘松动）', note: '最新：北美 +16% / 国际 +15% / 广告 +26%，未触发' },
+  { kind: 'risk', status: 'clear', text: '<strong>AWS 增速跌破 30%</strong>（六连加速的叙事终结）', note: '最新 3Q26：+39.3%，未触发' },
+  { kind: 'risk', status: 'clear', text: '<strong>backlog 环比增速掉到 +15% 以下</strong>（订单能见度恶化）', note: '最新：$5,780 亿，环比 +16.5%（+$820 亿），未触发' },
+  { kind: 'risk', status: 'clear', text: '<strong>AWS 营业利润率跌破 35%</strong>（折旧+存储涨价压顶，芯片对冲失效）', note: '最新 38.7%（较 2Q 39.4% 回落 70bp），未触发' },
+  { kind: 'risk', status: 'clear', text: '<strong>2027 年 capex 再度大幅上调而 backlog 没有同步增长</strong>（投入产出脱钩）', note: '2027 将「显著增加」，backlog 同步增至 $5,780 亿，暂未触发；Q3 单季 capex $759 亿、TTM FCF -$424 亿是后续观察点' },
+  { kind: 'risk', status: 'clear', text: '<strong>零售增速跌破高个位数，或广告增速跌破 15%</strong>（基本盘松动）', note: '3Q 广告 +11%（剔汇 +12%），受 Prime Day 错期约 -850bp 扰动；Q4 广告指引高双位数，暂不判定基本盘松动' },
 ];
 const STATUS_LABEL = {
   pending: '待验证', active: '进行中', hit: '已兑现', miss: '落空',
