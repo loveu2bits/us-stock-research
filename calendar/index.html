@@ -127,7 +127,7 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   <div class="shell">
     <div class="overview__heading">
       <div class="overview__copy">
-        <h1>催化剂日历 · 未来两周<span class="en">2026-11-02 ~ 11-15 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
+        <h1>催化剂日历 · 未来两周<span class="en">2026-11-02 ~ 11-17 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
         <p class="sub">两周窗口内的财报、监管节点与产品事件，按日期排列；「关注指标」是该事件落地时最该盯住的数字与信号。日期待定的窗口内候选单列在最后。</p>
       </div>
       <div class="overview__date">
@@ -161,28 +161,14 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 
 <footer class="site-footer">
   <div class="shell">
-    <p>日历随各公司研究页跟踪面板同步更新 · 数据来源：公司财报及公开披露 · 公开研究资料整理<br>仅作研究学习用途，不构成投资建议<br>最近更新：2026-11-02</p>
+    <p>日历随各公司研究页跟踪面板同步更新 · 数据来源：公司财报及公开披露 · 公开研究资料整理<br>仅作研究学习用途，不构成投资建议<br>最近更新：2026-11-03</p>
   </div>
 </footer>
 
 <script>
-// ===== 数据：未来两周催化剂（截至 2026-11-01 校验）=====
+// ===== 数据：未来两周催化剂（截至 2026-11-03 校验）=====
 // link 相对 calendar/ 目录；#tracker 锚点直达研究页跟踪面板
 const DAYS = [
-  { date: '11-02', week: '周一', wk: 1, events: [
-    { co: '苹果', tk: 'AAPL', link: '../AAPL/苹果_研究.html#tracker', status: 'pending',
-      title: 'FQ4 财报（预计披露日 2026-11-02）',
-      desc: '收入指引 +9~11% 兑现度、毛利率 47-48%（剔退款约 46.5%）；特纳斯接任 CEO 后首份完整财报，资本配置口径待验证。',
-      metrics: ['营收 vs +9~11% 指引', '毛利率 vs 47-48%', 'iPhone 18 / Duo 首波销量'] },
-    { co: 'Palantir', tk: 'PLTR', link: '../PLTR/Palantir_研究.html#tracker', status: 'pending',
-      title: 'FY26Q3 财报（预计披露日 2026-11-02）',
-      desc: '美国商业 TCV/RDV 先行指标能否延续，全年 +82% 指引是否再上修。',
-      metrics: ['美国商业 TCV/RDV', '全年指引是否上修', 'AIP 采用率'] },
-    { co: '安森美', tk: 'ON', link: '../ON/安森美_研究.html#tracker', status: 'pending',
-      title: 'FY26Q3 财报（预计披露日 2026-11-02）',
-      desc: '营收指引 16.5-17.5 亿美元、Non-GAAP 毛利率 40-42%；AI 数据中心再加速是下一个胜负手。',
-      metrics: ['营收 vs 16.5-17.5 亿', '毛利率 vs 40-42%', 'AI 数据中心增速'] },
-  ]},
   { date: '11-03', week: '周二', wk: 1, events: [
     { co: 'AMD', tk: 'AMD', link: '../AMD/AMD_研究.html#tracker', status: 'pending',
       title: 'Q3 财报（预计披露日 2026-11-03）',
@@ -261,6 +247,16 @@ const DAYS = [
       desc: 'Q4 指引营收 102.5 亿美元、EPS 4.02 美元；2027 WFE 展望与 BIS 规则节点。',
       metrics: ['营收 vs $102.5 亿', 'EPS vs $4.02', '2027 WFE 展望'] },
   ]},
+  { date: '11-17', week: '下下周二', wk: 2, events: [
+    { co: '英伟达', tk: 'NVDA', link: '../NVDA/英伟达_研究.html#tracker', status: 'pending',
+      title: 'FY3Q27 财报（预计披露日 2026-11-17）',
+      desc: 'FY3Q27 指引营收 $108B（±2%）、毛利率 74%；FY28 +70% 高基数下首份验证，Rubin 放量与 ACI&E 增速是关键。',
+      metrics: ['营收 vs $108B', '毛利率 vs 74%', 'Rubin 放量 / ACI&E 增速'] },
+    { co: '迪士尼', tk: 'DIS', link: '../DIS/迪士尼_研究.html#tracker', status: 'pending',
+      title: 'FY26Q4 财报（预计披露日 2026-11-17）',
+      desc: '全年调整后 EPS +约 12%（不含第 53 周）兑现与 FY27 双位数增长指引；流媒体利润率与体验业务产能爬坡。',
+      metrics: ['调整后 EPS 增速', '流媒体运营利润率', 'FY27 指引'] },
+  ]},
   { date: '窗口内待定', week: '时间未公布，两周内可能落地', tbd: true, events: [
     { co: 'Spotify', tk: 'SPOT', link: '../SPOT/Spotify_研究.html#tracker', status: 'pending',
       title: 'Audiobooks+ 新套餐 + Family / Student 新计划（原 8~9 月，已顺延至 2026 下半年）',
@@ -278,6 +274,18 @@ const NEXT = [
 
 // ===== 历史催化（已发生，新条目加在数组开头）=====
 const HISTORY = [
+  { date: '11-02', co: '苹果', tk: 'AAPL', link: '../AAPL/苹果_研究.html#tracker',
+    title: 'FQ4 财报（2026-11-02 盘后）',
+    result: '营收 <strong>$1,145 亿</strong>（+12%，超共识 $1,133.5 亿、高于指引上限 +11%）、EPS <strong>$2.10</strong>（超共识 $1.99，含 $0.05 关税退款）、毛利率 <strong>47.9%</strong>（含约 1pt 退款）；iPhone $575.8 亿（+17%）、服务 $315.7 亿（+10%）创新高，iPad $63 亿（-9%）、中国收入不及预期。FQ1 指引营收 +7~10%、毛利率 <strong>45-46%</strong>（中值跌破 46% 风险线）、服务 +8~9%；盘后一度跌约 4% 至 $324.90，11-02 收 $338.32（-1.83%）、iFinD pe_ttm 37.4x，维持持有。',
+    metrics: ['营收 $1,145 亿 vs 共识 $1,133.5 亿', '毛利率 47.9% / FQ1 指引 45-46%', 'iPhone +17% / 服务 +10%', '$338.32 / pe_ttm 37.4x'] },
+  { date: '11-02', co: 'Palantir', tk: 'PLTR', link: '../PLTR/Palantir_研究.html#tracker',
+    title: 'FY26Q3 财报（2026-11-02 盘后）',
+    result: '营收 <strong>$23.1 亿</strong>（+96%，超共识 $21.8 亿）、调整后 EPS <strong>$0.44</strong>（超共识 $0.41）、净利 $11.3 亿；<strong>美国商业收入 $9.84 亿（+148%）首次超过美国政府 $9.53 亿（+96%）</strong>。FY26 营收指引上调至 <strong>$85.30-85.34 亿（+91%）</strong>、Q4 指引 $26.49-26.53 亿（共识 $24.6 亿）、调整后营业利润 $16.40-16.44 亿；盘后一度 +1.5% 至 $181 后回落约 3%，11-02 收 $178.34（-3.13%）、iFinD pe_ttm 142x，维持持有。',
+    metrics: ['营收 $23.1 亿 vs 共识 $21.8 亿', '美国商业 +148% 首超政府', 'FY26 指引 +91% / Q4 指引 $26.5 亿', '$178.34 / pe_ttm 142x'] },
+  { date: '11-02', co: '安森美', tk: 'ON', link: '../ON/安森美_研究.html#tracker',
+    title: 'FY26Q3 财报（2026-11-02 盘后）',
+    result: '营收 <strong>$17.2 亿</strong>（环比 +7%、同比 +11%，超指引中值 $2,200 万）、Non-GAAP 毛利率 <strong>41.2%</strong>（环比 +190bps）、Non-GAAP EPS <strong>$0.90</strong>（指引 0.81-0.93）；<strong>AI 数据中心 $1.8 亿（+175%）</strong>，2026 指引上调至约 $6.2 亿（+140%）、2027 再翻倍。Q4 指引营收 $17.15-18.15 亿、毛利率 41.5-43.5%、EPS $0.95-1.07；同时宣布 $6 亿收购 Ferric（IVR）。盘后一度跌约 4%、11-02 收 $70.11（-2.18%）、iFinD pe_ttm 43.3x，评级由持有上调买入。',
+    metrics: ['营收 $17.2 亿 / 毛利率 41.2%', 'AI 数据中心 $1.8 亿 +175%', '2026 AI 指引 $6.2 亿 / Q4 毛利率 41.5-43.5%', '$70.11 / pe_ttm 43.3x / 上调买入'] },
   { date: '10-29', co: '亚马逊', tk: 'AMZN', link: '../AMZN/亚马逊_研究.html#tracker',
     title: '3Q26 财报（2026-10-29 盘后）',
     result: '营收 <strong>$2,019 亿</strong>（+12%，略低于共识 $2,023 亿）、营业利润 <strong>$281 亿</strong>（+61%、利润率 13.9% 创纪录）、EPS $1.89（低于共识 $1.96）；<strong>AWS $459.8 亿（+39.3%、六连加速）</strong>、AWS 营业利润率 38.7%、backlog <strong>$5,780 亿</strong>（环比 +$820 亿）；广告 $196 亿（+11%，低于预期）。Q3 资本开支 <strong>$759 亿</strong>、TTM FCF <strong>-$424 亿</strong>；2026 capex 维持约 $2,200 亿、2027 将「显著增加」。Q4 营收指引 $2,400-2,470 亿（中值 $2,435 亿，略低于共识 $2,445 亿）、营业利润 $285-335 亿，盘后一度跌约 7%，10-30 收 $240.35（-1.41%）、pe_ttm 19.3x，维持买入。',
@@ -591,7 +599,7 @@ const tbdCount = DAYS.filter(d => d.tbd).reduce((n, d) => n + d.events.length, 0
 const earnings = DAYS.flatMap(d => d.events).filter(e => /财报/.test(e.title)).length;
 rail.innerHTML = [
   [thisWeek, '本周（11-02 ~ 11-08）'],
-  [nextWeek, '第二周（11-09 ~ 11-15）'],
+  [nextWeek, '第二周及以后（11-09 ~ 11-17）'],
   [tbdCount, '窗口内待定'],
   [earnings + ' 场', '其中财报'],
 ].map(([v, l]) => `<div class="summary-rail__item"><strong>${v}</strong><span>${l}</span></div>`).join('');
