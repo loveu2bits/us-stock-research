@@ -127,12 +127,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   <div class="shell">
     <div class="overview__heading">
       <div class="overview__copy">
-        <h1>催化剂日历 · 未来两周<span class="en">2026-11-02 ~ 11-17 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
+        <h1>催化剂日历 · 未来两周<span class="en">2026-11-04 ~ 11-17 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
         <p class="sub">两周窗口内的财报、监管节点与产品事件，按日期排列；「关注指标」是该事件落地时最该盯住的数字与信号。日期待定的窗口内候选单列在最后。</p>
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong>2026-11-01</strong>
+        <strong>2026-11-04</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -161,36 +161,14 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 
 <footer class="site-footer">
   <div class="shell">
-    <p>日历随各公司研究页跟踪面板同步更新 · 数据来源：公司财报及公开披露 · 公开研究资料整理<br>仅作研究学习用途，不构成投资建议<br>最近更新：2026-11-03</p>
+    <p>日历随各公司研究页跟踪面板同步更新 · 数据来源：公司财报及公开披露 · 公开研究资料整理<br>仅作研究学习用途，不构成投资建议<br>最近更新：2026-11-04</p>
   </div>
 </footer>
 
 <script>
-// ===== 数据：未来两周催化剂（截至 2026-11-03 校验）=====
+// ===== 数据：未来两周催化剂（截至 2026-11-04 校验）=====
 // link 相对 calendar/ 目录；#tracker 锚点直达研究页跟踪面板
 const DAYS = [
-  { date: '11-03', week: '周二', wk: 1, events: [
-    { co: 'AMD', tk: 'AMD', link: '../AMD/AMD_研究.html#tracker', status: 'pending',
-      title: 'Q3 财报（预计披露日 2026-11-03）',
-      desc: 'Q3 指引 130 亿美元；Helios 首批交付与 Q4 爬坡、数据中心增速是系统级转型的试金石。',
-      metrics: ['营收 vs $130 亿', '数据中心增速', 'Helios 出货与毛利率'] },
-    { co: '超微电脑', tk: 'SMCI', link: '../SMCI/超微电脑_研究.html#tracker', status: 'pending',
-      title: 'F1Q27 财报（预计披露日 2026-11-03）',
-      desc: '指引 145-155 亿美元、毛利率 10.4-10.8%；出口管制调查进展是估值折价的核心变量。',
-      metrics: ['营收 vs $145-155 亿', '毛利率 vs 10.4-10.8%', '出口管制调查进展'] },
-    { co: 'Arista', tk: 'ANET', link: '../ANET/Arista_研究.html#tracker', status: 'pending',
-      title: 'Q3 财报（预计披露日 2026-11-03）',
-      desc: '全年指引 126 亿美元（+40%）兑现度；新增 10%+ 大客户与 1.6T 交换机试用进展。',
-      metrics: ['营收 vs 全年 $126 亿路径', '新增 10%+ 大客户', '1.6T 交换机试用'] },
-    { co: '思佳讯', tk: 'SWKS', link: '../SWKS/思佳讯_研究.html#tracker', status: 'pending',
-      title: 'FY26Q4 财报（预计披露日 2026-11-03）',
-      desc: 'iPhone 18 / Duo 拉货验证、单机含量「大致持平」；Qorvo 合并 SAMR 终审结果。',
-      metrics: ['移动营收环比', '单机含量', 'SAMR 终审结果'] },
-    { co: '伊顿', tk: 'ETN', link: '../ETN/伊顿_研究.html#tracker', status: 'pending',
-      title: '3Q26 财报（预计披露日 2026-11-03）',
-      desc: '数据中心与电气化订单增速、全年指引；移动出行剥离进展。',
-      metrics: ['电气化订单增速', '数据中心收入', '移动出行剥离'] },
-  ]},
   { date: '11-04', week: '周三', wk: 1, events: [
     { co: 'Arm', tk: 'ARM', link: '../ARM/Arm_研究.html#tracker', status: 'pending',
       title: 'FY27Q2 财报（预计披露日 2026-11-04）',
@@ -274,6 +252,26 @@ const NEXT = [
 
 // ===== 历史催化（已发生，新条目加在数组开头）=====
 const HISTORY = [
+  { date: '11-03', co: 'AMD', tk: 'AMD', link: '../AMD/AMD_研究.html#tracker',
+    title: 'Q3 财报（2026-11-03 盘后）',
+    result: '营收 <strong>$134 亿</strong>（+45%、超指引上限）、Non-GAAP EPS <strong>$2.09</strong>（+74%）、毛利率 <strong>56%</strong>（+190bps）；<strong>数据中心 $85 亿（+97%）</strong>、占比 64%，Helios 首批机架确认收入。Q4 指引营收 <strong>$170 亿 ±3%</strong>（+66%）、毛利率约 55%、数据中心环比 +50%；2027 营收指引 <strong>+80% 以上</strong>。盘后 +7% 至约 $520，11-03 收 $483.90（+3.65%）、iFinD pe_ttm 122.8x、一致目标价 $631，维持买入。',
+    metrics: ['营收 $134 亿 / EPS $2.09', '数据中心 $85 亿 +97%', 'Q4 指引 $170 亿 / 2027 +80%+', '$483.90 / pe_ttm 122.8x'] },
+  { date: '11-03', co: '超微电脑', tk: 'SMCI', link: '../SMCI/超微电脑_研究.html#tracker',
+    title: 'F1Q27 财报（2026-11-03 盘后）',
+    result: '营收 <strong>$199.5 亿</strong>（+298%，远超原指引 $145-155 亿）、Non-GAAP 毛利率 <strong>12.8%</strong>（原指引 10.4-10.8%）、净利 $15.9 亿；<strong>FY27 营收指引上调至 $720-820 亿</strong>。经营现金流 -$4.3 亿、FCF -$4.8 亿，营运资金仍失血；盘后一度 +10% 至约 $34.6，11-03 收 $31.39（+3.12%）、iFinD pe_ttm 9.4x，维持持有。',
+    metrics: ['营收 $199.5 亿 +298%', '毛利率 12.8%', 'FY27 指引 $720-820 亿', 'FCF -$4.8 亿 / pe_ttm 9.4x'] },
+  { date: '11-03', co: 'Arista', tk: 'ANET', link: '../ANET/Arista_研究.html#tracker',
+    title: 'Q3 财报（2026-11-03 盘后）',
+    result: '营收 <strong>$36.6 亿</strong>（+58.5%，IPO 以来最高增速、超指引 $33 亿）、Non-GAAP EPS <strong>$1.20</strong>（+55.8%）、毛利率 <strong>64%</strong>、营业利润率 49.1%；Q4 指引营收 <strong>$39-40 亿</strong>、EPS $1.26-1.30。FY26 指引第四次上调至 <strong>$133 亿</strong>（+48%），FY27 首指引 <strong>$185 亿</strong>（+38-40%，远超共识 $164 亿）。盘后 +13% 至约 $193，11-03 收 $169.91（+3.52%）、iFinD pe_ttm 53x，维持买入。',
+    metrics: ['营收 $36.6 亿 +58.5%', '毛利率 64% / 营业利润率 49.1%', 'FY26 $133 亿 / FY27 $185 亿', '$169.91 / pe_ttm 53x'] },
+  { date: '11-03', co: '思佳讯', tk: 'SWKS', link: '../SWKS/思佳讯_研究.html#tracker',
+    title: 'FY26Q4 财报（2026-11-03 盘后）',
+    result: 'FQ4 独立营收 <strong>$10.46 亿</strong>（超指引中值）、Non-GAAP EPS <strong>$1.28</strong>、毛利率 <strong>44.4%</strong>；12 月合并营收指引 <strong>$18-19 亿</strong>（中值环比 -7%）、Non-GAAP 毛利率 46-48%、EPS 约 $1.25，智能手机收入环比低双位数下滑。盘后跌约 17% 至约 $71，11-03 收 $85.40（+0.27%）、iFinD pe_ttm 44.3x、一致目标价 $80，维持持有。',
+    metrics: ['营收 $10.46 亿 / EPS $1.28', '毛利率 44.4% / 12月指引 46-48%', '12月合并营收 $18-19 亿', '$85.40→盘后约 $71 / pe_ttm 44.3x'] },
+  { date: '11-03', co: '伊顿', tk: 'ETN', link: '../ETN/伊顿_研究.html#tracker',
+    title: '3Q26 财报（2026-11-03 盘前）',
+    result: '营收 <strong>$89 亿</strong>（+28%、有机 +19%，超共识 $85.3 亿）、调整后 EPS <strong>$3.68</strong>（超共识 $3.55、超指引上限 $0.12）；<strong>电气美洲利润率 29.8%</strong>（环比 +230bp）、订单 +43%、积压 +46%，数据中心收入 +65%。全年指引第三次上调至 EPS <strong>$13.70-13.80</strong>、有机 +14%，Boyd 全年收入上调至 $19 亿。11-03 收 <strong>$391.70（+7.0%）</strong>、iFinD pe_ttm 39.7x，维持持有。',
+    metrics: ['营收 $89 亿 / 调整后 EPS $3.68', '电气美洲利润率 29.8%（+230bp）', '订单 +43% / 积压 +46%', '$391.70 +7.0% / pe_ttm 39.7x'] },
   { date: '11-02', co: '苹果', tk: 'AAPL', link: '../AAPL/苹果_研究.html#tracker',
     title: 'FQ4 财报（2026-11-02 盘后）',
     result: '营收 <strong>$1,145 亿</strong>（+12%，超共识 $1,133.5 亿、高于指引上限 +11%）、EPS <strong>$2.10</strong>（超共识 $1.99，含 $0.05 关税退款）、毛利率 <strong>47.9%</strong>（含约 1pt 退款）；iPhone $575.8 亿（+17%）、服务 $315.7 亿（+10%）创新高，iPad $63 亿（-9%）、中国收入不及预期。FQ1 指引营收 +7~10%、毛利率 <strong>45-46%</strong>（中值跌破 46% 风险线）、服务 +8~9%；盘后一度跌约 4% 至 $324.90，11-02 收 $338.32（-1.83%）、iFinD pe_ttm 37.4x，维持持有。',
