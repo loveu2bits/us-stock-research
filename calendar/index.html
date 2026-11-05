@@ -127,12 +127,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   <div class="shell">
     <div class="overview__heading">
       <div class="overview__copy">
-        <h1>催化剂日历 · 未来两周<span class="en">2026-11-04 ~ 11-17 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
+        <h1>催化剂日历 · 未来两周<span class="en">2026-11-05 ~ 11-19 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
         <p class="sub">两周窗口内的财报、监管节点与产品事件，按日期排列；「关注指标」是该事件落地时最该盯住的数字与信号。日期待定的窗口内候选单列在最后。</p>
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong>2026-11-04</strong>
+        <strong>2026-11-05</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -161,40 +161,14 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 
 <footer class="site-footer">
   <div class="shell">
-    <p>日历随各公司研究页跟踪面板同步更新 · 数据来源：公司财报及公开披露 · 公开研究资料整理<br>仅作研究学习用途，不构成投资建议<br>最近更新：2026-11-04</p>
+    <p>日历随各公司研究页跟踪面板同步更新 · 数据来源：公司财报及公开披露 · 公开研究资料整理<br>仅作研究学习用途，不构成投资建议<br>最近更新：2026-11-05</p>
   </div>
 </footer>
 
 <script>
-// ===== 数据：未来两周催化剂（截至 2026-11-04 校验）=====
+// ===== 数据：未来两周催化剂（截至 2026-11-05 校验）=====
 // link 相对 calendar/ 目录；#tracker 锚点直达研究页跟踪面板
 const DAYS = [
-  { date: '11-04', week: '周三', wk: 1, events: [
-    { co: 'Arm', tk: 'ARM', link: '../ARM/Arm_研究.html#tracker', status: 'pending',
-      title: 'FY27Q2 财报（预计披露日 2026-11-04）',
-      desc: '版税「低双位数」指引兑现度 + AGI CPU 供给/收入目标更新——当前价位的胜负手。',
-      metrics: ['版税增速', 'AGI CPU 进展', '数据中心版税'] },
-    { co: '高通', tk: 'QCOM', link: '../QCOM/高通_研究.html#tracker', status: 'pending',
-      title: 'FY26Q4 财报（预计披露日 2026-11-04）',
-      desc: 'QCT 毛利率是否企稳（提价传导验证窗口）+ 数据中心客户进展；Arm 诉讼裁量进展。',
-      metrics: ['QCT 毛利率', '数据中心收入', 'Arm 诉讼'] },
-    { co: '格芯', tk: 'GFS', link: '../GFS/格芯_研究.html#tracker', status: 'pending',
-      title: 'FY26Q3 财报（预计披露日 2026-11-04）',
-      desc: '营收与毛利率指引兑现；第二个 SCALE（CPO/NPO）平台设计中标是关键验证。',
-      metrics: ['营收与毛利率', 'SCALE 设计中标', 'CID 增速'] },
-    { co: 'AppLovin', tk: 'APP', link: '../APP/AppLovin_研究.html#tracker', status: 'pending',
-      title: '2026Q3 财报（预计披露日 2026-11-04）',
-      desc: '营收指引 20.55-20.85 亿、EBITDA 17.10-17.40 亿；模型更新效果与电商旺季首次验证。',
-      metrics: ['营收 vs $20.55-20.85 亿', 'EBITDA', '电商旺季放量'] },
-    { co: '优步', tk: 'UBER', link: '../UBER/优步_研究.html#tracker', status: 'pending',
-      title: '3Q26 财报（预计披露日 2026-11-04）',
-      desc: '总预订量与出行/外卖增速、利润率；自动驾驶合作进展。',
-      metrics: ['总预订量增速', '调整后 EBITDA', '自动驾驶合作'] },
-    { co: '苹果', tk: 'AAPL', link: '../AAPL/苹果_研究.html#tracker', status: 'pending',
-      title: 'Apple 智能中国 Beta（2026-11-04）',
-      desc: '国行接入阿里千问，首批功能含实时翻译/写作/视觉/照片消除，不含 Siri AI；12 月 iOS 27.3 正式上线。',
-      metrics: ['Beta 反馈', '激活/换机意愿'] },
-  ]},
   { date: '11-05 ~ 11-06', week: '周四/周五', wk: 1, events: [
     { co: 'Lyft', tk: 'LYFT', link: '../LYFT/Lyft_研究.html#tracker', status: 'pending',
       title: '3Q26 财报（预计披露日 2026-11-05）',
@@ -210,7 +184,7 @@ const DAYS = [
       title: 'FY27Q2 财报（预计披露日 2026-11-09）',
       desc: '净预订额与 GTA 6 发售前指引（11-19 发售）；预购势头与全年指引是关键。',
       metrics: ['净预订额', 'GTA 6 预购', '全年指引'] },
-    { co: 'Constellation', tk: 'CEG', link: '../CEG/Constellation_研究.html#tracker', status: 'pending',
+    { co: 'Constellation', tk: 'CEG', link: '../CEG/星座能源_研究.html#tracker', status: 'pending',
       title: '3Q26 财报（预计披露日 2026-11-09）',
       desc: '检修大年下的盈利韧性与全年指引能否落上沿；PJM 拍卖与共址规则回应。',
       metrics: ['调整后 EPS', '全年指引', 'PJM 拍卖'] },
@@ -235,6 +209,12 @@ const DAYS = [
       desc: '全年调整后 EPS +约 12%（不含第 53 周）兑现与 FY27 双位数增长指引；流媒体利润率与体验业务产能爬坡。',
       metrics: ['调整后 EPS 增速', '流媒体运营利润率', 'FY27 指引'] },
   ]},
+  { date: '11-19', week: '下下周四', wk: 2, events: [
+    { co: '沃尔玛', tk: 'WMT', link: '../WMT/沃尔玛_研究.html#tracker', status: 'pending',
+      title: 'FY27Q3 财报（预计披露日 2026-11-19）',
+      desc: '美国同店销售、电商增速与全年指引；假日季前的消费与库存信号。',
+      metrics: ['美国同店', '电商增速', '全年指引'] },
+  ]},
   { date: '窗口内待定', week: '时间未公布，两周内可能落地', tbd: true, events: [
     { co: 'Spotify', tk: 'SPOT', link: '../SPOT/Spotify_研究.html#tracker', status: 'pending',
       title: 'Audiobooks+ 新套餐 + Family / Student 新计划（原 8~9 月，已顺延至 2026 下半年）',
@@ -252,6 +232,30 @@ const NEXT = [
 
 // ===== 历史催化（已发生，新条目加在数组开头）=====
 const HISTORY = [
+  { date: '11-04', co: 'Arm', tk: 'ARM', link: '../ARM/ARM_研究.html#tracker',
+    title: 'FY27Q2 财报（2026-11-04 盘后）',
+    result: '营收 <strong>$14.43 亿</strong>（+27%，超指引 $13.8 亿±$0.5 亿）、Non-GAAP EPS <strong>$0.52</strong>（超指引 $0.47±$0.04、共识 $0.48）；许可收入 +50%、整体版税 +8%（略低于「低双位数」指引）、数据中心版税翻倍，Non-GAAP 毛利率 97.9%。Q3 指引营收 <strong>$15.4 亿±$0.5 亿</strong>、EPS $0.56±$0.04；AGI CPU 首批交付指向 FQ4 2027、FY27-28 收入信心最高 $20 亿。11-04 收 $191.80（-5.28%）、盘后约 $191（-0.5%）、iFinD pe_ttm 196x；公开卖方一致目标价 $299，维持持有。',
+    metrics: ['营收 $14.43 亿 / EPS $0.52', '许可 +50% / 版税 +8%', 'Q3 指引 $15.4 亿 / EPS $0.56', '$191.80 / pe_ttm 196x'] },
+  { date: '11-04', co: '高通', tk: 'QCOM', link: '../QCOM/高通_研究.html#tracker',
+    title: 'FY26Q4 财报（2026-11-04 盘后）',
+    result: '营收 <strong>$104.4 亿</strong>、Non-GAAP EPS <strong>$2.17</strong> 双超预期（共识 $101.4 亿 / $2.16）；QCT $90 亿、EBT 24%，汽车营收首破 <strong>$20 亿（+89%）</strong>，数据中心 12 月季度启动（指引 &gt;$6.5 亿）。FY27Q1 指引营收 $104-112 亿、EPS <strong>$2.15-2.35</strong>（中值 $2.25 低于共识 $2.29）、QCT EBT 20-22%；苹果、华为、传音 QTL 续约完成。11-04 收 $173.19（+5.33%）、盘后 -7% 至约 $161、iFinD pe_ttm 20x；公开卖方一致目标价 $197，维持持有。',
+    metrics: ['营收 $104.4 亿 / EPS $2.17', '汽车 $20 亿 +89% / 数据中心 &gt;$6.5 亿', 'Q1 指引 EPS $2.15-2.35', '$173.19→盘后约 $161 / pe_ttm 20x'] },
+  { date: '11-04', co: '格芯', tk: 'GFS', link: '../GFS/格芯_研究.html#tracker',
+    title: 'FY26Q3 财报（2026-11-04 盘后）',
+    result: '营收 <strong>$18.99 亿</strong>（+13%，处指引上沿）、非 IFRS 毛利率 <strong>31.4%</strong> 创纪录（+540bps）、EPS <strong>$0.53</strong>；CID 同比 +81%、占比 17%，硅光子 2026 年约 $5 亿、2027 年末 $10 亿 run-rate 提前一年。Q4 指引营收 $20 亿±$0.25 亿、毛利率 31.5%±100bps、EPS $0.59±$0.05；2027 净资本开支约 $40 亿。11-04 收 $40.34（-5.95%）、iFinD pe_ttm 31.4x；公开卖方一致目标价 $73.91，由持有上调买入。',
+    metrics: ['营收 $18.99 亿 / 毛利率 31.4%', 'CID +81% / 占比 17%', 'Q4 指引 $20 亿 / EPS $0.59', '$40.34 / pe_ttm 31.4x / 上调买入'] },
+  { date: '11-04', co: 'AppLovin', tk: 'APP', link: '../APP/AppLovin_研究.html#tracker',
+    title: '2026Q3 财报（2026-11-04 盘后）',
+    result: '营收 <strong>$21.8 亿</strong>（+55%，共识 $20.7 亿）、调整后 EPS <strong>$4.30</strong>（共识 $4.03）、调整后 EBITDA <strong>$18.4 亿</strong>、FCF $14 亿；Q4 指引营收 <strong>$23.65-23.95 亿</strong>、EBITDA $19.95-20.25 亿，均高于共识，回购授权再增 <strong>$32 亿</strong>。11-04 收 $271.75（+10.69%）、盘后 +22% 至约 $332、iFinD pe_ttm 20.6x；公开卖方一致目标价 $448，维持买入。',
+    metrics: ['营收 $21.8 亿 / EPS $4.30', 'EBITDA $18.4 亿 / FCF $14 亿', 'Q4 指引 $23.65-23.95 亿', '$271.75→盘后约 $332 / pe_ttm 20.6x'] },
+  { date: '11-04', co: '优步', tk: 'UBER', link: '../UBER/Uber_研究.html#tracker',
+    title: '3Q26 财报（2026-11-04 盘前）',
+    result: '营收 <strong>$148 亿</strong>（超共识 $146.7 亿）、调整后 EPS <strong>$0.88</strong>（超共识 $0.87）、GB 连续第五季 <strong>+20%+</strong>、配送 GB +23%、TTM FCF <strong>$104 亿</strong>创纪录；出行供给约束拖累 mobility，Q4 指引 GB +18-22%、调整后 EPS 中值约 +37%。Waymo 确认 2028-01 结束奥斯汀/亚特兰大独家合作；Zoox 11 月拉斯维加斯上线。11-04 收 $69.87（+4.91%）、iFinD pe_ttm 14.9x；公开卖方一致目标价 $100.77，维持买入。',
+    metrics: ['营收 $148 亿 / EPS $0.88', 'GB +20%+ / TTM FCF $104 亿', 'Q4 GB +18-22% / EPS 约 $0.95', '$69.87 / pe_ttm 14.9x'] },
+  { date: '11-04', co: '苹果', tk: 'AAPL', link: '../AAPL/苹果_研究.html#tracker',
+    title: 'Apple 智能中国 Beta（2026-11-04）',
+    result: 'Apple Intelligence 随 iOS 27.3 beta 1 向中国开发者开放（写作、Genmoji、Clean Up、通知摘要、视觉智能等），首批不含 Siri AI，正式版随 12 月 iOS 27.3 推出。11-04 收 <strong>$349.51（+5.31%）</strong>，受中期选举后科技股反弹与 AI 防御属性推动创历史新高；iFinD pe_ttm 38.4x；公开卖方一致目标价 $333（约 -5%），维持持有。',
+    metrics: ['中国 Beta 上线（不含 Siri AI）', '12 月 iOS 27.3 正式版', '$349.51 +5.31% / 历史新高', 'pe_ttm 38.4x / 目标价 $333'] },
   { date: '11-03', co: 'AMD', tk: 'AMD', link: '../AMD/AMD_研究.html#tracker',
     title: 'Q3 财报（2026-11-03 盘后）',
     result: '营收 <strong>$134 亿</strong>（+45%、超指引上限）、Non-GAAP EPS <strong>$2.09</strong>（+74%）、毛利率 <strong>56%</strong>（+190bps）；<strong>数据中心 $85 亿（+97%）</strong>、占比 64%，Helios 首批机架确认收入。Q4 指引营收 <strong>$170 亿 ±3%</strong>（+66%）、毛利率约 55%、数据中心环比 +50%；2027 营收指引 <strong>+80% 以上</strong>。盘后 +7% 至约 $520，11-03 收 $483.90（+3.65%）、iFinD pe_ttm 122.8x、一致目标价 $631，维持买入。',
@@ -596,8 +600,8 @@ const nextWeek = dated.filter(d => d.wk === 2).reduce((n, d) => n + d.events.len
 const tbdCount = DAYS.filter(d => d.tbd).reduce((n, d) => n + d.events.length, 0);
 const earnings = DAYS.flatMap(d => d.events).filter(e => /财报/.test(e.title)).length;
 rail.innerHTML = [
-  [thisWeek, '本周（11-02 ~ 11-08）'],
-  [nextWeek, '第二周及以后（11-09 ~ 11-17）'],
+  [thisWeek, '本周（11-05 ~ 11-08）'],
+  [nextWeek, '第二周及以后（11-09 ~ 11-19）'],
   [tbdCount, '窗口内待定'],
   [earnings + ' 场', '其中财报'],
 ].map(([v, l]) => `<div class="summary-rail__item"><strong>${v}</strong><span>${l}</span></div>`).join('');

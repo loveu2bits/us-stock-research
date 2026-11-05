@@ -198,23 +198,23 @@ tr:hover td { background: #f8fafc; }
     <div class="overview__heading">
       <div class="overview__copy">
         <h1>ARM<span class="en">Arm Holdings · ARM.O · 美股研究</span></h1>
-        <p class="sub">移动架构 ~99% 份额的 IP 授权霸主，正从「收版税」跨界「卖芯片」：AGI CPU 需求已超 $20 亿，但锁定产能只够 $10 亿。FY27Q1 财报 beat 却因版税指引下调而下跌——供给兑现节奏与极高估值的赛跑，是全部赔率所在。</p>
+        <p class="sub">移动架构 ~99% 份额的 IP 授权霸主，正从「收版税」跨界「卖芯片」：AGI CPU 需求已超 $20 亿，但锁定产能只够 $10 亿。FY27Q2 营收 +27%、EPS $0.52 超预期，许可 +50%、数据中心版税翻倍，但整体版税 +8% 仍低于「低双位数」指引——供给兑现节奏与极高估值的赛跑，是全部赔率所在。</p>
         <div class="overview__meta">
           <span>研究日期 2026-08-06</span>
-          <span>下次更新：FY27Q2 财报后（2026-11 前后）</span>
+          <span>下次更新：FY27Q3 财报（2027-02 前后）/ AGI CPU 首批交付（FQ4 2027）</span>
         </div>
       </div>
       <div class="verdict">
         <span>观点</span>
         <strong class="hold">持有</strong>
-        <em>叙事是真的，估值也是真的贵：券商目标价 $150–320 的分歧本身，就是「等待供给兑现信号」的答案。</em>
+        <em>叙事是真的，估值也是真的贵：iFinD pe_ttm 196x；公开卖方一致目标价 $299（约 +56%）的分歧本身，就是「等待供给兑现信号」的答案。</em>
       </div>
     </div>
     <div class="summary-rail">
-      <div class="summary-rail__item"><strong class="up">营收 +22%</strong><span>FY27Q1 $12.89亿·超指引上限</span></div>
-      <div class="summary-rail__item"><strong>$0.45</strong><span>FY27Q1 Non-GAAP EPS·+29%</span></div>
+      <div class="summary-rail__item"><strong class="up">营收 +27%</strong><span>FY27Q2 $14.43亿·超指引上限</span></div>
+      <div class="summary-rail__item"><strong>$0.52</strong><span>FY27Q2 Non-GAAP EPS·+33%</span></div>
       <div class="summary-rail__item"><strong>翻倍+</strong><span>数据中心版税同比增速</span></div>
-      <div class="summary-rail__item"><strong>~20%→高双位数</strong><span>FY27 版税指引下调·盘后承压</span></div>
+      <div class="summary-rail__item"><strong>版税 +8%</strong><span>低于低双位数指引·许可 +50% 对冲</span></div>
     </div>
 
     <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
@@ -491,7 +491,7 @@ tr:hover td { background: #f8fafc; }
     <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
   </div>
 </section>
-<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/ARM · 生成于 2026-08-06</div></footer>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/ARM · 生成于 2026-08-06 · 更新于 2026-11-05</div></footer>
 
 <script>
 /* ============================================================
@@ -502,15 +502,15 @@ tr:hover td { background: #f8fafc; }
  *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
  *   checked: 最近核对日期
  * ============================================================ */
-const TRACKING_CHECKED = '2026-08-06';
+const TRACKING_CHECKED = '2026-11-05';
 const TRACKING = [
   // ---- 催化剂 ----
-  { kind: 'cat', status: 'pending', text: '<strong>FY27Q2 财报</strong>（2026-11 前后）：版税「低双位数」指引兑现度 + AGI CPU 供给/收入目标更新——当前价位的胜负手', note: '管理层称将在 11 月财报给出更具体的 AGI CPU 更新' },
-  { kind: 'cat', status: 'active',  text: '<strong>AGI CPU 量产出货</strong>（2026 年底）：首批产品交付与客户反馈，验证「从 IP 到芯片」的跨越', note: 'Meta 联合开发；OpenAI/Cerebras/Cloudflare/SAP 已签约' },
+  { kind: 'cat', status: 'hit',     text: '<strong>FY27Q2 财报</strong>（2026-11-04 兑现）：营收 $14.43 亿（+27%，超指引 $13.8 亿±$0.5 亿），Non-GAAP EPS $0.52（超指引 $0.47±$0.04）；许可 +50%、数据中心版税翻倍，但整体版税 +8% 略低于「低双位数」指引', note: 'Q3 指引营收 $15.4 亿±$0.5 亿、EPS $0.56±$0.04；AGI CPU 首批交付指向 FQ4 2027，FY27-28 收入信心上调至最高 $20 亿；iFinD pe_ttm 196x；公开卖方一致目标价 $299' },
+  { kind: 'cat', status: 'active',  text: '<strong>AGI CPU 量产出货</strong>（首批交付 FQ4 2027）：Oracle OCI 计划 2027 年提供 AGI CPU 实例，验证「从 IP 到芯片」的跨越', note: 'Meta 联合开发；OpenAI/Cerebras/Cloudflare/SAP 已签约；管理层对 FY27-28 最高 $20 亿收入信心上升' },
   { kind: 'cat', status: 'active',  text: '<strong>云厂商财报与资本开支指引</strong>（2026-08~10）：Meta/微软/亚马逊验证 AI 基建持续性', note: '直接关系数据中心版税预期' },
-  { kind: 'cat', status: 'active',  text: '<strong>数据中心版税继续翻倍</strong>：英伟达 Vera CPU 量产、谷歌 Axion 放量——第二引擎的连续性', note: 'FY27Q1 已再次翻倍+' },
+  { kind: 'cat', status: 'active',  text: '<strong>数据中心版税继续翻倍</strong>：英伟达 Vera CPU 量产、谷歌 Axion 放量——第二引擎的连续性', note: 'FY27Q2 再次翻倍；Arm 服务器份额预计 2026 年底超 60%（2025 年已超 50%）' },
   // ---- 风险点（证伪信号）----
-  { kind: 'risk', status: 'clear', text: '全年版税指引<strong>再次下调</strong>（高双位数 → 更低）', note: '已下调一次（约20%→高双位数，2026-07-29）；Q2 指引仅低双位数' },
+  { kind: 'risk', status: 'clear', text: '全年版税指引<strong>再次下调</strong>（高双位数 → 更低）', note: 'FY27Q2 整体版税 +8%，略低于「低双位数」指引；全年指引尚未再次下调' },
   { kind: 'risk', status: 'clear', text: '<strong>AGI CPU 供给瓶颈无法突破</strong>：锁定产能停滞在 $10 亿目标、交付时间表模糊', note: '晶圆/基板/测试/内存全线紧张' },
   { kind: 'risk', status: 'clear', text: '芯片业务<strong>毛利率路径证伪</strong>：低于高30%~低40%区间，或整体毛利率明显跌破 95%', note: '第一代产品毛利率指引 30–40% vs 整体 98%' },
   { kind: 'risk', status: 'clear', text: '主要 IP 客户（高通/英伟达）因竞合关系<strong>减少授权或公开转向 RISC-V</strong>', note: '关注大客户架构路线披露' },
