@@ -127,12 +127,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   <div class="shell">
     <div class="overview__heading">
       <div class="overview__copy">
-        <h1>催化剂日历 · 未来两周<span class="en">2026-11-05 ~ 11-19 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
+        <h1>催化剂日历 · 未来两周<span class="en">2026-11-10 ~ 11-24 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
         <p class="sub">两周窗口内的财报、监管节点与产品事件，按日期排列；「关注指标」是该事件落地时最该盯住的数字与信号。日期待定的窗口内候选单列在最后。</p>
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong>2026-11-05</strong>
+        <strong>2026-11-10</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -161,35 +161,21 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 
 <footer class="site-footer">
   <div class="shell">
-    <p>日历随各公司研究页跟踪面板同步更新 · 数据来源：公司财报及公开披露 · 公开研究资料整理<br>仅作研究学习用途，不构成投资建议<br>最近更新：2026-11-05</p>
+    <p>日历随各公司研究页跟踪面板同步更新 · 数据来源：公司财报及公开披露 · 公开研究资料整理<br>仅作研究学习用途，不构成投资建议<br>最近更新：2026-11-10</p>
   </div>
 </footer>
 
 <script>
-// ===== 数据：未来两周催化剂（截至 2026-11-05 校验）=====
+// ===== 数据：未来两周催化剂（截至 2026-11-10 校验）=====
 // link 相对 calendar/ 目录；#tracker 锚点直达研究页跟踪面板
 const DAYS = [
-  { date: '11-05 ~ 11-06', week: '周四/周五', wk: 1, events: [
-    { co: 'Lyft', tk: 'LYFT', link: '../LYFT/Lyft_研究.html#tracker', status: 'pending',
-      title: '3Q26 财报（预计披露日 2026-11-05）',
-      desc: '验证 +15-19% 预订量指引、利润率爬坡与回购节奏。',
-      metrics: ['预订量增速', '调整后 EBITDA', '回购节奏'] },
-    { co: 'Vistra', tk: 'VST', link: '../VST/Vistra_研究.html#tracker', status: 'pending',
-      title: '3Q26 财报（预计披露日 2026-11-06）',
-      desc: '调整后 EBITDA 与全年指引兑现；Cogentrix 收购交割与协同。',
-      metrics: ['调整后 EBITDA', '全年指引', 'Cogentrix 交割'] },
+  { date: '11-10 ~ 11-12', week: '本周二至周四', wk: 1, events: [
+    { co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker', status: 'active',
+      title: 'Adobe Max 大会（2026-11-10~12，迈阿密）',
+      desc: 'Firefly 模型、Creative Cloud 与 AI 代理更新；FY26Q3 兑现（AI-first ARR +150%+、MAU 破 10 亿）后的下一个产品验证窗口。',
+      metrics: ['Firefly 新模型', 'Creative Cloud / AI 代理', 'AI-first ARR 指引'] },
   ]},
-  { date: '11-09', week: '下周一', wk: 2, events: [
-    { co: 'Take-Two', tk: 'TTWO', link: '../TTWO/Take-Two_研究.html#tracker', status: 'pending',
-      title: 'FY27Q2 财报（预计披露日 2026-11-09）',
-      desc: '净预订额与 GTA 6 发售前指引（11-19 发售）；预购势头与全年指引是关键。',
-      metrics: ['净预订额', 'GTA 6 预购', '全年指引'] },
-    { co: 'Constellation', tk: 'CEG', link: '../CEG/星座能源_研究.html#tracker', status: 'pending',
-      title: '3Q26 财报（预计披露日 2026-11-09）',
-      desc: '检修大年下的盈利韧性与全年指引能否落上沿；PJM 拍卖与共址规则回应。',
-      metrics: ['调整后 EPS', '全年指引', 'PJM 拍卖'] },
-  ]},
-  { date: '11-12', week: '下周四', wk: 2, events: [
+  { date: '11-12', week: '本周四', wk: 1, events: [
     { co: '思科', tk: 'CSCO', link: '../CSCO/思科_研究.html#tracker', status: 'pending',
       title: 'FY27Q1 财报（预计披露日 2026-11-12）',
       desc: '营收指引 180-182 亿美元、毛利率 65-66%；AI 收入约 75 亿美元目标的首季兑现。',
@@ -199,7 +185,7 @@ const DAYS = [
       desc: 'Q4 指引营收 102.5 亿美元、EPS 4.02 美元；2027 WFE 展望与 BIS 规则节点。',
       metrics: ['营收 vs $102.5 亿', 'EPS vs $4.02', '2027 WFE 展望'] },
   ]},
-  { date: '11-17', week: '下下周二', wk: 2, events: [
+  { date: '11-17', week: '下周二', wk: 2, events: [
     { co: '英伟达', tk: 'NVDA', link: '../NVDA/英伟达_研究.html#tracker', status: 'pending',
       title: 'FY3Q27 财报（预计披露日 2026-11-17）',
       desc: 'FY3Q27 指引营收 $108B（±2%）、毛利率 74%；FY28 +70% 高基数下首份验证，Rubin 放量与 ACI&E 增速是关键。',
@@ -209,11 +195,27 @@ const DAYS = [
       desc: '全年调整后 EPS +约 12%（不含第 53 周）兑现与 FY27 双位数增长指引；流媒体利润率与体验业务产能爬坡。',
       metrics: ['调整后 EPS 增速', '流媒体运营利润率', 'FY27 指引'] },
   ]},
-  { date: '11-19', week: '下下周四', wk: 2, events: [
+  { date: '11-19', week: '下周四', wk: 2, events: [
     { co: '沃尔玛', tk: 'WMT', link: '../WMT/沃尔玛_研究.html#tracker', status: 'pending',
       title: 'FY27Q3 财报（预计披露日 2026-11-19）',
       desc: '美国同店销售、电商增速与全年指引；假日季前的消费与库存信号。',
       metrics: ['美国同店', '电商增速', '全年指引'] },
+    { co: 'Take-Two', tk: 'TTWO', link: '../TTWO/Take-Two_研究.html#tracker', status: 'pending',
+      title: '《GTA 6》正式发售（2026-11-19）',
+      desc: '首周销量对照 Newzoo 预测 3,700-5,100 万份；Metacritic 评分与豪华版占比决定短期股价方向。',
+      metrics: ['首周销量', 'Metacritic 评分', '豪华版占比'] },
+  ]},
+  { date: '11-23', week: '下下周一', wk: 2, events: [
+    { co: '慧与', tk: 'HPE', link: '../HPE/慧与_研究.html#tracker', status: 'pending',
+      title: 'FY26Q4 财报（预计披露日 2026-11-23）',
+      desc: 'Q4 指引营收 139-148 亿美元、EPS 1.20-1.30；网络分部经营利润率能否站上 24%、Vultr 12 亿美元 Helios 订单收入确认。',
+      metrics: ['营收 vs $139-148 亿', 'EPS vs $1.20-1.30', '网络经营利润率'] },
+  ]},
+  { date: '11-24', week: '下下周二', wk: 2, events: [
+    { co: '戴尔', tk: 'DELL', link: '../DELL/戴尔_研究.html#tracker', status: 'pending',
+      title: 'FY27Q3 财报（预计披露日 2026-11-24）',
+      desc: 'Q3 指引营收 490 亿美元（+81%）、Non-GAAP EPS 6.50；AI 服务器规模与积压转化、FY28 首年指引。',
+      metrics: ['营收 vs $490 亿', 'EPS vs $6.50', 'FY28 首年指引'] },
   ]},
   { date: '窗口内待定', week: '时间未公布，两周内可能落地', tbd: true, events: [
     { co: 'Spotify', tk: 'SPOT', link: '../SPOT/Spotify_研究.html#tracker', status: 'pending',
@@ -225,13 +227,28 @@ const DAYS = [
 
 const NEXT = [
   { co: 'Salesforce', tk: 'CRM', link: '../CRM/Salesforce_研究.html#tracker', text: 'F3Q27 财报（2026-11 底）——有机再加速斜率 + AIforce/Fin 贡献；Dreamforce（09-15~17）已落地：发布 AIforce + 重申 FY30「Rule of 50」' },
-  { co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker', text: '2026-11-10~12 Adobe Max 大会（迈阿密）——FY26Q3 兑现（AI-first ARR 同比 +150%+、MAU 破 10 亿）后，Firefly/Creative Cloud 的下一个产品验证窗口' },
   { co: '甲骨文', tk: 'ORCL', link: '../ORCL/甲骨文_研究.html#tracker', text: 'FY27Q2 财报（2026-12 中旬）——投资者日（2026-10-28）后，续盯毛利率路径、FCF 转正时间表与 Vera Rubin 交付节奏' },
   { co: '好市多', tk: 'COST', link: '../COST/好市多_研究.html#tracker', text: 'FY2027 Q1 财报（2026-12 中旬）——FY27 capex $75 亿执行、33 家开店节奏、会员费剔除提价基数后的真实增速；9 月核心同店 +7.6% 已回到 6%+，下一高频验证点是 10 月销售数据（2026-11 上旬）' },
 ];
 
 // ===== 历史催化（已发生，新条目加在数组开头）=====
 const HISTORY = [
+  { date: '11-09', co: 'Constellation', tk: 'CEG', link: '../CEG/星座能源_研究.html#tracker',
+    title: '3Q26 财报（2026-11-09 盘前）',
+    result: '调整后运营 EPS <strong>$5.06</strong>（去年同期 $3.04、共识约 $3.76），GAAP 净利 $5.19/股；营收 <strong>$95.5 亿</strong>（同比 +45%），核电容量因子 97.2%。全年调整后 EPS 指引中值第二次上调并收窄至 <strong>$12.50-12.80</strong>（原 $11.50-12.50）；季内落地 Amazon 690MW、Google 3,590MW、Peak+ 270MW 长约，拟以 $7.15 亿收购 RISEC 609MW 燃气，获 DOE 最高 $50 亿有条件贷款承诺。11-09 收 <strong>$276.09（+10.46%）</strong>，财务数据库口径 pe_ttm 约 28.2x，维持持有。',
+    metrics: ['调整后 EPS $5.06 / 营收 $95.5 亿', '指引 $12.50-12.80', '核电容量因子 97.2%', '$276.09 +10.46% / pe_ttm 28.2x'] },
+  { date: '11-09', co: 'Take-Two', tk: 'TTWO', link: '../TTWO/Take-Two_研究.html#tracker',
+    title: 'FY27Q2 财报（2026-11-09 盘后）',
+    result: '净预订额 <strong>$16.01 亿</strong>（同比 -18%，低于共识约 4%），GAAP 营收 $14.97 亿、每股亏损 <strong>$0.29</strong>（好于预期 -$0.75），Non-GAAP EBITDA $0.92 亿；RCS 同比 -9%（指引 -5%），NBA 2K 走弱。维持 FY27 净预订额 <strong>$80-82 亿</strong>，Q3 指引 $33.5-35 亿、EPS $1.30-1.44；GTA 6 预购「空前」、11-19 发售维持。11-09 收 <strong>$207.40（-3.48%）</strong>，财报盘后发布，维持持有。',
+    metrics: ['净预订额 $16.01 亿 / -18%', '每股亏损 $0.29（预期 -0.75）', 'FY27 指引维持 $80-82 亿', '$207.40 -3.48% / GTA 6 11-19'] },
+  { date: '11-06', co: 'Vistra', tk: 'VST', link: '../VST/Vistra_研究.html#tracker',
+    title: '3Q26 财报（2026-11-06 盘前）',
+    result: 'Ongoing Operations 调整后 EBITDA <strong>$23.78 亿</strong>（同比 +50.4%、共识 $21.52 亿）、净利润 $11.40 亿；营收约 $63.5 亿。2026 指引收窄至 <strong>$71-75 亿</strong>（中值上调）、2027 首次指引 <strong>$77-85 亿</strong>（已含 Cogentrix 与 Meta 一期）；Cogentrix 于 10-30 交割（5,500MW、净价约 $40 亿、约 6.8x 2027E EBITDA），回购授权再增 $15 亿。11-06 收 $124.80（+10.55%）、11-09 收 <strong>$133.92（+7.31%）</strong>，财务数据库口径 pe_ttm 约 17.9x，维持买入。',
+    metrics: ['调整后 EBITDA $23.78 亿 / +50%', '2026 指引 $71-75 亿 / 2027 $77-85 亿', 'Cogentrix 10-30 交割', '$133.92 +7.31% / pe_ttm 17.9x'] },
+  { date: '11-05', co: 'Lyft', tk: 'LYFT', link: '../LYFT/Lyft_研究.html#tracker',
+    title: '3Q26 财报（2026-11-05 盘后）',
+    result: '总预订额 <strong>$56.17 亿</strong>（+17.5%，落在指引上沿）、营收 $18.22 亿（+8%，剔除 $6,910 万法务税费计提影响约 +12%）、调整后 EBITDA <strong>$2.039 亿</strong>（+47%、利润率 3.6%）、净亏损 $970 万（含 $1.179 亿一次性计提）；Rides 2.735 亿（+10%）、活跃乘客 3,160 万（+10%）。Q4 指引预订额 $57.4-59.4 亿（+13-17%）、调整后 EBITDA $1.88-2.13 亿。11-05 收 $17.84（-4.8%）、11-06 再 -4.2% 至 $17.09，财务数据库口径 pe_ttm 约 2.25x（GAAP 税项扭曲），维持持有。',
+    metrics: ['预订额 $56.17 亿 / +17.5%', '调整后 EBITDA $2.039 亿 / 3.6%', 'Q4 指引 $57.4-59.4 亿', '$17.84→$17.09 / pe_ttm 2.25x'] },
   { date: '11-04', co: 'Arm', tk: 'ARM', link: '../ARM/ARM_研究.html#tracker',
     title: 'FY27Q2 财报（2026-11-04 盘后）',
     result: '营收 <strong>$14.43 亿</strong>（+27%，超指引 $13.8 亿±$0.5 亿）、Non-GAAP EPS <strong>$0.52</strong>（超指引 $0.47±$0.04、共识 $0.48）；许可收入 +50%、整体版税 +8%（略低于「低双位数」指引）、数据中心版税翻倍，Non-GAAP 毛利率 97.9%。Q3 指引营收 <strong>$15.4 亿±$0.5 亿</strong>、EPS $0.56±$0.04；AGI CPU 首批交付指向 FQ4 2027、FY27-28 收入信心最高 $20 亿。11-04 收 $191.80（-5.28%）、盘后约 $191（-0.5%）、iFinD pe_ttm 196x；公开卖方一致目标价 $299，维持持有。',
@@ -600,8 +617,8 @@ const nextWeek = dated.filter(d => d.wk === 2).reduce((n, d) => n + d.events.len
 const tbdCount = DAYS.filter(d => d.tbd).reduce((n, d) => n + d.events.length, 0);
 const earnings = DAYS.flatMap(d => d.events).filter(e => /财报/.test(e.title)).length;
 rail.innerHTML = [
-  [thisWeek, '本周（11-05 ~ 11-08）'],
-  [nextWeek, '第二周及以后（11-09 ~ 11-19）'],
+  [thisWeek, '本周（11-10 ~ 11-16）'],
+  [nextWeek, '第二周及以后（11-17 ~ 11-24）'],
   [tbdCount, '窗口内待定'],
   [earnings + ' 场', '其中财报'],
 ].map(([v, l]) => `<div class="summary-rail__item"><strong>${v}</strong><span>${l}</span></div>`).join('');
