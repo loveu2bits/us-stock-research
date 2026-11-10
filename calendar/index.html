@@ -127,12 +127,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   <div class="shell">
     <div class="overview__heading">
       <div class="overview__copy">
-        <h1>催化剂日历 · 未来两周<span class="en">2026-11-10 ~ 11-24 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
+        <h1>催化剂日历 · 未来两周<span class="en">2026-11-11 ~ 11-25 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
         <p class="sub">两周窗口内的财报、监管节点与产品事件，按日期排列；「关注指标」是该事件落地时最该盯住的数字与信号。日期待定的窗口内候选单列在最后。</p>
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong>2026-11-10</strong>
+        <strong>2026-11-11</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -161,20 +161,14 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 
 <footer class="site-footer">
   <div class="shell">
-    <p>日历随各公司研究页跟踪面板同步更新 · 数据来源：公司财报及公开披露 · 公开研究资料整理<br>仅作研究学习用途，不构成投资建议<br>最近更新：2026-11-10</p>
+    <p>日历随各公司研究页跟踪面板同步更新 · 数据来源：公司财报及公开披露 · 公开研究资料整理<br>仅作研究学习用途，不构成投资建议<br>最近更新：2026-11-11</p>
   </div>
 </footer>
 
 <script>
-// ===== 数据：未来两周催化剂（截至 2026-11-10 校验）=====
+// ===== 数据：未来两周催化剂（截至 2026-11-11 校验）=====
 // link 相对 calendar/ 目录；#tracker 锚点直达研究页跟踪面板
 const DAYS = [
-  { date: '11-10 ~ 11-12', week: '本周二至周四', wk: 1, events: [
-    { co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker', status: 'active',
-      title: 'Adobe Max 大会（2026-11-10~12，迈阿密）',
-      desc: 'Firefly 模型、Creative Cloud 与 AI 代理更新；FY26Q3 兑现（AI-first ARR +150%+、MAU 破 10 亿）后的下一个产品验证窗口。',
-      metrics: ['Firefly 新模型', 'Creative Cloud / AI 代理', 'AI-first ARR 指引'] },
-  ]},
   { date: '11-12', week: '本周四', wk: 1, events: [
     { co: '思科', tk: 'CSCO', link: '../CSCO/思科_研究.html#tracker', status: 'pending',
       title: 'FY27Q1 财报（预计披露日 2026-11-12）',
@@ -226,6 +220,7 @@ const DAYS = [
 ];
 
 const NEXT = [
+  { co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker', text: 'CEO 交接生效（2026-12-01）与 FY26Q4 财报 / FY27 指引（预计 2026-12-09）——Max 大会（11-10~12）agentic 产品线已落地、股价反应平淡（11-10 -0.26%）后，FY27 指引的「预期重置」是决定性验证点' },
   { co: 'Salesforce', tk: 'CRM', link: '../CRM/Salesforce_研究.html#tracker', text: 'F3Q27 财报（2026-11 底）——有机再加速斜率 + AIforce/Fin 贡献；Dreamforce（09-15~17）已落地：发布 AIforce + 重申 FY30「Rule of 50」' },
   { co: '甲骨文', tk: 'ORCL', link: '../ORCL/甲骨文_研究.html#tracker', text: 'FY27Q2 财报（2026-12 中旬）——投资者日（2026-10-28）后，续盯毛利率路径、FCF 转正时间表与 Vera Rubin 交付节奏' },
   { co: '好市多', tk: 'COST', link: '../COST/好市多_研究.html#tracker', text: 'FY2027 Q1 财报（2026-12 中旬）——FY27 capex $75 亿执行、33 家开店节奏、会员费剔除提价基数后的真实增速；9 月核心同店 +7.6% 已回到 6%+，下一高频验证点是 10 月销售数据（2026-11 上旬）' },
@@ -233,6 +228,10 @@ const NEXT = [
 
 // ===== 历史催化（已发生，新条目加在数组开头）=====
 const HISTORY = [
+  { date: '11-10', co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker',
+    title: 'Adobe Max 大会首日 keynote（2026-11-10，迈阿密，会期至 11-12）',
+    result: 'Creative Agent 扩展至 Creative Cloud 全线（AI 助手 beta 进 Illustrator/Premiere/InDesign/AE/Frame.io），预览<strong>本地 MCP 集成</strong>（第三方代理可直改 Photoshop/Illustrator/Premiere/AE 工程文件、图层可编辑，2027 初推出）；Firefly 升级为聚合 OpenAI、Google、字节 Kling、ElevenLabs 等第三方模型的<strong>「AI 创作工作室」</strong>（新增 Firefly Video / Design / Graph / Builder）；Creative Cloud 加入 Photoshop Generative Restyle/Relight、Premiere Color Mode 与 Generative Remove，并整合 Topaz Labs 模型（Wonder 4 / Image HDR）；扩大与 Google、Microsoft、Anthropic/OpenAI 的分发合作，候任 CEO Chakravarthy 首次登台。「编排层 / 平台化」战略落地而非自研模型领先，与研究页判断一致；市场反应平淡——11-10 收 <strong>$236.7（-0.26%）</strong>、pe_ttm 约 12.6x，卖方会前即提示本次 Max 无完整分析师日、催化力度有限。下一验证：CEO 上任（12-01）、FY26Q4 财报与 FY27 指引（预计 12-09）。维持买入。',
+    metrics: ['Creative Agent 铺开 + 本地 MCP 集成（预览）', 'Firefly 聚合第三方模型（OpenAI/Google/Kling 等）', '$236.7 -0.26% / pe_ttm 12.6x'] },
   { date: '11-09', co: 'Constellation', tk: 'CEG', link: '../CEG/星座能源_研究.html#tracker',
     title: '3Q26 财报（2026-11-09 盘前）',
     result: '调整后运营 EPS <strong>$5.06</strong>（去年同期 $3.04、共识约 $3.76），GAAP 净利 $5.19/股；营收 <strong>$95.5 亿</strong>（同比 +45%），核电容量因子 97.2%。全年调整后 EPS 指引中值第二次上调并收窄至 <strong>$12.50-12.80</strong>（原 $11.50-12.50）；季内落地 Amazon 690MW、Google 3,590MW、Peak+ 270MW 长约，拟以 $7.15 亿收购 RISEC 609MW 燃气，获 DOE 最高 $50 亿有条件贷款承诺。11-09 收 <strong>$276.09（+10.46%）</strong>，财务数据库口径 pe_ttm 约 28.2x，维持持有。',
@@ -617,8 +616,8 @@ const nextWeek = dated.filter(d => d.wk === 2).reduce((n, d) => n + d.events.len
 const tbdCount = DAYS.filter(d => d.tbd).reduce((n, d) => n + d.events.length, 0);
 const earnings = DAYS.flatMap(d => d.events).filter(e => /财报/.test(e.title)).length;
 rail.innerHTML = [
-  [thisWeek, '本周（11-10 ~ 11-16）'],
-  [nextWeek, '第二周及以后（11-17 ~ 11-24）'],
+  [thisWeek, '本周（11-11 ~ 11-16）'],
+  [nextWeek, '第二周及以后（11-17 ~ 11-25）'],
   [tbdCount, '窗口内待定'],
   [earnings + ' 场', '其中财报'],
 ].map(([v, l]) => `<div class="summary-rail__item"><strong>${v}</strong><span>${l}</span></div>`).join('');
