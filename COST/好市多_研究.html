@@ -198,10 +198,10 @@ tr:hover td { background: #f8fafc; }
     <div class="overview__heading">
       <div class="overview__copy">
         <h1>好市多<span class="en">Costco · COST.O · 美股研究</span></h1>
-        <p class="sub">"商业模式教科书"：商品毛利率压到 11%（只够覆盖运营成本），利润几乎全来自会员费——92.2% 续卡率的飞轮让它拥有零售业唯一的"定价权威"。问题只有一个：46 倍 PE vs 高个位数增长，"好公司"和"好价格"的矛盾在零售股里最极致。</p>
+        <p class="sub">"商业模式教科书"：商品毛利率压到 11%（只够覆盖运营成本），利润几乎全来自会员费——92.3% 续卡率的飞轮让它拥有零售业唯一的"定价权威"。问题只有一个：53 倍 PE vs 高个位数增长，"好公司"和"好价格"的矛盾在零售股里最极致。</p>
         <div class="overview__meta">
           <span>研究日期 2026-10-02</span>
-          <span>下次更新：10 月销售数据核对（2026-11 上旬）· FY2027 Q1 财报核对（2026-12 中旬）</span>
+          <span>下次更新：11 月销售数据（2026-12 上旬）· FY2027 Q1 财报核对（2026-12 中旬）</span>
         </div>
       </div>
       <div class="verdict">
@@ -212,9 +212,9 @@ tr:hover td { background: #f8fafc; }
     </div>
     <div class="summary-rail">
       <div class="summary-rail__item"><strong class="up">92.3%</strong><span>美加会员续卡率（环比+10bp）</span></div>
-      <div class="summary-rail__item"><strong>42.3M</strong><span>Executive 付费会员（+9.4%）· 贡献 75.6% 销售额</span></div>
-      <div class="summary-rail__item"><strong class="up">+6.7%</strong><span>Q4 核心同店（剔除汽油/汇率，客流+3.3%）</span></div>
-      <div class="summary-rail__item"><strong>~43x</strong><span>当前 PE·基于 FY26 实际 EPS $20.76</span></div>
+      <div class="summary-rail__item"><strong class="up">+7.3%</strong><span>10 月核心同店（剔除汽油/汇率）</span></div>
+      <div class="summary-rail__item"><strong class="up">+12.6%</strong><span>10 月净销售额·$24.5B</span></div>
+      <div class="summary-rail__item"><strong>~53x</strong><span>当前 PE（pe_ttm）·基于 FY26 EPS $20.76</span></div>
     </div>
 
     <!-- ===== 跟踪面板：数据在页面底部 TRACKING 数组，更新研究时改状态即可 ===== -->
@@ -525,7 +525,7 @@ tr:hover td { background: #f8fafc; }
     <p>公司财报及公开披露 · 公开研究资料整理 · 仅作研究学习用途，不构成投资建议。</p>
   </div>
 </section>
-<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/COST · 生成于 2026-08-06 · 更新于 2026-10-09</div></footer>
+<footer class="site-footer"><div class="shell">美股研究 · 02_公司研究/COST · 生成于 2026-08-06 · 更新于 2026-11-16（北京时间）</div></footer>
 
 <script>
 /* ============================================================
@@ -536,19 +536,20 @@ tr:hover td { background: #f8fafc; }
  *   text: 跟踪内容（可用 <strong>）；note: 小字补充（标注日期/出处）
  *   checked: 最近核对日期
  * ============================================================ */
-const TRACKING_CHECKED = '2026-10-09';
+const TRACKING_CHECKED = '2026-11-16';
 const TRACKING = [
   // ---- 催化剂 ----
   { kind: 'cat', status: 'hit',     text: '<strong>7 月销售数据守住 6-7% 区间</strong>：核心同店 +6.6%（5 月 +8.0% → 6 月 +7.0% → 7 月 +6.6%，连续两个月环比放缓），美国 +6.9% 略低于市场预期 7.1%', note: '2026-08-05 兑现；客流 +3.6% 加速，Prime Day 时间变动略有扰动' },
   { kind: 'cat', status: 'hit',     text: '<strong>8 月销售数据</strong>：核心同店 +5.4%（剔除劳动节错期约 -75bp，调整后约 +6.2%），美国 +5.6%，加拿大 +2.8%，其他国际 +6.8%', note: '2026-09-02 兑现；净销售额 $237.0 亿（+9.9%）；数字化可比 +17.9%；16 周 Q4 净销售额 $939 亿（+11.3%）' },
   { kind: 'cat', status: 'hit',     text: '<strong>FY2026 Q4 财报兑现</strong>：净销售额 $93.9B（+11.2%）、GAAP EPS $6.75（含 IEEPA 关税退款一次性收益 $0.15/股，剔除后 +12.4%），调整后 EPS $6.60 超共识 ~$6.55；核心同店 ex-gas/汇率 +6.7%（客流 +3.3%）', note: '2026-09-25 兑验（IR 新闻稿）：全年净销售额 $297.2B（+10.1%）、EPS $20.76（+14.0%）；FY26 净开店 25 家至 939、capex $64 亿兑现 ~$65 亿目标；FY27 计划 33 家（净 28）+ capex ~$75 亿；Q4 总营收 $95.72B 超共识 $94.86B' },
   { kind: 'cat', status: 'hit',     text: '<strong>9 月销售数据</strong>（2026-10-07 盘后公布）：净销售额 $30.02B（+13.0%），核心同店（剔除汽油/汇率）<strong>+7.6%</strong> 回到 6%+，美国 +8.0%、加拿大 +4.9%、其他国际 +7.7%', note: '10-09 兑验（IR 新闻稿）：劳动节错期（今年晚一周）正面贡献约 +50bp，扣除后约 7.0%；客流 +4.7%、数字化可比 +19.1%（ex-FX）；总同店 +11.4% 含汽油通胀 +3.8% 拉动。8 月 +5.4% 的放缓被证明主要为错期扰动，5% 风险线持续未触发' },
-  { kind: 'cat', status: 'pending', text: '<strong>10 月销售数据</strong>（预计 2026-11 上旬盘后公布）：错期扰动出清后（9 月含约 +50bp 正面）核心同店的真实趋势，叠加假日季前消费动能与关税退款再投资显现', note: '官网 IR 日程将另列具体时点' },
+  { kind: 'cat', status: 'hit',     text: '<strong>10 月销售数据</strong>（2026-11-04 公布）：净销售额 $24.50B（+12.6%）、9 周 $54.52B（+12.8%）；<strong>核心同店（剔除汽油/汇率）+7.3%</strong>——错期扰动出清后仍守 7%+，美国 +8.1%、加拿大 +3.5%、其他国际 +6.9%；数字化可比 +22.6%（ex-FX）、客流 +4.1%', note: '2026-11-04 兑验（IR 新闻稿）：总同店 +11.1% 含汽油通胀与汇率拉动；5% 风险线持续未触发' },
+  { kind: 'cat', status: 'pending', text: '<strong>11 月销售数据</strong>（预计 2026-12 上旬公布）：假日季前消费动能、关税退款再投资与错期扰动下的核心同店趋势', note: '官网 IR 日程将另列具体时点' },
   { kind: 'cat', status: 'pending', text: '<strong>FY2027 Q1 财报</strong>（2026-12 中旬）：FY27 capex ~$75 亿执行、33 家开店节奏、会员费剔除会费提价基数后的真实增速', note: '' },
   { kind: 'cat', status: 'active',  text: '<strong>IEEPA 关税退款返还方案</strong>：金额/形式/时间表公布即一次性消费刺激', note: 'Q4 已到账约 1/3 关税退款并转投会员价值（一次性收益约 $0.15/股，含部分再投资）；FY27Q1 已再收到相当金额，管理层承诺按季披露净影响' },
   { kind: 'cat', status: 'active',  text: '<strong>数字化与零售媒体变现</strong>：数字化可比销售 +21.5%，即时配送高增，零售媒体早期——长期第二引擎', note: '' },
   // ---- 风险点（证伪信号）----
-  { kind: 'risk', status: 'clear', text: '核心同店增速<strong>连续两个月跌破 5%</strong>', note: 'Q4 核心同店 +6.7%（客流 +3.3%）；8 月单月 +5.4%、9 月单月 +7.6%（含约 +50bp 错期正面）——错期扰动出清后仍守 6%+，未触发' },
+  { kind: 'risk', status: 'clear', text: '核心同店增速<strong>连续两个月跌破 5%</strong>', note: 'Q4 核心同店 +6.7%（客流 +3.3%）；8 月 +5.4%、9 月 +7.6%、10 月 +7.3%——错期扰动出清后仍守 7%+，未触发' },
   { kind: 'risk', status: 'clear', text: '美加续卡率<strong>跌破 91%</strong>（飞轮松动）', note: 'Q4 美加 92.3%（环比 +10bp）、全球 89.8%（+10bp），首次连续两季改善，未触发' },
   { kind: 'risk', status: 'clear', text: 'Executive 会员增速<strong>跌破 5%</strong>（会员质量红利见顶）', note: 'FY2026 全年 +9.4% 至 4,230 万（渗透率 75.6% 创新高），未触发' },
   { kind: 'risk', status: 'clear', text: '会员费收入增速<strong>跌破 8%</strong>（增长中枢下移）', note: 'FY2026 全年 +11.0%；Q4 +7.3% 为会费提价收益末季（剔除提价与汇率约 +6.8%），单季已临观察线，未触发' },
