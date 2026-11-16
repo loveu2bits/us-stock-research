@@ -127,12 +127,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   <div class="shell">
     <div class="overview__heading">
       <div class="overview__copy">
-        <h1>催化剂日历 · 未来两周<span class="en">2026-11-13 ~ 11-27 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
+        <h1>催化剂日历 · 未来两周<span class="en">2026-11-17 ~ 12-01 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
         <p class="sub">两周窗口内的财报、监管节点与产品事件，按日期排列；「关注指标」是该事件落地时最该盯住的数字与信号。日期待定的窗口内候选单列在最后。</p>
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong>2026-11-13</strong>
+        <strong>2026-11-17</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -161,7 +161,7 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 
 <footer class="site-footer">
   <div class="shell">
-    <p>日历随各公司研究页跟踪面板同步更新 · 数据来源：公司财报及公开披露 · 公开研究资料整理<br>仅作研究学习用途，不构成投资建议<br>最近更新：2026-11-13（北京时间）</p>
+    <p>日历随各公司研究页跟踪面板同步更新 · 数据来源：公司财报及公开披露 · 公开研究资料整理<br>仅作研究学习用途，不构成投资建议<br>最近更新：2026-11-17（北京时间）</p>
   </div>
 </footer>
 
@@ -200,6 +200,12 @@ const DAYS = [
       title: 'FY27Q3 财报（预计披露日 2026-11-24）',
       desc: 'Q3 指引营收 490 亿美元（+81%）、Non-GAAP EPS 6.50；AI 服务器规模与积压转化、FY28 首年指引。',
       metrics: ['营收 vs $490 亿', 'EPS vs $6.50', 'FY28 首年指引'] },
+  ]},
+  { date: '12-01', week: '两周后', wk: 2, events: [
+    { co: '迈威尔', tk: 'MRVL', link: '../MRVL/迈威尔_研究.html#tracker', status: 'pending',
+      title: 'FY3Q27 财报（预计披露日 2026-12-01）',
+      desc: 'Q3 指引兑现度与是否再上修 FY27/FY28 全年；互连 +70%、定制 FY28 翻倍的两年路径验证，前十大客户占 82% 的容错空间。',
+      metrics: ['营收 vs Q3 指引', '数据中心 / 互连增速', 'FY27/FY28 指引是否上修'] },
   ]},
   { date: '窗口内待定', week: '时间未公布，两周内可能落地', tbd: true, events: [
     { co: 'Spotify', tk: 'SPOT', link: '../SPOT/Spotify_研究.html#tracker', status: 'pending',
