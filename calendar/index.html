@@ -127,12 +127,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   <div class="shell">
     <div class="overview__heading">
       <div class="overview__copy">
-        <h1>催化剂日历 · 未来两周<span class="en">2026-11-18 ~ 12-01 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
+        <h1>催化剂日历 · 未来两周<span class="en">2026-11-19 ~ 12-01 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
         <p class="sub">两周窗口内的财报、监管节点与产品事件，按日期排列；「关注指标」是该事件落地时最该盯住的数字与信号。日期待定的窗口内候选单列在最后。</p>
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong>2026-11-18</strong>
+        <strong>2026-11-19</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -161,27 +161,33 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 
 <footer class="site-footer">
   <div class="shell">
-    <p>日历随各公司研究页跟踪面板同步更新 · 数据来源：公司财报及公开披露 · 公开研究资料整理<br>仅作研究学习用途，不构成投资建议<br>最近更新：2026-11-18（北京时间）</p>
+    <p>日历随各公司研究页跟踪面板同步更新 · 数据来源：公司财报及公开披露 · 公开研究资料整理<br>仅作研究学习用途，不构成投资建议<br>最近更新：2026-11-19（北京时间）</p>
   </div>
 </footer>
 
 <script>
-// ===== 数据：未来两周催化剂（截至 2026-11-18 校验）=====
+// ===== 数据：未来两周催化剂（截至 2026-11-19 校验）=====
 // link 相对 calendar/ 目录；#tracker 锚点直达研究页跟踪面板
 const DAYS = [
-  { date: '11-19', week: '明天（周四）', wk: 1, events: [
+  { date: '11-19', week: '今天（周四）', wk: 1, today: true, events: [
     { co: '沃尔玛', tk: 'WMT', link: '../WMT/沃尔玛_研究.html#tracker', status: 'pending',
-      title: 'FY27Q3 财报（预计披露日 2026-11-19）',
-      desc: '美国同店销售、电商增速与全年指引；假日季前的消费与库存信号。',
-      metrics: ['美国同店', '电商增速', '全年指引'] },
-    { co: 'Take-Two', tk: 'TTWO', link: '../TTWO/Take-Two_研究.html#tracker', status: 'pending',
-      title: '《GTA 6》正式发售（2026-11-19）',
-      desc: '首周销量对照 Newzoo 预测 3,700-5,100 万份；Metacritic 评分与豪华版占比决定短期股价方向。',
-      metrics: ['首周销量', 'Metacritic 评分', '豪华版占比'] },
-    { co: '英伟达', tk: 'NVDA', link: '../NVDA/英伟达_研究.html#tracker', status: 'pending',
+      title: 'FY27Q3 财报（预计披露日 2026-11-19 盘前，美中 06:00 / 北京 20:00）',
+      desc: '美国同店销售、电商增速与全年指引；假日季前的消费与库存信号。共识美国同店约 +3.0%、EPS 约 $0.64，关注 Q3 利润指引反推的 Q4 EPS 是否上修。',
+      metrics: ['美国同店 vs +3.0%', 'EPS vs $0.62-0.64 指引', '全年指引是否上调'] },
+    { co: '英伟达', tk: 'NVDA', link: '../NVDA/英伟达_研究.html#tracker', status: 'active',
       title: 'Anthropic IPO 挂牌（2026-11-19，Nasdaq: ANT）',
-      desc: '11-18 定价、11-19 挂牌；NVDA 以 IPO 价认购约 $100 亿非投票 Class N 股，验证「持股 + 算力采购」闭环与 AI 交易情绪。',
-      metrics: ['定价 $70-78', '首日表现', '$100 亿配售交割'] },
+      desc: '11-18 定价 $83（高于 $70-78 区间约 6.4%、估值约 $1.5 万亿），11-19 挂牌；NVDA 以 IPO 价认购约 $100 亿非投票 Class N 股（与 Google 等七家共 $260 亿私募配售），验证「持股 + 算力采购」闭环与 AI 交易情绪。',
+      metrics: ['定价 $83（超区间）', '首日表现（收盘后核对）', '$100 亿配售交割'] },
+  ]},
+  { date: '11-20', week: '明天（周五）', wk: 1, events: [
+    { co: 'Take-Two', tk: 'TTWO', link: '../TTWO/Take-Two_研究.html#tracker', status: 'pending',
+      title: 'GTA 6 首周销量新闻稿窗口（2026-11-20~23）',
+      desc: 'Metacritic 99、Sensor Tower 估首日约 1,707 万份 / $16.5 亿；首周官方销量对照 Newzoo 预测 3,700-5,100 万份，新闻稿发布时点本身也是强弱信号（次日偏强、周一为基准、缺失偏弱）。',
+      metrics: ['首周销量 vs 3,700-5,100 万', '新闻稿发布时点', 'GTA Online 上线时间'] },
+    { co: '闪迪', tk: 'SNDK', link: '../SNDK/闪迪_研究.html#tracker', status: 'pending',
+      title: '8 拆 1 拆股生效（2026-11-20）',
+      desc: '额外股份 11-19 收盘后派发、11-20 起按拆股后价格交易（约 $166/股）；不改变基本面，但降低散户与被动资金参与门槛，观察成交活跃度与期权参与度。',
+      metrics: ['拆股后价格约 $166', '成交与换手', '季度回购 $50 亿节奏'] },
   ]},
   { date: '11-23', week: '下周一', wk: 2, events: [
     { co: '慧与', tk: 'HPE', link: '../HPE/慧与_研究.html#tracker', status: 'pending',
@@ -211,13 +217,17 @@ const DAYS = [
 
 const NEXT = [
   { co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker', text: 'CEO 交接生效（2026-12-01）与 FY26Q4 财报 / FY27 指引（预计 2026-12-09）——Max 大会（11-10~12）agentic 产品线已落地、股价反应平淡（11-10 -0.26%）后，FY27 指引的「预期重置」是决定性验证点' },
-  { co: 'Salesforce', tk: 'CRM', link: '../CRM/Salesforce_研究.html#tracker', text: 'F3Q27 财报（2026-11 底）——有机再加速斜率 + AIforce/Fin 贡献；Dreamforce（09-15~17）已落地：发布 AIforce + 重申 FY30「Rule of 50」' },
+  { co: 'Salesforce', tk: 'CRM', link: '../CRM/Salesforce_研究.html#tracker', text: 'F3Q27 财报（iFinD 预计披露日 2026-12-02）——有机再加速斜率 + AIforce/Fin 贡献；Dreamforce（09-15~17）已落地：发布 AIforce + 重申 FY30「Rule of 50」' },
   { co: '甲骨文', tk: 'ORCL', link: '../ORCL/甲骨文_研究.html#tracker', text: 'FY27Q2 财报（2026-12 中旬）——投资者日（2026-10-28）后，续盯毛利率路径、FCF 转正时间表与 Vera Rubin 交付节奏' },
   { co: '好市多', tk: 'COST', link: '../COST/好市多_研究.html#tracker', text: 'FY2027 Q1 财报（2026-12 中旬）——FY27 capex $75 亿执行、33 家开店节奏、会员费剔除提价基数后的真实增速；9 月核心同店 +7.6% 已回到 6%+，下一高频验证点是 10 月销售数据（2026-11 上旬）' },
 ];
 
 // ===== 历史催化（已发生，新条目加在数组开头）=====
 const HISTORY = [
+  { date: '11-19', co: 'Take-Two', tk: 'TTWO', link: '../TTWO/Take-Two_研究.html#tracker',
+    title: '《GTA 6》正式发售（2026-11-19）',
+    result: '全球滚动发售如期启动（PS5 / Xbox Series X|S，全数字、预载约 223GB），口碑爆发：<strong>Metacritic 99</strong>（107 家媒体，与《塞尔达传说：时之笛》并列史上最高）；Sensor Tower 估发售前预购收入约 <strong>$15 亿</strong>、首日约 <strong>1,707 万份 / $16.5 亿</strong>（约为 GTA V 首日 $8 亿的两倍），Twitch / YouTube / Kick 峰值观看 710 万。11-18 收 <strong>$216.61（+6.22%）</strong>、iFinD 一致目标价 $272；首周官方销量仍待 11-20~23 新闻稿，FY27Q3 财报（2027-02 初）验证指引上修。',
+    metrics: ['Metacritic 99（史上最高并列）', '首日约 1,707 万份 / $16.5 亿', '预购约 $15 亿 · 峰值观看 710 万', '$216.61 +6.22% · 目标价 $272'] },
   { date: '11-17', co: '英伟达', tk: 'NVDA', link: '../NVDA/英伟达_研究.html#tracker',
     title: 'FY3Q27 财报（2026-11-17 盘后）',
     result: '营收 <strong>$1,158.4 亿</strong>（+103%，超指引 $1,080 亿约 7%）、数据中心 $1,076 亿（+110%）；GAAP/Non-GAAP 毛利率 <strong>74.8%/74.9%</strong>、EPS $2.70/$2.68（共识 $2.47）；FY4Q27 指引 $1,300 亿±3%/毛利率 71-72%，临时 CEO Kress 将 FY28 增速指引由 +70% 上调至 <strong>+75%</strong>。11-17 收 $155.46（-0.44%，财报前）、盘后涨逾 3%；iFinD pe_ttm 16.6x、一致目标价 $215.7。Rubin NVL72 已出货、为史上最快爬坡；董事会明确不召回黄仁勋。',
@@ -622,7 +632,7 @@ const nextWeek = dated.filter(d => d.wk === 2).reduce((n, d) => n + d.events.len
 const tbdCount = DAYS.filter(d => d.tbd).reduce((n, d) => n + d.events.length, 0);
 const earnings = DAYS.flatMap(d => d.events).filter(e => /财报/.test(e.title)).length;
 rail.innerHTML = [
-  [thisWeek, '本周（11-18 ~ 11-22）'],
+  [thisWeek, '本周（11-19 ~ 11-22）'],
   [nextWeek, '第二周及以后（11-23 ~ 12-01）'],
   [tbdCount, '窗口内待定'],
   [earnings + ' 场', '其中财报'],
