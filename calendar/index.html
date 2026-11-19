@@ -127,12 +127,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   <div class="shell">
     <div class="overview__heading">
       <div class="overview__copy">
-        <h1>催化剂日历 · 未来两周<span class="en">2026-11-19 ~ 12-01 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
+        <h1>催化剂日历 · 未来两周<span class="en">2026-11-20 ~ 12-01 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
         <p class="sub">两周窗口内的财报、监管节点与产品事件，按日期排列；「关注指标」是该事件落地时最该盯住的数字与信号。日期待定的窗口内候选单列在最后。</p>
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong>2026-11-19</strong>
+        <strong>2026-11-20</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -161,33 +161,19 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 
 <footer class="site-footer">
   <div class="shell">
-    <p>日历随各公司研究页跟踪面板同步更新 · 数据来源：公司财报及公开披露 · 公开研究资料整理<br>仅作研究学习用途，不构成投资建议<br>最近更新：2026-11-19（北京时间）</p>
+    <p>日历随各公司研究页跟踪面板同步更新 · 数据来源：公司财报及公开披露 · 公开研究资料整理<br>仅作研究学习用途，不构成投资建议<br>最近更新：2026-11-20（北京时间）</p>
   </div>
 </footer>
 
 <script>
-// ===== 数据：未来两周催化剂（截至 2026-11-19 校验）=====
+// ===== 数据：未来两周催化剂（截至 2026-11-20 校验）=====
 // link 相对 calendar/ 目录；#tracker 锚点直达研究页跟踪面板
 const DAYS = [
-  { date: '11-19', week: '今天（周四）', wk: 1, today: true, events: [
-    { co: '沃尔玛', tk: 'WMT', link: '../WMT/沃尔玛_研究.html#tracker', status: 'pending',
-      title: 'FY27Q3 财报（预计披露日 2026-11-19 盘前，美中 06:00 / 北京 20:00）',
-      desc: '美国同店销售、电商增速与全年指引；假日季前的消费与库存信号。共识美国同店约 +3.0%、EPS 约 $0.64，关注 Q3 利润指引反推的 Q4 EPS 是否上修。',
-      metrics: ['美国同店 vs +3.0%', 'EPS vs $0.62-0.64 指引', '全年指引是否上调'] },
-    { co: '英伟达', tk: 'NVDA', link: '../NVDA/英伟达_研究.html#tracker', status: 'active',
-      title: 'Anthropic IPO 挂牌（2026-11-19，Nasdaq: ANT）',
-      desc: '11-18 定价 $83（高于 $70-78 区间约 6.4%、估值约 $1.5 万亿），11-19 挂牌；NVDA 以 IPO 价认购约 $100 亿非投票 Class N 股（与 Google 等七家共 $260 亿私募配售），验证「持股 + 算力采购」闭环与 AI 交易情绪。',
-      metrics: ['定价 $83（超区间）', '首日表现（收盘后核对）', '$100 亿配售交割'] },
-  ]},
-  { date: '11-20', week: '明天（周五）', wk: 1, events: [
+  { date: '11-20', week: '今天（周五）', wk: 1, today: true, events: [
     { co: 'Take-Two', tk: 'TTWO', link: '../TTWO/Take-Two_研究.html#tracker', status: 'pending',
       title: 'GTA 6 首周销量新闻稿窗口（2026-11-20~23）',
       desc: 'Metacritic 99、Sensor Tower 估首日约 1,707 万份 / $16.5 亿；首周官方销量对照 Newzoo 预测 3,700-5,100 万份，新闻稿发布时点本身也是强弱信号（次日偏强、周一为基准、缺失偏弱）。',
       metrics: ['首周销量 vs 3,700-5,100 万', '新闻稿发布时点', 'GTA Online 上线时间'] },
-    { co: '闪迪', tk: 'SNDK', link: '../SNDK/闪迪_研究.html#tracker', status: 'pending',
-      title: '8 拆 1 拆股生效（2026-11-20）',
-      desc: '额外股份 11-19 收盘后派发、11-20 起按拆股后价格交易（约 $166/股）；不改变基本面，但降低散户与被动资金参与门槛，观察成交活跃度与期权参与度。',
-      metrics: ['拆股后价格约 $166', '成交与换手', '季度回购 $50 亿节奏'] },
   ]},
   { date: '11-23', week: '下周一', wk: 2, events: [
     { co: '慧与', tk: 'HPE', link: '../HPE/慧与_研究.html#tracker', status: 'pending',
@@ -200,6 +186,12 @@ const DAYS = [
       title: 'FY27Q3 财报（预计披露日 2026-11-24）',
       desc: 'Q3 指引营收 490 亿美元（+81%）、Non-GAAP EPS 6.50；AI 服务器规模与积压转化、FY28 首年指引。',
       metrics: ['营收 vs $490 亿', 'EPS vs $6.50', 'FY28 首年指引'] },
+  ]},
+  { date: '11-27', week: '下周五', wk: 2, events: [
+    { co: '沃尔玛', tk: 'WMT', link: '../WMT/沃尔玛_研究.html#tracker', status: 'pending',
+      title: '假日季销售（黑五/网一 2026-11-27~30）',
+      desc: 'FY27Q3 已年内第三次上调全年指引（EPS $2.84-2.89），但 Q4 隐含 EPS $0.73-0.78 低于共识 $0.79、营业利润增速仅 +4%~6%；假日季客流、电商履约与会员数据是 Q4 兑现的第一手证据。',
+      metrics: ['黑五/网一客流与电商增速', '美国同店 vs +2.9%', 'Q4 EPS $0.73-0.78 是否上修'] },
   ]},
   { date: '12-01', week: '两周后', wk: 2, events: [
     { co: '迈威尔', tk: 'MRVL', link: '../MRVL/迈威尔_研究.html#tracker', status: 'pending',
@@ -224,6 +216,18 @@ const NEXT = [
 
 // ===== 历史催化（已发生，新条目加在数组开头）=====
 const HISTORY = [
+  { date: '11-20', co: '闪迪', tk: 'SNDK', link: '../SNDK/闪迪_研究.html#tracker',
+    title: '8 拆 1 拆股生效（2026-11-19 收盘后派发 / 11-20 除权交易）',
+    result: '额外 7 股/股于 11-19 收盘后派发、11-20 开盘起按拆股后价格交易，章程修订与新股派发经公司 IR FAQ/8-K 确认；拆股前 11-19 收 <strong>$755.16（-2.71%）</strong>，理论除权价约 <strong>$94.4</strong>（按 11-18 $776.22 计约 $97.0）。股本 ×8、单股价格 ÷8，市值与持股比例不变、基本面中性。iFinD 仍为拆股前口径（pe_ttm 5.53x、一致目标价 $2,135 → 拆股后约 $267/股）；11-20 美股时段成交与换手待收盘后核对。',
+    metrics: ['额外 7 股/股 · 11-19 收盘后派发', '11-20 开盘除权交易', '$755.16 → 约 $94.4/股', '市值/持股不变 · 基本面中性'] },
+  { date: '11-19', co: '沃尔玛', tk: 'WMT', link: '../WMT/沃尔玛_研究.html#tracker',
+    title: 'FY27Q3 财报（2026-11-19 盘前）',
+    result: '营收 <strong>$1,888.4 亿</strong>（+5.2%，超共识 $1,872.7 亿）、调整后 EPS <strong>$0.65</strong>（超 $0.64）、GAAP EPS $0.62；美国同店 +2.9%（剔除健康保健 +3.6%）、美国电商 +23%、美国广告 +37%、会员费收入 +17%；年内第三次上调 FY27 指引至销售 +4.9%-5.2%、营业利润 +8.0%-8.6%、EPS <strong>$2.84-2.89</strong>。Q4 隐含 EPS $0.73-0.78 低于共识 $0.79、营业利润增速 +4%~6%。iFinD 9M 营收 $5,545.2 亿、毛利率 25.5%、GAAP EPS $2.09、FCF $77.1 亿；11-19 收 <strong>$126.04（-1.04%）</strong>、pe_ttm 47.9x，维持持有。',
+    metrics: ['营收 $1,888.4 亿 / +5.2%', '调整后 EPS $0.65（超 $0.64）', '全年 EPS 上调至 $2.84-2.89', 'Q4 隐含 EPS $0.73-0.78（低于共识）', '$126.04 -1.04% · pe_ttm 47.9x'] },
+  { date: '11-19', co: '英伟达', tk: 'NVDA', link: '../NVDA/英伟达_研究.html#tracker',
+    title: 'Anthropic IPO 首日交易与 $100 亿配售交割（Nasdaq: ANT，2026-11-19）',
+    result: '11-18 定价 $83（高于 $70-78 区间），11-19 首日开 <strong>$111.50（+34%）</strong>、收 <strong>$97.17（+17%）</strong>，完全摊薄市值约 <strong>$1.8 万亿</strong>、成交逾 8.46 亿股；IPO 募资约 $813 亿创纪录。$260 亿非投票 Class N 股私募配售随 IPO 完成交割，NVDA 认购约 $100 亿——「持股 + 算力采购」闭环落地。NVDA 自身 11-19 收 <strong>$145.98（-3.30%）</strong>，iFinD pe_ttm 15.5x、一致目标价由 $215.7 下调至 <strong>$207.85</strong>（隐含约 +42%），维持买入。',
+    metrics: ['首日 $97.17 / +17%（开 $111.50）', '市值约 $1.8 万亿 · 募资 $813 亿', '$260 亿配售交割 · NVDA 约 $100 亿', '$145.98 -3.30% · 目标价 $207.85'] },
   { date: '11-19', co: 'Take-Two', tk: 'TTWO', link: '../TTWO/Take-Two_研究.html#tracker',
     title: '《GTA 6》正式发售（2026-11-19）',
     result: '全球滚动发售如期启动（PS5 / Xbox Series X|S，全数字、预载约 223GB），口碑爆发：<strong>Metacritic 99</strong>（107 家媒体，与《塞尔达传说：时之笛》并列史上最高）；Sensor Tower 估发售前预购收入约 <strong>$15 亿</strong>、首日约 <strong>1,707 万份 / $16.5 亿</strong>（约为 GTA V 首日 $8 亿的两倍），Twitch / YouTube / Kick 峰值观看 710 万。11-18 收 <strong>$216.61（+6.22%）</strong>、iFinD 一致目标价 $272；首周官方销量仍待 11-20~23 新闻稿，FY27Q3 财报（2027-02 初）验证指引上修。',
@@ -632,7 +636,7 @@ const nextWeek = dated.filter(d => d.wk === 2).reduce((n, d) => n + d.events.len
 const tbdCount = DAYS.filter(d => d.tbd).reduce((n, d) => n + d.events.length, 0);
 const earnings = DAYS.flatMap(d => d.events).filter(e => /财报/.test(e.title)).length;
 rail.innerHTML = [
-  [thisWeek, '本周（11-19 ~ 11-22）'],
+  [thisWeek, '本周（11-20 ~ 11-22）'],
   [nextWeek, '第二周及以后（11-23 ~ 12-01）'],
   [tbdCount, '窗口内待定'],
   [earnings + ' 场', '其中财报'],
