@@ -127,12 +127,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   <div class="shell">
     <div class="overview__heading">
       <div class="overview__copy">
-        <h1>催化剂日历 · 未来两周<span class="en">2026-11-20 ~ 12-01 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
+        <h1>催化剂日历 · 未来两周<span class="en">2026-11-24 ~ 12-08 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
         <p class="sub">两周窗口内的财报、监管节点与产品事件，按日期排列；「关注指标」是该事件落地时最该盯住的数字与信号。日期待定的窗口内候选单列在最后。</p>
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong>2026-11-23</strong>
+        <strong>2026-11-24</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -161,31 +161,19 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 
 <footer class="site-footer">
   <div class="shell">
-    <p>日历随各公司研究页跟踪面板同步更新 · 数据来源：公司财报及公开披露 · 公开研究资料整理<br>仅作研究学习用途，不构成投资建议<br>最近更新：2026-11-23（北京时间）</p>
+    <p>日历随各公司研究页跟踪面板同步更新 · 数据来源：公司财报及公开披露 · 公开研究资料整理<br>仅作研究学习用途，不构成投资建议<br>最近更新：2026-11-24（北京时间）</p>
   </div>
 </footer>
 
 <script>
-// ===== 数据：未来两周催化剂（截至 2026-11-23 校验）=====
+// ===== 数据：未来两周催化剂（截至 2026-11-24 校验）=====
 // link 相对 calendar/ 目录；#tracker 锚点直达研究页跟踪面板
 const DAYS = [
-  { date: '11-20', week: '今天（周五）', wk: 1, today: true, events: [
-    { co: 'Take-Two', tk: 'TTWO', link: '../TTWO/Take-Two_研究.html#tracker', status: 'pending',
-      title: 'GTA 6 首周销量新闻稿窗口（2026-11-20~23）',
-      desc: 'Metacritic 99、Sensor Tower 估首日约 1,707 万份 / $16.5 亿；首周官方销量对照 Newzoo 预测 3,700-5,100 万份，新闻稿发布时点本身也是强弱信号（次日偏强、周一为基准、缺失偏弱）。',
-      metrics: ['首周销量 vs 3,700-5,100 万', '新闻稿发布时点', 'GTA Online 上线时间'] },
-  ]},
-  { date: '11-23', week: '下周一（美东盘后 / 北京 11-24 凌晨）', wk: 2, events: [
-    { co: '慧与', tk: 'HPE', link: '../HPE/慧与_研究.html#tracker', status: 'pending',
-      title: 'FY26Q4 财报（美东 11-23 盘后 / 北京时间 11-24 凌晨，尚未披露）',
-      desc: '公司 IR 确认 11-23 美股盘后发布；截至 11-23 北京时间早间尚未披露、iFinD 无新财报信号（最新 9M 口径）。Q4 指引营收 139-148 亿美元、EPS 1.20-1.30；网络分部经营利润率能否站上 24%、Vultr 12 亿美元 Helios 订单收入确认。',
-      metrics: ['营收 vs $139-148 亿', 'EPS vs $1.20-1.30', '网络经营利润率', 'Helios 收入确认'] },
-  ]},
-  { date: '11-24', week: '下周二', wk: 2, events: [
+  { date: '11-24', week: '今天（周二）', wk: 1, today: true, events: [
     { co: '戴尔', tk: 'DELL', link: '../DELL/戴尔_研究.html#tracker', status: 'pending',
-      title: 'FY27Q3 财报（预计披露日 2026-11-24）',
-      desc: 'Q3 指引营收 490 亿美元（+81%）、Non-GAAP EPS 6.50；AI 服务器规模与积压转化、FY28 首年指引。',
-      metrics: ['营收 vs $490 亿', 'EPS vs $6.50', 'FY28 首年指引'] },
+      title: 'FY27Q3 财报（美东 11-24 盘后 / 北京 11-25 凌晨，截至北京 11-24 早间尚未披露）',
+      desc: '公司 IR 与 iFinD 均指向美东 11-24 盘后发布；Q3 指引营收 490 亿美元 ±5 亿（+81%）、Non-GAAP EPS 6.50 ±0.10（市场预期约 6.55-6.61 / 营收 492-500 亿）；AI 服务器规模与积压转化、ISG 利润率与内存对冲口径、FY28 首年指引。',
+      metrics: ['营收 vs $490 亿 ±5 亿', 'EPS vs $6.50 ±0.10', 'ISG 利润率与内存对冲口径', 'FY28 首年指引'] },
   ]},
   { date: '11-27', week: '下周五', wk: 2, events: [
     { co: '沃尔玛', tk: 'WMT', link: '../WMT/沃尔玛_研究.html#tracker', status: 'pending',
@@ -193,11 +181,23 @@ const DAYS = [
       desc: 'FY27Q3 已年内第三次上调全年指引（EPS $2.84-2.89），但 Q4 隐含 EPS $0.73-0.78 低于共识 $0.79、营业利润增速仅 +4%~6%；假日季客流、电商履约与会员数据是 Q4 兑现的第一手证据。',
       metrics: ['黑五/网一客流与电商增速', '美国同店 vs +2.9%', 'Q4 EPS $0.73-0.78 是否上修'] },
   ]},
-  { date: '12-01', week: '两周后', wk: 2, events: [
+  { date: '12-01', week: '下周二', wk: 2, events: [
     { co: '迈威尔', tk: 'MRVL', link: '../MRVL/迈威尔_研究.html#tracker', status: 'pending',
       title: 'FY3Q27 财报（预计披露日 2026-12-01）',
       desc: 'Q3 指引兑现度与是否再上修 FY27/FY28 全年；互连 +70%、定制 FY28 翻倍的两年路径验证，前十大客户占 82% 的容错空间。',
       metrics: ['营收 vs Q3 指引', '数据中心 / 互连增速', 'FY27/FY28 指引是否上修'] },
+  ]},
+  { date: '12-02', week: '下周三', wk: 2, events: [
+    { co: 'Salesforce', tk: 'CRM', link: '../CRM/Salesforce_研究.html#tracker', status: 'pending',
+      title: 'F3Q27 财报（iFinD 预计披露日 2026-12-02）',
+      desc: 'Q2 营收 $113.5 亿（固定汇率 +11%）超指引上限、全年上调至 $461-464 亿；Q3 指引 cRPO 约 +14%（固定汇率）是有机再加速斜率的首验，Agentforce ARR $15 亿与 AWU 环比 +97% 的延续性同步核对。',
+      metrics: ['营收 / cRPO ~+14%', '有机增速与 FY27 指引 $461-464 亿', 'Agentforce ARR / AWU'] },
+  ]},
+  { date: '12-08', week: '两周后', wk: 2, events: [
+    { co: '新思科技', tk: 'SNPS', link: '../SNPS/新思科技_研究.html#tracker', status: 'pending',
+      title: 'FY26Q4 财报（iFinD 预计披露日 2026-12-08）',
+      desc: '投资者日首次给出的 FY27 指引（营收 $111.5 亿 / Non-GAAP 营业利润率 44% / EPS $19.08）迎第一次财务兑现；核心看 EDA 有机增速能否从 Q3 的 +8.5% 提至双位数下限（≥13%），另核对 Design IP 连续三季改善与 AWS 10 亿美元 AOIP 节奏。',
+      metrics: ['EDA 有机增速 vs +8.5% / ≥13%', 'FY27 指引 $111.5 亿 / EPS $19.08', 'Design IP · AOIP 进展'] },
   ]},
   { date: '窗口内待定', week: '时间未公布，两周内可能落地', tbd: true, events: [
     { co: 'Spotify', tk: 'SPOT', link: '../SPOT/Spotify_研究.html#tracker', status: 'pending',
@@ -209,13 +209,20 @@ const DAYS = [
 
 const NEXT = [
   { co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker', text: 'CEO 交接生效（2026-12-01）与 FY26Q4 财报 / FY27 指引（预计 2026-12-09）——Max 大会（11-10~12）agentic 产品线已落地、股价反应平淡（11-10 -0.26%）后，FY27 指引的「预期重置」是决定性验证点' },
-  { co: 'Salesforce', tk: 'CRM', link: '../CRM/Salesforce_研究.html#tracker', text: 'F3Q27 财报（iFinD 预计披露日 2026-12-02）——有机再加速斜率 + AIforce/Fin 贡献；Dreamforce（09-15~17）已落地：发布 AIforce + 重申 FY30「Rule of 50」' },
   { co: '甲骨文', tk: 'ORCL', link: '../ORCL/甲骨文_研究.html#tracker', text: 'FY27Q2 财报（2026-12 中旬）——投资者日（2026-10-28）后，续盯毛利率路径、FCF 转正时间表与 Vera Rubin 交付节奏' },
   { co: '好市多', tk: 'COST', link: '../COST/好市多_研究.html#tracker', text: 'FY2027 Q1 财报（2026-12 中旬）——FY27 capex $75 亿执行、33 家开店节奏、会员费剔除提价基数后的真实增速；9 月核心同店 +7.6% 已回到 6%+，下一高频验证点是 10 月销售数据（2026-11 上旬）' },
 ];
 
 // ===== 历史催化（已发生，新条目加在数组开头）=====
 const HISTORY = [
+  { date: '11-23', co: '慧与', tk: 'HPE', link: '../HPE/慧与_研究.html#tracker',
+    title: 'FY26Q4 财报（美东 11-23 盘后 / 北京 11-24 凌晨）',
+    result: '营收 <strong>145.47 亿美元</strong>（+50%，超指引 139-148 亿中值与共识约 144.3 亿）、Non-GAAP EPS <strong>$1.43</strong>（超指引 1.20-1.30）、GAAP EPS $1.26、Non-GAAP 毛利率 38.2%、Q4 FCF <strong>$19.15 亿</strong>（全年 44.96 亿，为上年 3 倍以上）；网络营收 30.56 亿（+12.3%）、经营利润率 <strong>22.1%</strong>（环比 +0.1pct、同比 -1.3pct，未达 24% 重回买入线）。FY27 指引大幅上调至营收 <strong>+27-35%（594-631 亿）</strong>、Non-GAAP EPS <strong>$5.05-5.35</strong>、FCF ≥55 亿；新增 <strong>50 亿美元回购授权</strong>（总额约 73 亿）、FY27 目标返还 ≥75% FCF。Vultr 12 亿美元 Helios 收入未单独披露、未入指引。11-23 收 <strong>$48.02（+17.38%，财报发布前）</strong>；iFinD 快照仍为 9M 口径（pe_ttm 23.8x），以公司 IR 为准，维持持有。',
+    metrics: ['营收 $145.5 亿 / +50%', 'Non-GAAP EPS $1.43（超指引上限 $1.30）', '网络利润率 22.1%（未达 24%）', 'FY27 EPS $5.05-5.35 · 新增 $50 亿回购', '$48.02 +17.38% · iFinD 未更新 Q4'] },
+  { date: '11-20', co: 'Take-Two', tk: 'TTWO', link: '../TTWO/Take-Two_研究.html#tracker',
+    title: 'GTA 6 首周销量新闻稿窗口（官方 11-20 公告）',
+    result: 'Take-Two 11-20 官方新闻稿确认《GTA VI》首日零售额 <strong>37.9 亿美元</strong>、发售前销量 <strong>3,250 万份</strong>、Metacritic <strong>99</strong>，创娱乐首发纪录（约为 GTA V 首日 8 亿的 4.7 倍）。口径为截至 11-19 收盘的公司估算，含预购与首日零售，<strong>未披露完整首周销量</strong>；公司仍维持 FY27 净预订额 <strong>$80-82 亿</strong>指引、GTA Online 上线时间未公布，维持持有。11-19 收 <strong>$209.36</strong>，iFinD 一致目标价约 $273（pe_ttm 为负）。',
+    metrics: ['首日零售额 $37.9 亿（约 GTA V 4.7x）', '发售前销量 3,250 万份', '完整首周销量未披露 · 指引未上修', '$209.36 · 目标价约 $273'] },
   { date: '11-20', co: '闪迪', tk: 'SNDK', link: '../SNDK/闪迪_研究.html#tracker',
     title: '8 拆 1 拆股生效（2026-11-19 收盘后派发 / 11-20 除权交易）',
     result: '额外 7 股/股于 11-19 收盘后派发、11-20 开盘起按拆股后价格交易，章程修订与新股派发经公司 IR FAQ/8-K 确认；拆股前 11-19 收 <strong>$755.16（-2.71%）</strong>，理论除权价约 <strong>$94.4</strong>（按 11-18 $776.22 计约 $97.0）。股本 ×8、单股价格 ÷8，市值与持股比例不变、基本面中性。iFinD 仍为拆股前口径（pe_ttm 5.53x、一致目标价 $2,135 → 拆股后约 $267/股）；11-20 美股时段成交与换手待收盘后核对。',
