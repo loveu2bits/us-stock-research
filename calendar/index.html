@@ -127,12 +127,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   <div class="shell">
     <div class="overview__heading">
       <div class="overview__copy">
-        <h1>催化剂日历 · 未来两周<span class="en">2026-11-24 ~ 12-08 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
+        <h1>催化剂日历 · 未来两周<span class="en">2026-11-25 ~ 12-09 · 取自各公司研究页跟踪面板 · 每条附重点关注指标</span></h1>
         <p class="sub">两周窗口内的财报、监管节点与产品事件，按日期排列；「关注指标」是该事件落地时最该盯住的数字与信号。日期待定的窗口内候选单列在最后。</p>
       </div>
       <div class="overview__date">
         <span>最近更新</span>
-        <strong>2026-11-24</strong>
+        <strong>2026-11-25</strong>
       </div>
     </div>
     <div class="summary-rail" id="summary-rail"></div>
@@ -161,31 +161,33 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 
 <footer class="site-footer">
   <div class="shell">
-    <p>日历随各公司研究页跟踪面板同步更新 · 数据来源：公司财报及公开披露 · 公开研究资料整理<br>仅作研究学习用途，不构成投资建议<br>最近更新：2026-11-24（北京时间）</p>
+    <p>日历随各公司研究页跟踪面板同步更新 · 数据来源：公司财报及公开披露 · 公开研究资料整理<br>仅作研究学习用途，不构成投资建议<br>最近更新：2026-11-25（北京时间）</p>
   </div>
 </footer>
 
 <script>
-// ===== 数据：未来两周催化剂（截至 2026-11-24 校验）=====
+// ===== 数据：未来两周催化剂（截至 2026-11-25 校验）=====
 // link 相对 calendar/ 目录；#tracker 锚点直达研究页跟踪面板
 const DAYS = [
-  { date: '11-24', week: '今天（周二）', wk: 1, today: true, events: [
-    { co: '戴尔', tk: 'DELL', link: '../DELL/戴尔_研究.html#tracker', status: 'pending',
-      title: 'FY27Q3 财报（美东 11-24 盘后 / 北京 11-25 凌晨，截至北京 11-24 早间尚未披露）',
-      desc: '公司 IR 与 iFinD 均指向美东 11-24 盘后发布；Q3 指引营收 490 亿美元 ±5 亿（+81%）、Non-GAAP EPS 6.50 ±0.10（市场预期约 6.55-6.61 / 营收 492-500 亿）；AI 服务器规模与积压转化、ISG 利润率与内存对冲口径、FY28 首年指引。',
-      metrics: ['营收 vs $490 亿 ±5 亿', 'EPS vs $6.50 ±0.10', 'ISG 利润率与内存对冲口径', 'FY28 首年指引'] },
-  ]},
-  { date: '11-27', week: '下周五', wk: 2, events: [
+  { date: '11-27', week: '本周五', wk: 1, events: [
     { co: '沃尔玛', tk: 'WMT', link: '../WMT/沃尔玛_研究.html#tracker', status: 'pending',
       title: '假日季销售（黑五/网一 2026-11-27~30）',
       desc: 'FY27Q3 已年内第三次上调全年指引（EPS $2.84-2.89），但 Q4 隐含 EPS $0.73-0.78 低于共识 $0.79、营业利润增速仅 +4%~6%；假日季客流、电商履约与会员数据是 Q4 兑现的第一手证据。',
       metrics: ['黑五/网一客流与电商增速', '美国同店 vs +2.9%', 'Q4 EPS $0.73-0.78 是否上修'] },
   ]},
-  { date: '12-01', week: '下周二', wk: 2, events: [
+  { date: '12-01', week: '下周二', wk: 1, events: [
+    { co: '戴尔', tk: 'DELL', link: '../DELL/戴尔_研究.html#tracker', status: 'pending',
+      title: 'UBS 全球科技与 AI 大会（美东 12-01 13:35，Jeff Clarke）',
+      desc: 'FY27Q3 财报后首场公开问答；核验 FY28 增速与利润率口径、AI 订单/积压 $1,323 亿转化节奏、内存对冲比例与 CSG 利润率下滑路径。',
+      metrics: ['FY28 增速与利润率口径', 'AI 订单转化 / 积压消化', '内存对冲比例', 'CSG 利润率是否守住 6%'] },
     { co: '迈威尔', tk: 'MRVL', link: '../MRVL/迈威尔_研究.html#tracker', status: 'pending',
       title: 'FY3Q27 财报（预计披露日 2026-12-01）',
       desc: 'Q3 指引兑现度与是否再上修 FY27/FY28 全年；互连 +70%、定制 FY28 翻倍的两年路径验证，前十大客户占 82% 的容错空间。',
       metrics: ['营收 vs Q3 指引', '数据中心 / 互连增速', 'FY27/FY28 指引是否上修'] },
+    { co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker', status: 'pending',
+      title: '新任 CEO Anil Chakravarthy 交接生效（2026-12-01）',
+      desc: '内部人接任、Narayen 转任执行董事长；首场公开口径将验证 Freemium / Firefly 平台化战略是否延续，并为 12-09 FY26Q4 财报与 FY27 指引定调。',
+      metrics: ['战略口径是否延续', 'Freemium 转化披露', 'FY27 指引前置信号'] },
   ]},
   { date: '12-02', week: '下周三', wk: 2, events: [
     { co: 'Salesforce', tk: 'CRM', link: '../CRM/Salesforce_研究.html#tracker', status: 'pending',
@@ -199,6 +201,20 @@ const DAYS = [
       desc: '投资者日首次给出的 FY27 指引（营收 $111.5 亿 / Non-GAAP 营业利润率 44% / EPS $19.08）迎第一次财务兑现；核心看 EDA 有机增速能否从 Q3 的 +8.5% 提至双位数下限（≥13%），另核对 Design IP 连续三季改善与 AWS 10 亿美元 AOIP 节奏。',
       metrics: ['EDA 有机增速 vs +8.5% / ≥13%', 'FY27 指引 $111.5 亿 / EPS $19.08', 'Design IP · AOIP 进展'] },
   ]},
+  { date: '12-09', week: '两周后（周三）', wk: 2, events: [
+    { co: '戴尔', tk: 'DELL', link: '../DELL/戴尔_研究.html#tracker', status: 'pending',
+      title: 'Barclays 2026 全球科技大会（美东 12-09 13:30，David Kennedy）',
+      desc: 'Q3 后第二场公开问答，与 12-01 UBS 窗口交叉核验；重点看 FY27Q4 指引 $563 亿 / Non-GAAP EPS $8.40 的兑现把握、FY28 首年指引口径与 Vera Rubin 量产节奏。',
+      metrics: ['Q4 指引 $563 亿 / EPS $8.40', 'FY28 首年口径', 'Vera Rubin 量产节奏', '回购授权执行'] },
+    { co: '博通', tk: 'AVGO', link: '../AVGO/博通_研究.html#tracker', status: 'pending',
+      title: 'FY26Q4 财报（iFinD 预计披露日 2026-12-09）',
+      desc: 'Q4 指引营收约 $348 亿（+93%）、AI 收入 $217 亿（+236%）、软件 $87 亿（+25%）迎兑现；毛利率指引续降至约 73% 是核心风险，FY27 AI 约 $1,150 亿 / FY28 约 $2,300 亿路径同步核验。',
+      metrics: ['营收 vs $348 亿 / AI vs $217 亿', '毛利率 vs 73% 指引', 'FY27 AI $1,150 亿路径', 'OpenAI XPU / Tomahawk 进展'] },
+    { co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker', status: 'pending',
+      title: 'FY26Q4 财报与 FY27 指引（iFinD 预计披露日 2026-12-09）',
+      desc: 'Q4 指引营收 $68.0-68.5 亿（中值略低于共识）；FY26 指引营收 $265.76-266.26 亿 / Non-GAAP EPS $24.45-24.50。新帅 12-01 上任后首份财报，FY27 指引的「预期重置」是决定性验证点。',
+      metrics: ['营收 vs $68.0-68.5 亿', 'FY26 EPS $24.45-24.50', 'FY27 指引 / 预期重置', 'AI-first ARR +150%+ 延续'] },
+  ]},
   { date: '窗口内待定', week: '时间未公布，两周内可能落地', tbd: true, events: [
     { co: 'Spotify', tk: 'SPOT', link: '../SPOT/Spotify_研究.html#tracker', status: 'pending',
       title: 'Audiobooks+ 新套餐 + Family / Student 新计划（原 8~9 月，已顺延至 2026 下半年）',
@@ -208,13 +224,16 @@ const DAYS = [
 ];
 
 const NEXT = [
-  { co: 'Adobe', tk: 'ADBE', link: '../ADBE/Adobe_研究.html#tracker', text: 'CEO 交接生效（2026-12-01）与 FY26Q4 财报 / FY27 指引（预计 2026-12-09）——Max 大会（11-10~12）agentic 产品线已落地、股价反应平淡（11-10 -0.26%）后，FY27 指引的「预期重置」是决定性验证点' },
   { co: '甲骨文', tk: 'ORCL', link: '../ORCL/甲骨文_研究.html#tracker', text: 'FY27Q2 财报（2026-12 中旬）——投资者日（2026-10-28）后，续盯毛利率路径、FCF 转正时间表与 Vera Rubin 交付节奏' },
   { co: '好市多', tk: 'COST', link: '../COST/好市多_研究.html#tracker', text: 'FY2027 Q1 财报（2026-12 中旬）——FY27 capex $75 亿执行、33 家开店节奏、会员费剔除提价基数后的真实增速；9 月核心同店 +7.6% 已回到 6%+，下一高频验证点是 10 月销售数据（2026-11 上旬）' },
 ];
 
 // ===== 历史催化（已发生，新条目加在数组开头）=====
 const HISTORY = [
+  { date: '11-24', co: '戴尔', tk: 'DELL', link: '../DELL/戴尔_研究.html#tracker',
+    title: 'FY27Q3 财报（美东 11-24 盘后 / 北京 11-25 凌晨）',
+    result: '营收 <strong>$549.37 亿</strong>（+103%，超指引 $490 亿 ±5 亿约 12%）、Non-GAAP EPS <strong>$9.45</strong>（+265%，超指引 $6.50 ±0.10 约 45%）、GAAP EPS $8.82（+287%）、营业利润 $74.42 亿（+251%）、毛利率约 21.0%；AI 服务器 $220 亿（+291%）、新增订单 $602 亿、积压 <strong>$1,323 亿</strong>（Q2 为 950 亿）；ISG 营收 $420 亿（+198%）、营业利润 $71 亿（+308%）、利润率 <strong>17.0%</strong>，CSG $129 亿（+3%）但营业利润 $7.04 亿（-6%）。Q3 经营现金流 $44.59 亿（+280%）、股东回报 $49 亿、新增 <strong>$250 亿回购授权</strong>。FY27 指引再上调至营收 <strong>$2,020 亿</strong>（+78%）、AI <strong>$780 亿</strong>、Non-GAAP EPS <strong>$29.68</strong>；Q4 指引 $563 亿 / EPS $8.40。iFinD 11-24 收 <strong>$295.28（-11.83%）</strong>、快照仍为 H1 口径（pe_ttm 16.5x、未收录 Q3），以公司 IR 为准；按新指引前瞻 PE 约 10x，维持买入。',
+    metrics: ['营收 $549.4 亿 / +103%（超指引 12%）', 'Non-GAAP EPS $9.45 / +265%（超指引 45%）', 'AI 积压 $1,323 亿 · ISG 利润率 17.0%', 'FY27 EPS $29.68 · 新增 $250 亿回购', '$295.28 -11.83% · 前瞻 PE ~10x'] },
   { date: '11-23', co: '慧与', tk: 'HPE', link: '../HPE/慧与_研究.html#tracker',
     title: 'FY26Q4 财报（美东 11-23 盘后 / 北京 11-24 凌晨）',
     result: '营收 <strong>145.47 亿美元</strong>（+50%，超指引 139-148 亿中值与共识约 144.3 亿）、Non-GAAP EPS <strong>$1.43</strong>（超指引 1.20-1.30）、GAAP EPS $1.26、Non-GAAP 毛利率 38.2%、Q4 FCF <strong>$19.15 亿</strong>（全年 44.96 亿，为上年 3 倍以上）；网络营收 30.56 亿（+12.3%）、经营利润率 <strong>22.1%</strong>（环比 +0.1pct、同比 -1.3pct，未达 24% 重回买入线）。FY27 指引大幅上调至营收 <strong>+27-35%（594-631 亿）</strong>、Non-GAAP EPS <strong>$5.05-5.35</strong>、FCF ≥55 亿；新增 <strong>50 亿美元回购授权</strong>（总额约 73 亿）、FY27 目标返还 ≥75% FCF。Vultr 12 亿美元 Helios 收入未单独披露、未入指引。11-23 收 <strong>$48.02（+17.38%，财报发布前）</strong>；iFinD 快照仍为 9M 口径（pe_ttm 23.8x），以公司 IR 为准，维持持有。',
@@ -643,8 +662,8 @@ const nextWeek = dated.filter(d => d.wk === 2).reduce((n, d) => n + d.events.len
 const tbdCount = DAYS.filter(d => d.tbd).reduce((n, d) => n + d.events.length, 0);
 const earnings = DAYS.flatMap(d => d.events).filter(e => /财报/.test(e.title)).length;
 rail.innerHTML = [
-  [thisWeek, '本周（11-20 ~ 11-22）'],
-  [nextWeek, '第二周及以后（11-23 ~ 12-01）'],
+  [thisWeek, '未来一周（11-25 ~ 12-01）'],
+  [nextWeek, '第二周（12-02 ~ 12-09）'],
   [tbdCount, '窗口内待定'],
   [earnings + ' 场', '其中财报'],
 ].map(([v, l]) => `<div class="summary-rail__item"><strong>${v}</strong><span>${l}</span></div>`).join('');
